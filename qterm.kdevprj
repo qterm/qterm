@@ -23,78 +23,39 @@ install_location=
 type=DATA
 
 [Config for BinMakefileAm]
-addcxxflags=
 bin_program=qterm
-cflags=
-cppflags=
-cxxflags=\s-O0 -g3 -Wall
-ldadd=\s$(LIB_QT) -lXext -lX11
-ldflags=\s  \s
+cxxflags=-O0 -g3 -Wall
+ldadd=\s$(LIB_QPE) $(LIB_QT)
+ldflags=\s
 
 [General]
-AMChanged=false
+AMChanged=true
 author=kingson fiasco hooey
-configure_args=\s--build=i386-linux --host=i386-linux --target=i386-linux --enable-mt
+configure_args=
 email=xiaokiangwang@yahoo.com.cn yinshouyi@peoplemail.com.cn hephooey@hotmail.com
 kdevprj_version=1.3
 lfv_open_groups=
-make_options=\s-j1
-makefiles=Makefile.am,qterm/Makefile.am,qterm/pic/Makefile.am,qterm/cursor/Makefile.am,qterm/po/Makefile.am,debian/Makefile.am
-modifyMakefiles=true
-project_name=Qterm
+make_options=-j1
+makefiles=Makefile.am,qterm/Makefile.am,qterm/docs/Makefile.am,qterm/docs/en/Makefile.am,qterm/cursor/Makefile.am,qterm/pic/Makefile.am,debian/Makefile.am
+project_name=QTerm
 project_type=normal_qt2
-short_info=
 sub_dir=qterm/
-version=0.2.0
+version=0.2.1
 version_control=None
 workspace=1
 
-[INSTALL]
-dist=true
-install=false
-install_location=
-type=DATA
-
-[INSTALL.big5]
-dist=true
-install=false
-install_location=
-type=DATA
-
-[INSTALL.gb]
-dist=true
-install=false
-install_location=
-type=DATA
-
-[KPP]
-kpp_appgrp=
-kpp_bldroot=
-kpp_icon=0
-kpp_license=0
-kpp_summary=
-kpp_url=
-kpp_version=0.1.4
-
 [LFV Groups]
-GNU=AUTHORS,COPYING,ChangeLog,INSTALL,README,TODO,NEWS
 Headers=*.h,*.hh,*.hxx,*.hpp,*.H
 Others=*
 Sources=*.cpp,*.c,*.cc,*.C,*.cxx,*.ec,*.ecpp,*.lxx,*.l++,*.ll,*.l
 Translations=*.ts
-User Interface=*.kdevdlg,*.ui,*.rc
-groups=Headers,Sources,User Interface,Translations,GNU,Others
+User Interface=*.kdevdlg,*.ui,*.rc,*.dlg
+groups=Headers,Sources,User Interface,Translations,Others
 
 [Makefile.am]
-files=admin,AUTHORS,COPYING,ChangeLog,INSTALL,README,TODO,README.gb,INSTALL.gb,qterm.spec,qterm.kdevprj,qterm.kdevses,BUGS,INSTALL.big5,RELEASE-NOTES,README.big5,QTerm.desktop
+files=qterm.kdevprj,admin,README,README.big5,README.gb,qterm.spec,AUTHORS,BUGS,ChangeLog,COPYING
 sub_dirs=qterm,debian
 type=normal
-
-[QTerm.desktop]
-dist=true
-install=false
-install_location=
-type=DATA
 
 [README]
 dist=true
@@ -114,18 +75,6 @@ install=false
 install_location=
 type=DATA
 
-[RELEASE-NOTES]
-dist=true
-install=false
-install_location=
-type=DATA
-
-[TODO]
-dist=true
-install=false
-install_location=
-type=DATA
-
 [admin]
 dist=true
 install=false
@@ -133,7 +82,7 @@ install_location=
 type=DATA
 
 [debian/Makefile.am]
-files=debian/changelog,debian/control,debian/copyright,debian/docs,debian/watch,debian/rules,debian/menu,debian/manpage.sgml.ex,debian/manpage.1.ex
+files=debian/changelog,debian/control,debian/copyright,debian/docs,debian/manpage.1.ex,debian/manpage.sgml.ex,debian/menu,debian/rules,debian/watch
 sub_dirs=
 type=normal
 
@@ -192,26 +141,20 @@ install_location=
 type=DATA
 
 [qterm.kdevprj]
-dist=false
-install=false
-install_location=
-type=DATA
-
-[qterm.kdevses]
-dist=false
+dist=true
 install=false
 install_location=
 type=DATA
 
 [qterm.spec]
-dist=false
+dist=true
 install=false
 install_location=
 type=DATA
 
 [qterm/Makefile.am]
-files=qterm/addrdialog.cpp,qterm/addrdialog.h,qterm/main.cpp,qterm/msgdialog.cpp,qterm/msgdialog.h,qterm/qterm.cfg,qterm/qterm.h,qterm/qtermdecode.cpp,qterm/qtermdecode.h,qterm/qtermscreen.cpp,qterm/qtermscreen.h,qterm/qtermtelnet.cpp,qterm/qtermtelnet.h,qterm/qtermtextline.cpp,qterm/qtermtextline.h,qterm/qtermwindow.cpp,qterm/qtermwindow.h,qterm/qtermwndmgr.cpp,qterm/qtermwndmgr.h,qterm/qterm.pro,qterm/aboutdialog.cpp,qterm/aboutdialog.h,qterm/aboutdialogui.cpp,qterm/aboutdialogui.h,qterm/addrdialogui.cpp,qterm/addrdialogui.h,qterm/articledialog.cpp,qterm/articledialog.h,qterm/articledialogui.cpp,qterm/articledialogui.h,qterm/keydialog.cpp,qterm/keydialog.h,qterm/keydialogui.cpp,qterm/keydialogui.h,qterm/prefdialog.cpp,qterm/quickdialogui.h,qterm/quickdialog.cpp,qterm/qtermconvert.cpp,qterm/qtermbbs.cpp,qterm/qtermbbs.h,qterm/qtermbuffer.cpp,qterm/qtermbuffer.h,qterm/qtermconfig.cpp,qterm/qtermconfig.h,qterm/qtermconvert.h,qterm/prefdialog.h,qterm/prefdialogui.cpp,qterm/prefdialogui.h,qterm/qtermframe.cpp,qterm/qtermframe.h,qterm/qtermtimelabel.cpp,qterm/qtermparam.cpp,qterm/qtermparam.h,qterm/qtermtimelabel.h,qterm/qtermtoolbutton.h,qterm/qtermtoolbutton.cpp,qterm/quickdialogui.cpp,qterm/quickdialog.h,qterm/address.cfg,qterm/popwidget.cpp,qterm/popwidget.h,qterm/schemadialog.cpp,qterm/schemadialog.h,qterm/schemadialogui.cpp,qterm/schemadialogui.h,qterm/msgdialogui.cpp,qterm/msgdialogui.h,qterm/credits.txt
-sub_dirs=pic,cursor,po
+files=qterm/aboutdialog.cpp,qterm/aboutdialog.h,qterm/aboutdialogui.cpp,qterm/aboutdialogui.h,qterm/addrdialog.cpp,qterm/addrdialog.h,qterm/addrdialogui.cpp,qterm/addrdialogui.h,qterm/articledialog.cpp,qterm/articledialog.h,qterm/articledialogui.cpp,qterm/articledialogui.h,qterm/keydialog.cpp,qterm/keydialog.h,qterm/keydialogui.cpp,qterm/keydialogui.h,qterm/main.cpp,qterm/msgdialog.cpp,qterm/msgdialog.h,qterm/msgdialogui.cpp,qterm/msgdialogui.h,qterm/popwidget.cpp,qterm/popwidget.h,qterm/prefdialog.cpp,qterm/prefdialog.h,qterm/prefdialogui.cpp,qterm/prefdialogui.h,qterm/qtermbbs.cpp,qterm/qtermbbs.h,qterm/qtermbuffer.cpp,qterm/qtermbuffer.h,qterm/qterm.cfg,qterm/qtermconfig.cpp,qterm/qtermconfig.h,qterm/qtermconvert.cpp,qterm/qtermconvert.h,qterm/qtermdecode.cpp,qterm/qtermdecode.h,qterm/qtermframe.cpp,qterm/qtermframe.h,qterm/qterm.h,qterm/qtermparam.cpp,qterm/qtermparam.h,qterm/qtermscreen.cpp,qterm/qtermscreen.h,qterm/qtermtelnet.cpp,qterm/qtermtelnet.h,qterm/qtermtextline.cpp,qterm/qtermtextline.h,qterm/qtermtimelabel.cpp,qterm/qtermtimelabel.h,qterm/qtermtoolbutton.cpp,qterm/qtermtoolbutton.h,qterm/qtermwindow.cpp,qterm/qtermwindow.h,qterm/qtermwndmgr.cpp,qterm/qtermwndmgr.h,qterm/quickdialog.cpp,qterm/quickdialog.h,qterm/quickdialogui.cpp,qterm/quickdialogui.h,qterm/schemadialog.cpp,qterm/schemadialog.h,qterm/schemadialogui.cpp,qterm/schemadialogui.h,qterm/address.cfg,qterm/qtermpythonembed.cpp
+sub_dirs=cursor,pic
 type=prog_main
 
 [qterm/aboutdialog.cpp]
@@ -265,7 +208,7 @@ type=HEADER
 [qterm/address.cfg]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/address.cfg
+install_location=$$(datadir)/address.cfg
 type=DATA
 
 [qterm/articledialog.cpp]
@@ -292,69 +235,63 @@ install=false
 install_location=
 type=HEADER
 
-[qterm/credits.txt]
-dist=true
-install=true
-install_location=$$(datadir)/qterm/credits.txt
-type=DATA
-
 [qterm/cursor/Makefile.am]
-files=qterm/cursor/end.xpm,qterm/cursor/exit.xpm,qterm/cursor/home.xpm,qterm/cursor/next.xpm,qterm/cursor/pagedown.xpm,qterm/cursor/pageup.xpm,qterm/cursor/prev.xpm,qterm/cursor/hand.xpm,qterm/cursor/enter.xpm
+files=qterm/cursor/end.xpm,qterm/cursor/enter.xpm,qterm/cursor/exit.xpm,qterm/cursor/hand.xpm,qterm/cursor/home.xpm,qterm/cursor/next.xpm,qterm/cursor/pagedown.xpm,qterm/cursor/pageup.xpm,qterm/cursor/prev.xpm
 sub_dirs=
 type=normal
 
 [qterm/cursor/end.xpm]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/cursor/end.xpm
+install_location=$$(datadir)/cursor/end.xpm
 type=DATA
 
 [qterm/cursor/enter.xpm]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/cursor/enter.xpm
+install_location=$$(datadir)/cursor/enter.xpm
 type=DATA
 
 [qterm/cursor/exit.xpm]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/cursor/exit.xpm
+install_location=$$(datadir)/cursor/exit.xpm
 type=DATA
 
 [qterm/cursor/hand.xpm]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/cursor/hand.xpm
+install_location=$$(datadir)/cursor/hand.xpm
 type=DATA
 
 [qterm/cursor/home.xpm]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/cursor/home.xpm
+install_location=$$(datadir)/cursor/home.xpm
 type=DATA
 
 [qterm/cursor/next.xpm]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/cursor/next.xpm
+install_location=$$(datadir)/cursor/next.xpm
 type=DATA
 
 [qterm/cursor/pagedown.xpm]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/cursor/pagedown.xpm
+install_location=$$(datadir)/cursor/pagedown.xpm
 type=DATA
 
 [qterm/cursor/pageup.xpm]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/cursor/pageup.xpm
+install_location=$$(datadir)/cursor/pageup.xpm
 type=DATA
 
 [qterm/cursor/prev.xpm]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/cursor/prev.xpm
+install_location=$$(datadir)/cursor/prev.xpm
 type=DATA
 
 [qterm/docs/Makefile.am]
@@ -420,169 +357,152 @@ install_location=
 type=HEADER
 
 [qterm/pic/Makefile.am]
-files=qterm/pic/addr.png,qterm/pic/anti-idle.png,qterm/pic/article.png,qterm/pic/auto-reply.png,qterm/pic/color-copy.png,qterm/pic/color.png,qterm/pic/connect.png,qterm/pic/copy.png,qterm/pic/disconnect.png,qterm/pic/fonts.png,qterm/pic/keys.png,qterm/pic/message.png,qterm/pic/tabpad.png,qterm/pic/sound.png,qterm/pic/pref.png,qterm/pic/quick.png,qterm/pic/rect.png,qterm/pic/mouse.png,qterm/pic/paste.png,qterm/pic/refresh.png,qterm/pic/popwidget.png,qterm/pic/reconnect.png,qterm/pic/qterm_32x32.png,qterm/pic/qterm_48x48.png
+files=qterm/pic/addr.png,qterm/pic/anti-idle.png,qterm/pic/article.png,qterm/pic/auto-reply.png,qterm/pic/color-copy.png,qterm/pic/color.png,qterm/pic/connect.png,qterm/pic/copy.png,qterm/pic/disconnect.png,qterm/pic/fonts.png,qterm/pic/keys.png,qterm/pic/message.png,qterm/pic/mouse.png,qterm/pic/paste.png,qterm/pic/popwidget.png,qterm/pic/pref.png,qterm/pic/qterm_32x32.png,qterm/pic/qterm_48x48.png,qterm/pic/quick.png,qterm/pic/reconnect.png,qterm/pic/rect.png,qterm/pic/refresh.png,qterm/pic/sound.png,qterm/pic/tabpad.png
 sub_dirs=
 type=normal
 
 [qterm/pic/addr.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/addr.png
+install_location=$$(datadir)/pic/addr.png
 type=DATA
 
 [qterm/pic/anti-idle.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/anti-idle.png
+install_location=$$(datadir)/pic/anti-idle.png
 type=DATA
 
 [qterm/pic/article.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/article.png
+install_location=$$(datadir)/pic/article.png
 type=DATA
 
 [qterm/pic/auto-reply.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/auto-reply.png
+install_location=$$(datadir)/pic/auto-reply.png
 type=DATA
 
 [qterm/pic/color-copy.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/color-copy.png
+install_location=$$(datadir)/pic/color-copy.png
 type=DATA
 
 [qterm/pic/color.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/color.png
+install_location=$$(datadir)/pic/color.png
 type=DATA
 
 [qterm/pic/connect.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/connect.png
+install_location=$$(datadir)/pic/connect.png
 type=DATA
 
 [qterm/pic/copy.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/copy.png
+install_location=$$(datadir)/pic/copy.png
 type=DATA
 
 [qterm/pic/disconnect.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/disconnect.png
+install_location=$$(datadir)/pic/disconnect.png
 type=DATA
 
 [qterm/pic/fonts.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/fonts.png
+install_location=$$(datadir)/pic/font.png
 type=DATA
 
 [qterm/pic/keys.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/keys.png
+install_location=$$(datadir)/pic/keys.png
 type=DATA
 
 [qterm/pic/message.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/message.png
+install_location=$$(datadir)/pic/message.png
 type=DATA
 
 [qterm/pic/mouse.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/mouse.png
+install_location=$$(datadir)/pic/mouse.png
 type=DATA
 
 [qterm/pic/paste.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/paste.png
+install_location=$$(datadir)/pic/paste.png
 type=DATA
 
 [qterm/pic/popwidget.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/popwidget.png
+install_location=$$(datadir)/pic/popwidget.png
 type=DATA
 
 [qterm/pic/pref.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/pref.png
+install_location=$$(datadir)/pic/pref.png
 type=DATA
 
 [qterm/pic/qterm_32x32.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/qterm_32x32.png
+install_location=$$(datadir)/pic/qterm_32x32.png
 type=DATA
 
 [qterm/pic/qterm_48x48.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/qterm_48x48.png
+install_location=$$(datadir)/pic/qterm_48x48.png
 type=DATA
 
 [qterm/pic/quick.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/quick.png
+install_location=$$(datadir)/pic/quick.png
 type=DATA
 
 [qterm/pic/reconnect.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/reconnect.png
+install_location=$$(datadir)/pic/reconnect.png
 type=DATA
 
 [qterm/pic/rect.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/rect.png
+install_location=$$(datadir)/pic/rect.png
 type=DATA
 
 [qterm/pic/refresh.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/refresh.png
+install_location=$$(datadir)/pic/refresh.png
 type=DATA
 
 [qterm/pic/sound.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/sound.png
+install_location=$$(datadir)/pic/sound.png
 type=DATA
 
 [qterm/pic/tabpad.png]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/pic/tabpad.png
-type=DATA
-
-[qterm/po/Makefile.am]
-files=qterm/po/qterm_chs.qm,qterm/po/qterm_cht.qm
-sub_dirs=
-type=normal
-
-[qterm/po/qterm_chs.qm]
-dist=true
-install=true
-install_location=$$(datadir)/qterm/po/qterm_chs.qm
-type=DATA
-
-[qterm/po/qterm_cht.qm]
-dist=true
-install=true
-install_location=$$(datadir)/qterm/po/qterm_cht.qm
+install_location=$$(datadir)/pic/tabpad.png
 type=DATA
 
 [qterm/popwidget.cpp]
@@ -624,7 +544,7 @@ type=HEADER
 [qterm/qterm.cfg]
 dist=true
 install=true
-install_location=$$(datadir)/qterm/qterm.cfg
+install_location=$$(datadir)/qterm.cfg
 type=DATA
 
 [qterm/qterm.h]
@@ -632,12 +552,6 @@ dist=true
 install=false
 install_location=
 type=HEADER
-
-[qterm/qterm.pro]
-dist=true
-install=false
-install_location=
-type=DATA
 
 [qterm/qtermbbs.cpp]
 dist=true
@@ -722,6 +636,12 @@ dist=true
 install=false
 install_location=
 type=HEADER
+
+[qterm/qtermpythonembed.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
 
 [qterm/qtermscreen.cpp]
 dist=true

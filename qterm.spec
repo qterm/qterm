@@ -3,7 +3,7 @@
 # the error to ian geiser <geiseri@msoe.edu>
 Summary:   %%info%%
 Name:      qterm
-Version:   0.2.0
+Version:   0.2.1
 Release:   %%release%%
 Copyright: GPL
 Vendor:    kingson fiasco hooey<xiaokiangwang@yahoo.com.cn yinshouyi@peoplemail.com.cn hephooey@hotmail.com>
@@ -11,7 +11,7 @@ URL:       http://qterm.gnuchina.org
 
 Packager:  kingson fiasco hooey<xiaokiangwang@yahoo.com.cn yinshouyi@peoplemail.com.cn hephooey@hotmail.com>
 Group:     internet
-Source:    qterm-0.2.0.tar.gz
+Source:    qterm-0.2.1.tar.gz
 BuildRoot: %%buildroot%%
 
 %description

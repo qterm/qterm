@@ -45,6 +45,8 @@ quickDialog::quickDialog( QWidget* parent,  const char* name, bool modal, WFlags
 	addPushButton->setPixmap(QPixmap(pathLib+"pic/addr.png"));
 	
 	QToolTip::add( addPushButton, tr("Add To AddressBook" ));
+
+	connectPushButton->setDefault(true);
 	
 	connectSlots();
 	

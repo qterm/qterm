@@ -99,7 +99,7 @@ aboutDialogUI::~aboutDialogUI()
 void aboutDialogUI::languageChange()
 {
     setCaption( tr( "About QTerm" ) );
-    TextLabel->setText( tr( "QTerm 0.2.0 ( QT 2.3.2 and 3.1.x based )" ) );
+    TextLabel->setText( tr( "QTerm 0.2.0 (Qt 2.3.2 and 3.1.x based)" ) );
     closeButton->setText( tr( "Close" ) );
     TextLabel3->setText( tr( "QTerm --- BBS Client for X Window\n"
 "\n"

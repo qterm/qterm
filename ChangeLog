@@ -1,3 +1,11 @@
+2003/5/8
+	fix
+	1. font set from menu(toolbar) will override the antialias property
+
+2003/4/16
+	fix
+	1. autoreply cant be enabled if not enabled in Setting
+	
 2003/4/12
 	0.2.0 released
 

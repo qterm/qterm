@@ -1015,13 +1015,11 @@ void QTermFrame::reconnect()
 
 void QTermFrame::runScript()
 {
-	QMessageBox::information( this, "QTerm",
-		"Not Implemented Yet :(");
+	wndmgr->activeWindow()->runScript();
 }
 void QTermFrame::stopScript()
 {
-	QMessageBox::information( this, "QTerm",
-		"Not Implemented Yet :(");
+	wndmgr->activeWindow()->stopScript();
 }
 
 void QTermFrame::keyClicked(int id)
@@ -1040,6 +1038,7 @@ void QTermFrame::keyClicked(int id)
 		wndmgr->activeWindow()->externInput(cstrTmp.mid(1));
 	}else if(cstrTmp[0]=='1')	// script
 	{
+		wndmgr->activeWindow()->runScriptFile(cstrTmp.mid(1));
 	}
 	else if(cstrTmp[0]=='2')	// program
 	{
@@ -1191,7 +1190,7 @@ void QTermFrame::addMainMenu()
 	mainMenu = new QMenuBar(this);
 	
 	QPopupMenu * file = new QPopupMenu( this );
-	mainMenu->insertItem( tr("File"), file );
+	mainMenu->insertItem( tr("&File"), file );
 	file->insertItem( QPixmap(pathLib+"pic/connect.png"), 
 					tr("Connect"), this, SLOT(connectIt()) );
 	file->insertItem( QPixmap(pathLib+"pic/disconnect.png"),
@@ -1207,7 +1206,7 @@ void QTermFrame::addMainMenu()
 	
 	//Edit Menu
 	QPopupMenu * edit = new QPopupMenu( this );
-	mainMenu->insertItem( tr("Edit"), edit );
+	mainMenu->insertItem( tr("&Edit"), edit );
 
 	edit->setCheckable( true );
 	edit->insertItem( QPixmap(pathLib+"pic/copy.png"),
@@ -1238,7 +1237,7 @@ void QTermFrame::addMainMenu()
 
 	//View menu
 	QPopupMenu * view = new QPopupMenu( this );
-	mainMenu->insertItem( tr("View"), view );
+	mainMenu->insertItem( tr("&View"), view );
 	
 	view->setCheckable( true );
 	view->insertItem( QPixmap(pathLib+"pic/fonts.png"),
@@ -1261,9 +1260,9 @@ void QTermFrame::addMainMenu()
 	themesMenu->setCheckable( TRUE );
 	connect( themesMenu, SIGNAL( aboutToShow() ),
 	     this, SLOT( themesMenuAboutToShow() ) );
-	view->insertItem( tr("Thems"), themesMenu );
+	view->insertItem( tr("Themes"), themesMenu );
 
-	view->insertItem( tr("Fullscren"), this, SLOT(fullscreen()), Qt::Key_F6, ID_VIEW_FULL );
+	view->insertItem( tr("Fullscreen"), this, SLOT(fullscreen()), Qt::Key_F6, ID_VIEW_FULL );
 	view->insertItem( tr("Boss Color"), this, SLOT(bosscolor()), Qt::Key_F12, ID_VIEW_BOSS );
 
 	view->insertSeparator();
@@ -1278,7 +1277,7 @@ void QTermFrame::addMainMenu()
 	
 	// Option Menu	
 	QPopupMenu * option = new QPopupMenu( this );
-	mainMenu->insertItem( tr("Option"), option );
+	mainMenu->insertItem( tr("&Option"), option );
 
 	option->insertItem( tr("Setting for Currrent Session"), this, SLOT(setting()), 0, ID_OPTION_CURRENT );
 	option->insertSeparator();
@@ -1287,7 +1286,7 @@ void QTermFrame::addMainMenu()
 	
 	// Special
 	QPopupMenu * spec = new QPopupMenu( this );
-	mainMenu->insertItem( tr("Special"), spec );
+	mainMenu->insertItem( tr("&Special"), spec );
 	spec->insertItem( QPixmap(pathLib+"pic/article.png"),
 					tr("Copy Article"), this, SLOT(copyArticle()), Qt::Key_F9, ID_SPEC_ARTICLE );
 	spec->setCheckable( true );
@@ -1305,7 +1304,7 @@ void QTermFrame::addMainMenu()
 	
 	//Script
 	QPopupMenu * script = new QPopupMenu( this );
-	mainMenu->insertItem( tr("Script"), script );
+	mainMenu->insertItem( tr("Scrip&t"), script );
 	script->insertItem( tr("Run..."), this, SLOT(runScript()), Qt::Key_F7, ID_SCRIPT_RUN );
 	script->insertItem( tr("Stop"), this, SLOT(stopScript()), Qt::Key_F8, ID_SCRIPT_STOP );
 
@@ -1315,13 +1314,13 @@ void QTermFrame::addMainMenu()
 	connect( windowsMenu, SIGNAL( aboutToShow() ),
 	     this, SLOT( windowsMenuAboutToShow() ) );
 
-	mainMenu->insertItem( tr("Windows"), windowsMenu );
+	mainMenu->insertItem( tr("&Windows"), windowsMenu );
 	mainMenu->insertSeparator();
 
 	//Help menu
 	QPopupMenu * help = new QPopupMenu( this );
-	mainMenu->insertItem( tr("Help"), help );
-	help->insertItem( tr("About Qterm"), this, SLOT(aboutQTerm()), Qt::Key_F1 );
+	mainMenu->insertItem( tr("&Help"), help );
+	help->insertItem( tr("About QTerm"), this, SLOT(aboutQTerm()), Qt::Key_F1 );
 	help->insertItem( tr("QTerm's Homepage"),this,SLOT(homepage()));
 
 }
