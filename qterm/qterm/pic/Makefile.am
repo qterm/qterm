@@ -1,7 +1,7 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
 
-EXTRA_DIST = addr.png anti-idle.png article.png auto-reply.png color-copy.png color.png connect.png copy.png disconnect.png fonts.png keys.png message.png mouse.png paste.png popwidget.png pref.png qterm_32x32.png qterm_48x48.png quick.png reconnect.png rect.png refresh.png sound.png tabpad.png 
+EXTRA_DIST = addr.png anti-idle.png article.png auto-reply.png color-copy.png color.png connect.png copy.png disconnect.png fonts.png keys.png message.png mouse.png paste.png popwidget.png pref.png qterm_32x32.png qterm_48x48.png quick.png reconnect.png rect.png refresh.png sound.png tabpad.png qterm_tray.png
 
 install-data-local:
 	$(mkinstalldirs) $(datadir)/qterm/pic/
@@ -37,6 +37,8 @@ install-data-local:
 	$(mkinstalldirs) $(datadir)/qterm/pic/
 	$(INSTALL_DATA) $(srcdir)/pref.png $(datadir)/qterm/pic/pref.png
 	$(mkinstalldirs) $(datadir)/qterm/pic/
+	$(INSTALL_DATA) $(srcdir)/qterm_tray.png $(datadir)/qterm/pic/qterm_tray.png
+	$(mkinstalldirs) $(datadir)/qterm/pic/
 	$(INSTALL_DATA) $(srcdir)/qterm_32x32.png $(datadir)/qterm/pic/qterm_32x32.png
 	$(mkinstalldirs) $(datadir)/qterm/pic/
 	$(INSTALL_DATA) $(srcdir)/qterm_48x48.png $(datadir)/qterm/pic/qterm_48x48.png
@@ -70,6 +72,7 @@ uninstall-local:
 	-rm -f $(datadir)/qterm/pic/paste.png
 	-rm -f $(datadir)/qterm/pic/popwidget.png
 	-rm -f $(datadir)/qterm/pic/pref.png
+	-rm -f $(datadir)/qterm/pic/qterm_tray.png
 	-rm -f $(datadir)/qterm/pic/qterm_32x32.png
 	-rm -f $(datadir)/qterm/pic/qterm_48x48.png
 	-rm -f $(datadir)/qterm/pic/quick.png
