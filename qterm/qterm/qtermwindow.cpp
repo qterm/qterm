@@ -74,6 +74,43 @@ extern void saveAddress(QTermConfig*,int,const QTermParam&);
  *
  * ***************************************************************************/
 #ifdef HAVE_PYTHON
+QString getException()
+{
+	PyObject *pType, *pValue, *pTb, *pName, *pTraceback;
+
+    PyErr_Fetch(&pType, &pValue, &pTb);
+
+    pName = PyString_FromString("traceback");
+    pTraceback = PyImport_Import(pName);
+    Py_DECREF(pName);
+
+    pName = PyString_FromString("format_exception");
+    PyObject *pRes = PyObject_CallMethodObjArgs(pTraceback, pName,pType,pValue,pTb,NULL);
+    Py_DECREF(pName);
+
+    Py_DECREF(pTraceback);
+    Py_DECREF(pType);
+    Py_DECREF(pValue);
+    Py_DECREF(pTb);
+
+
+    pName = PyString_FromString("string");
+    PyObject *pString = PyImport_Import(pName);
+    Py_DECREF(pName);
+
+    pName = PyString_FromString("join");
+    PyObject *pErr = PyObject_CallMethodObjArgs(pString, pName, pRes,NULL);
+    Py_DECREF(pName);
+
+    Py_DECREF(pString);
+    Py_DECREF(pRes);
+
+    QString str(PyString_AsString(pErr));
+	Py_DECREF(pErr);
+
+	return str;
+}
+
 QCString getErrOutputFile(QTermWindow* lp)
 {
 	// file name
@@ -590,8 +627,9 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 
 	if(m_param.m_bLoadScript && !m_param.m_strScriptFile.isEmpty() )
 	{
-		pName = PyString_FromString( m_param.m_strScriptFile );
+		PyObject *pName = PyString_FromString( m_param.m_strScriptFile );
 		pModule = PyImport_Import(pName);
+		Py_DECREF(pName);
 		if (pModule != NULL) 
 			pDict = PyModule_GetDict(pModule);
 		else
@@ -644,8 +682,8 @@ QTermWindow::~QTermWindow()
 	PyThreadState_Swap(myThreadState);
       
 	//Displose of current python module so we can reload in constructor.
-	//Py_DECREF(pModule);
-	//Py_DECREF(pName);  
+	if(pModule!=NULL)
+		Py_DECREF(pModule);
 
 	//Clean up this thread's python interpreter reference
 	PyThreadState_Swap(NULL);
@@ -1846,28 +1884,32 @@ void QTermWindow::pythonCallback(const char* func)
 	PyThreadState_Swap(myThreadState);
     
 	PyObject *pF = PyString_FromString(func);
-	
-	pFunc = PyDict_GetItem(pDict, pF);
-  
+	PyObject *pFunc = PyDict_GetItem(pDict, pF);
+ 	Py_DECREF(pF);
+
 	if (pFunc && PyCallable_Check(pFunc)) 
 	{
 		PyObject *pArgs = PyTuple_New(1);
-
 		PyObject *pValue = PyInt_FromLong((long)this);
 		PyTuple_SetItem(pArgs, 0, pValue);
-	
+
 		pValue = PyObject_CallObject(pFunc, pArgs);
-	
+		Py_DECREF(pArgs);
+
 		if (pValue != NULL) 
 		{
 			Py_DECREF(pValue);
 		}
 		else 
-			printf("Call to %s failed\n", func);
-		Py_DECREF(pArgs);
-      }else 
+		{
+			QMessageBox::warning(this,"Python script error", getException());
+		}
+      }
+	else 
+	{
+		PyErr_Print();
 		printf("Cannot find python %s callback function\n", func);
-      
+	}
       
       // swap my thread state out of the interpreter
       PyThreadState_Swap(NULL);

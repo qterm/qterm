@@ -151,7 +151,7 @@ protected:
 
 	// python 
 #ifdef HAVE_PYTHON
-	PyObject *pModule, *pDict, *pName, *pFunc;
+	PyObject *pModule, *pDict;
 #endif
 	bool m_bPythonScriptLoaded;
 	
