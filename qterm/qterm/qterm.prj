@@ -13,7 +13,7 @@ win32:LIBS += c:/progra~1/python23/libs/python23.lib
 # specially for MacOSX 
 mac {
 	DEFINES += HAVE_PYTHON _NO_ARTS_COMPILED _NO_ESD_COMPILED
-	INCLUDEPATH += /usr/include/malloc /System/Library/Frameworks/Python.framework/Version/Current/Headers
+	INCLUDEPATH += /usr/include/malloc /System/Library/Frameworks/Python.framework/Versions/Current/Headers
 	LIBS += -lssl -lcrypto -framework Python
 }
 
@@ -62,6 +62,7 @@ HEADERS		= qtermframe.h \
 		trayicon.h	\
 		popwidget.h	\
 		ssh/crc32.h	\
+		ssh/types.h	\
 		ssh/getput.h	\
 		ssh/qtermsshauth.h	\
 		ssh/qtermsshbuffer.h	\

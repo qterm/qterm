@@ -197,7 +197,7 @@ void QTermFrame::iniSetting()
 			showMaximized();
 		else
 		{
-			char * size = conf->getItemValue("global","size");
+			const char * size = conf->getItemValue("global","size");
 			if( size!=NULL )
 			{
 				int x,y,cx,cy;
@@ -508,7 +508,7 @@ void QTermFrame::selectionChanged(int n)
 void QTermFrame::aboutQTerm()
 {
 	aboutDialog about(this);
-
+	
 	about.exec();
 }
 
@@ -1010,7 +1010,7 @@ void QTermFrame::defaultSetting()
 	
 	QTermConfig *pConf = new QTermConfig(addrCfg);
 
-	if( pConf->findSection("default")!=NULL )
+	if( pConf->hasSection("default") )
 		loadAddress(pConf,-1,set.param);
 
 	set.updateData(false);

@@ -69,6 +69,7 @@ void articleDialog::onCopy()
 	
 	#if (QT_VERSION>=0x030100)
 		clipboard->setText(strText, QClipboard::Selection );
+		clipboard->setText(strText, QClipboard::Clipboard );
 	#else
 		clipboard->setText(strText);
 	#endif

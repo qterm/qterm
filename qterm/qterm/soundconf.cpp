@@ -86,11 +86,11 @@ void fSoundConf::loadSetting()
 	//fprintf(stderr, "we got here\n");
 
 	strTmp = conf.getItemValue("preference", "wavefile");
-	if (!strTmp.isNull())
+	if (!strTmp.isEmpty())
 		leFile->setText( strTmp );
 
 	strTmp = conf.getItemValue("preference", "playmethod");
-	if (!strTmp.isNull()){
+	if (!strTmp.isEmpty()){
 		((QRadioButton *)bgMethod->find(strTmp.toInt()))->setChecked(true);
 	
 		if (strTmp.toInt() != 3) {
@@ -99,7 +99,7 @@ void fSoundConf::loadSetting()
 		}
 		else {
 			strTmp = conf.getItemValue("preference", "externalplayer");
-			if (!strTmp.isNull())
+			if (!strTmp.isEmpty())
 				leProg->setText( strTmp );
 		}
 	}
