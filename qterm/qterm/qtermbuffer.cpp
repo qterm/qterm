@@ -25,17 +25,17 @@ QTermBuffer::QTermBuffer( int line, int column, int limit )
 {
 	m_lin = line;
 	m_col = column;
-	m_limit = limit+line;
+	m_limit = limit;
 	
 	m_lines = 0;
-	m_lineList.setAutoDelete(true);
 
 	while(  m_lineList.count()< m_lin )
 		 m_lineList.append( new QTermTextLine );
 
-	m_lineList.setAutoDelete( true );
+	m_lineList.setAutoDelete(true);
 
 	m_curAttr = SETCOLOR( NO_COLOR ) | SETATTR( NO_ATTR );
+
 
 	m_caretX = 0;	
 	m_caretY = 0;
@@ -74,6 +74,12 @@ void QTermBuffer::setSize(int col, int lin)
 	
 	m_top = 0;
 	m_bottom = m_lin -1;
+
+	m_caretX = 0;	
+	m_caretY = 0;
+
+	m_oldCaretX = 0;	
+	m_oldCaretY = 0;
 
 	clearSelect();
 
@@ -425,7 +431,7 @@ void QTermBuffer::addHistoryLine( int n )
 {
 	while( n )
 	{
-		if( m_lines == m_limit-m_lin )
+		if( m_lines == m_limit )
 		{
 			m_lineList.remove(uint(0));
 			//m_ptSelStart.setY( m_ptSelStart.y()-1 );
@@ -435,7 +441,7 @@ void QTermBuffer::addHistoryLine( int n )
 		}
 		
 		m_lineList.append( new QTermTextLine );
-		m_lines = QMIN(m_lines+1,m_limit-m_lin);
+		m_lines = QMIN(m_lines+1,m_limit);
 		n--;
 	}
 	

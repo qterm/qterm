@@ -34,6 +34,8 @@ AUTHOR:        kingson fiasco
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
+#else
+#include <windows.h>
 #endif
 
 

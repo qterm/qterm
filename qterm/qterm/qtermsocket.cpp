@@ -3,6 +3,13 @@
 
 #include <qsocket.h>
 
+#if !defined(Q_OS_BSD4) && !defined(_OS_FREEBSD_) \
+		    && !defined(Q_OS_MACX) && !defined(Q_OS_DARWIN)
+#include <malloc.h>
+#endif
+#include <stdlib.h>
+
+
 /* hack from wget/http.c */
 #define BASE64_LENGTH(len) (4 * (((len) + 2) / 3))
 static void

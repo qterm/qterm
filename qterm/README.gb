@@ -2,11 +2,7 @@
 QTerm 说明文件
 ==============
 
-QTerm 是 X Window 系统下专用于浏览 BBS 的客户端软件。相信您用过 MS Windows
-
-下的 Sterm 或者 CTerm，您一定希望 X Window 系统下也有类似的易用的东东。这个
-
-QTerm 相信可以在一定程度上满足您的要求。
+QTerm 是 X Window 系统，MacOS X 和 M$ Windowz 下专用于浏览 BBS 的客户端软件。
 
 QTerm 的实现在很大程度上基于 GNU China 的 miniterm，要感谢 smartfish 和 kafa
 
@@ -21,6 +17,6 @@ QTerm 以 GNU GPL 版权发布（请参看 COPYING 文件），提供源代码，您可以自己修改
 最后，感谢许多使用 QTerm 并且报告 bug 提出建议的用户。
 
 Good Luck!
-                                                       The QTerm Team
-												http://qterm.sourceforge.net
+                                                  The QTerm Team
+                                           http://qterm.sourceforge.net
 

@@ -27,7 +27,6 @@ mac {
     po.path = qterm.app/Contents/MacOS/po
     po.files = po/*.qm
     INSTALLS = conf script pic cursor po
-
 	DEFINES += HAVE_PYTHON _NO_ARTS_COMPILED _NO_ESD_COMPILED
 	INCLUDEPATH += /usr/include/malloc /System/Library/Frameworks/Python.framework/Versions/Current/Headers
 	LIBS += -lssl -lcrypto -framework Python
@@ -57,6 +56,8 @@ HEADERS		= qtermframe.h \
 		qtermsound.h	\
 		qtermsocket.h	\
 		qtermzmodem.h	\
+		qtermhttp.h		\
+		qtermpython.h	\
 		qterm.h		\
 		aboutdialogui.h	\
 		aboutdialog.h	\
@@ -117,6 +118,8 @@ SOURCES		= qtermframe.cpp \
 		qtermsound.cpp	\
 		qtermsocket.cpp	\
 		qtermzmodem.cpp	\
+		qtermhttp.cpp	\
+		qtermpython.cpp	\
 		aboutdialogui.cpp	\
 		aboutdialog.cpp	\
 		addrdialogui.cpp	\
