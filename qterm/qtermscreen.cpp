@@ -287,10 +287,19 @@ void QTermScreen::initFontMetrics()
 		m_pFont = new QFont(m_pParam->m_strFontName, QMAX(8,m_pParam->m_nFontSize) ); 
 		QFontMetrics *fm = new QFontMetrics( *m_pFont );
 
-		if (abs(m_pParam->m_nFontSize - fm->width(QChar(0x4e00))) < abs(m_pParam->m_nFontSize - fm->width('W') * 2))
-			m_nCharWidth  = (fm->width(QChar(0x4e00)) + 1)/2;
+//		if (abs(m_pParam->m_nFontSize - fm->width(QChar(0x4e00))) 
+//				< abs(m_pParam->m_nFontSize - fm->width('W') * 2))
+//			m_nCharWidth  = (fm->width(QChar(0x4e00)) + 1)/2;
+//		else
+//			m_nCharWidth  = fm->width('W');
+		float cn=fm->width(QChar(0x4e00));
+		float en=fm->width('W');
+		if(en/cn<0.7) // almost half
+			m_nCharWidth = QMAX((cn+1)/2,en);
 		else
-			m_nCharWidth  = fm->width('W');
+			m_nCharWidth = (QMAX(en,cn)+1)/2;
+
+
 		m_nCharHeight = fm->height();
 		m_nCharAscent = fm->ascent();
 		delete fm;
@@ -314,15 +323,23 @@ void QTermScreen::setDispFont( const QFont& font)
 		QFontInfo fi(*m_pFont);
 		int nSize = fi.pixelSize();
 		QFontMetrics *fm = new QFontMetrics( *m_pFont );
-		if (abs(nSize - fm->width(QChar(0x4e00))) < abs(nSize - fm->width('W') * 2))
-			m_nCharWidth  = (fm->width(QChar(0x4e00)) + 1)/2;
+
+//		if (abs(nSize - fm->width(QChar(0x4e00))) < abs(nSize - fm->width('W') * 2))
+//			m_nCharWidth  = (fm->width(QChar(0x4e00)) + 1)/2;
+//		else
+//			m_nCharWidth  = fm->width('W');
+		float cn=fm->width(QChar(0x4e00));
+		float en=fm->width('W');
+		if(en/cn<0.7) // almost half
+			m_nCharWidth = QMAX((cn+1)/2,en);
 		else
-			m_nCharWidth  = fm->width('W');
+			m_nCharWidth = (QMAX(en,cn)+1)/2;
 
 		m_nCharHeight = fm->height();
 		m_nCharAscent = fm->ascent();
 		m_nCharDescent = fm->descent();
-		
+		qWarning("font=%s pixel=%d chinese=%d english=%d maxwidth=%d",
+				(const char*)fi.family(), nSize, fm->width(QChar(0x4e00)), fm->width('W'), fm->maxWidth());
 		delete fm;
 
 	}
