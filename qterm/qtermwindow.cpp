@@ -664,7 +664,8 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
     PyEval_ReleaseLock();
 #endif //HAVE_PYTHON
 	
-	m_pCanvas = new QTermCanvas(m_pFrame);
+	m_pCanvas = new QTermCanvas(NULL);
+	m_pCanvas->hide();
 	qInitNetworkProtocols();
 	connect(&httpDown, SIGNAL(requestFinished(int,bool)), this, SLOT(httpDone(int,bool)));
 	connect(&httpDown, SIGNAL(dataReadProgress(int,int)), 
