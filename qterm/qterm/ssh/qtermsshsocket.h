@@ -4,7 +4,7 @@
 
 #include "../qtermsocket.h"
 
-class QSocket;
+class QTermSocketPrivate;
 class QTermSSHPacketReceiver;
 class QTermSSHPacketSender;
 class QTermSSHBuffer;
@@ -20,7 +20,7 @@ private:
 		BeforeSession,
 		SockSession
 	} d_state;
-	QSocket * d_socket;
+	QTermSocketPrivate * d_socket;
 	QTermSSHBuffer * d_inBuffer;
 	QTermSSHBuffer * d_outBuffer;
 	QTermSSHBuffer * d_socketBuffer;
@@ -47,6 +47,10 @@ private slots:
 public:
 	QTermSSHSocket(const char * sshuser = NULL, const char * sshpasswd = NULL);
 	~QTermSSHSocket();
+	void setProxy( int nProxyType,//0-no proxy; 1-wingate; 2-sock4; 3-socks5
+		bool bAuth,	// if authentation needed
+		const QString& strProxyHost,Q_UINT16 uProxyPort,
+		const QString& strProxyUsr,const QString& strProxyPwd);	
 	void connectToHost(const QString & host_name, Q_UINT16 port);
 	Q_LONG readBlock(char * data, Q_ULONG size);
 	Q_LONG writeBlock(const char * data, Q_ULONG size);
