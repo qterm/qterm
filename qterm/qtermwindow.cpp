@@ -662,7 +662,8 @@ QTermWindow::~QTermWindow()
 	delete m_pBBS;
 	delete m_pDecode;
 	delete m_pBuffer;
-	
+	delete m_pZmodem;
+
 	delete m_popWin;
 	
 	delete m_idleTimer;

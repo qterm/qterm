@@ -16,7 +16,12 @@ AUTHOR:		smartfish kafa
 #include "ssh/qtermsshsocket.h"
 #endif
 #include <qcstring.h>
+
+#if !defined(Q_OS_BSD4) && !defined(_OS_FREEBSD_) \
+	&& !defined(Q_OS_MACX) && !defined(Q_OS_DARWIN)
 #include <malloc.h>
+#endif
+
 #include <stdlib.h>
 #include <ctype.h>
 #include <qsocket.h>
