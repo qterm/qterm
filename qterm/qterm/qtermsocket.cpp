@@ -125,8 +125,8 @@ void QTermSocketPrivate::socketConnected()
 		request = new char[host.length()+len+81];
 		
 		sprintf(request,
-					"CONNECT %s:%u HTTP/1.0\n"
-					"%s\n", 
+					"CONNECT %s:%u HTTP/1.0\r\n"
+					"%s\r\n", 
 					host.latin1(),port,
 					proxyauth!=NULL?proxyauth:"");
 
