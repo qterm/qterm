@@ -1,3 +1,11 @@
+2004/06/10
+	add
+	1. paste from clipboard by menu command, shift+insert, 
+	while paste from mouse selection by clicking mouse middle
+	button
+	fix
+	1. input method not working in qt3.2 for Windowz
+
 2004/06/07
 	add
 	1. better support for dock in MacOSX
