@@ -1,0 +1,21 @@
+
+QTerm Readme
+==================
+
+QTerm is a BBS client for X Window System.  Our goal is to make a client 
+
+similiar to STerm and CTerm in MS Windows.
+
+QTerm mainly based on gnuchina miniterm.  Thanks to smartfish and kafa;
+
+thanks to Open Source.
+
+QTerm is released under GNU GPL( refer to COPYING ). It  can be modified 
+
+and distributed freely.
+
+Thanks to many users for bug report and suggestion.
+
+Good Luck!
+                                                    The QTerm Team
+                                               http://qterm.gnuchina.org

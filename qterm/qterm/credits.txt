@@ -1,0 +1,27 @@
+smartfish
+    smartfish@263.net
+    coder for miniTerm
+
+kafa 
+    kafa@263.net
+    coder for miniTerm
+
+Merlion 
+    vonjian@yahoo.com
+    making cursor
+
+hwang
+    hwangxw@fm365.com
+    URL detection
+
+Nimrod
+    Nimrod.bbs@smth.org
+    copy article dialog
+
+Luba
+    Luba.bbs@bbs.cs.nthu.edu.tw
+    traditional chinese translation
+
+others(suggestion and bug report)
+    Dominator, nukq, ihw, ghostdiy, gpliu
+    acura, filix
