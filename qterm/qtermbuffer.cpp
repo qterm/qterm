@@ -620,12 +620,16 @@ QCString QTermBuffer::getSelectText( bool rect, bool color, const QCString& esca
 		int pos=cstrTemp.findRev(QRegExp("[^\\s]"));
 		#endif
 		cstrTemp.truncate(pos+1);
-	
 		cstrSelect += cstrTemp;
-		#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
-		cstrSelect += '\r';
-		#endif
-		cstrSelect += '\n';
+		
+		// add newline except the last line
+		if(i != m_ptSelEnd.y())
+		{
+			#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
+			cstrSelect += '\r';
+			#endif
+			cstrSelect += '\n';
+		}
 	}
 
 	return cstrSelect;
