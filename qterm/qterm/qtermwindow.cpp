@@ -91,45 +91,39 @@ void QTermDAThread::run()
 		// so this is a non-greedy match
 		QString strTemp = pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
 		int i=0;
-		for(QStringList::Iterator it=strList.end();
+		int start=0;
+		for(QStringList::Iterator it=strList.fromLast();
 			it!=strList.begin(), i < pWin->m_pBuffer->line()-1; // not exceeeding the last screen
 			--it, i++)
 		{
-			if(*it==strTemp)
+			if(*it!=strTemp)
+				continue;
+			QStringList::Iterator it2 = it;
+			bool dup=true;
+			// match more to see if its duplicated
+			for(int j=0; j<=i; j++, it2++)
 			{
-				QStringList::Iterator it2 = it;
-				it2++;
-				bool dup=true;
-				// match more to see if its duplicated
-				for(int j=1; j<=i; j++)
+				QString str1 = pWin->stripWhitespace(
+								pWin->m_pBuffer->screen(j)->getText());
+				if(*it2!=str1)
 				{
-					QString str1 = pWin->stripWhitespace(
-									pWin->m_pBuffer->screen(j)->getText());
-					if(*it2!=str1)
-					{
-						dup = false;
-						break;
-					}
-					it2++;
-				}
-				if(dup)
-				{
-					// delete all duplicated
-					while(it2!=it)
-					{
-						strList.remove(it2);
-						it2--;
-					}
-					strList.remove(it);
+					dup = false;
 					break;
 				}
 			}
+			if(dup)
+			{
+				// set the start point
+				start = i+1;
+				break;
+			}
 		}
-		for(i=0;i<pWin->m_pBuffer->line()-1;i++)
+		// add new lines
+		for(i=start;i<pWin->m_pBuffer->line()-1;i++)
 			strList+=pWin->stripWhitespace(
 			pWin->m_pBuffer->screen(i)->getText());
 
-		// the end
+		// the end of article
 		if( pWin->m_pBuffer->screen(
 		pWin->m_pBuffer->line()-1)->getText().find("%") == -1 )
 			break;

@@ -30,7 +30,9 @@ QTerm 0.3.9
     S silent save to the last saving path
     q exit
     取消左键点一下退出的方法，因为和点一下 titlebar 上的 close 差不多
-9. 希望能有人翻译简体中文和繁体中文的界面
+9. 简体中文界面
+10. 改进的下载文章的方法
+11. 希望能有人翻译繁体中文的界面
 
 已知问题:
 1. 如果取消 auto select font size when resize window, 在关闭窗口的时候
