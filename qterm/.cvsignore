@@ -1,5 +1,4 @@
 .deps
 .libs
 Makefile
-Makefile.in
 qterm.desktop

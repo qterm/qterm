@@ -39,7 +39,7 @@ email=xiaokiangwang@yahoo.com.cn yinshouyi@peoplemail.com.cn hephooey@hotmail.co
 kdevprj_version=1.3
 lfv_open_groups=
 make_options=\s-j1
-makefiles=Makefile.am,qterm/Makefile.am,qterm/docs/Makefile.am,qterm/docs/en/Makefile.am,qterm/cursor/Makefile.am,qterm/pic/Makefile.am,debian/Makefile.am,qterm/script/Makefile.am
+makefiles=Makefile.am,qterm/Makefile.am,qterm/docs/Makefile.am,qterm/docs/en/Makefile.am,qterm/cursor/Makefile.am,qterm/pic/Makefile.am,debian/Makefile.am,qterm/script/Makefile.am,qterm/schema/Makefile.am
 modifyMakefiles=true
 project_name=QTerm
 project_type=normal_qt2
@@ -159,7 +159,7 @@ type=DATA
 
 [qterm/Makefile.am]
 files=qterm/aboutdialog.cpp,qterm/aboutdialog.h,qterm/aboutdialogui.cpp,qterm/aboutdialogui.h,qterm/addrdialog.cpp,qterm/addrdialog.h,qterm/addrdialogui.cpp,qterm/addrdialogui.h,qterm/articledialog.cpp,qterm/articledialog.h,qterm/articledialogui.cpp,qterm/articledialogui.h,qterm/keydialog.cpp,qterm/keydialog.h,qterm/keydialogui.cpp,qterm/keydialogui.h,qterm/main.cpp,qterm/msgdialog.cpp,qterm/msgdialog.h,qterm/msgdialogui.cpp,qterm/msgdialogui.h,qterm/popwidget.cpp,qterm/popwidget.h,qterm/prefdialog.cpp,qterm/prefdialog.h,qterm/prefdialogui.cpp,qterm/prefdialogui.h,qterm/qtermbbs.cpp,qterm/qtermbbs.h,qterm/qtermbuffer.cpp,qterm/qtermbuffer.h,qterm/qterm.cfg,qterm/qtermconfig.cpp,qterm/qtermconfig.h,qterm/qtermconvert.cpp,qterm/qtermconvert.h,qterm/qtermdecode.cpp,qterm/qtermdecode.h,qterm/qtermframe.cpp,qterm/qtermframe.h,qterm/qterm.h,qterm/qtermparam.cpp,qterm/qtermparam.h,qterm/qtermscreen.cpp,qterm/qtermscreen.h,qterm/qtermtelnet.cpp,qterm/qtermtelnet.h,qterm/qtermtextline.cpp,qterm/qtermtextline.h,qterm/qtermtimelabel.cpp,qterm/qtermtimelabel.h,qterm/qtermtoolbutton.cpp,qterm/qtermtoolbutton.h,qterm/qtermwindow.cpp,qterm/qtermwindow.h,qterm/qtermwndmgr.cpp,qterm/qtermwndmgr.h,qterm/quickdialog.cpp,qterm/quickdialog.h,qterm/quickdialogui.cpp,qterm/quickdialogui.h,qterm/schemadialog.cpp,qterm/schemadialog.h,qterm/schemadialogui.cpp,qterm/schemadialogui.h,qterm/address.cfg,qterm/trayicon_x11.cpp,qterm/trayicon_win.cpp,qterm/trayicon.h,qterm/trayicon.cpp,qterm/credits,qterm/qtermsound.h,qterm/qtermsound.cpp,qterm/soundconfui.cpp,qterm/soundconfui.h,qterm/soundconf.cpp,qterm/soundconf.h
-sub_dirs=cursor,pic,script,docs
+sub_dirs=cursor,pic,script,docs,schema
 type=prog_main
 
 [qterm/aboutdialog.cpp]
@@ -774,6 +774,35 @@ dist=true
 install=false
 install_location=
 type=HEADER
+
+[qterm/schema/Linux.schema]
+dist=true
+install=true
+install_location=$$(datadir)/qterm/schema/Linux.schema
+type=DATA
+
+[qterm/schema/Makefile.am]
+files=qterm/schema/Softness.schema,qterm/schema/Linux.schema,qterm/schema/VIM.schema,qterm/schema/XTerm.schema
+sub_dirs=
+type=normal
+
+[qterm/schema/Softness.schema]
+dist=true
+install=true
+install_location=$$(datadir)/qterm/schema/Softness.schema
+type=DATA
+
+[qterm/schema/VIM.schema]
+dist=true
+install=true
+install_location=$$(datadir)/qterm/schema/VIM.schema
+type=DATA
+
+[qterm/schema/XTerm.schema]
+dist=true
+install=true
+install_location=$$(datadir)/qterm/schema/XTerm.schema
+type=DATA
 
 [qterm/schemadialog.cpp]
 dist=true

@@ -52,6 +52,8 @@ public:
 	QColor m_clrBg;
 	// Foreground Color
 	QColor m_clrFg;
+	// Schema File
+	QString m_strSchemaFile;
 // Terminal
 	// Terminal Type
 	QString m_strTerm;

@@ -52,6 +52,7 @@ AUTHOR:        kingson fiasco
 #include <qtooltip.h>
 #include <qregexp.h>
 #include <qfiledialog.h>
+#include <qtabwidget.h>
 
 #define DAE_FINISH 	10001
 #define DAE_TIMEOUT 10002
@@ -1367,8 +1368,22 @@ void QTermWindow::font()
 
 void QTermWindow::color()
 {
-	QMessageBox::information( this, "QTerm",
-		"Not Implemented Yet :(");
+	addrDialog set(this, true);
+	
+	set.param = m_param;
+	set.updateData(false);		 
+	set.tabWidget->setCurrentPage(1);
+
+	if(set.exec()==1)
+	{
+		m_param = set.param;
+		m_bSetChanged = true;
+
+		QResizeEvent* re =new QResizeEvent( m_pScreen->size(),m_pScreen->size());
+		m_pScreen->setSchema();
+		QApplication::postEvent( m_pScreen,re );
+	}
+
 }
 
 void QTermWindow::disconnect()

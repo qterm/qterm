@@ -60,7 +60,7 @@ protected:
 	int nFontSize;
 	QColor clrFg;
 	QColor clrBg;
-	
+	QString strSchemaFile;	
 	QColor clrMenu;
 
 	int nLastItem;

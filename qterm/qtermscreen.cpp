@@ -20,17 +20,20 @@ AUTHOR:        kingson fiasco
 #include "qtermwndmgr.h"
 #include "qtermparam.h"
 #include "qtermtelnet.h"
+#include "qtermconfig.h"
 
 #include <qaccel.h>
 #include <qapplication.h>
 #include <qpainter.h>
 #include <qpixmap.h>
+#include <qimage.h>
 #include <qtextcodec.h>
 #include <qfontmetrics.h>
 #include <qtimer.h>
 #include <qevent.h>
 #include <qpoint.h>
 #include <qclipboard.h>
+#include <qfile.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -49,7 +52,7 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 
 	setFocusPolicy(ClickFocus);	
 
-	initColorTable();
+	setSchema();
 
 	initFontMetrics();
 
@@ -102,7 +105,6 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 	else
 		m_pCodec = QTextCodec::codecForName("Big5");
 	
-	m_nPxmType = 0;
 }
 
 QTermScreen::~QTermScreen()
@@ -384,8 +386,9 @@ void QTermScreen::updateFont()
 /* 	                               Colors                                   */
 /*	                                                                        */
 /* ------------------------------------------------------------------------ */
-void QTermScreen::initColorTable()
+void QTermScreen::setSchema()
 {
+// the default color table
 	m_color[0]  = Qt::black;
 	m_color[1]  = Qt::darkRed;
 	m_color[2]  = Qt::darkGreen;
@@ -403,39 +406,56 @@ void QTermScreen::initColorTable()
 	m_color[14] = Qt::cyan;
 	m_color[15] = Qt::white;
 
+	m_nPxmType = 0;
+
+// if we have schema defined
+	if(QFile::exists(m_pParam->m_strSchemaFile))
+	{
+
+//		printf("schema %s loaded sucessfully\n", m_pParam->m_strSchemaFile);
+		QTermConfig *pConf = new QTermConfig(m_pParam->m_strSchemaFile);
+
+		m_color[0].setNamedColor(pConf->getItemValue("color","color0"));
+		m_color[1].setNamedColor(pConf->getItemValue("color","color1"));
+		m_color[2].setNamedColor(pConf->getItemValue("color","color2"));
+		m_color[3].setNamedColor(pConf->getItemValue("color","color3"));
+		m_color[4].setNamedColor(pConf->getItemValue("color","color4"));
+		m_color[5].setNamedColor(pConf->getItemValue("color","color5"));
+		m_color[6].setNamedColor(pConf->getItemValue("color","color6"));
+		m_color[7].setNamedColor(pConf->getItemValue("color","color7"));
+		m_color[8].setNamedColor(pConf->getItemValue("color","color8"));
+		m_color[9].setNamedColor(pConf->getItemValue("color","color9"));
+		m_color[10].setNamedColor(pConf->getItemValue("color","color10"));
+		m_color[11].setNamedColor(pConf->getItemValue("color","color11"));
+		m_color[12].setNamedColor(pConf->getItemValue("color","color12"));
+		m_color[13].setNamedColor(pConf->getItemValue("color","color13"));
+		m_color[14].setNamedColor(pConf->getItemValue("color","color14"));
+		m_color[15].setNamedColor(pConf->getItemValue("color","color15"));
+
+		// get the image name
+		if(QFile::exists(pConf->getItemValue("image","name")))
+		{
+			m_pxmBg = QPixmap(pConf->getItemValue("image","name"));
+			QString strTmp = pConf->getItemValue("image", "type");
+			m_nPxmType = strTmp.toInt();
+			
+			QColor fadecolor;
+			fadecolor.setNamedColor(pConf->getItemValue("image","fade"));
+			strTmp = pConf->getItemValue("image", "alpha");
+			float alpha = strTmp.toFloat();
+			
+			QImage ima(m_pxmBg.convertToImage());
+			ima = fade(ima, alpha, fadecolor);
+			m_pxmBg.convertFromImage(ima);
+
+		}
+	}
+
+// override schema using user defined Fg/Bg color	
 	m_color[0]  = m_pParam->m_clrBg;
 	m_color[7]  = m_pParam->m_clrFg;
 }
-void QTermScreen::setColorTable( const QColor table[] )
-{
-	 for (int i = 0; i < 16; i++) 
-		 m_color[i] = table[i];
-}
 
-const QColor * QTermScreen::getColorTable()
-{
-	return m_color;
-}
-
-void QTermScreen::setFgColor( const QColor& colorFg )
-{
-	m_color[7]=colorFg;
-}
-
-void QTermScreen::setBgColor( const QColor& colorBg )
-{
-	m_color[0]=colorBg;
-}
-
-QColor QTermScreen::getFgColor( )
-{
-	return m_color[7];
-}
-
-QColor QTermScreen::getBgColor( )
-{
-	return m_color[0];
-}
 
 /* ------------------------------------------------------------------------ */
 /*	                                                                        */
@@ -1041,4 +1061,70 @@ QRect QTermScreen::mapToRect( const QRect& rect )
 	return mapToRect( rect.x(), rect.y(), rect.width(), rect.height() );
 }
 
+// from KImageEffect::fade
+QImage& QTermScreen::fade( QImage& img, float val, const QColor& color)
+{
+    if (img.width() == 0 || img.height() == 0)
+      return img;
 
+    // We don't handle bitmaps
+    if (img.depth() == 1)
+	return img;
+
+    unsigned char tbl[256];
+    for (int i=0; i<256; i++)
+	tbl[i] = (int) (val * i + 0.5);
+
+    int red = color.red();
+    int green = color.green();
+    int blue = color.blue();
+
+    QRgb col;
+    int r, g, b, cr, cg, cb;
+
+    if (img.depth() <= 8) {
+	// pseudo color
+	for (int i=0; i<img.numColors(); i++) {
+	    col = img.color(i);
+	    cr = qRed(col); cg = qGreen(col); cb = qBlue(col);
+	    if (cr > red)
+		r = cr - tbl[cr - red];
+	    else
+		r = cr + tbl[red - cr];
+	    if (cg > green)
+		g = cg - tbl[cg - green];
+	    else
+		g = cg + tbl[green - cg];
+	    if (cb > blue)
+		b = cb - tbl[cb - blue];
+	    else
+		b = cb + tbl[blue - cb];
+	    img.setColor(i, qRgba(r, g, b, qAlpha(col)));
+	}
+
+    } else {
+	// truecolor
+        for (int y=0; y<img.height(); y++) {
+            QRgb *data = (QRgb *) img.scanLine(y);
+            for (int x=0; x<img.width(); x++) {
+                col = *data;
+                cr = qRed(col); cg = qGreen(col); cb = qBlue(col);
+                if (cr > red)
+                    r = cr - tbl[cr - red];
+                else
+                    r = cr + tbl[red - cr];
+                if (cg > green)
+                    g = cg - tbl[cg - green];
+                else
+                    g = cg + tbl[green - cg];
+                if (cb > blue)
+                    b = cb - tbl[cb - blue];
+                else
+                    b = cb + tbl[blue - cb];
+                *data++ = qRgba(r, g, b, qAlpha(col));
+            }
+        }
+    }
+
+    return img;
+}

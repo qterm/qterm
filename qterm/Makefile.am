@@ -10,7 +10,7 @@ TRANSLATIONS =
 KDE_OPTIONS = qtonly
 qterm_LDADD   = $(LIB_QPE) $(LIBPYTHON) $(ESD_LIB) $(LIB_SOUNDSERVER) $(LIB_QT) $(LIBSOCKET)
 
-SUBDIRS = cursor pic script docs 
+SUBDIRS = cursor pic script docs schema 
 
 EXTRA_DIST = aboutdialog.cpp aboutdialog.h aboutdialogui.cpp aboutdialogui.h addrdialog.cpp addrdialog.h addrdialogui.cpp addrdialogui.h articledialog.cpp articledialog.h articledialogui.cpp articledialogui.h keydialog.cpp keydialog.h keydialogui.cpp keydialogui.h main.cpp msgdialog.cpp msgdialog.h msgdialogui.cpp msgdialogui.h popwidget.cpp popwidget.h prefdialog.cpp prefdialog.h prefdialogui.cpp prefdialogui.h qtermbbs.cpp qtermbbs.h qtermbuffer.cpp qtermbuffer.h qterm.cfg qtermconfig.cpp qtermconfig.h qtermconvert.cpp qtermconvert.h qtermdecode.cpp qtermdecode.h qtermframe.cpp qtermframe.h qterm.h qtermparam.cpp qtermparam.h qtermscreen.cpp qtermscreen.h qtermtelnet.cpp qtermtelnet.h qtermtextline.cpp qtermtextline.h qtermtimelabel.cpp qtermtimelabel.h qtermtoolbutton.cpp qtermtoolbutton.h qtermwindow.cpp qtermwindow.h qtermwndmgr.cpp qtermwndmgr.h quickdialog.cpp quickdialog.h quickdialogui.cpp quickdialogui.h schemadialog.cpp schemadialog.h schemadialogui.cpp schemadialogui.h address.cfg trayicon_x11.cpp trayicon_win.cpp trayicon.h trayicon.cpp credits qtermsound.h qtermsound.cpp soundconfui.cpp soundconfui.h soundconf.cpp soundconf.h 
 

@@ -1,4 +1,3 @@
 1. switch between fullscreen and normal can cause titile bar error
 2. rectangle copy
 3. mem leak?
-4. File->Connect leads to Segmentation Fault

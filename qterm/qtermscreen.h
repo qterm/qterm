@@ -22,21 +22,12 @@ public:
 	QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *param, QTermBBS *bbs );
  	~QTermScreen();
 
-	const QColor * getColorTable();
-	void setColorTable( const QColor [] );
-	
-	QColor getBgColor();
-	void setBgColor( const QColor& );
-
-	QColor getFgColor();
-	void setFgColor( const QColor& );
-
+	void setSchema();
 
 	QFont getDispFont();
 	void setDispFont( const QFont& );
 	
 	void setBgPxm( const QPixmap& pixmap, int nType = 0);
-
 
 	void refreshScreen();
 	void blinkScreen();
@@ -52,7 +43,6 @@ public slots:
 	void updateScrollBar();
 
 protected:	
-	void initColorTable();
 	void initFontMetrics();
 
 	void moveEvent( QMoveEvent * );
@@ -88,6 +78,7 @@ protected:
 	QRect mapToRect( const QRect& );
 	
 	void updateFont();
+	QImage& fade( QImage&, float, const QColor&);
 
 protected slots:
 	void blinkEvent();
