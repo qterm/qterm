@@ -2,7 +2,7 @@ Source: qterm
 Section: x11
 Priority: optional
 Maintainer: Anthony Fok <foka@debian.org>
-Build-Depends: debhelper (>> 3.0.0), libqt3-mt-dev, libqt3-compat-headers, xutils
+Build-Depends: debhelper (>> 3.0.0), libqt3-mt-dev, libqt3-compat-headers, xutils, cdbs
 Standards-Version: 3.5.9
 
 Package: qterm

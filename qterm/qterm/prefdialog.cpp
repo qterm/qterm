@@ -112,7 +112,14 @@ void prefDialog::loadSetting()
 	strTmp = conf.getItemValue("preference","tray");
 	trayCheckBox->setChecked( strTmp!="0" );
 
-	
+	strTmp = conf.getItemValue("preference","clearpool");
+	clearCheckBox->setChecked( strTmp!="0" );
+
+    strTmp = conf.getItemValue("preference","pool");
+	if(strTmp.isEmpty())
+		strTmp = pathCfg+"pool/";
+	poolLineEdit->setText( strTmp );
+
     strTmp = conf.getItemValue("preference","http");
  	httpLineEdit->setText( strTmp );
 
@@ -166,13 +173,20 @@ void prefDialog::saveSetting()
 	if(strTmp=="2")
 		conf.setItemValue("preference","wavefile", wavefileLineEdit->text());
 	
-    conf.setItemValue("preference","http",httpLineEdit->text());
+	strTmp.setNum(clearCheckBox->isChecked()?1:0);
+    conf.setItemValue("preference","clearpool", strTmp);
+
+	strTmp=poolLineEdit->text();
+	if(strTmp.isEmpty())
+		strTmp = pathCfg+"pool/";
+	conf.setItemValue("preference","pool",strTmp.local8Bit());
 
 	strTmp=zmodemLineEdit->text();
 	if(strTmp.isEmpty())
 		strTmp = pathCfg+"zmodem/";
 	conf.setItemValue("preference","zmodem",strTmp.local8Bit());
 	
+    conf.setItemValue("preference","http",httpLineEdit->text());
 	conf.setItemValue("preference","image",imageLineEdit->text().local8Bit());
 	
 	conf.save(fileCfg);
@@ -241,6 +255,15 @@ void prefDialog::onImage()
     if ( !image.isEmpty() ) 
 	{
 		imageLineEdit->setText(image);
+	}
+}
+
+void prefDialog::onPool()
+{
+	QString pool = QFileDialog::getOpenFileName( QString::null, QString::null, this );
+    if ( !pool.isEmpty() ) 
+	{
+		poolLineEdit->setText(pool);
 	}
 }
 

@@ -126,6 +126,12 @@ AUTHOR:		smartfish kafa
 #define NULL 0
 #endif
 
+#define DAE_FINISH  10001
+#define DAE_TIMEOUT 10002
+
+#define PYE_ERROR   10003
+#define PYE_FINISH  10004
+
 // some keys
 #define CHAR_CR 	0x0d	// ^M
 #define CHAR_LF		0x0a	// ^J

@@ -1,3 +1,17 @@
+2004/08/25
+	add
+	1. shortcut to submenus
+	2. UI font takes global antialias setting
+	3. save QFileDialog path
+	4. clear zmodemDialog before shown
+	
+2004/08/24
+	0.3.8 released
+	fix
+	1. change debian/rules in favor of new guide
+	remove 
+	1. conditional compilation in QTermWndMgr & QTermScreen::focusInEvent
+
 2004/08/23
 	add
 	1. proxy support for SSH1

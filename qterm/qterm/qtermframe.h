@@ -37,7 +37,9 @@ struct QTermPref
 	bool	bAutoCopy;
 	bool	bAA;
 	bool	bTray;
+	bool	bClearPool;
 	QString strZmPath;
+	QString strPoolPath;
 	QString strImageViewer;
 };
 

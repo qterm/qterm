@@ -1,8 +1,17 @@
+qterm (0.3.8-2) unstable; urgency=low
+
+  * watch: Renamed to watch.ex because it is not an offical debian
+    pachage.
+  * rules, control: Migrated to CDBS, this fixed the failure of deb
+    pachage building.
+
+ -- SU Yong <yoyosu@ustc.edu.cn>  Tue, 24 Aug 2004 20:48:43 +0800
+
 qterm (0.3.8-1) unstable; urgency=low
 
   * Great improvements
 
- -- Xiaoqiang Wang <xiaokiangwang@yahoo.com.cn> 
+ -- Xiaoqiang Wang <xiaokiangwang@yahoo.com.cn>  Tue, 24 Aug 2004 11:42:09 +0200
  
 qterm (0.2.0-2) unstable; urgency=low
 

@@ -119,12 +119,12 @@ void QTermWndMgr::activateTheWindow(QTab *qtab)
 
 	QTermWindow * mw=pWin.at(n);
 	//set focus to it
-	#if (QT_VERSION>=0x030300)
+//	#if (QT_VERSION>=0x030300)
 	((QWidget*)pFrame->ws)->setFocus();
 	mw->showNormal();
-	#else
-	mw->setFocus();
-	#endif
+//	#else
+//	mw->setFocus();
+//	#endif
 	
 	pFrame->updateMenuToolBar();
 }
@@ -171,12 +171,12 @@ void QTermWndMgr::activeNextPrev(bool next)
 
 	QTermWindow * mw=pWin.at(n);
 	//set focus to it
-	#if (QT_VERSION>=0x030300)
+//	#if (QT_VERSION>=0x030300)
 	((QWidget*)pFrame->ws)->setFocus();
 	mw->showNormal();
-	#else
-	mw->setFocus();
-	#endif
+//	#else
+//	mw->setFocus();
+//	#endif
 
 }
 
