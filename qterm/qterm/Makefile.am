@@ -41,3 +41,8 @@ qterm_LDFLAGS = $(all_libraries) -Wl -export-dynamic $(PYTHONLIB) $(SOUNDSERVER_
 # them while "make clean", use CLEANFILES
 DISTCLEANFILES = $(qterm_METASOURCES)
 
+applnkInternet_DATA =  qterm.desktop
+applnkInternetdir = $(prefix)/share/applications
+
+icon_DATA = qterm.png
+icondir = $(prefix)/share/icons

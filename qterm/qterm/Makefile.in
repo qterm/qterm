@@ -271,6 +271,12 @@ qterm_LDFLAGS = $(all_libraries) -Wl -export-dynamic $(PYTHONLIB) $(SOUNDSERVER_
 
 # them while "make clean", use CLEANFILES
 DISTCLEANFILES = $(qterm_METASOURCES)
+
+applnkInternet_DATA = qterm.desktop
+applnkInternetdir = $(prefix)/share/applications
+
+icon_DATA = qterm.png
+icondir = $(prefix)/share/icons
 subdir = qterm
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
@@ -414,6 +420,8 @@ CXXLINK = $(LIBTOOL) --mode=link --tag=CXX $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 CXXFLAGS = @CXXFLAGS@
 DIST_SOURCES = $(qterm_SOURCES)
+DATA = $(applnkInternet_DATA) $(icon_DATA)
+
 
 RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-info-recursive all-recursive install-data-recursive \
@@ -544,6 +552,40 @@ distclean-depend:
 	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
+install-applnkInternetDATA: $(applnkInternet_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(applnkInternetdir)
+	@list='$(applnkInternet_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(applnkInternetdir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(applnkInternetdir)/$$f; \
+	done
+
+uninstall-applnkInternetDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(applnkInternet_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(applnkInternetdir)/$$f"; \
+	  rm -f $(DESTDIR)$(applnkInternetdir)/$$f; \
+	done
+install-iconDATA: $(icon_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(icondir)
+	@list='$(icon_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(icondir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(icondir)/$$f; \
+	done
+
+uninstall-iconDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(icon_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(icondir)/$$f"; \
+	  rm -f $(DESTDIR)$(icondir)/$$f; \
+	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -637,7 +679,12 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+#>+ 4
+KDE_DIST=qterm.png bug.diff qterm.desktop.in qterm.desktop 
+
+DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+
 
 top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
@@ -673,10 +720,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(PROGRAMS) $(DATA)
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(applnkInternetdir) $(DESTDIR)$(icondir)
 
 install: install-recursive
 install-exec: install-exec-recursive
@@ -723,7 +770,8 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-data-local
+install-data-am: install-applnkInternetDATA install-data-local \
+	install-iconDATA
 
 install-exec-am: install-binPROGRAMS
 
@@ -742,7 +790,8 @@ mostlyclean: mostlyclean-recursive
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-binPROGRAMS uninstall-info-am uninstall-local
+uninstall-am: uninstall-applnkInternetDATA uninstall-binPROGRAMS \
+	uninstall-iconDATA uninstall-info-am uninstall-local
 
 uninstall-info: uninstall-info-recursive
 
@@ -751,9 +800,10 @@ uninstall-info: uninstall-info-recursive
 	distclean distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-recursive distclean-tags distdir \
 	dvi dvi-am dvi-recursive info info-am info-recursive install \
-	install-am install-binPROGRAMS install-data install-data-am \
-	install-data-local install-data-recursive install-exec \
-	install-exec-am install-exec-recursive install-info \
+	install-am install-applnkInternetDATA install-binPROGRAMS \
+	install-data install-data-am install-data-local \
+	install-data-recursive install-exec install-exec-am \
+	install-exec-recursive install-iconDATA install-info \
 	install-info-am install-info-recursive install-man \
 	install-recursive install-strip installcheck installcheck-am \
 	installdirs installdirs-am installdirs-recursive \
@@ -761,8 +811,9 @@ uninstall-info: uninstall-info-recursive
 	maintainer-clean-recursive mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
 	tags tags-recursive uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-info-am \
-	uninstall-info-recursive uninstall-local uninstall-recursive
+	uninstall-applnkInternetDATA uninstall-binPROGRAMS \
+	uninstall-iconDATA uninstall-info-am uninstall-info-recursive \
+	uninstall-local uninstall-recursive
 
 
 install-data-local:
