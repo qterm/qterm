@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'zmodemdialogui.ui'
 **
-** Created: Tue Jul 20 23:00:10 2004
+** Created: Wed Aug 18 19:57:58 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -30,24 +30,34 @@ zmodemDialogUI::zmodemDialogUI( QWidget* parent, const char* name, bool modal, W
 {
     if ( !name )
 	setName( "zmodemDialogUI" );
+    zmodemDialogUILayout = new QGridLayout( this, 1, 1, 11, 6, "zmodemDialogUILayout"); 
 
     pbProgress = new QProgressBar( this, "pbProgress" );
-    pbProgress->setGeometry( QRect( 11, 35, 309, 24 ) );
+
+    zmodemDialogUILayout->addMultiCellWidget( pbProgress, 1, 1, 0, 2 );
 
     labelStatus = new QLabel( this, "labelStatus" );
-    labelStatus->setGeometry( QRect( 11, 65, 309, 18 ) );
     labelStatus->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)5, 0, 0, labelStatus->sizePolicy().hasHeightForWidth() ) );
 
-    labelFileName = new QLabel( this, "labelFileName" );
-    labelFileName->setGeometry( QRect( 11, 11, 309, 18 ) );
-    labelFileName->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)1, 0, 0, labelFileName->sizePolicy().hasHeightForWidth() ) );
+    zmodemDialogUILayout->addMultiCellWidget( labelStatus, 2, 2, 0, 2 );
+    spacer2 = new QSpacerItem( 120, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    zmodemDialogUILayout->addItem( spacer2, 4, 2 );
+    spacer1 = new QSpacerItem( 100, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    zmodemDialogUILayout->addItem( spacer1, 4, 0 );
 
     buttonCancel = new QPushButton( this, "buttonCancel" );
-    buttonCancel->setGeometry( QRect( 117, 229, 77, 25 ) );
     buttonCancel->setAutoMask( FALSE );
 
+    zmodemDialogUILayout->addWidget( buttonCancel, 4, 1 );
+
     browserError = new QTextBrowser( this, "browserError" );
-    browserError->setGeometry( QRect( 10, 90, 310, 128 ) );
+
+    zmodemDialogUILayout->addMultiCellWidget( browserError, 3, 3, 0, 2 );
+
+    labelFileName = new QLabel( this, "labelFileName" );
+    labelFileName->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)1, 0, 0, labelFileName->sizePolicy().hasHeightForWidth() ) );
+
+    zmodemDialogUILayout->addMultiCellWidget( labelFileName, 0, 0, 0, 2 );
     languageChange();
     resize( QSize(333, 259).expandedTo(minimumSizeHint()) );
     clearWState( WState_Polished );
@@ -69,7 +79,7 @@ void zmodemDialogUI::languageChange()
 {
     setCaption( tr( "Zmodem Status" ) );
     labelStatus->setText( tr( "textLabel2" ) );
-    labelFileName->setText( tr( "textLabel1" ) );
     buttonCancel->setText( tr( "Cancel" ) );
+    labelFileName->setText( tr( "textLabel1" ) );
 }
 

@@ -1407,7 +1407,6 @@ int QTermZmodem::HdrChar( uchar c, register ZModem *info )
 	    default:
 	      info->InputState = Idle ;
 	      info->chrCount = 0 ;
-		  printf("ft1 %c \n",c);
 	      return ZXmitHdrHex(ZNAK, zeros, info) ;
 	  }
 	  return 0 ;

@@ -92,8 +92,7 @@ void QTermCanvas::loadImage(const QString& name)
 	{
 
 		strFileName = name;
-		QFileInfo fi(name);
-		setCaption(fi.fileName());
+		setCaption(QFileInfo(name).fileName());
 
 		bFitWin=true;
 
@@ -281,7 +280,10 @@ void QTermCanvas::keyPressEvent(QKeyEvent *ke)
 void QTermCanvas::adjustSize(const QSize& szView)
 {
 	if(label->pixmap()==NULL)
-		return label->resize(visibleWidth(), visibleHeight());
+	{
+		label->resize(visibleWidth(), visibleHeight());
+		return;
+	}
 
 	QSize szImg=szImage;
 

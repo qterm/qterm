@@ -30,6 +30,8 @@ public:
 	void blinkTheTab(QTermWindow *mw,bool bVisible);
 	int  count();
 	
+	bool afterRemove();
+	
 	QTermWindow * activeWindow();
 	void activeNextPrev(bool);
 
@@ -39,6 +41,8 @@ protected:
 	QList<QTermWindow>  pWin;
 	QTermFrame * pFrame;
 	int nActive;
+
+	bool removed;
 };
 
 #endif	//QTERMWNDMGR_H

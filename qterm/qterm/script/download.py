@@ -93,7 +93,7 @@ def get_list_num(str_line):
 
 def get_list_categary(str_line):
 	# get the categary
-	matchobj = re.search("\[[^0-9]+\]",str_line)
+	matchobj = re.search("\[[^0-9]{4}\]",str_line)
 	if(matchobj==None):
 		# wrong format
 		return None
@@ -101,7 +101,7 @@ def get_list_categary(str_line):
 		return str_line[matchobj.start():matchobj.end()]
 
 def get_list_title(str_line):
-	matchobj = re.search("\[[^0-9]+\]",str_line)
+	matchobj = re.search("\[[^0-9]{4}\]",str_line)
 	if(matchobj==None):
 		# wrong format
 		return None

@@ -455,6 +455,7 @@ bool addrDialog::isChanged()
 		param.m_strSSHPasswd != sshpasswdLineEdit->text() ||
 		param.m_nMaxIdle != idletimeLineEdit->text().toInt() ||
 		param.m_strAntiString != antiLineEdit->text() ||
+		param.m_strReplyKey != replykeyLineEdit->text() ||
 		param.m_strAutoReply != replyLineEdit->text()) ||
 		param.m_bAutoReply != replyCheckBox->isChecked() ||
 		param.m_bReconnect != reconnectCheckBox->isChecked() ||
@@ -507,6 +508,9 @@ void addrDialog::updateData(bool save)
 		param.m_strSSHUser = sshuserLineEdit->text();
 		param.m_strSSHPasswd = sshpasswdLineEdit->text();
 		param.m_nMaxIdle = idletimeLineEdit->text().toInt();
+		param.m_strReplyKey = replykeyLineEdit->text();
+		if(param.m_strReplyKey.isNull())
+			printf("saving null\n");
 		param.m_strAntiString = antiLineEdit->text();
 		param.m_bAutoReply = replyCheckBox->isChecked();
 		param.m_strAutoReply = replyLineEdit->text();
@@ -567,6 +571,7 @@ void addrDialog::updateData(bool save)
 		sshpasswdLineEdit->setText(param.m_strSSHPasswd);
 		strTmp.setNum(param.m_nMaxIdle);
 		idletimeLineEdit->setText(strTmp);
+		replykeyLineEdit->setText(param.m_strReplyKey);
 		antiLineEdit->setText(param.m_strAntiString);
 		replyCheckBox->setChecked(param.m_bAutoReply);
 		onAutoReply(param.m_bAutoReply);

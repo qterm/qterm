@@ -133,8 +133,9 @@ const char * QTermConfig::getItemValue (const char *szSection, const char *szIte
 {
 	if(hasSection(szSection))
 		if(data[szSection].find(szItemName) != data[szSection].end());
-			return data[szSection][szItemName];
-	return NULL;
+			if(!data[szSection][szItemName].isEmpty())
+				return  data[szSection][szItemName];
+	return "";
 }
 
 bool QTermConfig::renameSection (const char *szSection, const char *szNewName)

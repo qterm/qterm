@@ -56,7 +56,7 @@ AUTHOR:        kingson fiasco
 #include <qregexp.h>
 #include <qfiledialog.h>
 #include <qtabwidget.h>
-
+#include <qprogressdialog.h>
 #include <qnetwork.h>
 #include <qurl.h>
 #include <qhttp.h>
@@ -390,6 +390,34 @@ static PyObject *qterm_reconnect(PyObject *, PyObject *args)
 	return Py_None;
 }
 
+static PyObject *qterm_fromUTF8(PyObject *, PyObject *args)
+{
+	char *str, *enc;
+	if (!PyArg_ParseTuple(args, "ss", &str, &enc))
+		return NULL;
+	QTextCodec *encodec = QTextCodec::codecForName(enc);
+	QTextCodec *utf8 = QTextCodec::codecForName("utf8");
+	
+	PyObject *py_str = PyString_FromString(
+					encodec->fromUnicode(utf8->toUnicode(str)));
+	Py_INCREF(py_str);
+	return py_str;
+}
+
+static PyObject *qterm_toUTF8(PyObject *, PyObject *args)
+{
+	char *str, *enc;
+	if (!PyArg_ParseTuple(args, "ss", &str, &enc))
+		return NULL;
+	QTextCodec *encodec = QTextCodec::codecForName(enc);
+	QTextCodec *utf8 = QTextCodec::codecForName("utf8");
+	
+	PyObject *py_str = PyString_FromString(
+					utf8->fromUnicode(encodec->toUnicode(str)));
+	Py_INCREF(py_str);
+	return py_str;
+}
+
 
 static PyMethodDef qterm_methods[] = {
 	{"formatError",		(PyCFunction)qterm_formatError,			METH_VARARGS,	"get the traceback info"},
@@ -411,7 +439,8 @@ static PyMethodDef qterm_methods[] = {
 	{"isConnected",		(PyCFunction)qterm_isConnected,			METH_VARARGS,	"connected to server or not"},
 	{"disconnect",		(PyCFunction)qterm_disconnect,			METH_VARARGS,	"disconnect from server"},
 	{"reconnect",		(PyCFunction)qterm_reconnect,			METH_VARARGS,	"reconnect"},
-
+	{"fromUTF8",		(PyCFunction)qterm_fromUTF8,			METH_VARARGS,	"decode from utf8 to string in specified codec"},
+	{"toUTF8",			(PyCFunction)qterm_toUTF8,				METH_VARARGS,	"decode from string in specified codec to utf8"},
 	{NULL,	 			(PyCFunction)NULL, 						0, 				NULL}
 };
 #endif //HAVE_PYTHON
@@ -609,6 +638,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 
 	m_bSetChanged = false;
 	
+	m_pPd = NULL;
 #ifndef _NO_SSH_COMPILED
 	if (param.m_nProtocolType != 0)
 		m_bDoingLogin = true;
@@ -673,10 +703,10 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	m_pCanvas = new QTermCanvas(this);
 	m_pCanvas->hide();
 	qInitNetworkProtocols();
-	connect(&httpDown, SIGNAL(requestFinished(int,bool)), this, SLOT(httpDone(int,bool)));
-	connect(&httpDown, SIGNAL(dataReadProgress(int,int)), 
+	connect(&m_httpDown, SIGNAL(done(bool)), this, SLOT(httpDone(bool)));
+	connect(&m_httpDown, SIGNAL(dataReadProgress(int,int)), 
 				this, SLOT(dataRead(int,int)));
-	connect(&httpDown, SIGNAL(responseHeaderReceived(const QHttpResponseHeader&)), 
+	connect(&m_httpDown, SIGNAL(responseHeaderReceived(const QHttpResponseHeader&)), 
 				this, SLOT(httpResponse(const QHttpResponseHeader&)));
 	
 	connectHost();
@@ -1920,8 +1950,9 @@ void QTermWindow::replyMessage()
 {
 	if(m_replyTimer->isActive())
 		m_replyTimer->stop();
-
-	QCString cstr = "r ";
+	
+	QCString cstrTmp = m_param.m_strReplyKey.local8Bit();
+	QCString cstr = parseString(cstrTmp.isEmpty()?"^Z":cstrTmp);
 	cstr += m_param.m_strAutoReply.local8Bit();
 	cstr += '\n';
 	m_pTelnet->write( cstr, cstr.length() );
@@ -2161,18 +2192,22 @@ void QTermWindow::inputHandle(QString * text)
 void QTermWindow::dataRead(int done, int total)
 {
 //	printf("reading\n");
-	QByteArray ba = httpDown.readAll();
-	QFile file(strHttpFile);
+	QByteArray ba = m_httpDown.readAll();
+	QFile file(m_strHttpFile);
 	if(file.open(IO_ReadWrite | IO_Append))
 	{
 		QDataStream ds(&file);
 		ds.writeRawBytes(ba,ba.size());
 		file.close();
 	}
-
+	if(total!=0)
+		m_pPd->setProgress(done,total);
 }
-void QTermWindow::httpDone(int, bool err)
+void QTermWindow::httpDone(bool err)
 {
+	delete m_pPd;
+	m_pPd=NULL;
+
 	if(err)
 	{
 		QMessageBox::critical(this, tr("Download Error"),
@@ -2180,12 +2215,10 @@ void QTermWindow::httpDone(int, bool err)
 		return;
 	}
 	
-	if(strHttpFile.isEmpty())
-		return;
 	if(m_bPreview)
 	{
-		m_pCanvas->loadImage(strHttpFile);
-		m_pCanvas->setFocus();
+		m_pCanvas->loadImage(m_strHttpFile);
+		m_pCanvas->show();
 	}
 	else
 		QMessageBox::information(this, tr("Download Complete"),
@@ -2194,26 +2227,47 @@ void QTermWindow::httpDone(int, bool err)
 
 void QTermWindow::httpResponse( const QHttpResponseHeader& hrh)
 {
-	QString ValueString = hrh.value("Content-Disposition");
+	QString ValueString;
+
+	ValueString = hrh.value("Content-Disposition");
 	ValueString = ValueString.mid(ValueString.find(';') + 1).stripWhiteSpace();
 	if(ValueString.lower().find("filename") == 0)
+		m_strHttpFile = ValueString.mid(ValueString.find('=') + 1).stripWhiteSpace();
+	
+	if(m_bPreview)
 	{
-		strHttpFile = ValueString.mid(ValueString.find('=') + 1).stripWhiteSpace();
-		if(m_bPreview)
-		{
-			strHttpFile = pathCfg+"pool/"+G2U(strHttpFile);
-			m_pCanvas->show();
-		}
+		m_strHttpFile = pathCfg+"pool/"+G2U(m_strHttpFile);
+		QFileInfo fi(m_strHttpFile);
+		QString strExt=fi.extension(false).lower();
+		if(strExt=="jpg" || strExt=="jpeg" || strExt=="gif" || 
+			strExt=="mng" || strExt=="png" || strExt=="bmp")
+			m_bPreview=true;
 		else
-		{
-		   QString strSave = QFileDialog::getSaveFileName(
-						   QDir::homeDirPath()+"/"+G2U(strHttpFile), "*", this);
-		   strHttpFile = strSave;
-		}
-		QFile file(strHttpFile);
-		if(file.open(IO_WriteOnly))
-			file.close();
+			m_bPreview=false;
 	}
+	else
+	{
+	   QString strSave = QFileDialog::getSaveFileName(
+					   QDir::homeDirPath()+"/"+G2U(m_strHttpFile), "*", this);
+	   m_strHttpFile = strSave;
+	}
+
+	//hide the preview window
+	if(m_pCanvas->isShown())
+		m_pCanvas->hideWindow();
+
+	if(m_pPd==NULL)
+	{
+		m_pPd=new QProgressDialog(this);
+		m_pPd->setCaption(tr("QTerm Http Downlader"));
+		m_pPd->setLabelText(QFileInfo(m_strHttpFile).fileName());
+	}
+
+	// create it
+	QFile file(m_strHttpFile);
+	if(file.open(IO_WriteOnly))
+		file.close();
+
 }
 
 void QTermWindow::openLink()
@@ -2223,7 +2277,7 @@ void QTermWindow::openLink()
 	//QApplication::clipboard()->setText(strUrl);
 		cstrCmd += " \"" + m_pBBS->getUrl() +"\"";
 	else
-		cstrCmd.replace("%L", m_pBBS->getUrl());
+		cstrCmd.replace(QRegExp("%L",false), m_pBBS->getUrl());
 
 	#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 	cstrCmd += " &";
@@ -2258,7 +2312,7 @@ void QTermWindow::saveLink()
 
 void QTermWindow::getHttpHelper()
 {
-	strHttpFile="";
+	m_strHttpFile="";
 	QUrl u(m_pBBS->getUrl());
 	if(QFile::exists(pathCfg+"hosts.cfg"))
 	{
@@ -2267,11 +2321,11 @@ void QTermWindow::getHttpHelper()
 		if(!strTmp.isEmpty())
 		{
 			QString strUrl = m_pBBS->getUrl();
-			strUrl.replace(u.host(),strTmp,false);
+			strUrl.replace(QRegExp(u.host(),false),strTmp);
 			u = strUrl;
 		}
 	}
-
-	httpDown.setHost(u.host(),u.hasPort()?u.port():80);
-	httpDown.get(m_pBBS->getUrl());
+	m_strHttpFile = u.fileName();
+	m_httpDown.setHost(u.host(),u.hasPort()?u.port():80);
+	m_httpDown.get(m_pBBS->getUrl());
 }

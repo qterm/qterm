@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'addrdialog.ui'
 **
-** Created: Wed Jun 18 19:12:06 2003
+** Created: Wed Aug 18 21:58:35 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -10,24 +10,24 @@
 #include "addrdialogui.h"
 
 #include <qvariant.h>
-#include <qbuttongroup.h>
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qframe.h>
-#include <qgroupbox.h>
-#include <qlabel.h>
-#include <qlineedit.h>
-#include <qlistbox.h>
 #include <qpushbutton.h>
-#include <qradiobutton.h>
+#include <qlistbox.h>
+#include <qframe.h>
 #include <qtabwidget.h>
 #include <qwidget.h>
+#include <qlineedit.h>
+#include <qcombobox.h>
+#include <qlabel.h>
+#include <qcheckbox.h>
+#include <qgroupbox.h>
+#include <qbuttongroup.h>
+#include <qradiobutton.h>
 #include <qlayout.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
 
-/* 
- *  Constructs a addrDialogUI as a child of 'parent', with the 
+/*
+ *  Constructs a addrDialogUI as a child of 'parent', with the
  *  name 'name' and widget flags set to 'f'.
  *
  *  The dialog will by default be modeless, unless you set 'modal' to
@@ -35,7 +35,6 @@
  */
 addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlags fl )
     : QDialog( parent, name, modal, fl )
-
 {
     if ( !name )
 	setName( "addrDialogUI" );
@@ -136,7 +135,7 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
 
     TextLabel11 = new QLabel( Widget2, "TextLabel11" );
     TextLabel11->setGeometry( QRect( 20, 230, 90, 20 ) );
-    tabWidget->insertTab( Widget2, "" );
+    tabWidget->insertTab( Widget2, QString("") );
 
     tab = new QWidget( tabWidget, "tab" );
 
@@ -175,7 +174,7 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
 
     fontPushButton = new QPushButton( tab, "fontPushButton" );
     fontPushButton->setGeometry( QRect( 260, 130, 90, 21 ) );
-    tabWidget->insertTab( tab, "" );
+    tabWidget->insertTab( tab, QString("") );
 
     tab_2 = new QWidget( tabWidget, "tab_2" );
 
@@ -208,9 +207,6 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
     cursorTypeComboBox = new QComboBox( FALSE, tab_2, "cursorTypeComboBox" );
     cursorTypeComboBox->setGeometry( QRect( 310, 100, 100, 23 ) );
 
-    scrollLineEdit = new QLineEdit( tab_2, "scrollLineEdit" );
-    scrollLineEdit->setGeometry( QRect( 330, 60, 70, 23 ) );
-
     TextLabel5_3 = new QLabel( tab_2, "TextLabel5_3" );
     TextLabel5_3->setGeometry( QRect( 210, 60, 100, 20 ) );
 
@@ -222,7 +218,10 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
 
     keytypeComboBox = new QComboBox( FALSE, tab_2, "keytypeComboBox" );
     keytypeComboBox->setGeometry( QRect( 310, 20, 100, 23 ) );
-    tabWidget->insertTab( tab_2, "" );
+
+    scrollLineEdit = new QLineEdit( tab_2, "scrollLineEdit" );
+    scrollLineEdit->setGeometry( QRect( 330, 60, 70, 23 ) );
+    tabWidget->insertTab( tab_2, QString("") );
 
     tab_3 = new QWidget( tabWidget, "tab_3" );
 
@@ -284,15 +283,9 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
 
     authCheckBox = new QCheckBox( GroupBox1, "authCheckBox" );
     authCheckBox->setGeometry( QRect( 10, 80, 130, 22 ) );
-    tabWidget->insertTab( tab_3, "" );
+    tabWidget->insertTab( tab_3, QString("") );
 
     Widget3 = new QWidget( tabWidget, "Widget3" );
-
-    TextLabel8 = new QLabel( Widget3, "TextLabel8" );
-    TextLabel8->setGeometry( QRect( 10, 50, 130, 20 ) );
-
-    TextLabel7_2 = new QLabel( Widget3, "TextLabel7_2" );
-    TextLabel7_2->setGeometry( QRect( 10, 20, 150, 20 ) );
 
     TextLabel9 = new QLabel( Widget3, "TextLabel9" );
     TextLabel9->setGeometry( QRect( 270, 50, 30, 20 ) );
@@ -321,24 +314,36 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
     retryLineEdit = new QLineEdit( Widget3, "retryLineEdit" );
     retryLineEdit->setGeometry( QRect( 140, 180, 60, 20 ) );
 
-    replyLineEdit = new QLineEdit( Widget3, "replyLineEdit" );
-    replyLineEdit->setGeometry( QRect( 180, 100, 220, 23 ) );
-
-    replyCheckBox = new QCheckBox( Widget3, "replyCheckBox" );
-    replyCheckBox->setGeometry( QRect( 10, 100, 160, 22 ) );
-
     scriptPushButton = new QPushButton( Widget3, "scriptPushButton" );
     scriptPushButton->setGeometry( QRect( 290, 240, 50, 30 ) );
 
     antiLineEdit = new QLineEdit( Widget3, "antiLineEdit" );
     antiLineEdit->setGeometry( QRect( 170, 20, 80, 23 ) );
 
+    scriptCheckBox = new QCheckBox( Widget3, "scriptCheckBox" );
+    scriptCheckBox->setGeometry( QRect( 10, 210, 170, 22 ) );
+
+    replyCheckBox = new QCheckBox( Widget3, "replyCheckBox" );
+    replyCheckBox->setGeometry( QRect( 10, 110, 160, 22 ) );
+
+    textLabel1_2 = new QLabel( Widget3, "textLabel1_2" );
+    textLabel1_2->setGeometry( QRect( 10, 80, 170, 20 ) );
+
+    TextLabel8 = new QLabel( Widget3, "TextLabel8" );
+    TextLabel8->setGeometry( QRect( 10, 50, 130, 20 ) );
+
+    TextLabel7_2 = new QLabel( Widget3, "TextLabel7_2" );
+    TextLabel7_2->setGeometry( QRect( 10, 20, 150, 20 ) );
+
     scriptLineEdit = new QLineEdit( Widget3, "scriptLineEdit" );
     scriptLineEdit->setGeometry( QRect( 40, 240, 230, 22 ) );
 
-    scriptCheckBox = new QCheckBox( Widget3, "scriptCheckBox" );
-    scriptCheckBox->setGeometry( QRect( 10, 210, 170, 22 ) );
-    tabWidget->insertTab( Widget3, "" );
+    replyLineEdit = new QLineEdit( Widget3, "replyLineEdit" );
+    replyLineEdit->setGeometry( QRect( 190, 110, 220, 23 ) );
+
+    replykeyLineEdit = new QLineEdit( Widget3, "replykeyLineEdit" );
+    replykeyLineEdit->setGeometry( QRect( 190, 80, 90, 23 ) );
+    tabWidget->insertTab( Widget3, QString("") );
 
     tab_4 = new QWidget( tabWidget, "tab_4" );
 
@@ -359,11 +364,65 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
 
     menuLabel = new QLabel( menuGroup, "menuLabel" );
     menuLabel->setGeometry( QRect( 50, 70, 100, 20 ) );
-    tabWidget->insertTab( tab_4, "" );
+    tabWidget->insertTab( tab_4, QString("") );
     languageChange();
     resize( QSize(650, 360).expandedTo(minimumSizeHint()) );
+    clearWState( WState_Polished );
 
     // tab order
+    setTabOrder( tabWidget, nameLineEdit );
+    setTabOrder( nameLineEdit, addrLineEdit );
+    setTabOrder( addrLineEdit, portLineEdit );
+    setTabOrder( portLineEdit, hostTypeComboBox );
+    setTabOrder( hostTypeComboBox, autoLoginCheckBox );
+    setTabOrder( autoLoginCheckBox, preloginLineEdit );
+    setTabOrder( preloginLineEdit, userLineEdit );
+    setTabOrder( userLineEdit, passwdLineEdit );
+    setTabOrder( passwdLineEdit, postloginLineEdit );
+    setTabOrder( postloginLineEdit, bbscodeComboBox );
+    setTabOrder( bbscodeComboBox, displaycodeComboBox );
+    setTabOrder( displaycodeComboBox, autofontCheckBox );
+    setTabOrder( autofontCheckBox, highlightCheckBox );
+    setTabOrder( highlightCheckBox, ansicolorCheckBox );
+    setTabOrder( ansicolorCheckBox, fontPushButton );
+    setTabOrder( fontPushButton, fgcolorPushButton );
+    setTabOrder( fgcolorPushButton, bgcolorPushButton );
+    setTabOrder( bgcolorPushButton, schemaPushButton );
+    setTabOrder( schemaPushButton, termtypeLineEdit );
+    setTabOrder( termtypeLineEdit, keytypeComboBox );
+    setTabOrder( keytypeComboBox, columnLineEdit );
+    setTabOrder( columnLineEdit, scrollLineEdit );
+    setTabOrder( scrollLineEdit, rowLineEdit );
+    setTabOrder( rowLineEdit, cursorTypeComboBox );
+    setTabOrder( cursorTypeComboBox, escapeLineEdit );
+    setTabOrder( escapeLineEdit, proxytypeComboBox );
+    setTabOrder( proxytypeComboBox, proxyaddrLineEdit );
+    setTabOrder( proxyaddrLineEdit, proxyportLineEdit );
+    setTabOrder( proxyportLineEdit, authCheckBox );
+    setTabOrder( authCheckBox, proxyuserLineEdit );
+    setTabOrder( proxyuserLineEdit, proxypasswdLineEdit );
+    setTabOrder( proxypasswdLineEdit, protocolComboBox );
+    setTabOrder( protocolComboBox, sshuserLineEdit );
+    setTabOrder( sshuserLineEdit, sshpasswdLineEdit );
+    setTabOrder( sshpasswdLineEdit, antiLineEdit );
+    setTabOrder( antiLineEdit, idletimeLineEdit );
+    setTabOrder( idletimeLineEdit, replykeyLineEdit );
+    setTabOrder( replykeyLineEdit, replyCheckBox );
+    setTabOrder( replyCheckBox, replyLineEdit );
+    setTabOrder( replyLineEdit, reconnectCheckBox );
+    setTabOrder( reconnectCheckBox, reconnectLineEdit );
+    setTabOrder( reconnectLineEdit, retryLineEdit );
+    setTabOrder( retryLineEdit, scriptCheckBox );
+    setTabOrder( scriptCheckBox, scriptLineEdit );
+    setTabOrder( scriptLineEdit, scriptPushButton );
+    setTabOrder( scriptPushButton, radioButton1 );
+    setTabOrder( radioButton1, radioButton2 );
+    setTabOrder( radioButton2, radioButton3 );
+    setTabOrder( radioButton3, menucolorButton );
+    setTabOrder( menucolorButton, applyPushButton );
+    setTabOrder( applyPushButton, connectPushButton );
+    setTabOrder( connectPushButton, closePushButton );
+    setTabOrder( closePushButton, nameListBox );
     setTabOrder( nameListBox, addPushButton );
     setTabOrder( addPushButton, deletePushButton );
 }
@@ -459,17 +518,18 @@ void addrDialogUI::languageChange()
     proxytypeComboBox->insertItem( tr( "HTTP" ) );
     authCheckBox->setText( tr( "Authentation" ) );
     tabWidget->changeTab( tab_3, tr( "Connection" ) );
-    TextLabel8->setText( tr( "Max Idle Time" ) );
-    TextLabel7_2->setText( tr( "Anti-idle String" ) );
     TextLabel9->setText( tr( "s" ) );
     textLabel5->setText( tr( "Times (-1 means infinite)" ) );
     textLabel4->setText( tr( "For Maximum" ) );
     textLabel2->setText( tr( "s" ) );
     textLabel1->setText( tr( "When Disconnected" ) );
     reconnectCheckBox->setText( tr( "Reconnect Every" ) );
-    replyCheckBox->setText( tr( "Autoreply Message" ) );
     scriptPushButton->setText( tr( "..." ) );
     scriptCheckBox->setText( tr( "Load Control Script" ) );
+    replyCheckBox->setText( tr( "Autoreply Message" ) );
+    textLabel1_2->setText( tr( "Key to reply message" ) );
+    TextLabel8->setText( tr( "Max Idle Time" ) );
+    TextLabel7_2->setText( tr( "Anti-idle String" ) );
     tabWidget->changeTab( Widget3, tr( "Misc" ) );
     menuGroup->setTitle( tr( "Menu Type" ) );
     radioButton1->setText( tr( "Underline" ) );

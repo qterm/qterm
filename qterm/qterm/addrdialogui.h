@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'addrdialog.ui'
 **
-** Created: Wed Jun 18 19:11:42 2003
+** Created: Wed Aug 18 21:58:17 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -16,19 +16,20 @@
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
-class QButtonGroup;
-class QCheckBox;
-class QComboBox;
-class QFrame;
-class QGroupBox;
-class QLabel;
-class QLineEdit;
+class QSpacerItem;
+class QPushButton;
 class QListBox;
 class QListBoxItem;
-class QPushButton;
-class QRadioButton;
+class QFrame;
 class QTabWidget;
 class QWidget;
+class QLineEdit;
+class QComboBox;
+class QLabel;
+class QCheckBox;
+class QGroupBox;
+class QButtonGroup;
+class QRadioButton;
 
 class addrDialogUI : public QDialog
 {
@@ -87,11 +88,11 @@ public:
     QLabel* TextLabel4_3;
     QLineEdit* rowLineEdit;
     QComboBox* cursorTypeComboBox;
-    QLineEdit* scrollLineEdit;
     QLabel* TextLabel5_3;
     QLabel* TextLabel1_4;
     QLabel* TextLabel2_5;
     QComboBox* keytypeComboBox;
+    QLineEdit* scrollLineEdit;
     QWidget* tab_3;
     QGroupBox* GroupBox2;
     QComboBox* protocolComboBox;
@@ -113,8 +114,6 @@ public:
     QComboBox* proxytypeComboBox;
     QCheckBox* authCheckBox;
     QWidget* Widget3;
-    QLabel* TextLabel8;
-    QLabel* TextLabel7_2;
     QLabel* TextLabel9;
     QLabel* textLabel5;
     QLineEdit* idletimeLineEdit;
@@ -124,12 +123,16 @@ public:
     QCheckBox* reconnectCheckBox;
     QLineEdit* reconnectLineEdit;
     QLineEdit* retryLineEdit;
-    QLineEdit* replyLineEdit;
-    QCheckBox* replyCheckBox;
     QPushButton* scriptPushButton;
     QLineEdit* antiLineEdit;
-    QLineEdit* scriptLineEdit;
     QCheckBox* scriptCheckBox;
+    QCheckBox* replyCheckBox;
+    QLabel* textLabel1_2;
+    QLabel* TextLabel8;
+    QLabel* TextLabel7_2;
+    QLineEdit* scriptLineEdit;
+    QLineEdit* replyLineEdit;
+    QLineEdit* replykeyLineEdit;
     QWidget* tab_4;
     QButtonGroup* menuGroup;
     QRadioButton* radioButton1;
@@ -142,6 +145,7 @@ protected:
 
 protected slots:
     virtual void languageChange();
+
 };
 
 #endif // ADDRDIALOGUI_H
