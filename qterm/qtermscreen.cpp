@@ -10,11 +10,11 @@ AUTHOR:        kingson fiasco
  *******************************************************************************/
 #include "qterm.h"
 
+#include "qtermwindow.h"
 #include "qtermscreen.h"
 #include "qtermtextline.h"
 #include "qtermconvert.h"
 #include "qtermbuffer.h"
-#include "qtermwindow.h"
 #include "qtermbbs.h"
 #include "qtermframe.h"
 #include "qtermwndmgr.h"

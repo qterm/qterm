@@ -8,8 +8,9 @@ AUTHOR:        kingson fiasco
                                     NOTE
  This file may be used, distributed and modified without limitation.
  *******************************************************************************/
-#include "qtermwndmgr.h"
+
 #include "qtermwindow.h"
+#include "qtermwndmgr.h"
 #include "qtermframe.h"
 
 #include <qapplication.h>

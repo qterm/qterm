@@ -12,13 +12,16 @@ AUTHOR:        kingson fiasco
 
 // remove this when use configure
 
+#include "qterm.h"
+
+#include <Python.h>
+
 #include <qpixmap.h>
 #include <qstringlist.h>
 #include <qapplication.h>
 #include "qtermframe.h"
 #include "qtermconfig.h"
 #include "qtermparam.h"
-#include "qterm.h"
 
 #ifndef _OS_WIN32_
 #include <sys/stat.h>
@@ -28,8 +31,6 @@ AUTHOR:        kingson fiasco
 #endif
 #include <qdir.h>
 #include <qfile.h>
-
-#include <Python.h>
 
 char fileCfg[128]="./qterm.cfg";
 char addrCfg[128]="./address.cfg";

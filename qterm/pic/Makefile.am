@@ -63,7 +63,7 @@ uninstall-local:
 	-rm -f $(datadir)/qterm/pic/connect.png
 	-rm -f $(datadir)/qterm/pic/copy.png
 	-rm -f $(datadir)/qterm/pic/disconnect.png
-	-rm -f $(datadir)/qterm/pic/font.png
+	-rm -f $(datadir)/qterm/pic/fonts.png
 	-rm -f $(datadir)/qterm/pic/keys.png
 	-rm -f $(datadir)/qterm/pic/message.png
 	-rm -f $(datadir)/qterm/pic/mouse.png

@@ -219,6 +219,7 @@ am__quote = @am__quote@
 idldir = @idldir@
 install_sh = @install_sh@
 jni_includes = @jni_includes@
+kde_appdir = @kde_appdir@
 kde_appsdir = @kde_appsdir@
 kde_bindir = @kde_bindir@
 kde_confdir = @kde_confdir@
