@@ -859,8 +859,11 @@ void QTermFrame::uiFont()
 {
 	bool ok;
 	QFont font = QFontDialog::getFont(&ok,qApp->font());
+	
+	#if (QT_VERSION>=300)
 	if(m_pref.bAA)
 		font.setStyleStrategy(QFont::PreferAntialias);
+	#endif
 
 	if(ok==true)
 	{

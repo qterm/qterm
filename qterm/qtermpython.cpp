@@ -290,6 +290,7 @@ static PyObject *qterm_getAttrText(PyObject *, PyObject *args)
 	return py_text;
 }
 
+// is host connected
 static PyObject *qterm_isConnected(PyObject *, PyObject *args)
 {
 	long lp;
@@ -302,6 +303,8 @@ static PyObject *qterm_isConnected(PyObject *, PyObject *args)
 	Py_INCREF(py_connected);
 	return py_connected;
 }
+
+// disconnect from host
 static PyObject *qterm_disconnect(PyObject *, PyObject *args)
 {
 	long lp;
@@ -313,6 +316,8 @@ static PyObject *qterm_disconnect(PyObject *, PyObject *args)
 	Py_INCREF(Py_None);
 	return Py_None;
 }
+
+// reconnect to host
 static PyObject *qterm_reconnect(PyObject *, PyObject *args)
 {
 	long lp;
@@ -325,6 +330,7 @@ static PyObject *qterm_reconnect(PyObject *, PyObject *args)
 	return Py_None;
 }
 
+// bbs encoding 0-GBK 1-BIG5
 static PyObject *qterm_getBBSCodec(PyObject *, PyObject *args)
 {
 	long lp;
@@ -338,6 +344,7 @@ static PyObject *qterm_getBBSCodec(PyObject *, PyObject *args)
 	return py_codec;
 }
 
+// host address
 static PyObject *qterm_getAddress(PyObject *, PyObject *args)
 {
 	long lp;
@@ -350,6 +357,7 @@ static PyObject *qterm_getAddress(PyObject *, PyObject *args)
 	return py_addr;
 }
 
+// host port number
 static PyObject *qterm_getPort(PyObject *, PyObject *args)
 {
 	long lp;
@@ -361,6 +369,7 @@ static PyObject *qterm_getPort(PyObject *, PyObject *args)
 	return py_port;
 }
 
+// connection protocol 0-telnet 1-SSH1 2-SSH2
 static PyObject *qterm_getProtocol(PyObject *, PyObject *args)
 {
 	long lp;
@@ -372,6 +381,7 @@ static PyObject *qterm_getProtocol(PyObject *, PyObject *args)
 	return py_port;
 }
 
+// key to reply msg
 static PyObject *qterm_getReplyKey(PyObject *, PyObject *args)
 {
 	long lp;
@@ -383,6 +393,7 @@ static PyObject *qterm_getReplyKey(PyObject *, PyObject *args)
 	return py_key;
 }
 
+// convert string from UTF8 to specified encoding
 static PyObject *qterm_fromUTF8(PyObject *, PyObject *args)
 {
 	char *str, *enc;
@@ -397,6 +408,7 @@ static PyObject *qterm_fromUTF8(PyObject *, PyObject *args)
 	return py_str;
 }
 
+// convert string from specified encoding to UTF8
 static PyObject *qterm_toUTF8(PyObject *, PyObject *args)
 {
 	char *str, *enc;
