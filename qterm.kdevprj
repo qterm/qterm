@@ -28,8 +28,8 @@ bin_program=qterm
 cflags=
 cppflags=
 cxxflags=\s-O0 -g3 -Wall
-ldadd=$(LIB_QPE) $(LIBPYTHON) $(ESD_LIB) $(SOUNDSERVER_LIB) $(LIB_QT)
-ldflags=\s    \s
+ldadd=$(LIB_QPE) $(LIBPYTHON) $(ESD_LIB) $(LIB_SOUNDSERVER) $(LIB_QT)
+ldflags=\s     \s
 
 [General]
 AMChanged=true

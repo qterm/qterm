@@ -29685,7 +29685,7 @@ done
     echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
   else
-    SOUNDSERVER_LIB="-L$SOUNDSERVER_LIB/lib/kde3"
+    SOUNDSERVER_LIB="-L$SOUNDSERVER_LIB/lib"
     LIB_SOUNDSERVER="-lsoundserver_idl"
     echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
@@ -29808,6 +29808,8 @@ done
           ac_config_files="$ac_config_files qterm/cursor/Makefile"
 
           ac_config_files="$ac_config_files qterm/script/Makefile"
+
+          ac_config_files="$ac_config_files qterm/docs/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -30350,6 +30352,7 @@ do
   "qterm/pic/Makefile" ) CONFIG_FILES="$CONFIG_FILES qterm/pic/Makefile" ;;
   "qterm/cursor/Makefile" ) CONFIG_FILES="$CONFIG_FILES qterm/cursor/Makefile" ;;
   "qterm/script/Makefile" ) CONFIG_FILES="$CONFIG_FILES qterm/script/Makefile" ;;
+  "qterm/docs/Makefile" ) CONFIG_FILES="$CONFIG_FILES qterm/docs/Makefile" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
   "config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
