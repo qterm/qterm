@@ -45,7 +45,7 @@ project_name=QTerm
 project_type=normal_qt2
 short_info=
 sub_dir=qterm/
-version=0.3.4
+version=0.3.6
 version_control=None
 workspace=1
 
