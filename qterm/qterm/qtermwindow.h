@@ -96,7 +96,11 @@ protected slots:
 	void httpDone(int,bool);
 	void dataRead(int,int);
 	void httpResponse( const QHttpResponseHeader &);
-	
+
+	void openLink();
+	void copyLink();
+	void saveLink();
+
 protected:
 	void mouseMoveEvent( QMouseEvent * );
 	void mousePressEvent( QMouseEvent * );
@@ -128,6 +132,7 @@ protected:
 	QTermDecode * m_pDecode;
 	QTermBBS	* m_pBBS;
 	QPopupMenu *  m_pMenu;
+	QPopupMenu *  m_pUrl;
 	static char direction[][5];
     QCursor cursor[9];
 	bool m_bConnected;
@@ -193,7 +198,9 @@ public:
 
 	QWaitCondition m_wcWaiting;
 	QHttp httpDown;
+	QString strHttpFile;
 	QTermCanvas *m_pCanvas;
+	bool m_bPreview;
 };
 
 #endif	//QTERMWINDOW_H

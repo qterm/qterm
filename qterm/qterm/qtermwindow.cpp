@@ -557,6 +557,12 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	// disable the dock menu
 	setDockMenuEnabled(false);
 
+	m_pUrl = new QPopupMenu(m_pScreen);
+	m_pUrl->insertItem( tr("Open link"), this, SLOT(openLink()) );
+	m_pUrl->insertItem( tr("Copy link address"), this, SLOT(copyLink()) );
+	m_pUrl->insertItem( tr("Save target as..."), this, SLOT(saveLink()) );
+
+	
 	m_pMenu = new QPopupMenu(m_pScreen);
 	m_pMenu->insertItem( QPixmap(pathLib+"pic/copy.png"), tr("Copy"), this, SLOT(copy()), CTRL+Key_Insert );
 	m_pMenu->insertItem( QPixmap(pathLib+"pic/paste.png"), tr("Paste"), this, SLOT(paste()), SHIFT+Key_Insert );
@@ -693,6 +699,7 @@ QTermWindow::~QTermWindow()
 	delete m_tabTimer;
 
 	delete m_pMenu;
+	delete m_pUrl;
 	delete m_pScreen;
 	delete m_reconnectTimer;
 
@@ -827,11 +834,19 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 		m_pFrame->wndmgr->blinkTheTab(this,TRUE);
     }
 
+
 	if((me->button()&RightButton)&&!m_pBBS->getUrl().isEmpty())
 	{
-		QUrl u(m_pBBS->getUrl());
-		httpDown.setHost(u.host());
-		httpDown.get(m_pBBS->getUrl());
+		if(me->state()&ControlButton)
+		{
+			QUrl u(m_pBBS->getUrl());
+			httpDown.setHost(u.host(),u.hasPort()?u.port():80);
+			m_bPreview = true;
+			strHttpFile="";
+			httpDown.get(m_pBBS->getUrl());
+		}
+		else
+			m_pUrl->popup(me->globalPos());
 		return;
 	}
 
@@ -2149,37 +2164,98 @@ void QTermWindow::inputHandle(QString * text)
 void QTermWindow::dataRead(int done, int total)
 {
 //	printf("reading\n");
-/*
-	QFile file("/home/kingson/pp");
 	QByteArray ba = httpDown.readAll();
-	if(file.exists())
-		file.open(IO_Raw | IO_WriteOnly | IO_Append);
-	else
-		file.open(IO_Raw | IO_WriteOnly);
-
-	QDataStream ds(&file);
-	ds << ba;
-	file.close();
-	*/
-}
-void QTermWindow::httpDone(int, bool)
-{
-	QFile file(pathCfg+"buffer.jpg");
-	QByteArray ba = httpDown.readAll();
-	if(file.open(IO_ReadWrite))
+	QFile file(strHttpFile);
+	if(file.open(IO_ReadWrite | IO_Append))
 	{
 		QDataStream ds(&file);
 		ds.writeRawBytes(ba,ba.size());
 		file.close();
 	}
-	m_pCanvas->loadImage(pathCfg+"buffer.jpg");
-	m_pCanvas->show();
+
+}
+void QTermWindow::httpDone(int, bool err)
+{
+	if(err)
+	{
+		QMessageBox::critical(this, tr("Download Error"),
+			tr("Failed to download file"));
+		return;
+	}
+	
+	if(strHttpFile.isEmpty())
+		return;
+	if(m_bPreview)
+		m_pCanvas->loadImage(strHttpFile);
+	else
+		QMessageBox::information(this, tr("Download Complete"),
+			tr("Download one file successfully"));
 }
 
 void QTermWindow::httpResponse( const QHttpResponseHeader& hrh)
 {
-//	printf("hehe\n");
-	qWarning(hrh.value("content-type"));
-	qWarning(hrh.value("content-location"));
+	QString ValueString = hrh.value("Content-Disposition");
+	ValueString = ValueString.mid(ValueString.find(';') + 1).stripWhiteSpace();
+	if(ValueString.lower().find("filename") == 0)
+	{
+		strHttpFile = ValueString.mid(ValueString.find('=') + 1).stripWhiteSpace();
+		if(m_bPreview)
+		{
+			strHttpFile = pathCfg+"pool/"+G2U(strHttpFile);
+			m_pCanvas->show();
+		}
+		else
+		{
+		   QString strSave = QFileDialog::getSaveFileName(
+						   QDir::homeDirPath()+"/"+G2U(strHttpFile), "*", this);
+		   strHttpFile = strSave;
+		}
+		QFile file(strHttpFile);
+		if(file.open(IO_WriteOnly))
+			file.close();
+	}
+}
+
+void QTermWindow::openLink()
+{
+	QCString cstrCmd=m_pFrame->m_pref.strHttp.local8Bit();
+	if(cstrCmd.find("%L")==-1) // no replace
+	//QApplication::clipboard()->setText(strUrl);
+		cstrCmd += " \"" + m_pBBS->getUrl() +"\"";
+	else
+		cstrCmd.replace("%L", m_pBBS->getUrl());
+
+	#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
+	cstrCmd += " &";
+	#endif
+	system(cstrCmd);
+
+}
+
+void QTermWindow::copyLink()
+{
+	QString strUrl;
+	if( m_param.m_nBBSCode==0 )
+		strUrl=G2U(m_pBBS->getUrl());
+	else
+		strUrl=B2U(m_pBBS->getUrl());
+				
+	QClipboard *clipboard = QApplication::clipboard();
+
+	#if (QT_VERSION>=0x030100)
+	clipboard->setText(strUrl, QClipboard::Selection);
+	clipboard->setText(strUrl, QClipboard::Clipboard);
+	#else
+	clipboard->setText(strUrl);
+	#endif
+}
+
+void QTermWindow::saveLink()
+{
+	m_bPreview = false;
+	strHttpFile="";
+	QUrl u(m_pBBS->getUrl());
+	httpDown.setHost(u.host(),u.hasPort()?u.port():80);
+	httpDown.get(m_pBBS->getUrl());
 }
 

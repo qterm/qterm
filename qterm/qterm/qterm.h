@@ -29,6 +29,7 @@ AUTHOR:		smartfish kafa
 //assume the sreen is 80*24
 #define CHARNUM 80
 #define LINENUM 24
+#include <qtextcodec.h>
 
 //code convert
 #define G2U(s) ( QTextCodec::codecForName("GBK")->toUnicode(s) )
