@@ -110,7 +110,6 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 		m_pCodec = QTextCodec::codecForName("GBK");
 	else
 		m_pCodec = QTextCodec::codecForName("Big5");
-	
 }
 
 QTermScreen::~QTermScreen()
@@ -120,7 +119,6 @@ QTermScreen::~QTermScreen()
 	delete m_cursorTimer;
 	delete m_inputContent;
 }
-
 
 // focus event received
 void QTermScreen::focusInEvent( QFocusEvent * )

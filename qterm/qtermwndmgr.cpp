@@ -93,9 +93,12 @@ void QTermWndMgr::activateTheTab(QTermWindow * mw)
 	//find where it is
 	int n=pWin.find(mw);
 
-//	if( n==nActive )
-//		return;
-
+	if( n==nActive )
+		return;
+	
+	mw->showNormal();
+	mw->showMaximized();
+	
 	nActive = n;
 
 	QTab * qtab=pTab.at(n);

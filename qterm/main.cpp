@@ -23,9 +23,9 @@ AUTHOR:        kingson fiasco
 #include "qtermconfig.h"
 #include "qtermparam.h"
 
+#include <stdlib.h>
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <sys/stat.h>
-#include <stdlib.h>
 #include <errno.h>
 #include <locale.h>
 #endif
