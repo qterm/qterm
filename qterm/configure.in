@@ -22,6 +22,9 @@ if test "x$prefix" = "xNONE"; then
   ac_configure_args="$ac_configure_args --prefix $prefix"
 fi
 
+cp qterm/qterm.desktop.in qterm/qterm.desktop
+echo "Icon=$prefix/share/icons/qterm.png" >> qterm/qterm.desktop
+
 dnl generate the config header
 AM_CONFIG_HEADER(config.h) dnl at the distribution this done
 

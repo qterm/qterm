@@ -1933,6 +1933,9 @@ if test "x$prefix" = "xNONE"; then
   ac_configure_args="$ac_configure_args --prefix $prefix"
 fi
 
+cp qterm/qterm.desktop.in qterm/qterm.desktop
+echo "Icon=$prefix/share/icons/qterm.png" >> qterm/qterm.desktop
+
 
 
 
@@ -6130,7 +6133,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 6133 "configure"' > conftest.$ac_ext
+  echo '#line 6136 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -9506,7 +9509,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 9509 "configure"
+#line 9512 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -9604,7 +9607,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 9607 "configure"
+#line 9610 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12717,7 +12720,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 12720 "configure"
+#line 12723 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12815,7 +12818,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 12818 "configure"
+#line 12821 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -15449,7 +15452,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 15452 "configure"
+#line 15455 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -15547,7 +15550,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 15550 "configure"
+#line 15553 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -21782,7 +21785,7 @@ for i in $jpeg_incdirs;
 do
   for j in jpeglib.h;
   do
-    echo "configure: 21785: $i/$j" >&5
+    echo "configure: 21788: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       jpeg_incdir=$i
@@ -22020,7 +22023,7 @@ for i in $qt_incdirs;
 do
   for j in $kde_qt_header;
   do
-    echo "configure: 22023: $i/$j" >&5
+    echo "configure: 22026: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       qt_incdir=$i
@@ -22784,7 +22787,7 @@ for i in $python_incdirs;
 do
   for j in Python.h;
   do
-    echo "configure: 22787: $i/$j" >&5
+    echo "configure: 22790: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -22800,7 +22803,7 @@ for i in $python_incdirs;
 do
   for j in python$version/Python.h;
   do
-    echo "configure: 22803: $i/$j" >&5
+    echo "configure: 22806: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -22824,7 +22827,7 @@ for i in $python_libdirs;
 do
   for j in libpython$version.a;
   do
-    echo "configure: 22827: $i/$j" >&5
+    echo "configure: 22830: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -22840,7 +22843,7 @@ for i in $python_libdirs;
 do
   for j in python$version/config/libpython$version.a;
   do
-    echo "configure: 22843: $i/$j" >&5
+    echo "configure: 22846: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -22868,7 +22871,7 @@ for i in $python_libdirs;
 do
   for j in python$version/copy.py;
   do
-    echo "configure: 22871: $i/$j" >&5
+    echo "configure: 22874: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_moddir=$i
@@ -22912,7 +22915,7 @@ for i in $python_incdirs;
 do
   for j in Python.h;
   do
-    echo "configure: 22915: $i/$j" >&5
+    echo "configure: 22918: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -22928,7 +22931,7 @@ for i in $python_incdirs;
 do
   for j in python$version/Python.h;
   do
-    echo "configure: 22931: $i/$j" >&5
+    echo "configure: 22934: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -22952,7 +22955,7 @@ for i in $python_libdirs;
 do
   for j in libpython$version.a;
   do
-    echo "configure: 22955: $i/$j" >&5
+    echo "configure: 22958: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -22968,7 +22971,7 @@ for i in $python_libdirs;
 do
   for j in python$version/config/libpython$version.a;
   do
-    echo "configure: 22971: $i/$j" >&5
+    echo "configure: 22974: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -22996,7 +22999,7 @@ for i in $python_libdirs;
 do
   for j in python$version/copy.py;
   do
-    echo "configure: 22999: $i/$j" >&5
+    echo "configure: 23002: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_moddir=$i
@@ -23040,7 +23043,7 @@ for i in $python_incdirs;
 do
   for j in Python.h;
   do
-    echo "configure: 23043: $i/$j" >&5
+    echo "configure: 23046: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -23056,7 +23059,7 @@ for i in $python_incdirs;
 do
   for j in python$version/Python.h;
   do
-    echo "configure: 23059: $i/$j" >&5
+    echo "configure: 23062: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -23080,7 +23083,7 @@ for i in $python_libdirs;
 do
   for j in libpython$version.a;
   do
-    echo "configure: 23083: $i/$j" >&5
+    echo "configure: 23086: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -23096,7 +23099,7 @@ for i in $python_libdirs;
 do
   for j in python$version/config/libpython$version.a;
   do
-    echo "configure: 23099: $i/$j" >&5
+    echo "configure: 23102: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -23124,7 +23127,7 @@ for i in $python_libdirs;
 do
   for j in python$version/copy.py;
   do
-    echo "configure: 23127: $i/$j" >&5
+    echo "configure: 23130: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_moddir=$i
@@ -23168,7 +23171,7 @@ for i in $python_incdirs;
 do
   for j in Python.h;
   do
-    echo "configure: 23171: $i/$j" >&5
+    echo "configure: 23174: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -23184,7 +23187,7 @@ for i in $python_incdirs;
 do
   for j in python$version/Python.h;
   do
-    echo "configure: 23187: $i/$j" >&5
+    echo "configure: 23190: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -23208,7 +23211,7 @@ for i in $python_libdirs;
 do
   for j in libpython$version.a;
   do
-    echo "configure: 23211: $i/$j" >&5
+    echo "configure: 23214: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -23224,7 +23227,7 @@ for i in $python_libdirs;
 do
   for j in python$version/config/libpython$version.a;
   do
-    echo "configure: 23227: $i/$j" >&5
+    echo "configure: 23230: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -23252,7 +23255,7 @@ for i in $python_libdirs;
 do
   for j in python$version/copy.py;
   do
-    echo "configure: 23255: $i/$j" >&5
+    echo "configure: 23258: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_moddir=$i
@@ -28225,7 +28228,7 @@ for i in $arts_default_dirs;
 do
   for j in include/kde/arts/soundserver.h;
   do
-    echo "configure: 28228: $i/$j" >&5
+    echo "configure: 28231: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       SOUNDSERVER_INC=$i
@@ -28241,7 +28244,7 @@ for i in $arts_default_dirs;
 do
   for j in include/arts/soundserver.h;
   do
-    echo "configure: 28244: $i/$j" >&5
+    echo "configure: 28247: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       SOUNDSERVER_INC=$i
@@ -28273,7 +28276,7 @@ for i in $arts_default_dirs;
 do
   for j in lib/libsoundserver_idl.so;
   do
-    echo "configure: 28276: $i/$j" >&5
+    echo "configure: 28279: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       SOUNDSERVER_LIB=$i
@@ -28311,7 +28314,7 @@ for i in $esd_default_dirs;
 do
   for j in esd-config;
   do
-    echo "configure: 28314: $i/$j" >&5
+    echo "configure: 28317: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       ESD_CONFIG=$i
