@@ -556,38 +556,38 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 		}
 	}
 
-	if(!m_bMouse || !m_bConnected)
-		return;
-
-	// set cursor pos, repaint if state changed
-	QRect rect;
-	if( m_pBBS->setCursorPos( m_pScreen->mapToChar(me->pos()),rect ) )
+	if(m_bMouse && !m_bConnected)
 	{
-		m_pScreen->repaint( m_pScreen->mapToRect(rect), true );
-	}
-	// judge if URL
-	QRect rcOld;
-	if(m_pFrame->m_pref.bUrl)
-	{
-		if(m_pBBS->isUrl(m_rcUrl, rcOld))
+		// set cursor pos, repaint if state changed
+		QRect rect;
+		if( m_pBBS->setCursorPos( m_pScreen->mapToChar(me->pos()),rect ) )
+			m_pScreen->repaint( m_pScreen->mapToRect(rect), true );
+		// judge if URL
+		QRect rcOld;
+		bool bUrl=false;
+		if(m_pFrame->m_pref.bUrl)
 		{
-			setCursor(pointingHandCursor);
-			if(m_rcUrl!=rcOld)
+			if(m_pBBS->isUrl(m_rcUrl, rcOld))
 			{
-				QToolTip::remove(this, m_pScreen->mapToRect(rcOld));
-				QToolTip::add(this, m_pScreen->mapToRect(m_rcUrl), m_pBBS->getUrl());
-				return;
+				setCursor(pointingHandCursor);
+				if(m_rcUrl!=rcOld)
+				{
+					QToolTip::remove(this, m_pScreen->mapToRect(rcOld));
+					QToolTip::add(this, m_pScreen->mapToRect(m_rcUrl), m_pBBS->getUrl());
+				}
+				bUrl = true;
 			}
+			else
+			QToolTip::remove(this, m_pScreen->mapToRect(rcOld));
 		}
-		else
-		QToolTip::remove(this, m_pScreen->mapToRect(rcOld));
+
+		if(!bUrl)
+		{
+			int nCursorType = m_pBBS->getCursorType(m_pScreen->mapToChar(me->pos()));
+			if( nCursorType<=8 && nCursorType>=0 )
+				setCursor(cursor[nCursorType]);
+		}
 	}
-
-	// normal
-	int nCursorType = m_pBBS->getCursorType(m_pScreen->mapToChar(me->pos()));
-	if( nCursorType<=8 && nCursorType>=0 )
-		setCursor(cursor[nCursorType]);
-
 	// python mouse event
 	pythonMouseEvent(2, me->button(), me->state(), me->pos(),0);
 }

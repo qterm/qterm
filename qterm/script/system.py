@@ -13,11 +13,50 @@ import qterm, string
 import re, urllib
 
 """
+get url from ytht
+"""
+
+def previewYTHT(lp):
+	URL=qterm.getURL(lp)
+	if(URL=='' or URL==None):
+		return
+	if re.search('http://ytht.net/Ytht.Net' \
+		'(\S+)/con\?B=(\d+)&F=M\.(\d+)\.A', URL) != None:
+		# ytht artical URL
+		print 'Analizing ytht artical URL'
+		f_con = urllib.urlopen(URL)
+		con = f_con.read()
+		f_con.close()
+		m_con = re.search('src=\"http://162.105.31.(\d+)(/|:(\d+)/)' \
+			'Ytht.Net/boards/(\d+)/M\.(\d+)\.A\+\d+\"', con)
+		if m_con != None:
+			URL1 = con[(m_con.start() + 5):(m_con.end() - 1)]
+			print 'URL1 = %s' % URL1
+			f_con1 = urllib.urlopen(URL1)
+			con1_lines = f_con1.readlines()
+			f_con1.close()
+			x = range(0, len(con1_lines))
+			for i in x:
+				m_con1 = re.search('<a href=\'http://162.105.31.(\d+)' \
+				'(/|:(\d+)/)Ytht.Net/attach/bbscon/(\S+)\?B=(\d+)&amp;' \
+				'F=M\.(\d+)\.A&amp;attachpos=(\d+)&amp;attachname=/(\S+)\'', \
+				con1_lines[i])
+				if m_con1 != None:
+					URL2 = con1_lines[i][(m_con1.start() + 9): \
+					(m_con1.end() - 1)].replace('&amp;', '&')
+					print 'URL2 = %s' % URL2
+					qterm.previewImage(lp, URL2)
+
+"""
 this is called when beep received
 """
 def autoReply(lp):
 	reply = "I am the auto replier, please wait..."
-	qterm.sendString(lp,qterm.getReplyKey(lp))
+	reply_key = qterm.getReplyKey(lp)
+	if(reply_key==''):
+		qterm.sendParsedString(lp,reply_key)
+	else:
+		qterm.sendParsedString(lp,"^Z")
 	qterm.sendString(lp,reply)
 	qterm.sendParsedString(lp,"^M")
 
@@ -38,37 +77,7 @@ cx/cy	cursor position x/y in character
 def mouseEvent(lp, type, state, x, y, delta):
 	# left click + control to preview image
 	if type==0 and state==0x11:
-		URL=qterm.getUrl(lp)
-		if(URL==''):
-			return;
-		if re.search('http://ytht.net/Ytht.Net' \
-			'(\S+)/con\?B=(\d+)&F=M\.(\d+)\.A', URL) != None:
-			# ytht artical URL
-			print 'Analizing ytht artical URL'
-			f_con = urllib.urlopen(URL)
-			con = f_con.read()
-			f_con.close()
-			m_con = re.search('src=\"http://162.105.31.(\d+)(/|:(\d+)/)' \
-				'Ytht.Net/boards/(\d+)/M\.(\d+)\.A\+\d+\"', con)
-			if m_con != None:
-				URL1 = con[(m_con.start() + 5):(m_con.end() - 1)]
-				print 'URL1 = %s' % URL1
-				f_con1 = urllib.urlopen(URL1)
-				con1_lines = f_con1.readlines()
-				f_con1.close()
-				x = range(0, len(con1_lines))
-				for i in x:
-					m_con1 = re.search('<a href=\'http://162.105.31.(\d+)' \
-					'(/|:(\d+)/)Ytht.Net/attach/bbscon/(\S+)\?B=(\d+)&amp;' \
-					'F=M\.(\d+)\.A&amp;attachpos=(\d+)&amp;attachname=/(\S+)\'', \
-					con1_lines[i])
-					if m_con1 != None:
-						URL2 = con1_lines[i][(m_con1.start() + 9): \
-						(m_con1.end() - 1)].replace('&amp;', '&')
-						print 'URL2 = %s' % URL2
-						qterm.previewImage(lp, qterm.toUTF8(URL2,"GBK"))
-
-
+		previewYTHT(lp)
 
 """
 whenever there is a key event
@@ -77,7 +86,5 @@ state	0x08-alt  0x10-control 0x20-shift
 key		refer to Qt/Doc
 """
 def keyEvent(lp, type, state, key):
-		print "type=%d, state=%x, key=%x" % (type, state, key)
 	pass
-
 
