@@ -5,6 +5,7 @@
 #include <qprogressbar.h>
 #include <qpushbutton.h>
 #include <qtextbrowser.h>
+#include <qmessagebox.h>
 
 zmodemDialog::zmodemDialog(QWidget *parent, const char *name, bool modal, WFlags fl)
 		: zmodemDialogUI(parent, name, modal, fl)
@@ -38,6 +39,17 @@ void zmodemDialog::addErrorLog(const QString& err)
 
 void zmodemDialog::slotCancel()
 {
-	emit canceled();
-	hide();
+	QMessageBox mb( "QTerm",
+			"We dont support cancel operation yet. "
+			"But you can try, it will crash when downloading.\n"
+			"Do you want to continue?",
+            QMessageBox::Warning,
+            QMessageBox::Yes,
+            QMessageBox::No  | QMessageBox::Escape | QMessageBox::Default,
+            0,this,0,true);
+    if ( mb.exec() == QMessageBox::Yes )
+    {
+		emit canceled();
+		hide();
+	}
 }
