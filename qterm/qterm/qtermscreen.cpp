@@ -287,8 +287,8 @@ void QTermScreen::initFontMetrics()
 		m_pFont = new QFont(m_pParam->m_strFontName, QMAX(8,m_pParam->m_nFontSize) ); 
 		QFontMetrics *fm = new QFontMetrics( *m_pFont );
 
-		if (abs(m_pParam->m_nFontSize - fm->width(0x4e00)) < abs(m_pParam->m_nFontSize - fm->width('W') * 2))
-			m_nCharWidth  = (fm->width(0x4e00) + 1)/2;
+		if (abs(m_pParam->m_nFontSize - fm->width(QChar(0x4e00))) < abs(m_pParam->m_nFontSize - fm->width('W') * 2))
+			m_nCharWidth  = (fm->width(QChar(0x4e00)) + 1)/2;
 		else
 			m_nCharWidth  = fm->width('W');
 		m_nCharHeight = fm->height();
@@ -309,17 +309,22 @@ void QTermScreen::setDispFont( const QFont& font)
 	if(m_pParam->m_bAutoFont)
 		m_pFont = new QFont(font.family());
 	else {
-		int nSize = font.pixelSize();
 		m_pFont = new QFont(font);
-
+		
+		QFontInfo fi(*m_pFont);
+		int nSize = fi.pixelSize();
 		QFontMetrics *fm = new QFontMetrics( *m_pFont );
-		if (abs(nSize - fm->width(0x4e00)) < abs(nSize - fm->width('W') * 2))
-			m_nCharWidth  = (fm->width(0x4e00) + 1)/2;
+		if (abs(nSize - fm->width(QChar(0x4e00))) < abs(nSize - fm->width('W') * 2))
+			m_nCharWidth  = (fm->width(QChar(0x4e00)) + 1)/2;
 		else
 			m_nCharWidth  = fm->width('W');
+
 		m_nCharHeight = fm->height();
 		m_nCharAscent = fm->ascent();
+		m_nCharDescent = fm->descent();
+		
 		delete fm;
+
 	}
 
 	#if (QT_VERSION >= 300 )
@@ -355,8 +360,8 @@ void QTermScreen::updateFont()
    the display. use nPixelSize as a reference size. 0x4e00 stand for Chinese
    one ;)
 */
-		if (abs(nPixelSize - fm.width(0x4e00)) < abs(nPixelSize - fm.width('W') * 2))
-			m_nCharWidth  = (fm.width(0x4e00) + 1)/2;
+		if (abs(nPixelSize - fm.width(QChar(0x4e00))) < abs(nPixelSize - fm.width('W') * 2))
+			m_nCharWidth  = (fm.width(QChar(0x4e00)) + 1)/2;
 		else
 			m_nCharWidth  = fm.width('W');
 		m_nCharHeight = fm.height();
@@ -379,8 +384,8 @@ void QTermScreen::updateFont()
 									m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
 	#endif
 	QFontMetrics fm( *m_pFont );
-	if (abs(nPixelSize - 1 - fm.width(0x4e00)) < abs(nPixelSize - 1 - fm.width('W') * 2))
-		m_nCharWidth  = (fm.width(0x4e00) + 1)/2;
+	if (abs(nPixelSize - 1 - fm.width(QChar(0x4e00))) < abs(nPixelSize - 1 - fm.width('W') * 2))
+		m_nCharWidth  = (fm.width(QChar(0x4e00)) + 1)/2;
 	else
 		m_nCharWidth  = fm.width('W');
 /*

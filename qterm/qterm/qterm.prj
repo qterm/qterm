@@ -58,6 +58,7 @@ HEADERS		= qtermframe.h \
 		qtermzmodem.h	\
 		qtermhttp.h		\
 		qtermpython.h	\
+		qtermiplocation.h	\
 		qterm.h		\
 		aboutdialogui.h	\
 		aboutdialog.h	\
@@ -120,6 +121,7 @@ SOURCES		= qtermframe.cpp \
 		qtermzmodem.cpp	\
 		qtermhttp.cpp	\
 		qtermpython.cpp	\
+		qtermiplocation.cpp	\
 		aboutdialogui.cpp	\
 		aboutdialog.cpp	\
 		addrdialogui.cpp	\
