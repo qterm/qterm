@@ -85,6 +85,7 @@ DOXYGEN_PROJECT_NUMBER = @DOXYGEN_PROJECT_NUMBER@
 DPMSINC = @DPMSINC@
 DPMSLIB = @DPMSLIB@
 ECHO = @ECHO@
+ESD_LIB = @ESD_LIB@
 EXEEXT = @EXEEXT@
 FRAMEWORK_COREAUDIO = @FRAMEWORK_COREAUDIO@
 GCJ = @GCJ@
@@ -138,6 +139,8 @@ LIBTOOL = @LIBTOOL@
 LIBUCB = @LIBUCB@
 LIBUTIL = @LIBUTIL@
 LIBXINERAMA = @LIBXINERAMA@
+LIBXML_CFLAGS = @LIBXML_CFLAGS@
+LIBXML_LIBS = @LIBXML_LIBS@
 LIBZ = @LIBZ@
 LIB_KAB = @LIB_KAB@
 LIB_KABC = @LIB_KABC@
@@ -157,6 +160,7 @@ LIB_QPE = @LIB_QPE@
 LIB_QT = @LIB_QT@
 LIB_QTOPIA = @LIB_QTOPIA@
 LIB_SMB = @LIB_SMB@
+LIB_SOUNDSERVER = @LIB_SOUNDSERVER@
 LIB_X11 = @LIB_X11@
 LIB_XEXT = @LIB_XEXT@
 LN_S = @LN_S@
@@ -186,6 +190,8 @@ RANLIB = @RANLIB@
 RC = @RC@
 REPO = @REPO@
 SETUIDFLAGS = @SETUIDFLAGS@
+SOUNDSERVER_INC = @SOUNDSERVER_INC@
+SOUNDSERVER_LIB = @SOUNDSERVER_LIB@
 SSL_INCLUDES = @SSL_INCLUDES@
 SSL_LDFLAGS = @SSL_LDFLAGS@
 STRIP = @STRIP@
@@ -377,89 +383,89 @@ uninstall-am: uninstall-info-am uninstall-local
 
 
 install-data-local:
-#>- 	$(mkinstalldirs) $(datadir)/cursor/
+#>- 	$(mkinstalldirs) $(datadir)/qterm/cursor/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/cursor/
-#>- 	$(INSTALL_DATA) $(srcdir)/end.xpm $(datadir)/cursor/end.xpm
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/cursor/
+#>- 	$(INSTALL_DATA) $(srcdir)/end.xpm $(datadir)/qterm/cursor/end.xpm
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/end.xpm $(DESTDIR)$(datadir)/cursor/end.xpm
-#>- 	$(mkinstalldirs) $(datadir)/cursor/
+	$(INSTALL_DATA) $(srcdir)/end.xpm $(DESTDIR)$(datadir)/qterm/cursor/end.xpm
+#>- 	$(mkinstalldirs) $(datadir)/qterm/cursor/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/cursor/
-#>- 	$(INSTALL_DATA) $(srcdir)/enter.xpm $(datadir)/cursor/enter.xpm
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/cursor/
+#>- 	$(INSTALL_DATA) $(srcdir)/enter.xpm $(datadir)/qterm/cursor/enter.xpm
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/enter.xpm $(DESTDIR)$(datadir)/cursor/enter.xpm
-#>- 	$(mkinstalldirs) $(datadir)/cursor/
+	$(INSTALL_DATA) $(srcdir)/enter.xpm $(DESTDIR)$(datadir)/qterm/cursor/enter.xpm
+#>- 	$(mkinstalldirs) $(datadir)/qterm/cursor/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/cursor/
-#>- 	$(INSTALL_DATA) $(srcdir)/exit.xpm $(datadir)/cursor/exit.xpm
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/cursor/
+#>- 	$(INSTALL_DATA) $(srcdir)/exit.xpm $(datadir)/qterm/cursor/exit.xpm
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/exit.xpm $(DESTDIR)$(datadir)/cursor/exit.xpm
-#>- 	$(mkinstalldirs) $(datadir)/cursor/
+	$(INSTALL_DATA) $(srcdir)/exit.xpm $(DESTDIR)$(datadir)/qterm/cursor/exit.xpm
+#>- 	$(mkinstalldirs) $(datadir)/qterm/cursor/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/cursor/
-#>- 	$(INSTALL_DATA) $(srcdir)/hand.xpm $(datadir)/cursor/hand.xpm
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/cursor/
+#>- 	$(INSTALL_DATA) $(srcdir)/hand.xpm $(datadir)/qterm/cursor/hand.xpm
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/hand.xpm $(DESTDIR)$(datadir)/cursor/hand.xpm
-#>- 	$(mkinstalldirs) $(datadir)/cursor/
+	$(INSTALL_DATA) $(srcdir)/hand.xpm $(DESTDIR)$(datadir)/qterm/cursor/hand.xpm
+#>- 	$(mkinstalldirs) $(datadir)/qterm/cursor/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/cursor/
-#>- 	$(INSTALL_DATA) $(srcdir)/home.xpm $(datadir)/cursor/home.xpm
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/cursor/
+#>- 	$(INSTALL_DATA) $(srcdir)/home.xpm $(datadir)/qterm/cursor/home.xpm
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/home.xpm $(DESTDIR)$(datadir)/cursor/home.xpm
-#>- 	$(mkinstalldirs) $(datadir)/cursor/
+	$(INSTALL_DATA) $(srcdir)/home.xpm $(DESTDIR)$(datadir)/qterm/cursor/home.xpm
+#>- 	$(mkinstalldirs) $(datadir)/qterm/cursor/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/cursor/
-#>- 	$(INSTALL_DATA) $(srcdir)/next.xpm $(datadir)/cursor/next.xpm
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/cursor/
+#>- 	$(INSTALL_DATA) $(srcdir)/next.xpm $(datadir)/qterm/cursor/next.xpm
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/next.xpm $(DESTDIR)$(datadir)/cursor/next.xpm
-#>- 	$(mkinstalldirs) $(datadir)/cursor/
+	$(INSTALL_DATA) $(srcdir)/next.xpm $(DESTDIR)$(datadir)/qterm/cursor/next.xpm
+#>- 	$(mkinstalldirs) $(datadir)/qterm/cursor/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/cursor/
-#>- 	$(INSTALL_DATA) $(srcdir)/pagedown.xpm $(datadir)/cursor/pagedown.xpm
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/cursor/
+#>- 	$(INSTALL_DATA) $(srcdir)/pagedown.xpm $(datadir)/qterm/cursor/pagedown.xpm
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/pagedown.xpm $(DESTDIR)$(datadir)/cursor/pagedown.xpm
-#>- 	$(mkinstalldirs) $(datadir)/cursor/
+	$(INSTALL_DATA) $(srcdir)/pagedown.xpm $(DESTDIR)$(datadir)/qterm/cursor/pagedown.xpm
+#>- 	$(mkinstalldirs) $(datadir)/qterm/cursor/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/cursor/
-#>- 	$(INSTALL_DATA) $(srcdir)/pageup.xpm $(datadir)/cursor/pageup.xpm
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/cursor/
+#>- 	$(INSTALL_DATA) $(srcdir)/pageup.xpm $(datadir)/qterm/cursor/pageup.xpm
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/pageup.xpm $(DESTDIR)$(datadir)/cursor/pageup.xpm
-#>- 	$(mkinstalldirs) $(datadir)/cursor/
+	$(INSTALL_DATA) $(srcdir)/pageup.xpm $(DESTDIR)$(datadir)/qterm/cursor/pageup.xpm
+#>- 	$(mkinstalldirs) $(datadir)/qterm/cursor/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/cursor/
-#>- 	$(INSTALL_DATA) $(srcdir)/prev.xpm $(datadir)/cursor/prev.xpm
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/cursor/
+#>- 	$(INSTALL_DATA) $(srcdir)/prev.xpm $(datadir)/qterm/cursor/prev.xpm
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/prev.xpm $(DESTDIR)$(datadir)/cursor/prev.xpm
+	$(INSTALL_DATA) $(srcdir)/prev.xpm $(DESTDIR)$(datadir)/qterm/cursor/prev.xpm
 
 uninstall-local:
-#>- 	-rm -f $(datadir)/cursor/end.xpm
+#>- 	-rm -f $(datadir)/qterm/cursor/end.xpm
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/cursor/end.xpm
-#>- 	-rm -f $(datadir)/cursor/enter.xpm
+	-rm -f $(DESTDIR)$(datadir)/qterm/cursor/end.xpm
+#>- 	-rm -f $(datadir)/qterm/cursor/enter.xpm
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/cursor/enter.xpm
-#>- 	-rm -f $(datadir)/cursor/exit.xpm
+	-rm -f $(DESTDIR)$(datadir)/qterm/cursor/enter.xpm
+#>- 	-rm -f $(datadir)/qterm/cursor/exit.xpm
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/cursor/exit.xpm
-#>- 	-rm -f $(datadir)/cursor/hand.xpm
+	-rm -f $(DESTDIR)$(datadir)/qterm/cursor/exit.xpm
+#>- 	-rm -f $(datadir)/qterm/cursor/hand.xpm
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/cursor/hand.xpm
-#>- 	-rm -f $(datadir)/cursor/home.xpm
+	-rm -f $(DESTDIR)$(datadir)/qterm/cursor/hand.xpm
+#>- 	-rm -f $(datadir)/qterm/cursor/home.xpm
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/cursor/home.xpm
-#>- 	-rm -f $(datadir)/cursor/next.xpm
+	-rm -f $(DESTDIR)$(datadir)/qterm/cursor/home.xpm
+#>- 	-rm -f $(datadir)/qterm/cursor/next.xpm
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/cursor/next.xpm
-#>- 	-rm -f $(datadir)/cursor/pagedown.xpm
+	-rm -f $(DESTDIR)$(datadir)/qterm/cursor/next.xpm
+#>- 	-rm -f $(datadir)/qterm/cursor/pagedown.xpm
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/cursor/pagedown.xpm
-#>- 	-rm -f $(datadir)/cursor/pageup.xpm
+	-rm -f $(DESTDIR)$(datadir)/qterm/cursor/pagedown.xpm
+#>- 	-rm -f $(datadir)/qterm/cursor/pageup.xpm
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/cursor/pageup.xpm
-#>- 	-rm -f $(datadir)/cursor/prev.xpm
+	-rm -f $(DESTDIR)$(datadir)/qterm/cursor/pageup.xpm
+#>- 	-rm -f $(datadir)/qterm/cursor/prev.xpm
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/cursor/prev.xpm
+	-rm -f $(DESTDIR)$(datadir)/qterm/cursor/prev.xpm
 
 ####### kdevelop will overwrite this part!!! (end)############
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
