@@ -8,6 +8,7 @@
 
 #include <qmainwindow.h>
 #include <qcursor.h>
+#include <qhttp.h>
 
 #include <qthread.h>
 
@@ -26,7 +27,7 @@ class QTermBBS;
 class popWidget;
 class QTermZmodem;
 class QTermWindow;
-
+class QTermCanvas;
 class zmodemDialog;
 
 // thread copy article
@@ -92,6 +93,9 @@ protected slots:
 	void blinkTab();
 	void inputHandle(QString * text);
 	void ZmodemState(int,int,const QCString&);
+	void httpDone(int,bool);
+	void dataRead(int,int);
+	void httpResponse( const QHttpResponseHeader &);
 	
 protected:
 	void mouseMoveEvent( QMouseEvent * );
@@ -188,6 +192,8 @@ public:
 	QString m_strPythonError;
 
 	QWaitCondition m_wcWaiting;
+	QHttp httpDown;
+	QTermCanvas *m_pCanvas;
 };
 
 #endif	//QTERMWINDOW_H

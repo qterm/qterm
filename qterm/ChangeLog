@@ -1,3 +1,13 @@
+2004/07/27
+	add
+	1. zmodem upload/download support
+	2. allow URL(%L) to be used as parameter in browser 
+	setting in prefdialog
+	3. support on-the-spot style
+	fix
+	1. window switching problem in MacOSX
+	2. path setting in Linux(*NIX), Windowz and MacOSX
+	
 2004/06/10
 	add
 	1. paste from clipboard by menu command, shift+insert, 
