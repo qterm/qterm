@@ -607,6 +607,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 
 	// the system wide script
 	m_bPythonScriptLoaded = false;
+	pModule = NULL;
 #ifdef HAVE_PYTHON
 // python thread module
 	// get the global python thread lock
