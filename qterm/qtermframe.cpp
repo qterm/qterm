@@ -1022,6 +1022,7 @@ void QTermFrame::preference()
 		QTermConfig *pConf = new QTermConfig(fileCfg);
 		loadPref(pConf);
 		delete pConf;
+		setUseDock(m_pref.bTray);
 	}
 }
 
