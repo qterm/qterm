@@ -381,8 +381,8 @@ bool QTermBBS::isUrl(QRect& rcUrl, QRect& rcOld)
 		}
 	}
 	
-	if (end - begin < 7) // too short
-		return false;
+//	if (end - begin < 7) // too short
+//		return false;
 
 	for(index=host, dot=host-1, i=0; index<end && cstrText.at(index)!='/'; index++)
 	{

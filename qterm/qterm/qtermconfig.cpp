@@ -76,7 +76,7 @@ bool QTermConfig::loadFromStream(QTextStream& is)
         {
 			QString strValue = strLine.section('=', 1);
             setItemValue(strSection,
-                strLine.section('=', 0, 0), strValue.isNull()?"":strValue);
+                strLine.section('=', 0, 0), strValue.isNull()?QString(""):strValue);
         }
     }
     return true;

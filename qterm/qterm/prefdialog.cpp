@@ -117,7 +117,7 @@ void prefDialog::loadSetting()
 
 	strTmp = conf.getItemValue("preference","zmodem");
 	if(strTmp.isEmpty())
-		strTmp = pathCfg+"zmodem";
+		strTmp = pathCfg+"zmodem/";
 
 	zmodemLineEdit->setText( strTmp );
 }
@@ -165,7 +165,9 @@ void prefDialog::saveSetting()
 	
     conf.setItemValue("preference","http",httpLineEdit->text());
 
-	conf.setItemValue("preference","zmodem",zmodemLineEdit->text());
+	if(zmodemLineEdit->text().isEmpty())
+		strTmp = pathCfg+"zmodem/";
+	conf.setItemValue("preference","zmodem",strTmp);
 
 	conf.save(fileCfg);
 }
@@ -203,7 +205,7 @@ void prefDialog::onHttp()
 	QString http = QFileDialog::getOpenFileName( QString::null, QString::null, this );
     if ( !http.isEmpty() ) 
 	{
-		httpLineEdit->setText(http);
+		httpLineEdit->setText(http+" %L");
 	}
 
 }

@@ -804,10 +804,6 @@ void QTermWindow::leaveEvent( QEvent * )
 
 void QTermWindow::mousePressEvent( QMouseEvent * me )
 {
-	// Right Button for context menu
-	if(me->button() & RightButton)
-		m_pMenu->popup(me->globalPos());
-		
 	// stop  the tab blinking
     if(m_tabTimer->isActive())
     {
@@ -815,6 +811,11 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 		m_pFrame->wndmgr->blinkTheTab(this,TRUE);
     }
 
+	// Right Button for context menu
+	if(me->button() & RightButton)
+		m_pMenu->popup(me->globalPos());
+	
+		
 	// Left Button for selecting
 	if(me->button() & LeftButton)
 	{
@@ -926,14 +927,21 @@ void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 		QString caption = tr("Open URL");
 		QString hint = "url";
 		#if (QT_VERSION>=300)
-		QString strUrl = QInputDialog::getText(caption, hint,QLineEdit::Normal, QString(m_pBBS->getUrl()), &ok);
+		QString strUrl = QInputDialog::getText(caption, hint,
+						QLineEdit::Normal, QString(m_pBBS->getUrl()), &ok);
 		#else
-		QString strUrl = QInputDialog::getText(caption, hint, QString(m_pBBS->getUrl()), &ok);
+		QString strUrl = QInputDialog::getText(caption, hint, 
+						QString(m_pBBS->getUrl()), &ok);
 		#endif
 		if (ok)
 		{
-			//QApplication::clipboard()->setText(strUrl);
-			QCString cstrCmd = m_pFrame->m_pref.strHttp.local8Bit() + " \"" + strUrl.local8Bit() +"\"";
+			QCString cstrCmd=m_pFrame->m_pref.strHttp.local8Bit();
+			if(cstrCmd.find("%L")==-1) // no replace
+				//QApplication::clipboard()->setText(strUrl);
+				cstrCmd += " \"" + strUrl.local8Bit() +"\"";
+			else
+				cstrCmd.replace("%L", strUrl.local8Bit());
+
 			#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 			cstrCmd += " &";
 			#endif
@@ -1255,32 +1263,35 @@ void QTermWindow::ZmodemState(int type, int value, const QCString& status)
     switch(type)
     {
         case    RcvByteCount:
-                qWarning("received %d bytes", value);
 				m_pZmDialog->setProgress( value );
                 break;
         case    SndByteCount:
-                qWarning("sent %lx bytes", value);
 				m_pZmDialog->setProgress( value );
                 break;
         case    RcvTimeout:
                 /* receiver did not respond, aborting */
-                qWarning("time out!");
+                strMsg.sprintf("time out!");
+				m_pZmDialog->addErrorLog(strMsg);
                 break;
         case    SndTimeout:
                 /* value is # of consecutive send timeouts */
-                qWarning("time out after trying %d times", value);
+                strMsg.sprintf("time out after trying %d times", value);
+				m_pZmDialog->addErrorLog(strMsg);
                 break;
         case    RmtCancel:
                 /* remote end has cancelled */
-                qWarning("canceled by remote peer");
+				strMsg.sprintf("canceled by remote peer %s", (const char*)status);
+				m_pZmDialog->addErrorLog(strMsg);
                 break;
         case    ProtocolErr:
                 /* protocol error has occurred, val=hdr */
-//                qWarning("unhandled header %d at state %s", value, status);
+                strMsg.sprintf("unhandled header %d at state %s", value, (const char *)status);
+				m_pZmDialog->addErrorLog(strMsg);
                 break;
         case    RemoteMessage:
                 /* message from remote end */
-//                qWarning("msg from remote peer: %s",status);
+                strMsg.sprintf("msg from remote peer: %s",(const char *)status);
+				m_pZmDialog->addErrorLog(strMsg);
                 break;
         case    DataErr:
                 /* data error, val=error count */
@@ -1289,7 +1300,8 @@ void QTermWindow::ZmodemState(int type, int value, const QCString& status)
                 break;
         case    FileErr:
                 /* error writing file, val=errno */
-                qWarning("falied to write file");
+                strMsg.sprintf("falied to write file");
+				m_pZmDialog->addErrorLog(strMsg);
                 break;
         case    FileBegin:
                 /* file transfer begins, str=name */
@@ -1305,7 +1317,8 @@ void QTermWindow::ZmodemState(int type, int value, const QCString& status)
                 break;
         case    FileSkip:
                /* file being skipped, str=name */
-//                qWarning("skipping file %s", status);
+				strMsg.sprintf("skipping file %s", (const char *)status);
+				m_pZmDialog->addErrorLog(strMsg);
                 break;
     }
 
