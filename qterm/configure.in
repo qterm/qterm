@@ -88,4 +88,6 @@ AC_CONFIG_FILES([ qterm/script/Makefile ])
 AC_CONFIG_FILES([ qterm/schema/Makefile ])
 AC_CONFIG_FILES([ qterm/docs/Makefile ])
 AC_CONFIG_FILES([ qterm/ssh/Makefile ])
+AC_CONFIG_FILES([ qterm/po/Makefile ])
+AC_CONFIG_FILES([ qterm/ui/Makefile ])
 AC_OUTPUT
