@@ -592,8 +592,9 @@ int QTermTelnet::write(const char * data, uint len)
 	socket->writeBlock(to_socket->data(), wsize);
 	socket->flush();	
 
-	return 0;
+	emit TelnetState(TSWRITED);
 
+	return 0;
 }
 
 

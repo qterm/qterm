@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'prefdialog.ui'
 **
-** Created: Mon Jan 20 17:29:08 2003
+** Created: Fri Jun 20 16:28:33 2003
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -34,29 +34,30 @@ public:
     ~prefDialogUI();
 
     QLabel* TextLabel2_2;
-    QLineEdit* wordLineEdit3;
-    QLabel* TextLabel1_2;
-    QLabel* TextLabel1;
-    QComboBox* ximComboBox;
     QCheckBox* wheelCheckBox;
-    QCheckBox* urlCheckBox;
     QCheckBox* saveCheckBox;
-    QCheckBox* blinkCheckBox;
+    QCheckBox* warnCheckBox;
+    QCheckBox* urlCheckBox;
+    QLineEdit* wordLineEdit3;
+    QCheckBox* smartCheckBox;
+    QLabel* TextLabel1_2;
+    QLabel* TextLabel3;
+    QPushButton* okPushButton;
+    QLineEdit* httpLineEdit;
+    QFrame* Line1;
+    QPushButton* cancelPushButton;
+    QPushButton* choosehttpPushButton;
+    QComboBox* ximComboBox;
     QButtonGroup* ButtonGroup1;
     QRadioButton* noneRadioButton;
     QRadioButton* beepRadioButton;
+    QLineEdit* wavefileLineEdit;
     QRadioButton* fileRadioButton;
     QPushButton* selectsoundPushButton;
-    QLineEdit* wavefileLineEdit;
-    QCheckBox* smartCheckBox;
-    QPushButton* okPushButton;
-    QPushButton* cancelPushButton;
-    QFrame* Line1;
-    QPushButton* choosehttpPushButton;
-    QLineEdit* httpLineEdit;
-    QLabel* TextLabel3;
+    QLabel* TextLabel1;
     QCheckBox* aacheckBox;
-    QCheckBox* warnCheckBox;
+    QCheckBox* blinkCheckBox;
+    QCheckBox* trayCheckBox;
 
 protected:
 

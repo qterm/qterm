@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'addrdialog.ui'
 **
-** Created: Mon Apr 7 19:14:16 2003
+** Created: Wed Jun 18 19:12:06 2003
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -59,9 +59,8 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
 
     nameListBox = new QListBox( this, "nameListBox" );
     nameListBox->setGeometry( QRect( 470, 10, 166, 310 ) );
-	#if (QT_VERSION>=300)
-	nameListBox->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)7, 0, 0, nameListBox->sizePolicy().hasHeightForWidth() ) );
-	#endif
+    nameListBox->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)7, 0, 0, nameListBox->sizePolicy().hasHeightForWidth() ) );
+
     deletePushButton = new QPushButton( this, "deletePushButton" );
     deletePushButton->setGeometry( QRect( 580, 330, 51, 21 ) );
     deletePushButton->setAutoDefault( TRUE );
@@ -153,9 +152,6 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
     fgcolorPushButton = new QPushButton( tab, "fgcolorPushButton" );
     fgcolorPushButton->setGeometry( QRect( 260, 160, 90, 21 ) );
 
-    fontPushButton = new QPushButton( tab, "fontPushButton" );
-    fontPushButton->setGeometry( QRect( 260, 130, 90, 21 ) );
-
     schemaPushButton = new QPushButton( tab, "schemaPushButton" );
     schemaPushButton->setGeometry( QRect( 260, 220, 90, 21 ) );
 
@@ -176,6 +172,9 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
 
     displaycodeComboBox = new QComboBox( FALSE, tab, "displaycodeComboBox" );
     displaycodeComboBox->setGeometry( QRect( 300, 20, 60, 23 ) );
+
+    fontPushButton = new QPushButton( tab, "fontPushButton" );
+    fontPushButton->setGeometry( QRect( 260, 130, 90, 21 ) );
     tabWidget->insertTab( tab, "" );
 
     tab_2 = new QWidget( tabWidget, "tab_2" );
@@ -289,9 +288,6 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
 
     Widget3 = new QWidget( tabWidget, "Widget3" );
 
-    antiLineEdit = new QLineEdit( Widget3, "antiLineEdit" );
-    antiLineEdit->setGeometry( QRect( 170, 20, 80, 23 ) );
-
     TextLabel8 = new QLabel( Widget3, "TextLabel8" );
     TextLabel8->setGeometry( QRect( 10, 50, 130, 20 ) );
 
@@ -330,6 +326,18 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
 
     replyCheckBox = new QCheckBox( Widget3, "replyCheckBox" );
     replyCheckBox->setGeometry( QRect( 10, 100, 160, 22 ) );
+
+    scriptPushButton = new QPushButton( Widget3, "scriptPushButton" );
+    scriptPushButton->setGeometry( QRect( 290, 240, 50, 30 ) );
+
+    antiLineEdit = new QLineEdit( Widget3, "antiLineEdit" );
+    antiLineEdit->setGeometry( QRect( 170, 20, 80, 23 ) );
+
+    scriptLineEdit = new QLineEdit( Widget3, "scriptLineEdit" );
+    scriptLineEdit->setGeometry( QRect( 40, 240, 230, 22 ) );
+
+    scriptCheckBox = new QCheckBox( Widget3, "scriptCheckBox" );
+    scriptCheckBox->setGeometry( QRect( 10, 210, 170, 22 ) );
     tabWidget->insertTab( Widget3, "" );
 
     tab_4 = new QWidget( tabWidget, "tab_4" );
@@ -377,18 +385,12 @@ void addrDialogUI::languageChange()
     setCaption( tr( "AddressBook" ) );
     applyPushButton->setText( tr( "Apply" ) );
     connectPushButton->setText( tr( "Connect" ) );
-   	#if (QT_VERSION>=300)
-	connectPushButton->setAccel( QKeySequence( QString::null ) );
-	#endif
-	closePushButton->setText( tr( "Close" ) );
-	#if (QT_VERSION>=300)
-	closePushButton->setAccel( QKeySequence( QString::null ) );
-	#endif
-	deletePushButton->setText( tr( "Delete" ) );
-   	#if (QT_VERSION>=300)
-	deletePushButton->setAccel( QKeySequence( QString::null ) );
-	#endif
-	addPushButton->setText( tr( "Add" ) );
+    connectPushButton->setAccel( QKeySequence( QString::null ) );
+    closePushButton->setText( tr( "Close" ) );
+    closePushButton->setAccel( QKeySequence( QString::null ) );
+    deletePushButton->setText( tr( "Delete" ) );
+    deletePushButton->setAccel( QKeySequence( QString::null ) );
+    addPushButton->setText( tr( "Add" ) );
     hostTypeComboBox->clear();
     hostTypeComboBox->insertItem( tr( "BBS" ) );
     hostTypeComboBox->insertItem( tr( "*NIX" ) );
@@ -406,7 +408,6 @@ void addrDialogUI::languageChange()
     highlightCheckBox->setText( tr( "Always Hightlight" ) );
     bgcolorPushButton->setText( tr( "Background" ) );
     fgcolorPushButton->setText( tr( "Text Color" ) );
-    fontPushButton->setText( tr( "Font" ) );
     schemaPushButton->setText( tr( "Schema" ) );
     displayTextLabel->setText( tr( "TextLabel3" ) );
     autofontCheckBox->setText( tr( "Auto Select Font Size When Resize Window" ) );
@@ -418,6 +419,7 @@ void addrDialogUI::languageChange()
     displaycodeComboBox->clear();
     displaycodeComboBox->insertItem( tr( "GBK" ) );
     displaycodeComboBox->insertItem( tr( "BIG5" ) );
+    fontPushButton->setText( tr( "Font" ) );
     tabWidget->changeTab( tab, tr( "Display" ) );
     TextLabel3_4->setText( tr( "Columns" ) );
     TextLabel1_5->setText( tr( "Term Type" ) );
@@ -466,6 +468,8 @@ void addrDialogUI::languageChange()
     textLabel1->setText( tr( "When Disconnected" ) );
     reconnectCheckBox->setText( tr( "Reconnect Every" ) );
     replyCheckBox->setText( tr( "Autoreply Message" ) );
+    scriptPushButton->setText( tr( "..." ) );
+    scriptCheckBox->setText( tr( "Load Control Script" ) );
     tabWidget->changeTab( Widget3, tr( "Misc" ) );
     menuGroup->setTitle( tr( "Menu Type" ) );
     radioButton1->setText( tr( "Underline" ) );

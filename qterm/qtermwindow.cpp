@@ -53,6 +53,12 @@ AUTHOR:        kingson fiasco
 #include <qregexp.h>
 #include <qfiledialog.h>
 
+#define DAE_FINISH 	10001
+#define DAE_TIMEOUT 10002
+
+#define PYE_ERROR	10003
+#define PYE_FINISH	10004
+
 extern char fileCfg[];
 extern char addrCfg[];
 extern QString pathLib;
@@ -60,51 +66,350 @@ extern QString pathPic;
 
 extern void saveAddress(QTermConfig*,int,const QTermParam&);
 
-extern int Python_Init();
-extern int Python_Finalize();
-extern int DoPythonFile(const char *);
+/* **************************************************************************
+ *
+ *				Pythons Embedding
+ *
+ * ***************************************************************************/
+
+
+// copy current artcle
+static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
+{
+	long lp;
+	if (!PyArg_ParseTuple(args, "l", &lp))
+		return NULL;
+
+	QTermWindow *pWin=(QTermWindow*)lp;
+
+	QCString cstrArticle;
+    QCString cstrCurrent0,cstrCurrent1;
+    QCString cstrTemp;
+
+    int pos0=-1,pos1=-1;
+
+    cstrArticle = pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
+    #ifdef _OS_WIN32_
+    cstrArticle += '\r';
+    #endif
+    cstrArticle += '\n';
+	
+    while(1)
+    {
+        cstrCurrent0=pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
+        cstrCurrent1=pWin->stripWhitespace(pWin->m_pBuffer->screen(1)->getText());
+
+        cstrTemp = cstrCurrent0;
+        #ifdef _OS_WIN32_
+        cstrTemp += '\r';
+        #endif
+        cstrTemp +='\n';
+        cstrTemp +=cstrCurrent1;
+
+        pos0=cstrArticle.findRev(cstrTemp);
+
+        if(pos0!=-1)
+        {
+            pos1=cstrArticle.find(cstrCurrent1,pos0);
+            if(pos1!=-1)
+                cstrArticle.truncate(pos1);
+        }
+
+        for(int i=1;i<pWin->m_pBuffer->line()-1;i++)
+        {
+            cstrArticle+=pWin->stripWhitespace(pWin->m_pBuffer->screen(i)->getText());
+            #ifdef _OS_WIN32_
+            cstrArticle += '\r';
+            #endif
+            cstrArticle+='\n';
+        }
+
+        if( pWin->m_pBuffer->screen(pWin->m_pBuffer->line()-1)->getText().find("%") == -1 )
+            break;
+        pWin->m_pTelnet->write(" ", 1);
+		
+		if(!pWin->m_wcWaiting.wait(10000))	// timeout
+			break;
+    }
+
+	PyObject *py_text = PyString_FromString(cstrArticle);
+
+	Py_INCREF(py_text);
+	return py_text;
+}
+
+static PyObject *qterm_formatError(PyObject *, PyObject *args)
+{
+	long lp;
+	char *err=NULL;
+	
+	if (!PyArg_ParseTuple(args, "ls", &lp, &err))
+		return NULL;
+
+	QCString cstrErr;
+	cstrErr.sprintf("%s",err);
+	
+	if( !cstrErr.isEmpty() )
+	{
+		qApp->postEvent( (QTermWindow*)lp, new QCustomEvent(PYE_ERROR));
+		((QTermWindow*)lp)->m_cstrPythonError = cstrErr;
+	}
+	else
+		qApp->postEvent( (QTermWindow*)lp, new QCustomEvent(PYE_FINISH));
+
+	
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+// caret x
+static PyObject *qterm_caretX(PyObject *, PyObject *args)
+{
+	long lp;
+	if (!PyArg_ParseTuple(args, "l", &lp))
+		return NULL;
+	int x = ((QTermWindow*)lp)->m_pBuffer->caret().x();
+	PyObject * py_x =Py_BuildValue("i",x);
+	Py_INCREF(py_x);
+	return py_x;
+}
+
+// caret y
+static PyObject *qterm_caretY(PyObject *, PyObject *args)
+{
+	long lp;
+	if (!PyArg_ParseTuple(args, "l", &lp))
+		return NULL;
+	int y = ((QTermWindow*)lp)->m_pBuffer->caret().y();
+	PyObject * py_y =Py_BuildValue("i",y);
+	Py_INCREF(py_y);
+	return py_y;
+
+}
+
+// columns
+static PyObject *qterm_columns(PyObject *, PyObject *args)
+{
+	long lp;
+	if (!PyArg_ParseTuple(args, "l", &lp))
+		return NULL;
+
+	int columns = ((QTermWindow*)lp)->m_pBuffer->columns();
+	PyObject * py_columns = Py_BuildValue("i",columns);
+	
+	Py_INCREF(py_columns);
+	return py_columns;
+
+}
+
+// rows
+static PyObject *qterm_rows(PyObject *, PyObject *args)
+{
+	long lp;
+	if (!PyArg_ParseTuple(args, "l", &lp))
+		return NULL;
+	
+	int rows = ((QTermWindow*)lp)->m_pBuffer->line();
+	PyObject *py_rows = Py_BuildValue("i",rows);
+
+	Py_INCREF(py_rows);
+	return py_rows;
+}
+
+// sned string to server
+static PyObject *qterm_sendString(PyObject *, PyObject *args)
+{
+	char *pstr;
+	long lp;
+	int len;
+
+	if (!PyArg_ParseTuple(args, "ls", &lp, &pstr))
+		return NULL;
+	
+	len = strlen(pstr);
+
+	((QTermWindow*)lp)->m_pTelnet->write(pstr,len);
+
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+// same as above except parsing string first "\n" "^p" etc
+static PyObject *qterm_sendParsedString(PyObject *, PyObject *args)
+{
+	char *pstr;
+	long lp;
+	int len;
+
+	if (!PyArg_ParseTuple(args, "ls", &lp, &pstr))
+		return NULL;
+	len = strlen(pstr);
+	
+	((QTermWindow*)lp)->sendParsedString(pstr);
+
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+// get text at line
+static PyObject *qterm_getText(PyObject *, PyObject *args)
+{
+	long lp;
+	int line;
+	if (!PyArg_ParseTuple(args, "li", &lp, &line))
+		return NULL;
+	QCString cstr = ((QTermWindow*)lp)->m_pBuffer->screen(line)->getText();
+
+	PyObject *py_text = PyString_FromString(cstr);
+
+	Py_INCREF(py_text);
+	return py_text;
+}
+
+// get text with attributes
+static PyObject *qterm_getAttrText(PyObject *, PyObject *args)
+{
+	long lp;
+	int line;
+	if (!PyArg_ParseTuple(args, "li", &lp, &line))
+		return NULL;
+
+	QCString cstr = ((QTermWindow*)lp)->m_pBuffer->screen(line)->getAttrText();
+
+	PyObject *py_text = PyString_FromString(cstr);
+
+	Py_INCREF(py_text);
+	return py_text;
+}
+
+static PyObject *qterm_isConnected(PyObject *, PyObject *args)
+{
+	long lp;
+	if (!PyArg_ParseTuple(args, "l", &lp))
+		return NULL;
+	
+	bool connected = ((QTermWindow*)lp)->isConnected();
+	PyObject * py_connected =Py_BuildValue("i",connected?1:0);
+
+	Py_INCREF(py_connected);
+	return py_connected;
+}
+static PyObject *qterm_disconnect(PyObject *, PyObject *args)
+{
+	long lp;
+	if (!PyArg_ParseTuple(args, "l", &lp))
+		return NULL;
+	
+	((QTermWindow*)lp)->disconnect();
+	
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+static PyObject *qterm_reconnect(PyObject *, PyObject *args)
+{
+	long lp;
+	if (!PyArg_ParseTuple(args, "l", &lp))
+		return NULL;
+	
+	((QTermWindow*)lp)->reconnect();
+	
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+
+static PyMethodDef qterm_methods[] = {
+	{"formatError",		(PyCFunction)qterm_formatError,			METH_VARARGS,	"get the traceback info"},
+
+	{"copyArticle",		(PyCFunction)qterm_copyArticle,			METH_VARARGS,	"copy current article"},
+
+	{"getText",			(PyCFunction)qterm_getText,				METH_VARARGS,	"get text at line#"},
+	{"getAttrText",		(PyCFunction)qterm_getAttrText,			METH_VARARGS,	"get attr text at line#"},
+
+	{"sendString",		(PyCFunction)qterm_sendString,			METH_VARARGS,	"send string to server"},
+	{"sendParsedString",(PyCFunction)qterm_sendParsedString,	METH_VARARGS,	"send string with escape"},
+
+	{"caretX",			(PyCFunction)qterm_caretX,				METH_VARARGS,	"caret x"},
+	{"caretY",			(PyCFunction)qterm_caretY,				METH_VARARGS,	"caret y"},
+
+	{"columns",			(PyCFunction)qterm_columns,				METH_VARARGS,	"screen width"},
+	{"rows",			(PyCFunction)qterm_rows,				METH_VARARGS,	"screen height"},
+	
+	{"isConnected",		(PyCFunction)qterm_isConnected,			METH_VARARGS,	"connected to server or not"},
+	{"disconnect",		(PyCFunction)qterm_disconnect,			METH_VARARGS,	"disconnect from server"},
+	{"reconnect",		(PyCFunction)qterm_reconnect,			METH_VARARGS,	"reconnect"},
+
+	{NULL,	 			(PyCFunction)NULL, 						0, 				NULL}
+};
+
 
 // script thread
-QTermThread::QTermThread(QObject *o, const QCString& str)
+QTermDAThread::QTermDAThread(QTermWindow *win)
 {
-	receiver = o;
-	script = str;
+	pWin = win;
 }
 
-QTermThread::~QTermThread()
+QTermDAThread::~QTermDAThread()
 {
 
 }
 
-void QTermThread::run()
+
+void QTermDAThread::run()
 {
-	char str[32];
-	sprintf(str,"%ld",receiver);
+    QCString cstrCurrent0,cstrCurrent1;
+    QCString cstrTemp;
+
+    int pos0=-1,pos1=-1;
+
+    cstrArticle =pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
+    #ifdef _OS_WIN32_
+    cstrArticle += '\r';
+    #endif
+    cstrArticle += '\n';
 	
-	char *argv[2]={str,NULL};
+    while(1)
+    {
+        cstrCurrent0=pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
+        cstrCurrent1=pWin->stripWhitespace(pWin->m_pBuffer->screen(1)->getText());
 
-	if(Python_Init())
-	{
-		QMessageBox::information( (QTermWindow*)receiver, "QTerm",
-			"Failed To Initialized Python");	
-		return;
-	}
+        cstrTemp = cstrCurrent0;
+        #ifdef _OS_WIN32_
+        cstrTemp += '\r';
+        #endif
+        cstrTemp +='\n';
+        cstrTemp +=cstrCurrent1;
 
-	PySys_SetArgv(1, argv);
+        pos0=cstrArticle.findRev(cstrTemp);
 
-	if(DoPythonFile(script)!=0)
-	{
-		QMessageBox::information( (QTermWindow*)receiver, "QTerm",
-		"Failed To Run Script");	
-	}
-	
-	Python_Finalize();
+        if(pos0!=-1)
+        {
+            pos1=cstrArticle.find(cstrCurrent1,pos0);
+            if(pos1!=-1)
+                cstrArticle.truncate(pos1);
+        }
 
-}
+        for(int i=1;i<pWin->m_pBuffer->line()-1;i++)
+        {
+            cstrArticle+=pWin->stripWhitespace(pWin->m_pBuffer->screen(i)->getText());
+            #ifdef _OS_WIN32_
+            cstrArticle += '\r';
+            #endif
+            cstrArticle+='\n';
+        }
 
-void QTermThread::stop()
-{
-	Python_Finalize();
+        if( pWin->m_pBuffer->screen(pWin->m_pBuffer->line()-1)->getText().find("%") == -1 )
+            break;
+        pWin->m_pTelnet->write(" ", 1);
+		
+		if(!pWin->m_wcWaiting.wait(10000))	// timeout
+		{
+			postEvent(pWin, new QCustomEvent(DAE_TIMEOUT));
+			break;
+		}
+    }
+
+	postEvent(pWin, new QCustomEvent(DAE_FINISH));
 }
 
 char QTermWindow::direction[][5]=
@@ -187,11 +492,10 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	connect( m_replyTimer, SIGNAL(timeout()), this, SLOT(replyProcess()) );
 	m_tabTimer = new QTimer;
 	connect( m_tabTimer, SIGNAL(timeout()), this, SLOT(blinkTab()) );
-	m_downTimer = new QTimer;
-	connect( m_downTimer, SIGNAL(timeout()), this, SLOT(downTimer()) );
 	m_reconnectTimer = new QTimer;
 	connect( m_reconnectTimer, SIGNAL(timeout()), this, SLOT(reconnect()) );
-	
+
+
 // initial varibles
 	m_bCopyColor= false;
 	m_bCopyRect	= false;
@@ -204,7 +508,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	m_bMessage	= false;
 	m_bReconnect = m_param.m_bReconnect;
 
-//init variable
+	m_pDAThread = 0;
 	m_bConnected=false;
 	m_bIdling = false;
 
@@ -222,8 +526,48 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	cursor[7] = QCursor(QPixmap(pathLib+"cursor/hand.xpm"));
 	cursor[8] = Qt::arrowCursor;
 
-	connectHost();
 
+// python thread module
+	// get the global python thread lock
+    PyEval_AcquireLock();
+
+    // get a reference to the PyInterpreterState
+    extern PyThreadState * mainThreadState;
+    PyInterpreterState * mainInterpreterState = mainThreadState->interp;
+
+    // create a thread state object for this thread
+    PyThreadState * myThreadState = PyThreadState_New(mainInterpreterState);
+    PyThreadState_Swap(myThreadState);
+
+	PyImport_AddModule("qterm");
+	Py_InitModule4("qterm", qterm_methods,
+			NULL,(PyObject*)NULL,PYTHON_API_VERSION);
+
+	// the system wide script
+	m_bPythonScriptLoaded = false;
+
+	if(m_param.m_bLoadScript)
+	{
+		pName = PyString_FromString( m_param.m_strScriptFile );
+		pModule = PyImport_Import(pName);
+		if (pModule != NULL) 
+			pDict = PyModule_GetDict(pModule);
+		else
+			printf("Failed to PyImport_Import\n");
+
+		if(pDict != NULL )
+			m_bPythonScriptLoaded = true;
+		else
+			printf("Failed to PyModule_GetDict\n");
+	}
+	
+	//Clean up this thread's python interpreter reference
+    PyThreadState_Swap(NULL);
+    PyThreadState_Clear(myThreadState);
+    PyThreadState_Delete(myThreadState);
+    PyEval_ReleaseLock();
+
+	connectHost();
 }
 
 //destructor
@@ -239,6 +583,29 @@ QTermWindow::~QTermWindow()
 	delete m_idleTimer;
 	delete m_replyTimer;
 	delete m_tabTimer;
+
+
+	// get the global python thread lock
+	PyEval_AcquireLock();
+
+	// get a reference to the PyInterpreterState
+	extern PyThreadState * mainThreadState;
+	PyInterpreterState * mainInterpreterState = mainThreadState->interp;
+      
+	// create a thread state object for this thread
+	PyThreadState * myThreadState = PyThreadState_New(mainInterpreterState);
+	PyThreadState_Swap(myThreadState);
+      
+	//Displose of current python module so we can reload in constructor.
+	//Py_DECREF(pModule);
+	//Py_DECREF(pName);  
+
+	//Clean up this thread's python interpreter reference
+	PyThreadState_Swap(NULL);
+	PyThreadState_Clear(myThreadState);
+	PyThreadState_Delete(myThreadState);
+	PyEval_ReleaseLock();
+
 }
 
 //close event received
@@ -288,11 +655,15 @@ void QTermWindow::idleProcess()
 		return;
 	}
 
-	int length;	
-	QCString cstr = parseString( (const char *)m_param.m_strAntiString, &length );
-
-	m_pTelnet->write( cstr, length );
-	
+	// system script can handle that
+	if(m_bPythonScriptLoaded)
+		pythonCallback("antiIdle");
+	else// the default function
+	{
+		int length;	
+		QCString cstr = parseString( (const char *)m_param.m_strAntiString, &length );
+		m_pTelnet->write( cstr, length );
+	}
 	m_bIdling = true;
 }
 
@@ -316,11 +687,6 @@ void QTermWindow::blinkTab()
 	static bool bVisible=TRUE;
 	m_pFrame->wndmgr->blinkTheTab(this,bVisible);
 	bVisible=!bVisible;
-}
-
-void QTermWindow::downTimer()
-{
-	m_bTimeOut = true;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -348,8 +714,6 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 		m_tabTimer->stop();
 		m_pFrame->wndmgr->blinkTheTab(this,TRUE);
     }
-
-	m_bIdling = false;
 
 	// Left Button for selecting
 	if(me->button() & LeftButton)
@@ -418,13 +782,6 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 
 void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 {	
-	// restart the idle timer	
-	if(m_idleTimer->isActive())
-		m_idleTimer->stop();
-	if( m_bAntiIdle )
-		m_idleTimer->start( m_param.m_nMaxIdle*1000 );
-	m_bIdling = false;
-
 	// Middle Button for paste
 	if( me->button() & MidButton )
 	{
@@ -563,12 +920,6 @@ void QTermWindow::keyPressEvent( QKeyEvent * e )
 		m_pFrame->wndmgr->blinkTheTab(this,TRUE);
     }
 
-	// restart the idle timer	
-	if(m_idleTimer->isActive())
-		m_idleTimer->stop();
-	if( m_bAntiIdle )
-		m_idleTimer->start( m_param.m_nMaxIdle*1000 );
-	m_bIdling = false;
 
 	// message replying
 	if(m_replyTimer->isActive())
@@ -696,8 +1047,9 @@ void QTermWindow::readReady( int size )
 	// this works for most but not for all
 	QTermTextLine * pTextLine = m_pBuffer->screen(m_pBuffer->line()-1);
 	QCString cstrText = stripWhitespace(pTextLine->getText());
-	m_bPageComplete = (m_pBuffer->caret().y()==m_pBuffer->line()-1 &&
-						m_pBuffer->caret().x()>=cstrText.length()-1 );
+	if( m_pBuffer->caret().y()==m_pBuffer->line()-1 &&
+						m_pBuffer->caret().x()>=cstrText.length()-1 )
+		m_wcWaiting.wakeAll();
 
 	QToolTip::remove(this, m_pScreen->mapToRect(m_rcUrl));
 
@@ -709,8 +1061,29 @@ void QTermWindow::readReady( int size )
 		if( m_bBeep )
 			if(m_pFrame->m_pref.strWave.isEmpty()||m_pFrame->m_pref.nBeep==1)
 				qApp->beep();
-			else
-				QSound::play(m_pFrame->m_pref.strWave);
+			else {
+				//QSound::play(m_pFrame->m_pref.strWave);
+				switch (m_pFrame->m_pref.nMethod){
+				case 0:
+					sound = new QTermInternalSound(m_pFrame->m_pref.strWave);
+					break;
+#ifndef _NO_ARTS_COMPILED
+				case 1:
+					sound = new QTermArtsSound(m_pFrame->m_pref.strWave);
+					break;
+#endif
+#ifndef _NO_ESD_COMPILED
+				case 2:
+					sound = new QTermEsdSound(m_pFrame->m_pref.strWave);
+					break;
+#endif
+				case 3:
+					sound = new QTermExternalSound(m_pFrame->m_pref.strPlayer,m_pFrame->m_pref.strWave);
+					break;
+				}
+				sound->play();
+				delete sound;
+			}
 
 		if(m_pFrame->m_pref.bBlinkTab)
 			m_tabTimer->start(500);
@@ -728,6 +1101,11 @@ void QTermWindow::readReady( int size )
 		}
 		if(m_bAutoReply)
 		{	
+			if(m_bPythonScriptLoaded)
+			{
+				pythonCallback("autoReply");
+				return;
+			}
 			// TODO: save messages
 	        if ( m_bIdling )
 				replyMessage();
@@ -817,6 +1195,14 @@ void QTermWindow::TelnetState(int state)
 	case TSPROXYERROR:
 		statusBar()->message( tr("eoor in proxy") );
 		disconnect();
+		break;
+	case TSWRITED:
+		// restart the idle timer	
+		if(m_idleTimer->isActive())
+			m_idleTimer->stop();
+		if( m_bAntiIdle )
+			m_idleTimer->start( m_param.m_nMaxIdle*1000 );
+		m_bIdling = false;
 		break;
 	default:
 		break;
@@ -945,28 +1331,9 @@ void QTermWindow::copyArticle( )
 	if(!m_bConnected)
 		return;
 	
-	QCString cstrArticle = downloadArticle();	
-
-	articleDialog article(this);
-	QTermConfig conf(fileCfg);
-	char * size = conf.getItemValue("global","articledialog");
-	if(size!=NULL)
-	{
-		int x,y,cx,cy;
-		sscanf(size,"%d %d %d %d",&x,&y,&cx,&cy);
-		article.resize(QSize(cx,cy));
-		article.move(QPoint(x,y));	
-	}
-	article.cstrArticle = cstrArticle;
-	if(m_param.m_nBBSCode==0)
-		article.textBrowser2->setText(G2U(cstrArticle));
-	else
-		article.textBrowser2->setText(B2U(cstrArticle));
-	article.exec();
-	QCString cstrSize;
-	cstrSize.sprintf("%d %d %d %d",article.x(),article.y(),article.width(),article.height());
-	conf.setItemValue("global","articledialog",cstrSize);
-	conf.save(fileCfg);
+	m_pDAThread = new QTermDAThread(this);
+	m_pDAThread->start();
+		
 }
 void QTermWindow::font()
 {		
@@ -1017,22 +1384,28 @@ void QTermWindow::showStatusBar(bool bShow)
 
 void QTermWindow::runScript()
 {
+	// get the previous dir
+	QTermConfig conf(fileCfg);
+	QCString path = conf.getItemValue("global","filedialog");
 
 	QString file = QFileDialog::getOpenFileName(
-							"/home",
+							path,
 							"Python File (*.py *.txt)", this,
 							"open file dialog"
 							"choose a script file" );
 	if(file.isEmpty())
 		return;
+	// save the path
+	QFileInfo fi(file);
+	conf.setItemValue("global","filedialog",fi.dirPath(true));
+	
+	conf.save(fileCfg);
 
 	runScriptFile(file.local8Bit());
 }
 
 void QTermWindow::stopScript()
 {
-	if(m_pThread!=0)
-		m_pThread->stop();
 }
 
 void QTermWindow::viewMessages( )
@@ -1080,10 +1453,10 @@ void QTermWindow::setting( )
 void QTermWindow::antiIdle()
 {
 	m_bAntiIdle = !m_bAntiIdle;
-	//enabled
+	// disabled
 	if( !m_bAntiIdle && m_idleTimer->isActive() )
 		m_idleTimer->stop();
-	//disabled
+	// enabled
 	if( m_bAntiIdle && !m_idleTimer->isActive() )
 		m_idleTimer->start(m_param.m_nMaxIdle*1000);
 }
@@ -1170,6 +1543,51 @@ void QTermWindow::reconnectProcess()
 			m_reconnectTimer->start(m_param.m_nReconnectInterval*1000);
 		retry++;
 	}
+}
+/* ------------------------------------------------------------------------ */
+/*	                                                                        */
+/* 	                         Events                                         */
+/*                                                                          */
+/* ------------------------------------------------------------------------ */
+void QTermWindow::customEvent(QCustomEvent*e)
+{
+
+	if( e->type() == DAE_FINISH )
+	{
+		articleDialog article(this);
+		QTermConfig conf(fileCfg);
+		char * size = conf.getItemValue("global","articledialog");
+		if(size!=NULL)
+		{
+			int x,y,cx,cy;
+			sscanf(size,"%d %d %d %d",&x,&y,&cx,&cy);
+			article.resize(QSize(cx,cy));
+			article.move(QPoint(x,y));	
+		}
+		article.cstrArticle = m_pDAThread->cstrArticle;
+		if(m_param.m_nBBSCode==0)
+			article.textBrowser2->setText(G2U(article.cstrArticle));
+		else
+			article.textBrowser2->setText(B2U(article.cstrArticle));
+		article.exec();
+		QCString cstrSize;
+		cstrSize.sprintf("%d %d %d %d",article.x(),article.y(),article.width(),article.height());
+		conf.setItemValue("global","articledialog",cstrSize);
+		conf.save(fileCfg);
+	}
+	else if(e->type() == DAE_TIMEOUT)
+	{
+		QMessageBox::warning(this,"timeout","download article timeout, aborted");
+	}	
+	else if(e->type() == PYE_ERROR)
+	{
+		QMessageBox::warning(this,"Python script error", m_cstrPythonError);
+	}
+	else if(e->type() == PYE_FINISH)
+	{
+		QMessageBox::information(this,"Python script finished", "Python script file executed successfully");
+	}
+
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1260,21 +1678,7 @@ void QTermWindow::externInput( const QCString& cstrText )
 	m_pTelnet->write( cstrParsed, cstrParsed.length() );
 
 }
-bool QTermWindow::waitForNewPage( int timeout )
-{
-	m_downTimer->start( timeout );
-	m_bTimeOut = false;
 
-	while ( !m_bPageComplete && !m_bTimeOut )
-		qApp->processEvents( timeout );
-	m_downTimer->stop();
-
-	bool res = m_bPageComplete;
-
-	m_bPageComplete = false;
-
-	return res && !m_bTimeOut; 
-}
 
 QString QTermWindow::fromBBSCodec( const QCString& cstr )
 {
@@ -1310,62 +1714,147 @@ void QTermWindow::sendParsedString( const char * str)
 
 void QTermWindow::runScriptFile( const QCString & cstr )
 {
-	m_pThread = new QTermThread(this, cstr);
+	char str[32];
+	sprintf(str,"%ld",this);
+	
+	char *argv[2]={str,NULL};
 
-	m_pThread->run();
+
+    // get the global python thread lock
+    PyEval_AcquireLock();
+
+    // get a reference to the PyInterpreterState
+    extern PyThreadState * mainThreadState;
+    PyInterpreterState * mainInterpreterState = mainThreadState->interp;
+
+    // create a thread state object for this thread
+    PyThreadState * myThreadState = PyThreadState_New(mainInterpreterState);
+    PyThreadState_Swap(myThreadState);
+
+
+	PySys_SetArgv(1, argv);
+
+	runPythonFile(cstr);
+
+	//Clean up this thread's python interpreter reference
+    PyThreadState_Swap(NULL);
+    PyThreadState_Clear(myThreadState);
+    PyThreadState_Delete(myThreadState);
+    PyEval_ReleaseLock();
+
 }
 
-
-QCString QTermWindow::downloadArticle()
+void QTermWindow::pythonCallback(const char* func)
 {
-    QCString cstrArticle;
-    QCString cstrCurrent0,cstrCurrent1;
-    QCString cstrTemp;
+	if(!m_bPythonScriptLoaded)
+		return;
+	// get the global lock
+	 PyEval_AcquireLock();
+	// get a reference to the PyInterpreterState
+      
+	//Python thread references
+	extern PyThreadState * mainThreadState;
+      
+	PyInterpreterState * mainInterpreterState = mainThreadState->interp;
+	// create a thread state object for this thread
+	PyThreadState * myThreadState = PyThreadState_New(mainInterpreterState);
+	PyThreadState_Swap(myThreadState);
+    
+	PyObject *pF = PyString_FromString(func);
+	
+	pFunc = PyDict_GetItem(pDict, pF);
+  
+	if (pFunc && PyCallable_Check(pFunc)) 
+	{
+		PyObject *pArgs = PyTuple_New(1);
 
-    int pos0=-1,pos1=-1;
+		PyObject *pValue = PyInt_FromLong((long)this);
+		PyTuple_SetItem(pArgs, 0, pValue);
+	
+		pValue = PyObject_CallObject(pFunc, pArgs);
+	
+		if (pValue != NULL) 
+		{
+			Py_DECREF(pValue);
+		}
+		else 
+			printf("Call to %s failed\n", func);
+		Py_DECREF(pArgs);
+      }else 
+		printf("Cannot find python %s callback function\n", func);
+      
+      
+      // swap my thread state out of the interpreter
+      PyThreadState_Swap(NULL);
+      // clear out any cruft from thread state object
+      PyThreadState_Clear(myThreadState);
+      // delete my thread state object
+      PyThreadState_Delete(myThreadState);
+      // release the lock
+      PyEval_ReleaseLock();
+}
 
-    cstrArticle = m_pBuffer->screen(0)->getText();
-    #ifdef _OS_WIN32_
-    cstrArticle += '\r';
-    #endif
-    cstrArticle += '\n';
+int QTermWindow::runPythonFile( const char * filename )
+{
+    static char buffer[1024];
+    const char *file = filename;
 
-//    m_bPageComplete = true;
+    char *p;
 
-    while(waitForNewPage(10000))
+    /* Have to do it like this. PyRun_SimpleFile requires you to pass a
+     * stdio file pointer, but Vim and the Python DLL are compiled with
+     * different options under Windows, meaning that stdio pointers aren't
+     * compatible between the two. Yuk.
+     *
+     * Put the string "execfile('file')" into buffer. But, we need to
+     * escape any backslashes or single quotes in the file name, so that
+     * Python won't mangle the file name.
+	 * ---- kafa
+     */
+	strcpy(buffer, "def work_thread():\n"
+					"\ttry:\n\t\texecfile('");
+    p = buffer + 37; /* size of above  */
+
+    while (*file && p < buffer + (1024 - 3))
     {
-        cstrCurrent0=m_pBuffer->screen(0)->getText();
-        cstrCurrent1=m_pBuffer->screen(1)->getText();
-
-        cstrTemp = cstrCurrent0;
-        #ifdef _OS_WIN32_
-        cstrTemp += '\r';
-        #endif
-        cstrTemp +='\n';
-        cstrTemp +=cstrCurrent1;
-
-        pos0=cstrArticle.findRev(cstrTemp);
-
-        if(pos0!=-1)
-        {
-            pos1=cstrArticle.find(cstrCurrent1,pos0);
-            if(pos1!=-1)
-                cstrArticle.truncate(pos1);
-        }
-
-        for(int i=1;i<m_pBuffer->line()-1;i++)
-        {
-            cstrArticle+=m_pBuffer->screen(i)->getText();
-            #ifdef _OS_WIN32_
-            cstrArticle += '\r';
-            #endif
-            cstrArticle+='\n';
-        }
-
-        if( m_pBuffer->screen(m_pBuffer->line()-1)->getText().find("%") == -1 )
-            break;
-        m_pTelnet->write(direction[7], 3);
+	if (*file == '\\' || *file == '\'')
+	    *p++ = '\\';
+	*p++ = *file++;
     }
-    return cstrArticle;
+
+    /* If we didn't finish the file name, we hit a buffer overflow */
+    if (*file != '\0')
+	return -1;
+
+    /* Put in the terminating "')" and a null */
+    *p++ = '\'';
+	*p++ = ',';
+	*p++ = '{';
+	*p++ = '}';
+	*p++ = ')';
+    *p++ = '\n';
+	*p++ = '\0';
+
+	QCString cstr;
+	
+	cstr.sprintf("\t\tqterm.formatError(%ld,'')\n",this);
+	strcat(buffer, cstr);
+	
+	strcat(buffer, 	"\texcept:\n"
+					"\t\texc, val, tb = sys.exc_info()\n"
+					"\t\tlines = traceback.format_exception(exc, val, tb)\n"
+					"\t\terr = string.join(lines)\n"
+					);
+	cstr.sprintf("\t\tqterm.formatError(%ld,err)\n",this);
+
+	strcat(buffer, cstr);
+	strcat(buffer, "\t\texit\n");
+
+    /* Execute the file */
+	PyRun_SimpleString("import thread,string,sys,traceback,qterm");
+	PyRun_SimpleString(buffer);
+	PyRun_SimpleString(	"thread.start_new_thread(work_thread,())\n");
+	
+	return 0;
 }
 

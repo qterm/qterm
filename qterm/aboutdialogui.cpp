@@ -99,13 +99,13 @@ aboutDialogUI::~aboutDialogUI()
 void aboutDialogUI::languageChange()
 {
     setCaption( tr( "About QTerm" ) );
-    TextLabel->setText( tr( "QTerm 0.2.0 (Qt 2.3.2 and 3.1.x based)" ) );
+    TextLabel->setText( tr( "QTerm 0.3.1 (Qt 2.3.2 and 3.1.x based)" ) );
     closeButton->setText( tr( "Close" ) );
     TextLabel3->setText( tr( "QTerm --- BBS Client for X Window\n"
 "\n"
 "2001-2003, The QTerm Developers\n"
 "\n"
-"http://qterm.gnuchina.org" ) );
+"http://qterm.sourceforge.net" ) );
     mainTabWidget->changeTab( tab, tr( "About" ) );
     TextLabel1->setText( tr( "kingson     \n"
 "	xiaokiangwang@yahoo.com.cn  \n"

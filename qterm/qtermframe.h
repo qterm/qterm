@@ -4,6 +4,7 @@
 
 #include <qmainwindow.h>
 
+
 class QLineEdit;
 class QToolBar;
 class QToolButton;
@@ -16,6 +17,7 @@ class QVBox;
 class QFontDialog;
 class QTermParam;
 class QTermConfig;
+class TrayIcon;
 
 struct QTermPref
 {
@@ -29,10 +31,40 @@ struct QTermPref
 	QString strHttp;
 	int		nBeep;
 	QString strWave;
+	int		nMethod;
+	QString strPlayer;
 	bool	bUrl;
 	bool	bAutoCopy;
 	bool	bAA;
+	bool	bTray;
 };
+
+class MTray : public QObject
+{
+	Q_OBJECT
+public:
+	MTray(const QImage &icon, const QString &tip, QPopupMenu *popup, QObject *parent=0);
+	~MTray();
+
+	void setToolTip(const QString &);
+	void setImage(const QImage &);
+
+signals:
+	void clicked(const QPoint &, int);
+	void doubleClicked(const QPoint &);
+	void closed();
+
+public slots:
+	void show();
+	void hide();
+
+private:
+	TrayIcon *ti;
+	QTimer *trayTimer;
+
+	QPixmap makeIcon(const QImage &_in);
+};
+
 
 class QTermFrame : public QMainWindow
 {
@@ -57,7 +89,8 @@ protected slots:
 	// Menu
 	void addressBook();
 	void quickLogin();
-	
+	void exitQTerm();
+
 	void selectionChanged(int);
 	void aboutQTerm();
 	void homepage();
@@ -112,6 +145,12 @@ protected slots:
 	void connectMenuActivated(int);
 	void popupConnectMenu();
 	void connectMenuAboutToHide();
+	
+	void trayClicked(const QPoint &, int);
+	void trayDoubleClicked();	
+	void trayHide();
+	void trayShow();
+	void buildTrayMenu();
 
 	void switchWin(int);
 	void paintEvent( QPaintEvent * );
@@ -136,7 +175,7 @@ protected:
 	QPopupMenu *windowsMenu;
 	QPopupMenu *themesMenu;
 	int sEng,sChs,sCht;
-	int theme;
+	QString theme;
 
 //	QDockWindow * dock;
 	QLineEdit * input;
@@ -155,6 +194,10 @@ protected:
 	
 	bool m_bFullScreen;
 	bool m_bSwitchBar;
+
+	MTray *tray;
+	QPopupMenu *trayMenu;
+
 	//function
 	QTermWindow * newWindow( const QTermParam& param, int index=-1 );
 	void closeEvent(QCloseEvent * );
@@ -167,9 +210,12 @@ protected:
 	void addMainTool();
 
 	void updateKeyToolBar();
+	
+	bool eventFilter(QObject*, QEvent *);
 
 	QCString valueToString(bool, int, int, bool, int);
-	void insertThemeItem(int);
+	void insertThemeItem(QString);
+	void setUseDock(bool);
 };
 
 #endif	//QTERMFRAME_H

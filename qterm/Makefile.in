@@ -85,6 +85,7 @@ DOXYGEN_PROJECT_NUMBER = @DOXYGEN_PROJECT_NUMBER@
 DPMSINC = @DPMSINC@
 DPMSLIB = @DPMSLIB@
 ECHO = @ECHO@
+ESD_LIB = @ESD_LIB@
 EXEEXT = @EXEEXT@
 FRAMEWORK_COREAUDIO = @FRAMEWORK_COREAUDIO@
 GCJ = @GCJ@
@@ -138,6 +139,8 @@ LIBTOOL = @LIBTOOL@
 LIBUCB = @LIBUCB@
 LIBUTIL = @LIBUTIL@
 LIBXINERAMA = @LIBXINERAMA@
+LIBXML_CFLAGS = @LIBXML_CFLAGS@
+LIBXML_LIBS = @LIBXML_LIBS@
 LIBZ = @LIBZ@
 LIB_KAB = @LIB_KAB@
 LIB_KABC = @LIB_KABC@
@@ -157,6 +160,7 @@ LIB_QPE = @LIB_QPE@
 LIB_QT = @LIB_QT@
 LIB_QTOPIA = @LIB_QTOPIA@
 LIB_SMB = @LIB_SMB@
+LIB_SOUNDSERVER = @LIB_SOUNDSERVER@
 LIB_X11 = @LIB_X11@
 LIB_XEXT = @LIB_XEXT@
 LN_S = @LN_S@
@@ -186,6 +190,8 @@ RANLIB = @RANLIB@
 RC = @RC@
 REPO = @REPO@
 SETUIDFLAGS = @SETUIDFLAGS@
+SOUNDSERVER_INC = @SOUNDSERVER_INC@
+SOUNDSERVER_LIB = @SOUNDSERVER_LIB@
 SSL_INCLUDES = @SSL_INCLUDES@
 SSL_LDFLAGS = @SSL_LDFLAGS@
 STRIP = @STRIP@
@@ -242,26 +248,26 @@ x_libraries = @x_libraries@
 
 bin_PROGRAMS = qterm
 
-qterm_SOURCES = qtermpythonembed.cpp schemadialogui.cpp schemadialog.cpp quickdialogui.cpp quickdialog.cpp qtermwndmgr.cpp qtermwindow.cpp qtermtoolbutton.cpp qtermtimelabel.cpp qtermtextline.cpp qtermtelnet.cpp qtermscreen.cpp qtermparam.cpp qtermframe.cpp qtermdecode.cpp qtermconvert.cpp qtermconfig.cpp qtermbuffer.cpp qtermbbs.cpp prefdialogui.cpp prefdialog.cpp popwidget.cpp msgdialogui.cpp msgdialog.cpp main.cpp keydialogui.cpp keydialog.cpp articledialogui.cpp articledialog.cpp addrdialogui.cpp addrdialog.cpp aboutdialogui.cpp aboutdialog.cpp 
-SOURCES = qtermpythonembed.cpp schemadialogui.cpp schemadialog.cpp quickdialogui.cpp quickdialog.cpp qtermwndmgr.cpp qtermwindow.cpp qtermtoolbutton.cpp qtermtimelabel.cpp qtermtextline.cpp qtermtelnet.cpp qtermscreen.cpp qtermparam.cpp qtermframe.cpp qtermdecode.cpp qtermconvert.cpp qtermconfig.cpp qtermbuffer.cpp qtermbbs.cpp prefdialogui.cpp prefdialog.cpp popwidget.cpp msgdialogui.cpp msgdialog.cpp main.cpp keydialogui.cpp keydialog.cpp articledialogui.cpp articledialog.cpp addrdialogui.cpp addrdialog.cpp aboutdialogui.cpp aboutdialog.cpp 
+qterm_SOURCES = trayicon.cpp trayicon_win.cpp trayicon_x11.cpp schemadialogui.cpp schemadialog.cpp quickdialogui.cpp quickdialog.cpp qtermwndmgr.cpp qtermwindow.cpp qtermtoolbutton.cpp qtermtimelabel.cpp qtermtextline.cpp qtermtelnet.cpp qtermscreen.cpp qtermparam.cpp qtermframe.cpp qtermdecode.cpp qtermconvert.cpp qtermconfig.cpp qtermbuffer.cpp qtermbbs.cpp prefdialogui.cpp prefdialog.cpp popwidget.cpp msgdialogui.cpp msgdialog.cpp main.cpp keydialogui.cpp keydialog.cpp articledialogui.cpp articledialog.cpp addrdialogui.cpp addrdialog.cpp aboutdialogui.cpp aboutdialog.cpp qtermsound.cpp soundconfui.cpp soundconf.cpp
+SOURCES = trayicon.cpp trayicon_win.cpp trayicon_x11.cpp schemadialogui.cpp schemadialog.cpp quickdialogui.cpp quickdialog.cpp qtermwndmgr.cpp qtermwindow.cpp qtermtoolbutton.cpp qtermtimelabel.cpp qtermtextline.cpp qtermtelnet.cpp qtermscreen.cpp qtermparam.cpp qtermframe.cpp qtermdecode.cpp qtermconvert.cpp qtermconfig.cpp qtermbuffer.cpp qtermbbs.cpp prefdialogui.cpp prefdialog.cpp popwidget.cpp msgdialogui.cpp msgdialog.cpp main.cpp keydialogui.cpp keydialog.cpp articledialogui.cpp articledialog.cpp addrdialogui.cpp addrdialog.cpp aboutdialogui.cpp aboutdialog.cpp qtermsound.cpp soundconfui.cpp soundconf.cpp
 INTERFACES = 
 TRANSLATIONS = 
 KDE_OPTIONS = qtonly
-qterm_LDADD = $(LIB_QPE) $(LIB_QT) $(LIBSOCKET) $(LIBPYTHON)
+qterm_LDADD = $(LIB_QPE) $(LIBPYTHON) $(LIB_QT) $(LIBSOCKET) $(LIB_SOUNDSERVER)
 
-SUBDIRS = cursor pic 
+SUBDIRS = cursor pic script
 
-EXTRA_DIST = aboutdialog.cpp aboutdialog.h aboutdialogui.cpp aboutdialogui.h addrdialog.cpp addrdialog.h addrdialogui.cpp addrdialogui.h articledialog.cpp articledialog.h articledialogui.cpp articledialogui.h keydialog.cpp keydialog.h keydialogui.cpp keydialogui.h main.cpp msgdialog.cpp msgdialog.h msgdialogui.cpp msgdialogui.h popwidget.cpp popwidget.h prefdialog.cpp prefdialog.h prefdialogui.cpp prefdialogui.h qtermbbs.cpp qtermbbs.h qtermbuffer.cpp qtermbuffer.h qterm.cfg qtermconfig.cpp qtermconfig.h qtermconvert.cpp qtermconvert.h qtermdecode.cpp qtermdecode.h qtermframe.cpp qtermframe.h qterm.h qtermparam.cpp qtermparam.h qtermscreen.cpp qtermscreen.h qtermtelnet.cpp qtermtelnet.h qtermtextline.cpp qtermtextline.h qtermtimelabel.cpp qtermtimelabel.h qtermtoolbutton.cpp qtermtoolbutton.h qtermwindow.cpp qtermwindow.h qtermwndmgr.cpp qtermwndmgr.h quickdialog.cpp quickdialog.h quickdialogui.cpp quickdialogui.h schemadialog.cpp schemadialog.h schemadialogui.cpp schemadialogui.h address.cfg qtermpythonembed.cpp 
+EXTRA_DIST = aboutdialog.cpp aboutdialog.h aboutdialogui.cpp aboutdialogui.h addrdialog.cpp addrdialog.h addrdialogui.cpp addrdialogui.h articledialog.cpp articledialog.h articledialogui.cpp articledialogui.h keydialog.cpp keydialog.h keydialogui.cpp keydialogui.h main.cpp msgdialog.cpp msgdialog.h msgdialogui.cpp msgdialogui.h popwidget.cpp popwidget.h prefdialog.cpp prefdialog.h prefdialogui.cpp prefdialogui.h qtermbbs.cpp qtermbbs.h qtermbuffer.cpp qtermbuffer.h qterm.cfg qtermconfig.cpp qtermconfig.h qtermconvert.cpp qtermconvert.h qtermdecode.cpp qtermdecode.h qtermframe.cpp qtermframe.h qterm.h qtermparam.cpp qtermparam.h qtermscreen.cpp qtermscreen.h qtermtelnet.cpp qtermtelnet.h qtermtextline.cpp qtermtextline.h qtermtimelabel.cpp qtermtimelabel.h qtermtoolbutton.cpp qtermtoolbutton.h qtermwindow.cpp qtermwindow.h qtermwndmgr.cpp qtermwndmgr.h quickdialog.cpp quickdialog.h quickdialogui.cpp quickdialogui.h schemadialog.cpp schemadialog.h schemadialogui.cpp schemadialogui.h address.cfg trayicon_x11.cpp trayicon_win.cpp trayicon.h trayicon.cpp credits qtermsound.h qtermsound.cpp soundconfui.h soundconfui.cpp soundconf.h soundconf.cpp
 
 ####### kdevelop will overwrite this part!!! (end)############
 
 # set the include path for X, qt and KDE
-INCLUDES = $(all_includes) $(PYTHONINC)
+INCLUDES = $(all_includes) $(PYTHONINC) $(SOUNDSERVER_INC) $(ESD_INC)
 
 #>- qterm_METASOURCES = AUTO
 
 # the library search path. 
-qterm_LDFLAGS = $(all_libraries) 
+qterm_LDFLAGS = $(all_libraries) -Wl -export-dynamic $(PYTHONLIB) $(SOUNDSERVER_LIB) $(ESD_LIB)
 
 # them while "make clean", use CLEANFILES
 DISTCLEANFILES = $(qterm_METASOURCES)
@@ -272,7 +278,8 @@ CONFIG_CLEAN_FILES =
 bin_PROGRAMS = qterm$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-am_qterm_OBJECTS = qtermpythonembed.$(OBJEXT) schemadialogui.$(OBJEXT) \
+am_qterm_OBJECTS = trayicon.$(OBJEXT) trayicon_win.$(OBJEXT) \
+	trayicon_x11.$(OBJEXT) schemadialogui.$(OBJEXT) \
 	schemadialog.$(OBJEXT) quickdialogui.$(OBJEXT) \
 	quickdialog.$(OBJEXT) qtermwndmgr.$(OBJEXT) \
 	qtermwindow.$(OBJEXT) qtermtoolbutton.$(OBJEXT) \
@@ -286,11 +293,13 @@ am_qterm_OBJECTS = qtermpythonembed.$(OBJEXT) schemadialogui.$(OBJEXT) \
 	keydialog.$(OBJEXT) articledialogui.$(OBJEXT) \
 	articledialog.$(OBJEXT) addrdialogui.$(OBJEXT) \
 	addrdialog.$(OBJEXT) aboutdialogui.$(OBJEXT) \
-	aboutdialog.$(OBJEXT)
+	aboutdialog.$(OBJEXT) qtermsound.$(OBJEXT) \
+	soundconfui.$(OBJEXT) soundconf.$(OBJEXT)
 #>- qterm_OBJECTS = $(am_qterm_OBJECTS)
-#>+ 19
+#>+ 21
 qterm_final_OBJECTS = qterm.all_cpp.o 
-qterm_nofinal_OBJECTS = qtermpythonembed.$(OBJEXT) schemadialogui.$(OBJEXT) \
+qterm_nofinal_OBJECTS = trayicon.$(OBJEXT) trayicon_win.$(OBJEXT) \
+	trayicon_x11.$(OBJEXT) schemadialogui.$(OBJEXT) \
 	schemadialog.$(OBJEXT) quickdialogui.$(OBJEXT) \
 	quickdialog.$(OBJEXT) qtermwndmgr.$(OBJEXT) \
 	qtermwindow.$(OBJEXT) qtermtoolbutton.$(OBJEXT) \
@@ -304,8 +313,9 @@ qterm_nofinal_OBJECTS = qtermpythonembed.$(OBJEXT) schemadialogui.$(OBJEXT) \
 	keydialog.$(OBJEXT) articledialogui.$(OBJEXT) \
 	articledialog.$(OBJEXT) addrdialogui.$(OBJEXT) \
 	addrdialog.$(OBJEXT) aboutdialogui.$(OBJEXT) \
-	aboutdialog.$(OBJEXT)\
-qtermdecode.moc.o schemadialog.moc.o qtermframe.moc.o aboutdialogui.moc.o quickdialogui.moc.o articledialogui.moc.o qtermtoolbutton.moc.o keydialogui.moc.o popwidget.moc.o msgdialogui.moc.o addrdialog.moc.o keydialog.moc.o qtermscreen.moc.o qtermtelnet.moc.o qtermbuffer.moc.o qtermwindow.moc.o prefdialogui.moc.o aboutdialog.moc.o schemadialogui.moc.o qtermwndmgr.moc.o articledialog.moc.o msgdialog.moc.o prefdialog.moc.o qtermtimelabel.moc.o quickdialog.moc.o addrdialogui.moc.o 
+	aboutdialog.$(OBJEXT) qtermsound.$(OBJEXT) \
+	soundconfui.$(OBJEXT) soundconf.$(OBJEXT)\
+trayicon.moc.o qtermdecode.moc.o schemadialog.moc.o qtermframe.moc.o aboutdialogui.moc.o soundconf.moc.o quickdialogui.moc.o articledialogui.moc.o qtermtoolbutton.moc.o keydialogui.moc.o popwidget.moc.o msgdialogui.moc.o addrdialog.moc.o keydialog.moc.o qtermscreen.moc.o qtermtelnet.moc.o qtermbuffer.moc.o qtermwindow.moc.o prefdialogui.moc.o aboutdialog.moc.o schemadialogui.moc.o qtermwndmgr.moc.o articledialog.moc.o msgdialog.moc.o prefdialog.moc.o qtermtimelabel.moc.o quickdialog.moc.o soundconfui.moc.o addrdialogui.moc.o 
 @KDE_USE_FINAL_FALSE@qterm_OBJECTS = $(qterm_nofinal_OBJECTS)
 @KDE_USE_FINAL_TRUE@qterm_OBJECTS = $(qterm_final_OBJECTS)
 qterm_DEPENDENCIES =
@@ -328,17 +338,18 @@ depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 #>- @AMDEP_TRUE@	$(DEPDIR)/qtermbuffer.Po $(DEPDIR)/qtermconfig.Po \
 #>- @AMDEP_TRUE@	$(DEPDIR)/qtermconvert.Po $(DEPDIR)/qtermdecode.Po \
 #>- @AMDEP_TRUE@	$(DEPDIR)/qtermframe.Po $(DEPDIR)/qtermparam.Po \
-#>- @AMDEP_TRUE@	$(DEPDIR)/qtermpythonembed.Po \
-#>- @AMDEP_TRUE@	$(DEPDIR)/qtermscreen.Po $(DEPDIR)/qtermtelnet.Po \
-#>- @AMDEP_TRUE@	$(DEPDIR)/qtermtextline.Po \
+#>- @AMDEP_TRUE@	$(DEPDIR)/qtermscreen.Po $(DEPDIR)/qtermsound.Po \
+#>- @AMDEP_TRUE@	$(DEPDIR)/qtermtelnet.Po $(DEPDIR)/qtermtextline.Po \
 #>- @AMDEP_TRUE@	$(DEPDIR)/qtermtimelabel.Po \
 #>- @AMDEP_TRUE@	$(DEPDIR)/qtermtoolbutton.Po \
 #>- @AMDEP_TRUE@	$(DEPDIR)/qtermwindow.Po $(DEPDIR)/qtermwndmgr.Po \
 #>- @AMDEP_TRUE@	$(DEPDIR)/quickdialog.Po $(DEPDIR)/quickdialogui.Po \
 #>- @AMDEP_TRUE@	$(DEPDIR)/schemadialog.Po \
-#>- @AMDEP_TRUE@	$(DEPDIR)/schemadialogui.Po
-#>+ 43
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =  $(DEPDIR)/qtermdecode.moc.P $(DEPDIR)/schemadialog.moc.P $(DEPDIR)/qtermframe.moc.P $(DEPDIR)/aboutdialogui.moc.P $(DEPDIR)/quickdialogui.moc.P $(DEPDIR)/articledialogui.moc.P $(DEPDIR)/qtermtoolbutton.moc.P $(DEPDIR)/keydialogui.moc.P $(DEPDIR)/popwidget.moc.P $(DEPDIR)/msgdialogui.moc.P $(DEPDIR)/addrdialog.moc.P $(DEPDIR)/keydialog.moc.P $(DEPDIR)/qtermscreen.moc.P $(DEPDIR)/qtermtelnet.moc.P $(DEPDIR)/qtermbuffer.moc.P $(DEPDIR)/qtermwindow.moc.P $(DEPDIR)/prefdialogui.moc.P $(DEPDIR)/aboutdialog.moc.P $(DEPDIR)/schemadialogui.moc.P $(DEPDIR)/qtermwndmgr.moc.P $(DEPDIR)/articledialog.moc.P $(DEPDIR)/msgdialog.moc.P $(DEPDIR)/prefdialog.moc.P $(DEPDIR)/qtermtimelabel.moc.P $(DEPDIR)/quickdialog.moc.P $(DEPDIR)/addrdialogui.moc.P  $(DEPDIR)/qterm.all_cpp.P  $(DEPDIR)/aboutdialog.Po \
+#>- @AMDEP_TRUE@	$(DEPDIR)/schemadialogui.Po $(DEPDIR)/soundconf.Po \
+#>- @AMDEP_TRUE@	$(DEPDIR)/soundconfui.Po $(DEPDIR)/trayicon.Po \
+#>- @AMDEP_TRUE@	$(DEPDIR)/trayicon_win.Po $(DEPDIR)/trayicon_x11.Po
+#>+ 45
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@DEP_FILES =  $(DEPDIR)/trayicon.moc.P $(DEPDIR)/qtermdecode.moc.P $(DEPDIR)/schemadialog.moc.P $(DEPDIR)/qtermframe.moc.P $(DEPDIR)/aboutdialogui.moc.P $(DEPDIR)/soundconf.moc.P $(DEPDIR)/quickdialogui.moc.P $(DEPDIR)/articledialogui.moc.P $(DEPDIR)/qtermtoolbutton.moc.P $(DEPDIR)/keydialogui.moc.P $(DEPDIR)/popwidget.moc.P $(DEPDIR)/msgdialogui.moc.P $(DEPDIR)/addrdialog.moc.P $(DEPDIR)/keydialog.moc.P $(DEPDIR)/qtermscreen.moc.P $(DEPDIR)/qtermtelnet.moc.P $(DEPDIR)/qtermbuffer.moc.P $(DEPDIR)/qtermwindow.moc.P $(DEPDIR)/prefdialogui.moc.P $(DEPDIR)/aboutdialog.moc.P $(DEPDIR)/schemadialogui.moc.P $(DEPDIR)/qtermwndmgr.moc.P $(DEPDIR)/articledialog.moc.P $(DEPDIR)/msgdialog.moc.P $(DEPDIR)/prefdialog.moc.P $(DEPDIR)/qtermtimelabel.moc.P $(DEPDIR)/quickdialog.moc.P $(DEPDIR)/soundconfui.moc.P $(DEPDIR)/addrdialogui.moc.P  $(DEPDIR)/qterm.all_cpp.P  $(DEPDIR)/aboutdialog.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/aboutdialogui.Po $(DEPDIR)/addrdialog.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/addrdialogui.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/articledialog.Po \
@@ -350,16 +361,17 @@ depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/qtermbuffer.Po $(DEPDIR)/qtermconfig.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/qtermconvert.Po $(DEPDIR)/qtermdecode.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/qtermframe.Po $(DEPDIR)/qtermparam.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/qtermpythonembed.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/qtermscreen.Po $(DEPDIR)/qtermtelnet.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/qtermtextline.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/qtermscreen.Po $(DEPDIR)/qtermsound.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/qtermtelnet.Po $(DEPDIR)/qtermtextline.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/qtermtimelabel.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/qtermtoolbutton.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/qtermwindow.Po $(DEPDIR)/qtermwndmgr.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/quickdialog.Po $(DEPDIR)/quickdialogui.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/schemadialog.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/schemadialogui.Po
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  $(DEPDIR)/qtermdecode.moc.P $(DEPDIR)/schemadialog.moc.P $(DEPDIR)/qtermframe.moc.P $(DEPDIR)/aboutdialogui.moc.P $(DEPDIR)/quickdialogui.moc.P $(DEPDIR)/articledialogui.moc.P $(DEPDIR)/qtermtoolbutton.moc.P $(DEPDIR)/keydialogui.moc.P $(DEPDIR)/popwidget.moc.P $(DEPDIR)/msgdialogui.moc.P $(DEPDIR)/addrdialog.moc.P $(DEPDIR)/keydialog.moc.P $(DEPDIR)/qtermscreen.moc.P $(DEPDIR)/qtermtelnet.moc.P $(DEPDIR)/qtermbuffer.moc.P $(DEPDIR)/qtermwindow.moc.P $(DEPDIR)/prefdialogui.moc.P $(DEPDIR)/aboutdialog.moc.P $(DEPDIR)/schemadialogui.moc.P $(DEPDIR)/qtermwndmgr.moc.P $(DEPDIR)/articledialog.moc.P $(DEPDIR)/msgdialog.moc.P $(DEPDIR)/prefdialog.moc.P $(DEPDIR)/qtermtimelabel.moc.P $(DEPDIR)/quickdialog.moc.P $(DEPDIR)/addrdialogui.moc.P  $(DEPDIR)/aboutdialog.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/schemadialogui.Po $(DEPDIR)/soundconf.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/soundconfui.Po $(DEPDIR)/trayicon.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_TRUE@	@AMDEP_TRUE@	$(DEPDIR)/trayicon_win.Po $(DEPDIR)/trayicon_x11.Po
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@DEP_FILES =  $(DEPDIR)/trayicon.moc.P $(DEPDIR)/qtermdecode.moc.P $(DEPDIR)/schemadialog.moc.P $(DEPDIR)/qtermframe.moc.P $(DEPDIR)/aboutdialogui.moc.P $(DEPDIR)/soundconf.moc.P $(DEPDIR)/quickdialogui.moc.P $(DEPDIR)/articledialogui.moc.P $(DEPDIR)/qtermtoolbutton.moc.P $(DEPDIR)/keydialogui.moc.P $(DEPDIR)/popwidget.moc.P $(DEPDIR)/msgdialogui.moc.P $(DEPDIR)/addrdialog.moc.P $(DEPDIR)/keydialog.moc.P $(DEPDIR)/qtermscreen.moc.P $(DEPDIR)/qtermtelnet.moc.P $(DEPDIR)/qtermbuffer.moc.P $(DEPDIR)/qtermwindow.moc.P $(DEPDIR)/prefdialogui.moc.P $(DEPDIR)/aboutdialog.moc.P $(DEPDIR)/schemadialogui.moc.P $(DEPDIR)/qtermwndmgr.moc.P $(DEPDIR)/articledialog.moc.P $(DEPDIR)/msgdialog.moc.P $(DEPDIR)/prefdialog.moc.P $(DEPDIR)/qtermtimelabel.moc.P $(DEPDIR)/quickdialog.moc.P $(DEPDIR)/soundconfui.moc.P $(DEPDIR)/addrdialogui.moc.P  $(DEPDIR)/aboutdialog.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/aboutdialogui.Po $(DEPDIR)/addrdialog.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/addrdialogui.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/articledialog.Po \
@@ -371,15 +383,16 @@ depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/qtermbuffer.Po $(DEPDIR)/qtermconfig.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/qtermconvert.Po $(DEPDIR)/qtermdecode.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/qtermframe.Po $(DEPDIR)/qtermparam.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/qtermpythonembed.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/qtermscreen.Po $(DEPDIR)/qtermtelnet.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/qtermtextline.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/qtermscreen.Po $(DEPDIR)/qtermsound.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/qtermtelnet.Po $(DEPDIR)/qtermtextline.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/qtermtimelabel.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/qtermtoolbutton.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/qtermwindow.Po $(DEPDIR)/qtermwndmgr.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/quickdialog.Po $(DEPDIR)/quickdialogui.Po \
 @AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/schemadialog.Po \
-@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/schemadialogui.Po
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/schemadialogui.Po $(DEPDIR)/soundconf.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/soundconfui.Po $(DEPDIR)/trayicon.Po \
+@AMDEP_TRUE@@KDE_USE_FINAL_FALSE@	@AMDEP_TRUE@	$(DEPDIR)/trayicon_win.Po $(DEPDIR)/trayicon_x11.Po
 
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 #>- 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -408,7 +421,7 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
 DIST_COMMON = Makefile.am Makefile.in
 DIST_SUBDIRS = $(SUBDIRS)
-SOURCES = qtermpythonembed.cpp schemadialogui.cpp schemadialog.cpp quickdialogui.cpp quickdialog.cpp qtermwndmgr.cpp qtermwindow.cpp qtermtoolbutton.cpp qtermtimelabel.cpp qtermtextline.cpp qtermtelnet.cpp qtermscreen.cpp qtermparam.cpp qtermframe.cpp qtermdecode.cpp qtermconvert.cpp qtermconfig.cpp qtermbuffer.cpp qtermbbs.cpp prefdialogui.cpp prefdialog.cpp popwidget.cpp msgdialogui.cpp msgdialog.cpp main.cpp keydialogui.cpp keydialog.cpp articledialogui.cpp articledialog.cpp addrdialogui.cpp addrdialog.cpp aboutdialogui.cpp aboutdialog.cpp 
+SOURCES = trayicon.cpp trayicon_win.cpp trayicon_x11.cpp schemadialogui.cpp schemadialog.cpp quickdialogui.cpp quickdialog.cpp qtermwndmgr.cpp qtermwindow.cpp qtermtoolbutton.cpp qtermtimelabel.cpp qtermtextline.cpp qtermtelnet.cpp qtermscreen.cpp qtermparam.cpp qtermframe.cpp qtermdecode.cpp qtermconvert.cpp qtermconfig.cpp qtermbuffer.cpp qtermbbs.cpp prefdialogui.cpp prefdialog.cpp popwidget.cpp msgdialogui.cpp msgdialog.cpp main.cpp keydialogui.cpp keydialog.cpp articledialogui.cpp articledialog.cpp addrdialogui.cpp addrdialog.cpp aboutdialogui.cpp aboutdialog.cpp qtermsound.cpp soundconfui.cpp soundconf.cpp
 
 #>- all: all-recursive
 #>+ 1
@@ -491,8 +504,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/qtermdecode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/qtermframe.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/qtermparam.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/qtermpythonembed.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/qtermscreen.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/qtermsound.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/qtermtelnet.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/qtermtextline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/qtermtimelabel.Po@am__quote@
@@ -503,6 +516,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/quickdialogui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/schemadialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/schemadialogui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/soundconf.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/soundconfui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/trayicon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/trayicon_win.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/trayicon_x11.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -619,12 +637,7 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-#>+ 4
-KDE_DIST=qterm 
-
-DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
-
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
@@ -753,29 +766,42 @@ uninstall-info: uninstall-info-recursive
 
 
 install-data-local:
-#>- 	$(mkinstalldirs) $(datadir)/
+#>- 	$(mkinstalldirs) $(datadir)/qterm/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/
-#>- 	$(INSTALL_DATA) $(srcdir)/qterm.cfg $(datadir)/qterm.cfg
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/
+#>- 	$(INSTALL_DATA) $(srcdir)/qterm.cfg $(datadir)/qterm/qterm.cfg
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/qterm.cfg $(DESTDIR)$(datadir)/qterm.cfg
-#>- 	$(mkinstalldirs) $(datadir)/
+	$(INSTALL_DATA) $(srcdir)/qterm.cfg $(DESTDIR)$(datadir)/qterm/qterm.cfg
+#>- 	$(mkinstalldirs) $(datadir)/qterm/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/
-#>- 	$(INSTALL_DATA) $(srcdir)/address.cfg $(datadir)/address.cfg
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/
+#>- 	$(INSTALL_DATA) $(srcdir)/address.cfg $(datadir)/qterm/address.cfg
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/address.cfg $(DESTDIR)$(datadir)/address.cfg
+	$(INSTALL_DATA) $(srcdir)/address.cfg $(DESTDIR)$(datadir)/qterm/address.cfg
+#>- 	$(mkinstalldirs) $(datadir)/qterm/
+#>+ 1
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/
+#>- 	$(INSTALL_DATA) $(srcdir)/credits $(datadir)/qterm/credits
+#>+ 1
+	$(INSTALL_DATA) $(srcdir)/credits $(DESTDIR)$(datadir)/qterm/credits
 
 uninstall-local:
-#>- 	-rm -f $(datadir)/qterm.cfg
+#>- 	-rm -f $(datadir)/qterm/qterm.cfg
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/qterm.cfg
-#>- 	-rm -f $(datadir)/address.cfg
+	-rm -f $(DESTDIR)$(datadir)/qterm/qterm.cfg
+#>- 	-rm -f $(datadir)/qterm/address.cfg
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/address.cfg
+	-rm -f $(DESTDIR)$(datadir)/qterm/address.cfg
+#>- 	-rm -f $(datadir)/qterm/credits
+#>+ 1
+	-rm -f $(DESTDIR)$(datadir)/qterm/credits
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
+
+#>+ 3
+trayicon.moc.cpp: $(srcdir)/trayicon.h
+	$(MOC) $(srcdir)/trayicon.h -o trayicon.moc.cpp
 
 #>+ 3
 qtermdecode.moc.cpp: $(srcdir)/qtermdecode.h
@@ -792,6 +818,10 @@ qtermframe.moc.cpp: $(srcdir)/qtermframe.h
 #>+ 3
 aboutdialogui.moc.cpp: $(srcdir)/aboutdialogui.h
 	$(MOC) $(srcdir)/aboutdialogui.h -o aboutdialogui.moc.cpp
+
+#>+ 3
+soundconf.moc.cpp: $(srcdir)/soundconf.h
+	$(MOC) $(srcdir)/soundconf.h -o soundconf.moc.cpp
 
 #>+ 3
 quickdialogui.moc.cpp: $(srcdir)/quickdialogui.h
@@ -878,12 +908,16 @@ quickdialog.moc.cpp: $(srcdir)/quickdialog.h
 	$(MOC) $(srcdir)/quickdialog.h -o quickdialog.moc.cpp
 
 #>+ 3
+soundconfui.moc.cpp: $(srcdir)/soundconfui.h
+	$(MOC) $(srcdir)/soundconfui.h -o soundconfui.moc.cpp
+
+#>+ 3
 addrdialogui.moc.cpp: $(srcdir)/addrdialogui.h
 	$(MOC) $(srcdir)/addrdialogui.h -o addrdialogui.moc.cpp
 
 #>+ 3
 clean-metasources:
-	-rm -f  qtermdecode.moc.cpp schemadialog.moc.cpp qtermframe.moc.cpp aboutdialogui.moc.cpp quickdialogui.moc.cpp articledialogui.moc.cpp qtermtoolbutton.moc.cpp keydialogui.moc.cpp popwidget.moc.cpp msgdialogui.moc.cpp addrdialog.moc.cpp keydialog.moc.cpp qtermscreen.moc.cpp qtermtelnet.moc.cpp qtermbuffer.moc.cpp qtermwindow.moc.cpp prefdialogui.moc.cpp aboutdialog.moc.cpp schemadialogui.moc.cpp qtermwndmgr.moc.cpp articledialog.moc.cpp msgdialog.moc.cpp prefdialog.moc.cpp qtermtimelabel.moc.cpp quickdialog.moc.cpp addrdialogui.moc.cpp
+	-rm -f  trayicon.moc.cpp qtermdecode.moc.cpp schemadialog.moc.cpp qtermframe.moc.cpp aboutdialogui.moc.cpp soundconf.moc.cpp quickdialogui.moc.cpp articledialogui.moc.cpp qtermtoolbutton.moc.cpp keydialogui.moc.cpp popwidget.moc.cpp msgdialogui.moc.cpp addrdialog.moc.cpp keydialog.moc.cpp qtermscreen.moc.cpp qtermtelnet.moc.cpp qtermbuffer.moc.cpp qtermwindow.moc.cpp prefdialogui.moc.cpp aboutdialog.moc.cpp schemadialogui.moc.cpp qtermwndmgr.moc.cpp articledialog.moc.cpp msgdialog.moc.cpp prefdialog.moc.cpp qtermtimelabel.moc.cpp quickdialog.moc.cpp soundconfui.moc.cpp addrdialogui.moc.cpp
 
 #>+ 2
 docs-am:
@@ -896,11 +930,11 @@ force-reedit:
 
 
 #>+ 11
-qterm.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/qtermpythonembed.cpp $(srcdir)/schemadialogui.cpp $(srcdir)/schemadialog.cpp $(srcdir)/quickdialogui.cpp $(srcdir)/quickdialog.cpp $(srcdir)/qtermwndmgr.cpp $(srcdir)/qtermwindow.cpp $(srcdir)/qtermtoolbutton.cpp $(srcdir)/qtermtimelabel.cpp $(srcdir)/qtermtextline.cpp $(srcdir)/qtermtelnet.cpp $(srcdir)/qtermscreen.cpp $(srcdir)/qtermparam.cpp $(srcdir)/qtermframe.cpp $(srcdir)/qtermdecode.cpp $(srcdir)/qtermconvert.cpp $(srcdir)/qtermconfig.cpp $(srcdir)/qtermbuffer.cpp $(srcdir)/qtermbbs.cpp $(srcdir)/prefdialogui.cpp $(srcdir)/prefdialog.cpp $(srcdir)/popwidget.cpp $(srcdir)/msgdialogui.cpp $(srcdir)/msgdialog.cpp $(srcdir)/main.cpp $(srcdir)/keydialogui.cpp $(srcdir)/keydialog.cpp $(srcdir)/articledialogui.cpp $(srcdir)/articledialog.cpp $(srcdir)/addrdialogui.cpp $(srcdir)/addrdialog.cpp $(srcdir)/aboutdialogui.cpp $(srcdir)/aboutdialog.cpp $(srcdir)/qtermdecode.moc.cpp $(srcdir)/aboutdialogui.moc.cpp $(srcdir)/qtermframe.moc.cpp $(srcdir)/schemadialog.moc.cpp $(srcdir)/articledialogui.moc.cpp $(srcdir)/quickdialogui.moc.cpp $(srcdir)/qtermtoolbutton.moc.cpp $(srcdir)/keydialogui.moc.cpp $(srcdir)/msgdialogui.moc.cpp $(srcdir)/popwidget.moc.cpp $(srcdir)/addrdialog.moc.cpp $(srcdir)/keydialog.moc.cpp $(srcdir)/qtermscreen.moc.cpp $(srcdir)/qtermtelnet.moc.cpp $(srcdir)/qtermbuffer.moc.cpp $(srcdir)/qtermwindow.moc.cpp $(srcdir)/prefdialogui.moc.cpp $(srcdir)/aboutdialog.moc.cpp $(srcdir)/articledialog.moc.cpp $(srcdir)/qtermwndmgr.moc.cpp $(srcdir)/schemadialogui.moc.cpp $(srcdir)/prefdialog.moc.cpp $(srcdir)/msgdialog.moc.cpp $(srcdir)/qtermtimelabel.moc.cpp $(srcdir)/quickdialog.moc.cpp $(srcdir)/addrdialogui.moc.cpp 
+qterm.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/trayicon.cpp $(srcdir)/trayicon_win.cpp $(srcdir)/trayicon_x11.cpp $(srcdir)/schemadialogui.cpp $(srcdir)/schemadialog.cpp $(srcdir)/quickdialogui.cpp $(srcdir)/quickdialog.cpp $(srcdir)/qtermwndmgr.cpp $(srcdir)/qtermwindow.cpp $(srcdir)/qtermtoolbutton.cpp $(srcdir)/qtermtimelabel.cpp $(srcdir)/qtermtextline.cpp $(srcdir)/qtermtelnet.cpp $(srcdir)/qtermscreen.cpp $(srcdir)/qtermparam.cpp $(srcdir)/qtermframe.cpp $(srcdir)/qtermdecode.cpp $(srcdir)/qtermconvert.cpp $(srcdir)/qtermconfig.cpp $(srcdir)/qtermbuffer.cpp $(srcdir)/qtermbbs.cpp $(srcdir)/prefdialogui.cpp $(srcdir)/prefdialog.cpp $(srcdir)/popwidget.cpp $(srcdir)/msgdialogui.cpp $(srcdir)/msgdialog.cpp $(srcdir)/main.cpp $(srcdir)/keydialogui.cpp $(srcdir)/keydialog.cpp $(srcdir)/articledialogui.cpp $(srcdir)/articledialog.cpp $(srcdir)/addrdialogui.cpp $(srcdir)/addrdialog.cpp $(srcdir)/aboutdialogui.cpp $(srcdir)/aboutdialog.cpp $(srcdir)/qtermsound.cpp $(srcdir)/soundconfui.cpp $(srcdir)/soundconf.cpp qtermdecode.moc.cpp trayicon.moc.cpp aboutdialogui.moc.cpp qtermframe.moc.cpp schemadialog.moc.cpp soundconf.moc.cpp articledialogui.moc.cpp quickdialogui.moc.cpp qtermtoolbutton.moc.cpp keydialogui.moc.cpp msgdialogui.moc.cpp popwidget.moc.cpp addrdialog.moc.cpp keydialog.moc.cpp qtermscreen.moc.cpp qtermtelnet.moc.cpp qtermbuffer.moc.cpp qtermwindow.moc.cpp prefdialogui.moc.cpp aboutdialog.moc.cpp articledialog.moc.cpp qtermwndmgr.moc.cpp schemadialogui.moc.cpp prefdialog.moc.cpp msgdialog.moc.cpp qtermtimelabel.moc.cpp quickdialog.moc.cpp addrdialogui.moc.cpp soundconfui.moc.cpp 
 	@echo 'creating qterm.all_cpp.cpp ...'; \
 	rm -f qterm.all_cpp.files qterm.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> qterm.all_cpp.final; \
-	for file in qtermpythonembed.cpp schemadialogui.cpp schemadialog.cpp quickdialogui.cpp quickdialog.cpp qtermwndmgr.cpp qtermwindow.cpp qtermtoolbutton.cpp qtermtimelabel.cpp qtermtextline.cpp qtermtelnet.cpp qtermscreen.cpp qtermparam.cpp qtermframe.cpp qtermdecode.cpp qtermconvert.cpp qtermconfig.cpp qtermbuffer.cpp qtermbbs.cpp prefdialogui.cpp prefdialog.cpp popwidget.cpp msgdialogui.cpp msgdialog.cpp main.cpp keydialogui.cpp keydialog.cpp articledialogui.cpp articledialog.cpp addrdialogui.cpp addrdialog.cpp aboutdialogui.cpp aboutdialog.cpp qtermdecode.moc.cpp aboutdialogui.moc.cpp qtermframe.moc.cpp schemadialog.moc.cpp articledialogui.moc.cpp quickdialogui.moc.cpp qtermtoolbutton.moc.cpp keydialogui.moc.cpp msgdialogui.moc.cpp popwidget.moc.cpp addrdialog.moc.cpp keydialog.moc.cpp qtermscreen.moc.cpp qtermtelnet.moc.cpp qtermbuffer.moc.cpp qtermwindow.moc.cpp prefdialogui.moc.cpp aboutdialog.moc.cpp articledialog.moc.cpp qtermwndmgr.moc.cpp schemadialogui.moc.cpp prefdialog.moc.cpp msgdialog.moc.cpp qtermtimelabel.moc.cpp quickdialog.moc.cpp addrdialogui.moc.cpp ; do \
+	for file in trayicon.cpp trayicon_win.cpp trayicon_x11.cpp schemadialogui.cpp schemadialog.cpp quickdialogui.cpp quickdialog.cpp qtermwndmgr.cpp qtermwindow.cpp qtermtoolbutton.cpp qtermtimelabel.cpp qtermtextline.cpp qtermtelnet.cpp qtermscreen.cpp qtermparam.cpp qtermframe.cpp qtermdecode.cpp qtermconvert.cpp qtermconfig.cpp qtermbuffer.cpp qtermbbs.cpp prefdialogui.cpp prefdialog.cpp popwidget.cpp msgdialogui.cpp msgdialog.cpp main.cpp keydialogui.cpp keydialog.cpp articledialogui.cpp articledialog.cpp addrdialogui.cpp addrdialog.cpp aboutdialogui.cpp aboutdialog.cpp qtermsound.cpp soundconfui.cpp soundconf.cpp qtermdecode.moc.cpp trayicon.moc.cpp aboutdialogui.moc.cpp qtermframe.moc.cpp schemadialog.moc.cpp soundconf.moc.cpp articledialogui.moc.cpp quickdialogui.moc.cpp qtermtoolbutton.moc.cpp keydialogui.moc.cpp msgdialogui.moc.cpp popwidget.moc.cpp addrdialog.moc.cpp keydialog.moc.cpp qtermscreen.moc.cpp qtermtelnet.moc.cpp qtermbuffer.moc.cpp qtermwindow.moc.cpp prefdialogui.moc.cpp aboutdialog.moc.cpp articledialog.moc.cpp qtermwndmgr.moc.cpp schemadialogui.moc.cpp prefdialog.moc.cpp msgdialog.moc.cpp qtermtimelabel.moc.cpp quickdialog.moc.cpp addrdialogui.moc.cpp soundconfui.moc.cpp ; do \
 	  echo "#include \"$$file\"" >> qterm.all_cpp.files; \
 	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> qterm.all_cpp.final; \
 	done; \

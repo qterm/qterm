@@ -5,9 +5,11 @@
 #include <qcursor.h>
 
 #include <qthread.h>
+#include <Python.h>
 
 #include "qtermparam.h"
 #include "qtermconvert.h"
+#include "qtermsound.h"
 
 class QTermTextLine;
 class QTermScreen;
@@ -18,24 +20,30 @@ class QTermFrame;
 class QTermBBS;
 class popWidget;
 
-class QTermThread : public QThread
+class QTermWindow;
+
+// thread copy article
+class QTermDAThread : public QThread
 {
 public:
-	QTermThread(QObject*, const QCString&);
-	~QTermThread();
+	QTermDAThread(QTermWindow*);
+	~QTermDAThread();
 
-	void run();
-	void stop();
+	virtual void run();
+	
+	QCString cstrArticle;
+
 private:
-	QObject *receiver;
-	QCString script;
+	QTermWindow *pWin;
+
 };
 
 class QTermWindow: public QMainWindow
 {
 	Q_OBJECT
 public:
-	QTermWindow( QTermFrame * frame,QTermParam param, int addr=-1, QWidget* parent = 0, const char* name = 0, int wflags =0 );
+	QTermWindow( QTermFrame * frame,QTermParam param, int addr=-1, QWidget* parent = 0, 
+					const char* name = 0, int wflags =0 );
 	~QTermWindow();
 	
 	void connectHost();
@@ -57,8 +65,6 @@ public slots:
 	void reconnect();
 
 	void sendParsedString(const char*);
-	QCString downloadArticle();
-
 public:
 	void disconnect();
 	void refresh();
@@ -68,6 +74,8 @@ public:
 
 	void runScriptFile(const QCString&);
 	void externInput(const QCString&);
+	QCString stripWhitespace(const QCString& cstr);
+
 protected slots:
 	// from QTermTelnet
 	void readReady(int);
@@ -75,7 +83,6 @@ protected slots:
    	void idleProcess();
 	void replyProcess();
 	void blinkTab();
-	void downTimer();
 
 protected:
 	void mouseMoveEvent( QMouseEvent * );
@@ -84,16 +91,20 @@ protected:
 	void wheelEvent( QWheelEvent * );
 	void enterEvent( QEvent * );
 	void leaveEvent( QEvent * );
+	void customEvent( QCustomEvent * );
 
 	void reconnectProcess();
 	void connectionClosed();
 	void doAutoLogin();
 	void saveSetting();	
 	void replyMessage();
+	
 	QCString parseString( const QCString&, int *len=0);
-	bool waitForNewPage(int);
 	QString fromBBSCodec(const QCString& cstr);
-	QCString stripWhitespace(const QCString& cstr);
+
+
+	void pythonCallback(const char*);
+	int runPythonFile(const char*);
 
 	void closeEvent ( QCloseEvent * );
 	void keyPressEvent( QKeyEvent * );
@@ -107,10 +118,6 @@ protected:
 	QTermConvert m_converter;
 	QTermParam m_param;
 	
-	// download article
-	bool m_bTimeOut;
-	bool m_bPageComplete;
-
 	bool m_bMessage;
 	QString m_strMessage;
 
@@ -120,7 +127,7 @@ protected:
 
 	// timer
 	bool m_bIdling;
-	QTimer *m_idleTimer, *m_replyTimer, *m_tabTimer, *m_downTimer, *m_reconnectTimer;
+	QTimer *m_idleTimer, *m_replyTimer, *m_tabTimer, *m_reconnectTimer;
 	
 	// address setting
 	bool m_bSetChanged;
@@ -134,8 +141,15 @@ protected:
 	// 
 	popWidget *m_popWin;
 
-	QTermThread *m_pThread;
+	// download article thread
+	QTermDAThread *m_pDAThread;
 
+	// python 
+	PyObject *pModule, *pDict, *pName, *pFunc;
+	bool m_bPythonScriptLoaded;
+	
+	// play sound
+	QTermSound * sound;
 public:
 	QTermFrame * m_pFrame;
 
@@ -153,6 +167,10 @@ public:
 	bool m_bMouse;
 	bool m_bReconnect;
 	friend class QTermScreen;
+	
+	QCString m_cstrPythonError;
+
+	QWaitCondition m_wcWaiting;
 };
 
 #endif	//QTERMWINDOW_H
