@@ -9,6 +9,7 @@
 #include <qdir.h>
 #include <qwmatrix.h>
 #include <qpopupmenu.h>
+#include <qmessagebox.h>
 
 extern QString getSaveFileName(const QString&, QWidget*);
 extern QString fileCfg;
@@ -236,7 +237,8 @@ void QTermCanvas::saveImage()
 
 	if(strSave.isEmpty())
 		return;
-	pxm.save(strSave, fi.extension(false));
+	if(!pxm.save(strSave, fi.extension(false)))
+		QMessageBox::warning(this, "Failed to save file", "Cant save file, maybe format not supported");
 }
 
 void QTermCanvas::deleteImage()

@@ -213,6 +213,8 @@ void QTermTelnet::fsminit(u_char fsm[][NCHRS], struct fsm_trans ttab[], int nsta
  */
 void QTermTelnet::connectHost(const QString& hostname, Q_UINT16 portnumber)
 {
+	termtype = 0;
+	naws = 0;
 	socket->connectToHost( hostname, portnumber );
 	// host name resolving
 	emit TelnetState( TSRESOLVING );

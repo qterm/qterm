@@ -2,7 +2,9 @@
 #include "qtermcanvas.h"
 #include "qterm.h"
 #include "qtermconfig.h"
+#include "qtermframe.h"
 
+#include <qapplication.h>
 #include <qstring.h>
 #include <qfileinfo.h>
 #include <qmessagebox.h>
@@ -92,9 +94,8 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 	
 	if(m_bPreview)
 	{
-		QTermConfig conf(fileCfg);
-		QString strPool = QString::fromLocal8Bit(conf.getItemValue("preference","pool"));
-
+		QString strPool = ((QTermFrame *)qApp->mainWidget())->m_pref.strPoolPath;
+		
 		m_strHttpFile = strPool + G2U(m_strHttpFile);
 
 		QFileInfo fi(m_strHttpFile);

@@ -33,6 +33,7 @@ QString getException()
 	
 	if(pTraceback==NULL)
 		return "General Error in Python Callback";
+
     pName = PyString_FromString("format_exception");
     PyObject *pRes = PyObject_CallMethodObjArgs(pTraceback, pName,pType,pValue,pTb,NULL);
     Py_DECREF(pName);

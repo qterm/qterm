@@ -247,6 +247,7 @@ void schemaDialog::updateView()
 {
 	// title
 	titleLineEdit->setText( title );
+
 #if (QT_VERSION>300)
 	// color pane
 	clr0Button->setPaletteBackgroundColor(clr0);
@@ -265,7 +266,7 @@ void schemaDialog::updateView()
 	clr13Button->setPaletteBackgroundColor(clr13);
 	clr14Button->setPaletteBackgroundColor(clr14);
 	clr15Button->setPaletteBackgroundColor(clr15);
-#else
+#else 
     clr0Button->setPalette(clr0);
     clr1Button->setPalette(clr1);
     clr2Button->setPalette(clr2);
