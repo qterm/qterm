@@ -39,7 +39,24 @@ QString pathLib="./";
 QString pathPic="./";
 QString pathCfg="./";
 
-int checkPath( QString path )
+void clearDir( const QString& path )
+{
+	QDir dir(path);
+	if( !dir.exists() )
+	{
+		const QFileInfoList *list = dir.entryInfoList();
+		QFileInfoListIterator it( *list );
+		QFileInfo *fi;
+		while ( (fi = it.current()) != 0 ) 
+		{
+			if(fi->isFile())
+				dir.remove(fi->fileName());
+			++it;
+		}
+	}
+}
+
+int checkPath( const QString& path )
 {
 	QDir dir(path);
 	if( ! dir.exists() )
@@ -52,7 +69,7 @@ int checkPath( QString path )
 	return 0;
 }
 
-int checkFile( QString dst, QString src )
+int checkFile( const QString& dst, const QString& src )
 {
 	QDir dir;
 	if(dir.exists(dst))
@@ -119,13 +136,6 @@ int iniWorkingDir( QString param )
 	if(checkPath(pathSchema)==-1)
 		return -1;
 
-	QString pathZmodem=pathCfg+"zmodem";
-	if(checkPath(pathZmodem)==-1)
-		return -1;
-	
-	QString pathPool=pathCfg+"pool";
-	if(checkPath(pathPool)==-1)
-		return -1;
 }
 #else
 int iniWorkingDir( QString param )
@@ -173,13 +183,6 @@ int iniWorkingDir( QString param )
 	if(checkPath(pathSchema)==-1)
 		return -1;
 
-	QString pathZmodem=pathCfg+"zmodem";
-	if(checkPath(pathZmodem)==-1)
-		return -1;
-	
-	QString pathPool=pathCfg+"pool";
-	if(checkPath(pathPool)==-1)
-		return -1;
 
 	// picPath --- $HOME/.qterm/pic prefered
 	pathPic = pathCfg+"pic";
@@ -196,12 +199,12 @@ int iniWorkingDir( QString param )
 	addrCfg=pathCfg+"address.cfg";
 	if(checkFile(addrCfg,pathLib+"address.cfg")==-1)
 		return -1;
-
+	
 	return 0;
 }
 #endif
 
-void iniSettings()
+int iniSettings()
 {
    //read settings from qterm.cfg
 	QTermConfig * conf= new QTermConfig(fileCfg);
@@ -237,10 +240,30 @@ void iniSettings()
 	if( family!=NULL && pointsize.toInt()!=0 )
 	{
 		QFont font(QString::fromLocal8Bit(family),pointsize.toInt(),QFont::Normal,false);
+		#if (QT_VERSION>=300)
+		QString bAA = conf->getItemValue("global", "antialias");
+		if(bAA!="0")
+			font.setStyleStrategy(QFont::PreferAntialias);
+		#endif
 		qApp->setFont(font,true);
 	}
 
+	// zmodem and pool directory
+	QString pathZmodem = QString::fromLocal8Bit(conf->getItemValue("preference", "zmodem"));
+	if(pathZmodem.isEmpty())
+		pathZmodem = pathCfg+"zmodem";
+	if(checkPath(pathZmodem)==-1)
+		return -1;
+	
+	QString pathPool = QString::fromLocal8Bit(conf->getItemValue("preference", "pool"));
+	if(pathPool.isEmpty())
+		pathPool = pathCfg+"pool";
+	if(checkPath(pathPool)==-1)
+		return -1;
+
     delete conf;
+
+	return 0;
 }
 
 QStringList loadNameList( QTermConfig * pConf )
@@ -448,7 +471,10 @@ int main( int argc, char ** argv )
 	    return -1;
     }
     //set font
-    iniSettings();
+    if( iniSettings()<0 )
+	{
+		return -1;
+	}
 
 #ifdef HAVE_PYTHON
 	  // initialize Python

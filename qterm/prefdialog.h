@@ -27,6 +27,7 @@ protected slots:
 	void onBeep(int);
 	void onBrowse();
 	void onImage();
+	void onPool();
 
 protected:
 	void closeEvent( QCloseEvent * );

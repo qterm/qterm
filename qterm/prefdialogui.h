@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'prefdialog.ui'
 **
-** Created: Mon Aug 23 12:16:37 2004
+** Created: Wed Aug 25 22:02:28 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -18,12 +18,12 @@ class QHBoxLayout;
 class QGridLayout;
 class QSpacerItem;
 class QCheckBox;
-class QLineEdit;
 class QComboBox;
-class QLabel;
 class QButtonGroup;
 class QRadioButton;
+class QLineEdit;
 class QPushButton;
+class QLabel;
 class QFrame;
 
 class prefDialogUI : public QDialog
@@ -38,13 +38,10 @@ public:
     QCheckBox* saveCheckBox;
     QCheckBox* warnCheckBox;
     QCheckBox* urlCheckBox;
-    QLineEdit* wordLineEdit3;
     QComboBox* ximComboBox;
     QCheckBox* aacheckBox;
     QCheckBox* trayCheckBox;
-    QLabel* TextLabel2_2;
     QCheckBox* smartCheckBox;
-    QLabel* TextLabel1_2;
     QCheckBox* blinkCheckBox;
     QButtonGroup* ButtonGroup1;
     QRadioButton* noneRadioButton;
@@ -53,18 +50,25 @@ public:
     QPushButton* selectsoundPushButton;
     QRadioButton* beepRadioButton;
     QLabel* TextLabel1;
-    QLabel* TextLabel3;
-    QLabel* textLabel1;
-    QLineEdit* httpLineEdit;
-    QLineEdit* zmodemLineEdit;
     QPushButton* okPushButton;
-    QPushButton* cancelPushButton;
     QFrame* Line1;
-    QLabel* textLabel1_2;
+    QPushButton* cancelPushButton;
+    QLabel* TextLabel3;
+    QLineEdit* httpLineEdit;
     QLineEdit* imageLineEdit;
-    QPushButton* browsePushButton;
-    QPushButton* choosehttpPushButton;
+    QLabel* textLabel1_2;
     QPushButton* imagePushButton;
+    QLabel* textLabel1;
+    QLabel* TextLabel1_2;
+    QLineEdit* wordLineEdit3;
+    QLabel* TextLabel2_2;
+    QLineEdit* zmodemLineEdit;
+    QLineEdit* poolLineEdit;
+    QCheckBox* clearCheckBox;
+    QPushButton* browsePushButton;
+    QPushButton* poolPushButton;
+    QPushButton* choosehttpPushButton;
+    QLabel* textLabel1_3;
 
 protected:
 

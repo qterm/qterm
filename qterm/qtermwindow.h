@@ -39,12 +39,9 @@ public:
 	~QTermDAThread();
 
 	virtual void run();
-	
 	QCString cstrArticle;
-
 private:
 	QTermWindow *pWin;
-
 };
 
 class QTermWindow: public QMainWindow
@@ -70,7 +67,6 @@ public slots:
 	void stopScript();
 
 	void showStatusBar(bool);
-
 	void reconnect();
 
 	void sendParsedString(const char*);
@@ -89,15 +85,19 @@ protected slots:
 	// from QTermTelnet
 	void readReady(int);
 	void TelnetState(int);
-   	void idleProcess();
+	void ZmodemState(int,int,const QCString&);
+  	// timer
+	void idleProcess();
 	void replyProcess();
 	void blinkTab();
 	void inputHandle(QString * text);
-	void ZmodemState(int,int,const QCString&);
+	// http
 	void httpDone(bool);
 	void dataRead(int,int);
 	void httpResponse( const QHttpResponseHeader &);
 
+	//http menu
+	void previewLink();
 	void openLink();
 	void copyLink();
 	void saveLink();
@@ -125,7 +125,7 @@ protected:
 	QString fromBBSCodec(const QCString& cstr);
 
 	void runProgram(const QCString&);
-	void pythonCallback(const char*);
+	void pythonCallback(const char*, const char*, ...);
 	int runPythonFile(const char*);
 
 	void closeEvent ( QCloseEvent * );
@@ -138,8 +138,8 @@ protected:
 	static char direction[][5];
     QCursor cursor[9];
 	bool m_bConnected;
+
 	QTermConvert m_converter;
-	QTermParam m_param;
 	
 	bool m_bMessage;
 	QString m_strMessage;
@@ -178,12 +178,20 @@ protected:
 	QTermZmodem *m_pZmodem;
 
 	zmodemDialog *m_pZmDialog;
+
+	// HTTP 
+	QHttp m_httpDown;
+	QString m_strHttpFile;
+	QTermCanvas *m_pCanvas;
+	QProgressDialog *m_pPd;
+	bool m_bPreview;
+
 public:
 	QTermFrame * m_pFrame;
-
 	QTermBuffer * m_pBuffer;
-
 	QTermTelnet * m_pTelnet;
+	QTermParam m_param;
+
 	// menu and toolbar state
 	bool m_bCopyColor;
 	bool m_bCopyRect;
@@ -200,12 +208,7 @@ public:
 
 	QWaitCondition m_wcWaiting;
 
-	// HTTP 
-	QHttp m_httpDown;
-	QString m_strHttpFile;
-	QTermCanvas *m_pCanvas;
-	QProgressDialog *m_pPd;
-	bool m_bPreview;
+
 };
 
 #endif	//QTERMWINDOW_H

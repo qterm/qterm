@@ -81,6 +81,7 @@ extern QString pathLib;
 extern QString pathPic;
 extern QString pathCfg;
 
+extern void clearDir(const QString& );
 extern QStringList loadNameList(QTermConfig *);
 extern void loadAddress(QTermConfig *, int, QTermParam &);
 extern void saveAddress(QTermConfig *, int, const QTermParam &);
@@ -345,10 +346,15 @@ void QTermFrame::loadPref( QTermConfig * conf )
 	m_pref.nMethod=strTmp.toInt();
 	strTmp = conf->getItemValue("preference","externalplayer");
 	m_pref.strPlayer=strTmp;
+
+	strTmp = conf->getItemValue("preference","clearpool");
+	m_pref.bClearPool=(strTmp!="0");
+	strTmp = conf->getItemValue("preference","pool");
+	m_pref.strPoolPath=strTmp.isEmpty()?pathCfg+"pool/":strTmp;
 	strTmp = conf->getItemValue("preference","zmodem");
 	m_pref.strZmPath=strTmp.isEmpty()?pathCfg+"zmodem/":strTmp;
 	strTmp = conf->getItemValue("preference","image");
-	m_pref.strImageViewer=strTmp;
+	m_pref.strImageViewer=QString::fromLocal8Bit(strTmp);
 }
 
 //save current setting to qterm.cfg
@@ -654,6 +660,13 @@ void QTermFrame::closeEvent(QCloseEvent * clse)
 		wndmgr->activeWindow()->close();
 	}
 	saveSetting();
+	// clear zmodem and pool if needed
+	if(m_pref.bClearPool)
+	{
+		clearDir(m_pref.strZmPath);
+		clearDir(m_pref.strPoolPath);
+	}
+
 	clse->accept();
 }
 
@@ -838,6 +851,9 @@ void QTermFrame::uiFont()
 {
 	bool ok;
 	QFont font = QFontDialog::getFont(&ok,qApp->font());
+	if(m_pref.bAA)
+		font.setStyleStrategy(QFont::PreferAntialias);
+
 	if(ok==true)
 	{
 		qApp->setFont(font,TRUE);
@@ -1274,17 +1290,17 @@ void QTermFrame::addMainMenu()
 	QPopupMenu * file = new QPopupMenu( this );
 	mainMenu->insertItem( tr("&File"), file );
 	file->insertItem( QPixmap(pathLib+"pic/connect.png"), 
-					tr("Connect"), this, SLOT(connectIt()) );
+					tr("&Connect"), this, SLOT(connectIt()) );
 	file->insertItem( QPixmap(pathLib+"pic/disconnect.png"),
-					tr("Disconnect"), this, SLOT(disconnect()), 0, ID_FILE_DISCONNECT );
+					tr("&Disconnect"), this, SLOT(disconnect()), 0, ID_FILE_DISCONNECT );
 
 	file->insertSeparator();
 	file->insertItem( QPixmap(pathLib+"pic/addr.png"), 
-					tr("Address Book"), this, SLOT(addressBook()), Qt::Key_F2 );
+					tr("&Address book"), this, SLOT(addressBook()), Qt::Key_F2 );
 	file->insertItem( QPixmap(pathLib+"pic/quick.png"), 
-					tr("Quick Login"),this, SLOT(quickLogin()), Qt::Key_F3 );
+					tr("&Quick login"),this, SLOT(quickLogin()), Qt::Key_F3 );
 	file->insertSeparator();
-	file->insertItem( tr("Exit"), this, SLOT(exitQTerm()) );
+	file->insertItem( tr("&Exit"), this, SLOT(exitQTerm()) );
 	
 	//Edit Menu
 	QPopupMenu * edit = new QPopupMenu( this );
@@ -1292,30 +1308,30 @@ void QTermFrame::addMainMenu()
 
 	edit->setCheckable( true );
 	edit->insertItem( QPixmap(pathLib+"pic/copy.png"),
-					tr("Copy"), this, SLOT(copy()), CTRL+Key_Insert, ID_EDIT_COPY );
+					tr("&Copy"), this, SLOT(copy()), CTRL+Key_Insert, ID_EDIT_COPY );
 	edit->insertItem( QPixmap(pathLib+"pic/paste.png"),
-					tr("Paste"), this, SLOT(paste()), SHIFT+Key_Insert, ID_EDIT_PASTE );
+					tr("&Paste"), this, SLOT(paste()), SHIFT+Key_Insert, ID_EDIT_PASTE );
 	edit->insertSeparator();
 	edit->insertItem( QPixmap(pathLib+"pic/color-copy.png"),
-					tr("Copy with Color"), this, SLOT(copyColor()), 0, ID_EDIT_COLOR );
+					tr("C&opy with color"), this, SLOT(copyColor()), 0, ID_EDIT_COLOR );
 	edit->insertItem( QPixmap(pathLib+"pic/rect.png"),
-					tr("Rectangle Select"), this, SLOT(copyRect()), 0, ID_EDIT_RECT );
-	edit->insertItem( tr("Auto Copy Select"), this, SLOT(autoCopy()),0,  ID_EDIT_AUTO );
-	edit->insertItem( tr("Paste with Word Wrap"), this, SLOT(wordWrap()), 0,  ID_EDIT_WW );
+					tr("&Rectangle select"), this, SLOT(copyRect()), 0, ID_EDIT_RECT );
+	edit->insertItem( tr("Auto copy &select"), this, SLOT(autoCopy()),0,  ID_EDIT_AUTO );
+	edit->insertItem( tr("P&aste with wordwrap"), this, SLOT(wordWrap()), 0,  ID_EDIT_WW );
 	
 	QPopupMenu * escapeMenu = new QPopupMenu(this);
 	escapeMenu->setCheckable(true);
-		escapeMenu->insertItem( tr("none"), this, SLOT(noEsc()), 0, ID_EDIT_ESC_NO );
-		escapeMenu->insertItem( tr("ESC ESC ["), this, SLOT(escEsc()), 0, ID_EDIT_ESC_ESC );
-		escapeMenu->insertItem( tr("Ctrl+U ["), this, SLOT(uEsc()), 0, ID_EDIT_ESC_U );
-		escapeMenu->insertItem( tr("Custom..."), this, SLOT(customEsc()), 0, ID_EDIT_ESC_CUS );
-	edit->insertItem( tr("Paste with color"), escapeMenu);
+		escapeMenu->insertItem( tr("&None"), this, SLOT(noEsc()), 0, ID_EDIT_ESC_NO );
+		escapeMenu->insertItem( tr("&ESC ESC ["), this, SLOT(escEsc()), 0, ID_EDIT_ESC_ESC );
+		escapeMenu->insertItem( tr("Ctrl+&U ["), this, SLOT(uEsc()), 0, ID_EDIT_ESC_U );
+		escapeMenu->insertItem( tr("&Custom..."), this, SLOT(customEsc()), 0, ID_EDIT_ESC_CUS );
+	edit->insertItem( tr("Paste &with color"), escapeMenu);
 
 	QPopupMenu * codecMenu = new QPopupMenu(this);
 	codecMenu->setCheckable(true);
-		codecMenu->insertItem( tr("GBK"), this, SLOT(gbkCodec()), 0, ID_EDIT_CODEC_GBK );
-		codecMenu->insertItem( tr("Big5"), this, SLOT(big5Codec()), 0, ID_EDIT_CODEC_BIG5 );
-	edit->insertItem( tr("Clipboard Encoding"), codecMenu);
+		codecMenu->insertItem( tr("&GBK"), this, SLOT(gbkCodec()), 0, ID_EDIT_CODEC_GBK );
+		codecMenu->insertItem( tr("&Big5"), this, SLOT(big5Codec()), 0, ID_EDIT_CODEC_BIG5 );
+	edit->insertItem( tr("Clipboard encoding"), codecMenu);
 
 	//View menu
 	QPopupMenu * view = new QPopupMenu( this );
@@ -1323,72 +1339,72 @@ void QTermFrame::addMainMenu()
 	
 	view->setCheckable( true );
 	view->insertItem( QPixmap(pathLib+"pic/fonts.png"),
-					tr("Font"), this, SLOT(font()), 0, ID_VIEW_FONT );
+					tr("&Font"), this, SLOT(font()), 0, ID_VIEW_FONT );
 	view->insertItem( QPixmap(pathLib+"pic/color.png"),
-					tr("Color"), this, SLOT(color()), 0, ID_VIEW_COLOR );
+					tr("&Color"), this, SLOT(color()), 0, ID_VIEW_COLOR );
 	view->insertItem( QPixmap(pathLib+"pic/refresh.png"),
-					tr("Refresh"), this, SLOT(refresh()), Qt::Key_F5, ID_VIEW_REFRESH );
+					tr("&Refresh"), this, SLOT(refresh()), Qt::Key_F5, ID_VIEW_REFRESH );
 	view->insertSeparator();
 	//language menu
 	langMenu = new QPopupMenu( this );
 	langMenu->setCheckable(true);
-		sEng = langMenu->insertItem( tr("English"),this,SLOT(langEnglish()));
-		sChs = langMenu->insertItem( tr("Simplified Chinese"),this,SLOT(langSimplified()));
-		sCht = langMenu->insertItem( tr("Traditional Chinese"),this,SLOT(langTraditional()));
-	view->insertItem( tr("Language"), langMenu );
-	view->insertItem( tr("UI Font"), this, SLOT(uiFont()) );
+		sEng = langMenu->insertItem( tr("&English"),this,SLOT(langEnglish()));
+		sChs = langMenu->insertItem( tr("&Simplified Chinese"),this,SLOT(langSimplified()));
+		sCht = langMenu->insertItem( tr("&Traditional Chinese"),this,SLOT(langTraditional()));
+	view->insertItem( tr("&Language"), langMenu );
+	view->insertItem( tr("&UI font"), this, SLOT(uiFont()) );
 
 	themesMenu = new QPopupMenu( this );
 	themesMenu->setCheckable( TRUE );
 	connect( themesMenu, SIGNAL( aboutToShow() ),
 	     this, SLOT( themesMenuAboutToShow() ) );
-	view->insertItem( tr("Themes"), themesMenu );
+	view->insertItem( tr("&Themes"), themesMenu );
 
-	view->insertItem( tr("Fullscreen"), this, SLOT(fullscreen()), Qt::Key_F6, ID_VIEW_FULL );
-	view->insertItem( tr("Boss Color"), this, SLOT(bosscolor()), Qt::Key_F12, ID_VIEW_BOSS );
+	view->insertItem( tr("&Fullscreen"), this, SLOT(fullscreen()), Qt::Key_F6, ID_VIEW_FULL );
+	view->insertItem( tr("Boss &Color"), this, SLOT(bosscolor()), Qt::Key_F12, ID_VIEW_BOSS );
 
 	view->insertSeparator();
 	QPopupMenu *scrollMenu = new QPopupMenu(this);
-		scrollMenu->insertItem( tr("Hide"), this, SLOT(hideScroll()), 0, ID_VIEW_SCROLL_HIDE );
-		scrollMenu->insertItem( tr("Left"), this, SLOT(leftScroll()), 0, ID_VIEW_SCROLL_LEFT );
-		scrollMenu->insertItem( tr("Right"), this, SLOT(rightScroll()), 0, ID_VIEW_SCROLL_RIGHT );
-	view->insertItem( tr("ScrollBar"), scrollMenu );
-	view->insertItem( tr("Status Bar"), this, SLOT(showStatusBar()), 0, ID_VIEW_STATUS );
-	view->insertItem( tr("Switch Bar"), this, SLOT(showSwitchBar()), 0, ID_VIEW_SWITCH );
+		scrollMenu->insertItem( tr("&Hide"), this, SLOT(hideScroll()), 0, ID_VIEW_SCROLL_HIDE );
+		scrollMenu->insertItem( tr("&Left"), this, SLOT(leftScroll()), 0, ID_VIEW_SCROLL_LEFT );
+		scrollMenu->insertItem( tr("&Right"), this, SLOT(rightScroll()), 0, ID_VIEW_SCROLL_RIGHT );
+	view->insertItem( tr("&ScrollBar"), scrollMenu );
+	view->insertItem( tr("Status &Bar"), this, SLOT(showStatusBar()), 0, ID_VIEW_STATUS );
+	view->insertItem( tr("S&witch Bar"), this, SLOT(showSwitchBar()), 0, ID_VIEW_SWITCH );
 
 	
 	// Option Menu	
 	QPopupMenu * option = new QPopupMenu( this );
 	mainMenu->insertItem( tr("&Option"), option );
 
-	option->insertItem( tr("Setting for Currrent Session"), this, SLOT(setting()), 0, ID_OPTION_CURRENT );
+	option->insertItem( tr("&Setting for currrent session"), this, SLOT(setting()), 0, ID_OPTION_CURRENT );
 	option->insertSeparator();
-	option->insertItem( tr("Default Setting"), this, SLOT(defaultSetting()) );
-	option->insertItem( tr("Preference"), this, SLOT(preference()) );
+	option->insertItem( tr("&Default setting"), this, SLOT(defaultSetting()) );
+	option->insertItem( tr("&Preference"), this, SLOT(preference()) );
 	
 	// Special
 	QPopupMenu * spec = new QPopupMenu( this );
 	mainMenu->insertItem( tr("&Special"), spec );
 	spec->insertItem( QPixmap(pathLib+"pic/article.png"),
-					tr("Copy Article"), this, SLOT(copyArticle()), Qt::Key_F9, ID_SPEC_ARTICLE );
+					tr("&Copy article"), this, SLOT(copyArticle()), Qt::Key_F9, ID_SPEC_ARTICLE );
 	spec->setCheckable( true );
 	spec->insertItem( QPixmap(pathLib+"pic/anti-idle.png"),
-					tr("Anti Idle"), this, SLOT(antiIdle()), 0, ID_SPEC_ANTI );
+					tr("Anti &idle"), this, SLOT(antiIdle()), 0, ID_SPEC_ANTI );
 	spec->insertItem(QPixmap(pathLib+"pic/auto-reply.png"), 
-					tr("Auto Reply"), this, SLOT(autoReply()), 0, ID_SPEC_AUTO );
+					tr("Auto &reply"), this, SLOT(autoReply()), 0, ID_SPEC_AUTO );
 	spec->insertItem( QPixmap(pathLib+"pic/message.png"),
-					tr("View Messages"), this, SLOT(viewMessages()), Qt::Key_F10, ID_SPEC_MESSAGE );
+					tr("&View messages"), this, SLOT(viewMessages()), Qt::Key_F10, ID_SPEC_MESSAGE );
 	spec->insertItem( QPixmap(pathLib+"pic/sound.png"),
-					tr("Beep "), this, SLOT(beep()), 0, ID_SPEC_BEEP );
+					tr("&Beep "), this, SLOT(beep()), 0, ID_SPEC_BEEP );
 	spec->insertItem( QPixmap(pathLib+"pic/mouse.png"),
-					tr("Mouse Support"), this, SLOT(enableMouse()), 0, ID_SPEC_MOUSE );
+					tr("&Mouse support"), this, SLOT(enableMouse()), 0, ID_SPEC_MOUSE );
 
 	
 	//Script
 	QPopupMenu * script = new QPopupMenu( this );
 	mainMenu->insertItem( tr("Scrip&t"), script );
-	script->insertItem( tr("Run..."), this, SLOT(runScript()), Qt::Key_F7, ID_SCRIPT_RUN );
-	script->insertItem( tr("Stop"), this, SLOT(stopScript()), Qt::Key_F8, ID_SCRIPT_STOP );
+	script->insertItem( tr("&Run..."), this, SLOT(runScript()), Qt::Key_F7, ID_SCRIPT_RUN );
+	script->insertItem( tr("&Stop"), this, SLOT(stopScript()), Qt::Key_F8, ID_SCRIPT_STOP );
 
 	//Window menu
 	windowsMenu = new QPopupMenu( this );
@@ -1402,8 +1418,8 @@ void QTermFrame::addMainMenu()
 	//Help menu
 	QPopupMenu * help = new QPopupMenu( this );
 	mainMenu->insertItem( tr("&Help"), help );
-	help->insertItem( tr("About QTerm"), this, SLOT(aboutQTerm()), Qt::Key_F1 );
-	help->insertItem( tr("QTerm's Homepage"),this,SLOT(homepage()));
+	help->insertItem( tr("About &QTerm"), this, SLOT(aboutQTerm()), Qt::Key_F1 );
+	help->insertItem( tr("QTerm's &Homepage"),this,SLOT(homepage()));
 
 }
 

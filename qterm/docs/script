@@ -34,12 +34,28 @@ Methods
 
 	int isConnected(long lp)
 		if current session is connected. 
+	
+	string getAddress(long lp)
+		get bbs address
 
+	int getPort(long lp)
+		get bbs port
+	
+	int getProtocol(long lp)
+		get bbs protocol
+		
 	reconnect(long lp)
 		reconnect to host
 
 	disconnect(long lp)
 		disconnect from host
+	
+	fromUTF8(string str, string codec)
+		decode str from utf8 to codec
+
+	toUTF8(string str, string codec)
+		decode str from codec to utf8
+		
 Example Code
 	1. download 4 continuous articles
 		import qterm

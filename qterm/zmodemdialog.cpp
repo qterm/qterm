@@ -36,6 +36,10 @@ void zmodemDialog::addErrorLog(const QString& err)
 {
 	browserError->append(err);
 }
+void zmodemDialog::clearErrorLog()
+{
+	browserError->clear();
+}
 
 void zmodemDialog::slotCancel()
 {

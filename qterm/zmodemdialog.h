@@ -13,6 +13,7 @@ public:
 	
 	void setFileInfo(const QString&, int);
 	void addErrorLog(const QString&);
+	void clearErrorLog();
 	void setProgress(int);
 
 public slots:

@@ -30,6 +30,7 @@ AUTHOR:        kingson fiasco
 #include "qtermzmodem.h"
 #include "zmodemdialog.h"
 #include "qtermcanvas.h"
+#include "qtermpython.h"
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
@@ -61,12 +62,6 @@ AUTHOR:        kingson fiasco
 #include <qurl.h>
 #include <qhttp.h>
 
-#define DAE_FINISH 	10001
-#define DAE_TIMEOUT 10002
-
-#define PYE_ERROR	10003
-#define PYE_FINISH	10004
-
 extern QString fileCfg;
 extern QString addrCfg;
 extern QString pathLib;
@@ -76,374 +71,6 @@ extern QString pathCfg;
 extern void saveAddress(QTermConfig*,int,const QTermParam&);
 
 
-/* **************************************************************************
- *
- *				Pythons Embedding
- *
- * ***************************************************************************/
-#ifdef HAVE_PYTHON
-QString getException()
-{
-	PyObject *pType, *pValue, *pTb, *pName, *pTraceback;
-
-    PyErr_Fetch(&pType, &pValue, &pTb);
-
-    pName = PyString_FromString("traceback");
-    pTraceback = PyImport_Import(pName);
-    Py_DECREF(pName);
-
-    pName = PyString_FromString("format_exception");
-    PyObject *pRes = PyObject_CallMethodObjArgs(pTraceback, pName,pType,pValue,pTb,NULL);
-    Py_DECREF(pName);
-
-    Py_DECREF(pTraceback);
-    Py_DECREF(pType);
-    Py_DECREF(pValue);
-    Py_DECREF(pTb);
-
-
-    pName = PyString_FromString("string");
-    PyObject *pString = PyImport_Import(pName);
-    Py_DECREF(pName);
-
-    pName = PyString_FromString("join");
-    PyObject *pErr = PyObject_CallMethodObjArgs(pString, pName, pRes,NULL);
-    Py_DECREF(pName);
-
-    Py_DECREF(pString);
-    Py_DECREF(pRes);
-
-    QString str(PyString_AsString(pErr));
-	Py_DECREF(pErr);
-
-	return str;
-}
-
-QCString getErrOutputFile(QTermWindow* lp)
-{
-	// file name
-	QCString cstr2;
-	cstr2.setNum(long(lp));
-	cstr2 += ".err";
-	// path
-	QCString cstr1(addrCfg);
-	cstr1.truncate(cstr1.findRev('/'));
-
-	return cstr1+'/'+cstr2;
-}
-
-// copy current artcle
-static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
-{
-	long lp;
-	if (!PyArg_ParseTuple(args, "l", &lp))
-		return NULL;
-
-	QTermWindow *pWin=(QTermWindow*)lp;
-
-	QCString cstrArticle;
-    QCString cstrCurrent0,cstrCurrent1;
-    QCString cstrTemp;
-
-    int pos0=-1,pos1=-1;
-
-    cstrArticle = pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
-    #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
-    cstrArticle += '\r';
-    #endif
-    cstrArticle += '\n';
-	
-    while(1)
-    {
-        cstrCurrent0=pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
-        cstrCurrent1=pWin->stripWhitespace(pWin->m_pBuffer->screen(1)->getText());
-
-        cstrTemp = cstrCurrent0;
-        #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
-        cstrTemp += '\r';
-        #endif
-        cstrTemp +='\n';
-        cstrTemp +=cstrCurrent1;
-
-        pos0=cstrArticle.findRev(cstrTemp);
-
-        if(pos0!=-1)
-        {
-            pos1=cstrArticle.find(cstrCurrent1,pos0);
-            if(pos1!=-1)
-                cstrArticle.truncate(pos1);
-        }
-
-        for(int i=1;i<pWin->m_pBuffer->line()-1;i++)
-        {
-            cstrArticle+=pWin->stripWhitespace(pWin->m_pBuffer->screen(i)->getText());
-            #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
-            cstrArticle += '\r';
-            #endif
-            cstrArticle+='\n';
-        }
-
-        if( pWin->m_pBuffer->screen(pWin->m_pBuffer->line()-1)->getText().find("%") == -1 )
-            break;
-        pWin->m_pTelnet->write(" ", 1);
-		
-		if(!pWin->m_wcWaiting.wait(10000))	// timeout
-			break;
-    }
-
-	PyObject *py_text = PyString_FromString(cstrArticle);
-
-	Py_INCREF(py_text);
-	return py_text;
-}
-
-static PyObject *qterm_formatError(PyObject *, PyObject *args)
-{
-	long lp;
-	
-	if (!PyArg_ParseTuple(args, "l", &lp))
-		return NULL;
-
-	QString strErr;
-	QString filename = getErrOutputFile((QTermWindow*)lp);
-
-	QDir d;
-	if(d.exists(filename))
-	{
-		QFile file(filename);
-		file.open(IO_ReadOnly);
-		QTextStream is( &file );
-        while ( !is.atEnd() ) 
-		{
-			strErr += is.readLine(); // line of text excluding '\n'
-			strErr += '\n'; 
-		}
-		file.close();
-		d.remove( filename );
-	}
-
-	if( !strErr.isEmpty() )
-	{
-		((QTermWindow*)lp)->m_strPythonError = strErr;
-		qApp->postEvent( (QTermWindow*)lp, new QCustomEvent(PYE_ERROR));
-	}
-	else
-		qApp->postEvent( (QTermWindow*)lp, new QCustomEvent(PYE_FINISH));
-
-
-	Py_INCREF(Py_None);
-	return Py_None;
-}
-
-// caret x
-static PyObject *qterm_caretX(PyObject *, PyObject *args)
-{
-	long lp;
-	if (!PyArg_ParseTuple(args, "l", &lp))
-		return NULL;
-	int x = ((QTermWindow*)lp)->m_pBuffer->caret().x();
-	PyObject * py_x =Py_BuildValue("i",x);
-	Py_INCREF(py_x);
-	return py_x;
-}
-
-// caret y
-static PyObject *qterm_caretY(PyObject *, PyObject *args)
-{
-	long lp;
-	if (!PyArg_ParseTuple(args, "l", &lp))
-		return NULL;
-	int y = ((QTermWindow*)lp)->m_pBuffer->caret().y();
-	PyObject * py_y =Py_BuildValue("i",y);
-	Py_INCREF(py_y);
-	return py_y;
-
-}
-
-// columns
-static PyObject *qterm_columns(PyObject *, PyObject *args)
-{
-	long lp;
-	if (!PyArg_ParseTuple(args, "l", &lp))
-		return NULL;
-
-	int columns = ((QTermWindow*)lp)->m_pBuffer->columns();
-	PyObject * py_columns = Py_BuildValue("i",columns);
-	
-	Py_INCREF(py_columns);
-	return py_columns;
-
-}
-
-// rows
-static PyObject *qterm_rows(PyObject *, PyObject *args)
-{
-	long lp;
-	if (!PyArg_ParseTuple(args, "l", &lp))
-		return NULL;
-	
-	int rows = ((QTermWindow*)lp)->m_pBuffer->line();
-	PyObject *py_rows = Py_BuildValue("i",rows);
-
-	Py_INCREF(py_rows);
-	return py_rows;
-}
-
-// sned string to server
-static PyObject *qterm_sendString(PyObject *, PyObject *args)
-{
-	char *pstr;
-	long lp;
-	int len;
-
-	if (!PyArg_ParseTuple(args, "ls", &lp, &pstr))
-		return NULL;
-	
-	len = strlen(pstr);
-
-	((QTermWindow*)lp)->m_pTelnet->write(pstr,len);
-
-	Py_INCREF(Py_None);
-	return Py_None;
-}
-
-// same as above except parsing string first "\n" "^p" etc
-static PyObject *qterm_sendParsedString(PyObject *, PyObject *args)
-{
-	char *pstr;
-	long lp;
-	int len;
-
-	if (!PyArg_ParseTuple(args, "ls", &lp, &pstr))
-		return NULL;
-	len = strlen(pstr);
-	
-	((QTermWindow*)lp)->sendParsedString(pstr);
-
-	Py_INCREF(Py_None);
-	return Py_None;
-}
-
-// get text at line
-static PyObject *qterm_getText(PyObject *, PyObject *args)
-{
-	long lp;
-	int line;
-	if (!PyArg_ParseTuple(args, "li", &lp, &line))
-		return NULL;
-	QCString cstr = ((QTermWindow*)lp)->m_pBuffer->screen(line)->getText();
-
-	PyObject *py_text = PyString_FromString(cstr);
-
-	Py_INCREF(py_text);
-	return py_text;
-}
-
-// get text with attributes
-static PyObject *qterm_getAttrText(PyObject *, PyObject *args)
-{
-	long lp;
-	int line;
-	if (!PyArg_ParseTuple(args, "li", &lp, &line))
-		return NULL;
-
-	QCString cstr = ((QTermWindow*)lp)->m_pBuffer->screen(line)->getAttrText();
-
-	PyObject *py_text = PyString_FromString(cstr);
-
-	Py_INCREF(py_text);
-	return py_text;
-}
-
-static PyObject *qterm_isConnected(PyObject *, PyObject *args)
-{
-	long lp;
-	if (!PyArg_ParseTuple(args, "l", &lp))
-		return NULL;
-	
-	bool connected = ((QTermWindow*)lp)->isConnected();
-	PyObject * py_connected =Py_BuildValue("i",connected?1:0);
-
-	Py_INCREF(py_connected);
-	return py_connected;
-}
-static PyObject *qterm_disconnect(PyObject *, PyObject *args)
-{
-	long lp;
-	if (!PyArg_ParseTuple(args, "l", &lp))
-		return NULL;
-	
-	((QTermWindow*)lp)->disconnect();
-	
-	Py_INCREF(Py_None);
-	return Py_None;
-}
-static PyObject *qterm_reconnect(PyObject *, PyObject *args)
-{
-	long lp;
-	if (!PyArg_ParseTuple(args, "l", &lp))
-		return NULL;
-	
-	((QTermWindow*)lp)->reconnect();
-	
-	Py_INCREF(Py_None);
-	return Py_None;
-}
-
-static PyObject *qterm_fromUTF8(PyObject *, PyObject *args)
-{
-	char *str, *enc;
-	if (!PyArg_ParseTuple(args, "ss", &str, &enc))
-		return NULL;
-	QTextCodec *encodec = QTextCodec::codecForName(enc);
-	QTextCodec *utf8 = QTextCodec::codecForName("utf8");
-	
-	PyObject *py_str = PyString_FromString(
-					encodec->fromUnicode(utf8->toUnicode(str)));
-	Py_INCREF(py_str);
-	return py_str;
-}
-
-static PyObject *qterm_toUTF8(PyObject *, PyObject *args)
-{
-	char *str, *enc;
-	if (!PyArg_ParseTuple(args, "ss", &str, &enc))
-		return NULL;
-	QTextCodec *encodec = QTextCodec::codecForName(enc);
-	QTextCodec *utf8 = QTextCodec::codecForName("utf8");
-	
-	PyObject *py_str = PyString_FromString(
-					utf8->fromUnicode(encodec->toUnicode(str)));
-	Py_INCREF(py_str);
-	return py_str;
-}
-
-
-static PyMethodDef qterm_methods[] = {
-	{"formatError",		(PyCFunction)qterm_formatError,			METH_VARARGS,	"get the traceback info"},
-
-	{"copyArticle",		(PyCFunction)qterm_copyArticle,			METH_VARARGS,	"copy current article"},
-
-	{"getText",			(PyCFunction)qterm_getText,				METH_VARARGS,	"get text at line#"},
-	{"getAttrText",		(PyCFunction)qterm_getAttrText,			METH_VARARGS,	"get attr text at line#"},
-
-	{"sendString",		(PyCFunction)qterm_sendString,			METH_VARARGS,	"send string to server"},
-	{"sendParsedString",(PyCFunction)qterm_sendParsedString,	METH_VARARGS,	"send string with escape"},
-
-	{"caretX",			(PyCFunction)qterm_caretX,				METH_VARARGS,	"caret x"},
-	{"caretY",			(PyCFunction)qterm_caretY,				METH_VARARGS,	"caret y"},
-
-	{"columns",			(PyCFunction)qterm_columns,				METH_VARARGS,	"screen width"},
-	{"rows",			(PyCFunction)qterm_rows,				METH_VARARGS,	"screen height"},
-	
-	{"isConnected",		(PyCFunction)qterm_isConnected,			METH_VARARGS,	"connected to server or not"},
-	{"disconnect",		(PyCFunction)qterm_disconnect,			METH_VARARGS,	"disconnect from server"},
-	{"reconnect",		(PyCFunction)qterm_reconnect,			METH_VARARGS,	"reconnect"},
-	{"fromUTF8",		(PyCFunction)qterm_fromUTF8,			METH_VARARGS,	"decode from utf8 to string in specified codec"},
-	{"toUTF8",			(PyCFunction)qterm_toUTF8,				METH_VARARGS,	"decode from string in specified codec to utf8"},
-	{NULL,	 			(PyCFunction)NULL, 						0, 				NULL}
-};
-#endif //HAVE_PYTHON
 
 // script thread
 QTermDAThread::QTermDAThread(QTermWindow *win)
@@ -455,7 +82,6 @@ QTermDAThread::~QTermDAThread()
 {
 
 }
-
 
 void QTermDAThread::run()
 {
@@ -587,6 +213,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	setDockMenuEnabled(false);
 
 	m_pUrl = new QPopupMenu(m_pScreen);
+	m_pUrl->insertItem( tr("Preview image"), this, SLOT(previewLink()) );
 	m_pUrl->insertItem( tr("Open link"), this, SLOT(openLink()) );
 	m_pUrl->insertItem( tr("Copy link address"), this, SLOT(copyLink()) );
 	m_pUrl->insertItem( tr("Save target as..."), this, SLOT(saveLink()) );
@@ -808,7 +435,7 @@ void QTermWindow::idleProcess()
 	if(m_bPythonScriptLoaded)
 	{
 		#ifdef HAVE_PYTHON
-		pythonCallback("antiIdle");
+		pythonCallback("antiIdle","l",this);
 		#endif
 	}
 	else// the default function
@@ -1151,33 +778,6 @@ void QTermWindow::keyPressEvent( QKeyEvent * e )
 	}
 }
 
-QCString QTermWindow::unicode2bbs(const QString& text)
-{
-	QCString strTmp;
-
-	if( m_pFrame->m_pref.nXIM == 0 )
-	{
-		strTmp = U2G(text);
-		if( m_param.m_nBBSCode == 1)
-		{
-			char * str = m_converter.G2B( strTmp, strTmp.length() );
-			strTmp = str;
-			delete []str;
-		}
-	}
-	else
-	{
-		strTmp = U2B(text);
-		if( m_param.m_nBBSCode == 0 )
-		{
-			char * str = m_converter.B2G( strTmp, strTmp.length() );
-			strTmp = str;
-			delete []str;
-		}
-	}
-
-	return strTmp;
-}
 
 //connect slot
 void QTermWindow::connectHost()
@@ -1292,7 +892,7 @@ if(m_pZmodem->transferstate == notransfer)
 			#ifdef HAVE_PYTHON
 			if(m_bPythonScriptLoaded)
 			{
-				pythonCallback("autoReply");
+				pythonCallback("autoReply","l",this);
 				return;
 			}
 			#endif
@@ -1370,8 +970,11 @@ void QTermWindow::ZmodemState(int type, int value, const QCString& status)
                 /* file transfer begins, str=name */
 //                qWarning("starting file %s", status);
 				m_pZmDialog->setFileInfo(G2U(status),value);
+				m_pZmDialog->clearErrorLog();
 				m_pZmDialog->show();
+				#if (QT_VERSION>=0x030200)
 				m_pZmDialog->setModal(true);
+				#endif
                 break;
         case    FileEnd:
                 /* file transfer ends, str=name */
@@ -1949,7 +1552,7 @@ void QTermWindow::replyMessage()
 		m_replyTimer->stop();
 	
 	QCString cstrTmp = m_param.m_strReplyKey.local8Bit();
-	QCString cstr = parseString(cstrTmp.isEmpty()?"^Z":cstrTmp);
+	QCString cstr = parseString(cstrTmp.isEmpty()?QCString("^Z"):cstrTmp);
 	cstr += m_param.m_strAutoReply.local8Bit();
 	cstr += '\n';
 	m_pTelnet->write( cstr, cstr.length() );
@@ -1982,6 +1585,33 @@ void QTermWindow::externInput( const QCString& cstrText )
 
 }
 
+QCString QTermWindow::unicode2bbs(const QString& text)
+{
+	QCString strTmp;
+
+	if( m_pFrame->m_pref.nXIM == 0 )
+	{
+		strTmp = U2G(text);
+		if( m_param.m_nBBSCode == 1)
+		{
+			char * str = m_converter.G2B( strTmp, strTmp.length() );
+			strTmp = str;
+			delete []str;
+		}
+	}
+	else
+	{
+		strTmp = U2B(text);
+		if( m_param.m_nBBSCode == 0 )
+		{
+			char * str = m_converter.B2G( strTmp, strTmp.length() );
+			strTmp = str;
+			delete []str;
+		}
+	}
+
+	return strTmp;
+}
 
 QString QTermWindow::fromBBSCodec( const QCString& cstr )
 {
@@ -1989,6 +1619,15 @@ QString QTermWindow::fromBBSCodec( const QCString& cstr )
 		return G2U(cstr);
 	else
 		return B2U(cstr);
+}
+
+void QTermWindow::runProgram(const QCString& cmd)
+{
+	QCString cstrCmd=cmd;
+	#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
+	cstrCmd += " &";
+	#endif
+	system(cstrCmd);
 }
 
 QCString QTermWindow::stripWhitespace( const QCString& cstr )
@@ -2014,6 +1653,13 @@ void QTermWindow::sendParsedString( const char * str)
 	QCString cstr = parseString( str, &length );
 	m_pTelnet->write( cstr, length );
 }
+
+/* ------------------------------------------------------------------------ */
+/*	                                                                        */
+/* 	                         Python Func                                    */
+/*                                                                          */
+/* ------------------------------------------------------------------------ */
+
 
 void QTermWindow::runScriptFile( const QCString & cstr )
 {
@@ -2047,7 +1693,7 @@ void QTermWindow::runScriptFile( const QCString & cstr )
 #endif // HAVE_PYTHON
 }
 
-void QTermWindow::pythonCallback(const char* func)
+void QTermWindow::pythonCallback(const char* func, const char* param, ...)
 {
 	if(!m_bPythonScriptLoaded)
 		return;
@@ -2071,11 +1717,9 @@ void QTermWindow::pythonCallback(const char* func)
 
 	if (pFunc && PyCallable_Check(pFunc)) 
 	{
-		PyObject *pArgs = PyTuple_New(1);
-		PyObject *pValue = PyInt_FromLong((long)this);
-		PyTuple_SetItem(pArgs, 0, pValue);
+		PyObject *pArgs = Py_BuildValue((char*)param);
 
-		pValue = PyObject_CallObject(pFunc, pArgs);
+		PyObject *pValue = PyObject_CallObject(pFunc, pArgs);
 		Py_DECREF(pArgs);
 
 		if (pValue != NULL) 
@@ -2186,6 +1830,67 @@ void QTermWindow::inputHandle(QString * text)
 	}
 }
 
+/* ------------------------------------------------------------------------ */
+/*	                                                                        */
+/* 	                         HTTP Func                                      */
+/*                                                                          */
+/* ------------------------------------------------------------------------ */
+
+void QTermWindow::httpResponse( const QHttpResponseHeader& hrh)
+{
+	QString ValueString;
+
+	ValueString = hrh.value("Content-Disposition");
+	ValueString = ValueString.mid(ValueString.find(';') + 1).stripWhiteSpace();
+	if(ValueString.lower().find("filename") == 0)
+		m_strHttpFile = ValueString.mid(ValueString.find('=') + 1).stripWhiteSpace();
+	
+	if(m_bPreview)
+	{
+		m_strHttpFile = m_pFrame->m_pref.strPoolPath+G2U(m_strHttpFile);
+		QFileInfo fi(m_strHttpFile);
+		QString strExt=fi.extension(false).lower();
+		if(strExt=="jpg" || strExt=="jpeg" || strExt=="gif" || 
+			strExt=="mng" || strExt=="png" || strExt=="bmp")
+			m_bPreview=true;
+		else
+			m_bPreview=false;
+	}
+	else
+	{
+		// get the previous dir
+		QTermConfig conf(fileCfg);
+		QString path = QString::fromLocal8Bit(conf.getItemValue("global","filedialog"));
+		
+		QString strSave = QFileDialog::getSaveFileName(
+					   path+"/"+G2U(m_strHttpFile), "*", this);
+		m_strHttpFile = strSave;
+
+	   // save the path
+		QFileInfo fi(m_strHttpFile);
+		conf.setItemValue("global","filedialog",fi.dirPath(true));
+		conf.save(fileCfg);
+	}
+
+	//hide the preview window
+	if(m_pCanvas->isShown())
+		m_pCanvas->hideWindow();
+
+	if(m_pPd==NULL)
+	{
+		m_pPd=new QProgressDialog(this);
+		m_pPd->setCaption(tr("QTerm Http Downlader"));
+		m_pPd->setLabelText(QFileInfo(m_strHttpFile).fileName());
+	}
+
+	// create it
+	QFile file(m_strHttpFile);
+	if(file.open(IO_WriteOnly))
+		file.close();
+
+}
+
+
 void QTermWindow::dataRead(int done, int total)
 {
 //	printf("reading\n");
@@ -2200,6 +1905,7 @@ void QTermWindow::dataRead(int done, int total)
 	if(total!=0)
 		m_pPd->setProgress(done,total);
 }
+
 void QTermWindow::httpDone(bool err)
 {
 	delete m_pPd;
@@ -2231,50 +1937,6 @@ void QTermWindow::httpDone(bool err)
 			tr("Download one file successfully"));
 }
 
-void QTermWindow::httpResponse( const QHttpResponseHeader& hrh)
-{
-	QString ValueString;
-
-	ValueString = hrh.value("Content-Disposition");
-	ValueString = ValueString.mid(ValueString.find(';') + 1).stripWhiteSpace();
-	if(ValueString.lower().find("filename") == 0)
-		m_strHttpFile = ValueString.mid(ValueString.find('=') + 1).stripWhiteSpace();
-	
-	if(m_bPreview)
-	{
-		m_strHttpFile = pathCfg+"pool/"+G2U(m_strHttpFile);
-		QFileInfo fi(m_strHttpFile);
-		QString strExt=fi.extension(false).lower();
-		if(strExt=="jpg" || strExt=="jpeg" || strExt=="gif" || 
-			strExt=="mng" || strExt=="png" || strExt=="bmp")
-			m_bPreview=true;
-		else
-			m_bPreview=false;
-	}
-	else
-	{
-	   QString strSave = QFileDialog::getSaveFileName(
-					   QDir::homeDirPath()+"/"+G2U(m_strHttpFile), "*", this);
-	   m_strHttpFile = strSave;
-	}
-
-	//hide the preview window
-	if(m_pCanvas->isShown())
-		m_pCanvas->hideWindow();
-
-	if(m_pPd==NULL)
-	{
-		m_pPd=new QProgressDialog(this);
-		m_pPd->setCaption(tr("QTerm Http Downlader"));
-		m_pPd->setLabelText(QFileInfo(m_strHttpFile).fileName());
-	}
-
-	// create it
-	QFile file(m_strHttpFile);
-	if(file.open(IO_WriteOnly))
-		file.close();
-
-}
 
 void QTermWindow::openLink()
 {
@@ -2285,6 +1947,12 @@ void QTermWindow::openLink()
 	else
 		cstrCmd.replace(QRegExp("%L",false), m_pBBS->getUrl());
 	runProgram(cstrCmd);
+}
+
+void QTermWindow::previewLink()
+{	
+	m_bPreview = true;
+	getHttpHelper();
 }
 
 void QTermWindow::copyLink()
@@ -2331,11 +1999,4 @@ void QTermWindow::getHttpHelper()
 	m_httpDown.get(m_pBBS->getUrl());
 }
 
-void QTermWindow::runProgram(const QCString& cmd)
-{
-	QCString cstrCmd=cmd;
-	#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
-	cstrCmd += " &";
-	#endif
-	system(cstrCmd);
-}
+

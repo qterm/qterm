@@ -61,20 +61,20 @@ StateOption QTermDecode::bracketState[] =
     { 'B', 		&QTermDecode::cursorDown,		normalState },
     { 'C', 		&QTermDecode::cursorRight,		normalState },
     { 'D', 		&QTermDecode::cursorLeft,		normalState },
-    { 'H', 		&QTermDecode::cursorPosition,  		normalState },
+    { 'H', 		&QTermDecode::cursorPosition,  	normalState },
     { 'J', 		&QTermDecode::eraseScreen,		normalState },
     { 'K', 		&QTermDecode::eraseLine,		normalState },
     { 'L', 		&QTermDecode::insertLine,		normalState },
     { 'M', 		&QTermDecode::deleteLine,		normalState },
     { 'P', 		&QTermDecode::deleteStr,		normalState },
     { 'X', 		&QTermDecode::eraseStr,			normalState },
-    { 'f', 		&QTermDecode::cursorPosition,  		normalState },
+    { 'f', 		&QTermDecode::cursorPosition,  	normalState },
     { 'h',		&QTermDecode::setMode,			normalState },
     { 'l',		&QTermDecode::resetMode,		normalState },
     { 'm', 		&QTermDecode::getAttr,			normalState },
     { 'r',		&QTermDecode::setMargins,		normalState },
     { 's', 		&QTermDecode::saveCursor,		normalState },
-    { 'u', 		&QTermDecode::restoreCursor,		normalState },
+    { 'u', 		&QTermDecode::restoreCursor,	normalState },
     { '@', 		&QTermDecode::insertStr,		normalState },
 
     { CHAR_CR, 		&QTermDecode::cr,			bracketState },
@@ -83,7 +83,7 @@ StateOption QTermDecode::bracketState[] =
     { CHAR_TAB,  	&QTermDecode::tab,			bracketState },
     { CHAR_BS, 	 	&QTermDecode::bs,			bracketState },
     { CHAR_BELL, 	&QTermDecode::bell,			bracketState },
-    { CHAR_NORMAL, 	0,					normalState }
+    { CHAR_NORMAL, 	0,							normalState }
 };
 
 QTermDecode::QTermDecode( QTermBuffer * buffer )

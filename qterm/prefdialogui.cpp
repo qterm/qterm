@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'prefdialog.ui'
 **
-** Created: Mon Aug 23 12:16:57 2004
+** Created: Wed Aug 25 22:02:50 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -11,12 +11,12 @@
 
 #include <qvariant.h>
 #include <qcheckbox.h>
-#include <qlineedit.h>
 #include <qcombobox.h>
-#include <qlabel.h>
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
+#include <qlineedit.h>
 #include <qpushbutton.h>
+#include <qlabel.h>
 #include <qframe.h>
 #include <qlayout.h>
 #include <qtooltip.h>
@@ -34,8 +34,8 @@ prefDialogUI::prefDialogUI( QWidget* parent, const char* name, bool modal, WFlag
 {
     if ( !name )
 	setName( "prefDialogUI" );
-    setMinimumSize( QSize( 540, 400 ) );
-    setMaximumSize( QSize( 540, 400 ) );
+    setMinimumSize( QSize( 540, 460 ) );
+    setMaximumSize( QSize( 540, 460 ) );
     QFont f( font() );
     setFont( f ); 
 
@@ -51,9 +51,6 @@ prefDialogUI::prefDialogUI( QWidget* parent, const char* name, bool modal, WFlag
     urlCheckBox = new QCheckBox( this, "urlCheckBox" );
     urlCheckBox->setGeometry( QRect( 20, 80, 240, 22 ) );
 
-    wordLineEdit3 = new QLineEdit( this, "wordLineEdit3" );
-    wordLineEdit3->setGeometry( QRect( 210, 20, 50, 22 ) );
-
     ximComboBox = new QComboBox( FALSE, this, "ximComboBox" );
     ximComboBox->setGeometry( QRect( 400, 220, 85, 22 ) );
 
@@ -63,16 +60,8 @@ prefDialogUI::prefDialogUI( QWidget* parent, const char* name, bool modal, WFlag
     trayCheckBox = new QCheckBox( this, "trayCheckBox" );
     trayCheckBox->setGeometry( QRect( 20, 230, 220, 22 ) );
 
-    TextLabel2_2 = new QLabel( this, "TextLabel2_2" );
-    TextLabel2_2->setGeometry( QRect( 270, 20, 40, 20 ) );
-    TextLabel2_2->setFrameShape( QLabel::NoFrame );
-    TextLabel2_2->setFrameShadow( QLabel::Plain );
-
     smartCheckBox = new QCheckBox( this, "smartCheckBox" );
     smartCheckBox->setGeometry( QRect( 310, 20, 200, 20 ) );
-
-    TextLabel1_2 = new QLabel( this, "TextLabel1_2" );
-    TextLabel1_2->setGeometry( QRect( 20, 20, 170, 20 ) );
 
     blinkCheckBox = new QCheckBox( this, "blinkCheckBox" );
     blinkCheckBox->setGeometry( QRect( 20, 140, 260, 22 ) );
@@ -98,48 +87,71 @@ prefDialogUI::prefDialogUI( QWidget* parent, const char* name, bool modal, WFlag
     TextLabel1 = new QLabel( this, "TextLabel1" );
     TextLabel1->setGeometry( QRect( 290, 220, 80, 20 ) );
 
-    TextLabel3 = new QLabel( this, "TextLabel3" );
-    TextLabel3->setGeometry( QRect( 20, 290, 100, 20 ) );
-
-    textLabel1 = new QLabel( this, "textLabel1" );
-    textLabel1->setGeometry( QRect( 20, 260, 140, 20 ) );
-
-    httpLineEdit = new QLineEdit( this, "httpLineEdit" );
-    httpLineEdit->setGeometry( QRect( 130, 290, 190, 23 ) );
-
-    zmodemLineEdit = new QLineEdit( this, "zmodemLineEdit" );
-    zmodemLineEdit->setGeometry( QRect( 160, 260, 210, 23 ) );
-
     okPushButton = new QPushButton( this, "okPushButton" );
-    okPushButton->setGeometry( QRect( 150, 370, 70, 21 ) );
-
-    cancelPushButton = new QPushButton( this, "cancelPushButton" );
-    cancelPushButton->setGeometry( QRect( 270, 370, 70, 21 ) );
+    okPushButton->setGeometry( QRect( 150, 430, 70, 21 ) );
 
     Line1 = new QFrame( this, "Line1" );
-    Line1->setGeometry( QRect( 17, 350, 480, 20 ) );
+    Line1->setGeometry( QRect( 17, 410, 510, 20 ) );
     Line1->setFrameShape( QFrame::HLine );
     Line1->setFrameShadow( QFrame::Sunken );
     Line1->setFrameShape( QFrame::HLine );
 
-    textLabel1_2 = new QLabel( this, "textLabel1_2" );
-    textLabel1_2->setGeometry( QRect( 20, 320, 100, 20 ) );
+    cancelPushButton = new QPushButton( this, "cancelPushButton" );
+    cancelPushButton->setGeometry( QRect( 270, 430, 70, 21 ) );
+
+    TextLabel3 = new QLabel( this, "TextLabel3" );
+    TextLabel3->setGeometry( QRect( 30, 360, 100, 20 ) );
+
+    httpLineEdit = new QLineEdit( this, "httpLineEdit" );
+    httpLineEdit->setGeometry( QRect( 140, 360, 190, 23 ) );
 
     imageLineEdit = new QLineEdit( this, "imageLineEdit" );
-    imageLineEdit->setGeometry( QRect( 130, 320, 190, 23 ) );
+    imageLineEdit->setGeometry( QRect( 140, 390, 190, 23 ) );
+
+    textLabel1_2 = new QLabel( this, "textLabel1_2" );
+    textLabel1_2->setGeometry( QRect( 30, 390, 100, 20 ) );
+
+    imagePushButton = new QPushButton( this, "imagePushButton" );
+    imagePushButton->setGeometry( QRect( 340, 390, 80, 25 ) );
+
+    textLabel1 = new QLabel( this, "textLabel1" );
+    textLabel1->setGeometry( QRect( 30, 290, 140, 20 ) );
+
+    TextLabel1_2 = new QLabel( this, "TextLabel1_2" );
+    TextLabel1_2->setGeometry( QRect( 20, 20, 160, 20 ) );
+
+    wordLineEdit3 = new QLineEdit( this, "wordLineEdit3" );
+    wordLineEdit3->setGeometry( QRect( 180, 20, 50, 22 ) );
+
+    TextLabel2_2 = new QLabel( this, "TextLabel2_2" );
+    TextLabel2_2->setGeometry( QRect( 240, 20, 40, 20 ) );
+    TextLabel2_2->setFrameShape( QLabel::NoFrame );
+    TextLabel2_2->setFrameShadow( QLabel::Plain );
+
+    zmodemLineEdit = new QLineEdit( this, "zmodemLineEdit" );
+    zmodemLineEdit->setGeometry( QRect( 170, 290, 210, 23 ) );
+
+    poolLineEdit = new QLineEdit( this, "poolLineEdit" );
+    poolLineEdit->setGeometry( QRect( 170, 320, 210, 23 ) );
+
+    clearCheckBox = new QCheckBox( this, "clearCheckBox" );
+    clearCheckBox->setGeometry( QRect( 20, 260, 370, 21 ) );
 
     browsePushButton = new QPushButton( this, "browsePushButton" );
-    browsePushButton->setGeometry( QRect( 390, 260, 90, 25 ) );
+    browsePushButton->setGeometry( QRect( 390, 290, 90, 25 ) );
+
+    poolPushButton = new QPushButton( this, "poolPushButton" );
+    poolPushButton->setGeometry( QRect( 390, 320, 90, 25 ) );
 
     choosehttpPushButton = new QPushButton( this, "choosehttpPushButton" );
-    choosehttpPushButton->setGeometry( QRect( 330, 290, 80, 21 ) );
+    choosehttpPushButton->setGeometry( QRect( 340, 360, 80, 21 ) );
     QFont choosehttpPushButton_font(  choosehttpPushButton->font() );
     choosehttpPushButton->setFont( choosehttpPushButton_font ); 
 
-    imagePushButton = new QPushButton( this, "imagePushButton" );
-    imagePushButton->setGeometry( QRect( 330, 320, 80, 25 ) );
+    textLabel1_3 = new QLabel( this, "textLabel1_3" );
+    textLabel1_3->setGeometry( QRect( 30, 320, 120, 20 ) );
     languageChange();
-    resize( QSize(540, 400).expandedTo(minimumSizeHint()) );
+    resize( QSize(540, 460).expandedTo(minimumSizeHint()) );
     clearWState( WState_Polished );
 
     // tab order
@@ -148,17 +160,26 @@ prefDialogUI::prefDialogUI( QWidget* parent, const char* name, bool modal, WFlag
     setTabOrder( wheelCheckBox, urlCheckBox );
     setTabOrder( urlCheckBox, saveCheckBox );
     setTabOrder( saveCheckBox, blinkCheckBox );
-    setTabOrder( blinkCheckBox, noneRadioButton );
+    setTabOrder( blinkCheckBox, warnCheckBox );
+    setTabOrder( warnCheckBox, aacheckBox );
+    setTabOrder( aacheckBox, trayCheckBox );
+    setTabOrder( trayCheckBox, clearCheckBox );
+    setTabOrder( clearCheckBox, noneRadioButton );
     setTabOrder( noneRadioButton, beepRadioButton );
     setTabOrder( beepRadioButton, fileRadioButton );
     setTabOrder( fileRadioButton, selectsoundPushButton );
     setTabOrder( selectsoundPushButton, wavefileLineEdit );
     setTabOrder( wavefileLineEdit, ximComboBox );
-    setTabOrder( ximComboBox, httpLineEdit );
+    setTabOrder( ximComboBox, zmodemLineEdit );
+    setTabOrder( zmodemLineEdit, browsePushButton );
+    setTabOrder( browsePushButton, poolLineEdit );
+    setTabOrder( poolLineEdit, poolPushButton );
+    setTabOrder( poolPushButton, httpLineEdit );
     setTabOrder( httpLineEdit, choosehttpPushButton );
-    setTabOrder( choosehttpPushButton, okPushButton );
+    setTabOrder( choosehttpPushButton, imageLineEdit );
+    setTabOrder( imageLineEdit, imagePushButton );
+    setTabOrder( imagePushButton, okPushButton );
     setTabOrder( okPushButton, cancelPushButton );
-    setTabOrder( cancelPushButton, warnCheckBox );
 }
 
 /*
@@ -185,9 +206,7 @@ void prefDialogUI::languageChange()
     ximComboBox->insertItem( tr( "BIG5" ) );
     aacheckBox->setText( tr( "AntiAlias" ) );
     trayCheckBox->setText( tr( "Show as tray when close" ) );
-    TextLabel2_2->setText( tr( "chars" ) );
     smartCheckBox->setText( tr( "Enable Smart Word-Wrap" ) );
-    TextLabel1_2->setText( tr( "Paste auto word-wrap at" ) );
     blinkCheckBox->setText( tr( "Blink Tab When Receive Message" ) );
     ButtonGroup1->setTitle( tr( "Sound When Receive Messages" ) );
     noneRadioButton->setText( tr( "None" ) );
@@ -195,13 +214,18 @@ void prefDialogUI::languageChange()
     selectsoundPushButton->setText( tr( "Configure" ) );
     beepRadioButton->setText( tr( "Beep" ) );
     TextLabel1->setText( tr( "Input Method" ) );
-    TextLabel3->setText( tr( "HTTP Browser" ) );
-    textLabel1->setText( tr( "Zmodem directory" ) );
     okPushButton->setText( tr( "OK" ) );
     cancelPushButton->setText( tr( "Cancel" ) );
+    TextLabel3->setText( tr( "HTTP Browser" ) );
     textLabel1_2->setText( tr( "Image Viewer" ) );
-    browsePushButton->setText( tr( "Browse" ) );
-    choosehttpPushButton->setText( tr( "Choose" ) );
     imagePushButton->setText( tr( "Choose" ) );
+    textLabel1->setText( tr( "Zmodem directory" ) );
+    TextLabel1_2->setText( tr( "Paste word-wrap at" ) );
+    TextLabel2_2->setText( tr( "chars" ) );
+    clearCheckBox->setText( tr( "Clear ZModem and HTTP directory when exit" ) );
+    browsePushButton->setText( tr( "Browse" ) );
+    poolPushButton->setText( tr( "Browse" ) );
+    choosehttpPushButton->setText( tr( "Choose" ) );
+    textLabel1_3->setText( tr( "HTTP directory" ) );
 }
 
