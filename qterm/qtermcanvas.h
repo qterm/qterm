@@ -1,16 +1,16 @@
 #ifndef QTERMCANVAS_H
 #define QTERMCANVAS_H
 
-#include <qwidget.h>
+#include <qscrollview.h>
 
 class QLabel;
 
-class QTermCanvas : public QWidget
+class QTermCanvas : public QScrollView
 {
 	Q_OBJECT
 public: 
 	QTermCanvas(QWidget *parent=NULL, const char *name=NULL, 
-					WFlags f=WStyle_NoBorder|WX11BypassWM|WType_Popup);
+					WFlags f=WType_Dialog /*WStyle_NoBorder|WX11BypassWM|WType_Popup*/);
 	~QTermCanvas();
 
 	void loadImage(const QString&);
@@ -18,13 +18,18 @@ public:
 protected:
 	void resizeImage(float);
 	void rotateImage(float);
-	void moveImage(float);
-
+	void saveImage();
+	
+	void showEvent(QShowEvent *);
 	void keyPressEvent(QKeyEvent *ke);
-	void resizeEvent(QResizeEvent *re);
-
+	void viewportResizeEvent(QResizeEvent *re);
+	void adjustSize(const QSize&);
+	void centerImage(const QSize&);
 protected:
 	QLabel *label;
+	bool bFitWin;
+	QSize szImage;
+	QString strFileName;
 };
 
 #endif

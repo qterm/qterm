@@ -164,6 +164,11 @@ int iniWorkingDir( QString param )
 	QString pathZmodem=pathCfg+"zmodem";
 	if(checkPath(pathZmodem)==-1)
 		return -1;
+	
+	QString pathPool=pathCfg+"pool";
+	dir.rmdir(pathPool);
+	if(checkPath(pathPool)==-1)
+		return -1;
 
 	// picPath --- $HOME/.qterm/pic prefered
 	pathPic = pathCfg+"pic";
