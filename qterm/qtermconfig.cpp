@@ -37,10 +37,15 @@ Section::~Section ()
 		return;
 	for (int i = 0; i < nItems; i++) 
 	{
-		free (pItems[i].szName);
-		free (pItems[i].szValue);
+		if (pItems[i].szName != NULL)
+			free (pItems[i].szName);
+		if (pItems[i].szValue != NULL)
+			free (pItems[i].szValue);
 	}
-	free (pItems);
+	if (pItems != NULL)
+		free (pItems);
+	if (szSectionName != NULL)
+		free (szSectionName);
 }
 
 char * Section::getSectionName ()
@@ -52,7 +57,9 @@ bool Section::setSectionName (const char *szSectionName0)
 {
 	if (szSectionName != NULL)
 		free (szSectionName);
-	szSectionName = strdup (szSectionName0);
+	szSectionName = NULL;
+	if (szSectionName0 != NULL)
+		szSectionName = strdup (szSectionName0);
 	return true;
 }
 
@@ -69,9 +76,13 @@ bool Section::addItem (const char *szItemName, const char *szValue)
 		pItems = (Item *) realloc 
 			(pItems, nItems * sizeof (Item));
 	}
-	pItems[nItems - 1].szName = strdup (szItemName);
-	pItems[nItems - 1].szValue = strdup (szValue);
-
+	pItems[nItems - 1].szName = NULL;
+	pItems[nItems - 1].szValue = NULL;
+	if (szItemName != NULL) {
+		pItems[nItems - 1].szName = strdup (szItemName);
+		if (szValue != NULL)
+			pItems[nItems - 1].szValue = strdup (szValue);
+	}
 	return true;
 }
 
@@ -101,8 +112,8 @@ bool Section::deleteItem(const char *szItemName)
 		pItems = (Item *) realloc 
 			(pItems, nItems * sizeof (Item));
 	}
-
-	delete p;
+	if (p!= NULL)
+		free(p);
 
 	return true;
 }
@@ -125,7 +136,8 @@ bool Section::setItemValue (const char *szItemName, const char *szNewValue)
 		return addItem(szItemName, szNewValue);
 	if(szNewValue==NULL)
 		return false;
-	free (p->szValue);
+	if (p->szValue != NULL)
+		free (p->szValue);
 	p->szValue = strdup (szNewValue);
 	return true;
 }
@@ -141,12 +153,18 @@ char *Section::getItemValue (const char *szItemName)
 
 QTextStream & operator >> (QTextStream &a, Section &b)
 {
-	char *p, szTemp[128];
+	char *p = NULL; 
+	char szTemp[128];
 	char szItemName[128], szValue[128];
 	int i;
   	QString str;
 	
-	char *buf = new char[MAXBUFSIZE];
+	if ( a.eof() )
+		return a;
+	// We should not new buf here.
+
+	// char *buf = new char[MAXBUFSIZE];
+	char * buf = NULL;
 	do
 	{
 		str = a.readLine();
@@ -158,7 +176,8 @@ QTextStream & operator >> (QTextStream &a, Section &b)
 		
 	if ( a.eof() )
 	{
-		delete buf;	
+		if (buf != NULL)
+			free(buf);
 		return a;
 	}
 	p = buf;
@@ -174,6 +193,11 @@ QTextStream & operator >> (QTextStream &a, Section &b)
 	szTemp[i] = '\0';
 	
 	b.setSectionName (szTemp);
+
+	if (buf != NULL)
+		free(buf);
+	p = NULL;
+	buf = NULL;
 	
 	do
 	{	str = a.readLine();
@@ -195,7 +219,8 @@ QTextStream & operator >> (QTextStream &a, Section &b)
 	}
 	while (! a.eof () && buf[0] != '\0');
 	
-	delete buf;
+	if (buf != NULL)
+		free(buf);
 
 	return a;
 }
@@ -215,6 +240,7 @@ QTermConfig::QTermConfig (const char *szFileName0)
 {
 	ppSections = NULL;
 	nSections = 0;
+	szFileName = NULL;
 
 	if (szFileName0 != NULL)
 	{
@@ -289,7 +315,8 @@ bool QTermConfig::deleteSection (const char *szSection)
 	if (nSections == 1)
 	{
 		nSections = 0;
-		free(ppSections);
+		if (ppSections != NULL)
+			free(ppSections);
 		ppSections = NULL;
 	}
 	else
