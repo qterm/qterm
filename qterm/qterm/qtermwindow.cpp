@@ -839,11 +839,8 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 	{
 		if(me->state()&ControlButton)
 		{
-			QUrl u(m_pBBS->getUrl());
-			httpDown.setHost(u.host(),u.hasPort()?u.port():80);
 			m_bPreview = true;
-			strHttpFile="";
-			httpDown.get(m_pBBS->getUrl());
+			getHttpHelper();
 		}
 		else
 			m_pUrl->popup(me->globalPos());
@@ -2253,9 +2250,25 @@ void QTermWindow::copyLink()
 void QTermWindow::saveLink()
 {
 	m_bPreview = false;
+	getHttpHelper();
+}
+
+void QTermWindow::getHttpHelper()
+{
 	strHttpFile="";
 	QUrl u(m_pBBS->getUrl());
+	if(QFile::exists(pathCfg+"hosts.cfg"))
+	{
+		QTermConfig conf(pathCfg+"hosts.cfg");
+		QString strTmp = conf.getItemValue("hosts",u.host().local8Bit());
+		if(!strTmp.isEmpty())
+		{
+			QString strUrl = m_pBBS->getUrl();
+			strUrl.replace(u.host(),strTmp,false);
+			u = strUrl;
+		}
+	}
+
 	httpDown.setHost(u.host(),u.hasPort()?u.port():80);
 	httpDown.get(m_pBBS->getUrl());
 }
-
