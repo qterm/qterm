@@ -140,13 +140,20 @@ int iniWorkingDir( QString param )
 		pathLib=QTERM_DATADIR"/";
 	else
 	{
-		QFileInfo fi(param);
-		dir.setPath(QTERM_BINDIR);
-		if( dir == fi.dir() )
-			pathLib=QTERM_DATADIR;
-		else
-			pathLib=QDir::currentDirPath();
-		pathLib+='/';
+        QFileInfo fi(param);
+        if( fi.isSymLink() )
+            param = fi.readLink();
+        // get the pathname
+        param.truncate( param.findRev('/') );
+        QString oldPath=QDir::currentDirPath();
+        QDir::setCurrent( param );
+        dir.setPath(QTERM_BINDIR);
+        if( dir == QDir::current() )
+            pathLib=QTERM_DATADIR;
+        else
+            pathLib=QDir::currentDirPath();
+        QDir::setCurrent( oldPath );
+        pathLib+='/';
 	}
 #endif
 

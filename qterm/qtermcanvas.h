@@ -9,7 +9,8 @@ class QTermCanvas : public QWidget
 {
 	Q_OBJECT
 public: 
-	QTermCanvas(QWidget *parent=NULL, const char *name=NULL);
+	QTermCanvas(QWidget *parent=NULL, const char *name=NULL, 
+					WFlags f=WStyle_NoBorder|WX11BypassWM|WType_Popup);
 	~QTermCanvas();
 
 	void loadImage(const QString&);

@@ -664,13 +664,13 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
     PyEval_ReleaseLock();
 #endif //HAVE_PYTHON
 	
-	m_pCanvas = new QTermCanvas(NULL);
+	m_pCanvas = new QTermCanvas(this);
 	m_pCanvas->hide();
 	qInitNetworkProtocols();
 	connect(&httpDown, SIGNAL(requestFinished(int,bool)), this, SLOT(httpDone(int,bool)));
 	connect(&httpDown, SIGNAL(dataReadProgress(int,int)), 
 				this, SLOT(dataRead(int,int)));
-	connect(&httpDown, SIGNAL(readyRead(const QHttpResponseHeader&)), 
+	connect(&httpDown, SIGNAL(responseHeaderReceived(const QHttpResponseHeader&)), 
 				this, SLOT(httpResponse(const QHttpResponseHeader&)));
 	
 	connectHost();
@@ -2176,8 +2176,10 @@ void QTermWindow::httpDone(int, bool)
 	m_pCanvas->show();
 }
 
-void QTermWindow::httpResponse( const QHttpResponseHeader& )
+void QTermWindow::httpResponse( const QHttpResponseHeader& hrh)
 {
 //	printf("hehe\n");
+	qWarning(hrh.value("content-type"));
+	qWarning(hrh.value("content-location"));
 }
 
