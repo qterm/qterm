@@ -74,6 +74,18 @@ extern void saveAddress(QTermConfig*,int,const QTermParam&);
  *
  * ***************************************************************************/
 #ifdef HAVE_PYTHON
+QCString getErrOutputFile(QTermWindow* lp)
+{
+	// file name
+	QCString cstr2;
+	cstr2.setNum(long(lp));
+	cstr2 += ".err";
+	// path
+	QCString cstr1(addrCfg);
+	cstr1.truncate(cstr1.findRev('/'));
+
+	return cstr1+'/'+cstr2;
+}
 
 // copy current artcle
 static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
@@ -143,23 +155,37 @@ static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
 static PyObject *qterm_formatError(PyObject *, PyObject *args)
 {
 	long lp;
-	char *err=NULL;
 	
-	if (!PyArg_ParseTuple(args, "ls", &lp, &err))
+	if (!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
 
-	QCString cstrErr;
-	cstrErr.sprintf("%s",err);
+	QString strErr;
+	QString filename = getErrOutputFile((QTermWindow*)lp);
 
-	if( !cstrErr.isEmpty() )
+	QDir d;
+	if(d.exists(filename))
 	{
-		((QTermWindow*)lp)->m_cstrPythonError = cstrErr;
+		QFile file(filename);
+		file.open(IO_ReadOnly);
+		QTextStream is( &file );
+        while ( !is.atEnd() ) 
+		{
+			strErr += is.readLine(); // line of text excluding '\n'
+			strErr += '\n'; 
+		}
+		file.close();
+		d.remove( filename );
+	}
+
+	if( !strErr.isEmpty() )
+	{
+		((QTermWindow*)lp)->m_strPythonError = strErr;
 		qApp->postEvent( (QTermWindow*)lp, new QCustomEvent(PYE_ERROR));
 	}
 	else
 		qApp->postEvent( (QTermWindow*)lp, new QCustomEvent(PYE_FINISH));
 
-	
+
 	Py_INCREF(Py_None);
 	return Py_None;
 }
@@ -1638,7 +1664,7 @@ void QTermWindow::customEvent(QCustomEvent*e)
 	}	
 	else if(e->type() == PYE_ERROR)
 	{
-		QMessageBox::warning(this,"Python script error", m_cstrPythonError);
+		QMessageBox::warning(this,"Python script error", m_strPythonError);
 	}
 	else if(e->type() == PYE_FINISH)
 	{
@@ -1901,15 +1927,24 @@ int QTermWindow::runPythonFile( const char * filename )
 	
 //	cstr.sprintf("\t\tqterm.formatError(%ld,'')\n",this);
 //	strcat(buffer, cstr);
+	// construct an err file
 	
-	strcat(buffer, 	"\texcept:\n"
-					"\t\texc, val, tb = sys.exc_info()\n"
-					"\t\tlines = traceback.format_exception(exc, val, tb)\n"
-					"\t\terr = string.join(lines)\n"
-					);
-	cstr.sprintf("\t\tqterm.formatError(%ld,err)\n",this);
+	printf("%s\n", getErrOutputFile(this).data());
 
+	cstr.sprintf("\texcept:\n"
+				"\t\texc, val, tb = sys.exc_info()\n"
+				"\t\tlines = traceback.format_exception(exc, val, tb)\n"
+				"\t\terr = string.join(lines)\n"
+				"\t\tprint err\n"
+				"\t\tf=open('%s','w')\n"
+				"\t\tf.write(err)\n"
+				"\t\tf.close()\n"
+				,getErrOutputFile(this).data());
 	strcat(buffer, cstr);
+
+	cstr.sprintf("\t\tqterm.formatError(%ld)\n",this);
+	strcat(buffer, cstr);
+
 	strcat(buffer, "\t\texit\n");
 
     /* Execute the file */

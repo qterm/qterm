@@ -175,7 +175,7 @@ public:
 	bool m_bReconnect;
 	friend class QTermScreen;
 	
-	QCString m_cstrPythonError;
+	QString m_strPythonError;
 
 	QWaitCondition m_wcWaiting;
 };
