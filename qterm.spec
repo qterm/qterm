@@ -11,7 +11,7 @@ URL:       http://qterm.gnuchina.org
 
 Packager:  kingson fiasco hooey<xiaokiangwang@yahoo.com.cn yinshouyi@peoplemail.com.cn hephooey@hotmail.com>
 Group:     internet
-Source:    qterm-0.3.3.tar.gz
+Source:    qterm-0.3.4.tar.gz
 BuildRoot: %%buildroot%%
 
 %description
