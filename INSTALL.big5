@@ -1,0 +1,60 @@
+QTerm-0.2.0 的安裝說明
+======================
+
+系統要求:
+
+QTerm 是基于 Qt 開發的, 如您的系統中沒有 Qt 庫, 請先安裝. 
+
+
+安裝步驟:
+
+1. 下載 qterm-0.2.0.tar.gz
+
+2. cd ~
+
+3. tar zvxf qterm-0.2.0.tar.gz
+
+4. cd qterm-0.2.0
+
+5. ./configure
+
+  如果 ./configure 不能自動找到正確的 qt 庫的路徑, 可以通過 
+
+  ./configure --with-qt-dir=DIR (DIR是您的 qt 庫所在的路徑),
+
+  來指定qt庫的位置; 
+  
+  如果您的 qt 庫的 lib 和 include 不在同一個目錄, 可以通過
+
+  ./configure --with-qt-includes=DIR  (DIR是您的 qt 庫的頭文件所在的路徑),
+
+  ./configure --with-qt-libraries=DIR (DIR是您的 qt 庫的庫文件所在的路徑),
+
+  來分別指定 include 和 lib 位置.
+
+6. make
+
+7. 如果您是以 root 身.安裝,
+  
+   運行 make install, 將會把 qterm 安裝到您的系統中;
+
+   如果您是普通用戶,
+
+   您可以直接輸入 ./qterm/qterm, 運行 qterm 程序.
+
+
+
+注意:
+
+1. 對于 Mandrake 的用戶, 請在 $HOME/.bash_profile 中加入 Qt 庫的路徑, 比如
+	
+	export QTDIR=# 你的 Qt 庫路徑,通常是 /usr/lib/qt2 # 
+
+2. 對于 Gnome 桌面下可能地址簿顯示亂碼, 請編輯 $HOME/.i18n 文件, 加入
+	
+	LC_ALL=zh_CN
+
+   然後重新登錄,進入 Gnome 就可以在 qterm 地址簿看到中文了.
+
+                                    
+			   Good Luck!

@@ -1,0 +1,199 @@
+2003/4/12
+	0.2.0 released
+
+2003/4/7
+	add
+	1. varible in address book for autoreply
+	2. support url format usr:pwd@addr:port
+	fix
+	1. problem when copy article at ytht.net
+
+2003/4/2
+	add
+	1. strip out the whitespace when copy
+
+2003/3/28
+	add
+	1. logo icon
+
+2003/3/25
+	add
+	1. strip out the whitespace when copy article
+	fix
+	1. system() try to break URL at '&', avoided by double quotation
+	2. copy article problem
+	
+2003/3/22
+	0.2.0pre2
+	
+2003/3/21
+	fix
+	1. word wrap 
+	2. autologin
+
+2003/3/19
+	add
+	1. new designed message dialog
+	fix
+	1. copy article problem for 0.2.0pre1
+
+2003/3/15
+	add
+	1. reconnect # seconds after disconnected by host in maxmimum # times
+	fix
+	1. clipbard problem, copy to/paste from non-Qt software
+
+2003/3/14
+	add
+	1. HTTP proxy support
+
+2003/2/15
+	fix
+	1. QTermWindow::idleProcess: stop blinking after replyMessage
+
+2003/2/14
+	fix
+	1. QTermScreen::refreshScreen: blink flag missing when partially refreshed.
+
+2003/1/24
+	fix
+	1. QTermFrame::homepage:  exec web browser without ' &' ending in Windowsz.
+	2. QTermScreen::scrollLine: stop scrolling at the start or end
+	
+20031/1/22
+	add
+	1. load default setting for quick login instead of the hard coded one
+	fix
+	1. QTermConfig: swtich from C++ iostream to QTextStream for file I/O,
+	otherwise, gcc 3.2 would complain.
+	2. problems when complied on qt 3.0.5
+	3. bug when selected by mouse
+	remove
+	1. theme support for qt 3.1.1 on debian/sid doesnot have styles builtin
+
+2003/1/21
+	0.2.0pre1
+
+2003/1/11
+	0.1.7 released
+
+2003/1/10
+	add
+	1. https url detection
+	fix
+	1. font size bug
+	2. copy article
+
+2002/12/24
+	0.1.6 released
+
+2002/12/04
+	backport features form 0.2.0
+
+2002/4/18
+	0.1.5 released
+	
+2002/4/17
+	add
+	1. set font for quicklogin
+
+2002/4/13
+	fix
+	1. gb and big5 support. input supported
+	2. unhandled error when read from socket
+	3. select code set from locale when quicklogin
+
+2002/4/11
+	fix
+	1. error in qterm.cfg
+
+2002/4/8
+	fix
+	1. improved method in drawing caret
+	2. fatal error when double click in addrdialog
+
+2002/4/2
+	fix
+	1. QGArray::at: Absolute index 78 out of range
+
+2002/3/19
+	fix
+	1. CPU overlaod when selecting by mouse
+	2. some bugs in refresh
+
+2002/3/18
+	add
+	1. check existence of qterm.cfg
+
+2002/3/16
+	fix
+	1. improved method in intializing working directory by Anthony Fok <foka@debian.org>
+	2. CPU overload when opening many windows
+
+2002/3/8
+	0.1.4 released
+
+2002/3/7
+	add
+	1. set interface font 
+	fix
+	1. mouse judgement error
+
+2002/3/6
+	fix
+	1. mistake in settingdialog
+	2. new method in initialize working directory
+
+2002/3/4
+	add
+	1. support GB and BIG5 encoding BBS
+	fix
+	1. fatal error in addrDialog
+
+2002/3/3
+	add
+	1. proxy support for Wingate,SOCKS4 and SOCKS5
+	2. new cursor. created by Merlion.bbs@smth.org
+	fix
+	1. one assert error in addrDialog
+	2. serious bug when selecting by mouse
+
+2002/3/2
+	add
+	1. copyArticle by Nimrod.bbs@smth.org
+	2. URL detection and code fixing by hwangxw@fm365.com
+
+2001/12/21
+	fix
+	1. cant display memorandum when press tab key
+	2. problem when download mail
+
+2001/10/27
+	0.1.3-1 released
+	fix
+	1. cant input chinese in some linux distribution
+	2. cant display the last line sometimes
+	3. the passwd in quicklogin dialog is displayed in plain text
+	4. problem when dowload digest article
+	add
+	1. inputbar go with cursor
+
+2001/10/4
+	qterm-0.2.0 began
+
+2001/9/15
+	QTerm has its homepage htpp://qterm.gnuchina.org
+
+2001/8/31
+	add 
+	1. copy artilce
+
+2001/8/23
+	add
+	1. copy
+	fix
+	1. problem when install
+
+2001/8/15
+	0.1.1 released
+

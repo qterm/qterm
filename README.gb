@@ -1,0 +1,26 @@
+
+QTerm 说明文件
+======================
+
+QTerm 是 X Window 系统下下专用于浏览BBS的客户端软件. 相信您用过 MS Windows
+
+下的 sterm 或者 cterm, 您一定希望 X Window 系统下也有类似的易用的东东. 这个
+
+QTerm相信可以在一定程度上满足您的要求.
+
+QTerm 的实现在很大程度上基于 Gnuchina 的 miniterm, 要感谢 smartfish 和 kafa
+
+给我们提供了一个蓝本, 感谢 Open Source.
+
+QTerm 以 GNU GPL版权发布(请参看 COPYING 文件), 提供源代码, 您可以自己修改添
+
+加新的功能.请您将使用过程中的 BUG 报告给我们; 如果您以自行解决了问题,也请您
+
+将补丁发布, 以便我们改正错误.
+
+最后,感谢许多使用QTerm并且报告bug提出建议的用户.
+
+Good Luck!
+                                                       The QTerm Team
+                                                  http://qterm.gnuchina.org
+
