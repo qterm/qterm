@@ -464,7 +464,7 @@ void QTermFrame::exitQTerm()
 		}
 	}
 	saveSetting();
-
+	setUseDock(false);
 	qApp->quit();
 }
 

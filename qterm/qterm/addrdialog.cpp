@@ -416,11 +416,6 @@ void addrDialog::connectSlots()
 	connect( menuGroup, SIGNAL(clicked(int)), this, SLOT(onMenuType(int)));
 }
 
-bool operator!=(const QString & s1, const QString & s2)
-{
-	return !((s1.compare(s2) == 0) || (s1.isEmpty() && s2.isEmpty()));
-}
-
 bool addrDialog::isChanged()
 {
 	return( param.m_strName != nameLineEdit->text() ||

@@ -10,7 +10,7 @@ Vendor:    kingson fiasco hooey<xiaokiangwang@yahoo.com.cn yinshouyi@peoplemail.
 URL:       http://qterm.sourceforge.net
 Packager:  kingson fiasco hooey<xiaokiangwang@yahoo.com.cn yinshouyi@peoplemail.com.cn hephooey@hotmail.com>
 Group:     Applications/Internet
-Source:    qterm-0.3.4.tar.gz
+Source:    qterm-0.3.5.tar.gz
 BuildRoot: %{_tmppath}/%{name}-root
 
 %description

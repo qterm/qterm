@@ -7,8 +7,8 @@ MOC_DIR		= moc
 # specially for Win32
 win32:RC_FILE	= qterm.rc
 win32:DEFINES += HAVE_PYTHON _NO_ARTS_COMPILED _NO_ESD_COMPILED
-win32:INCLUDEPATH += c:/progra~1/python23/include
-win32:LIBS += c:/progra~1/python23/libs/python23.lib
+win32:INCLUDEPATH += c:/progra~1/python23/include c:/openssl/include/vc
+win32:LIBS += c:/progra~1/python23/libs/python23.lib c:/openssl/lib/vc/libeay32.lib
 
 # specially for MacOSX 
 mac {
