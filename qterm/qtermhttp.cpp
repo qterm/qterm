@@ -143,7 +143,8 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 		m_strHttpFile = strSave;
 	}
 	
-	m_pDialog  = new QProgressDialog(parent, 0,false, WStyle_Customize|WStyle_Title|WX11BypassWM|WStyle_Title|WStyle_Tool);
+	m_pDialog  = new QProgressDialog(0, 0,false, 
+		WStyle_Customize|WStyle_Title|WX11BypassWM|WStyle_Title|WStyle_Tool);
 	connect(m_pDialog, SIGNAL(canceled()), this, SLOT(cancel()));
 	m_pDialog->setCaption(tr("QTerm Http Downloader"));
 	// move it to top-right corner
