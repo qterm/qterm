@@ -32,6 +32,7 @@ AUTHOR:        kingson fiasco
 #include <qpoint.h>
 #include <qclipboard.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /* ------------------------------------------------------------------------ */
 /*                                                                          */
@@ -261,19 +262,24 @@ void QTermScreen::initFontMetrics()
 {
 	if(m_pParam->m_bAutoFont)
 		m_pFont = new QFont(m_pParam->m_strFontName); 
-	else
+	else {
 		m_pFont = new QFont(m_pParam->m_strFontName, QMAX(8,m_pParam->m_nFontSize) ); 
+		QFontMetrics *fm = new QFontMetrics( *m_pFont );
+
+		if (abs(m_pParam->m_nFontSize - fm->width(0x4e00)) < abs(m_pParam->m_nFontSize - fm->width('W') * 2))
+			m_nCharWidth  = (fm->width(0x4e00) + 1)/2;
+		else
+			m_nCharWidth  = fm->width('W');
+		m_nCharHeight = fm->height();
+		m_nCharAscent = fm->ascent();
+		delete fm;
+	}
 
 	#if (QT_VERSION >= 300 )
 	m_pFont->setStyleHint(QFont::System, 
 				m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
 	#endif
 	
-	QFontMetrics *fm = new QFontMetrics( *m_pFont );
-	m_nCharWidth  = fm->width('W');
-	m_nCharHeight = fm->height();
-	m_nCharAscent = fm->ascent();
-	delete fm;
 }
 
 void QTermScreen::setDispFont( const QFont& font)
@@ -281,19 +287,24 @@ void QTermScreen::setDispFont( const QFont& font)
 	delete m_pFont;
 	if(m_pParam->m_bAutoFont)
 		m_pFont = new QFont(font.family());
-	else
+	else {
+		int nSize = font.pixelSize();
 		m_pFont = new QFont(font);
+
+		QFontMetrics *fm = new QFontMetrics( *m_pFont );
+		if (abs(nSize - fm->width(0x4e00)) < abs(nSize - fm->width('W') * 2))
+			m_nCharWidth  = (fm->width(0x4e00) + 1)/2;
+		else
+			m_nCharWidth  = fm->width('W');
+		m_nCharHeight = fm->height();
+		m_nCharAscent = fm->ascent();
+		delete fm;
+	}
 
 	#if (QT_VERSION >= 300 )
 	m_pFont->setStyleHint(QFont::System, 
 				m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
 	#endif
-
-	QFontMetrics *fm = new QFontMetrics( *m_pFont );
-	m_nCharWidth  = fm->width('W');
-	m_nCharHeight = fm->height();
-	m_nCharAscent = fm->ascent();
-	delete fm;
 
 }
 
@@ -318,7 +329,15 @@ void QTermScreen::updateFont()
 		m_pFont->setPixelSize( nPixelSize );
 		
 		QFontMetrics fm( *m_pFont );
-		m_nCharWidth = fm.width( 'W');
+/* 
+   Use the width of char 'W' or the width of Chinese charactor to calculate
+   the display. use nPixelSize as a reference size. 0x4e00 stand for Chinese
+   one ;)
+*/
+		if (abs(nPixelSize - fm.width(0x4e00)) < abs(nPixelSize - fm.width('W') * 2))
+			m_nCharWidth  = (fm.width(0x4e00) + 1)/2;
+		else
+			m_nCharWidth  = fm.width('W');
 		m_nCharHeight = fm.height();
 		m_nCharAscent = fm.ascent();
 		m_nCharDescent = fm.descent();
@@ -339,7 +358,18 @@ void QTermScreen::updateFont()
 									m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
 	#endif
 	QFontMetrics fm( *m_pFont );
-	m_nCharWidth = fm.width( 'W');
+	if (abs(nPixelSize - 1 - fm.width(0x4e00)) < abs(nPixelSize - 1 - fm.width('W') * 2))
+		m_nCharWidth  = (fm.width(0x4e00) + 1)/2;
+	else
+		m_nCharWidth  = fm.width('W');
+/*
+   Don't trust the font width if it's nonsense, we just guess it from the 
+   pixelsize, mostly because some system(redhat and some debian) return the 
+   wrong width of Chinese charactors, for using of variable fonts, we can
+   only use nPixelsize
+*/
+	if (abs(nPixelSize - m_nCharWidth * 2) > (nPixelSize > 16 ? 3 : 2))
+		m_nCharWidth = (nPixelSize + 1)/2;
 	m_nCharHeight = fm.height();
 	m_nCharAscent = fm.ascent();
 	m_nCharDescent = fm.descent();
@@ -708,10 +738,17 @@ void QTermScreen::drawLine( QPainter& painter, int index)
 	QCString cstrText;
 	QString strShow;
 	
+	// Fix the highlight problem when AA is enabled
+	// FIXME now it's very flickery when display some blink pages, should found a solution late.
+	// we cannot control AA using qt, since some fontconfig file may override it
+	//if (m_pWindow->m_pFrame->m_pref.bAA)
+	erase( mapToRect(0, index, linelength, 1));
+
 	drawMenuSelect(painter, index);
 	
 	for( uint i=0; i<linelength;i++)
 	{
+		int offset = 0;
 		startx = i;
 		tempcp = color.at(i);
 		tempea = attr.at(i);
@@ -721,7 +758,7 @@ void QTermScreen::drawLine( QPainter& painter, int index)
 				tempea == attr.at(i)  && 
 				bSelected == m_pBuffer->isSelected(QPoint(i,index), m_pWindow->m_bCopyRect) && 
 				i < linelength )
-			i++;
+			++i;
 
 		if(bSelected)	// selected area is text=color(0) background=color(7)
 			tempattr = SETCOLOR(SETFG(0)|SETBG(7)) | SETATTR(NO_ATTR);
@@ -745,9 +782,29 @@ void QTermScreen::drawLine( QPainter& painter, int index)
 		else
 			strShow = m_pCodec->toUnicode(cstrText);
 
-		drawStr(painter, strShow, startx, index, i - startx, tempattr, bSelected );
+		// Draw Charactors one by one to fix the variable font display problem
+		for (uint j=0; j < strShow.length(); ++j){
+			int length = 2;
+			if (strShow[j] < 0xff) {
+				int en=0;
+				QString en_str(strShow[j]);
+				// Pick up ascii char to draw them together
+				while(strShow[j+en+1] < 0x7f && !(strShow[j+en+1]).isSpace() && j+en+1 < strShow.length()){
+					++en;
+					en_str += strShow[j+en];					
+				}
+				length = en + 1;
+				drawStr(painter, en_str, startx + offset, index, length, tempattr, bSelected );
+				j += en;
+			}
+
+			else
+				drawStr(painter, (QString)strShow[j], startx + offset, index, length, tempattr, bSelected );
+			offset += length;
+		}
+		offset = 0;
 	
-		i--;
+		--i;
 	}
 }
 
@@ -827,8 +884,11 @@ void QTermScreen::drawStr( QPainter& painter, const QString& str, int x, int y, 
 		else
 			erase( mapToRect(x, y, length, 1) );
 	}
-	else
+	else {
+		if(GETBG(cp)!=0)
+			painter.fillRect( mapToRect(x,y,length,1), QBrush(m_color[GETBG(cp)]) );
 		painter.drawText( pt.x(), pt.y()+m_nCharAscent, str);
+	}
 }
 
 

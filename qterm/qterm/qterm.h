@@ -10,9 +10,17 @@ AUTHOR:		smartfish kafa
  This file may be used, distributed and modified without limitation.
  *******************************************************************************/
 
+
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#else 
+#define VERSION	"0.3.3"
+#define QTERM_DATADIR "/usr/share/qterm"
+#define QTERM_BINDIR  "/usr/bin"
+#endif
 
 #ifndef BUFSIZE
 #define BUFSIZE (1024)
@@ -145,6 +153,7 @@ AUTHOR:		smartfish kafa
 #define TSEINIWINSOCK	45
 #define TSERROR			46
 #define TSPROXYERROR	47
+#define	TSWRITED		48
 
 #define NOPROXY			0
 #define WINGATE			1

@@ -46,7 +46,10 @@ protected slots:
 	void onAuth(bool);
 	void onAutoReply(bool);
 	void onReconnect(bool);
+	void onLoadScript(bool);
+	void onChooseScript();
 	void onMenuType(int);
+	
 protected:
 	void connectSlots();
 	bool isChanged();

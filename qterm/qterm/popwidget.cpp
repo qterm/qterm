@@ -60,7 +60,6 @@ popWidget::~popWidget()
 
 void popWidget::mousePressEvent(QMouseEvent * me)
 {
-	((QTermFrame *)qApp->mainWidget())->setActiveWindow();
 	((QTermFrame *)qApp->mainWidget())->popupFocusIn(window);
 
 	if(nState==1)

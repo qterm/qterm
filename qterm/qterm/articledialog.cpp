@@ -18,6 +18,8 @@
 
 #include <qfiledialog.h>
 #include <qmessagebox.h>
+#include <qclipboard.h>
+#include <qapplication.h>
 
 /* 
  *  Constructs a articleDialog as a child of 'parent', with the 
@@ -44,8 +46,30 @@ articleDialog::~articleDialog()
 
 void articleDialog::connectSlots()
 {
+	connect(selectButton, SIGNAL(clicked()), this, SLOT(onSelect()));
+	connect(copyButton, SIGNAL(clicked()), this, SLOT(onCopy()));
 	connect(saveButton, SIGNAL(clicked()), this, SLOT(onSave()));
 	connect(closeButton, SIGNAL(clicked()), this, SLOT(onClose()));
+}
+
+void articleDialog::onSelect()
+{
+	textBrowser2->selectAll(true);
+}
+
+void articleDialog::onCopy()
+{
+	QString strText = textBrowser2->selectedText();
+
+	QClipboard *clipboard = QApplication::clipboard();
+	
+	#if (QT_VERSION>=0x030100)
+		clipboard->setText(strText, QClipboard::Selection );
+	#else
+		clipboard->setText(strText);
+	#endif
+
+
 }
 
 void articleDialog::onSave()

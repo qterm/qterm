@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'addrdialog.ui'
 **
-** Created: Mon Apr 7 19:14:02 2003
+** Created: Wed Jun 18 19:11:42 2003
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -69,7 +69,6 @@ public:
     QCheckBox* highlightCheckBox;
     QPushButton* bgcolorPushButton;
     QPushButton* fgcolorPushButton;
-    QPushButton* fontPushButton;
     QPushButton* schemaPushButton;
     QLabel* displayTextLabel;
     QCheckBox* autofontCheckBox;
@@ -77,6 +76,7 @@ public:
     QComboBox* bbscodeComboBox;
     QLabel* TextLabel7;
     QComboBox* displaycodeComboBox;
+    QPushButton* fontPushButton;
     QWidget* tab_2;
     QLineEdit* termtypeLineEdit;
     QLineEdit* escapeLineEdit;
@@ -113,7 +113,6 @@ public:
     QComboBox* proxytypeComboBox;
     QCheckBox* authCheckBox;
     QWidget* Widget3;
-    QLineEdit* antiLineEdit;
     QLabel* TextLabel8;
     QLabel* TextLabel7_2;
     QLabel* TextLabel9;
@@ -127,6 +126,10 @@ public:
     QLineEdit* retryLineEdit;
     QLineEdit* replyLineEdit;
     QCheckBox* replyCheckBox;
+    QPushButton* scriptPushButton;
+    QLineEdit* antiLineEdit;
+    QLineEdit* scriptLineEdit;
+    QCheckBox* scriptCheckBox;
     QWidget* tab_4;
     QButtonGroup* menuGroup;
     QRadioButton* radioButton1;

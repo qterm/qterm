@@ -102,6 +102,9 @@ public:
 // Mouse
 	int m_nMenuType;	// 0--underline 1--reverse 2--color
 	QColor m_clrMenu;
+// Script
+	bool m_bLoadScript;
+	QString m_strScriptFile;
 };
 
 #endif // QTERMPARAM_H

@@ -9,13 +9,6 @@ AUTHOR:        kingson fiasco
  This file may be used, distributed and modified without limitation.
  *******************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#else 
-#define VERSION	"0.2.1"
-#define QTERM_DATADIR "/usr/share/qterm"
-#define QTERM_BINDIR  "/usr/bin"
-#endif
 
 // remove this when use configure
 
@@ -25,6 +18,7 @@ AUTHOR:        kingson fiasco
 #include "qtermframe.h"
 #include "qtermconfig.h"
 #include "qtermparam.h"
+#include "qterm.h"
 
 #ifndef _OS_WIN32_
 #include <sys/stat.h>
@@ -34,6 +28,8 @@ AUTHOR:        kingson fiasco
 #endif
 #include <qdir.h>
 #include <qfile.h>
+
+#include <Python.h>
 
 char fileCfg[128]="./qterm.cfg";
 char addrCfg[128]="./address.cfg";
@@ -261,6 +257,11 @@ void loadAddress( QTermConfig *pConf, int n, QTermParam& param )
 	param.m_nReconnectInterval = strTmp.toInt();
 	strTmp = pConf->getItemValue(strSection, "retrytimes");
 	param.m_nRetry = strTmp.toInt();
+
+	strTmp = pConf->getItemValue(strSection, "loadscript");
+	param.m_bLoadScript = (strTmp!="0");
+	param.m_strScriptFile = pConf->getItemValue(strSection, "scriptfile");
+	
 	strTmp = pConf->getItemValue(strSection, "menutype");
 	param.m_nMenuType = strTmp.toInt();
 	param.m_clrMenu.setNamedColor(pConf->getItemValue(strSection, "menucolor"));
@@ -335,11 +336,16 @@ void saveAddress(QTermConfig *pConf, int n, const QTermParam& param)
 	strTmp.setNum(param.m_nRetry);
 	pConf->setItemValue(strSection, "retrytimes", strTmp);
 
+	pConf->setItemValue(strSection, "loadscript", param.m_bLoadScript?"1":"0");
+	pConf->setItemValue(strSection, "scriptfile", param.m_strScriptFile);
+					
 	strTmp.setNum(param.m_nMenuType);
 	pConf->setItemValue(strSection, "menutype", strTmp);
 	pConf->setItemValue(strSection, "menucolor",param.m_clrMenu.name());
 
 }
+
+PyThreadState * mainThreadState;
 
 int main( int argc, char ** argv ) 
 {
@@ -356,7 +362,33 @@ int main( int argc, char ** argv )
 #endif
       //set font
     iniSettings();
+  
+	  // initialize Python
+    Py_Initialize();
+    // initialize thread support
+    PyEval_InitThreads();
+    mainThreadState = NULL;
+    // save a pointer to the main PyThreadState object
+    mainThreadState = PyThreadState_Get();
 
+	
+	// add path
+	PyRun_SimpleString("import sys\n");
+	QString pathCmd;
+	// pathLib/script
+	pathCmd = "sys.path.insert(0,'";
+	pathCmd += pathLib+"script')";
+	PyRun_SimpleString(strdup(pathCmd));
+#ifndef _OS_WIN32_	
+	// $HOME/.qterm/script, override 
+	pathCmd = "sys.path.insert(0,'";
+	pathCmd += QDir::homeDirPath()+"/.qterm/script')";
+	PyRun_SimpleString(strdup(pathCmd));
+#endif	
+	// release the lock
+    PyEval_ReleaseLock();
+
+  
     QTermFrame * mw = new QTermFrame();
     mw->setCaption( "QTerm "+QString(VERSION) );
 	mw->setIcon( QPixmap(pathLib+"pic/qterm_32x32.png") );
@@ -364,5 +396,14 @@ int main( int argc, char ** argv )
     mw->show();
     a.connect( &a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()) );
     int res = a.exec();
+
+	// shut down the interpreter
+	PyInterpreterState * mainInterpreterState = mainThreadState->interp;
+	// create a thread state object for this thread
+	PyThreadState * myThreadState = PyThreadState_New(mainInterpreterState);
+	PyThreadState_Swap(myThreadState);
+	PyEval_AcquireLock();
+	Py_Finalize();
+
     return res;
 }

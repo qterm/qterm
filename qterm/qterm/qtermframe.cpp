@@ -22,6 +22,7 @@ AUTHOR:        kingson fiasco
 #include "prefdialog.h"
 #include "quickdialog.h"
 #include "keydialog.h"
+#include "trayicon.h"
 
 #ifndef _OS_WIN32_
 #include <unistd.h>
@@ -44,13 +45,18 @@ AUTHOR:        kingson fiasco
 #include <qstatusbar.h>
 #include <qmessagebox.h>
 #include <qhbox.h>
-/*
+
+#if QT_VERSION < 300
 #include <qplatinumstyle.h>
 #include <qmotifstyle.h>
 #include <qmotifplusstyle.h>
 #include <qcdestyle.h>
 #include <qsgistyle.h>
-*/
+#else
+#include <qstylefactory.h>
+#include <qstyle.h>
+#endif
+
 #include <qfont.h>
 #include <qfontdialog.h>
 #include <qtranslator.h>
@@ -77,6 +83,8 @@ extern QStringList loadNameList(QTermConfig *);
 extern void loadAddress(QTermConfig *, int, QTermParam &);
 extern void saveAddress(QTermConfig *, int, const QTermParam &);
 
+
+
 //constructor
 QTermFrame::QTermFrame()
     : QMainWindow( 0, "QTerm", WDestructiveClose )
@@ -87,6 +95,9 @@ QTermFrame::QTermFrame()
 	vb->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
 	setCentralWidget( vb );
 	ws = new QWorkspace( vb );
+
+	tray = 0;
+	trayMenu = 0;
 
 //set menubar
 	addMainMenu();
@@ -152,6 +163,7 @@ QTermFrame::QTermFrame()
 	//initialize all settings
 	iniSetting();
 
+	installEventFilter(this);
 }
 
 //destructor
@@ -194,45 +206,49 @@ void QTermFrame::iniSetting()
 		}
 	}
 
-	/* FIXME qt3.1.1 on debian/sid doesnot support style
-	strTmp = conf->getItemValue("global","theme");
-	theme = strTmp.toInt();
+	/* FIXME qt3.1.1 on debian/sid doesnot support style */
+	theme = conf->getItemValue("global","theme");
+#if QT_VERSION < 300
 	switch( theme )
 	{
-		case 0:
+		case "":
 			break;
-		case 1:
+		case "CDE":
 			#ifndef QT_NO_STYLE_CDE
 			qApp->setStyle( new QCDEStyle(true) );
 			#endif
 			break;
-		case 2:
+		case "Motif":
 			#ifndef QT_NO_STYLE_MOTIF
 			qApp->setStyle( new QMotifStyle(true) );
 			#endif
 			break;
-		case 3:
+		case "MotifPlus":
 			#ifndef QT_NO_STYLE_MOTIFPLUS
 			qApp->setStyle( new QMotifPlusStyle(true) );
 			#endif
 			break;
-		case 4:
+		case "Platinum":
 			#ifndef QT_NO_STYLE_PLATINUM
 			qApp->setStyle( new QPlatinumStyle() );
 			#endif
 			break;
-		case 5:
+		case "SGI":
 			#ifndef QT_NO_STYLE_SGI
 			qApp->setStyle( new QSGIStyle(true) );
 			#endif
 			break;
-		case 6:
+		case "Windows":
 			#ifndef QT_NO_STYLE_WINDOWS
 			qApp->setStyle( new QWindowsStyle() );
 			#endif
 			break;
 	}
-	*/
+#else
+	QStyle * style = QStyleFactory::create(theme);
+	if (style)
+		qApp->setStyle(style);
+#endif
 	
 	//language
 	strTmp = conf->getItemValue("global","language");
@@ -294,6 +310,8 @@ void QTermFrame::iniSetting()
 
 	loadPref( conf );
 
+	setUseDock(m_pref.bTray);
+
 	delete conf;
 }
 
@@ -323,7 +341,12 @@ void QTermFrame::loadPref( QTermConfig * conf )
 	m_pref.strHttp = strTmp;
 	strTmp = conf->getItemValue("preference","antialias");
 	m_pref.bAA=(strTmp!="0");
-
+	strTmp = conf->getItemValue("preference","tray");
+	m_pref.bTray=(strTmp!="0");
+	strTmp = conf->getItemValue("preference","playmethod");
+	m_pref.nMethod=strTmp.toInt();
+	strTmp = conf->getItemValue("preference","externalplayer");
+	m_pref.strPlayer=strTmp;
 }
 
 //save current setting to qterm.cfg
@@ -353,8 +376,8 @@ void QTermFrame::saveSetting()
 	else
 		conf->setItemValue("global","fullscreen","0");
 	
-	cstrTmp.setNum(theme);
-	conf->setItemValue("global","theme",cstrTmp);
+	// cstrTmp.setNum(theme);
+	conf->setItemValue("global","theme",theme);
 
 	int hide,dock,index,nl,extra;
 
@@ -424,6 +447,21 @@ void QTermFrame::quickLogin()
 	}
 }
 
+void QTermFrame::exitQTerm()
+{
+	while( wndmgr->count()>0 ) 
+	{
+		bool closed = ws->activeWindow()->close();
+		if(!closed)
+		{
+			return;
+		}
+	}
+	saveSetting();
+
+	qApp->quit();
+}
+
 //create a new display window
 QTermWindow * QTermFrame::newWindow( const QTermParam&  param, int index )
 {
@@ -470,7 +508,7 @@ void QTermFrame::aboutQTerm()
 //slot Help->Homepage
 void QTermFrame::homepage()
 {
-	QCString cstrCmd = m_pref.strHttp.local8Bit()+" http://qterm.gnuchina.org";
+	QCString cstrCmd = m_pref.strHttp.local8Bit()+" http://qterm.sourceforge.net";
 	#ifndef _OS_WIN32_
 	cstrCmd += " &";
 	#endif
@@ -568,6 +606,20 @@ void QTermFrame::switchWin(int id)
 		w->setFocus();
 }
 
+bool QTermFrame::eventFilter(QObject *o, QEvent *e)
+{
+	if( o==this)
+	{
+		if( e->type()==QEvent::ShowMinimized ) 
+		{
+			printf("QTermFrame::eventFilter\n");
+			hide();
+			return true;
+		}else
+			return false;
+    }else 
+		return QMainWindow::eventFilter(o, e);
+}
 
 //slot draw something e.g. logo in the background
 //TODO : draw a pixmap in the background
@@ -578,6 +630,12 @@ void QTermFrame::paintEvent( QPaintEvent * )
 
 void QTermFrame::closeEvent(QCloseEvent * clse)
 {
+	if(m_pref.bTray)
+	{
+		trayHide();
+		return;
+	}
+
 	while( wndmgr->count()>0 ) 
 	{
 		bool closed = ws->activeWindow()->close();
@@ -803,70 +861,81 @@ void QTermFrame::bosscolor()
 void QTermFrame::themesMenuAboutToShow()
 {
 	themesMenu->clear();
-/*	
-	insertThemeItem(0);	
+#if QT_VERSION < 300
+	insertThemeItem("defautl");	
 	#ifndef QT_NO_STYLE_CDE
-	insertThemeItem(1);
+	insertThemeItem("CDE");
 	#endif
 	#ifndef QT_NO_STYLE_MOTIF
-	insertThemeItem(2);
+	insertThemeItem("Motif");
 	#endif
 	#ifndef QT_NO_STYLE_MOTIFPLUS
-	insertThemeItem(3);
+	insertThemeItem("MotifPlus");
 	#endif
 	#ifndef QT_NO_STYLE_PLATINUM
-	insertThemeItem(4);
+	insertThemeItem("Platinum");
 	#endif
 	#ifndef QT_NO_STYLE_SGI
-	insertThemeItem(5);
+	insertThemeItem("SGI");
 	#endif
 	#ifndef QT_NO_STYLE_WINDOWS
-	insertThemeItem(6);
+	insertThemeItem("Windows");
 	#endif
-*/
+#else
+	QStringList styles = QStyleFactory::keys();
+	for(QStringList::ConstIterator it=styles.begin(); it!=styles.end(); it++)
+		insertThemeItem(*it);
+#endif
 }
 
 void QTermFrame::themesMenuActivated( int id )
 {
 
-	theme = themesMenu->itemParameter(id);
-	/*  FIXME qt3.1.1 on debian/sid doesnot support style
+	theme = themesMenu->text(id);
+	fprintf(stderr, "Theme: %s\n", theme.ascii());
+	/*  FIXME qt3.1.1 on debian/sid doesnot support style */
+#if QT_VERSION < 300
 	switch( theme )
 	{
-		case 0:
+		case "default":
 			break;
-		case 1:
+		case "CDE":
 			#ifndef QT_NO_STYLE_CDE
 			qApp->setStyle( new QCDEStyle(true) );
 			#endif
 			break;
-		case 2:
+		case "Motif":
 			#ifndef QT_NO_STYLE_MOTIF
 			qApp->setStyle( new QMotifStyle(true) );
 			#endif
 			break;
-		case 3:
+		case "MotifPlus":
 			#ifndef QT_NO_STYLE_MOTIFPLUS
 			qApp->setStyle( new QMotifPlusStyle(true) );
 			#endif
 			break;
-		case 4:
+		case "Platinum":
 			#ifndef QT_NO_STYLE_PLATINUM
 			qApp->setStyle( new QPlatinumStyle() );
 			#endif
 			break;
-		case 5:
+		case "SGI":
 			#ifndef QT_NO_STYLE_SGI
 			qApp->setStyle( new QSGIStyle(true) );
 			#endif
 			break;
-		case 6:
+		case "Windows":
 			#ifndef QT_NO_STYLE_WINDOWS
 			qApp->setStyle( new QWindowsStyle() );
 			#endif
 			break;
 	}
-	*/
+#else
+	QStyle * style = QStyleFactory::create(theme);
+	if (style)
+		qApp->setStyle(style);
+#endif
+	
 }
 
 void QTermFrame::hideScroll()
@@ -1046,7 +1115,7 @@ void QTermFrame::keyClicked(int id)
 	}
 }
 
-void QTermFrame::toolBarPosChanged(QToolBar* bar)
+void QTermFrame::toolBarPosChanged(QToolBar*)
 {
 	QTermConfig conf(fileCfg);
 	
@@ -1202,7 +1271,7 @@ void QTermFrame::addMainMenu()
 	file->insertItem( QPixmap(pathLib+"pic/quick.png"), 
 					tr("Quick Login"),this, SLOT(quickLogin()), Qt::Key_F3 );
 	file->insertSeparator();
-	file->insertItem( tr("Exit"), qApp, SLOT(closeAllWindows()) );
+	file->insertItem( tr("Exit"), this, SLOT(exitQTerm()) );
 	
 	//Edit Menu
 	QPopupMenu * edit = new QPopupMenu( this );
@@ -1433,21 +1502,211 @@ QCString QTermFrame::valueToString(bool shown, int dock, int index, bool nl, int
 	return cstr;
 }
 
-void QTermFrame::popupFocusIn(QTermWindow *w)
+void QTermFrame::popupFocusIn(QTermWindow *)
 {
-	setFocus();
-	w->setFocus();
+	// bring to font
+	if(isHidden()) {
+		show();
+	}
+	if(isMinimized()) {
+		if(isMaximized())
+			showMaximized();
+		else
+			showNormal();
+	}
+	raise();
+	setActiveWindow();
 }
 
-void QTermFrame::insertThemeItem(int i)
+void QTermFrame::insertThemeItem(QString themeitem)
 {
-	char *style[]={"Default", "CDE", "Motif", 
-			"Motif Plus", "Platinum", "SGI", "Windows"};
+	//const char *style[]={"Default", "CDE", "Motif", 
+			//"Motif Plus", "Platinum", "SGI", "Windows"};
 	int id;
 
-	id = themesMenu->insertItem(style[i], this, SLOT(themesMenuActivated(int)));
-	themesMenu->setItemParameter( id, i );
-	themesMenu->setItemChecked( id, i==theme );
+	id = themesMenu->insertItem(themeitem, this, SLOT(themesMenuActivated(int)));
+	themesMenu->setItemParameter( id, id );
+	themesMenu->setItemChecked( id, themeitem==theme );
+}
+
+void QTermFrame::setUseDock(bool use)
+{
+	if(use == false) {
+		if(tray) {
+			delete tray;
+			tray = 0;
+			delete trayMenu;
+			trayMenu = 0;
+		}
+		return;
+	}
+
+	if(tray)
+		return;
+
+	trayMenu = new QPopupMenu;
+	connect(trayMenu, SIGNAL(aboutToShow()), SLOT(buildTrayMenu()));
+
+	
+	tray = new MTray( QImage(pathLib+"pic/qterm_32x32.png"), "QTerm", trayMenu, this);
+	connect(tray, SIGNAL(clicked(const QPoint &, int)), SLOT(trayClicked(const QPoint &, int)));
+	connect(tray, SIGNAL(doubleClicked(const QPoint &)), SLOT(trayDoubleClicked()));
+	connect(tray, SIGNAL(closed()), this, SLOT(exitQTerm()));
+
+	tray->show();
+}
+
+void QTermFrame::buildTrayMenu()
+{
+	if(!trayMenu)
+		return;
+	trayMenu->clear();
+
+	if(isHidden())
+		trayMenu->insertItem(tr("Show"), this, SLOT(trayShow()));
+	else
+		trayMenu->insertItem(tr("Hide"), this, SLOT(trayHide()));
+	trayMenu->insertSeparator();	
+	trayMenu->insertItem(tr("About"), this, SLOT(aboutQTerm()));
+	trayMenu->insertItem(tr("Exit"), this, SLOT(exitQTerm()));
+}
+
+void QTermFrame::trayClicked(const QPoint &, int)
+{
+	if(isHidden())
+		trayShow();
+	else
+		trayHide();
+}
+
+void QTermFrame::trayDoubleClicked()
+{
+	if(isHidden())
+		trayShow();
+	else
+		trayHide();
+}
+
+void QTermFrame::trayShow()
+{
+	show();
+	// bring to font
+	if(isHidden()) {
+		show();
+	}
+	if(isMinimized()) {
+		if(isMaximized())
+			showMaximized();
+		else
+			showNormal();
+	}
+	raise();
+	setActiveWindow();
+}
+
+void QTermFrame::trayHide()
+{
+	hide();
+}
+
+
+//----------------------------------------------------------------------------
+// MTray
+//----------------------------------------------------------------------------
+MTray::MTray(const QImage &icon, const QString &tip, QPopupMenu *popup, QObject *parent)
+:QObject(parent)
+{
+	ti = new TrayIcon(makeIcon(icon), tip, popup);
+	connect(ti, SIGNAL(clicked(const QPoint &, int)), SIGNAL(clicked(const QPoint &, int)));
+	connect(ti, SIGNAL(doubleClicked(const QPoint &)), SIGNAL(doubleClicked(const QPoint &)));
+	connect(ti, SIGNAL(closed()), SIGNAL(closed()));
+	ti->show();
+}
+
+MTray::~MTray()
+{
+	delete ti;
+}
+
+void MTray::setToolTip(const QString &str)
+{
+	ti->setToolTip(str);
+}
+
+void MTray::setImage(const QImage &i)
+{
+	ti->setIcon(makeIcon(i));
+}
+
+void MTray::show()
+{
+	ti->show();
+}
+
+void MTray::hide()
+{
+	ti->hide();
+}
+
+QPixmap MTray::makeIcon(const QImage &_in)
+{
+#ifdef Q_WS_X11
+		// on X11, the KDE dock is 22x22.  let's make our icon "seem" bigger.
+		QImage real(22,22,32);
+		//QImage in = _in.convertToImage();
+		QImage in = _in;
+		in.detach();
+		real.fill(0);
+		real.setAlphaBuffer(true);
+
+		// make sure it is no bigger than 16x16
+		if(in.width() > 16 || in.height() > 16)
+			in = in.smoothScale(16,16);
+
+		int xo = (real.width() - in.width()) / 2;
+		int yo = (real.height() - in.height()) / 2;
+
+		int n, n2;
+
+		// draw a dropshadow
+		for(n2 = 0; n2 < in.height(); ++n2) {
+			for(n = 0; n < in.width(); ++n) {
+				if(qAlpha(in.pixel(n,n2))) {
+					int x = n + xo + 2;
+					int y = n2 + yo + 2;
+					real.setPixel(x, y, qRgba(0x80,0x80,0x80,0xff));
+				}
+			}
+		}
+		// draw the image
+		for(n2 = 0; n2 < in.height(); ++n2) {
+			for(n = 0; n < in.width(); ++n) {
+				if(qAlpha(in.pixel(n,n2))) {
+					QRgb c = in.pixel(n, n2);
+					real.setPixel(n + xo, n2 + yo, qRgba(qRed(c), qGreen(c), qBlue(c), 0xff));
+				}
+			}
+		}
+		// create the alpha layer
+		for(n2 = real.height()-2; n2 >= 0; --n2) {
+			for(n = 0; n < real.width(); ++n) {
+				uint c = real.pixel(n, n2);
+				if(c > 0) {
+					QRgb old = real.pixel(n, n2);
+					real.setPixel(n, n2, qRgba(qRed(old), qGreen(old), qBlue(old), 0xff));
+				}
+			}
+		}
+
+		QPixmap icon;
+		icon.convertFromImage(real);
+		return icon;
+	//}
+#else
+	QPixmap icon;
+	icon.convertFromImage(_in);
+	return icon;
+#endif
 }
 
 

@@ -7,6 +7,7 @@
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
 #include "prefdialog.h"
+#include "soundconf.h"
 
 #include "qtermconfig.h"
 
@@ -92,8 +93,6 @@ void prefDialog::loadSetting()
     strTmp = conf.getItemValue("preference","beep");
     ((QRadioButton *)ButtonGroup1->find(strTmp.toInt()))->setChecked(true);
 
-	strTmp = conf.getItemValue("preference","antialias");
-	aacheckBox->setChecked( strTmp!="0" );
 
 	if(strTmp.toInt()!=2)
 	{
@@ -105,6 +104,12 @@ void prefDialog::loadSetting()
 		strTmp = conf.getItemValue("preference","wavefile");
  		wavefileLineEdit->setText( strTmp );
 	}
+	strTmp = conf.getItemValue("preference","antialias");
+	aacheckBox->setChecked( strTmp!="0" );
+
+	strTmp = conf.getItemValue("preference","tray");
+	trayCheckBox->setChecked( strTmp!="0" );
+
 	
     strTmp = conf.getItemValue("preference","http");
  	httpLineEdit->setText( strTmp );
@@ -143,6 +148,8 @@ void prefDialog::saveSetting()
 	strTmp.setNum(aacheckBox->isChecked()?1:0);
     conf.setItemValue("preference","antialias", strTmp);
 
+	strTmp.setNum(trayCheckBox->isChecked()?1:0);
+    conf.setItemValue("preference","tray", strTmp);
    
 	strTmp.setNum(ButtonGroup1->id(ButtonGroup1->selected()));
     conf.setItemValue("preference","beep", strTmp);
@@ -171,10 +178,15 @@ void prefDialog::onCancel()
 }
 void prefDialog::onSound()
 {
-	QString sound = QFileDialog::getOpenFileName( QString::null, QString::null, this );
+	/*QString sound = QFileDialog::getOpenFileName( QString::null, QString::null, this );
     if ( !sound.isEmpty() ) 
 	{
 		wavefileLineEdit->setText(sound);
+	}*/
+	fSoundConf soundconf(this);
+	if (soundconf.exec() == 1)
+	{
+		loadSetting();
 	}
 
 }

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'articledialog.ui'
 **
-** Created: Mon Jan 6 21:19:12 2003
+** Created: Thu Jun 19 17:35:24 2003
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -31,25 +31,37 @@ articleDialogUI::articleDialogUI( QWidget* parent, const char* name, bool modal,
 	setName( "articleDialogUI" );
     articleDialogUILayout = new QGridLayout( this, 1, 1, 11, 6, "articleDialogUILayout"); 
 
-    textBrowser2 = new QTextBrowser( this, "textBrowser2" );
+    copyButton = new QPushButton( this, "copyButton" );
 
-    articleDialogUILayout->addMultiCellWidget( textBrowser2, 0, 0, 0, 4 );
+    articleDialogUILayout->addWidget( copyButton, 1, 3 );
+    QSpacerItem* spacer = new QSpacerItem( 50, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    articleDialogUILayout->addItem( spacer, 1, 4 );
 
     saveButton = new QPushButton( this, "saveButton" );
 
-    articleDialogUILayout->addWidget( saveButton, 1, 1 );
+    articleDialogUILayout->addMultiCellWidget( saveButton, 1, 1, 5, 6 );
+    QSpacerItem* spacer_2 = new QSpacerItem( 60, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    articleDialogUILayout->addItem( spacer_2, 1, 7 );
+    QSpacerItem* spacer_3 = new QSpacerItem( 60, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    articleDialogUILayout->addItem( spacer_3, 1, 0 );
+    QSpacerItem* spacer_4 = new QSpacerItem( 40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    articleDialogUILayout->addItem( spacer_4, 1, 2 );
+
+    selectButton = new QPushButton( this, "selectButton" );
+
+    articleDialogUILayout->addWidget( selectButton, 1, 1 );
 
     closeButton = new QPushButton( this, "closeButton" );
 
-    articleDialogUILayout->addWidget( closeButton, 1, 3 );
-    QSpacerItem* spacer = new QSpacerItem( 120, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-    articleDialogUILayout->addItem( spacer, 1, 2 );
-    QSpacerItem* spacer_2 = new QSpacerItem( 40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-    articleDialogUILayout->addItem( spacer_2, 1, 4 );
-    QSpacerItem* spacer_3 = new QSpacerItem( 40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
-    articleDialogUILayout->addItem( spacer_3, 1, 0 );
+    articleDialogUILayout->addMultiCellWidget( closeButton, 2, 2, 6, 7 );
+    QSpacerItem* spacer_5 = new QSpacerItem( 410, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    articleDialogUILayout->addMultiCell( spacer_5, 2, 2, 0, 5 );
+
+    textBrowser2 = new QTextBrowser( this, "textBrowser2" );
+
+    articleDialogUILayout->addMultiCellWidget( textBrowser2, 0, 0, 0, 7 );
     languageChange();
-    resize( QSize(514, 504).expandedTo(minimumSizeHint()) );
+    resize( QSize(542, 487).expandedTo(minimumSizeHint()) );
 }
 
 /*
@@ -67,8 +79,10 @@ articleDialogUI::~articleDialogUI()
 void articleDialogUI::languageChange()
 {
     setCaption( tr( "Article Viewer" ) );
-    textBrowser2->setText( QString::null );
+    copyButton->setText( tr( "Copy" ) );
     saveButton->setText( tr( "Save..." ) );
+    selectButton->setText( tr( "Select All" ) );
     closeButton->setText( tr( "Close" ) );
+    textBrowser2->setText( QString::null );
 }
 

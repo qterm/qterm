@@ -57,6 +57,8 @@ QTermParam::QTermParam()
 	m_bReconnect = false;
 	m_nReconnectInterval = 3;
 	m_nRetry = 0;
+	m_bLoadScript = false;
+	m_strScriptFile = "";
 // Mouse
 	m_nMenuType=2;
 	m_clrMenu = QColor(0,65,132);
@@ -109,6 +111,8 @@ QTermParam::QTermParam( const QTermParam & param )
 	m_bReconnect = param.m_bReconnect;
 	m_nReconnectInterval = param.m_nReconnectInterval;
 	m_nRetry = param.m_nRetry;
+	m_bLoadScript = param.m_bLoadScript;
+	m_strScriptFile = param.m_strScriptFile;
 // Mouse
 	m_nMenuType = param.m_nMenuType;
 	m_clrMenu = param.m_clrMenu;
@@ -165,6 +169,8 @@ QTermParam& QTermParam::operator=(const QTermParam& param)
 	m_bReconnect = param.m_bReconnect;
 	m_nReconnectInterval = param.m_nReconnectInterval;
 	m_nRetry = param.m_nRetry;
+	m_bLoadScript = param.m_bLoadScript;
+	m_strScriptFile = param.m_strScriptFile;
 // Mouse
 	m_nMenuType = param.m_nMenuType;
 	m_clrMenu = param.m_clrMenu;

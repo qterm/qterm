@@ -26,6 +26,8 @@ protected:
 protected slots:
 	void onClose();
 	void onSave();
+	void onSelect();
+	void onCopy();
 };
 
 #endif // ARTICLEDIALOG_H

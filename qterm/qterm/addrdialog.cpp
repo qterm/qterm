@@ -16,6 +16,7 @@
 #include <qcolordialog.h>
 #include <qfontdialog.h>
 #include <qpainter.h>
+#include <qfiledialog.h>
 
 #include <qvariant.h>
 #include <qcheckbox.h>
@@ -34,6 +35,8 @@
 #include <qwhatsthis.h>
 
 extern char addrCfg[];
+extern QString pathLib;
+
 extern QStringList loadNameList(QTermConfig*);
 extern void loadAddress(QTermConfig*,int,QTermParam&);
 extern void saveAddress(QTermConfig*,int,const QTermParam&);
@@ -292,6 +295,35 @@ void addrDialog::onReconnect(bool on)
 	retryLineEdit->setEnabled(on);
 }
 
+void addrDialog::onLoadScript(bool on)
+{
+	scriptLineEdit->setEnabled(on);
+	scriptPushButton->setEnabled(on);
+}
+
+void addrDialog::onChooseScript()
+{
+	QString path;
+#ifdef _OS_WIN32_
+	path=pathLib+"script";
+#else
+	path=QDir::homeDirPath()+"/.qterm/script";
+#endif
+	
+	QString strFile = QFileDialog::getOpenFileName(
+							path,
+							"Python File (*.py)", this,
+							"open file dialog"
+							"choose a script file" );
+
+	if(strFile.isEmpty())
+		return;
+
+	QFileInfo file(strFile);
+	
+	scriptLineEdit->setText(file.baseName());
+}
+
 void addrDialog::onMenuType(int id)
 {
 	QColor color;
@@ -357,7 +389,10 @@ void addrDialog::connectSlots()
 
 	connect( replyCheckBox, SIGNAL(toggled(bool)), this, SLOT(onAutoReply(bool)));
 	connect( reconnectCheckBox, SIGNAL(toggled(bool)), this, SLOT(onReconnect(bool)));
-
+	
+	connect( scriptCheckBox, SIGNAL(toggled(bool)), this, SLOT(onLoadScript(bool)));
+	connect( scriptPushButton, SIGNAL(clicked()), this, SLOT(onChooseScript()));
+	
 	connect( menuGroup, SIGNAL(clicked(int)), this, SLOT(onMenuType(int)));
 }
 
@@ -404,6 +439,8 @@ bool addrDialog::isChanged()
 		param.m_bReconnect != reconnectCheckBox->isChecked() ||
 		param.m_nReconnectInterval != reconnectLineEdit->text().toInt() ||
 		param.m_nRetry != retryLineEdit->text().toInt() ||
+		param.m_bLoadScript != scriptCheckBox->isChecked() ||
+		param.m_strScriptFile != scriptLineEdit->text() ||
 		param.m_nMenuType != menuGroup->id(menuGroup->selected()) ||
 		param.m_clrMenu != clrMenu;
 		
@@ -454,6 +491,8 @@ void addrDialog::updateData(bool save)
 		param.m_bReconnect = reconnectCheckBox->isChecked();
 		param.m_nReconnectInterval = reconnectLineEdit->text().toInt();
 		param.m_nRetry = retryLineEdit->text().toInt();
+		param.m_bLoadScript = scriptCheckBox->isChecked();
+		param.m_strScriptFile = scriptLineEdit->text();
 		param.m_nMenuType = menuGroup->id(menuGroup->selected());
 		param.m_clrMenu = clrMenu;
 	}
@@ -516,6 +555,9 @@ void addrDialog::updateData(bool save)
 		reconnectLineEdit->setText(strTmp);
 		strTmp.setNum(param.m_nRetry);
 		retryLineEdit->setText(strTmp);
+		scriptCheckBox->setChecked(param.m_bLoadScript);
+		scriptLineEdit->setText(param.m_strScriptFile);
+		onLoadScript(param.m_bLoadScript);
 		menuGroup->setButton(param.m_nMenuType);
 		clrMenu = param.m_clrMenu;
 		menuLabel->setBackgroundColor(param.m_clrMenu);

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'articledialog.ui'
 **
-** Created: Mon Jan 6 21:18:57 2003
+** Created: Thu Jun 19 17:35:13 2003
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -27,9 +27,11 @@ public:
     articleDialogUI( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
     ~articleDialogUI();
 
-    QTextBrowser* textBrowser2;
+    QPushButton* copyButton;
     QPushButton* saveButton;
+    QPushButton* selectButton;
     QPushButton* closeButton;
+    QTextBrowser* textBrowser2;
 
 protected:
     QGridLayout* articleDialogUILayout;

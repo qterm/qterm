@@ -1,6 +1,8 @@
 #ifndef QTERMBUFFER_H
 #define QTERMBUFFER_H
 
+#include <qglobal.h>
+
 #if (QT_VERSION>=300)
 #include <qptrlist.h>
 #else
