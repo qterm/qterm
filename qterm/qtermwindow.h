@@ -29,6 +29,7 @@ class QTermWindow;
 class zmodemDialog;
 class QProgressDialog;
 class QTermHttp;
+class QTermIPLocation;
 
 // thread copy article
 class QTermDAThread : public QThread
@@ -161,6 +162,7 @@ protected:
 	int m_nAddrIndex;
 
 	bool m_bDoingLogin;
+	bool m_bCheckIP;
 
 	// url rect
 	QRect m_rcUrl;
@@ -185,6 +187,10 @@ protected:
 
 	// Decode
 	bool m_bMouseX11;
+
+	//IP location
+	QString location;
+	QTermIPLocation * m_pIPLocation;
 public:
 	QTermFrame * m_pFrame;
 	QTermBuffer * m_pBuffer;

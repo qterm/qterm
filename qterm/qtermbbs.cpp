@@ -289,6 +289,15 @@ bool QTermBBS::isIllChar(char ch)
 
 bool QTermBBS::isUrl(QRect& rcUrl, QRect& rcOld)
 {
+	return checkUrl(rcUrl, rcOld, false);
+}
+bool QTermBBS::isIP(QRect& rcUrl, QRect& rcOld)
+{
+	return checkUrl(rcUrl, rcOld, true);
+}
+
+bool QTermBBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
+{
 	static const char http[] = "http://";
 	static const char https[] = "https://";
 	static const char mms[] = "mms://";
@@ -305,9 +314,13 @@ bool QTermBBS::isUrl(QRect& rcUrl, QRect& rcOld)
 		rcOld = m_rcUrl;
 		return true;
 	}
-	m_cstrUrl = "";
+	if (!checkIP)
+		m_cstrUrl = "";
+	else
+		m_cstrIP = "";
 	rcOld = m_rcUrl;
-	m_rcUrl = QRect(0,0,0,0);
+	if (!checkIP) //don't update when we only need ip
+		m_rcUrl = QRect(0,0,0,0);
 
 	QCString cstrText = m_pBuffer->at(m_ptCursor.y())->getText();
 
@@ -316,6 +329,8 @@ bool QTermBBS::isUrl(QRect& rcUrl, QRect& rcOld)
 		return false;
 	
 	int i,index,begin,end,dot,url,host,ata;
+	int ip_begin = 0;
+	int ip_end = 0;
 
 	for (i=at; i>=0 && !isIllChar(cstrText.at(i)); i--);
 	url = i+1;
@@ -384,8 +399,18 @@ bool QTermBBS::isUrl(QRect& rcUrl, QRect& rcOld)
 //	if (end - begin < 7) // too short
 //		return false;
 
+	ip_begin = host;
+	ip_end = end;
 	for(index=host, dot=host-1, i=0; index<end && cstrText.at(index)!='/'; index++)
 	{
+		if (cstrText.at(index) == '@'&&checkIP)
+		{
+			ip_begin = index + 1;
+		}
+		if (cstrText.at(index) == ':'&&checkIP)
+		{
+			ip_end = index;
+		}
 		if (cstrText.at(index) == '.')
 		{
 			if (index <= dot + 1) // xxx..x is illegal
@@ -395,13 +420,27 @@ bool QTermBBS::isUrl(QRect& rcUrl, QRect& rcOld)
 		}
 		else 
 		{
+			if (checkIP) { // somebody save me out
 			if (!isalnum(cstrText.at(index)) && 
 				cstrText.at(index)!='-' && 
 				cstrText.at(index)!='_' &&
 				cstrText.at(index)!='~' &&
 				cstrText.at(index)!=':' &&
-				cstrText.at(index)!='@')
+				cstrText.at(index)!='*' &&  //add by cyber@thuee.org, allow ip like 166.111.1.*
+				cstrText.at(index)!='@'
+				) 
 				return false;
+			}
+			else {
+			if (!isalnum(cstrText.at(index)) && 
+				cstrText.at(index)!='-' && 
+				cstrText.at(index)!='_' &&
+				cstrText.at(index)!='~' &&
+				cstrText.at(index)!=':' &&
+				cstrText.at(index)!='@'
+				) 
+				return false;
+			}
 		}
 	}
 	
@@ -410,23 +449,35 @@ bool QTermBBS::isUrl(QRect& rcUrl, QRect& rcOld)
 
 	if(i<1)
 		return false;
-
-	m_cstrUrl = cstrText.mid(url, end-url);
+	if (checkIP) {
+		m_cstrIP = cstrText.mid(ip_begin,ip_end-ip_begin);//get the pure ip address
+	}
+	else
+		m_cstrUrl = cstrText.mid(url, end-url);
 	
 	if(nNoType==0)
 		m_cstrUrl = "mailto:"+m_cstrUrl;
 	else if(nNoType==1)
-		m_cstrUrl = "http://"+m_cstrUrl;
+		if(checkIP) {
+			if( ((const char *) m_cstrIP)[ m_cstrIP.length()-1 ] == '*' )
+				m_cstrIP.replace( m_cstrIP.length() -1 , 1, "1" );
+		}else
+			m_cstrUrl = "http://"+m_cstrUrl;
 	
 	rcUrl = QRect(url, m_ptCursor.y(), end-url, 1);
-	m_rcUrl = rcUrl;
-
+	if (!checkIP) // don't update when we only need ip
+		m_rcUrl = rcUrl;
 	return true;;
 }
 
 QCString QTermBBS::getUrl()
 {
 	return m_cstrUrl;
+}
+
+QCString QTermBBS::getIP()
+{
+	return m_cstrIP;
 }
 
 bool QTermBBS::isPageComplete()

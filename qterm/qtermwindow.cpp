@@ -31,6 +31,7 @@ AUTHOR:        kingson fiasco
 #include "zmodemdialog.h"
 #include "qtermpython.h"
 #include "qtermhttp.h"
+#include "qtermiplocation.h"
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
@@ -221,7 +222,7 @@ char QTermWindow::direction[][5]=
 
 //constructor
 QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidget * parent, const char * name, int wflags )
-    : QMainWindow( parent, name, wflags )
+    : QMainWindow( parent, name, wflags ),location()
 {
 
 	m_pFrame = frame;
@@ -256,6 +257,9 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	m_pDecode = new QTermDecode( m_pBuffer );
 	m_pBBS	  = new QTermBBS( m_pBuffer );
 	m_pScreen = new QTermScreen( this, m_pBuffer, &m_param, m_pBBS );
+	m_pIPLocation = new QTermIPLocation(pathLib);
+	if (!m_pIPLocation->haveFile())
+		m_bCheckIP = false;
 	setFocusProxy( m_pScreen);
 	setCentralWidget( m_pScreen);
 	connect(m_pFrame, SIGNAL(bossColor()), m_pScreen, SLOT(bossColor()));
@@ -426,6 +430,7 @@ QTermWindow::~QTermWindow()
 	delete m_pUrl;
 	delete m_pScreen;
 	delete m_reconnectTimer;
+	delete m_pIPLocation;
 
 #ifdef HAVE_PYTHON
 	// get the global python thread lock
@@ -632,9 +637,25 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 			m_pScreen->repaint( m_pScreen->mapToRect(rect), true );
 		// judge if URL
 		QRect rcOld;
+		QRect rcOld_i_dont_need_you;
+		QRect rcUrl_leave_me_alone = m_rcUrl;
 		bool bUrl=false;
 		if(m_pFrame->m_pref.bUrl)
 		{
+			if (m_pBBS->isIP(rcUrl_leave_me_alone, rcOld_i_dont_need_you) && m_bCheckIP)
+			{
+				if(rcUrl_leave_me_alone != rcOld_i_dont_need_you)
+				{
+					QCString country,city;
+					QString url = m_pBBS->getIP();
+					if (m_pIPLocation->getLocation(url, country, city)) {
+						statusBar()->message( G2U(country + city) );
+					}
+				}
+			} else{
+				statusBar()->message("");
+			}
+			
 			if(m_pBBS->isUrl(m_rcUrl, rcOld))
 			{
 				setCursor(pointingHandCursor);
@@ -647,6 +668,8 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 			}
 			else
 			QToolTip::remove(this, m_pScreen->mapToRect(rcOld));
+
+
 		}
 
 		if(!bUrl)

@@ -1,0 +1,183 @@
+//***************************************************************************
+//* made by cyber@thuee.org						    *
+//***************************************************************************
+#include "qtermiplocation.h"
+
+#include <ctype.h>
+#include <qregexp.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <qstring.h>
+
+QTermIPLocation::QTermIPLocation(QString & pathLib)
+{
+	f = new _ip_finder;
+	fileExist = true;
+	if( ( f->ipfp = fopen( pathLib + DEFAULT_IP_LOCATION_FILE, "r" ) ) == NULL )
+		if( ( f->ipfp = fopen( DEFAULT_IP_LOCATION_FILE, "r" ) ) == NULL ){
+			qDebug( "can't open ipfile !" );
+			fileExist = false;
+		}
+}
+
+QTermIPLocation::~QTermIPLocation()
+{
+	if( f->ipfp != NULL )
+		fclose( f->ipfp );
+}
+
+bool QTermIPLocation::haveFile()
+{
+	return fileExist;
+}
+
+uint32 QTermIPLocation::byteArrayToInt( char *ip, int count )
+{
+	uint32 tmp, ret = 0L; 
+	if( count <1 || count >4 )
+	{
+		qDebug( "error byteArrayToInt!" );
+		return 0;
+	}
+	for( int i = 0; i < count; i++ ) 
+	{
+		tmp = (( uint32 )ip[ i ]) & 0x000000FF;
+		ret |= ( tmp << ( 8*i ) );
+	}
+	    return ret;
+}// _byte_array_to_int
+
+
+void QTermIPLocation::readFrom( FILE *fp, uint32 offset, char *buf, int len )
+{
+	if( fseek( fp, (long)offset, SEEK_SET ) ==-1 )
+	{
+		qDebug( " readFrom error 1 " );
+		memset( buf, 0, len );
+		return;
+	}
+	if( fread( buf, sizeof( char ), len, fp ) == 0)
+	{
+		qDebug( " readFrom error 2 " );
+		memset( buf, 0, len );
+		return;
+	}
+	return;
+}
+
+int QTermIPLocation::readLineFrom( FILE *fp, uint32 offset, QCString& ret_str )
+{
+	char str[512];
+	if( fseek( fp, (long)offset, SEEK_SET ) ==-1 )
+	{
+		qDebug( " readLineFrom error 1 " );
+		ret_str = QCString(NULL);
+		return -1;
+	}
+	if( fgets( (char *) str, 512, fp ) == NULL )
+	{
+		qDebug( " readLineFrom error 2 " );
+		ret_str = QCString(NULL);
+		return -1;
+	}
+	ret_str = str;
+	return(  ret_str.length() );
+}
+
+uint32 QTermIPLocation::getString( FILE *fp, uint32 offset, uint32 lastoffset, QCString& ret, unsigned int flag )
+{
+    char *buf;
+    unsigned int fg;
+    if( fp == NULL ) return 0;
+    buf =(char *) calloc( 3, sizeof( char ) );
+    readFrom( fp, offset, buf ,1 );
+    if( buf[0] == 0x01 || buf[0] == 0x02 )
+    {
+        fg = buf[0];
+        readFrom( fp, offset + 1, buf, 3 );
+        return getString( fp, byteArrayToInt( buf, 3 ), offset, ret, fg );
+    }
+    else
+    {
+        readLineFrom( fp, offset, ret );
+    }
+    switch ( flag ) {
+        case 0x01:  return 0; 
+        case 0x02:  return lastoffset + 4; 
+        default:   return offset + strlen(ret) + 1;
+    }// switch
+}
+
+
+void QTermIPLocation::getCountryCity( FILE *fp, uint32 offset, QCString& country, QCString& city )
+{
+	uint32 next_offset;
+	if( fp == NULL ) return ;
+	next_offset = getString( fp, offset, 0L, country, 0 );
+	if( next_offset == 0 ) city = "";
+	else getString( fp, next_offset, 0L, city, 0 );
+	return;
+}
+
+void QTermIPLocation::setIpRange( int rec_no, _ip_finder *f )
+{
+	char *buf;
+	uint32 offset;
+	if( f == NULL ) return;
+	buf = (char *)calloc( 7, sizeof( char ) );
+	offset = f->offset_first_start_ip + rec_no * 7 ;
+
+	readFrom(f->ipfp, offset, buf, 7);
+	f->cur_start_ip  = byteArrayToInt( buf, 4 );
+	f->offset_cur_end_ip = byteArrayToInt( buf + 4, 3 );
+
+	readFrom(f->ipfp, f->offset_cur_end_ip, buf, 4 );
+	f->cur_end_ip = byteArrayToInt( buf, 4 );
+
+}// _set_ip_range
+
+bool QTermIPLocation::getLocation( QString& url, QCString& country, QCString& city )
+{
+	int rec, record_count, B, E, ip;
+	char *buf;
+	in_addr_t ipValue = inet_addr( (const char*)url.latin1() );
+	if( ipValue == -1 )
+		return false;
+	else
+		ip = ntohl(ipValue);
+
+	buf = (char *)calloc( 4, sizeof( char ) );
+	memset( buf ,0 ,4 );
+	readFrom( f->ipfp, 0L, (char *)buf, 4 );
+	f->offset_first_start_ip = byteArrayToInt( (char *)buf, 4 );
+	readFrom( f->ipfp, 4L, (char *)buf, 4 );
+	f->offset_last_start_ip  = byteArrayToInt( (char *)buf, 4 );
+
+	record_count = (f->offset_last_start_ip - f->offset_first_start_ip) / 7;
+	if (record_count <= 1) return FALSE;
+
+	// search for right range
+	B = 0;  E = record_count;
+	while (B < E-1) 
+	{
+		rec = (B + E) / 2; 
+		setIpRange( rec, f ) ;
+		if (ip == f->cur_start_ip ) { B = rec; break;}
+		if (ip > f->cur_start_ip ) B= rec; else E= rec;
+	}
+	setIpRange( B, f );
+
+	if (f->cur_start_ip <= ip && ip <= f->cur_end_ip) 
+	{
+		getCountryCity(f->ipfp, f->offset_cur_end_ip + 4, country, city);
+		//country.replace( country.find( "CZ88.NET", 0, FALSE ), 8, "" );
+		if( (rec =city.find( "CZ88.NET", 0, FALSE )) >= 0 )
+			city.replace( rec, 8, "" );
+			
+	} 
+	else 
+	{// not in this range... miss
+		country = "unkown"; city = "";
+	}// if ip_start<=ip<=ip_end
+	return TRUE;
+}

@@ -27,9 +27,12 @@ public:
 	bool isSelected( int );
 	bool isSelected( const QPoint& );
 	bool isUrl(QRect&,QRect&);
+	bool isIP(QRect&, QRect&);
 	bool isPageComplete();
+	bool checkUrl(QRect&, QRect&, bool);
 
 	QCString getUrl();
+	QCString getIP();
 	int getPageState();
 	char getMenuChar();
 	QRect getSelectRect();
@@ -43,6 +46,7 @@ protected:
 
 	QRect m_rcUrl;
 	QCString m_cstrUrl;
+	QCString m_cstrIP;
 	char m_cMenuChar;
 	int m_nPageState;
 	QPoint m_ptCursor;
