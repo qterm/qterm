@@ -1271,12 +1271,16 @@ void QTermInput::paintEvent(QPaintEvent * e)
 	if (d_pos == -1)
 		d_pos = 0;
 	for (int i = 0; i < d_text.length(); ++i) {
-		if (d_text[i] <= 0x7f)
+		if (d_text[i] <= 0x7f) {
 			++len;
-		else
+			if (i == d_pos)
+				cursor = len - 1;
+		}
+		else {
 			len += 2;
-		if (i == d_pos)
-			cursor = len - 2;
+			if (i == d_pos)
+				cursor = len - 2;
+		}
 	}
 	
 	width = len * d_width;
@@ -1297,7 +1301,6 @@ void QTermInput::paintEvent(QPaintEvent * e)
 		else
 			len += 2;
 	}
-
 #ifndef Q_OS_MACX
 	QRect rcCurrent(cursor * d_width, 0, d_width*2, d_height);
 	if (d_text[d_pos] <= 0x7f)
@@ -1305,7 +1308,7 @@ void QTermInput::paintEvent(QPaintEvent * e)
 	erase(rcCurrent);
 	inputPainter.fillRect(rcCurrent, QBrush(Qt::darkGray));
 	inputPainter.setPen(Qt::white);
-	inputPainter.drawText(cursor * d_width ,d_ascent, d_text.mid(d_pos, 1));
+	inputPainter.drawText(cursor * d_width ,d_ascent, d_text.mid(cursor, 1));
 #endif
 	inputPainter.end();
 }
