@@ -612,9 +612,7 @@ void schemaDialog::nameChanged(QListBoxItem *item)
 		{
 			if(nLastItem!=-1)
 			{
-//				nameListBox->setCurrentItem(nLastItem);
 				saveNumSchema(nLastItem);
-//				nameListBox->setCurrentItem(item);
 			}
 		}
     }

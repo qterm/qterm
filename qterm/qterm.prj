@@ -1,0 +1,103 @@
+TEMPLATE	= app
+CONFIG		+= qt warn_on debug
+DEFINES		+= QT_DLL QT_THREAD_SUPPORT
+OBJECTS_DIR = obj
+MOC_DIR		= moc
+
+# specially for Win32
+win32:RC_FILE	= qterm.rc
+win32:DEFINES += HAVE_PYTHON _NO_ARTS_COMPILED _NO_ESD_COMPILED
+win32:INCLUDEPATH += c:/progra~1/python23/include
+win32:LIBS += c:/progra~1/python23/libs/python23.lib
+
+# specially for MacOS 
+mac:DEFINES += _NO_ARTS_COMPILED _NO_ESD_COMPILED
+
+# specially for *NIX
+unix:!mac{
+	DEFINES += HAVE_PYTHON _NO_ARTS_COMPILED _NO_ESD_COMPILED
+	INCLUDEPATH += /usr/include/python2.3
+	LIBS += -lpython2.3
+}
+
+HEADERS		= qtermframe.h \
+		qtermwindow.h \
+		qtermtimelabel.h \
+		qtermtoolbutton.h	\
+		qtermwndmgr.h	\
+		qtermscreen.h	\
+		qtermtelnet.h	\
+		qtermconfig.h	\
+		qtermtextline.h	\
+		qtermconvert.h	\
+		qtermbuffer.h	\
+		qtermdecode.h	\
+		qtermbbs.h	\
+		qtermparam.h	\
+		qtermsound.h	\
+		qterm.h		\
+		aboutdialogui.h	\
+		aboutdialog.h	\
+		addrdialogui.h	\
+		addrdialog.h	\
+		quickdialogui.h	\
+		quickdialog.h	\
+		prefdialogui.h	\
+		prefdialog.h	\
+		keydialogui.h		\
+		keydialog.h		\
+		msgdialogui.h	\
+		msgdialog.h		\
+		articledialogui.h	\
+		articledialog.h	\
+		schemadialogui.h	\
+		schemadialog.h	\
+		soundconfui.h	\
+		soundconf.h	\
+		trayicon.h	\
+		popwidget.h
+		
+SOURCES		= qtermframe.cpp \
+		qtermwindow.cpp \
+		qtermtimelabel.cpp \
+		qtermtoolbutton.cpp	\
+		qtermwndmgr.cpp \
+		qtermscreen.cpp	\
+		qtermtelnet.cpp	\
+		qtermconfig.cpp	\
+		qtermtextline.cpp	\
+		qtermconvert.cpp	\
+		qtermbuffer.cpp	\
+		qtermdecode.cpp	\
+		qtermbbs.cpp	\
+		qtermparam.cpp	\
+		qtermsound.cpp	\
+		aboutdialogui.cpp	\
+		aboutdialog.cpp	\
+		addrdialogui.cpp	\
+		addrdialog.cpp	\
+		quickdialogui.cpp	\
+		quickdialog.cpp	\
+		prefdialogui.cpp	\
+		prefdialog.cpp	\
+		keydialogui.cpp	\
+		keydialog.cpp	\
+		msgdialogui.cpp	\
+		msgdialog.cpp	\
+		articledialogui.cpp	\
+		articledialog.cpp	\
+		schemadialogui.cpp	\
+		schemadialog.cpp	\
+		soundconfui.cpp	\
+		soundconf.cpp	\
+		popwidget.cpp	\
+		trayicon.cpp	\
+		main.cpp
+
+win32:SOURCES += trayicon_win.cpp
+unix:!mac{
+	SOURCES += trayicon_x11.cpp
+}
+mac:SOURCES += trayicon_mac.cpp
+
+TARGET		= qterm
