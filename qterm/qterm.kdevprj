@@ -782,7 +782,7 @@ install_location=$$(datadir)/qterm/schema/Linux.schema
 type=DATA
 
 [qterm/schema/Makefile.am]
-files=qterm/schema/Softness.schema,qterm/schema/Linux.schema,qterm/schema/VIM.schema,qterm/schema/XTerm.schema
+files=qterm/schema/Softness.schema,qterm/schema/Linux.schema,qterm/schema/VIM.schema,qterm/schema/XTerm.schema,qterm/schema/default.schema
 sub_dirs=
 type=normal
 
@@ -802,6 +802,12 @@ type=DATA
 dist=true
 install=true
 install_location=$$(datadir)/qterm/schema/XTerm.schema
+type=DATA
+
+[qterm/schema/default.schema]
+dist=true
+install=true
+install_location=$$(datadir)/qterm/schema/default.schema
 type=DATA
 
 [qterm/schemadialog.cpp]
