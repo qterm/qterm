@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'addrdialog.ui'
 **
-** Created: Wed Aug 18 21:58:17 2004
+** Created: Wed Sep 8 17:28:51 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!

@@ -226,7 +226,16 @@ void QTermSocketPrivate::connectToHost(const QString & hostname, Q_UINT16 portnu
 			return;
 		}
 	#endif
-		hostent = gethostbyname( host );
+/*		QHostAddress ha(host);
+		if(ha.isIPv4Address())
+		{
+			hostent = gethostbyaddr( (char *)host, host.length(), AF_INET );
+		}
+		else
+*/		{
+			hostent = gethostbyname( host );
+		}
+
 		if( hostent==NULL )
 		{
 			emit SocketState(TSEGETHOSTBYNAME);

@@ -36,6 +36,7 @@
 
 extern QString addrCfg;
 extern QString pathLib;
+extern QString pathCfg;
 
 extern QStringList loadNameList(QTermConfig*);
 extern void loadAddress(QTermConfig*,int,QTermParam&);
@@ -327,7 +328,7 @@ void addrDialog::onChooseScript()
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 	path=pathLib+"script";
 #else
-	path=QDir::homeDirPath()+"/.qterm/script";
+	path=pathCfg+"script";
 #endif
 	
 	QString strFile = QFileDialog::getOpenFileName(
@@ -390,6 +391,7 @@ void addrDialog::connectSlots()
 {
 	connect( nameListBox, SIGNAL(selectionChanged(QListBoxItem*)), this, SLOT(onNamechange(QListBoxItem*)) );
 	connect( nameListBox, SIGNAL(doubleClicked(QListBoxItem*)), this, SLOT(onConnect()));
+	connect( nameListBox, SIGNAL(returnPressed(QListBoxItem*)), this, SLOT(onConnect()));
 
 	connect( addPushButton, SIGNAL(clicked()), this, SLOT(onAdd()) );
 	connect( deletePushButton, SIGNAL(clicked()), this, SLOT(onDelete()) );

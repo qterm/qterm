@@ -1666,6 +1666,7 @@
     </widget>
 </widget>
 <tabstops>
+    <tabstop>nameListBox</tabstop>
     <tabstop>tabWidget</tabstop>
     <tabstop>nameLineEdit</tabstop>
     <tabstop>addrLineEdit</tabstop>
@@ -1719,7 +1720,6 @@
     <tabstop>applyPushButton</tabstop>
     <tabstop>connectPushButton</tabstop>
     <tabstop>closePushButton</tabstop>
-    <tabstop>nameListBox</tabstop>
     <tabstop>addPushButton</tabstop>
     <tabstop>deletePushButton</tabstop>
 </tabstops>

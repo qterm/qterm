@@ -25,6 +25,7 @@
 #include <qwhatsthis.h>
 
 extern QString fileCfg;
+extern QString getOpenFileName(const QString&, QWidget*);
 
 /* 
  *  Constructs a keyDialog as a child of 'parent', with the 
@@ -216,7 +217,7 @@ void keyDialog::onSelect(int id)
 }
 void keyDialog::onScript()
 {
-	QString script = QFileDialog::getOpenFileName( QString::null, QString::null, this );
+	QString script = getOpenFileName( "Python File (*.py *.txt)",this );
     if ( !script.isEmpty() ) 
 	{
 		scriptEdit->setText(script);
@@ -224,7 +225,7 @@ void keyDialog::onScript()
 }
 void keyDialog::onProgram()
 {
-	QString program = QFileDialog::getOpenFileName( QString::null, QString::null, this );
+	QString program = getOpenFileName( "*", this );
     if ( !program.isEmpty() ) 
 	{
 		programEdit->setText(program);

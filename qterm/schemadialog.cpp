@@ -22,6 +22,7 @@
 #include <stdio.h>
 
 extern QString pathLib;
+extern QString pathCfg;
 
 schemaDialog::schemaDialog( QWidget* parent,  const char* name, bool modal, WFlags fl )
     : schemaDialogUI( parent, name, modal, fl )
@@ -105,7 +106,7 @@ void schemaDialog::loadList()
 	dir.setNameFilter("*.schema");
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
-	dir.setPath(QDir::homeDirPath()+"/.qterm/schema");
+	dir.setPath(pathCfg+"/schema");
 	lstFile = dir.entryInfoList();
 	if( lstFile!=NULL )
 	{

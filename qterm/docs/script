@@ -43,6 +43,9 @@ Methods
 	
 	int getProtocol(long lp)
 		get bbs protocol
+
+	previewImage(long lp, string url)
+		download and preview image url
 		
 	reconnect(long lp)
 		reconnect to host

@@ -12,6 +12,7 @@
 #include "qtermtextline.h"
 #include "qtermtelnet.h"
 #include "qtermparam.h"
+#include "qtermbbs.h"
 
 /* **************************************************************************
  *
@@ -385,14 +386,27 @@ static PyObject *qterm_getProtocol(PyObject *, PyObject *args)
 static PyObject *qterm_getReplyKey(PyObject *, PyObject *args)
 {
 	long lp;
-	if(PyArg_ParseTuple(args, "l", &lp))
+	if(!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
 
-	PyObject *py_key = PyString_FromString( ((QTermWindow*)lp)->m_param.m_strReplyKey);
+	PyObject *py_key = PyString_FromString(((QTermWindow*)lp)->m_param.m_strReplyKey.local8Bit());
 	Py_INCREF(py_key);
 	return py_key;
 }
 
+// url under mouse 
+static PyObject *qterm_getURL(PyObject *, PyObject *args)
+{
+	long lp;
+	if(!PyArg_ParseTuple(args, "l", &lp))
+		return NULL;
+
+	PyObject *py_url = PyString_FromString( ((QTermWindow*)lp)->m_pBBS->getUrl());
+	Py_INCREF(py_url);
+	return py_url;
+}
+
+// preview image link
 static PyObject *qterm_previewImage(PyObject *, PyObject *args)
 {
 	long lp;
@@ -493,8 +507,11 @@ PyMethodDef qterm_methods[] = {
 	{"getReplyKey",		(PyCFunction)qterm_getReplyKey,			METH_VARARGS,
 			"get the key to reply messages"},
 
+	{"getURL",			(PyCFunction)qterm_getURL,				METH_VARARGS,
+			"get the url string under mouse"},
+
 	{"previewImage",	(PyCFunction)qterm_previewImage,		METH_VARARGS,
-			"preview the image"},
+			"preview the image link"},
 
 	{"fromUTF8",		(PyCFunction)qterm_fromUTF8,			METH_VARARGS,
 			"decode from utf8 to string in specified codec"},

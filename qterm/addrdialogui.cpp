@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'addrdialog.ui'
 **
-** Created: Wed Aug 18 21:58:35 2004
+** Created: Wed Sep 8 17:29:03 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -370,6 +370,7 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
     clearWState( WState_Polished );
 
     // tab order
+    setTabOrder( nameListBox, tabWidget );
     setTabOrder( tabWidget, nameLineEdit );
     setTabOrder( nameLineEdit, addrLineEdit );
     setTabOrder( addrLineEdit, portLineEdit );
@@ -422,8 +423,7 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
     setTabOrder( menucolorButton, applyPushButton );
     setTabOrder( applyPushButton, connectPushButton );
     setTabOrder( connectPushButton, closePushButton );
-    setTabOrder( closePushButton, nameListBox );
-    setTabOrder( nameListBox, addPushButton );
+    setTabOrder( closePushButton, addPushButton );
     setTabOrder( addPushButton, deletePushButton );
 }
 

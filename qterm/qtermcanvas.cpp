@@ -1,5 +1,6 @@
 #include "qtermcanvas.h"
 #include "qterm.h"
+#include "qtermconfig.h"
 
 #include <qpixmap.h>
 #include <qlabel.h>
@@ -10,6 +11,7 @@
 #include <qpopupmenu.h>
 
 extern QString getSaveFileName(const QString&, QWidget*);
+extern QString fileCfg;
 
 QTermCanvas::QTermCanvas(QWidget *parent, const char *name, WFlags f)
   :QScrollView(parent, name, f)
@@ -28,7 +30,9 @@ QTermCanvas::QTermCanvas(QWidget *parent, const char *name, WFlags f)
 	m_pMenu->insertSeparator();
 	m_pMenu->insertItem( tr("save as"), this, SLOT(saveImage()), Key_S );
 	m_pMenu->insertItem( tr("copy to"), this, SLOT(copyImage()), Key_C );
+	m_pMenu->insertItem( tr("silent copy"), this, SLOT(silentCopy()), Key_S+SHIFT );
 	m_pMenu->insertItem( tr("delete"), this, SLOT(deleteImage()), Key_D );
+	m_pMenu->insertSeparator();
 	m_pMenu->insertItem( tr("exit"), this, SLOT(close()), Key_Q );
 
 	bFitWin=true;
@@ -149,7 +153,7 @@ void QTermCanvas::rotateImage(float ang)
 	adjustSize(QSize(visibleWidth(), visibleHeight()));
 }
 
-void QTermCanvas::saveImage()
+void QTermCanvas::copyImage()
 {
 	QFileInfo fi(strFileName);
 	QString strSave = getSaveFileName(fi.fileName(), this);
@@ -171,6 +175,47 @@ void QTermCanvas::saveImage()
 	}
 }
 
+void QTermCanvas::silentCopy()
+{
+	// save it to $savefiledialog
+	QTermConfig conf(fileCfg);
+	QString strPath = QString::fromLocal8Bit(
+					conf.getItemValue("global","savefiledialog"));
+	
+	QFileInfo fi(strFileName);
+	QString strSave = strPath+"/"+fi.fileName();
+
+	fi.setFile(strSave);
+
+	// add (%d) if exist
+	int i=1;
+	while(fi.exists())
+	{
+		strSave = QString("%1/%2(%3).%4")
+                            .arg(fi.dirPath())
+                            .arg(fi.baseName(true))
+                            .arg(i)
+                            .arg(fi.extension(false));
+		fi.setFile(strSave);
+	}
+
+	// copy it
+	QFile file(strFileName);	
+	if(file.open(IO_ReadOnly))
+	{
+		QFile save(strSave);
+		if(save.open(IO_WriteOnly))
+		{
+			QByteArray ba = file.readAll();
+			QDataStream ds(&save);
+			ds.writeRawBytes(ba,ba.size());
+			save.close();
+		}
+		file.close();
+	}
+}
+
+
 QPixmap QTermCanvas::scaleImage(const QSize& sz)
 {
 	QWMatrix wm;
@@ -184,7 +229,7 @@ void QTermCanvas::moveImage(float dx, float dy)
 	scrollBy(contentsWidth()*dx, contentsHeight()*dy);
 }
 
-void QTermCanvas::copyImage()
+void QTermCanvas::saveImage()
 {
 	QFileInfo fi(strFileName);
 	QString strSave = getSaveFileName(fi.fileName(),this);
@@ -212,7 +257,7 @@ void QTermCanvas::viewportResizeEvent(QResizeEvent *re)
 
 void QTermCanvas::contentsMousePressEvent(QMouseEvent *me)
 {
-/* remove this avoid click by mistake
+/* remove this to avoid click by mistake
 	if(me->button()&LeftButton)
 	{
 		close();

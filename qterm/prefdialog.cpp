@@ -28,6 +28,8 @@
 
 extern QString fileCfg;
 extern QString pathCfg;
+extern QString getOpenFileName(const QString&, QWidget*);
+
 /* 
  *  Constructs a prefDialog which is a child of 'parent', with the 
  *  name 'name' and widget flags set to 'f'.
@@ -95,17 +97,15 @@ void prefDialog::loadSetting()
     strTmp = conf.getItemValue("preference","beep");
     ((QRadioButton *)ButtonGroup1->find(strTmp.toInt()))->setChecked(true);
 
-
-	if(strTmp.toInt()!=1)
+	if(strTmp.toInt()!=2)
 	{
 		wavefileLineEdit->setEnabled(false);
 		selectsoundPushButton->setEnabled(false);
 	}
-	else
-	{
-		strTmp = conf.getItemValue("preference","wavefile");
- 		wavefileLineEdit->setText( strTmp );
-	}
+
+	strTmp = conf.getItemValue("preference","wavefile");
+ 	wavefileLineEdit->setText( strTmp );
+
 	strTmp = conf.getItemValue("preference","antialias");
 	aacheckBox->setChecked( strTmp!="0" );
 
@@ -208,11 +208,6 @@ void prefDialog::onCancel()
 }
 void prefDialog::onSound()
 {
-	/*QString sound = QFileDialog::getOpenFileName( QString::null, QString::null, this );
-    if ( !sound.isEmpty() ) 
-	{
-		wavefileLineEdit->setText(sound);
-	}*/
 	fSoundConf soundconf(this);
 	if (soundconf.exec() == 1)
 	{
@@ -222,7 +217,7 @@ void prefDialog::onSound()
 }
 void prefDialog::onHttp()
 {
-	QString http = QFileDialog::getOpenFileName( QString::null, QString::null, this );
+	QString http = getOpenFileName( "*", this );
     if ( !http.isEmpty() ) 
 	{
 		httpLineEdit->setText(http+" %L");
@@ -231,12 +226,12 @@ void prefDialog::onHttp()
 }
 void prefDialog::onBeep( int id )
 {
-	if(id==1)
+	if(id==2)
 	{
 		wavefileLineEdit->setEnabled(true);
 		selectsoundPushButton->setEnabled(true);
 	}
-	else if(id==0 || id==3 )
+	else if(id==0 || id==1 )
 	{
 		wavefileLineEdit->setEnabled(false);
 		selectsoundPushButton->setEnabled(false);
@@ -246,12 +241,13 @@ void prefDialog::onBeep( int id )
 void prefDialog::onBrowse()
 {
 	QString dir = QFileDialog::getExistingDirectory(zmodemLineEdit->text(), this);
-	zmodemLineEdit->setText(dir);
+	if( !dir.isEmpty() )
+		zmodemLineEdit->setText(dir);
 }
 
 void prefDialog::onImage()
 {
-	QString image = QFileDialog::getOpenFileName( QString::null, QString::null, this );
+	QString image = getOpenFileName( "*", this );
     if ( !image.isEmpty() ) 
 	{
 		imageLineEdit->setText(image);
@@ -260,7 +256,7 @@ void prefDialog::onImage()
 
 void prefDialog::onPool()
 {
-	QString pool = QFileDialog::getOpenFileName( QString::null, QString::null, this );
+	QString pool = QFileDialog::getExistingDirectory( poolLineEdit->text(), this );
     if ( !pool.isEmpty() ) 
 	{
 		poolLineEdit->setText(pool);

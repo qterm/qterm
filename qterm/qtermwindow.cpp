@@ -39,6 +39,7 @@ AUTHOR:        kingson fiasco
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdarg.h>
 
 #include <qapplication.h>
 #include <qclipboard.h>
@@ -66,7 +67,7 @@ extern QString pathCfg;
 
 extern void saveAddress(QTermConfig*,int,const QTermParam&);
 extern void runProgram(const QCString &);
-
+extern QString getOpenFileName(const QString&, QWidget*);
 
 // script thread
 QTermDAThread::QTermDAThread(QTermWindow *win)
@@ -317,12 +318,16 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 		if (pModule != NULL) 
 			pDict = PyModule_GetDict(pModule);
 		else
+		{
 			printf("Failed to PyImport_Import\n");
+		}
 
 		if(pDict != NULL )
 			m_bPythonScriptLoaded = true;
 		else
+		{
 			printf("Failed to PyModule_GetDict\n");
+		}
 	}
 	
 	//Clean up this thread's python interpreter reference
@@ -426,20 +431,19 @@ void QTermWindow::idleProcess()
 		return;
 	}
 
+	m_bIdling = true;
 	// system script can handle that
 	if(m_bPythonScriptLoaded)
 	{
 		#ifdef HAVE_PYTHON
-		pythonCallback("antiIdle","l",this);
+		if(pythonCallback("antiIdle",Py_BuildValue("l",this)))
+			return;
 		#endif
 	}
-	else// the default function
-	{
-		int length;	
-		QCString cstr = parseString( (const char *)m_param.m_strAntiString, &length );
-		m_pTelnet->write( cstr, length );
-	}
-	m_bIdling = true;
+	// the default function
+	int length;	
+	QCString cstr = parseString( (const char *)m_param.m_strAntiString, &length );
+	m_pTelnet->write( cstr, length );
 }
 
 void QTermWindow::replyProcess()
@@ -476,12 +480,13 @@ void QTermWindow::enterEvent( QEvent * )
 void QTermWindow::leaveEvent( QEvent * )
 {
 }
+void QTermWindow::mouseDoubleClickEvent( QMouseEvent * me)
+{
+	pythonMouseEvent(3, me->button(), me->state(), me->pos(),0);
+}
 
 void QTermWindow::mousePressEvent( QMouseEvent * me )
 {
-	// no local mouse event
-	if(m_bMouseX11)
-		return sendMouseState(0, me->state(), me->pos());
 
 	// stop  the tab blinking
     if(m_tabTimer->isActive())
@@ -489,39 +494,9 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 		m_tabTimer->stop();
 		m_pFrame->wndmgr->blinkTheTab(this,TRUE);
     }
-	// Right Button
-	if((me->button()&RightButton))
-	{
-		if(!m_pBBS->getUrl().isEmpty())		// on Url
-		{
-			if(me->state()&ControlButton)
-				previewLink();
-			else
-				m_pUrl->popup(me->globalPos());
-		}
-		else	// on other pos
-			m_pMenu->popup(me->globalPos());
-
-		return;
-	}
-	// Middle Button for paste
-	if( me->button() & MidButton )
-	{
-		if(m_bConnected)
-		{
-/*			if(m_pFrame->m_pref.bWheel)
-			{
-				char ch = CHAR_CR;
-				m_pTelnet->write(&ch,1);
-			}
-			else */
-				pasteHelper(false);
-		}
-		return;
-	}
 
 	// Left Button for selecting
-	if(me->button() & LeftButton)
+	if(me->button()&LeftButton && !(me->state()&KeyButtonMask))
 	{
 		// clear the selected before
 		m_pBuffer->clearSelect();
@@ -533,14 +508,43 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 		m_ptSelEnd = m_ptSelStart;
 	}
 
+	// Right Button
+	if((me->button()&RightButton))
+	{
+		if(me->state()&ControlButton)
+		{
+			if(!m_pBBS->getUrl().isEmpty())		// on Url
+				previewLink();
+			return;
+		}
+		
+		if(!(me->state()&KeyButtonMask))
+		{
+			if(!m_pBBS->getUrl().isEmpty())		// on Url
+				m_pUrl->popup(me->globalPos());
+			else
+				m_pMenu->popup(me->globalPos());
+			return;
+		}
+	}
+	// Middle Button for paste
+	if( me->button()&MidButton && !(me->state()&KeyButtonMask))
+	{
+		if( m_bConnected )
+			pasteHelper(false);
+		return;
+	}
+
+	// xterm mouse event
+	sendMouseState(0, me->button(), me->state(), me->pos());
+
+	// python mouse event
+	pythonMouseEvent(0, me->button(), me->state(), me->pos(),0);
 }
 void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 {
-	if(m_bMouseX11)
-		return;
-
 	// selecting by leftbutton
-	if( (me->state() & LeftButton) && m_bSelecting )
+	if( (me->state()&LeftButton) && m_bSelecting )
 	{
         if(me->pos().y()< childrenRect().top())
 			m_pScreen->scrollLine(-1);
@@ -555,15 +559,17 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 		}
 	}
 
-	
 	if(!m_bMouse || !m_bConnected)
 		return;
+
 	// set cursor pos, repaint if state changed
 	QRect rect;
 	if( m_pBBS->setCursorPos( m_pScreen->mapToChar(me->pos()),rect ) )
 	{
 		m_pScreen->repaint( m_pScreen->mapToRect(rect), true );
 	}
+
+
 	// judge if URL
 	QRect rcOld;
 	if(m_pFrame->m_pref.bUrl)
@@ -575,8 +581,8 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 			{
 				QToolTip::remove(this, m_pScreen->mapToRect(rcOld));
 				QToolTip::add(this, m_pScreen->mapToRect(m_rcUrl), m_pBBS->getUrl());
+				return;
 			}
-			return;
 		}
 		else
 		QToolTip::remove(this, m_pScreen->mapToRect(rcOld));
@@ -586,17 +592,21 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 	int nCursorType = m_pBBS->getCursorType(m_pScreen->mapToChar(me->pos()));
 	if( nCursorType<=8 && nCursorType>=0 )
 		setCursor(cursor[nCursorType]);
+
+	// python mouse event
+	//pythonMouseEvent(2, me->button(), me->state(), me->pos(),0);
 }
 
 void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 {	
-	// no local mouse event
-	if(m_bMouseX11)
-		return sendMouseState(3, me->state(), me->pos());
-
 	// other than Left Button ignored
-	if( !(me->button() & LeftButton) )
+	if( !(me->button()&LeftButton) || (me->state()&KeyButtonMask))
+	{
+		pythonMouseEvent(1, me->button(), me->state(), me->pos(),0);
+		// no local mouse event
+		sendMouseState(3, me->button(), me->state(), me->pos());
 		return;
+	}
 	
 	// Left Button for selecting
 	m_ptSelEnd = m_pScreen->mapToChar( me->pos() );
@@ -689,24 +699,38 @@ void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 				break;
 		}
 	}
+
 }
 
 void QTermWindow::wheelEvent( QWheelEvent *we)
 {
-	if(!m_bConnected)
-		return;
-	
 	int j = we->delta()>0 ? 4 : 5;
+	if(!(we->state()&KeyButtonMask))
+	{
+		if(m_pFrame->m_pref.bWheel && m_bConnected)
+			m_pTelnet->write(direction[j], sizeof(direction[j]));
+		return;
+	}
 
-	sendMouseState(j, we->state(), we->pos());
-	
-	if(m_pFrame->m_pref.bWheel)
-		m_pTelnet->write(direction[j], sizeof(direction[j]));
+	pythonMouseEvent(4, NoButton, we->state(), we->pos(),we->delta());
+
+	sendMouseState(j, NoButton, we->state(), we->pos());
 }
 
 //keyboard input event
 void QTermWindow::keyPressEvent( QKeyEvent * e )
 {
+#ifdef HAVE_PYTHON
+	int state=0;
+	if(e->state()&AltButton)
+		state |= 0x08;
+	if(e->state()&ControlButton)
+		state |= 0x10;
+	if(e->state()&ShiftButton)
+		state |= 0x20;
+	pythonCallback("keyEvent",
+					Py_BuildValue("liii", this, 0, state, e->key()));
+#endif
 
     if ( !m_bConnected )
 	{
@@ -896,8 +920,8 @@ if(m_pZmodem->transferstate == notransfer)
 			#ifdef HAVE_PYTHON
 			if(m_bPythonScriptLoaded)
 			{
-				pythonCallback("autoReply","l",this);
-				return;
+				if(pythonCallback("autoReply",Py_BuildValue("l",this)));
+					return;
 			}
 			#endif
 			// TODO: save messages
@@ -1294,21 +1318,10 @@ void QTermWindow::showStatusBar(bool bShow)
 void QTermWindow::runScript()
 {
 	// get the previous dir
-	QTermConfig conf(fileCfg);
-	QCString path = conf.getItemValue("global","filedialog");
+	QString file = getOpenFileName("Python File (*.py *.txt)", this);
 
-	QString file = QFileDialog::getOpenFileName(
-							path,
-							"Python File (*.py *.txt)", this,
-							"open file dialog"
-							"choose a script file" );
 	if(file.isEmpty())
 		return;
-	// save the path
-	QFileInfo fi(file);
-	conf.setItemValue("global","filedialog",fi.dirPath(true));
-	
-	conf.save(fileCfg);
 
 	runScriptFile(file.local8Bit());
 }
@@ -1658,38 +1671,36 @@ void QTermWindow::setMouseMode(bool on)
 /* 0-left 1-middle 2-right 3-relsase 4/5-wheel
  *
  */
-void QTermWindow::sendMouseState( int num, ButtonState state, const QPoint& pt )
+void QTermWindow::sendMouseState( int num, 
+				ButtonState btnstate, ButtonState keystate, const QPoint& pt )
 {
 	if(!m_bMouseX11)
 		return;
 	
 	QPoint ptc = m_pScreen->mapToChar(pt);
-	
-	int keystate = 0;
-	switch( state )
-	{
-		case LeftButton:
-			num = num==0?0:num;
-		case MidButton:
-			num = num==0?1:num;
-		case RightButton:
-			num = num==0?2:num;
-		case ShiftButton:
-			keystate += 0x04;
-		case MetaButton:
-			keystate += 0x08;
-		case ControlButton :
-			keystate += 0x10;
-		default:
-			break;
-	}
- 	// normal buttons are passed as 0x20 + button,
+
+	if(btnstate&LeftButton)
+		num = num==0?0:num;
+	else if(btnstate&MidButton)
+		num = num==0?1:num;
+	else if(btnstate&RightButton)
+		num = num==0?2:num;
+
+	int state = 0;
+	if(keystate&ShiftButton)
+		state |= 0x04;
+	if(keystate&MetaButton)
+		state |= 0x08;
+	if(keystate&ControlButton)
+		state |= 0x10;
+
+	// normal buttons are passed as 0x20 + button,
 	// mouse wheel (buttons 4,5) as 0x5c + button
 	if(num>3)	num += 0x3c;
 
 	char mouse[10];
 	sprintf(mouse, "\033[M%c%c%c", 
-			num+keystate+0x20,
+			num+state+0x20,
 			ptc.x()+1+0x20,
 			ptc.y()+1+0x20);
 	m_pTelnet->write( mouse, strlen(mouse) );
@@ -1734,12 +1745,13 @@ void QTermWindow::runScriptFile( const QCString & cstr )
 #endif // HAVE_PYTHON
 }
 
-void QTermWindow::pythonCallback(const char* func, const char* param, ...)
+#ifdef HAVE_PYTHON
+bool QTermWindow::pythonCallback(const char* func, PyObject* pArgs)
 {
 	if(!m_bPythonScriptLoaded)
-		return;
+		return false;
 
-#ifdef HAVE_PYTHON
+	bool done = false;
 	// get the global lock
 	 PyEval_AcquireLock();
 	// get a reference to the PyInterpreterState
@@ -1758,13 +1770,13 @@ void QTermWindow::pythonCallback(const char* func, const char* param, ...)
 
 	if (pFunc && PyCallable_Check(pFunc)) 
 	{
-		PyObject *pArgs = Py_BuildValue((char*)param);
-
 		PyObject *pValue = PyObject_CallObject(pFunc, pArgs);
+
 		Py_DECREF(pArgs);
 
 		if (pValue != NULL) 
 		{
+			done = true;
 			Py_DECREF(pValue);
 		}
 		else 
@@ -1786,9 +1798,10 @@ void QTermWindow::pythonCallback(const char* func, const char* param, ...)
       PyThreadState_Delete(myThreadState);
       // release the lock
       PyEval_ReleaseLock();
-#endif //HAVE_PYTHON
 
+	  return done;
 }
+#endif //HAVE_PYTHON
 
 int QTermWindow::runPythonFile( const char * filename )
 {
@@ -1861,6 +1874,33 @@ int QTermWindow::runPythonFile( const char * filename )
 #endif // HAVE_PYTHON
 
 	return 0;
+}
+
+void QTermWindow::pythonMouseEvent(int type, ButtonState btnstate, ButtonState keystate, 
+				const QPoint& pt, int delta  )
+{
+	int state=0;
+
+	if(btnstate&LeftButton)
+		state |= 0x01;
+	if(btnstate&RightButton)
+		state |= 0x02;
+	if(btnstate&MidButton)
+		state |= 0x04;
+
+	if(keystate&AltButton)
+		state |= 0x08;
+	if(keystate&ControlButton)
+		state |= 0x10;
+	if(keystate&ShiftButton)
+		state |= 0x20;
+
+	QPoint ptc = m_pScreen->mapToChar(pt);
+	
+#ifdef HAVE_PYTHON
+	pythonCallback("mouseEvent", 
+					Py_BuildValue("liiiii", this, type, state, ptc.x(), ptc.y(),delta));
+#endif
 }
 
 void QTermWindow::inputHandle(QString * text)

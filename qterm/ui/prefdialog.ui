@@ -9,19 +9,19 @@
             <x>0</x>
             <y>0</y>
             <width>540</width>
-            <height>400</height>
+            <height>460</height>
         </rect>
     </property>
     <property name="minimumSize">
         <size>
             <width>540</width>
-            <height>400</height>
+            <height>460</height>
         </size>
     </property>
     <property name="maximumSize">
         <size>
             <width>540</width>
-            <height>400</height>
+            <height>460</height>
         </size>
     </property>
     <property name="font">
@@ -95,19 +95,6 @@
             <string>Detect URL When Mouse Move</string>
         </property>
     </widget>
-    <widget class="QLineEdit">
-        <property name="name">
-            <cstring>wordLineEdit3</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>210</x>
-                <y>20</y>
-                <width>50</width>
-                <height>22</height>
-            </rect>
-        </property>
-    </widget>
     <widget class="QComboBox">
         <item>
             <property name="text">
@@ -163,28 +150,6 @@
             <string>Show as tray when close</string>
         </property>
     </widget>
-    <widget class="QLabel">
-        <property name="name">
-            <cstring>TextLabel2_2</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>270</x>
-                <y>20</y>
-                <width>40</width>
-                <height>20</height>
-            </rect>
-        </property>
-        <property name="frameShape">
-            <enum>NoFrame</enum>
-        </property>
-        <property name="frameShadow">
-            <enum>Plain</enum>
-        </property>
-        <property name="text">
-            <string>chars</string>
-        </property>
-    </widget>
     <widget class="QCheckBox">
         <property name="name">
             <cstring>smartCheckBox</cstring>
@@ -199,22 +164,6 @@
         </property>
         <property name="text">
             <string>Enable Smart Word-Wrap</string>
-        </property>
-    </widget>
-    <widget class="QLabel">
-        <property name="name">
-            <cstring>TextLabel1_2</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>20</x>
-                <y>20</y>
-                <width>170</width>
-                <height>20</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Paste auto word-wrap at</string>
         </property>
     </widget>
     <widget class="QCheckBox">
@@ -263,6 +212,22 @@
             <property name="text">
                 <string>None</string>
             </property>
+		</widget>
+		<widget class="QRadioButton">
+            <property name="name">
+                <cstring>beepRadioButton</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>80</x>
+                    <y>20</y>
+                    <width>101</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Beep</string>
+            </property>
         </widget>
         <widget class="QRadioButton">
             <property name="name">
@@ -309,22 +274,6 @@
                 <string>Configure</string>
             </property>
         </widget>
-        <widget class="QRadioButton">
-            <property name="name">
-                <cstring>beepRadioButton</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>80</x>
-                    <y>20</y>
-                    <width>101</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Beep</string>
-            </property>
-        </widget>
     </widget>
     <widget class="QLabel">
         <property name="name">
@@ -342,64 +291,6 @@
             <string>Input Method</string>
         </property>
     </widget>
-    <widget class="QLabel">
-        <property name="name">
-            <cstring>TextLabel3</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>20</x>
-                <y>290</y>
-                <width>100</width>
-                <height>20</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>HTTP Browser</string>
-        </property>
-    </widget>
-    <widget class="QLabel">
-        <property name="name">
-            <cstring>textLabel1</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>20</x>
-                <y>260</y>
-                <width>140</width>
-                <height>20</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Zmodem directory</string>
-        </property>
-    </widget>
-    <widget class="QLineEdit">
-        <property name="name">
-            <cstring>httpLineEdit</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>130</x>
-                <y>290</y>
-                <width>190</width>
-                <height>23</height>
-            </rect>
-        </property>
-    </widget>
-    <widget class="QLineEdit">
-        <property name="name">
-            <cstring>zmodemLineEdit</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>160</x>
-                <y>260</y>
-                <width>210</width>
-                <height>23</height>
-            </rect>
-        </property>
-    </widget>
     <widget class="QPushButton">
         <property name="name">
             <cstring>okPushButton</cstring>
@@ -407,29 +298,13 @@
         <property name="geometry">
             <rect>
                 <x>150</x>
-                <y>370</y>
+                <y>430</y>
                 <width>70</width>
                 <height>21</height>
             </rect>
         </property>
         <property name="text">
             <string>OK</string>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>cancelPushButton</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>270</x>
-                <y>370</y>
-                <width>70</width>
-                <height>21</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Cancel</string>
         </property>
     </widget>
     <widget class="Line">
@@ -439,8 +314,8 @@
         <property name="geometry">
             <rect>
                 <x>17</x>
-                <y>350</y>
-                <width>480</width>
+                <y>410</y>
+                <width>510</width>
                 <height>20</height>
             </rect>
         </property>
@@ -454,20 +329,49 @@
             <enum>Horizontal</enum>
         </property>
     </widget>
-    <widget class="QLabel">
+    <widget class="QPushButton">
         <property name="name">
-            <cstring>textLabel1_2</cstring>
+            <cstring>cancelPushButton</cstring>
         </property>
         <property name="geometry">
             <rect>
-                <x>20</x>
-                <y>320</y>
+                <x>270</x>
+                <y>430</y>
+                <width>70</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Cancel</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel3</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>30</x>
+                <y>360</y>
                 <width>100</width>
                 <height>20</height>
             </rect>
         </property>
         <property name="text">
-            <string>Image Viewer</string>
+            <string>HTTP Browser</string>
+        </property>
+    </widget>
+    <widget class="QLineEdit">
+        <property name="name">
+            <cstring>httpLineEdit</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>140</x>
+                <y>360</y>
+                <width>190</width>
+                <height>23</height>
+            </rect>
         </property>
     </widget>
     <widget class="QLineEdit">
@@ -476,11 +380,152 @@
         </property>
         <property name="geometry">
             <rect>
-                <x>130</x>
-                <y>320</y>
+                <x>140</x>
+                <y>390</y>
                 <width>190</width>
                 <height>23</height>
             </rect>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>textLabel1_2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>30</x>
+                <y>390</y>
+                <width>100</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Image Viewer</string>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>imagePushButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>340</x>
+                <y>390</y>
+                <width>80</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Choose</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>textLabel1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>30</x>
+                <y>290</y>
+                <width>140</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Zmodem directory</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel1_2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>20</y>
+                <width>160</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Paste word-wrap at</string>
+        </property>
+    </widget>
+    <widget class="QLineEdit">
+        <property name="name">
+            <cstring>wordLineEdit3</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>180</x>
+                <y>20</y>
+                <width>50</width>
+                <height>22</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel2_2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>240</x>
+                <y>20</y>
+                <width>40</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="frameShape">
+            <enum>NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+            <enum>Plain</enum>
+        </property>
+        <property name="text">
+            <string>chars</string>
+        </property>
+    </widget>
+    <widget class="QLineEdit">
+        <property name="name">
+            <cstring>zmodemLineEdit</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>170</x>
+                <y>290</y>
+                <width>210</width>
+                <height>23</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QLineEdit">
+        <property name="name">
+            <cstring>poolLineEdit</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>170</x>
+                <y>320</y>
+                <width>210</width>
+                <height>23</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QCheckBox">
+        <property name="name">
+            <cstring>clearCheckBox</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>260</y>
+                <width>370</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Clear ZModem and HTTP directory when exit</string>
         </property>
     </widget>
     <widget class="QPushButton">
@@ -490,7 +535,23 @@
         <property name="geometry">
             <rect>
                 <x>390</x>
-                <y>260</y>
+                <y>290</y>
+                <width>90</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Browse</string>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>poolPushButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>390</x>
+                <y>320</y>
                 <width>90</width>
                 <height>25</height>
             </rect>
@@ -505,8 +566,8 @@
         </property>
         <property name="geometry">
             <rect>
-                <x>330</x>
-                <y>290</y>
+                <x>340</x>
+                <y>360</y>
                 <width>80</width>
                 <height>21</height>
             </rect>
@@ -519,20 +580,20 @@
             <string>Choose</string>
         </property>
     </widget>
-    <widget class="QPushButton">
+    <widget class="QLabel">
         <property name="name">
-            <cstring>imagePushButton</cstring>
+            <cstring>textLabel1_3</cstring>
         </property>
         <property name="geometry">
             <rect>
-                <x>330</x>
+                <x>30</x>
                 <y>320</y>
-                <width>80</width>
-                <height>25</height>
+                <width>120</width>
+                <height>20</height>
             </rect>
         </property>
         <property name="text">
-            <string>Choose</string>
+            <string>HTTP directory</string>
         </property>
     </widget>
 </widget>
@@ -543,17 +604,26 @@
     <tabstop>urlCheckBox</tabstop>
     <tabstop>saveCheckBox</tabstop>
     <tabstop>blinkCheckBox</tabstop>
+    <tabstop>warnCheckBox</tabstop>
+    <tabstop>aacheckBox</tabstop>
+    <tabstop>trayCheckBox</tabstop>
+    <tabstop>clearCheckBox</tabstop>
     <tabstop>noneRadioButton</tabstop>
     <tabstop>beepRadioButton</tabstop>
     <tabstop>fileRadioButton</tabstop>
     <tabstop>selectsoundPushButton</tabstop>
     <tabstop>wavefileLineEdit</tabstop>
     <tabstop>ximComboBox</tabstop>
+    <tabstop>zmodemLineEdit</tabstop>
+    <tabstop>browsePushButton</tabstop>
+    <tabstop>poolLineEdit</tabstop>
+    <tabstop>poolPushButton</tabstop>
     <tabstop>httpLineEdit</tabstop>
     <tabstop>choosehttpPushButton</tabstop>
+    <tabstop>imageLineEdit</tabstop>
+    <tabstop>imagePushButton</tabstop>
     <tabstop>okPushButton</tabstop>
     <tabstop>cancelPushButton</tabstop>
-    <tabstop>warnCheckBox</tabstop>
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

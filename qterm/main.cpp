@@ -54,6 +54,24 @@ void runProgram(const QCString& cmd)
 	system(cstrCmd);
 }
 
+QString getOpenFileName(const QString& filter, QWidget * widget)
+{
+	QTermConfig conf(fileCfg);
+	QString path = QString::fromLocal8Bit(conf.getItemValue("global","openfiledialog"));
+
+	QString strOpen = QFileDialog::getSaveFileName(	path, filter, widget);
+
+	if(!strOpen.isEmpty())
+	{
+		// save the path
+		QFileInfo fi(strOpen);
+		conf.setItemValue("global","openfiledialog",fi.dirPath(true));
+		conf.save(fileCfg);
+	}
+
+}
+
+// warning for overwrite getSaveFileName
 QString getSaveFileName(const QString& filename, QWidget* widget)
 {
 	// get the previous dir
@@ -75,7 +93,7 @@ QString getSaveFileName(const QString& filename, QWidget* widget)
 			break;
 	}
 
-	if(strSave.isEmpty())
+	if(!strSave.isEmpty())
 	{
 		// save the path
 		conf.setItemValue("global","savefiledialog",fi.dirPath(true));
@@ -543,7 +561,7 @@ int main( int argc, char ** argv )
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 	// $HOME/.qterm/script, override 
 	pathCmd = "sys.path.insert(0,'";
-	pathCmd += QDir::homeDirPath()+"/.qterm/script')";
+	pathCmd += pathCfg+"script')";
 	PyRun_SimpleString(strdup(pathCmd));
 #endif	
 	// release the lock
