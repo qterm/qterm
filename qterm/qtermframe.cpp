@@ -533,6 +533,13 @@ void QTermFrame::windowsMenuAboutToShow()
 		windowsMenu->setItemEnabled( tileId, FALSE );
 	}
 	windowsMenu->insertSeparator();
+
+#ifdef Q_OS_MACX
+	// used to dock the programe
+	if(isHidden())
+		windowsMenu->insertItem(tr("Main Window"), this, SLOT(trayShow()));
+#endif
+
 	QWidgetList windows = ws->windowList();
 	for ( int i = 0; i < int(windows.count()); ++i ) 
 	{
