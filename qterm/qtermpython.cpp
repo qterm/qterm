@@ -393,6 +393,20 @@ static PyObject *qterm_getReplyKey(PyObject *, PyObject *args)
 	return py_key;
 }
 
+static PyObject *qterm_previewImage(PyObject *, PyObject *args)
+{
+	long lp;
+	char *url;
+	if (!PyArg_ParseTuple(args, "ls", &lp, &url))
+		return NULL;
+	
+	((QTermWindow*)lp)->getHttpHelper(url,true);
+	
+	Py_INCREF(Py_None);
+	return Py_None;
+
+}
+
 // convert string from UTF8 to specified encoding
 static PyObject *qterm_fromUTF8(PyObject *, PyObject *args)
 {
@@ -478,6 +492,9 @@ PyMethodDef qterm_methods[] = {
 	
 	{"getReplyKey",		(PyCFunction)qterm_getReplyKey,			METH_VARARGS,
 			"get the key to reply messages"},
+
+	{"previewImage",	(PyCFunction)qterm_previewImage,		METH_VARARGS,
+			"preview the image"},
 
 	{"fromUTF8",		(PyCFunction)qterm_fromUTF8,			METH_VARARGS,
 			"decode from utf8 to string in specified codec"},

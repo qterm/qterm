@@ -1,9 +1,15 @@
-QTerm 0.3.5 
+QTerm 0.3.9 
 ===========
 
-这个版本实现了SSH1协议的支持，编译需要OpenSSL库，如果OpenSSL没有安装，SSH将不会
-被编译，对Tray Icon做了一些改进。具体的改进请看ChangeLog。
-欢迎报告 BUG，提出建议，谢谢。
+这个版本主要是修正了一些问题,在建议基础上修改了 HTTP 下载和浏览的方式,
+具体如下
+1. zmodem 在上载时候停止响应
+2. 增加的 python 函数和系统调用如下:
 
+3. 地址簿里支持设置非标准的 80X24 的行列值
+4. UI 字体使用 Preference 里面的设置开关 Antialias
+5. 可以同时打开多个 HTTP 下载浏览
+
+这个可能就是 0.4.0 的最终版本了,所以有什么 bug 请尽快报告.
                                    	The QTerm Team
                               http://qterm.sourceforge.net

@@ -9,9 +9,28 @@
 #include <qwmatrix.h>
 #include <qpopupmenu.h>
 
+extern QString getSaveFileName(const QString&, QWidget*);
+
 QTermCanvas::QTermCanvas(QWidget *parent, const char *name, WFlags f)
   :QScrollView(parent, name, f)
 {
+
+	m_pMenu = new QPopupMenu(this);
+	m_pMenu->insertItem( tr("zoom 1:1"), this, SLOT(oriSize()), Key_Z );
+	m_pMenu->insertItem( tr("fit window"), this, SLOT(fitWin()), Key_X );
+	m_pMenu->insertSeparator();	
+	m_pMenu->insertItem( tr("zoom in"), this, SLOT(zoomIn()), Key_Equal );
+	m_pMenu->insertItem( tr("zoom out"), this, SLOT(zoomOut()), Key_Minus );
+	m_pMenu->insertItem( tr("fullscreen"), this, SLOT(fullScreen()), Key_F );
+	m_pMenu->insertSeparator();	
+	m_pMenu->insertItem( tr("rotate CW 90"), this, SLOT(cwRotate()), Key_BracketRight );
+	m_pMenu->insertItem( tr("rotate CCW 90"), this, SLOT(ccwRotate()), Key_BracketLeft );
+	m_pMenu->insertSeparator();
+	m_pMenu->insertItem( tr("save as"), this, SLOT(saveImage()), Key_S );
+	m_pMenu->insertItem( tr("copy to"), this, SLOT(copyImage()), Key_C );
+	m_pMenu->insertItem( tr("delete"), this, SLOT(deleteImage()), Key_D );
+	m_pMenu->insertItem( tr("exit"), this, SLOT(close()), Key_Q );
+
 	bFitWin=true;
 	label = new QLabel(viewport());
 	label->setScaledContents(true);
@@ -19,20 +38,6 @@ QTermCanvas::QTermCanvas(QWidget *parent, const char *name, WFlags f)
 	label->setText("Loading...");
 	addChild(label);
 	resize(200,100);
-
-	m_pMenu = new QPopupMenu(this);
-	m_pMenu->insertItem( tr("zoom 1:1"), this, SLOT(oriSize()), Key_Z );
-	m_pMenu->insertItem( tr("zoom in"), this, SLOT(zoomIn()), Key_Equal );
-	m_pMenu->insertItem( tr("zoom out"), this, SLOT(zoomOut()), Key_Minus );
-	m_pMenu->insertItem( tr("fit window"), this, SLOT(fitWin()), Key_X );
-	m_pMenu->insertSeparator();	
-	m_pMenu->insertItem( tr("rotate CW 90"), this, SLOT(cwRotate()), Key_BracketRight );
-	m_pMenu->insertItem( tr("rotate CCW 90"), this, SLOT(ccwRotate()), Key_BracketLeft );
-	m_pMenu->insertSeparator();
-	m_pMenu->insertItem( tr("fullscreen"), this, SLOT(fullScreen()), Key_F );
-	m_pMenu->insertItem( tr("save as"), this, SLOT(saveImage()), Key_S );
-	m_pMenu->insertItem( tr("copy to"), this, SLOT(copyImage()), Key_C );
-	m_pMenu->insertItem( tr("delete"), this, SLOT(deleteImage()), Key_D );
 
 }
 QTermCanvas::~QTermCanvas()
@@ -84,7 +89,7 @@ void QTermCanvas::fullScreen()
 		showNormal();
 }
 
-void QTermCanvas::loadImage(const QString& name)
+void QTermCanvas::loadImage(QString name)
 {
 	pxm.load(name);
 	if(!pxm.isNull())
@@ -147,9 +152,8 @@ void QTermCanvas::rotateImage(float ang)
 void QTermCanvas::saveImage()
 {
 	QFileInfo fi(strFileName);
-	QString strSave = 
-			QFileDialog::getSaveFileName(QDir::homeDirPath()+"/"+fi.fileName(),
-							"*", this);
+	QString strSave = getSaveFileName(fi.fileName(), this);
+
 	if(strSave.isEmpty())
 		return;
 	QFile file(strFileName);
@@ -183,9 +187,8 @@ void QTermCanvas::moveImage(float dx, float dy)
 void QTermCanvas::copyImage()
 {
 	QFileInfo fi(strFileName);
-	QString strSave = 
-			QFileDialog::getSaveFileName(QDir::homeDirPath()+"/"+fi.fileName(),
-							"*", this);
+	QString strSave = getSaveFileName(fi.fileName(),this);
+
 	if(strSave.isEmpty())
 		return;
 	pxm.save(strSave, fi.extension(false));
@@ -194,12 +197,12 @@ void QTermCanvas::copyImage()
 void QTermCanvas::deleteImage()
 {
 	QFile::remove(strFileName);
-	hideWindow();
+	close();
 }
 
 void QTermCanvas::closeEvent(QCloseEvent *ce)
 {
-	hideWindow();
+	delete this;
 }
 
 void QTermCanvas::viewportResizeEvent(QResizeEvent *re)
@@ -209,11 +212,13 @@ void QTermCanvas::viewportResizeEvent(QResizeEvent *re)
 
 void QTermCanvas::contentsMousePressEvent(QMouseEvent *me)
 {
+/* remove this avoid click by mistake
 	if(me->button()&LeftButton)
 	{
-		hideWindow();
+		close();
 		return;
 	}
+*/
 	if(me->button()&RightButton)
 	{
 		m_pMenu->popup(me->globalPos());
@@ -228,45 +233,9 @@ void QTermCanvas::keyPressEvent(QKeyEvent *ke)
 			if(isFullScreen())
 				showNormal();
 			else
-				hideWindow();
+				close();
 			break;
-/*		case Qt::Key_F:
-			if(!isFullScreen())
-				showFullScreen();
-			else
-				showNormal();
-			break;
-		case Qt::Key_Minus:
-			bFitWin=false;
-			resizeImage(-0.05);
-			break;
-		case Qt::Key_Plus:
-		case Qt::Key_Equal:
-			bFitWin=false;
-			resizeImage(0.05);
-			break;
-		case Qt::Key_Z: // original size
-			bFitWin=false;
-			szImage = pxm.size();
-			adjustSize(QSize(visibleWidth(),visibleHeight()));
-			break;
-		case Qt::Key_X: // fit window
-			bFitWin=true;
-			adjustSize(QSize(visibleWidth(),visibleHeight()));
-			break;
-		case Qt::Key_S:
-			saveImage();
-			break;
-		case Qt::Key_C:
-			copyImage();
-			break;
-		case Qt::Key_BracketLeft: 
-			rotateImage(-90);
-			break;
-		case Qt::Key_BracketRight:
-			rotateImage(90);
-			break;
-*/		case Qt::Key_Left:
+		case Qt::Key_Left:
 			moveImage(-0.05,0);
 			break;
 		case Qt::Key_Right:
@@ -320,14 +289,3 @@ void QTermCanvas::adjustSize(const QSize& szView)
 
 }
 
-void QTermCanvas::hideWindow()
-{
-	if(isFullScreen())
-		showNormal();
-	resize(200,100);
-	label->setAlignment(AlignCenter);
-	label->setText("Loading...");
-	moveChild(label,0,0);
-	label->resize(visibleWidth(), visibleHeight());
-	hide();
-}

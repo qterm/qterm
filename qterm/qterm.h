@@ -17,7 +17,7 @@ AUTHOR:		smartfish kafa
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #else 
-#define VERSION	"0.3.8"
+#define VERSION	"0.3.9"
 #define QTERM_DATADIR "/usr/share/qterm"
 #define QTERM_BINDIR  "/usr/bin"
 #endif
@@ -26,11 +26,7 @@ AUTHOR:		smartfish kafa
 #define BUFSIZE (1024)
 #endif
 
-//assume the sreen is 80*24
-#define CHARNUM 80
-#define LINENUM 24
 #include <qtextcodec.h>
-
 //code convert
 #define G2U(s) ( QTextCodec::codecForName("GBK")->toUnicode(s) )
 #define U2G(s) ( QTextCodec::codecForName("GBK")->fromUnicode(s) )
@@ -143,6 +139,7 @@ AUTHOR:		smartfish kafa
 
 #define CHAR_NORMAL	-1
 
+// telnet state
 #define TSRESOLVING		30
 #define TSHOSTFOUND		31
 #define TSHOSTNOTFOUND	32
@@ -162,6 +159,7 @@ AUTHOR:		smartfish kafa
 #define TSPROXYERROR	47
 #define	TSWRITED		48
 
+// proxy type
 #define NOPROXY			0
 #define WINGATE			1
 #define SOCKS4			2

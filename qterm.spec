@@ -3,14 +3,14 @@
 # the error to ian geiser <geiseri@msoe.edu>
 Summary:   BBS client based on Qt library in Linux
 Name:      qterm
-Version:   0.3.8
+Version:   0.3.9
 Release:   1
 Copyright: GPL
 Vendor:    kingson fiasco hooey<xiaokiangwang@yahoo.com.cn yinshouyi@peoplemail.com.cn hephooey@hotmail.com>
 URL:       http://qterm.sourceforge.net
 Packager:  kingson fiasco hooey<xiaokiangwang@yahoo.com.cn yinshouyi@peoplemail.com.cn hephooey@hotmail.com>
 Group:     Applications/Internet
-Source:    qterm-0.3.8.tar.gz
+Source:    qterm-0.3.9.tar.gz
 BuildRoot: %{_tmppath}/%{name}-root
 
 %description
