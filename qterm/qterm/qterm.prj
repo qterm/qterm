@@ -12,6 +12,7 @@ win32:LIBS += c:/python23/libs/python23.lib c:/openssl/lib/vc/libeay32.lib
 
 # specially for MacOSX 
 mac {
+	RC_FILE = qterm.icns
 	DEFINES += HAVE_PYTHON _NO_ARTS_COMPILED _NO_ESD_COMPILED
 	INCLUDEPATH += /usr/include/malloc /System/Library/Frameworks/Python.framework/Versions/Current/Headers
 	LIBS += -lssl -lcrypto -framework Python
