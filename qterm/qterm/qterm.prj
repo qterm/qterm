@@ -24,7 +24,9 @@ mac {
     pic.files = pic/*.png
     cursor.path = qterm.app/Contents/MacOS/cursor
     cursor.files = cursor/mac_16x16/*.xpm
-    INSTALLS = conf script pic cursor
+    po.path = qterm.app/Contents/MacOS/po
+    po.files = po/*.qm
+    INSTALLS = conf script pic cursor po
 
 	DEFINES += HAVE_PYTHON _NO_ARTS_COMPILED _NO_ESD_COMPILED
 	INCLUDEPATH += /usr/include/malloc /System/Library/Frameworks/Python.framework/Versions/Current/Headers
