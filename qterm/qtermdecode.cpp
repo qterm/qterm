@@ -33,15 +33,25 @@ StateOption QTermDecode::normalState[] =
     { CHAR_BS,  	&QTermDecode::bs,			normalState },
     { CHAR_BELL,  	&QTermDecode::bell,			normalState },
     { CHAR_ESC, 	0,							escState    },
-    { CHAR_NORMAL, 	&QTermDecode::normalInput,  		normalState }
+    { CHAR_NORMAL, 	&QTermDecode::normalInput, 	normalState }
 };
 
 // state after a ESC_CHAR
 // only for BBS, so I reduce a lots
 StateOption QTermDecode::escState[] =
 {
-    { '[', 			&QTermDecode::clearParam,  		bracketState },
-    { CHAR_NORMAL, 	0,								normalState  }
+    { '[', 		&QTermDecode::clearParam,  		bracketState },
+	// VT52
+	{ 'A', 		&QTermDecode::cursorUp,			normalState	},
+    { 'B',		&QTermDecode::cursorDown,		normalState	},
+    { 'C', 		&QTermDecode::cursorRight,		normalState },
+    { 'D', 		&QTermDecode::cursorLeft,		normalState },
+    { 'J', 		&QTermDecode::eraseScreen,		normalState },
+    { 'K', 		&QTermDecode::eraseLine,		normalState },
+	{ 'Z',		&QTermDecode::test,				normalState	},
+	{ '>',		&QTermDecode::test,				normalState	},
+	{ '<',		&QTermDecode::test,				normalState	},
+    { CHAR_NORMAL, 	0,							normalState	}
 };
 
 // state after ESC [

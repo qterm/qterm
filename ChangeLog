@@ -1,3 +1,18 @@
+2004/09/27
+	fix
+	1. segmentation fault when using NAWS to resize window
+
+2004/09/17
+	0.3.9 released
+	
+2004/09/16
+	fix
+	1. new implementation of copy article
+
+2004/09/13
+	add
+	1. more python callback functions
+	
 2004/09/03
 	fix
 	1. better finishing operation in zmodem upload
@@ -19,7 +34,8 @@
 2004/08/24
 	0.3.8 released
 	fix
-	1. change debian/rules in favor of new guide
+	1. change debian/rules in favor of new guide, thanks to
+	fullow.bbs@smth.org
 	remove 
 	1. conditional compilation in QTermWndMgr & QTermScreen::focusInEvent
 

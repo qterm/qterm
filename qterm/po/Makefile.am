@@ -1,7 +1,7 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
 
-EXTRA_DIST = qterm_chs.qm qterm_chs.ts qterm_cht.qm qterm.cht.ts
+EXTRA_DIST = qterm_chs.qm qterm_chs.ts qterm_cht.qm qterm_cht.ts
 
 install-data-local:
 	$(mkinstalldirs) $(datadir)/qterm/po/

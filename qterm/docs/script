@@ -44,6 +44,12 @@ Methods
 	int getProtocol(long lp)
 		get bbs protocol
 
+	string getReplyKey(long lp)
+		get the key string to reply message
+
+	string getURL(long lp)
+		get the url under mouse
+
 	previewImage(long lp, string url)
 		download and preview image url
 		

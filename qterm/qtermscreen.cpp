@@ -596,6 +596,11 @@ void QTermScreen::bufferSizeChanged()
 
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), 
 			this, SLOT(scrollChanged(int)));
+
+	delete []m_pBlinkLine;
+	m_pBlinkLine = new bool[m_nEnd - m_nStart + 1];
+
+	scrollLine(0);
 }
 
 /* ------------------------------------------------------------------------ */

@@ -1,3 +1,11 @@
+qterm (0.3.9-1) unstable; urgency=low
+
+  * add more python callback
+  * zmodem problem
+  * bugfix
+
+ -- Xiaoqiang Wang <xiaokiangwang@yahoo.com.cn>  Thu, 16 Sep 2004 20:55:06 +0200
+
 qterm (0.3.8-2) unstable; urgency=low
 
   * watch: Renamed to watch.ex because it is not an offical debian
