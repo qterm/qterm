@@ -169,7 +169,7 @@ void QTermBuffer::moveCursor( int x, int y )
 {
 	// detect index boundary	
 	if ( x >= m_col )
-		x = m_col - 1;
+		x = m_col;
 	if ( x < 0 )
 		x = 0;
 
