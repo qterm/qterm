@@ -966,21 +966,13 @@ void QTermScreen::drawLine( QPainter& painter, int index, int starx, int endx, b
 		for (uint j=0; j < strShow.length(); ++j){
 			int length = 2;
 			if (strShow.at(j) < 0x7f) {
-				int en=0;
-				QString en_str(strShow.at(j));
-				// Pick up ascii char to draw them together
-				while(strShow.at(j+en+1) < 0x7f && !(strShow.at(j+en+1)).isSpace() && j+en+1 < strShow.length()){
-					++en;
-					en_str += strShow.at(j+en);
-				}
-				length = en + 1;
-				drawStr(painter, en_str, startx + offset, index, length, tempattr, bSelected );
-				j += en;
+				drawStr(painter, (QString)strShow.at(j), startx + offset, index, 1, tempattr, bSelected );
+				offset++;
 			}
-
-			else
+			else {
 				drawStr(painter, (QString)strShow.at(j), startx + offset, index, length, tempattr, bSelected );
-			offset += length;
+				offset += 2;
+			}
 		}
 		offset = 0;
 	
