@@ -7,6 +7,7 @@
 #include <qfiledialog.h>
 #include <qdir.h>
 #include <qwmatrix.h>
+#include <qpopupmenu.h>
 
 QTermCanvas::QTermCanvas(QWidget *parent, const char *name, WFlags f)
   :QScrollView(parent, name, f)
@@ -17,10 +18,71 @@ QTermCanvas::QTermCanvas(QWidget *parent, const char *name, WFlags f)
 	label->setAlignment(AlignCenter);
 	label->setText("Loading...");
 	addChild(label);
+
+	m_pMenu = new QPopupMenu(this);
+
+
+	m_pMenu->insertItem( tr("zoom 1:1"), this, SLOT(oriSize()), Key_Z );
+	m_pMenu->insertItem( tr("zoom in"), this, SLOT(zoomIn()), Key_Equal );
+	m_pMenu->insertItem( tr("zoom out"), this, SLOT(zoomOut()), Key_Minus );
+	m_pMenu->insertItem( tr("fit window"), this, SLOT(fitWin()), Key_X );
+	
+	m_pMenu->insertItem( tr("rotate CW 90"), this, SLOT(cwRotate()), Key_BracketRight );
+	m_pMenu->insertItem( tr("rotate CCW 90"), this, SLOT(ccwRotate()), Key_BracketLeft );
+
+	m_pMenu->insertItem( tr("fullscreen"), this, SLOT(fullScreen()), Key_F );
+	m_pMenu->insertItem( tr("save as"), this, SLOT(saveImage()), Key_S );
+	m_pMenu->insertItem( tr("copy to"), this, SLOT(copyImage()), Key_C );
+
+
 }
 QTermCanvas::~QTermCanvas()
 {
 	delete label;
+	delete m_pMenu;
+}
+
+void QTermCanvas::oriSize()
+{
+	bFitWin=false;
+	szImage = pxm.size();
+	adjustSize(QSize(visibleWidth(),visibleHeight()));
+}
+
+void QTermCanvas::zoomIn()
+{
+	bFitWin=false;
+	resizeImage(0.05);
+}
+
+void QTermCanvas::zoomOut()
+{
+	bFitWin=false;
+	resizeImage(-0.05);
+}
+
+void QTermCanvas::fitWin()
+{
+	bFitWin=true;
+	adjustSize(QSize(visibleWidth(),visibleHeight()));
+}
+
+void QTermCanvas::cwRotate()
+{
+	rotateImage(90);
+}
+
+void QTermCanvas::ccwRotate()
+{
+	rotateImage(-90);
+}
+
+void QTermCanvas::fullScreen()
+{
+	if(!isFullScreen())
+		showFullScreen();
+	else
+		showNormal();
 }
 
 void QTermCanvas::loadImage(const QString& name)
@@ -142,9 +204,17 @@ void QTermCanvas::viewportResizeEvent(QResizeEvent *re)
 	adjustSize(re->size());
 }
 
-void QTermCanvas::contentsMousePressEvent(QMouseEvent *)
+void QTermCanvas::contentsMousePressEvent(QMouseEvent *me)
 {
-	hideWindow();
+	if(me->button()&LeftButton)
+	{
+		hideWindow();
+		return;
+	}
+	if(me->button()&RightButton)
+	{
+		m_pMenu->popup(me->globalPos());
+	}
 }
 
 void QTermCanvas::keyPressEvent(QKeyEvent *ke)
@@ -157,7 +227,7 @@ void QTermCanvas::keyPressEvent(QKeyEvent *ke)
 			else
 				hideWindow();
 			break;
-		case Qt::Key_F:
+/*		case Qt::Key_F:
 			if(!isFullScreen())
 				showFullScreen();
 			else
@@ -193,7 +263,7 @@ void QTermCanvas::keyPressEvent(QKeyEvent *ke)
 		case Qt::Key_BracketRight:
 			rotateImage(90);
 			break;
-		case Qt::Key_Left:
+*/		case Qt::Key_Left:
 			moveImage(-0.05,0);
 			break;
 		case Qt::Key_Right:

@@ -1,3 +1,15 @@
+2004/08/13
+	add
+	1. context menu in picture viewer
+	fix
+	1. bug when setting up zmodem directory
+	
+2004/08/12
+	add
+	1. picture viewer
+	2. http download
+	0.3.7 released
+
 2004/07/27
 	add
 	1. zmodem upload/download support

@@ -1281,9 +1281,9 @@ void QTermInput::paintEvent(QPaintEvent * e)
 	inputPainter.setPen(Qt::black);
 	//inputPainter.drawText(0 ,m_nCharAscent, text);
 
-	for (int i = 0; i < d_text.length(); ++i) {
-		inputPainter.drawText(len * d_width, d_ascent, d_text.mid(i, 1));
-		if (d_text[i] <= 0x7f)
+	for (int j = 0; j < d_text.length(); ++j) {
+		inputPainter.drawText(len * d_width, d_ascent, d_text.mid(j, 1));
+		if (d_text[j] <= 0x7f)
 			++len;
 		else
 			len += 2;

@@ -165,9 +165,10 @@ void prefDialog::saveSetting()
 	
     conf.setItemValue("preference","http",httpLineEdit->text());
 
-	if(zmodemLineEdit->text().isEmpty())
+	strTmp=zmodemLineEdit->text();
+	if(strTmp.isEmpty())
 		strTmp = pathCfg+"zmodem/";
-	conf.setItemValue("preference","zmodem",strTmp);
+	conf.setItemValue("preference","zmodem",strTmp.local8Bit());
 
 	conf.save(fileCfg);
 }

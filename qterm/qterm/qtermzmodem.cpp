@@ -8,7 +8,7 @@
 #include <string.h>
 #include <qfiledialog.h>
 #include <qfileinfo.h>
-#include <sys/time.h>
+//#include <sys/time.h>
 
 /*
  *  Crc calculation stuff
@@ -443,10 +443,14 @@ QTermZmodem::QTermZmodem(QObject *netinterface, int type)
 
 	zmodemTimer= new QTimer(this);
 	connect(zmodemTimer, SIGNAL(timeout()), this, SLOT(ZmodemTimeout()));
-
+	
+	// for debug
+/*
 	zmodemlogfile = fopen("zmodem.log","w+");
 	fprintf(zmodemlogfile, "%s", "\n================================\n");
 	fclose(zmodemlogfile);
+*/
+
 
 //init struct INFO
 	info.zrinitflags = CANFDX|CANOVIO|CANBRK|CANFC32 ;
