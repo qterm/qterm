@@ -408,6 +408,8 @@ void QTermScreen::setSchema()
 
 	m_nPxmType = 0;
 
+
+
 // if we have schema defined
 	if(QFile::exists(m_pParam->m_strSchemaFile))
 	{
@@ -432,18 +434,21 @@ void QTermScreen::setSchema()
 		m_color[14].setNamedColor(pConf->getItemValue("color","color14"));
 		m_color[15].setNamedColor(pConf->getItemValue("color","color15"));
 
+		// bg type
+		QString strTmp = pConf->getItemValue("image", "type");
+		m_nPxmType = strTmp.toInt();
+		
+		// fade effect
+		QColor fadecolor;
+		fadecolor.setNamedColor(pConf->getItemValue("image","fade"));
+		strTmp = pConf->getItemValue("image", "alpha");
+		float alpha = strTmp.toFloat();
+
 		// get the image name
-		if(QFile::exists(pConf->getItemValue("image","name")))
+		if(QFile::exists(pConf->getItemValue("image","name")) && m_nPxmType>1) // valid image name and type
 		{
 			m_pxmBg = QPixmap(pConf->getItemValue("image","name"));
-			QString strTmp = pConf->getItemValue("image", "type");
-			m_nPxmType = strTmp.toInt();
-			
-			QColor fadecolor;
-			fadecolor.setNamedColor(pConf->getItemValue("image","fade"));
-			strTmp = pConf->getItemValue("image", "alpha");
-			float alpha = strTmp.toFloat();
-			
+
 			QImage ima(m_pxmBg.convertToImage());
 			ima = fade(ima, alpha, fadecolor);
 			m_pxmBg.convertFromImage(ima);
