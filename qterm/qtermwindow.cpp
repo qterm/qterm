@@ -433,7 +433,7 @@ void QTermWindow::idleProcess()
 	m_bIdling = true;
 	// system script can handle that
 	#ifdef HAVE_PYTHON
-	if(pythonCallback("antiIdle",Py_BuildValue("l",this)))
+	if(pythonCallback("antiIdle",Py_BuildValue("(l)",this)))
 		return;
 	#endif
 	// the default function
@@ -914,7 +914,7 @@ if(m_pZmodem->transferstate == notransfer)
 		if(m_bAutoReply)
 		{	
 			#ifdef HAVE_PYTHON
-			if(!pythonCallback("autoReply",Py_BuildValue("l",this)))
+			if(!pythonCallback("autoReply",Py_BuildValue("(l)",this)))
 			{
 			#endif
 			// TODO: save messages
@@ -935,7 +935,7 @@ if(m_pZmodem->transferstate == notransfer)
 
 	#ifdef HAVE_PYTHON
 	// python 
-	pythonCallback("dataEvent",Py_BuildValue("l",this));
+	pythonCallback("dataEvent",Py_BuildValue("(l)",this));
 	#endif
 }
 	
@@ -1773,9 +1773,7 @@ bool QTermWindow::pythonCallback(const char* func, PyObject* pArgs)
 	if (pFunc && PyCallable_Check(pFunc)) 
 	{
 		PyObject *pValue = PyObject_CallObject(pFunc, pArgs);
-
 		Py_DECREF(pArgs);
-
 		if (pValue != NULL) 
 		{
 			done = true;
@@ -1792,16 +1790,16 @@ bool QTermWindow::pythonCallback(const char* func, PyObject* pArgs)
 		printf("Cannot find python %s callback function\n", func);
 	}
       
-      // swap my thread state out of the interpreter
-      PyThreadState_Swap(NULL);
-      // clear out any cruft from thread state object
-      PyThreadState_Clear(myThreadState);
-      // delete my thread state object
-      PyThreadState_Delete(myThreadState);
-      // release the lock
-      PyEval_ReleaseLock();
+	// swap my thread state out of the interpreter
+	PyThreadState_Swap(NULL);
+	// clear out any cruft from thread state object
+	PyThreadState_Clear(myThreadState);
+   // delete my thread state object
+	PyThreadState_Delete(myThreadState);
+	// release the lock
+	PyEval_ReleaseLock();
 
-	  return done;
+	return done;
 }
 #endif //HAVE_PYTHON
 

@@ -30,20 +30,30 @@ QString getException()
     pName = PyString_FromString("traceback");
     pTraceback = PyImport_Import(pName);
     Py_DECREF(pName);
-
+	
+	if(pTraceback==NULL)
+		return "General Error in Python Callback";
     pName = PyString_FromString("format_exception");
     PyObject *pRes = PyObject_CallMethodObjArgs(pTraceback, pName,pType,pValue,pTb,NULL);
     Py_DECREF(pName);
-
-    Py_DECREF(pTraceback);
+	
+	Py_DECREF(pTraceback);
+/*
     Py_DECREF(pType);
     Py_DECREF(pValue);
+	qWarning("1");
     Py_DECREF(pTb);
-
-
+	qWarning("2");
+*/
+	if(pRes==NULL)
+		return "General Error in Python Callback";
+	
     pName = PyString_FromString("string");
     PyObject *pString = PyImport_Import(pName);
     Py_DECREF(pName);
+
+	if(pString==NULL)
+		return "General Error in Python Callback";
 
     pName = PyString_FromString("join");
     PyObject *pErr = PyObject_CallMethodObjArgs(pString, pName, pRes,NULL);
@@ -51,6 +61,9 @@ QString getException()
 
     Py_DECREF(pString);
     Py_DECREF(pRes);
+
+	if(pErr==NULL)
+		return "General Error in Python Callback";
 
     QString str(PyString_AsString(pErr));
 	Py_DECREF(pErr);
