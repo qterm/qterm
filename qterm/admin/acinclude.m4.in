@@ -1286,7 +1286,7 @@ KDE_MT_LIBS=
 if test "x$kde_use_qt_mt" = "xyes"; then
   KDE_CHECK_THREADING
   if test "x$kde_use_threading" = "xyes"; then
-    CPPFLAGS="$USE_THREADS -DQT_THREAD_SUPPORT $CPPFLAGS"
+    CPPFLAGS="$USE_THREADS -DQT_THREAD_SUPPORT -DQT_NO_STL $CPPFLAGS"
     KDE_MT_LDFLAGS="$USE_THREADS"
     KDE_MT_LIBS="$LIBPTHREAD"
   else

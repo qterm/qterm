@@ -1,7 +1,11 @@
 #ifndef QTERMWINDOW_H
 #define QTERMWINDOW_H
 
-#include "qterm.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+//#include "qterm.h"
 #ifdef HAVE_PYTHON
 #include <Python.h>
 #endif
