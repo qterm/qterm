@@ -878,18 +878,19 @@ if(m_pZmodem->transferstate == notransfer)
 				case 0:
 					sound = new QTermInternalSound(m_pFrame->m_pref.strWave);
 					break;
-#ifndef _NO_ARTS_COMPILED
+				#ifndef _NO_ARTS_COMPILED
 				case 1:
 					sound = new QTermArtsSound(m_pFrame->m_pref.strWave);
 					break;
-#endif
-#ifndef _NO_ESD_COMPILED
+				#endif
+				#ifndef _NO_ESD_COMPILED
 				case 2:
 					sound = new QTermEsdSound(m_pFrame->m_pref.strWave);
 					break;
-#endif
+				#endif
 				case 3:
-					sound = new QTermExternalSound(m_pFrame->m_pref.strPlayer,m_pFrame->m_pref.strWave);
+					sound = new QTermExternalSound(m_pFrame->m_pref.strPlayer,
+									m_pFrame->m_pref.strWave);
 					break;
 				}
 				sound->play();
@@ -913,20 +914,22 @@ if(m_pZmodem->transferstate == notransfer)
 		if(m_bAutoReply)
 		{	
 			#ifdef HAVE_PYTHON
-			if(pythonCallback("autoReply",Py_BuildValue("l",this)));
-					return;
+			if(!pythonCallback("autoReply",Py_BuildValue("l",this)))
+			{
 			#endif
 			// TODO: save messages
 	        if ( m_bIdling )
 				replyMessage();
 			else
 				m_replyTimer->start(m_param.m_nMaxIdle*1000/2);
+			#ifdef HAVE_PYTHON
+			}
+			#endif
 		}
 	}
 	
 	// set page state
 	m_pBBS->setPageState();
-	
 	//refresh screen
 	m_pScreen->refreshScreen();
 }
