@@ -39,6 +39,7 @@ public:
 
 
 	void refreshScreen();
+	void blinkScreen();
 
 signals:
 	// 0 - enter  1 - press  2 - move  3 - release 4 - leave
@@ -72,7 +73,7 @@ protected:
 	// display
 	void eraseRect( QPainter& , int, int, int, int, short );
 	void drawStr( QPainter&, const QString&, int, int, int, short, bool );
-	void drawLine( QPainter&, int index );
+	void drawLine( QPainter&, int index, int startx = -1, int endx = -1, bool complete = true);
 	void drawCaret( QPainter&, bool );
 	void drawMenuSelect( QPainter&, int );
 
@@ -122,6 +123,8 @@ protected:
 	
 	int m_nCharAscent,m_nCharDescent,m_nCharWidth,m_nCharHeight;
 	int m_nLineSpacing;	// for future
+
+	bool * m_pBlinkLine;
 	
 	// background
 	bool m_hasBg;

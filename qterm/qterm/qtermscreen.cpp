@@ -72,6 +72,7 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 	m_scrollBar->setCursor( arrowCursor );
 	m_nStart = 0;
 	m_nEnd = m_pBuffer->line()-1;
+	m_pBlinkLine = new bool[m_nEnd - m_nStart + 1];
 	m_scrollBar->setRange( 0, 0 );
 	m_scrollBar->setLineStep(1);
 	m_scrollBar->setPageStep( m_pBuffer->line() );
@@ -106,6 +107,7 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 
 QTermScreen::~QTermScreen()
 {
+	delete [] m_pBlinkLine;
 	delete m_blinkTimer;
 	delete m_cursorTimer;
 }
@@ -177,7 +179,7 @@ void QTermScreen::blinkEvent()
 	if(m_hasBlink)
 	{
 		m_blinkScreen = !m_blinkScreen;
-		repaint(false);
+		blinkScreen();
 	}
 }
 
@@ -624,12 +626,33 @@ void QTermScreen::setBgPxm( const QPixmap& pixmap, int nType)
 	}
 }
 
+void QTermScreen::blinkScreen()
+{
+	QPainter painter;
+	painter.begin(this);
+	int startx;
+	for (int index=m_nStart; index<=m_nEnd; index++)
+		if (m_pBlinkLine[index - m_nStart]) {
+			QTermTextLine *pTextLine = m_pBuffer->at(index);
+			//erase(mapToRect(0, index, pTextLine->getLength(), 1));
+		        //drawLine(painter, index);
+			uint linelength = pTextLine->getLength();
+			QCString attr = pTextLine->getAttr();
+			for (uint i = 0; i < linelength; ++i)
+				if (GETBLINK(attr.at(i))) {
+					startx = i;
+					while(GETBLINK(attr.at(i))&& i < linelength)
+						++i;
+					drawLine(painter, index, startx, i, false);
+				}
+		}
+}
+
 // refresh the screen when 
 //	1. received new contents form server
 //	2. scrolled by user
 void QTermScreen::refreshScreen( )
 {
-
 	if( m_cursorTimer->isActive() ) m_cursorTimer->stop();
 
 	if( m_blinkTimer->isActive() ) m_blinkTimer->stop();
@@ -642,6 +665,8 @@ void QTermScreen::refreshScreen( )
 
 	QPainter painter;
 	painter.begin(this);
+	
+	
 	for(int index=m_nStart; index<=m_nEnd; index++ )
 	{
 		if ( index>=m_pBuffer->lines() )
@@ -652,17 +677,24 @@ void QTermScreen::refreshScreen( )
 		}
 		QTermTextLine *pTextLine = m_pBuffer->at(index);
 		
-		if(pTextLine->hasBlink())
+		if(pTextLine->hasBlink()){
 			m_hasBlink = true;
+			m_pBlinkLine[index - m_nStart] = true;
+		}
+		else
+			m_pBlinkLine[index - m_nStart] = false;
 		
 		if(!pTextLine->isChanged(startx, endx))
 			continue;
-		
-		QRect rect = mapToRect(startx, index, endx, 1);
-		
-		erase(rect);
+			
+/* 
+  Finally get around this for pku & ytht, don't know why some weird things
+  happened when only erase and draw the changed part. 
+*/
 
-		drawLine( painter, index );
+		erase(mapToRect(startx, index, -1, 1));
+
+		drawLine( painter, index, startx);
 
 		pTextLine->clearChange();
 	}
@@ -691,14 +723,13 @@ void QTermScreen::paintEvent( QPaintEvent * pe )
 	painter.begin( this );
 	
 	QRect rect = pe->rect().intersect(m_rcClient);
-	
+
 	QPoint tlPoint = mapToChar(QPoint(rect.left(), rect.top()));
 	
 	QPoint brPoint = mapToChar(QPoint(rect.right(),rect.bottom()));
 
 	for( int y=tlPoint.y(); y<=brPoint.y(); y++ )
 	{
-
 		drawLine(painter,y);
 		if( m_pBBS->isSelected(y)&&m_pParam->m_nMenuType==1 )
 		{
@@ -717,8 +748,10 @@ void QTermScreen::paintEvent( QPaintEvent * pe )
 					m_nCharWidth, m_nCharHeight, true);
 }
 
-// draw a line with the specialAtter if given
-void QTermScreen::drawLine( QPainter& painter, int index)
+// draw a line with the specialAtter if given.
+// modified by hooey to draw part of the line.
+// I know I should not use starx, but I'm lazy ;)
+void QTermScreen::drawLine( QPainter& painter, int index, int starx, int endx, bool complete)
 {
 	if ( index >= m_pBuffer->lines())
 	{
@@ -737,16 +770,17 @@ void QTermScreen::drawLine( QPainter& painter, int index)
 	int startx;
 	QCString cstrText;
 	QString strShow;
-	
-	// Fix the highlight problem when AA is enabled
-	// FIXME now it's very flickery when display some blink pages, should found a solution late.
-	// we cannot control AA using qt, since some fontconfig file may override it
-	//if (m_pWindow->m_pFrame->m_pref.bAA)
-	erase( mapToRect(0, index, linelength, 1));
 
-	drawMenuSelect(painter, index);
-	
-	for( uint i=0; i<linelength;i++)
+	if (starx < 0)
+		starx = 0;
+
+	if (endx > linelength || endx < 0)
+		endx = linelength;
+
+	if (complete = true)
+		drawMenuSelect(painter, index);
+
+	for( uint i=starx; i < endx;i++)
 	{
 		int offset = 0;
 		startx = i;
@@ -757,7 +791,7 @@ void QTermScreen::drawLine( QPainter& painter, int index)
 		while ( tempcp == color.at(i) && 
 				tempea == attr.at(i)  && 
 				bSelected == m_pBuffer->isSelected(QPoint(i,index), m_pWindow->m_bCopyRect) && 
-				i < linelength )
+				i < endx )
 			++i;
 
 		if(bSelected)	// selected area is text=color(0) background=color(7)
