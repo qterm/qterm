@@ -162,7 +162,6 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 
 	setMouseTracking( true );
 
-
 //init the textline list
 
 	m_pBuffer = new QTermBuffer( m_param.m_nRow, m_param.m_nCol, m_param.m_nScrollLines );
@@ -433,13 +432,10 @@ void QTermWindow::idleProcess()
 
 	m_bIdling = true;
 	// system script can handle that
-	if(m_bPythonScriptLoaded)
-	{
-		#ifdef HAVE_PYTHON
-		if(pythonCallback("antiIdle",Py_BuildValue("l",this)))
-			return;
-		#endif
-	}
+	#ifdef HAVE_PYTHON
+	if(pythonCallback("antiIdle",Py_BuildValue("l",this)))
+		return;
+	#endif
 	// the default function
 	int length;	
 	QCString cstr = parseString( (const char *)m_param.m_strAntiString, &length );
@@ -487,7 +483,6 @@ void QTermWindow::mouseDoubleClickEvent( QMouseEvent * me)
 
 void QTermWindow::mousePressEvent( QMouseEvent * me )
 {
-
 	// stop  the tab blinking
     if(m_tabTimer->isActive())
     {
@@ -541,6 +536,8 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 	// python mouse event
 	pythonMouseEvent(0, me->button(), me->state(), me->pos(),0);
 }
+
+
 void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 {
 	// selecting by leftbutton
@@ -568,8 +565,6 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 	{
 		m_pScreen->repaint( m_pScreen->mapToRect(rect), true );
 	}
-
-
 	// judge if URL
 	QRect rcOld;
 	if(m_pFrame->m_pref.bUrl)
@@ -594,7 +589,7 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 		setCursor(cursor[nCursorType]);
 
 	// python mouse event
-	//pythonMouseEvent(2, me->button(), me->state(), me->pos(),0);
+	pythonMouseEvent(2, me->button(), me->state(), me->pos(),0);
 }
 
 void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
@@ -918,11 +913,8 @@ if(m_pZmodem->transferstate == notransfer)
 		if(m_bAutoReply)
 		{	
 			#ifdef HAVE_PYTHON
-			if(m_bPythonScriptLoaded)
-			{
-				if(pythonCallback("autoReply",Py_BuildValue("l",this)));
+			if(pythonCallback("autoReply",Py_BuildValue("l",this)));
 					return;
-			}
 			#endif
 			// TODO: save messages
 	        if ( m_bIdling )
@@ -1748,9 +1740,10 @@ void QTermWindow::runScriptFile( const QCString & cstr )
 #ifdef HAVE_PYTHON
 bool QTermWindow::pythonCallback(const char* func, PyObject* pArgs)
 {
+	Py_DECREF(pArgs);
 	if(!m_bPythonScriptLoaded)
 		return false;
-
+	
 	bool done = false;
 	// get the global lock
 	 PyEval_AcquireLock();
@@ -1896,7 +1889,7 @@ void QTermWindow::pythonMouseEvent(int type, ButtonState btnstate, ButtonState k
 		state |= 0x20;
 
 	QPoint ptc = m_pScreen->mapToChar(pt);
-	
+
 #ifdef HAVE_PYTHON
 	pythonCallback("mouseEvent", 
 					Py_BuildValue("liiiii", this, type, state, ptc.x(), ptc.y(),delta));

@@ -58,9 +58,9 @@ void QTermHttp::getLink(const QString& url, bool preview)
 	}
 
 //	QString path = url.mid(url.find(u.host(),false) + u.host().length());
-	QString path = url.mid(url.find('/',
-							url.find(u.host(),false),
-							false));
+//	QString path = url.mid(url.find('/',
+//							url.find(u.host(),false),
+//							false));
 
 	if(QFile::exists(pathCfg+"hosts.cfg"))
 	{
@@ -75,7 +75,7 @@ void QTermHttp::getLink(const QString& url, bool preview)
 	}
 	m_strHttpFile = u.fileName();
 	m_httpDown.setHost(u.host(),u.hasPort()?u.port():80);
-	m_httpDown.get(path);
+	m_httpDown.get(u.encodedPathAndQuery());
 }
 
 void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
@@ -195,9 +195,9 @@ void QTermHttp::previewImage(const QString& filename)
 
 	if(cstrViewer.isEmpty())
 	{
-		m_pCanvas = new QTermCanvas();
-		m_pCanvas->loadImage(filename);
-		m_pCanvas->show();
+		QTermCanvas *pCanvas = new QTermCanvas();
+		pCanvas->loadImage(filename);
+		pCanvas->show();
 	}
 	else
 	{
