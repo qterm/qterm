@@ -29,6 +29,7 @@ AUTHOR:        kingson fiasco
 #include "popwidget.h"
 #include "qtermzmodem.h"
 #include "zmodemdialog.h"
+#include "qtermcanvas.h"
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
@@ -56,6 +57,10 @@ AUTHOR:        kingson fiasco
 #include <qfiledialog.h>
 #include <qtabwidget.h>
 
+#include <qnetwork.h>
+#include <qurl.h>
+#include <qhttp.h>
+
 #define DAE_FINISH 	10001
 #define DAE_TIMEOUT 10002
 
@@ -66,6 +71,7 @@ extern QString fileCfg;
 extern QString addrCfg;
 extern QString pathLib;
 extern QString pathPic;
+extern QString pathCfg;
 
 extern void saveAddress(QTermConfig*,int,const QTermParam&);
 
@@ -657,7 +663,15 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
     PyThreadState_Delete(myThreadState);
     PyEval_ReleaseLock();
 #endif //HAVE_PYTHON
-
+	
+	m_pCanvas = new QTermCanvas(m_pFrame);
+	qInitNetworkProtocols();
+	connect(&httpDown, SIGNAL(requestFinished(int,bool)), this, SLOT(httpDone(int,bool)));
+	connect(&httpDown, SIGNAL(dataReadProgress(int,int)), 
+				this, SLOT(dataRead(int,int)));
+	connect(&httpDown, SIGNAL(readyRead(const QHttpResponseHeader&)), 
+				this, SLOT(httpResponse(const QHttpResponseHeader&)));
+	
 	connectHost();
 }
 
@@ -669,7 +683,8 @@ QTermWindow::~QTermWindow()
 	delete m_pDecode;
 	delete m_pBuffer;
 	delete m_pZmodem;
-
+	
+	delete m_pCanvas;
 	delete m_popWin;
 	
 	delete m_idleTimer;
@@ -810,6 +825,14 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 		m_tabTimer->stop();
 		m_pFrame->wndmgr->blinkTheTab(this,TRUE);
     }
+
+	if((me->button()&RightButton)&&!m_pBBS->getUrl().isEmpty())
+	{
+		QUrl u(m_pBBS->getUrl());
+		httpDown.setHost(u.host());
+		httpDown.get(m_pBBS->getUrl());
+		return;
+	}
 
 	// Right Button for context menu
 	if(me->button() & RightButton)
@@ -2121,3 +2144,39 @@ void QTermWindow::inputHandle(QString * text)
 		m_pTelnet->write( cstrTmp, cstrTmp.length() );
 	}
 }
+
+void QTermWindow::dataRead(int done, int total)
+{
+//	printf("reading\n");
+/*
+	QFile file("/home/kingson/pp");
+	QByteArray ba = httpDown.readAll();
+	if(file.exists())
+		file.open(IO_Raw | IO_WriteOnly | IO_Append);
+	else
+		file.open(IO_Raw | IO_WriteOnly);
+
+	QDataStream ds(&file);
+	ds << ba;
+	file.close();
+	*/
+}
+void QTermWindow::httpDone(int, bool)
+{
+	QFile file(pathCfg+"buffer.jpg");
+	QByteArray ba = httpDown.readAll();
+	if(file.open(IO_ReadWrite))
+	{
+		QDataStream ds(&file);
+		ds.writeRawBytes(ba,ba.size());
+		file.close();
+	}
+	m_pCanvas->loadImage(pathCfg+"buffer.jpg");
+	m_pCanvas->show();
+}
+
+void QTermWindow::httpResponse( const QHttpResponseHeader& )
+{
+//	printf("hehe\n");
+}
+
