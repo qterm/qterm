@@ -878,7 +878,7 @@ hooey
     </message>
     <message>
         <source>Mouse</source>
-        <translation></translation>
+        <translation>鼠标</translation>
     </message>
     <message>
         <source>When disconnected, reconnect every</source>
