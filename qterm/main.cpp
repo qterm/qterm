@@ -59,7 +59,7 @@ QString getOpenFileName(const QString& filter, QWidget * widget)
 	QTermConfig conf(fileCfg);
 	QString path = QString::fromLocal8Bit(conf.getItemValue("global","openfiledialog"));
 
-	QString strOpen = QFileDialog::getSaveFileName(	path, filter, widget);
+	QString strOpen = QFileDialog::getOpenFileName(	path, filter, widget);
 
 	if(!strOpen.isEmpty())
 	{

@@ -88,3 +88,9 @@ key		refer to Qt/Doc
 def keyEvent(lp, type, state, key):
 	pass
 
+"""
+whenever there is data from server after decoding
+and displaying
+"""
+def dataEvent(lp):
+	pass

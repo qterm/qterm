@@ -1291,22 +1291,6 @@
                     <string>s</string>
                 </property>
             </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>textLabel5</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>220</x>
-                        <y>180</y>
-                        <width>190</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Times (-1 means infinite)</string>
-                </property>
-            </widget>
             <widget class="QLineEdit">
                 <property name="name">
                     <cstring>idletimeLineEdit</cstring>
@@ -1317,83 +1301,6 @@
                         <y>50</y>
                         <width>80</width>
                         <height>23</height>
-                    </rect>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>textLabel4</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>40</x>
-                        <y>180</y>
-                        <width>80</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>For Maximum</string>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>textLabel2</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>240</x>
-                        <y>150</y>
-                        <width>20</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>s</string>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>textLabel1</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>260</x>
-                        <y>150</y>
-                        <width>140</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>When Disconnected</string>
-                </property>
-            </widget>
-            <widget class="QCheckBox">
-                <property name="name">
-                    <cstring>reconnectCheckBox</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>10</x>
-                        <y>150</y>
-                        <width>140</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Reconnect Every</string>
-                </property>
-            </widget>
-            <widget class="QLineEdit">
-                <property name="name">
-                    <cstring>reconnectLineEdit</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>150</x>
-                        <y>150</y>
-                        <width>80</width>
-                        <height>20</height>
                     </rect>
                 </property>
             </widget>
@@ -1555,6 +1462,83 @@
                         <y>80</y>
                         <width>90</width>
                         <height>23</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>textLabel4</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>30</x>
+                        <y>180</y>
+                        <width>100</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>For Maximum</string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>textLabel5</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>210</x>
+                        <y>180</y>
+                        <width>200</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Times (-1 means infinite)</string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>textLabel2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>370</x>
+                        <y>150</y>
+                        <width>20</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>s</string>
+                </property>
+            </widget>
+            <widget class="QCheckBox">
+                <property name="name">
+                    <cstring>reconnectCheckBox</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>150</y>
+                        <width>310</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>When disconnected, reconnect every</string>
+                </property>
+            </widget>
+            <widget class="QLineEdit">
+                <property name="name">
+                    <cstring>reconnectLineEdit</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>320</x>
+                        <y>150</y>
+                        <width>30</width>
+                        <height>22</height>
                     </rect>
                 </property>
             </widget>

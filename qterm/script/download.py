@@ -1,12 +1,19 @@
-# download the directory
-# Notes:
-#  1. make sure the path is empty, otherwise mkdir complain and stoped
-#  2. the time for sleep() varies dependent on sites
-#  3. tested for FireBird BBS only
-# Bugs:
-#  1.
-# TODO:
-#  1. add some GUI for control, e.g. stop, pause, resume,  inside script
+"""
+download the directory
+
+	13/09/04	kingson
+	* add this changelog
+	
+Notes:
+	1. make sure the path is empty, otherwise mkdir complain and stoped
+	2. the time for sleep() varies dependent on sites
+	3. tested for FireBird BBS only
+Bugs:
+	1.
+TODO:
+	1. add some GUI for control, e.g. stop, pause, resume,  inside script
+	2. make it robust
+"""
 
 import qterm
 import sys,os,string,time,re

@@ -932,6 +932,11 @@ if(m_pZmodem->transferstate == notransfer)
 	m_pBBS->setPageState();
 	//refresh screen
 	m_pScreen->refreshScreen();
+
+	#ifdef HAVE_PYTHON
+	// python 
+	pythonCallback("dataEvent",Py_BuildValue("l",this));
+	#endif
 }
 	
     //delete the buf

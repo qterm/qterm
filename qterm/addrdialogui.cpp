@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'addrdialog.ui'
 **
-** Created: Wed Sep 8 17:29:03 2004
+** Created: Mon Sep 13 21:42:40 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -290,26 +290,8 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
     TextLabel9 = new QLabel( Widget3, "TextLabel9" );
     TextLabel9->setGeometry( QRect( 270, 50, 30, 20 ) );
 
-    textLabel5 = new QLabel( Widget3, "textLabel5" );
-    textLabel5->setGeometry( QRect( 220, 180, 190, 20 ) );
-
     idletimeLineEdit = new QLineEdit( Widget3, "idletimeLineEdit" );
     idletimeLineEdit->setGeometry( QRect( 170, 50, 80, 23 ) );
-
-    textLabel4 = new QLabel( Widget3, "textLabel4" );
-    textLabel4->setGeometry( QRect( 40, 180, 80, 20 ) );
-
-    textLabel2 = new QLabel( Widget3, "textLabel2" );
-    textLabel2->setGeometry( QRect( 240, 150, 20, 20 ) );
-
-    textLabel1 = new QLabel( Widget3, "textLabel1" );
-    textLabel1->setGeometry( QRect( 260, 150, 140, 20 ) );
-
-    reconnectCheckBox = new QCheckBox( Widget3, "reconnectCheckBox" );
-    reconnectCheckBox->setGeometry( QRect( 10, 150, 140, 20 ) );
-
-    reconnectLineEdit = new QLineEdit( Widget3, "reconnectLineEdit" );
-    reconnectLineEdit->setGeometry( QRect( 150, 150, 80, 20 ) );
 
     retryLineEdit = new QLineEdit( Widget3, "retryLineEdit" );
     retryLineEdit->setGeometry( QRect( 140, 180, 60, 20 ) );
@@ -343,6 +325,21 @@ addrDialogUI::addrDialogUI( QWidget* parent, const char* name, bool modal, WFlag
 
     replykeyLineEdit = new QLineEdit( Widget3, "replykeyLineEdit" );
     replykeyLineEdit->setGeometry( QRect( 190, 80, 90, 23 ) );
+
+    textLabel4 = new QLabel( Widget3, "textLabel4" );
+    textLabel4->setGeometry( QRect( 30, 180, 100, 20 ) );
+
+    textLabel5 = new QLabel( Widget3, "textLabel5" );
+    textLabel5->setGeometry( QRect( 210, 180, 200, 20 ) );
+
+    textLabel2 = new QLabel( Widget3, "textLabel2" );
+    textLabel2->setGeometry( QRect( 370, 150, 20, 20 ) );
+
+    reconnectCheckBox = new QCheckBox( Widget3, "reconnectCheckBox" );
+    reconnectCheckBox->setGeometry( QRect( 10, 150, 310, 20 ) );
+
+    reconnectLineEdit = new QLineEdit( Widget3, "reconnectLineEdit" );
+    reconnectLineEdit->setGeometry( QRect( 320, 150, 30, 22 ) );
     tabWidget->insertTab( Widget3, QString("") );
 
     tab_4 = new QWidget( tabWidget, "tab_4" );
@@ -519,17 +516,16 @@ void addrDialogUI::languageChange()
     authCheckBox->setText( tr( "Authentation" ) );
     tabWidget->changeTab( tab_3, tr( "Connection" ) );
     TextLabel9->setText( tr( "s" ) );
-    textLabel5->setText( tr( "Times (-1 means infinite)" ) );
-    textLabel4->setText( tr( "For Maximum" ) );
-    textLabel2->setText( tr( "s" ) );
-    textLabel1->setText( tr( "When Disconnected" ) );
-    reconnectCheckBox->setText( tr( "Reconnect Every" ) );
     scriptPushButton->setText( tr( "..." ) );
     scriptCheckBox->setText( tr( "Load Control Script" ) );
     replyCheckBox->setText( tr( "Autoreply Message" ) );
     textLabel1_2->setText( tr( "Key to reply message" ) );
     TextLabel8->setText( tr( "Max Idle Time" ) );
     TextLabel7_2->setText( tr( "Anti-idle String" ) );
+    textLabel4->setText( tr( "For Maximum" ) );
+    textLabel5->setText( tr( "Times (-1 means infinite)" ) );
+    textLabel2->setText( tr( "s" ) );
+    reconnectCheckBox->setText( tr( "When disconnected, reconnect every" ) );
     tabWidget->changeTab( Widget3, tr( "Misc" ) );
     menuGroup->setTitle( tr( "Menu Type" ) );
     radioButton1->setText( tr( "Underline" ) );
