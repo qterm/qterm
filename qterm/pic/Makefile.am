@@ -23,7 +23,7 @@ install-data-local:
 	$(mkinstalldirs) $(datadir)/qterm/pic/
 	$(INSTALL_DATA) $(srcdir)/disconnect.png $(datadir)/qterm/pic/disconnect.png
 	$(mkinstalldirs) $(datadir)/qterm/pic/
-	$(INSTALL_DATA) $(srcdir)/fonts.png $(datadir)/qterm/pic/font.png
+	$(INSTALL_DATA) $(srcdir)/fonts.png $(datadir)/qterm/pic/fonts.png
 	$(mkinstalldirs) $(datadir)/qterm/pic/
 	$(INSTALL_DATA) $(srcdir)/keys.png $(datadir)/qterm/pic/keys.png
 	$(mkinstalldirs) $(datadir)/qterm/pic/
