@@ -62,19 +62,19 @@ QTermSSHSocket::~QTermSSHSocket()
 
 void QTermSSHSocket::kexOK()
 {
-	qDebug("Key exchange completed!");
+	//qDebug("Key exchange completed!");
 	d_auth->initAuth(d_incomingPacket, d_outcomingPacket);
 }
 
 void QTermSSHSocket::authOK()
 {
-	qDebug("Auth completed!");
+	//qDebug("Auth completed!");
 	d_session->initSession(d_incomingPacket, d_outcomingPacket);
 }
 
 void QTermSSHSocket::sessionOK()
 {
-	qDebug("Session Started!");
+	//qDebug("Session Started!");
 }
 
 void QTermSSHSocket::sessionReadyRead()
@@ -113,9 +113,9 @@ void QTermSSHSocket::socketReadyRead()
 			qDebug("Read error");
 			return;
 		}
-		qDebug("Server message: %s", str);
+		//qDebug("Server message: %s", str);
 		version = chooseVersion(str);
-		qDebug("SSH server version: %d", version);
+		//qDebug("SSH server version: %d", version);
 		if (version == 1)
 			socketWriteBlock(V1STR, 17);
 		else if (version == 2) {
