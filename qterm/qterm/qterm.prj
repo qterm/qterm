@@ -3,6 +3,8 @@ CONFIG		+= qt warn_on
 DEFINES		+= QT_DLL QT_THREAD_SUPPORT
 OBJECTS_DIR = obj
 MOC_DIR		= moc
+TRANSLATIONS = po/qterm_chs.ts po/qterm_cht.ts
+
 
 # specially for Win32
 win32:RC_FILE	= qterm.rc

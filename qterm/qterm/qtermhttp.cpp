@@ -137,7 +137,7 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 			emit done(this);
 			return;
 		}
-
+		m_strHttpFile = strSave;
 	}
 	m_pDialog.setLabelText(QFileInfo(m_strHttpFile).fileName());
 }
