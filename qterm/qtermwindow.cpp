@@ -28,6 +28,7 @@ AUTHOR:        kingson fiasco
 #include "articledialog.h"
 #include "popwidget.h"
 #include "qtermzmodem.h"
+#include "zmodemdialog.h"
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
@@ -61,8 +62,8 @@ AUTHOR:        kingson fiasco
 #define PYE_ERROR	10003
 #define PYE_FINISH	10004
 
-extern char fileCfg[];
-extern char addrCfg[];
+extern QString fileCfg;
+extern QString addrCfg;
 extern QString pathLib;
 extern QString pathPic;
 
@@ -517,6 +518,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, true, (const char *)m_param.m_strSSHUser, (const char *)m_param.m_strSSHPasswd );
 #endif
 	}
+	m_pZmDialog = new zmodemDialog(this);
 	m_pZmodem = new QTermZmodem( m_pTelnet, param.m_nProtocolType);
 	m_pDecode = new QTermDecode( m_pBuffer );
 	m_pBBS	  = new QTermBBS( m_pBuffer );
@@ -526,7 +528,11 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	connect(m_pFrame, SIGNAL(bossColor()), m_pScreen, SLOT(bossColor()));
 	connect(m_pFrame, SIGNAL(updateScroll()), m_pScreen, SLOT(updateScrollBar()));
 	connect(m_pScreen, SIGNAL(inputEvent(QString *)), this, SLOT(inputHandle(QString *)));
+	connect(m_pZmodem, SIGNAL(ZmodemState(int,int,const QCString&)), 
+					this, SLOT(ZmodemState(int,int,const QCString&)));
+	connect(m_pZmDialog, SIGNAL(canceled()), m_pZmodem, SLOT(zmodemCancel()));
 
+	
 	#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 	m_popWin = new popWidget(this,m_pFrame);
 	#else
@@ -1240,6 +1246,69 @@ if(m_pZmodem->transferstate == notransfer)
 
     if (m_pZmodem->transferstate == transferstop)
         m_pZmodem->transferstate = notransfer;
+}
+
+void QTermWindow::ZmodemState(int type, int value, const QCString& status)
+{
+	QCString strMsg;
+    //to be completed
+    switch(type)
+    {
+        case    RcvByteCount:
+                qWarning("received %d bytes", value);
+				m_pZmDialog->setProgress( value );
+                break;
+        case    SndByteCount:
+                qWarning("sent %lx bytes", value);
+				m_pZmDialog->setProgress( value );
+                break;
+        case    RcvTimeout:
+                /* receiver did not respond, aborting */
+                qWarning("time out!");
+                break;
+        case    SndTimeout:
+                /* value is # of consecutive send timeouts */
+                qWarning("time out after trying %d times", value);
+                break;
+        case    RmtCancel:
+                /* remote end has cancelled */
+                qWarning("canceled by remote peer");
+                break;
+        case    ProtocolErr:
+                /* protocol error has occurred, val=hdr */
+//                qWarning("unhandled header %d at state %s", value, status);
+                break;
+        case    RemoteMessage:
+                /* message from remote end */
+//                qWarning("msg from remote peer: %s",status);
+                break;
+        case    DataErr:
+                /* data error, val=error count */
+				strMsg.sprintf("data errors %d", value);
+				m_pZmDialog->addErrorLog(strMsg);
+                break;
+        case    FileErr:
+                /* error writing file, val=errno */
+                qWarning("falied to write file");
+                break;
+        case    FileBegin:
+                /* file transfer begins, str=name */
+//                qWarning("starting file %s", status);
+				m_pZmDialog->setFileInfo(G2U(status),value);
+				m_pZmDialog->show();
+				m_pZmDialog->setModal(true);
+                break;
+        case    FileEnd:
+                /* file transfer ends, str=name */
+//                qWarning("finishing file %s", status);
+				m_pZmDialog->hide();
+                break;
+        case    FileSkip:
+               /* file being skipped, str=name */
+//                qWarning("skipping file %s", status);
+                break;
+    }
+
 }
 
 // telnet state slot

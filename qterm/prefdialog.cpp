@@ -26,7 +26,7 @@
 
 #include <qfiledialog.h>
 
-extern char fileCfg[];
+extern QString fileCfg;
 /* 
  *  Constructs a prefDialog which is a child of 'parent', with the 
  *  name 'name' and widget flags set to 'f'.
@@ -57,7 +57,7 @@ void prefDialog::connectSlots()
 	connect(selectsoundPushButton, SIGNAL(clicked()), this, SLOT(onSound()) );
 	connect(choosehttpPushButton, SIGNAL(clicked()), this, SLOT(onHttp()) );
     connect(ButtonGroup1 , SIGNAL(clicked(int)), this, SLOT(onBeep(int)) );
-
+	connect(browsePushButton, SIGNAL(clicked()), this, SLOT(omBrowse()) );
 }
 
 void prefDialog::loadSetting()
@@ -114,6 +114,8 @@ void prefDialog::loadSetting()
     strTmp = conf.getItemValue("preference","http");
  	httpLineEdit->setText( strTmp );
 
+	strTmp = conf.getItemValue("preference","zmodem");
+	zmodemLineEdit->setText( strTmp );
 }
 void prefDialog::saveSetting()
 {
@@ -158,6 +160,8 @@ void prefDialog::saveSetting()
 		conf.setItemValue("preference","wavefile", wavefileLineEdit->text());
 	
     conf.setItemValue("preference","http",httpLineEdit->text());
+
+	conf.setItemValue("preference","zmodem",zmodemLineEdit->text());
 
 	conf.save(fileCfg);
 }
@@ -213,3 +217,8 @@ void prefDialog::onBeep( int id )
 	}
 }
 
+void prefDialog::onBrowse()
+{
+	QString dir = QFileDialog::getExistingDirectory(zmodemLineEdit->text(), this);
+	zmodemLineEdit->setText(dir);
+}

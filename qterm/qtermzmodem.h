@@ -43,7 +43,7 @@
 #define	SerialNo	1	/* receiver serial # */
 #define	MaxNoise	64	/* max "noise" characters before transmission
 				 * pauses */
-#define	MaxErrs		20	/* Max receive errors before cancel */
+#define	MaxErrs		30	/* Max receive errors before cancel */
 #define	AlwaysSinit	1	/* always send ZSINIT header, even if not
 				 * needed, this makes protocol more robust */
 
@@ -392,8 +392,8 @@ public:
 	int	XmodemRInit(ZModem *info) ;
 
 	ulong	FileCrc(char *name) ;
-	char	*sname(ZModem *) ;
-	char	*sname2(ZMState) ;
+	const char	*sname(ZModem *) ;
+	const char	*sname2(ZMState) ;
 
 	/* caller-supplied functions: */
 
@@ -403,7 +403,7 @@ public:
 	void	ZIFlush(ZModem *info) ;
 	void	ZOFlush(ZModem *info) ;
 	int		ZAttn(ZModem *info) ;
-	void	ZStatus(int type, int value, char *status) ;
+	void	ZStatus(int type, int value, const char *status) ;
 	FILE	*ZOpenFile(char *name, ulong crc, ZModem *info) ;
 
 	int	ZWriteFile(uchar *buffer, int len, FILE *, ZModem *);
@@ -562,7 +562,7 @@ public:
 	static	StateTable	DoneOps[];
 
 	static	StateTable	*tables[];
-	static char *hdrnames[];
+	static const char *hdrnames[];
 #endif
 
 #if 0
@@ -624,11 +624,14 @@ public:
 	QStringList::Iterator itFile;
 
 // end Member
-
-public slots:
+signals:
+	void ZmodemState(int,int,const QCString&);
 	
-	int	ZmodemTimeout() ;
+public slots:
 
+	void zmodemCancel();
+	int	ZmodemTimeout() ;
+	
 };
 
 #endif

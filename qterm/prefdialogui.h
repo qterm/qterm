@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'prefdialog.ui'
 **
-** Created: Fri Jun 20 16:28:33 2003
+** Created: Wed Jul 21 16:07:37 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -16,13 +16,13 @@
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
-class QButtonGroup;
 class QCheckBox;
-class QComboBox;
-class QFrame;
-class QLabel;
 class QLineEdit;
+class QComboBox;
+class QLabel;
 class QPushButton;
+class QFrame;
+class QButtonGroup;
 class QRadioButton;
 
 class prefDialogUI : public QDialog
@@ -33,36 +33,40 @@ public:
     prefDialogUI( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
     ~prefDialogUI();
 
-    QLabel* TextLabel2_2;
     QCheckBox* wheelCheckBox;
     QCheckBox* saveCheckBox;
     QCheckBox* warnCheckBox;
     QCheckBox* urlCheckBox;
     QLineEdit* wordLineEdit3;
+    QComboBox* ximComboBox;
+    QCheckBox* aacheckBox;
+    QCheckBox* trayCheckBox;
+    QLabel* TextLabel2_2;
+    QPushButton* okPushButton;
+    QFrame* Line1;
     QCheckBox* smartCheckBox;
     QLabel* TextLabel1_2;
-    QLabel* TextLabel3;
-    QPushButton* okPushButton;
-    QLineEdit* httpLineEdit;
-    QFrame* Line1;
-    QPushButton* cancelPushButton;
-    QPushButton* choosehttpPushButton;
-    QComboBox* ximComboBox;
+    QCheckBox* blinkCheckBox;
     QButtonGroup* ButtonGroup1;
     QRadioButton* noneRadioButton;
-    QRadioButton* beepRadioButton;
-    QLineEdit* wavefileLineEdit;
     QRadioButton* fileRadioButton;
+    QLineEdit* wavefileLineEdit;
     QPushButton* selectsoundPushButton;
+    QRadioButton* beepRadioButton;
     QLabel* TextLabel1;
-    QCheckBox* aacheckBox;
-    QCheckBox* blinkCheckBox;
-    QCheckBox* trayCheckBox;
+    QLabel* TextLabel3;
+    QPushButton* choosehttpPushButton;
+    QLabel* textLabel1;
+    QPushButton* cancelPushButton;
+    QPushButton* browsePushButton;
+    QLineEdit* httpLineEdit;
+    QLineEdit* zmodemLineEdit;
 
 protected:
 
 protected slots:
     virtual void languageChange();
+
 };
 
 #endif // PREFDIALOGUI_H

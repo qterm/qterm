@@ -34,7 +34,7 @@
 #include <qtooltip.h>
 #include <qwhatsthis.h>
 
-extern char addrCfg[];
+extern QString addrCfg;
 extern QString pathLib;
 
 extern QStringList loadNameList(QTermConfig*);

@@ -27,6 +27,8 @@ class popWidget;
 class QTermZmodem;
 class QTermWindow;
 
+class zmodemDialog;
+
 // thread copy article
 class QTermDAThread : public QThread
 {
@@ -89,7 +91,8 @@ protected slots:
 	void replyProcess();
 	void blinkTab();
 	void inputHandle(QString * text);
-
+	void ZmodemState(int,int,const QCString&);
+	
 protected:
 	void mouseMoveEvent( QMouseEvent * );
 	void mousePressEvent( QMouseEvent * );
@@ -163,6 +166,7 @@ protected:
 	QTermSound * sound;
 	QTermZmodem *m_pZmodem;
 
+	zmodemDialog *m_pZmDialog;
 public:
 	QTermFrame * m_pFrame;
 

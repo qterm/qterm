@@ -15,7 +15,7 @@
 
 #include <qmessagebox.h>
 #include <qfiledialog.h>
-extern char fileCfg[];
+extern QString fileCfg;
 
 /* 
  *  Constructs a fSoundConf which is a child of 'parent', with the 

@@ -89,6 +89,9 @@ void QTermWndMgr::activateTheTab(QTermWindow * mw)
 	//find where it is
 	int n=pWin.find(mw);
 
+//	if( n==nActive )
+//		return;
+
 	nActive = n;
 
 	QTab * qtab=pTab.at(n);
@@ -104,11 +107,19 @@ void QTermWndMgr::activateTheWindow(QTab *qtab)
 	//find where it is
 	int n=pTab.find(qtab);
 
+	if( n==nActive )
+		return;
+
 	nActive = n;
 
 	QTermWindow * mw=pWin.at(n);
 	//set focus to it
-	mw->setFocus();	
+	#ifdef Q_OS_MACX
+	((QWidget*)pFrame->ws)->setFocus();
+	mw->showNormal();
+	#else
+	mw->setFocus();
+	#endif
 	
 	pFrame->updateMenuToolBar();
 }
@@ -150,7 +161,16 @@ void QTermWndMgr::activeNextPrev(bool next)
 		n = (n==pWin.count()-1)?0:n+1;
 	else
 		n = (n==0)?pWin.count()-1:n-1;
-	
+
 	nActive = n;
-	pWin.at(n)->setFocus();
+
+	QTermWindow * mw=pWin.at(n);
+	//set focus to it
+	#ifdef Q_OS_MACX
+	((QWidget*)pFrame->ws)->setFocus();
+	mw->showNormal();
+	#else
+	mw->setFocus();
+	#endif
+
 }

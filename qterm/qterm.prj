@@ -72,6 +72,8 @@ HEADERS		= qtermframe.h \
 		schemadialog.h	\
 		soundconfui.h	\
 		soundconf.h	\
+		zmodemdialogui.h	\
+		zmodemdialog.h	\
 		trayicon.h	\
 		popwidget.h	\
 		ssh/crc32.h	\
@@ -128,6 +130,8 @@ SOURCES		= qtermframe.cpp \
 		schemadialog.cpp	\
 		soundconfui.cpp	\
 		soundconf.cpp	\
+		zmodemdialogui.cpp	\
+		zmodemdialog.cpp	\
 		popwidget.cpp	\
 		trayicon.cpp	\
 		main.cpp		\
