@@ -1,7 +1,7 @@
 #ifndef QTERMSSHSESSION_H
 #define QTERMSSHSESSION_H
 
-#include <sys/types.h>
+#include "types.h"
 #include <qobject.h>
 
 class QTermSSHPacketReceiver;

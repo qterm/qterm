@@ -1,7 +1,7 @@
 #ifndef QTERMSSHCIPHER_H
 #define QTERMSSHCIPHER_H
 
-#include <sys/types.h>
+#include "types.h"
 #include <stdlib.h>
 #include "qtermsshconst.h"
 

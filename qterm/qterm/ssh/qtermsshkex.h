@@ -1,7 +1,7 @@
 #ifndef QTERMSSHKEX_H
 #define QTERMSSHKEX_H
 
-#include <sys/types.h>
+#include "types.h"
 #include <openssl/bn.h>
 #include <qobject.h>
 
