@@ -124,7 +124,7 @@ protected:
 	QCString parseString( const QCString&, int *len=0);
 	QString fromBBSCodec(const QCString& cstr);
 
-
+	void runProgram(const QCString&);
 	void pythonCallback(const char*);
 	int runPythonFile(const char*);
 

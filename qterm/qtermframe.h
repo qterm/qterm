@@ -38,6 +38,7 @@ struct QTermPref
 	bool	bAA;
 	bool	bTray;
 	QString strZmPath;
+	QString strImageViewer;
 };
 
 class MTray : public QObject
@@ -84,7 +85,6 @@ signals:
 	void updateStatusBar(bool);
 
 protected slots:
-	void dialogInput();
 	void keyClicked(int);
 	void toolBarPosChanged(QToolBar*);
 	// Menu
@@ -179,7 +179,6 @@ protected:
 	int sEng,sChs,sCht;
 	QString theme;
 
-	QLineEdit * txtInput;
 	QToolBar * key;
 
 	QPopupMenu * escapeMenu;

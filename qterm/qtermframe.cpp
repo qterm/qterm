@@ -131,16 +131,6 @@ QTermFrame::QTermFrame()
 	labelTime=new QTermTimeLabel(statusBar());
 	statusBar()->addWidget(labelTime,10,TRUE);
 
-/*
-//create the float input
-	QToolBar *inputBar = new QToolBar(this);
-	inputBar->setOrientation(Qt::Horizontal);
-	inputBar->setHorizontallyStretchable(true);	
-	txtInput = new QLineEdit(inputBar);
-	connect(txtInput, SIGNAL(returnPressed()), this, SLOT(dialogInput()));
-	inputBar->setWidget(txtInput);
-	moveDockWindow(inputBar, Bottom);
-*/
 
 //create the window manager to deal with the window-tab-icon pairs
 	wndmgr=new QTermWndMgr(this);
@@ -357,7 +347,8 @@ void QTermFrame::loadPref( QTermConfig * conf )
 	m_pref.strPlayer=strTmp;
 	strTmp = conf->getItemValue("preference","zmodem");
 	m_pref.strZmPath=strTmp.isEmpty()?pathCfg+"zmodem/":strTmp;
-
+	strTmp = conf->getItemValue("preference","image");
+	m_pref.strImageViewer=strTmp;
 }
 
 //save current setting to qterm.cfg
@@ -419,20 +410,6 @@ void QTermFrame::saveSetting()
 
 	conf->save(fileCfg);
 	delete conf;
-}
-
-void QTermFrame::dialogInput()
-{
-	QCString cstr;
-	if(m_pref.nXIM==0)
-		cstr = U2G(txtInput->text());
-	else	
-		cstr = U2B(txtInput->text());
-	QTermWindow *p = wndmgr->activeWindow();
-	if(p!=NULL)
-		p->externInput(cstr);
-
-	txtInput->clear();
 }
 
 //addressbook

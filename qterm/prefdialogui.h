@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'prefdialog.ui'
 **
-** Created: Wed Jul 21 16:07:37 2004
+** Created: Mon Aug 23 12:16:37 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -16,14 +16,15 @@
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
+class QSpacerItem;
 class QCheckBox;
 class QLineEdit;
 class QComboBox;
 class QLabel;
-class QPushButton;
-class QFrame;
 class QButtonGroup;
 class QRadioButton;
+class QPushButton;
+class QFrame;
 
 class prefDialogUI : public QDialog
 {
@@ -42,8 +43,6 @@ public:
     QCheckBox* aacheckBox;
     QCheckBox* trayCheckBox;
     QLabel* TextLabel2_2;
-    QPushButton* okPushButton;
-    QFrame* Line1;
     QCheckBox* smartCheckBox;
     QLabel* TextLabel1_2;
     QCheckBox* blinkCheckBox;
@@ -55,12 +54,17 @@ public:
     QRadioButton* beepRadioButton;
     QLabel* TextLabel1;
     QLabel* TextLabel3;
-    QPushButton* choosehttpPushButton;
     QLabel* textLabel1;
-    QPushButton* cancelPushButton;
-    QPushButton* browsePushButton;
     QLineEdit* httpLineEdit;
     QLineEdit* zmodemLineEdit;
+    QPushButton* okPushButton;
+    QPushButton* cancelPushButton;
+    QFrame* Line1;
+    QLabel* textLabel1_2;
+    QLineEdit* imageLineEdit;
+    QPushButton* browsePushButton;
+    QPushButton* choosehttpPushButton;
+    QPushButton* imagePushButton;
 
 protected:
 

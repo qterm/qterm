@@ -1,28 +1,7 @@
 #ifndef QTERMTELNET_H
 #define QTERMTELNET_H
 
-// _OS_X_ not defined if i dont include it
-#include <qglobal.h>
-// different 
-#if defined(Q_OS_WIN32) || defined(_OS_WIN32_)
-	#include <winsock2.h>
-#elif defined(Q_OS_BSD4) || defined(_OS_FREEBSD_) \
-	|| defined(Q_OS_MACX) || defined(Q_OS_DARWIN)
-	#include <netdb.h>
-	#include <sys/types.h>
-	#include <sys/socket.h>
-	#include <netinet/in.h>
-#else
-	#include <netdb.h>
-	#include <sys/socket.h>
-	#include <sys/types.h>
-	#include <arpa/inet.h>
-#endif
-
-
 #include <qobject.h>
-
-class QSocket;
 
 #ifndef u_char
 #define u_char uchar
@@ -183,10 +162,6 @@ protected:
 	int xputs_up(char *);
 	void putc_down(u_char);	
 
-	// socks5 function
-	void socks5_connect();
-	void socks5_auth();
-	void socks5_reply( int );
 	
 private:
 	// Boolean Flags
@@ -207,9 +182,7 @@ private:
 	static const  char	sg_erase=CTRL('?');		// Erase a character 	i.e:(^?)
 	static const  char	sg_kill=CTRL('U');		// Kill a line 		i.e:(^U)
         */
-	
-	static const  char	wingate_enter;			// Wingate accept ^J as enter
-	
+		
 	// FSM stuffs	
 	static struct fsm_trans ttstab[];
 	int	ttstate;
@@ -232,17 +205,6 @@ private:
 	uint rsize;	// size of to_ansi buffer
 	uint wsize;	// size of to_socket buffer
 	
-	// proxy 
-	int 		proxy_type;
-	QString 	proxy_host;
-	QString 	proxy_usr;
-	Q_UINT16  	proxy_port;
-	QString 	proxy_pwd;
-	QString 	host;
-	Q_UINT16 	port;
-	int		proxy_state;
-	bool		bauth;
-	struct sockaddr_in  addr_host;
 
 	// for test
 	int wx, wy;

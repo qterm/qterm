@@ -1,0 +1,41 @@
+Install QTerm
+======================
+
+*NIX(Linux,*BSD)
+	Requirement:
+		gcc
+		libqt3-mt-dev
+		python-dev
+		libssl-dev
+	Commands: 
+		cd qterm-0.4.0
+		./configure
+		make && make install
+
+Windowz
+	Requirement:
+		MSVC or BCC
+		Qt/Windows
+		OpenSSL/Windows		http://www.openssl.org/related/binaries.html
+		Python/Windows		http://www.python.org/download/
+	Commands:
+		cd qterm-0.4.0
+		qmake qterm.prj
+		nmake (for MSVC)
+		or make (for BC)
+
+MacOS X
+	Requirement:
+		Panther or above
+		Developer tools
+		Qt/Mac
+			Binary 
+				http://naranja.umh.es/~atg/
+				http://kde.opendarwin.org/
+			Source
+				http://www.trolltech.com/download/qt/mac.html
+	Commands:
+		cd qterm-0.4.0
+		qmake qterm.prj
+		make && make install
+
