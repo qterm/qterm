@@ -150,11 +150,11 @@ static PyObject *qterm_formatError(PyObject *, PyObject *args)
 
 	QCString cstrErr;
 	cstrErr.sprintf("%s",err);
-	
+
 	if( !cstrErr.isEmpty() )
 	{
-		qApp->postEvent( (QTermWindow*)lp, new QCustomEvent(PYE_ERROR));
 		((QTermWindow*)lp)->m_cstrPythonError = cstrErr;
+		qApp->postEvent( (QTermWindow*)lp, new QCustomEvent(PYE_ERROR));
 	}
 	else
 		qApp->postEvent( (QTermWindow*)lp, new QCustomEvent(PYE_FINISH));
@@ -1469,7 +1469,7 @@ void QTermWindow::viewMessages( )
 	msgDialog msg(this);
 
 	QTermConfig conf(fileCfg);
-	char * size = conf.getItemValue("global","msgdialog");
+	const char * size = conf.getItemValue("global","msgdialog");
 	if(size!=NULL)
 	{
 		int x,y,cx,cy;
@@ -1613,7 +1613,7 @@ void QTermWindow::customEvent(QCustomEvent*e)
 	{
 		articleDialog article(this);
 		QTermConfig conf(fileCfg);
-		char * size = conf.getItemValue("global","articledialog");
+		const char * size = conf.getItemValue("global","articledialog");
 		if(size!=NULL)
 		{
 			int x,y,cx,cy;
@@ -1797,7 +1797,7 @@ void QTermWindow::runScriptFile( const QCString & cstr )
     PyThreadState_Swap(NULL);
     PyThreadState_Clear(myThreadState);
     PyThreadState_Delete(myThreadState);
-    PyEval_ReleaseLock();
+    PyEval_ReleaseLock(); 
 #endif // HAVE_PYTHON
 }
 
@@ -1899,8 +1899,8 @@ int QTermWindow::runPythonFile( const char * filename )
 
 	QCString cstr;
 	
-	cstr.sprintf("\t\tqterm.formatError(%ld,'')\n",this);
-	strcat(buffer, cstr);
+//	cstr.sprintf("\t\tqterm.formatError(%ld,'')\n",this);
+//	strcat(buffer, cstr);
 	
 	strcat(buffer, 	"\texcept:\n"
 					"\t\texc, val, tb = sys.exc_info()\n"
@@ -1921,4 +1921,3 @@ int QTermWindow::runPythonFile( const char * filename )
 
 	return 0;
 }
-

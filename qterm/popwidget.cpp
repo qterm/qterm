@@ -27,13 +27,23 @@ popWidget::popWidget( QTermWindow *win, QWidget *parent, const char *name, WFlag
 		: QWidget(parent,name,f)
 {
 	QPixmap pxm(QPixmap(pathLib+"pic/popwidget.png") );
-	resize(pxm.width(), pxm.height());
-	setBackgroundPixmap(pxm);
+	if(!pxm.isNull())
+	{
+		resize(pxm.width(), pxm.height());
+		setBackgroundPixmap(pxm);
+	}
+	else
+	{
+		resize(200, 120);
+	}
 
 	label = new QLabel(this);
 	label->setGeometry( QRect( 5, height()/3, width()-10, height()*2/3 ) );
 	label->setAlignment( int( QLabel::AlignTop|QLabel::WordBreak ) );
-	label->setBackgroundPixmap(pxm);
+	if(!pxm.isNull())
+		label->setBackgroundPixmap(pxm);
+	else
+		label->setBackgroundColor(QColor(249,250,229));
 	label->setBackgroundOrigin( ParentOrigin );
 	label->setFont(QFont(qApp->font().family(), 12));
 	
@@ -44,7 +54,7 @@ popWidget::popWidget( QTermWindow *win, QWidget *parent, const char *name, WFlag
 
 	nStep = 2;
 
-	nInterval = 500/(pxm.height()/nStep);
+	nInterval = 500/(height()/nStep);
 
 	setFocusPolicy(NoFocus);
 

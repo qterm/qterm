@@ -152,7 +152,7 @@ void quickDialog::deleteAddr()
 		{
 			cstrTmp.sprintf("quick %d", i);
 			cstrSection.sprintf("quick %d", i-1);
-			pConf->setSectionName(cstrTmp, cstrSection );
+			pConf->renameSection(cstrTmp, cstrSection );
 		}
 
 		cstrTmp = pConf->getItemValue("quick list", "num" );
@@ -237,18 +237,18 @@ void quickDialog::connectIt()
 	// set another name first to avoid duplicate
 	cstrSection.sprintf("quick %d",index);
 	cstrTmp.sprintf("quick %d",num+2);
-	pConf->setSectionName(cstrSection,cstrTmp);
+	pConf->renameSection(cstrSection,cstrTmp);
 	// shift the current select to  the first
 	for(int j=index-1; j>=0; j--)
 	{
 		cstrSection.sprintf("quick %d",j);
 		cstrTmp.sprintf("quick %d",j+1);
-		pConf->setSectionName(cstrSection,cstrTmp);
+		pConf->renameSection(cstrSection,cstrTmp);
 	}
 	// set it back to 0
 	cstrSection.sprintf("quick %d",num+2);
 	cstrTmp.sprintf("quick %d",0);
-	pConf->setSectionName(cstrSection,cstrTmp);
+	pConf->renameSection(cstrSection,cstrTmp);
 
 	param.m_strName = addrLineEdit->text();
 	param.m_strAddr = addrLineEdit->text();

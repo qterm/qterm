@@ -1,4 +1,5 @@
 #include "trayicon.h"
+#include <qglobal.h>
 
 #ifdef Q_OS_MACX 
 void TrayIcon::sysInstall()

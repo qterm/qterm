@@ -80,7 +80,7 @@ addrDialog::addrDialog( QWidget* parent, bool partial, const char* name, bool mo
 			nameListBox->setCurrentItem(0);
 		}
 		else	// the default
-			if(pConf->findSection("default")!=NULL)
+			if(pConf->hasSection("default"))
 				loadAddress(pConf,-1,param);
 		updateData(false);
 	}
@@ -96,6 +96,7 @@ addrDialog::~addrDialog()
 	if(!bPartial)
 		delete pConf;
 }
+
 
 void addrDialog::onNamechange(QListBoxItem* item)
 {
@@ -138,7 +139,7 @@ void addrDialog::onAdd()
 	{
 		strSection.sprintf("bbs %d",i);
 		strTmp.sprintf("bbs %d",i+1);
-		pConf->setSectionName(strSection,strTmp);
+		pConf->renameSection(strSection,strTmp);
 	}
 	// add list number by one
 	strTmp.setNum(num+1);
@@ -170,7 +171,7 @@ void addrDialog::onDelete()
 	{
 		strSection.sprintf("bbs %d",i);
 		strTmp.sprintf("bbs %d",i-1);
-		pConf->setSectionName(strSection,strTmp);
+		pConf->renameSection(strSection,strTmp);
 	}
 	// ass list number by one
 	strTmp.setNum(QMAX(0,num-1));
@@ -413,6 +414,11 @@ void addrDialog::connectSlots()
 	connect( scriptPushButton, SIGNAL(clicked()), this, SLOT(onChooseScript()));
 	
 	connect( menuGroup, SIGNAL(clicked(int)), this, SLOT(onMenuType(int)));
+}
+
+bool operator!=(const QString & s1, const QString & s2)
+{
+	return !((s1.compare(s2) == 0) || (s1.isEmpty() && s2.isEmpty()));
 }
 
 bool addrDialog::isChanged()

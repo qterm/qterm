@@ -18,8 +18,9 @@
  *
  */
 
-#if defined(Q_OS_WIN32) || defined(_OS_WIN32_)
+#include <qglobal.h>
 
+#if defined(Q_OS_WIN32) || defined(_OS_WIN32_)
 #include "trayicon.h"
 
 #include <qwidget.h>
@@ -262,5 +263,5 @@ void TrayIcon::sysUpdateToolTip()
 
 	d->trayMessage( NIM_MODIFY );
 }
-#endif
 
+#endif
