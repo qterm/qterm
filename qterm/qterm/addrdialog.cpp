@@ -251,9 +251,12 @@ void addrDialog::onBgcolor()
 void addrDialog::onSchema()
 {
 	schemaDialog schema(this);
+
+	schema.setSchema(strSchemaFile);
+
 	if(schema.exec()==1)
 	{
-
+		strSchemaFile = schema.getSchema();
 	}
 }
 
@@ -417,6 +420,7 @@ bool addrDialog::isChanged()
 		param.m_nFontSize != nFontSize ||
 		param.m_clrBg != clrBg ||
 		param.m_clrFg != clrFg ||
+		param.m_strSchemaFile != strSchemaFile ||
 		param.m_strTerm != termtypeLineEdit->text() ||
 		param.m_nKey != keytypeComboBox->currentItem() ||
 		param.m_nCol != columnLineEdit->text().toInt() ||
@@ -469,6 +473,7 @@ void addrDialog::updateData(bool save)
 		param.m_nFontSize = nFontSize;
 		param.m_clrBg = clrBg;
 		param.m_clrFg = clrFg;
+		param.m_strSchemaFile = strSchemaFile;
 		param.m_strTerm = termtypeLineEdit->text();
 		param.m_nKey = keytypeComboBox->currentItem();
 		param.m_nCol = columnLineEdit->text().toInt();
@@ -520,6 +525,7 @@ void addrDialog::updateData(bool save)
 		nFontSize=param.m_nFontSize ;
 		clrBg=param.m_clrBg;
 		clrFg=param.m_clrFg;
+		strSchemaFile=param.m_strSchemaFile;
 		setLabelPixmap();
 		termtypeLineEdit->setText(param.m_strTerm);
 		keytypeComboBox->setCurrentItem(param.m_nKey);

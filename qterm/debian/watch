@@ -2,4 +2,4 @@
 # Rename this file to "watch" and then you can run the "uscan" command
 # to check for upstream updates and more.
 # Site			Directory	Pattern			Version	Script
-qterm.gnuchina.org	qterm-0.3.2	qterm-(.*)\.tar\.gz	debian	uupdate
+qterm.sourceforge.net	qterm-0.3.4	qterm-(.*)\.tar\.gz	debian	uupdate

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'schemadialog.ui'
 **
-** Created: Wed Mar 26 18:19:52 2003
+** Created: Thu Nov 6 15:51:56 2003
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -16,16 +16,15 @@
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
-class QButtonGroup;
-class QComboBox;
-class QFrame;
 class QLabel;
 class QLineEdit;
 class QListBox;
 class QListBoxItem;
 class QPushButton;
+class QButtonGroup;
 class QRadioButton;
 class QSlider;
+class QComboBox;
 
 class schemaDialogUI : public QDialog
 {
@@ -35,42 +34,44 @@ public:
     schemaDialogUI( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
     ~schemaDialogUI();
 
-    QLabel* textLabel2;
+    QLabel* textLabel1_2;
+    QLineEdit* titleLineEdit;
+    QListBox* nameListBox;
+    QPushButton* clr0Button;
+    QPushButton* clr1Button;
+    QPushButton* clr2Button;
+    QPushButton* clr3Button;
+    QPushButton* clr4Button;
+    QPushButton* clr5Button;
+    QPushButton* clr6Button;
+    QPushButton* clr7Button;
     QLabel* textLabel1;
-    QFrame* fg0Frame;
-    QFrame* fg1Frame;
-    QFrame* fg2Frame;
-    QFrame* fg3Frame;
-    QFrame* fg4Frame;
-    QFrame* fg5Frame;
-    QFrame* fg6Frame;
-    QFrame* fg7Frame;
-    QFrame* bg0Frame;
-    QFrame* bg1Frame;
-    QFrame* bg2Frame;
-    QFrame* bg3Frame;
-    QFrame* bg4Frame;
-    QFrame* bg5Frame;
-    QFrame* bg6Frame;
-    QFrame* bg7Frame;
-    QPushButton* saveButton;
-    QPushButton* removeButton;
-    QPushButton* okButton;
-    QPushButton* cancelButton;
+    QLabel* textLabel2;
+    QPushButton* clr8Button;
+    QPushButton* clr9Button;
+    QPushButton* clr10Button;
+    QPushButton* clr11Button;
+    QPushButton* clr12Button;
+    QPushButton* clr13Button;
+    QPushButton* clr14Button;
+    QPushButton* clr15Button;
     QButtonGroup* bgButtonGroup;
     QLabel* TextLabel3;
-    QRadioButton* noneRadioButton;
-    QRadioButton* imageRadioButton;
-    QComboBox* typeComboBox;
-    QLineEdit* imageLineEdit;
     QPushButton* chooseButton;
+    QLabel* TextLabel2;
+    QLineEdit* imageLineEdit;
+    QRadioButton* imageRadioButton;
+    QRadioButton* noneRadioButton;
     QRadioButton* transpRadioButton;
     QLabel* TextLabel1;
-    QFrame* shadeFrame;
-    QLabel* TextLabel2;
+    QPushButton* fadeButton;
     QSlider* alphaSlider;
     QLabel* imagePixmapLabel;
-    QListBox* nameListBox;
+    QComboBox* typeComboBox;
+    QPushButton* removeButton;
+    QPushButton* saveButton;
+    QPushButton* okButton;
+    QPushButton* cancelButton;
 
 public slots:
     virtual void Frame4_destroyed( QObject * );
@@ -79,6 +80,7 @@ protected:
 
 protected slots:
     virtual void languageChange();
+
 };
 
 #endif // SCHEMADIALOGUI_H

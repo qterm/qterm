@@ -1,12 +1,25 @@
+2003/11/07
+	add
+	1. schema support
+
+2003/10/19
+	fix
+	1. Delete key send \x1b[3~
+
 2003/10/18
-   fix
-   1. copy text to both mouse key and clipboard
-   2. port trayicon from Psi. now works in KDE3/GNOME2 and can
-   be dynamically load/unload
-   
+	add
+	1. version item added in qterm.cfg for checking compatibility
+	fix
+	1. copy text to both mouse key and clipboard
+	2. port trayicon from Psi. now works in KDE3/GNOME2 and can
+	be dynamically load/unload
+	3. check if the string of system control script is empty
+	4. mistake in getting the visibility of toolbars when window is hidden
+	5. disable selection of SSH1/2 form AddressBook dialog
+
 2003/10/16
-   fix
-   1. checking Python 2.3, 2.2
+	fix
+	1. checking Python 2.3, 2.2
    
 2003/9/27
 	add

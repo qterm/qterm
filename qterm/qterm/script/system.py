@@ -1,5 +1,7 @@
 import qterm, string
 
+# This works only for smth.org, make appropriate changes according
+# to each BBS site. 
 def autoReply(lp):
 	# not message
 	if(qterm.caretY(lp)!=2):

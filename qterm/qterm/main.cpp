@@ -70,7 +70,16 @@ int iniWorkingDir( QString param )
 			return -1;
 		}
 	}
+	
+	QString pathSchema=QDir::homeDirPath()+"/.qterm/schema";
+	
+	dir.setPath( pathSchema );
+	if( !dir.exists() )
+	{
+		dir.mkdir(pathSchema);
+	}
 
+			
 	// picPath --- $HOME/.qterm/pic prefered
 	pathPic = QDir::homeDirPath()+"/.qterm/pic";
 	dir.setPath( pathPic );
@@ -109,7 +118,7 @@ int iniWorkingDir( QString param )
 		{
 			printf(" Failed to %s \nMake sure you have qterm.cfg in %s\n"
 				"There may be two reasons for this:\n"
-				" 1. QTerm is not install properly\n"
+				" 1. QTerm is not installed properly\n"
 				" 2. You have a corrupted source package.\n"
 				"Solution:\n"
 				"Re-Get source tarball and copy the qterm.cfg manually\n",cmd.ascii(),pathLib.ascii());
@@ -124,7 +133,7 @@ int iniWorkingDir( QString param )
 		{
 			printf(" Failed to %s \nMake sure you have address.cfg in %s\n"
 				"There may be two reasons for this:\n"
-				" 1. QTerm is not install properly\n"
+				" 1. QTerm is not installed properly\n"
 				" 2. You have a corrupted source package.\n"
 				"Solution:\n Re-Get source tarball and copy the address.cfg manually\n",cmd.ascii(),pathLib.ascii());
 			exit(-1);
@@ -146,9 +155,10 @@ void iniSettings()
 	QString ver = conf->getItemValue("global","version");
 	if(ver.toInt()<0000300)
 	{
-		printf("It seems that you still using the old formated configuration file, please update\n"
-				"The simple way is to backup your directory ~/.qterm, delete it and run qterm again\n"
-				"Sorry for any inconvenience\n");
+		printf("It seems that you are still using the old formated configuration file. Please update first.\n"
+				"The simple way is to backup your directory ~/.qterm, delete it and run qterm again."
+				"Then import your old AddressBook by hand\n" 
+				"Sorry for any inconvenience. We try not to make this happen again.\n");
 		exit(-1);
 	}
 
@@ -228,6 +238,8 @@ void loadAddress( QTermConfig *pConf, int n, QTermParam& param )
 	param.m_nFontSize = strTmp.toInt();
 	param.m_clrFg.setNamedColor(pConf->getItemValue(strSection, "fgcolor"));
 	param.m_clrBg.setNamedColor(pConf->getItemValue(strSection, "bgcolor"));
+	param.m_strSchemaFile = pConf->getItemValue(strSection, "schemafile");
+	
 	param.m_strTerm = pConf->getItemValue(strSection, "termtype");
 	strTmp = pConf->getItemValue(strSection, "keytype");
 	param.m_nKey = strTmp.toInt();
@@ -307,9 +319,11 @@ void saveAddress(QTermConfig *pConf, int n, const QTermParam& param)
 	pConf->setItemValue(strSection, "ansicolor", param.m_bAnsiColor?"1":"0");
 	pConf->setItemValue(strSection, "fontname", param.m_strFontName.local8Bit());
 	strTmp.setNum(param.m_nFontSize);
-	pConf->setItemValue(strSection, "fontsize",strTmp);
-	pConf->setItemValue(strSection, "fgcolor",param.m_clrFg.name());
+	pConf->setItemValue(strSection, "fontsize", strTmp);
+	pConf->setItemValue(strSection, "fgcolor", param.m_clrFg.name());
 	pConf->setItemValue(strSection, "bgcolor", param.m_clrBg.name());
+	pConf->setItemValue(strSection, "schemafile", param.m_strSchemaFile);
+	
 	pConf->setItemValue(strSection, "termtype",param.m_strTerm);
 	strTmp.setNum(param.m_nKey);
 	pConf->setItemValue(strSection, "keytype",strTmp);
