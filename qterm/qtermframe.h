@@ -177,8 +177,7 @@ protected:
 	int sEng,sChs,sCht;
 	QString theme;
 
-//	QDockWindow * dock;
-	QLineEdit * input;
+	QLineEdit * txtInput;
 	QToolBar * key;
 
 	QPopupMenu * escapeMenu;
