@@ -215,7 +215,7 @@ void QTermScreen::resizeEvent( QResizeEvent *  )
 	
 	if( m_pParam->m_bAutoFont )
 	{
-		updateFont();
+		updateFont2();
 	}
 	else 
 	{
@@ -287,27 +287,13 @@ void QTermScreen::initFontMetrics()
 		m_pFont = new QFont(m_pParam->m_strFontName, QMAX(8,m_pParam->m_nFontSize) ); 
 		QFontMetrics *fm = new QFontMetrics( *m_pFont );
 
-//		if (abs(m_pParam->m_nFontSize - fm->width(QChar(0x4e00))) 
-//				< abs(m_pParam->m_nFontSize - fm->width('W') * 2))
-//			m_nCharWidth  = (fm->width(QChar(0x4e00)) + 1)/2;
-//		else
-//			m_nCharWidth  = fm->width('W');
-		float cn=fm->width(QChar(0x4e00));
-		float en=fm->width('W');
-		if(en/cn<0.7) // almost half
-			m_nCharWidth = QMAX((cn+1)/2,en);
-		else
-			m_nCharWidth = (QMAX(en,cn)+1)/2;
-
-
-		m_nCharHeight = fm->height();
-		m_nCharAscent = fm->ascent();
+		getFontMetrics(fm);
 		delete fm;
 	}
 
 	#if (QT_VERSION >= 300 )
 	m_pFont->setStyleHint(QFont::System, 
-				m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+		m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
 	#endif
 	
 }
@@ -323,30 +309,14 @@ void QTermScreen::setDispFont( const QFont& font)
 		QFontInfo fi(*m_pFont);
 		int nSize = fi.pixelSize();
 		QFontMetrics *fm = new QFontMetrics( *m_pFont );
-
-//		if (abs(nSize - fm->width(QChar(0x4e00))) < abs(nSize - fm->width('W') * 2))
-//			m_nCharWidth  = (fm->width(QChar(0x4e00)) + 1)/2;
-//		else
-//			m_nCharWidth  = fm->width('W');
-		float cn=fm->width(QChar(0x4e00));
-		float en=fm->width('W');
-		if(en/cn<0.7) // almost half
-			m_nCharWidth = QMAX((cn+1)/2,en);
-		else
-			m_nCharWidth = (QMAX(en,cn)+1)/2;
-
-		m_nCharHeight = fm->height();
-		m_nCharAscent = fm->ascent();
-		m_nCharDescent = fm->descent();
-		qWarning("font=%s pixel=%d chinese=%d english=%d maxwidth=%d",
-				(const char*)fi.family(), nSize, fm->width(QChar(0x4e00)), fm->width('W'), fm->maxWidth());
+		getFontMetrics(fm);
 		delete fm;
 
 	}
 
 	#if (QT_VERSION >= 300 )
 	m_pFont->setStyleHint(QFont::System, 
-				m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+		m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
 	#endif
 
 }
@@ -355,6 +325,7 @@ QFont QTermScreen::getDispFont( )
 {
 	return *m_pFont;
 }
+
 
 void QTermScreen::updateFont()
 {
@@ -419,6 +390,61 @@ void QTermScreen::updateFont()
 
 }
 
+void QTermScreen::updateFont2()
+{
+	QString strFamily = m_pFont->family();
+	delete m_pFont;
+
+	int nPixelSize;
+	int nIniSize = QMAX(8,QMIN(m_rcClient.height()/m_pBuffer->line(),
+					m_rcClient.width()*2/m_pBuffer->columns()));
+	for( nPixelSize=nIniSize-3; nPixelSize<=nIniSize+3; nPixelSize++)
+	{
+		m_pFont = new QFont(strFamily);
+		m_pFont->setPixelSize( nPixelSize );
+		
+		QFontMetrics fm( *m_pFont );
+		getFontMetrics(&fm);
+		if( (m_pBuffer->line()*m_nCharHeight)>m_rcClient.height()
+			|| (m_pBuffer->columns()*m_nCharWidth)>m_rcClient.width()  )
+		{
+			while(nPixelSize>5)
+			{
+				delete m_pFont;
+				nPixelSize--;
+				m_pFont = new QFont(strFamily);
+				m_pFont->setPixelSize( nPixelSize );
+		
+				QFontMetrics fm2( *m_pFont );
+				getFontMetrics(&fm2);
+				if( (m_pBuffer->line()*m_nCharHeight)<m_rcClient.height()
+				&& (m_pBuffer->columns()*m_nCharWidth)<m_rcClient.width()  )
+					break;
+			}
+			break;	
+		}
+		delete m_pFont;
+	}
+	#if (QT_VERSION >= 300 )
+	m_pFont->setStyleHint(QFont::System, 
+		m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+	#endif
+
+}
+
+void QTermScreen::getFontMetrics(QFontMetrics *fm)
+{
+	float cn=fm->width(QChar(0x4e00));
+	float en=fm->width('W');
+	if(en/cn<0.7) // almost half
+		m_nCharWidth = QMAX((cn+1)/2,en);
+	else
+		m_nCharWidth = (QMAX(en,cn)+1)/2;
+
+	m_nCharHeight = fm->height();
+	m_nCharAscent = fm->ascent();
+	m_nCharDescent = fm->descent();
+}
 
 /* ------------------------------------------------------------------------ */
 /*	                                                                        */
