@@ -461,19 +461,19 @@ void QTermTelnet::showError( int index )
 void QTermTelnet::socketReadyRead()
 {
 	int nbytes,nread;
-		
+
 	// get the data size
     	nbytes=socket->bytesAvailable();
 	if (nbytes <= 0)   return;
 		
-    raw_size=nbytes;
+        raw_size=nbytes;
+	//qDebug("read size: %d", raw_size);
 
 	//resize input buffer
 	from_socket->resize(nbytes);
 		
 	//read data from socket to from_socket
 	nread=socket->readBlock( from_socket->data(), nbytes);
-	
 	//do some checks
 	if ( nread <= 0 ) {
 		qWarning("Reading from socket:nread<=0");
@@ -550,7 +550,7 @@ void QTermTelnet::socketReadyRead()
 	}
 										
 	/* send SIGNAL readyRead() with the size of data available*/					
-	if ( rsize > 0 )
+	if ( rsize > 0 || raw_size > 0)
 		emit readyRead(rsize);	
 			
 }

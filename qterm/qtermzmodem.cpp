@@ -425,11 +425,13 @@ QTermZmodem::QTermZmodem(QObject *netinterface, int type)
 	{
 		// telnet
 		m_pTelnet= (QTermTelnet *)netinterface;
+		isSSH = false;
 	}
 	else if(connectionType ==1)
 	{
 		//ssh
 		m_pTelnet= (QTermTelnet *)netinterface;
+		isSSH = true;
 
 	}
 
@@ -679,7 +681,6 @@ int QTermZmodem::ZmodemRcv(uchar *str, int len, ZModem *info)
 	  else if( c != XON && c != XOFF )
 	  {
 	    /* now look at what we have */
-	    //fprintf(stderr, "%02x, ", c);
 	    switch( info->InputState )
 	    {
 	      case Idle:
@@ -1318,18 +1319,20 @@ int QTermZmodem::DataChar( uchar c, register ZModem *info )
 	    default: c ^= 0100 ; break ;
 	  }
 	}
-	if (lastPullByte == 0x0d && c == 0x00) {
-		lastPullByte = 0;
-		return 0;
-	}
-	else if (lastPullByte == 0xff && c == 0xff) {
-		lastPullByte = 0;
-		return 0;
-	}
-	
+
+	if (!isSSH)
+		if (lastPullByte == 0x0d && c == 0x00) {
+			lastPullByte = 0;
+			return 0;
+		}
+		else if (lastPullByte == 0xff && c == 0xff) {
+			lastPullByte = 0;
+			return 0;
+		}
+
 	lastPullByte = c;
 
-//	fprintf(stderr, "%02x, ", c);
+	// fprintf(stderr, "%02x ", c);
 
 	switch( info->DataType ) {
 	  /* TODO: are hex data packets ever used? */
