@@ -219,6 +219,7 @@ am__quote = @am__quote@
 idldir = @idldir@
 install_sh = @install_sh@
 jni_includes = @jni_includes@
+kde_appdir = @kde_appdir@
 kde_appsdir = @kde_appsdir@
 kde_bindir = @kde_bindir@
 kde_confdir = @kde_confdir@
@@ -383,224 +384,224 @@ uninstall-am: uninstall-info-am uninstall-local
 
 
 install-data-local:
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/addr.png $(datadir)/pic/addr.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/addr.png $(datadir)/qterm/pic/addr.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/addr.png $(DESTDIR)$(datadir)/pic/addr.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/addr.png $(DESTDIR)$(datadir)/qterm/pic/addr.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/anti-idle.png $(datadir)/pic/anti-idle.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/anti-idle.png $(datadir)/qterm/pic/anti-idle.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/anti-idle.png $(DESTDIR)$(datadir)/pic/anti-idle.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/anti-idle.png $(DESTDIR)$(datadir)/qterm/pic/anti-idle.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/article.png $(datadir)/pic/article.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/article.png $(datadir)/qterm/pic/article.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/article.png $(DESTDIR)$(datadir)/pic/article.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/article.png $(DESTDIR)$(datadir)/qterm/pic/article.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/auto-reply.png $(datadir)/pic/auto-reply.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/auto-reply.png $(datadir)/qterm/pic/auto-reply.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/auto-reply.png $(DESTDIR)$(datadir)/pic/auto-reply.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/auto-reply.png $(DESTDIR)$(datadir)/qterm/pic/auto-reply.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/color-copy.png $(datadir)/pic/color-copy.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/color-copy.png $(datadir)/qterm/pic/color-copy.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/color-copy.png $(DESTDIR)$(datadir)/pic/color-copy.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/color-copy.png $(DESTDIR)$(datadir)/qterm/pic/color-copy.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/color.png $(datadir)/pic/color.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/color.png $(datadir)/qterm/pic/color.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/color.png $(DESTDIR)$(datadir)/pic/color.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/color.png $(DESTDIR)$(datadir)/qterm/pic/color.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/connect.png $(datadir)/pic/connect.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/connect.png $(datadir)/qterm/pic/connect.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/connect.png $(DESTDIR)$(datadir)/pic/connect.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/connect.png $(DESTDIR)$(datadir)/qterm/pic/connect.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/copy.png $(datadir)/pic/copy.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/copy.png $(datadir)/qterm/pic/copy.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/copy.png $(DESTDIR)$(datadir)/pic/copy.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/copy.png $(DESTDIR)$(datadir)/qterm/pic/copy.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/disconnect.png $(datadir)/pic/disconnect.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/disconnect.png $(datadir)/qterm/pic/disconnect.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/disconnect.png $(DESTDIR)$(datadir)/pic/disconnect.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/disconnect.png $(DESTDIR)$(datadir)/qterm/pic/disconnect.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/fonts.png $(datadir)/pic/font.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/fonts.png $(datadir)/qterm/pic/font.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/fonts.png $(DESTDIR)$(datadir)/pic/font.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/fonts.png $(DESTDIR)$(datadir)/qterm/pic/font.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/keys.png $(datadir)/pic/keys.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/keys.png $(datadir)/qterm/pic/keys.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/keys.png $(DESTDIR)$(datadir)/pic/keys.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/keys.png $(DESTDIR)$(datadir)/qterm/pic/keys.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/message.png $(datadir)/pic/message.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/message.png $(datadir)/qterm/pic/message.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/message.png $(DESTDIR)$(datadir)/pic/message.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/message.png $(DESTDIR)$(datadir)/qterm/pic/message.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/mouse.png $(datadir)/pic/mouse.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/mouse.png $(datadir)/qterm/pic/mouse.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/mouse.png $(DESTDIR)$(datadir)/pic/mouse.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/mouse.png $(DESTDIR)$(datadir)/qterm/pic/mouse.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/paste.png $(datadir)/pic/paste.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/paste.png $(datadir)/qterm/pic/paste.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/paste.png $(DESTDIR)$(datadir)/pic/paste.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/paste.png $(DESTDIR)$(datadir)/qterm/pic/paste.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/popwidget.png $(datadir)/pic/popwidget.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/popwidget.png $(datadir)/qterm/pic/popwidget.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/popwidget.png $(DESTDIR)$(datadir)/pic/popwidget.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/popwidget.png $(DESTDIR)$(datadir)/qterm/pic/popwidget.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/pref.png $(datadir)/pic/pref.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/pref.png $(datadir)/qterm/pic/pref.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/pref.png $(DESTDIR)$(datadir)/pic/pref.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/pref.png $(DESTDIR)$(datadir)/qterm/pic/pref.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/qterm_32x32.png $(datadir)/pic/qterm_32x32.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/qterm_32x32.png $(datadir)/qterm/pic/qterm_32x32.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/qterm_32x32.png $(DESTDIR)$(datadir)/pic/qterm_32x32.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/qterm_32x32.png $(DESTDIR)$(datadir)/qterm/pic/qterm_32x32.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/qterm_48x48.png $(datadir)/pic/qterm_48x48.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/qterm_48x48.png $(datadir)/qterm/pic/qterm_48x48.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/qterm_48x48.png $(DESTDIR)$(datadir)/pic/qterm_48x48.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/qterm_48x48.png $(DESTDIR)$(datadir)/qterm/pic/qterm_48x48.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/quick.png $(datadir)/pic/quick.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/quick.png $(datadir)/qterm/pic/quick.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/quick.png $(DESTDIR)$(datadir)/pic/quick.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/quick.png $(DESTDIR)$(datadir)/qterm/pic/quick.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/reconnect.png $(datadir)/pic/reconnect.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/reconnect.png $(datadir)/qterm/pic/reconnect.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/reconnect.png $(DESTDIR)$(datadir)/pic/reconnect.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/reconnect.png $(DESTDIR)$(datadir)/qterm/pic/reconnect.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/rect.png $(datadir)/pic/rect.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/rect.png $(datadir)/qterm/pic/rect.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/rect.png $(DESTDIR)$(datadir)/pic/rect.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/rect.png $(DESTDIR)$(datadir)/qterm/pic/rect.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/refresh.png $(datadir)/pic/refresh.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/refresh.png $(datadir)/qterm/pic/refresh.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/refresh.png $(DESTDIR)$(datadir)/pic/refresh.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/refresh.png $(DESTDIR)$(datadir)/qterm/pic/refresh.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/sound.png $(datadir)/pic/sound.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/sound.png $(datadir)/qterm/pic/sound.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/sound.png $(DESTDIR)$(datadir)/pic/sound.png
-#>- 	$(mkinstalldirs) $(datadir)/pic/
+	$(INSTALL_DATA) $(srcdir)/sound.png $(DESTDIR)$(datadir)/qterm/pic/sound.png
+#>- 	$(mkinstalldirs) $(datadir)/qterm/pic/
 #>+ 1
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pic/
-#>- 	$(INSTALL_DATA) $(srcdir)/tabpad.png $(datadir)/pic/tabpad.png
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/qterm/pic/
+#>- 	$(INSTALL_DATA) $(srcdir)/tabpad.png $(datadir)/qterm/pic/tabpad.png
 #>+ 1
-	$(INSTALL_DATA) $(srcdir)/tabpad.png $(DESTDIR)$(datadir)/pic/tabpad.png
+	$(INSTALL_DATA) $(srcdir)/tabpad.png $(DESTDIR)$(datadir)/qterm/pic/tabpad.png
 
 uninstall-local:
-#>- 	-rm -f $(datadir)/pic/addr.png
+#>- 	-rm -f $(datadir)/qterm/pic/addr.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/addr.png
-#>- 	-rm -f $(datadir)/pic/anti-idle.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/addr.png
+#>- 	-rm -f $(datadir)/qterm/pic/anti-idle.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/anti-idle.png
-#>- 	-rm -f $(datadir)/pic/article.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/anti-idle.png
+#>- 	-rm -f $(datadir)/qterm/pic/article.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/article.png
-#>- 	-rm -f $(datadir)/pic/auto-reply.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/article.png
+#>- 	-rm -f $(datadir)/qterm/pic/auto-reply.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/auto-reply.png
-#>- 	-rm -f $(datadir)/pic/color-copy.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/auto-reply.png
+#>- 	-rm -f $(datadir)/qterm/pic/color-copy.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/color-copy.png
-#>- 	-rm -f $(datadir)/pic/color.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/color-copy.png
+#>- 	-rm -f $(datadir)/qterm/pic/color.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/color.png
-#>- 	-rm -f $(datadir)/pic/connect.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/color.png
+#>- 	-rm -f $(datadir)/qterm/pic/connect.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/connect.png
-#>- 	-rm -f $(datadir)/pic/copy.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/connect.png
+#>- 	-rm -f $(datadir)/qterm/pic/copy.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/copy.png
-#>- 	-rm -f $(datadir)/pic/disconnect.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/copy.png
+#>- 	-rm -f $(datadir)/qterm/pic/disconnect.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/disconnect.png
-#>- 	-rm -f $(datadir)/pic/font.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/disconnect.png
+#>- 	-rm -f $(datadir)/qterm/pic/font.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/font.png
-#>- 	-rm -f $(datadir)/pic/keys.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/font.png
+#>- 	-rm -f $(datadir)/qterm/pic/keys.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/keys.png
-#>- 	-rm -f $(datadir)/pic/message.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/keys.png
+#>- 	-rm -f $(datadir)/qterm/pic/message.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/message.png
-#>- 	-rm -f $(datadir)/pic/mouse.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/message.png
+#>- 	-rm -f $(datadir)/qterm/pic/mouse.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/mouse.png
-#>- 	-rm -f $(datadir)/pic/paste.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/mouse.png
+#>- 	-rm -f $(datadir)/qterm/pic/paste.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/paste.png
-#>- 	-rm -f $(datadir)/pic/popwidget.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/paste.png
+#>- 	-rm -f $(datadir)/qterm/pic/popwidget.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/popwidget.png
-#>- 	-rm -f $(datadir)/pic/pref.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/popwidget.png
+#>- 	-rm -f $(datadir)/qterm/pic/pref.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/pref.png
-#>- 	-rm -f $(datadir)/pic/qterm_32x32.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/pref.png
+#>- 	-rm -f $(datadir)/qterm/pic/qterm_32x32.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/qterm_32x32.png
-#>- 	-rm -f $(datadir)/pic/qterm_48x48.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/qterm_32x32.png
+#>- 	-rm -f $(datadir)/qterm/pic/qterm_48x48.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/qterm_48x48.png
-#>- 	-rm -f $(datadir)/pic/quick.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/qterm_48x48.png
+#>- 	-rm -f $(datadir)/qterm/pic/quick.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/quick.png
-#>- 	-rm -f $(datadir)/pic/reconnect.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/quick.png
+#>- 	-rm -f $(datadir)/qterm/pic/reconnect.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/reconnect.png
-#>- 	-rm -f $(datadir)/pic/rect.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/reconnect.png
+#>- 	-rm -f $(datadir)/qterm/pic/rect.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/rect.png
-#>- 	-rm -f $(datadir)/pic/refresh.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/rect.png
+#>- 	-rm -f $(datadir)/qterm/pic/refresh.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/refresh.png
-#>- 	-rm -f $(datadir)/pic/sound.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/refresh.png
+#>- 	-rm -f $(datadir)/qterm/pic/sound.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/sound.png
-#>- 	-rm -f $(datadir)/pic/tabpad.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/sound.png
+#>- 	-rm -f $(datadir)/qterm/pic/tabpad.png
 #>+ 1
-	-rm -f $(DESTDIR)$(datadir)/pic/tabpad.png
+	-rm -f $(DESTDIR)$(datadir)/qterm/pic/tabpad.png
 
 ####### kdevelop will overwrite this part!!! (end)############
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

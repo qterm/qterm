@@ -219,6 +219,7 @@ am__quote = @am__quote@
 idldir = @idldir@
 install_sh = @install_sh@
 jni_includes = @jni_includes@
+kde_appdir = @kde_appdir@
 kde_appsdir = @kde_appsdir@
 kde_bindir = @kde_bindir@
 kde_confdir = @kde_confdir@
@@ -429,7 +430,7 @@ distclean-tags:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=subdirs QTerm.desktop RELEASE_NOTES Makefile.dist 
+KDE_DIST=subdirs RELEASE_NOTES Makefile.dist 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 

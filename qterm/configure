@@ -458,7 +458,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA PACKAGE VERSION EXEEXT OBJEXT ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh INSTALL_STRIP_PROGRAM AWK SET_MAKE AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH DEPDIR CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC am__include am__quote CCDEPMODE CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE WOVERLOADED_VIRTUAL USE_EXCEPTIONS USE_RTTI CXXCPP NOOPT_CXXFLAGS NOOPT_CFLAGS REPO NOREPO KDE_USE_FINAL_TRUE KDE_USE_FINAL_FALSE KDE_USE_CLOSURE_TRUE KDE_USE_CLOSURE_FALSE LN_S ECHO RANLIB ac_ct_RANLIB STRIP ac_ct_STRIP EGREP LIBTOOL KDE_PLUGIN all_includes all_libraries MSGFMT GMSGFMT XGETTEXT LIBUTIL LIBCOMPAT LIBCRYPT LIBRESOLV LIB_POLL FRAMEWORK_COREAUDIO LIBSOCKET X_EXTRA_LIBS LIBUCB LIBDL X_INCLUDES X_LDFLAGS x_libraries x_includes LIBSM X_PRE_LIBS LIB_X11 LIBXINERAMA QTE_NORTTI LIB_XEXT LIBPTHREAD USE_THREADS KDE_MT_LDFLAGS KDE_MT_LIBS USER_INCLUDES USER_LDFLAGS LIBZ LIBPNG LIBJPEG qt_libraries qt_includes QT_INCLUDES QT_LDFLAGS MOC UIC UIC_TR LIB_QT LIB_QPE kde_qtver PYTHONINC PYTHONLIB LIBPYTHON PYTHONMODDIR SOUNDSERVER_LIB SOUNDSERVER_INC LIB_SOUNDSERVER ESD_LIB LIBXML_LIBS LIBXML_CFLAGS TOPSUBDIRS LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA PACKAGE VERSION EXEEXT OBJEXT ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh INSTALL_STRIP_PROGRAM AWK SET_MAKE AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH DEPDIR CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC am__include am__quote CCDEPMODE CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE WOVERLOADED_VIRTUAL USE_EXCEPTIONS USE_RTTI CXXCPP NOOPT_CXXFLAGS NOOPT_CFLAGS REPO NOREPO KDE_USE_FINAL_TRUE KDE_USE_FINAL_FALSE KDE_USE_CLOSURE_TRUE KDE_USE_CLOSURE_FALSE LN_S ECHO RANLIB ac_ct_RANLIB STRIP ac_ct_STRIP EGREP LIBTOOL KDE_PLUGIN all_includes all_libraries MSGFMT GMSGFMT XGETTEXT LIBUTIL LIBCOMPAT LIBCRYPT LIBRESOLV LIB_POLL FRAMEWORK_COREAUDIO LIBSOCKET X_EXTRA_LIBS LIBUCB LIBDL X_INCLUDES X_LDFLAGS x_libraries x_includes LIBSM X_PRE_LIBS LIB_X11 LIBXINERAMA QTE_NORTTI LIB_XEXT LIBPTHREAD USE_THREADS KDE_MT_LDFLAGS KDE_MT_LIBS USER_INCLUDES USER_LDFLAGS LIBZ LIBPNG LIBJPEG qt_libraries qt_includes QT_INCLUDES QT_LDFLAGS MOC UIC UIC_TR LIB_QT LIB_QPE kde_qtver kde_appdir PYTHONINC PYTHONLIB LIBPYTHON PYTHONMODDIR SOUNDSERVER_LIB SOUNDSERVER_INC LIB_SOUNDSERVER ESD_LIB LIBXML_LIBS LIBXML_CFLAGS TOPSUBDIRS LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -22733,6 +22733,36 @@ test -z "$KDE_MT_LIBS" || LIB_QT="$LIB_QT $KDE_MT_LIBS"
 
 
 
+echo "$as_me:$LINENO: checking for old KDE (lower than 3.2)" >&5
+echo $ECHO_N "checking for old KDE (lower than 3.2)... $ECHO_C" >&6
+kde_appdirs="/usr/lib/kde/share /usr/local/kde/share /usr/local/share /usr/kde/share /usr/share/kde /usr/share /opt/kde3/share /opt/kde/share"
+test -n "$KDEDIR" && kde_appdirs="$KDEDIR/share $KDEDIR/share/kde $KDEDIR $kde_appdirs"
+
+kde_appdir=NO
+for i in $kde_appdirs;
+do
+  for j in applnk/System/konsole.desktop;
+  do
+    echo "configure: 22746: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      kde_appdir=$i
+      break 2
+    fi
+  done
+done
+
+if test "$kde_appdir" = "NO"; then
+  kde_appdir="$prefix/share/applications"
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+else
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  kde_appdir="$kde_appdir/applnk/Internet"
+fi
+
+
 
 echo "$as_me:$LINENO: checking for Python directory" >&5
 echo $ECHO_N "checking for Python directory... $ECHO_C" >&6
@@ -22787,7 +22817,7 @@ for i in $python_incdirs;
 do
   for j in Python.h;
   do
-    echo "configure: 22790: $i/$j" >&5
+    echo "configure: 22820: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -22803,7 +22833,7 @@ for i in $python_incdirs;
 do
   for j in python$version/Python.h;
   do
-    echo "configure: 22806: $i/$j" >&5
+    echo "configure: 22836: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -22827,7 +22857,7 @@ for i in $python_libdirs;
 do
   for j in libpython$version.a;
   do
-    echo "configure: 22830: $i/$j" >&5
+    echo "configure: 22860: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -22843,7 +22873,7 @@ for i in $python_libdirs;
 do
   for j in python$version/config/libpython$version.a;
   do
-    echo "configure: 22846: $i/$j" >&5
+    echo "configure: 22876: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -22871,7 +22901,7 @@ for i in $python_libdirs;
 do
   for j in python$version/copy.py;
   do
-    echo "configure: 22874: $i/$j" >&5
+    echo "configure: 22904: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_moddir=$i
@@ -22915,7 +22945,7 @@ for i in $python_incdirs;
 do
   for j in Python.h;
   do
-    echo "configure: 22918: $i/$j" >&5
+    echo "configure: 22948: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -22931,7 +22961,7 @@ for i in $python_incdirs;
 do
   for j in python$version/Python.h;
   do
-    echo "configure: 22934: $i/$j" >&5
+    echo "configure: 22964: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -22955,7 +22985,7 @@ for i in $python_libdirs;
 do
   for j in libpython$version.a;
   do
-    echo "configure: 22958: $i/$j" >&5
+    echo "configure: 22988: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -22971,7 +23001,7 @@ for i in $python_libdirs;
 do
   for j in python$version/config/libpython$version.a;
   do
-    echo "configure: 22974: $i/$j" >&5
+    echo "configure: 23004: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -22999,7 +23029,7 @@ for i in $python_libdirs;
 do
   for j in python$version/copy.py;
   do
-    echo "configure: 23002: $i/$j" >&5
+    echo "configure: 23032: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_moddir=$i
@@ -23043,7 +23073,7 @@ for i in $python_incdirs;
 do
   for j in Python.h;
   do
-    echo "configure: 23046: $i/$j" >&5
+    echo "configure: 23076: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -23059,7 +23089,7 @@ for i in $python_incdirs;
 do
   for j in python$version/Python.h;
   do
-    echo "configure: 23062: $i/$j" >&5
+    echo "configure: 23092: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -23083,7 +23113,7 @@ for i in $python_libdirs;
 do
   for j in libpython$version.a;
   do
-    echo "configure: 23086: $i/$j" >&5
+    echo "configure: 23116: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -23099,7 +23129,7 @@ for i in $python_libdirs;
 do
   for j in python$version/config/libpython$version.a;
   do
-    echo "configure: 23102: $i/$j" >&5
+    echo "configure: 23132: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -23127,7 +23157,7 @@ for i in $python_libdirs;
 do
   for j in python$version/copy.py;
   do
-    echo "configure: 23130: $i/$j" >&5
+    echo "configure: 23160: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_moddir=$i
@@ -23171,7 +23201,7 @@ for i in $python_incdirs;
 do
   for j in Python.h;
   do
-    echo "configure: 23174: $i/$j" >&5
+    echo "configure: 23204: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -23187,7 +23217,7 @@ for i in $python_incdirs;
 do
   for j in python$version/Python.h;
   do
-    echo "configure: 23190: $i/$j" >&5
+    echo "configure: 23220: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_incdir=$i
@@ -23211,7 +23241,7 @@ for i in $python_libdirs;
 do
   for j in libpython$version.a;
   do
-    echo "configure: 23214: $i/$j" >&5
+    echo "configure: 23244: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -23227,7 +23257,7 @@ for i in $python_libdirs;
 do
   for j in python$version/config/libpython$version.a;
   do
-    echo "configure: 23230: $i/$j" >&5
+    echo "configure: 23260: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_libdir=$i
@@ -23255,7 +23285,7 @@ for i in $python_libdirs;
 do
   for j in python$version/copy.py;
   do
-    echo "configure: 23258: $i/$j" >&5
+    echo "configure: 23288: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       python_moddir=$i
@@ -28228,7 +28258,7 @@ for i in $arts_default_dirs;
 do
   for j in include/kde/arts/soundserver.h;
   do
-    echo "configure: 28231: $i/$j" >&5
+    echo "configure: 28261: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       SOUNDSERVER_INC=$i
@@ -28244,7 +28274,7 @@ for i in $arts_default_dirs;
 do
   for j in include/arts/soundserver.h;
   do
-    echo "configure: 28247: $i/$j" >&5
+    echo "configure: 28277: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       SOUNDSERVER_INC=$i
@@ -28276,7 +28306,7 @@ for i in $arts_default_dirs;
 do
   for j in lib/libsoundserver_idl.so;
   do
-    echo "configure: 28279: $i/$j" >&5
+    echo "configure: 28309: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       SOUNDSERVER_LIB=$i
@@ -28314,7 +28344,7 @@ for i in $esd_default_dirs;
 do
   for j in esd-config;
   do
-    echo "configure: 28317: $i/$j" >&5
+    echo "configure: 28347: $i/$j" >&5
     if test -r "$i/$j"; then
       echo "taking that" >&5
       ESD_CONFIG=$i
@@ -29156,6 +29186,7 @@ s,@UIC_TR@,$UIC_TR,;t t
 s,@LIB_QT@,$LIB_QT,;t t
 s,@LIB_QPE@,$LIB_QPE,;t t
 s,@kde_qtver@,$kde_qtver,;t t
+s,@kde_appdir@,$kde_appdir,;t t
 s,@PYTHONINC@,$PYTHONINC,;t t
 s,@PYTHONLIB@,$PYTHONLIB,;t t
 s,@LIBPYTHON@,$LIBPYTHON,;t t

@@ -42,7 +42,7 @@ qterm_LDFLAGS = $(all_libraries) -Wl -export-dynamic $(PYTHONLIB) $(SOUNDSERVER_
 DISTCLEANFILES = $(qterm_METASOURCES)
 
 applnkInternet_DATA =  qterm.desktop
-applnkInternetdir = $(prefix)/share/applications
+applnkInternetdir = $(kde_appdir)
 
 icon_DATA = qterm.png
 icondir = $(prefix)/share/icons

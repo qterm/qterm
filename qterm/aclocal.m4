@@ -590,6 +590,21 @@ AC_DEFUN(KDE_SUBST_PROGRAMS,
         AC_SUBST(kde_libs_prefix)
         AC_SUBST(kde_libs_htmldir)
 ])dnl
+AC_DEFUN(AC_CHECK_HAVE_KDE,
+[
+AC_MSG_CHECKING(for old KDE (lower than 3.2))
+kde_appdirs="/usr/lib/kde/share /usr/local/kde/share /usr/local/share /usr/kde/share /usr/share/kde /usr/share /opt/kde3/share /opt/kde/share"
+test -n "$KDEDIR" && kde_appdirs="$KDEDIR/share $KDEDIR/share/kde $KDEDIR $kde_appdirs"
+AC_FIND_FILE(applnk/System/konsole.desktop, $kde_appdirs, kde_appdir)
+if test "$kde_appdir" = "NO"; then
+  kde_appdir="$prefix/share/applications"
+  AC_MSG_RESULT(no)
+else
+  AC_MSG_RESULT(yes)
+  kde_appdir="$kde_appdir/applnk/Internet"
+fi
+AC_SUBST(kde_appdir)
+])
 
 AC_DEFUN(AC_CREATE_KFSSTND,
 [
