@@ -12,7 +12,7 @@ AC_CONFIG_AUX_DIR(admin)
 AC_CANONICAL_SYSTEM 
 
 dnl Automake doc recommends to do this only here. (Janos)
-AM_INIT_AUTOMAKE(qterm,0.2.1)
+AM_INIT_AUTOMAKE(qterm,0.3.3)
 
 dnl KDE_SET_PREFIX
 
@@ -49,6 +49,10 @@ KDE_USE_QT(3)
 AC_PATH_QT
 
 KDE_CHECK_PYTHON
+AC_CHECK_ARTS
+AC_CHECK_ESD
+AC_SUBST(LIBXML_LIBS)
+AC_SUBST(LIBXML_CFLAGS)
 
 eval QTERM_BINDIR=${bindir}
 eval QTERM_BINDIR=$QTERM_BINDIR
@@ -76,4 +80,5 @@ AC_CONFIG_FILES([ debian/Makefile ])
 AC_CONFIG_FILES([ qterm/Makefile ])
 AC_CONFIG_FILES([ qterm/pic/Makefile ])
 AC_CONFIG_FILES([ qterm/cursor/Makefile ])
+AC_CONFIG_FILES([ qterm/script/Makefile ])
 AC_OUTPUT

@@ -458,7 +458,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA PACKAGE VERSION EXEEXT OBJEXT ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh INSTALL_STRIP_PROGRAM AWK SET_MAKE AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH DEPDIR CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC am__include am__quote CCDEPMODE CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE WOVERLOADED_VIRTUAL USE_EXCEPTIONS USE_RTTI CXXCPP NOOPT_CXXFLAGS NOOPT_CFLAGS REPO NOREPO KDE_USE_FINAL_TRUE KDE_USE_FINAL_FALSE KDE_USE_CLOSURE_TRUE KDE_USE_CLOSURE_FALSE LN_S ECHO RANLIB ac_ct_RANLIB STRIP ac_ct_STRIP EGREP LIBTOOL KDE_PLUGIN all_includes all_libraries MSGFMT GMSGFMT XGETTEXT LIBUTIL LIBCOMPAT LIBCRYPT LIBRESOLV LIB_POLL FRAMEWORK_COREAUDIO LIBSOCKET X_EXTRA_LIBS LIBUCB LIBDL X_INCLUDES X_LDFLAGS x_libraries x_includes LIBSM X_PRE_LIBS LIB_X11 LIBXINERAMA QTE_NORTTI LIB_XEXT LIBPTHREAD USE_THREADS KDE_MT_LDFLAGS KDE_MT_LIBS USER_INCLUDES USER_LDFLAGS LIBZ LIBPNG LIBJPEG qt_libraries qt_includes QT_INCLUDES QT_LDFLAGS MOC UIC UIC_TR LIB_QT LIB_QPE kde_qtver PYTHONINC PYTHONLIB LIBPYTHON PYTHONMODDIR TOPSUBDIRS LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA PACKAGE VERSION EXEEXT OBJEXT ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh INSTALL_STRIP_PROGRAM AWK SET_MAKE AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH DEPDIR CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC am__include am__quote CCDEPMODE CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE WOVERLOADED_VIRTUAL USE_EXCEPTIONS USE_RTTI CXXCPP NOOPT_CXXFLAGS NOOPT_CFLAGS REPO NOREPO KDE_USE_FINAL_TRUE KDE_USE_FINAL_FALSE KDE_USE_CLOSURE_TRUE KDE_USE_CLOSURE_FALSE LN_S ECHO RANLIB ac_ct_RANLIB STRIP ac_ct_STRIP EGREP LIBTOOL KDE_PLUGIN all_includes all_libraries MSGFMT GMSGFMT XGETTEXT LIBUTIL LIBCOMPAT LIBCRYPT LIBRESOLV LIB_POLL FRAMEWORK_COREAUDIO LIBSOCKET X_EXTRA_LIBS LIBUCB LIBDL X_INCLUDES X_LDFLAGS x_libraries x_includes LIBSM X_PRE_LIBS LIB_X11 LIBXINERAMA QTE_NORTTI LIB_XEXT LIBPTHREAD USE_THREADS KDE_MT_LDFLAGS KDE_MT_LIBS USER_INCLUDES USER_LDFLAGS LIBZ LIBPNG LIBJPEG qt_libraries qt_includes QT_INCLUDES QT_LDFLAGS MOC UIC UIC_TR LIB_QT LIB_QPE kde_qtver PYTHONINC PYTHONLIB LIBPYTHON PYTHONMODDIR SOUNDSERVER_LIB SOUNDSERVER_INC LIB_SOUNDSERVER ESD_LIB LIBXML_LIBS LIBXML_CFLAGS TOPSUBDIRS LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1875,7 +1875,7 @@ fi
 
 # Define the identity of the package.
 PACKAGE=qterm
-VERSION=0.2.1
+VERSION=0.3.3
 
 cat >>confdefs.h <<_ACEOF
 #define PACKAGE "$PACKAGE"
@@ -28215,6 +28215,128 @@ fi
 
 
 
+echo "$as_me:$LINENO: checking for Arts" >&5
+echo $ECHO_N "checking for Arts... $ECHO_C" >&6
+arts_default_dirs="/usr /usr/local /opt/kde /opt/kde3"
+test -n "$KDEDIR" && arts_default_dirs="$arts_default_dirs $KDEDIR"
+
+SOUNDSERVER_INC=NO
+for i in $arts_default_dirs;
+do
+  for j in include/kde/arts/soundserver.h;
+  do
+    echo "configure: 28228: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      SOUNDSERVER_INC=$i
+      break 2
+    fi
+  done
+done
+
+if test "$SOUNDSERVER_INC" = "NO"; then
+
+SOUNDSERVER_INC=NO
+for i in $arts_default_dirs;
+do
+  for j in include/arts/soundserver.h;
+  do
+    echo "configure: 28244: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      SOUNDSERVER_INC=$i
+      break 2
+    fi
+  done
+done
+
+  if test "$SOUNDSERVER_INC" = "NO"; then
+    SOUNDSERVER_INC=
+    SOUNDSERVER_LIB=
+    LIB_SOUNDSERVER=
+    CXXFLAGS="$CXXFLAGS -D_NO_ARTS_COMPILED"
+    echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+    find_arts_include=NO
+  else
+    SOUNDSERVER_INC="-I$SOUNDSERVER_INC/include/arts"
+    find_arts_include=YES
+  fi
+else
+  SOUNDSERVER_INC="-I$SOUNDSERVER_INC/include/kde/arts"
+  find_arts_include=YES
+fi
+if test "$find_arts_include"="YES"; then
+
+SOUNDSERVER_LIB=NO
+for i in $arts_default_dirs;
+do
+  for j in lib/libsoundserver_idl.so;
+  do
+    echo "configure: 28276: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      SOUNDSERVER_LIB=$i
+      break 2
+    fi
+  done
+done
+
+  if test "$SOUNDSERVER_LIB" = "NO"; then
+    SOUNDSERVER_INC=
+    SOUNDSERVER_LIB=
+    LIB_SOUNDSERVER=
+    CXXFLAGS="$CXXFLAGS -D_NO_ARTS_COMPILED"
+    echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+  else
+    SOUNDSERVER_LIB="-L$SOUNDSERVER_LIB/lib/kde3"
+    LIB_SOUNDSERVER="-lsoundserver_idl"
+    echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+  fi
+fi
+
+
+
+
+
+
+echo "$as_me:$LINENO: checking for ESD" >&5
+echo $ECHO_N "checking for ESD... $ECHO_C" >&6
+esd_default_dirs="/usr/bin /usr/local/bin"
+
+ESD_CONFIG=NO
+for i in $esd_default_dirs;
+do
+  for j in esd-config;
+  do
+    echo "configure: 28314: $i/$j" >&5
+    if test -r "$i/$j"; then
+      echo "taking that" >&5
+      ESD_CONFIG=$i
+      break 2
+    fi
+  done
+done
+
+if test "$ESD_CONFIG" = "NO"; then
+  ESD_LIB=
+  CXXFLAGS="$CXXFLAGS -D_NO_ESD_COMPILED"
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+else
+  ESD_LIB="`$ESD_CONFIG/esd-config --libs`"
+  CXXFLAGS="$CXXFLAGS `$ESD_CONFIG/esd-config --cflags`"
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+fi
+
+
+
+
+
+
 eval QTERM_BINDIR=${bindir}
 eval QTERM_BINDIR=$QTERM_BINDIR
 eval QTERM_DATADIR=${datadir}/qterm
@@ -28289,6 +28411,8 @@ done
           ac_config_files="$ac_config_files qterm/pic/Makefile"
 
           ac_config_files="$ac_config_files qterm/cursor/Makefile"
+
+          ac_config_files="$ac_config_files qterm/script/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -28830,6 +28954,7 @@ do
   "qterm/Makefile" ) CONFIG_FILES="$CONFIG_FILES qterm/Makefile" ;;
   "qterm/pic/Makefile" ) CONFIG_FILES="$CONFIG_FILES qterm/pic/Makefile" ;;
   "qterm/cursor/Makefile" ) CONFIG_FILES="$CONFIG_FILES qterm/cursor/Makefile" ;;
+  "qterm/script/Makefile" ) CONFIG_FILES="$CONFIG_FILES qterm/script/Makefile" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
   "config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
@@ -29032,6 +29157,12 @@ s,@PYTHONINC@,$PYTHONINC,;t t
 s,@PYTHONLIB@,$PYTHONLIB,;t t
 s,@LIBPYTHON@,$LIBPYTHON,;t t
 s,@PYTHONMODDIR@,$PYTHONMODDIR,;t t
+s,@SOUNDSERVER_LIB@,$SOUNDSERVER_LIB,;t t
+s,@SOUNDSERVER_INC@,$SOUNDSERVER_INC,;t t
+s,@LIB_SOUNDSERVER@,$LIB_SOUNDSERVER,;t t
+s,@ESD_LIB@,$ESD_LIB,;t t
+s,@LIBXML_LIBS@,$LIBXML_LIBS,;t t
+s,@LIBXML_CFLAGS@,$LIBXML_CFLAGS,;t t
 s,@TOPSUBDIRS@,$TOPSUBDIRS,;t t
 s,@LIBOBJS@,$LIBOBJS,;t t
 s,@LTLIBOBJS@,$LTLIBOBJS,;t t

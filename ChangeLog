@@ -1,3 +1,40 @@
+2003/9/27
+	add
+	1. play wave files using Arts, ESD, or external program.
+	fix
+	1. view->themes.
+	2. display using variable fonts.
+
+2003/7/7
+	add
+	1. QTermTelnet emit TSWRITED when called write(). Use this signal to
+	restart antiIdle timer instead of mouse & key pressing
+	
+2003/7/6
+	add
+	1. extract python traceback info
+
+2003/7/3
+	fix
+	1. CPU overload when copy article
+
+2003/6/25
+	fix
+	1. Makefile error
+	
+	0.3.1 released
+	
+2003/6/21
+	0.3.0 released
+
+2003/6/3
+	add
+	1. tray icon
+
+2003/5/30
+	add
+	1. python script support
+
 2003/5/8
 	fix
 	1. font set from menu(toolbar) will override the antialias property
