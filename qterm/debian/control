@@ -9,7 +9,6 @@ Package: qterm
 Architecture: any
 Depends: ${shlibs:Depends}
 Description: BBS client for X Window System written in Qt
- QTerm is a BBS client for X Window System.  The goal is to make a client
- similar to STerm and CTerm in MS Windows.
+ QTerm is a BBS client for X Window System. 
  .
  Home Page: http://qterm.sourceforge.net/

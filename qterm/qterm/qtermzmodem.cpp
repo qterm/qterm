@@ -14,7 +14,7 @@
 extern QString fileCfg;
 extern QString getOpenFileName(const QString&, QWidget*);
 
-//#include <sys/time.h>
+#include <sys/time.h>
 
 /*
  *  Crc calculation stuff
@@ -451,11 +451,11 @@ QTermZmodem::QTermZmodem(QObject *netinterface, int type)
 	connect(zmodemTimer, SIGNAL(timeout()), this, SLOT(ZmodemTimeout()));
 	
 	// for debug
-/*
+
 	zmodemlogfile = fopen("zmodem.log","w+");
 	fprintf(zmodemlogfile, "%s", "\n================================\n");
 	fclose(zmodemlogfile);
-*/
+
 
 
 //init struct INFO
@@ -2848,7 +2848,7 @@ int QTermZmodem::ZmodemReset(ZModem * info)
 void QTermZmodem::zmodemlog(const char *fmt, ... )
 {
 // only for debug
-#if 0
+#if 1
 	va_list ap;
 	struct timeval tv ;
 	struct tm *tm ;

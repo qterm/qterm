@@ -75,11 +75,8 @@ void QTermBuffer::setSize(int col, int lin)
 	m_top = 0;
 	m_bottom = m_lin -1;
 
-	m_caretX = 0;	
-	m_caretY = 0;
-
-	m_oldCaretX = 0;	
-	m_oldCaretY = 0;
+	m_caretY = QMIN(m_caretY, lin-1);
+	m_oldCaretY = QMIN(m_caretY, lin-1);
 
 	clearSelect();
 
