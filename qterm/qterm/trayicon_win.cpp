@@ -1,23 +1,24 @@
-/****************************************************************************
-** trayicon_win.cpp - Windows tray app, adapted from Qt example
-** Copyright (C) 2001, 2002  Justin Karneges
-**
-** This program is free software; you can redistribute it and/or
-** modify it under the terms of the GNU General Public License
-** as published by the Free Software Foundation; either version 2
-** of the License, or (at your option) any later version.
-**
-** This program is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-** GNU General Public License for more details.
-**
-** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
-** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,USA.
-**
-****************************************************************************/
-#ifdef Q_WS_WIN
+/*
+ * trayicon_win.cpp - Windows trayicon, adapted from Qt example
+ * Copyright (C) 2003  Justin Karneges
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+
+#if 0
 
 #include "trayicon.h"
 
@@ -30,8 +31,6 @@
 
 #include <qt_windows.h>
 
-#undef UNICODE
-
 static uint MYWM_TASKBARCREATED = 0;
 #define MYWM_NOTIFYICON	(WM_APP+101)
 
@@ -42,12 +41,11 @@ public:
         : QWidget( 0 ), hIcon( 0 ), hMask( 0 ), iconObject( object )
     {
 	if ( !MYWM_TASKBARCREATED ) {
-#if defined(UNICODE)
-	    if ( qWinVersion() & Qt::WV_NT_based )
-		MYWM_TASKBARCREATED = RegisterWindowMessageW( (TCHAR*)"TaskbarCreated" );
-	    else
-#endif
-		MYWM_TASKBARCREATED = RegisterWindowMessageA( "TaskbarCreated" );
+		QT_WA( {
+			MYWM_TASKBARCREATED = RegisterWindowMessageW( (TCHAR*)"TaskbarCreated" );
+		}, {
+			MYWM_TASKBARCREATED = RegisterWindowMessageA( "TaskbarCreated" );
+		} )
 	}
     }
 
@@ -59,57 +57,51 @@ public:
 	    DestroyIcon( hIcon );
     }
 
-    // the unavoidable A/W versions. Don't forget to keep them in sync!
-    bool trayMessageA( DWORD msg )
+    bool trayMessage( DWORD msg )
     {
 	bool res;
 
-	NOTIFYICONDATAA tnd;
-	memset( &tnd, 0, sizeof(NOTIFYICONDATAA) );
-	tnd.cbSize		= sizeof(NOTIFYICONDATAA);
-	tnd.hWnd		= winId();
+	QT_WA( {
+		NOTIFYICONDATAW tnd;
+		memset( &tnd, 0, sizeof(NOTIFYICONDATAW) );
+		tnd.cbSize		= sizeof(NOTIFYICONDATAW);
+		tnd.hWnd		= winId();
 
-	if ( msg != NIM_DELETE ) {
-	    tnd.uFlags		= NIF_MESSAGE|NIF_ICON|NIF_TIP;
-	    tnd.uCallbackMessage= MYWM_NOTIFYICON;
-	    tnd.hIcon		= hIcon;
-	    if ( !iconObject->toolTip().isNull() ) {
-		// Tip is limited to 63 + NULL; lstrcpyn appends a NULL terminator.
-		QString tip = iconObject->toolTip().left( 63 ) + QChar();
-		lstrcpynA(tnd.szTip, (const char*)tip, QMIN( tip.length()+1, 64 ) );
-	    }
-	}
+		if ( msg != NIM_DELETE ) {
+			tnd.uFlags		= NIF_MESSAGE|NIF_ICON|NIF_TIP;
+			tnd.uCallbackMessage= MYWM_NOTIFYICON;
+			tnd.hIcon		= hIcon;
+			if ( !iconObject->toolTip().isNull() ) {
+				// Tip is limited to 63 + NULL; lstrcpyn appends a NULL terminator.
+				QString tip = iconObject->toolTip().left( 63 ) + QChar();
+				lstrcpynW(tnd.szTip, (TCHAR*)qt_winTchar( tip, FALSE ), QMIN( tip.length()+1, 64 ) );
+			}
+		}
 
-	res = Shell_NotifyIconA(msg, &tnd);
+		res = Shell_NotifyIconW(msg, &tnd);
+	}, {
+		NOTIFYICONDATAA tnd;
+		memset( &tnd, 0, sizeof(NOTIFYICONDATAA) );
+		tnd.cbSize		= sizeof(NOTIFYICONDATAA);
+		tnd.hWnd		= winId();
 
-	return res;
-    }
-#if defined(UNICODE)
-    bool trayMessageW( DWORD msg )
-    {
-	bool res;
+		if ( msg != NIM_DELETE ) {
+			tnd.uFlags		= NIF_MESSAGE|NIF_ICON|NIF_TIP;
+			tnd.uCallbackMessage= MYWM_NOTIFYICON;
+			tnd.hIcon		= hIcon;
+			if ( !iconObject->toolTip().isNull() ) {
+				// Tip is limited to 63 + NULL; lstrcpyn appends a NULL terminator.
+				QString tip = iconObject->toolTip().left( 63 ) + QChar();
+				lstrcpynA(tnd.szTip, (const char*)tip.local8Bit(), QMIN( tip.length()+1, 64 ) );
+			}
+		}
 
-	NOTIFYICONDATAW tnd;
-	memset( &tnd, 0, sizeof(NOTIFYICONDATAW) );
-	tnd.cbSize		= sizeof(NOTIFYICONDATAW);
-	tnd.hWnd		= winId();
-
-	if ( msg != NIM_DELETE ) {
-	    tnd.uFlags		= NIF_MESSAGE|NIF_ICON|NIF_TIP;
-	    tnd.uCallbackMessage= MYWM_NOTIFYICON;
-	    tnd.hIcon		= hIcon;
-	    if ( !iconObject->toolTip().isNull() ) {
-		// Tip is limited to 63 + NULL; lstrcpyn appends a NULL terminator.
-		QString tip = iconObject->toolTip().left( 63 ) + QChar();
-		lstrcpynW(tnd.szTip, (TCHAR*)qt_winTchar( tip, FALSE ), QMIN( tip.length()+1, 64 ) );
-	    }
-	}
-
-	res = Shell_NotifyIconW(msg, &tnd);
+		res = Shell_NotifyIconA(msg, &tnd);
+	} )
 
 	return res;
     }
-#endif
+
     bool iconDrawItem(LPDRAWITEMSTRUCT lpdi)
     {
 	if (!hIcon)
@@ -177,12 +169,7 @@ public:
 	    break;
 	default:
 	    if ( m->message == MYWM_TASKBARCREATED ) {
-		#if defined(UNICODE)
-		    if ( qWinVersion() & Qt::WV_NT_based )
-			trayMessageW( NIM_ADD );
-		    else
-		#endif
-			trayMessageA( NIM_ADD );
+		trayMessage( NIM_ADD );
 	    }
 	    break;
 	}
@@ -239,12 +226,7 @@ void TrayIcon::sysInstall()
     d = new TrayIconPrivate( this );
     d->hIcon = createIcon( pm, d->hMask );
 
-#if defined(UNICODE)
-    if ( qWinVersion() & Qt::WV_NT_based )
-	d->trayMessageW( NIM_ADD );
-    else
-#endif
-	d->trayMessageA( NIM_ADD );
+	d->trayMessage( NIM_ADD );
 }
 
 void TrayIcon::sysRemove()
@@ -252,12 +234,7 @@ void TrayIcon::sysRemove()
     if ( !d )
 	return;
 
-#if defined(UNICODE)
-    if ( qWinVersion() & Qt::WV_NT_based )
-	d->trayMessageW( NIM_DELETE );
-    else
-#endif
-	d->trayMessageA( NIM_DELETE );
+	d->trayMessage( NIM_DELETE );
 
     delete d;
     d = 0;
@@ -275,12 +252,7 @@ void TrayIcon::sysUpdateIcon()
 
     d->hIcon = createIcon( pm, d->hMask );
 
-#if defined(UNICODE)
-    if ( qWinVersion() & Qt::WV_NT_based )
-	d->trayMessageW( NIM_MODIFY );
-    else
-#endif
-	d->trayMessageA( NIM_MODIFY );
+	d->trayMessage( NIM_MODIFY );
 }
 
 void TrayIcon::sysUpdateToolTip()
@@ -288,12 +260,7 @@ void TrayIcon::sysUpdateToolTip()
     if ( !d )
 	return;
 
-#if defined(UNICODE)
-    if ( qWinVersion() & Qt::WV_NT_based )
-	d->trayMessageW( NIM_MODIFY );
-    else
-#endif
-	d->trayMessageA( NIM_MODIFY );
+	d->trayMessage( NIM_MODIFY );
 }
+#endif
 
-#endif // Q_WS_WIN

@@ -1,7 +1,9 @@
 2003/10/18
    fix
    1. copy text to both mouse key and clipboard
-
+   2. port trayicon from Psi. now works in KDE3/GNOME2 and can
+   be dynamically load/unload
+   
 2003/10/16
    fix
    1. checking Python 2.3, 2.2
