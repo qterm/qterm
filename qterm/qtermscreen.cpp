@@ -74,6 +74,8 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 	m_cursorTimer = new QTimer(this);
 	connect(m_cursorTimer, SIGNAL(timeout()), this, SLOT(cursorEvent()));
 
+	m_inputContent = NULL;
+
 	// the scrollbar
 	m_scrollBar = new QScrollBar(this);
 	m_scrollBar->setCursor( arrowCursor );
@@ -116,6 +118,7 @@ QTermScreen::~QTermScreen()
 	delete [] m_pBlinkLine;
 	delete m_blinkTimer;
 	delete m_cursorTimer;
+	delete m_inputContent;
 }
 
 
@@ -1190,4 +1193,44 @@ QImage& QTermScreen::fade( QImage& img, float val, const QColor& color)
     }
 
     return img;
+}
+
+void QTermScreen::imStartEvent(QIMEvent * e)
+{
+	m_inputContent = new QLabel(this);
+	m_inputContent->setFont(*m_pFont);
+
+	m_inputContent->show();
+}
+
+void QTermScreen::imComposeEvent(QIMEvent * e)
+{
+	QString text = QString::null;
+	QPoint cursor;
+	int x = m_pBuffer->caretX();
+	int y = m_pBuffer->caretY();
+
+	text += e->text();
+	
+	cursor = mapToPixel(QPoint(x+1,y));
+	
+	m_inputContent->setText(text);
+	m_inputContent->adjustSize();
+	
+	if (m_inputContent->width() + cursor.x() > m_rcClient.width()){
+		cursor = mapToPixel(QPoint(x,y));
+		cursor.setX(m_rcClient.right() - m_inputContent->width());
+	}else
+		cursor = mapToPixel(QPoint(x,y));
+	m_inputContent->move(cursor);
+}
+
+void QTermScreen::imEndEvent(QIMEvent * e)
+{
+	QString text = QString::null;
+	text += e->text();
+	m_inputContent->setText(QString::null);
+	delete m_inputContent;
+	m_inputContent = NULL;
+	emit inputEvent(&text);
 }
