@@ -257,7 +257,7 @@ StateTable	QTermZmodem::FileWaitOps[] = {
 	  {ZCHALLENGE,&QTermZmodem::AnswerChallenge,1,0,FileWait},
 	  {ZCOMMAND,&QTermZmodem::GotCommand,0,0,CommandData},
 	  {ZSTDERR,&QTermZmodem::GotStderr,0,0,StderrData},
-//	  {ZACK,&QTermZmodem::SendFileData,1,0,Sending}, // receiver always sends ZACK back
+	  {ZACK,&QTermZmodem::SendFileData,1,0,Sending}, // receiver always sends ZACK back
 	  {99,&QTermZmodem::ZPF,0,0,FileWait},
 	} ;
 
@@ -459,7 +459,7 @@ QTermZmodem::QTermZmodem(QObject *netinterface, int type)
 // other init function not complete	
 
 	strFileList.append("/home/kingson/doc/zmodem.txt");
-	strFileList.append("/home/kingson/doc/3.2-api.tar.bz2");
+//	strFileList.append("/home/kingson/doc/3.2-api.tar.bz2");
 }
 
 QTermZmodem::~QTermZmodem()
