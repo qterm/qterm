@@ -205,7 +205,11 @@ def down_folder():
 
 # NOTE: make sure path ended with '/'(*nix) or '\\'(windowz)
 #path_dir=path="e:\\temp\\test\\"
-path_dir=path="/home/kingson/temp/JHQ/test/"
+#path_dir=path="/home/kingson/temp/JHQ/test/"
+
+# try to save all to home dir
+path_dir=path=os.environ['HOME']+"/.qterm/downloads/"+time.ctime()+"/"
+os.makedirs(path)
 
 # enter
 qterm.sendString(lp,'x') 
