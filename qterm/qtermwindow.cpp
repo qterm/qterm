@@ -58,6 +58,7 @@ AUTHOR:        kingson fiasco
 #include <qregexp.h>
 #include <qfiledialog.h>
 #include <qtabwidget.h>
+#include <qstringlist.h>
 
 extern QString fileCfg;
 extern QString addrCfg;
@@ -80,6 +81,76 @@ QTermDAThread::~QTermDAThread()
 
 }
 
+void QTermDAThread::run()
+{
+	QStringList strList;
+	while(1)
+	{
+		// check it there is duplicated string
+		// it starts from the end in the range of one screen height
+		// so this is a non-greedy match
+		QString strTemp = pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
+		int i=0;
+		for(QStringList::Iterator it=strList.end();
+			it!=strList.begin(), i < pWin->m_pBuffer->line()-1; // not exceeeding the last screen
+			--it, i++)
+		{
+			if(*it==strTemp)
+			{
+				QStringList::Iterator it2 = it;
+				it2++;
+				bool dup=true;
+				// match more to see if its duplicated
+				for(int j=1; j<=i; j++)
+				{
+					QString str1 = pWin->stripWhitespace(
+									pWin->m_pBuffer->screen(j)->getText());
+					if(*it2!=str1)
+					{
+						dup = false;
+						break;
+					}
+					it2++;
+				}
+				if(dup)
+				{
+					// delete all duplicated
+					while(it2!=it)
+					{
+						strList.remove(it2);
+						it2--;
+					}
+					strList.remove(it);
+					break;
+				}
+			}
+		}
+		for(i=0;i<pWin->m_pBuffer->line()-1;i++)
+			strList+=pWin->stripWhitespace(
+			pWin->m_pBuffer->screen(i)->getText());
+
+		// the end
+		if( pWin->m_pBuffer->screen(
+		pWin->m_pBuffer->line()-1)->getText().find("%") == -1 )
+			break;
+		// continue
+		pWin->m_pTelnet->write(" ", 1);
+		
+		if(!pWin->m_wcWaiting.wait(10000))	// timeout
+		{
+			postEvent(pWin, new QCustomEvent(DAE_TIMEOUT));
+			break;
+		}
+	}
+	#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
+	cstrArticle = strList.join("\r\n");
+	#else
+	cstrArticle = strList.join("\n");
+	#endif
+	postEvent(pWin, new QCustomEvent(DAE_FINISH));
+}
+
+/*
 void QTermDAThread::run()
 {
     QCString cstrCurrent0,cstrCurrent1;
@@ -136,6 +207,7 @@ void QTermDAThread::run()
 
 	postEvent(pWin, new QCustomEvent(DAE_FINISH));
 }
+*/
 
 char QTermWindow::direction[][5]=
 {

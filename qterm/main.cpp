@@ -128,6 +128,7 @@ int checkPath( const QString& path )
 	{
 		if( !dir.mkdir(path) )
 		{
+			printf("Failed to create directory %s\n", (const char*)path.local8Bit());
 			return -1;
 		}
 	}
