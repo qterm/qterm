@@ -52,6 +52,10 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 
 	setFocusPolicy(ClickFocus);	
 
+	#if (QT_VERSION>=0x030200)
+	setInputMethodEnabled(true);
+	#endif
+
 	setSchema();
 
 	initFontMetrics();

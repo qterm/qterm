@@ -883,7 +883,7 @@ void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 				m_pTelnet->write(&ch,1);
 			}
 			else
-				paste();
+				pasteHelper(false);
 		}
 		return;
 	}
@@ -1345,7 +1345,13 @@ void QTermWindow::copy( )
 										 parseString((const char *)m_param.m_strEscape))));
 	#endif
 }
-void QTermWindow::paste( )
+
+void QTermWindow::paste()
+{
+	pasteHelper(true);
+}
+
+void QTermWindow::pasteHelper( bool clip )
 {
 	if( !m_bConnected )
 		return;
@@ -1356,7 +1362,10 @@ void QTermWindow::paste( )
 	if(m_pFrame->m_nClipCodec==0)
 	{
 		#if (QT_VERSION>=0x030100)
-		cstrText=U2G( clipboard->text(QClipboard::Selection) );
+		if(clip)
+			cstrText=U2G( clipboard->text(QClipboard::Clipboard) );
+		else
+			cstrText=U2G( clipboard->text(QClipboard::Selection) );
 		#else
 		cstrText=U2G( clipboard->text() );
 		#endif
@@ -1370,7 +1379,10 @@ void QTermWindow::paste( )
 	else
 	{
 		#if (QT_VERSION>=0x030100)
-		cstrText=U2B( clipboard->text(QClipboard::Selection) );
+		if(clip)
+			cstrText=U2B( clipboard->text(QClipboard::Clipboard) );
+		else
+			cstrText=U2B( clipboard->text(QClipboard::Selection) );
 		#else
 		cstrText=U2B( clipboard->text() );
 		#endif

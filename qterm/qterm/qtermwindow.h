@@ -103,7 +103,9 @@ protected:
 	void doAutoLogin();
 	void saveSetting();	
 	void replyMessage();
-	
+
+	void pasteHelper(bool);
+
 	QCString parseString( const QCString&, int *len=0);
 	QString fromBBSCodec(const QCString& cstr);
 
