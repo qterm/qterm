@@ -1983,6 +1983,8 @@ void QTermWindow::getHttpHelper()
 {
 	m_strHttpFile="";
 	QUrl u(m_pBBS->getUrl());
+	QString url = m_pBBS->getUrl();
+	QString path = url.mid(url.find(u.host(),false) + u.host().length());
 	if(QFile::exists(pathCfg+"hosts.cfg"))
 	{
 		QTermConfig conf(pathCfg+"hosts.cfg");
@@ -1996,7 +1998,7 @@ void QTermWindow::getHttpHelper()
 	}
 	m_strHttpFile = u.fileName();
 	m_httpDown.setHost(u.host(),u.hasPort()?u.port():80);
-	m_httpDown.get(m_pBBS->getUrl());
+	m_httpDown.get(path);
 }
 
 
