@@ -1,3 +1,8 @@
+2003/11/09
+	fix
+	1. support for redhat's menu.
+	2. some anony bug when move around the cursor
+
 2003/11/08
 	add
 	1. disable python when no python-dev detected
