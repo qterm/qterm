@@ -4019,6 +4019,66 @@ AC_DEFUN(KDE_CHECK_THREADING,
     AC_DEFINE(HAVE_LIBPTHREAD, 1, [Define if you have a working libpthread (will enable threaded code)])
   fi
 ])
+AC_DEFUN(AC_CHECK_ARTS,
+[
+AC_MSG_CHECKING(for Arts)
+arts_default_dirs="/usr /usr/local /opt/kde /opt/kde3"
+test -n "$KDEDIR" && arts_default_dirs="$arts_default_dirs $KDEDIR"
+AC_FIND_FILE(include/kde/arts/soundserver.h, $arts_default_dirs, SOUNDSERVER_INC)
+if test "$SOUNDSERVER_INC" = "NO"; then
+  AC_FIND_FILE(include/arts/soundserver.h, $arts_default_dirs, SOUNDSERVER_INC)
+  if test "$SOUNDSERVER_INC" = "NO"; then
+    SOUNDSERVER_INC=
+    SOUNDSERVER_LIB=
+    LIB_SOUNDSERVER=
+    CXXFLAGS="$CXXFLAGS -D_NO_ARTS_COMPILED"
+    AC_MSG_RESULT(no)
+    find_arts_include=NO
+  else
+    SOUNDSERVER_INC="-I$SOUNDSERVER_INC/include/arts"
+    find_arts_include=YES
+  fi
+else
+  SOUNDSERVER_INC="-I$SOUNDSERVER_INC/include/kde/arts"
+  find_arts_include=YES
+fi
+if test "$find_arts_include"="YES"; then
+  AC_FIND_FILE(lib/libsoundserver_idl.so, $arts_default_dirs, SOUNDSERVER_LIB)
+  if test "$SOUNDSERVER_LIB" = "NO"; then
+    SOUNDSERVER_INC=
+    SOUNDSERVER_LIB=
+    LIB_SOUNDSERVER=
+    CXXFLAGS="$CXXFLAGS -D_NO_ARTS_COMPILED"
+    AC_MSG_RESULT(no)
+  else
+    SOUNDSERVER_LIB="-L$SOUNDSERVER_LIB/lib/kde3"
+    LIB_SOUNDSERVER="-lsoundserver_idl"
+    AC_MSG_RESULT(yes)
+  fi
+fi
+
+AC_SUBST(SOUNDSERVER_LIB)
+AC_SUBST(SOUNDSERVER_INC)
+AC_SUBST(LIB_SOUNDSERVER)
+])
+
+AC_DEFUN(AC_CHECK_ESD,
+[
+AC_MSG_CHECKING(for ESD)
+esd_default_dirs="/usr/bin /usr/local/bin"
+AC_FIND_FILE(esd-config, $esd_default_dirs, ESD_CONFIG)
+if test "$ESD_CONFIG" = "NO"; then
+  ESD_LIB=
+  CXXFLAGS="$CXXFLAGS -D_NO_ESD_COMPILED"
+  AC_MSG_RESULT(no)
+else
+  ESD_LIB="`$ESD_CONFIG/esd-config --libs`"
+  CXXFLAGS="$CXXFLAGS `$ESD_CONFIG/esd-config --cflags`"
+  AC_MSG_RESULT(yes)
+fi
+
+AC_SUBST(ESD_LIB)
+])
 
 AC_DEFUN(KDE_TRY_LINK_PYTHON,
 [
