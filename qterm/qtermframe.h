@@ -43,7 +43,7 @@ class MTray : public QObject
 {
 	Q_OBJECT
 public:
-	MTray(const QImage &icon, const QString &tip, QPopupMenu *popup, QObject *parent=0);
+	MTray(const QString &icon, const QString &tip, QPopupMenu *popup, QObject *parent=0);
 	~MTray();
 
 	void setToolTip(const QString &);

@@ -121,11 +121,11 @@ static bool send_message(
 }*/
 
 //class TrayIcon::TrayIconPrivate : public QLabel
-class TrayIcon::TrayIconPrivate : public QWidget
+class TrayIcon::TrayIconPrivate : public QLabel
 {
 public:
 	TrayIconPrivate( TrayIcon *object, const QPixmap &pm, bool _isWMDock )
-	: QWidget(NULL, "psidock",  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_StaysOnTop | WMouseNoMask), iconObject(object)
+	: QLabel(NULL, "psidock",  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_StaysOnTop | WMouseNoMask), iconObject(object)
 //	: QLabel( 0, "psidock", WMouseNoMask ), iconObject(object)
 	{
 		isWMDock = _isWMDock;
@@ -133,6 +133,8 @@ public:
 		bInit = false;
 		inTray = false;
 
+		setBackgroundMode(X11ParentRelative);
+		setBackgroundOrigin(WindowOrigin);
 		setMinimumSize(22, 22);
 		setPixmap(pm);
 

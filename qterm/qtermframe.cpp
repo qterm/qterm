@@ -125,6 +125,7 @@ QTermFrame::QTermFrame()
 	tabBar=new QTabBar(hb);
 	connect(tabBar,SIGNAL(selected(int)),this,SLOT(selectionChanged(int)));
 	tabBar->setShape(QTabBar::TriangularBelow);
+	//tabBar->setShape(QTabBar::RoundedBelow);
 //create a label to display current time
 	labelTime=new QTermTimeLabel(statusBar());
 	statusBar()->addWidget(labelTime,10,TRUE);
@@ -613,12 +614,12 @@ void QTermFrame::switchWin(int id)
 
 bool QTermFrame::eventFilter(QObject *o, QEvent *e)
 {
-	if( o==this)
+	if( o==this && m_pref.bTray)
 	{
 		if( e->type()==QEvent::ShowMinimized ) 
 		{
 			printf("QTermFrame::eventFilter\n");
-			hide();
+			trayHide();
 			return true;
 		}else
 			return false;
@@ -635,20 +636,21 @@ void QTermFrame::paintEvent( QPaintEvent * )
 
 void QTermFrame::closeEvent(QCloseEvent * clse)
 {
-	if(m_pref.bTray)
-	{
-		trayHide();
-		return;
-	}
-
 	while( wndmgr->count()>0 ) 
 	{
-		bool closed = ws->activeWindow()->close();
-		if(!closed)
+		bool isConnected = wndmgr->activeWindow()->isConnected();
+		if(isConnected)
 		{
-			clse->ignore();
-			return;
+			if (m_pref.bTray) {
+				trayHide();
+				return;
+			}
+			if (!wndmgr->activeWindow()->close()){
+				clse->ignore();
+				return;
+			}
 		}
+		wndmgr->activeWindow()->close();
 	}
 	saveSetting();
 	clse->accept();
@@ -1558,7 +1560,7 @@ void QTermFrame::setUseDock(bool use)
 	connect(trayMenu, SIGNAL(aboutToShow()), SLOT(buildTrayMenu()));
 
 	
-	tray = new MTray( QImage(pathLib+"pic/qterm_32x32.png"), "QTerm", trayMenu, this);
+	tray = new MTray( pathLib+"pic/qterm_tray.png", "QTerm", trayMenu, this);
 	connect(tray, SIGNAL(clicked(const QPoint &, int)), SLOT(trayClicked(const QPoint &, int)));
 	connect(tray, SIGNAL(doubleClicked(const QPoint &)), SLOT(trayDoubleClicked()));
 	connect(tray, SIGNAL(closed()), this, SLOT(exitQTerm()));
@@ -1623,10 +1625,10 @@ void QTermFrame::trayHide()
 //----------------------------------------------------------------------------
 // MTray
 //----------------------------------------------------------------------------
-MTray::MTray(const QImage &icon, const QString &tip, QPopupMenu *popup, QObject *parent)
+MTray::MTray(const QString &icon, const QString &tip, QPopupMenu *popup, QObject *parent)
 :QObject(parent)
 {
-	ti = new TrayIcon(makeIcon(icon), tip, popup);
+	ti = new TrayIcon(QPixmap(icon), tip, popup);
 	connect(ti, SIGNAL(clicked(const QPoint &, int)), SIGNAL(clicked(const QPoint &, int)));
 	connect(ti, SIGNAL(doubleClicked(const QPoint &)), SIGNAL(doubleClicked(const QPoint &)));
 	connect(ti, SIGNAL(closed()), SIGNAL(closed()));
