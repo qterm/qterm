@@ -15,7 +15,7 @@
 
 QTermSSHSocket::QTermSSHSocket(const char * sshuser, const char * sshpasswd)
 {
-	d_socket = new QSocket(this);
+	d_socket = new QTermSocketPrivate();
 	d_inBuffer = new QTermSSHBuffer(1024);
 	d_outBuffer = new QTermSSHBuffer(1024);
 	d_socketBuffer = new QTermSSHBuffer(1024);
@@ -32,6 +32,7 @@ QTermSSHSocket::QTermSSHSocket(const char * sshuser, const char * sshpasswd)
 	connect(d_socket, SIGNAL(delayedCloseFinished()), this, SIGNAL(delayedCloseFinished()));
 	connect(d_socket, SIGNAL(error(int)), this, SIGNAL(error(int)));
 	connect(d_socket, SIGNAL(readyRead()), this, SLOT(socketReadyRead()));
+	connect(d_socket, SIGNAL(SocketState(int)), this, SIGNAL(SocketState(int)));	
 	connect(d_incomingPacket, SIGNAL(packetAvaliable(int)), this, SLOT(handlePacket(int)));
 	connect(d_incomingPacket, SIGNAL(packetError(const char *)), this, SLOT(handleError(const char *)));
 	connect(d_outcomingPacket, SIGNAL(dataToWrite()), this, SLOT(writeData()));
@@ -233,4 +234,13 @@ void QTermSSHSocket::handleError(const char * reason)
 	close();
 	QMessageBox::critical(0, "QTerm SSH Error", QString("Connection closed because:\n")+reason);
 	emit connectionClosed();
+}
+
+void QTermSSHSocket::setProxy( int nProxyType, bool bAuth,
+			const QString& strProxyHost, Q_UINT16 uProxyPort,
+			const QString& strProxyUsr, const QString& strProxyPwd)
+{
+	d_socket->setProxy(nProxyType, bAuth,
+			strProxyHost, uProxyPort,
+			strProxyUsr, strProxyPwd);
 }
