@@ -9,8 +9,8 @@
 #elif defined(Q_OS_BSD4) || defined(_OS_FREEBSD_) \
 	|| defined(Q_OS_MACX) || defined(Q_OS_DARWIN)
 	#include <netdb.h>
-	#include <sys/socket.h>
 	#include <sys/types.h>
+	#include <sys/socket.h>
 	#include <netinet/in.h>
 #else
 	#include <netdb.h>
