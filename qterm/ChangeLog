@@ -1,3 +1,9 @@
+2004/11/18
+	fix
+	1. correct NAWS negotiation 
+	add
+	1. clear focus of http download progress dialog
+
 2004/11/12
 	fix
 	1. finally get around the bug in switching window by ctrl+tab etc.

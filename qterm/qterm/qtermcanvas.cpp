@@ -237,7 +237,8 @@ void QTermCanvas::saveImage()
 
 	if(strSave.isEmpty())
 		return;
-	if(!pxm.save(strSave, fi.extension(false)))
+	QString fmt = fi.extension(false).upper();
+	if(!pxm.save(strSave, fmt=="JPG"?"JPEG":fmt))
 		QMessageBox::warning(this, "Failed to save file", "Cant save file, maybe format not supported");
 }
 

@@ -50,7 +50,7 @@ void QTermHttp::getLink(const QString& url, bool preview)
 {
 	m_bExist = false;
 	m_bPreview = preview;
-	QUrl u(url);
+	QUrl u(QString::fromUtf8(url));
 	if(u.isLocalFile())
 	{
 		qWarning("local file "+u.path());
@@ -76,6 +76,7 @@ void QTermHttp::getLink(const QString& url, bool preview)
 		}
 	}
 	m_strHttpFile = u.fileName();
+	qWarning(m_strHttpFile);
 	m_httpDown.setHost(u.host(),u.hasPort()?u.port():80);
 	m_httpDown.get(u.encodedPathAndQuery());
 }
@@ -83,7 +84,7 @@ void QTermHttp::getLink(const QString& url, bool preview)
 void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 {
 	QString ValueString;
-
+	
 	ValueString = hrh.value("Content-Length");
 	int FileLength = ValueString.toInt();
 	

@@ -86,8 +86,8 @@ QTermTelnet::QTermTelnet( QCString cstrTermType, int rows, int columns, bool isS
 
 	wx=columns;
 	wy=rows;
+	
 	done_naws=0;
-
 	synching = 0;
 	doecho = 0;
 	sndbinary = 0;
@@ -95,6 +95,7 @@ QTermTelnet::QTermTelnet( QCString cstrTermType, int rows, int columns, bool isS
 	noga = 0;
 	termtype = 0;
 	naws = 0;
+
 	raw_size = 0;	
 
 	// init buffers
@@ -208,8 +209,15 @@ void QTermTelnet::fsminit(u_char fsm[][NCHRS], struct fsm_trans ttab[], int nsta
  */
 void QTermTelnet::connectHost(const QString& hostname, Q_UINT16 portnumber)
 {
+	done_naws=0;
+	synching = 0;
+	doecho = 0;
+	sndbinary = 0;
+	rcvbinary = 0;
+	noga = 0;
 	termtype = 0;
 	naws = 0;
+
 	socket->connectToHost( hostname, portnumber );
 	// host name resolving
 	emit TelnetState( TSRESOLVING );
@@ -220,30 +228,28 @@ void QTermTelnet::windowSizeChanged(int x, int y)
 	wx=x;
 	wy=y;
 	if(bConnected)
-		setWindowSize(wx,wy);
-}
+	{
+		naws = 0;
 
-void QTermTelnet::setWindowSize( int x, int y )
-{
-	wx=x;
-	wy=y;
-
-
-	char cmd[10];
-	
-	cmd[0] = (char)TCIAC;
-	cmd[1] = (char)TCSB;
-	cmd[2] = (char)TONAWS;
-	
-	cmd[3] = (char)(short(x)>>8);
-	cmd[4] = (char)(short(x)&0xff);
-	cmd[5] = (char)(short(y)>>8);
-	cmd[6] = (char)(short(y)&0xff);
-
-	cmd[7] = (char)TCIAC;
-	cmd[8] = (char)TCSE;
-
-	write(cmd, 9);
+		char cmd[10];
+		cmd[0] = (char)TCIAC;
+		cmd[1] = (char)TCSB;
+		cmd[2] = (char)TONAWS;
+		cmd[3] = (char)(short(wx)>>8);
+		cmd[4] = (char)(short(wx)&0xff);
+		cmd[5] = (char)(short(wy)>>8);
+		cmd[6] = (char)(short(wy)&0xff);
+		cmd[7] = (char)TCIAC;
+		cmd[8] = (char)TCSE;
+		write(cmd, 9);
+/*
+		char cmd[4];
+		cmd[0] = (char)TCIAC;
+		cmd[1] = (char)TCWILL;
+		cmd[2] = (char)TONAWS;
+		write(cmd, 3);
+*/
+	}
 }
 
 /*------------------------------------------------------------------------
@@ -287,6 +293,8 @@ void QTermTelnet::connected()
 void QTermTelnet::closed()
 {
 	bConnected = false;
+
+
 	emit TelnetState( TSCLOSED );
 }
 /*------------------------------------------------------------------------

@@ -107,8 +107,6 @@ public:
 	QTermTelnet( const QCString termtype, int rows, int columns, bool isSSH, const char * sshuser = NULL, const char * sshpasswd = NULL ) ;
 	~QTermTelnet();
 	
-	void setWindowSize( int x, int y );
-
 	void setProxy( int nProxyType,//0-no proxy; 1-wingate; 2-sock4; 3-socks5
 		bool bAuth,	// if authentation needed
 		const QString& strProxyHost,Q_UINT16 uProxyPort,

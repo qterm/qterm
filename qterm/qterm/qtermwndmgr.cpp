@@ -38,6 +38,8 @@ QTermWndMgr::QTermWndMgr( QObject * parent, const char * name )
 	pFrame = (QTermFrame *) parent;
 	
 	nActive = -1;
+	
+	removed = false;
 
 	pWin.setAutoDelete( false );
 	pTab.setAutoDelete( false );

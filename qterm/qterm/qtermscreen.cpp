@@ -217,7 +217,7 @@ void QTermScreen::resizeEvent( QResizeEvent *  )
 	{
 		updateFont();
 	}
-	else
+	else if( m_pWindow->isConnected() )
 	{
 		int cx = m_rcClient.width()/m_nCharWidth;
 		int cy = m_rcClient.height()/m_nCharHeight;
