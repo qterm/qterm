@@ -23,6 +23,7 @@ private:
 	QSocket * d_socket;
 	QTermSSHBuffer * d_inBuffer;
 	QTermSSHBuffer * d_outBuffer;
+	QTermSSHBuffer * d_socketBuffer;
 	QTermSSHPacketReceiver * d_incomingPacket;
 	QTermSSHPacketSender * d_outcomingPacket;
 	QTermSSHKex * d_kex;

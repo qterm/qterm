@@ -18,6 +18,7 @@ QTermSSHSocket::QTermSSHSocket(const char * sshuser, const char * sshpasswd)
 	d_socket = new QSocket(this);
 	d_inBuffer = new QTermSSHBuffer(1024);
 	d_outBuffer = new QTermSSHBuffer(1024);
+	d_socketBuffer = new QTermSSHBuffer(1024);
 	d_state = BeforeSession;
 	d_incomingPacket = new QTermSSH1PacketReceiver;
 	d_outcomingPacket = new QTermSSH1PacketSender;
@@ -51,6 +52,7 @@ QTermSSHSocket::~QTermSSHSocket()
 	delete d_socket;
 	delete d_inBuffer;
 	delete d_outBuffer;
+	delete d_socketBuffer;
 	delete d_incomingPacket;
 	delete d_outcomingPacket;
 	delete d_kex;
@@ -136,20 +138,17 @@ void QTermSSHSocket::parsePacket()
 {
 	Q_ULONG size;
 	char * data;
-	QTermSSHBuffer * input;
 	size = d_socket->bytesAvailable();
 	data = new char[size];
-	input = new QTermSSHBuffer(size);
 
 	if (d_socket->readBlock(data, size) == -1) {
 		qDebug("read error");
 		delete [] data;
 		return;
 	}
-	input->putBuffer(data, size);
-	d_incomingPacket->parseData(input);
+	d_socketBuffer->putBuffer(data, size);
+	d_incomingPacket->parseData(d_socketBuffer);
 
-	delete input;
 	delete [] data;
 }
 

@@ -68,7 +68,7 @@ void QTermSSH1PacketSender::putBN(BIGNUM * bn)
 void QTermSSH1PacketSender::makePacket()
 {
 	int len, padding, i;
-	u_int32_t rand;
+	u_int32_t rand = 0;
 	//QTermSSHBuffer * output;
 	delete d_output;
 
@@ -181,18 +181,20 @@ void QTermSSH1PacketReceiver::parseData(QTermSSHBuffer * input)
 
 	// Get the length of the packet.
 	// fprintf(stderr, "input packet len: %d\n", input->len());
-	// qDebug("incoming packet dump:");
-	// input->dump();
 	while (input->len() > 0) {
+		// qDebug("incoming packet dump:");
+		// input->dump();
 		if (input->len() < 4) {
-			emit packetError("parseData: packet too small");
-			break;
+			qDebug("parseData_readlen: packet too small");
+			return;
 		}
-		d_realLen = input->getInt();
-		// qDebug("incoming packet length: %02x", d_realLen);
+		buf = input->data();
+		d_realLen = GET_32BIT(buf);
+		// d_realLen = input->getInt();
+		// qDebug("incoming packet length: %d", (d_realLen + 8) & ~7);
 		if (d_realLen > SSH_BUFFER_MAX) {
 			emit packetError("parseData: packet too big");
-			break;
+			return;
 		}
 		d_totalLen = (d_realLen + 8) & ~7;
 		d_padding = d_totalLen - d_realLen;
@@ -201,14 +203,16 @@ void QTermSSH1PacketReceiver::parseData(QTermSSHBuffer * input)
 		d_buffer->clear();
 
 		// Get the data of the packet.
-		if (input->len() < d_totalLen) {
-			emit packetError("parseData: packet too small\n");
-			break;
+		if (input->len() - 4 < d_totalLen) {
+			qDebug("parseData_readdata: packet too small\n");
+			return;
 		}
+		d_realLen = input->getInt() - 5;
 		targetData = new u_char [d_totalLen];
 		sourceData = new u_char [d_totalLen];
 		memset(targetData, 0, d_totalLen);
 		memset(sourceData, 0, d_totalLen);
+		// qDebug("packet length remain: %d", input->len());
 		input->getBuffer((char *) sourceData, d_totalLen);
 		if (d_isDecrypt)
 			d_sccipher->decrypt(sourceData, targetData, d_totalLen);
