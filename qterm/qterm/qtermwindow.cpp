@@ -2183,7 +2183,10 @@ void QTermWindow::httpDone(int, bool err)
 	if(strHttpFile.isEmpty())
 		return;
 	if(m_bPreview)
+	{
 		m_pCanvas->loadImage(strHttpFile);
+		m_pCanvas->setFocus();
+	}
 	else
 		QMessageBox::information(this, tr("Download Complete"),
 			tr("Download one file successfully"));

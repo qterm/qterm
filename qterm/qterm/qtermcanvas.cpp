@@ -98,20 +98,19 @@ void QTermCanvas::loadImage(const QString& name)
 		bFitWin=true;
 
 		QSize szView(pxm.size());
-		szView.scale(400,300, 
-			QSize::ScaleMin);
-
+		szView.scale(640,480,QSize::ScaleMin);
+		
 		if(szView.width()<pxm.width())
 		{
 			szImage = szView;
 			label->setPixmap(scaleImage(szImage));
-			resize(szView*1.2);
+			resize(szView*1.1);
 		}
 		else
 		{
 			szImage = pxm.size();
 			label->setPixmap(pxm);
-			resize(szImage*1.2);
+			resize(szImage+QSize(5,5));
 		}
 		
 	}
@@ -282,7 +281,7 @@ void QTermCanvas::keyPressEvent(QKeyEvent *ke)
 void QTermCanvas::adjustSize(const QSize& szView)
 {
 	if(label->pixmap()==NULL)
-		return;
+		return label->resize(visibleWidth(), visibleHeight());
 
 	QSize szImg=szImage;
 
@@ -305,7 +304,7 @@ void QTermCanvas::adjustSize(const QSize& szView)
 	if(bFitWin)
 		resizeContents(szView.width(), szView.height());
 	else
-		resizeContents(szImage.width()*1.2,szImage.height()*1.1);
+		resizeContents(szImage.width()*1.1,szImage.height()*1.1);
 
 	moveChild(label, x>0?x/2:0, y>0?y/2:0); 
 	label->resize(szImage);
@@ -316,9 +315,12 @@ void QTermCanvas::adjustSize(const QSize& szView)
 
 void QTermCanvas::hideWindow()
 {
+	if(isFullScreen())
+		showNormal();
+	resize(200,100);
 	label->setAlignment(AlignCenter);
 	label->setText("Loading...");
 	moveChild(label,0,0);
-	label->resize(visibleWidth(), visibleHeight());
+//	label->resize(visibleWidth(), visibleHeight());
 	hide();
 }

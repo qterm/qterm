@@ -22,7 +22,7 @@ if test "x$prefix" = "xNONE"; then
   ac_configure_args="$ac_configure_args --prefix $prefix"
 fi
 if test "x$exec_prefix" = "xNONE"; then
-  bindir="$prefix/bin"
+  bindir='${prefix}/bin'
 fi
 
 cp qterm/qterm.desktop.in qterm/qterm.desktop

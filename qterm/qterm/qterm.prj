@@ -15,7 +15,7 @@ mac {
 	RC_FILE = qterm.icns
 	# copy files to application bundle
 	conf.path = qterm.app/Contents/MacOS/
-	conf.files = qterm.cfg address.cfg
+	conf.files = qterm.cfg address.cfg credits
     script.path = qterm.app/Contents/MacOS/script
     script.files = script/*.py
     pic.path = qterm.app/Contents/MacOS/pic
