@@ -8,7 +8,7 @@ SOURCES = soundconf.cpp soundconfui.cpp qtermsound.cpp trayicon.cpp trayicon_win
 INTERFACES = 
 TRANSLATIONS = 
 KDE_OPTIONS = qtonly
-qterm_LDADD   = $(LIB_QPE) $(LIBPYTHON) $(ESD_LIB) $(SOUNDSERVER_LIB) $(LIB_QT) $(LIBSOCKET)
+qterm_LDADD   = $(LIB_QPE) $(LIBPYTHON) $(ESD_LIB) $(LIB_SOUNDSERVER) $(LIB_QT) $(LIBSOCKET)
 
 SUBDIRS = cursor pic script docs 
 

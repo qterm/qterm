@@ -4078,7 +4078,7 @@ if test "$find_arts_include"="YES"; then
     CXXFLAGS="$CXXFLAGS -D_NO_ARTS_COMPILED"
     AC_MSG_RESULT(no)
   else
-    SOUNDSERVER_LIB="-L$SOUNDSERVER_LIB/lib/kde3"
+    SOUNDSERVER_LIB="-L$SOUNDSERVER_LIB/lib"
     LIB_SOUNDSERVER="-lsoundserver_idl"
     AC_MSG_RESULT(yes)
   fi
