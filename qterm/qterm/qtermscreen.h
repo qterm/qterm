@@ -15,6 +15,25 @@ class QTermBuffer;
 class QTermBBS;
 class QTermParam;
 
+class QTermInput : public QWidget
+{
+	Q_OBJECT
+public:
+	QTermInput(QWidget * parent, int width, int height, int ascent)
+		:QWidget(parent),d_text(0),d_pos(0),d_height(height), d_width(width), d_ascent(ascent)
+	{
+	}
+	~QTermInput()
+	{
+	}
+	void drawInput(QString & text, int position);
+protected:
+	void paintEvent( QPaintEvent * );
+private:
+	QString d_text;
+	int d_pos;
+	int d_height, d_width, d_ascent;
+};
 
 class QTermScreen : public QWidget
 {
@@ -85,6 +104,7 @@ protected:
 	void imStartEvent(QIMEvent * e);
 	void imComposeEvent(QIMEvent * e);
 	void imEndEvent(QIMEvent * e);
+	//void drawInput(QString &, int);
 
 protected slots:
 	void blinkEvent();
@@ -105,7 +125,7 @@ protected:
 	
 	QTimer * m_blinkTimer;
 	QTimer * m_cursorTimer;
-	QLabel * m_inputContent;
+	QTermInput * m_inputContent;
 
 	bool m_blinkScreen;
 	bool m_blinkCursor;

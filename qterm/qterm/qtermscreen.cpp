@@ -1197,8 +1197,9 @@ QImage& QTermScreen::fade( QImage& img, float val, const QColor& color)
 
 void QTermScreen::imStartEvent(QIMEvent * e)
 {
-	m_inputContent = new QLabel(this);
+	m_inputContent = new QTermInput(this, m_nCharWidth, m_nCharHeight, m_nCharAscent);
 	m_inputContent->setFont(*m_pFont);
+	//m_inputContent->setTextFormat(Qt::RichText);
 
 	m_inputContent->show();
 }
@@ -1206,16 +1207,26 @@ void QTermScreen::imStartEvent(QIMEvent * e)
 void QTermScreen::imComposeEvent(QIMEvent * e)
 {
 	QString text = QString::null;
+
 	QPoint cursor;
 	int x = m_pBuffer->caretX();
 	int y = m_pBuffer->caretY();
+	int pos = e->cursorPos();
 
 	text += e->text();
-	
+
+	m_inputContent->drawInput(text, pos);
+/*
+	QString text_before = text.left(pos);
+	QString text_after = text.mid(pos + 1);
+	QString text_select = "<u>" + text.mid(pos,1) + "</u>";
+
+	text = text_before + text_select + text_after;
+*/
 	cursor = mapToPixel(QPoint(x+1,y));
 	
-	m_inputContent->setText(text);
-	m_inputContent->adjustSize();
+	//m_inputContent->setText(text);
+	//m_inputContent->adjustSize();
 	
 	if (m_inputContent->width() + cursor.x() > m_rcClient.width()){
 		cursor = mapToPixel(QPoint(x,y));
@@ -1229,8 +1240,63 @@ void QTermScreen::imEndEvent(QIMEvent * e)
 {
 	QString text = QString::null;
 	text += e->text();
-	m_inputContent->setText(QString::null);
+	//m_inputContent->setText(QString::null);
 	delete m_inputContent;
 	m_inputContent = NULL;
 	emit inputEvent(&text);
+}
+
+void QTermInput::drawInput(QString & inputText, int position)
+{
+	d_text = inputText;
+	d_pos = position;
+	repaint();
+}
+
+void QTermInput::paintEvent(QPaintEvent * e)
+{
+	QPainter inputPainter;
+	int len = 0;
+	int cursor = 0;
+	int width, height;
+	
+	if (d_pos == -1)
+		d_pos = 0;
+	for (int i = 0; i < d_text.length(); ++i) {
+		if (d_text[i] <= 0x7f)
+			++len;
+		else
+			len += 2;
+		if (i == d_pos)
+			cursor = len - 2;
+	}
+	
+	width = len * d_width;
+	height = d_height;
+
+	inputPainter.begin(this);
+	setFixedSize(width,height);
+	erase();
+	
+	len = 0;
+	inputPainter.setPen(Qt::black);
+	//inputPainter.drawText(0 ,m_nCharAscent, text);
+
+	for (int i = 0; i < d_text.length(); ++i) {
+		inputPainter.drawText(len * d_width, d_ascent, d_text.mid(i, 1));
+		if (d_text[i] <= 0x7f)
+			++len;
+		else
+			len += 2;
+	}
+
+
+	QRect rcCurrent(cursor * d_width, 0, d_width*2, d_height);
+	if (d_text[d_pos] <= 0x7f)
+		rcCurrent.setRect(cursor * d_width, 0, d_width, d_height);
+	erase(rcCurrent);
+	inputPainter.fillRect(rcCurrent, QBrush(Qt::darkGray));
+	inputPainter.setPen(Qt::white);
+	inputPainter.drawText(cursor * d_width ,d_ascent, d_text.mid(d_pos, 1));
+	inputPainter.end();
 }
