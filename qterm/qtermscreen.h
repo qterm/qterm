@@ -100,6 +100,9 @@ protected:
 	QRect mapToRect( const QRect& );
 	
 	void updateFont();
+	void updateFont2();
+	void getFontMetrics(QFontMetrics *);
+
 	QImage& fade( QImage&, float, const QColor&);
 	void imStartEvent(QIMEvent * e);
 	void imComposeEvent(QIMEvent * e);
