@@ -616,7 +616,7 @@ bool QTermFrame::eventFilter(QObject *o, QEvent *e)
 {
 	if( o==this && m_pref.bTray)
 	{
-		if( e->type()==QEvent::ShowMinimized ) 
+		if( e->type()==QEvent::ShowMinimized && m_pref.bTray )
 		{
 			printf("QTermFrame::eventFilter\n");
 			trayHide();
