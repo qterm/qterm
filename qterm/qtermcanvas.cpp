@@ -137,8 +137,11 @@ void QTermCanvas::resizeImage(float ratio)
 	if(szImg.width()>10000 || szImg.height()>10000)
 		return;
 	szImage = szImg;
-	
-	adjustSize(QSize(visibleWidth(), visibleHeight()));
+
+	if(!isFullScreen())		
+		resize(szImage*1.1);
+	else
+		adjustSize(QSize(visibleWidth(), visibleHeight()));
 }
 
 void QTermCanvas::rotateImage(float ang)

@@ -84,7 +84,7 @@ extern QString pathCfg;
 
 extern void clearDir(const QString& );
 extern QStringList loadNameList(QTermConfig *);
-extern void loadAddress(QTermConfig *, int, QTermParam &);
+extern bool loadAddress(QTermConfig *, int, QTermParam &);
 extern void saveAddress(QTermConfig *, int, const QTermParam &);
 
 
@@ -136,6 +136,21 @@ QTermFrame::QTermFrame()
 
 //create the window manager to deal with the window-tab-icon pairs
 	wndmgr=new QTermWndMgr(this);
+
+// expressly connect sites in addressbook
+	QAccel *accel2 = new QAccel(this);
+	accel2->insertItem(CTRL+ALT+Key_1, 0);
+	accel2->insertItem(CTRL+ALT+Key_2, 1);
+	accel2->insertItem(CTRL+ALT+Key_3, 2);
+	accel2->insertItem(CTRL+ALT+Key_4, 3);
+	accel2->insertItem(CTRL+ALT+Key_5, 4);
+	accel2->insertItem(CTRL+ALT+Key_6, 5);
+	accel2->insertItem(CTRL+ALT+Key_7, 6);
+	accel2->insertItem(CTRL+ALT+Key_8, 7);
+	accel2->insertItem(CTRL+ALT+Key_9, 8);
+	accel2->insertItem(CTRL+ALT+Key_9, 9);
+	connect( accel2, SIGNAL(activated(int)), 
+	this,SLOT(connectMenuActivated(int)));
 
 // ALT+# to switch between 10 windows
 	QAccel *accel = new QAccel(this);
@@ -603,8 +618,8 @@ void QTermFrame::connectMenuActivated( int id )
 {
 	QTermConfig *pConf = new QTermConfig(addrCfg);
 	QTermParam param;
-	loadAddress(pConf, connectMenu->itemParameter(id), param);
-	newWindow(param, connectMenu->itemParameter(id));
+	if(loadAddress(pConf, connectMenu->itemParameter(id), param))
+		newWindow(param, connectMenu->itemParameter(id));
 	
 	delete pConf;
 }
