@@ -264,17 +264,30 @@ void addrDialog::onSchema()
 
 void addrDialog::onProtocol(int n)
 {
-	if(n==0)
+	if (n == 0)
 	{
 		sshuserLineEdit->setEnabled(false);
 		sshpasswdLineEdit->setEnabled(false);
 	}
-	else
+	else 
+	if (n == 1)
 	{
-		QMessageBox::information(this, "sorry", "We are trying to bring you this function soon :)");
-		//sshuserLineEdit->setEnabled(true);
-		//sshpasswdLineEdit->setEnabled(true);
+#if defined(_NO_SSH_COMPILED)
+		QMessageBox::warning(this, "sorry", "SSH support is not compiled, check your OpenSSL and try to recompile QTerm");
 		protocolComboBox->setCurrentItem(0);
+		sshuserLineEdit->setEnabled(false);
+		sshpasswdLineEdit->setEnabled(false);
+#else
+		sshuserLineEdit->setEnabled(true);
+		sshpasswdLineEdit->setEnabled(true);
+#endif
+	}
+	else if (n == 2)
+	{
+		QMessageBox::information(this, "sorry", "SSH support is not completed yet, We are trying to bring you this function soon :)");
+		protocolComboBox->setCurrentItem(0);
+		sshuserLineEdit->setEnabled(false);
+		sshpasswdLineEdit->setEnabled(false);
 	}
 }
 void addrDialog::onAutologin(bool on)
