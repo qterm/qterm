@@ -1011,7 +1011,6 @@ void QTermWindow::keyPressEvent( QKeyEvent * e )
 		m_pFrame->wndmgr->blinkTheTab(this,TRUE);
     }
 
-
 	// message replying
 	if(m_replyTimer->isActive())
 		m_replyTimer->stop();
@@ -1066,34 +1065,39 @@ void QTermWindow::keyPressEvent( QKeyEvent * e )
 	}
 
 	if( e->text().length() )
-	{		
-		QCString strTmp;		
-
-		if( m_pFrame->m_pref.nXIM == 0 )
-		{
-			strTmp = U2G(e->text());
-			if( m_param.m_nBBSCode == 1)
-			{
-				char * str = m_converter.G2B( strTmp, strTmp.length() );
-				strTmp = str;
-				delete []str;
-			}
-		}
-		else
-		{
-			strTmp = U2B(e->text());
-			if( m_param.m_nBBSCode == 0 )
-			{
-				char * str = m_converter.B2G( strTmp, strTmp.length() );
-				strTmp = str;
-				delete []str;
-			}
-		}
-
-		m_pTelnet->write( strTmp, strTmp.length() );
+	{
+		QCString cstrTmp = unicode2bbs(e->text());
+		m_pTelnet->write( cstrTmp, cstrTmp.length() );
 	}
 }
 
+QCString QTermWindow::unicode2bbs(const QString& text)
+{
+	QCString strTmp;
+
+	if( m_pFrame->m_pref.nXIM == 0 )
+	{
+		strTmp = U2G(text);
+		if( m_param.m_nBBSCode == 1)
+		{
+			char * str = m_converter.G2B( strTmp, strTmp.length() );
+			strTmp = str;
+			delete []str;
+		}
+	}
+	else
+	{
+		strTmp = U2B(text);
+		if( m_param.m_nBBSCode == 0 )
+		{
+			char * str = m_converter.B2G( strTmp, strTmp.length() );
+			strTmp = str;
+			delete []str;
+		}
+	}
+
+	return strTmp;
+}
 
 //connect slot
 void QTermWindow::connectHost()
@@ -2013,6 +2017,7 @@ int QTermWindow::runPythonFile( const char * filename )
 void QTermWindow::inputHandle(QString * text)
 {
 	if (text->length() > 0) {
-		m_pTelnet->write( text->local8Bit(), strlen(text->local8Bit()) );
+		QCString cstrTmp = unicode2bbs(*text);
+		m_pTelnet->write( cstrTmp, cstrTmp.length() );
 	}
 }

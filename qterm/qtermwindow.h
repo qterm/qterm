@@ -106,6 +106,7 @@ protected:
 	void replyMessage();
 
 	void pasteHelper(bool);
+	QCString unicode2bbs(const QString&);
 
 	QCString parseString( const QCString&, int *len=0);
 	QString fromBBSCodec(const QCString& cstr);
