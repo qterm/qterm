@@ -10,7 +10,7 @@ INTERFACES =
 TRANSLATIONS = 
 KDE_OPTIONS = qtonly
 if WANT_SSL
-qterm_LDADD = $(top_builddir)/qterm/ssh/libssh.la $(LIB_QPE) $(LIBPYTHON) $(ESD_LIB) $(LIB_SOUNDSERVER) $(LIB_QT) $(LIBSOCKET)
+qterm_LDADD = $(top_builddir)/qterm/ssh/libssh.a $(LIB_QPE) $(LIBPYTHON) $(ESD_LIB) $(LIB_SOUNDSERVER) $(LIB_QT) $(LIBSOCKET) $(LIB_OPENSSL)
 
 SUBDIRS = cursor pic script docs schema ssh
 else
@@ -42,7 +42,7 @@ INCLUDES = $(all_includes) $(PYTHONINC) $(SOUNDSERVER_INC) $(ESD_INC) $(OPENSSL_
 qterm_METASOURCES = AUTO
 
 # the library search path. 
-qterm_LDFLAGS = $(all_libraries) -Wl -export-dynamic $(PYTHONLIB) $(SOUNDSERVER_LIB) $(ESD_LIB)
+qterm_LDFLAGS = $(all_libraries) -Wl -export-dynamic $(PYTHONLIB) $(SOUNDSERVER_LIB) $(ESD_LIB) $(OPENSSL_LIB)
 
 # them while "make clean", use CLEANFILES
 DISTCLEANFILES = $(qterm_METASOURCES)
