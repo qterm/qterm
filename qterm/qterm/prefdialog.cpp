@@ -59,6 +59,7 @@ void prefDialog::connectSlots()
 	connect(choosehttpPushButton, SIGNAL(clicked()), this, SLOT(onHttp()) );
     connect(ButtonGroup1 , SIGNAL(clicked(int)), this, SLOT(onBeep(int)) );
 	connect(browsePushButton, SIGNAL(clicked()), this, SLOT(onBrowse()) );
+	connect(imagePushButton, SIGNAL(clicked()), this, SLOT(onImage()) );
 }
 
 void prefDialog::loadSetting()
@@ -118,8 +119,10 @@ void prefDialog::loadSetting()
 	strTmp = conf.getItemValue("preference","zmodem");
 	if(strTmp.isEmpty())
 		strTmp = pathCfg+"zmodem/";
-
 	zmodemLineEdit->setText( strTmp );
+
+	strTmp = conf.getItemValue("preference","image");
+ 	imageLineEdit->setText( strTmp );
 }
 void prefDialog::saveSetting()
 {
@@ -169,7 +172,9 @@ void prefDialog::saveSetting()
 	if(strTmp.isEmpty())
 		strTmp = pathCfg+"zmodem/";
 	conf.setItemValue("preference","zmodem",strTmp.local8Bit());
-
+	
+	conf.setItemValue("preference","image",imageLineEdit->text().local8Bit());
+	
 	conf.save(fileCfg);
 }
 
@@ -229,3 +234,13 @@ void prefDialog::onBrowse()
 	QString dir = QFileDialog::getExistingDirectory(zmodemLineEdit->text(), this);
 	zmodemLineEdit->setText(dir);
 }
+
+void prefDialog::onImage()
+{
+	QString image = QFileDialog::getOpenFileName( QString::null, QString::null, this );
+    if ( !image.isEmpty() ) 
+	{
+		imageLineEdit->setText(image);
+	}
+}
+

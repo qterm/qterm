@@ -18,18 +18,17 @@ QTermCanvas::QTermCanvas(QWidget *parent, const char *name, WFlags f)
 	label->setAlignment(AlignCenter);
 	label->setText("Loading...");
 	addChild(label);
+	resize(200,100);
 
 	m_pMenu = new QPopupMenu(this);
-
-
 	m_pMenu->insertItem( tr("zoom 1:1"), this, SLOT(oriSize()), Key_Z );
 	m_pMenu->insertItem( tr("zoom in"), this, SLOT(zoomIn()), Key_Equal );
 	m_pMenu->insertItem( tr("zoom out"), this, SLOT(zoomOut()), Key_Minus );
 	m_pMenu->insertItem( tr("fit window"), this, SLOT(fitWin()), Key_X );
-	
+	m_pMenu->insertSeparator();	
 	m_pMenu->insertItem( tr("rotate CW 90"), this, SLOT(cwRotate()), Key_BracketRight );
 	m_pMenu->insertItem( tr("rotate CCW 90"), this, SLOT(ccwRotate()), Key_BracketLeft );
-
+	m_pMenu->insertSeparator();
 	m_pMenu->insertItem( tr("fullscreen"), this, SLOT(fullScreen()), Key_F );
 	m_pMenu->insertItem( tr("save as"), this, SLOT(saveImage()), Key_S );
 	m_pMenu->insertItem( tr("copy to"), this, SLOT(copyImage()), Key_C );
@@ -323,6 +322,6 @@ void QTermCanvas::hideWindow()
 	label->setAlignment(AlignCenter);
 	label->setText("Loading...");
 	moveChild(label,0,0);
-//	label->resize(visibleWidth(), visibleHeight());
+	label->resize(visibleWidth(), visibleHeight());
 	hide();
 }

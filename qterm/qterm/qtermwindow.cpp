@@ -1007,11 +1007,8 @@ void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 				cstrCmd += " \"" + strUrl.local8Bit() +"\"";
 			else
 				cstrCmd.replace("%L", strUrl.local8Bit());
-
-			#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
-			cstrCmd += " &";
-			#endif
-			system(cstrCmd);
+			
+			runProgram(cstrCmd);
 		}
 		return;
 	}
@@ -2217,8 +2214,17 @@ void QTermWindow::httpDone(bool err)
 	
 	if(m_bPreview)
 	{
-		m_pCanvas->loadImage(m_strHttpFile);
-		m_pCanvas->show();
+		if(m_pFrame->m_pref.strImageViewer.isEmpty())
+		{
+			m_pCanvas->loadImage(m_strHttpFile);
+			m_pCanvas->show();
+		}
+		else
+		{
+			QCString cstrCmd=m_pFrame->m_pref.strImageViewer.local8Bit();
+			cstrCmd += " "+m_strHttpFile;
+			runProgram(cstrCmd);
+		}
 	}
 	else
 		QMessageBox::information(this, tr("Download Complete"),
@@ -2278,12 +2284,7 @@ void QTermWindow::openLink()
 		cstrCmd += " \"" + m_pBBS->getUrl() +"\"";
 	else
 		cstrCmd.replace(QRegExp("%L",false), m_pBBS->getUrl());
-
-	#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
-	cstrCmd += " &";
-	#endif
-	system(cstrCmd);
-
+	runProgram(cstrCmd);
 }
 
 void QTermWindow::copyLink()
@@ -2328,4 +2329,13 @@ void QTermWindow::getHttpHelper()
 	m_strHttpFile = u.fileName();
 	m_httpDown.setHost(u.host(),u.hasPort()?u.port():80);
 	m_httpDown.get(m_pBBS->getUrl());
+}
+
+void QTermWindow::runProgram(const QCString& cmd)
+{
+	QCString cstrCmd=cmd;
+	#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
+	cstrCmd += " &";
+	#endif
+	system(cstrCmd);
 }

@@ -1,3 +1,12 @@
+2004/08/23
+	add
+	1. proxy support for SSH1
+	2. use external image viewer program if specified
+	remove
+	1. qterm.cfg version warning
+	fix
+	1. polish the http download behavior
+	
 2004/08/13
 	add
 	1. context menu in picture viewer
@@ -89,7 +98,7 @@
 2003/10/16
 	fix
 	1. checking Python 2.3, 2.2
-   
+
 2003/9/27
 	add
 	1. play wave files using Arts, ESD, or external program.

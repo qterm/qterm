@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>prefDialogUI</class>
 <widget class="QDialog">
     <property name="name">
@@ -7,21 +7,21 @@
     <property name="geometry">
         <rect>
             <x>0</x>
-            <y>2</y>
+            <y>0</y>
             <width>540</width>
-            <height>370</height>
+            <height>400</height>
         </rect>
     </property>
     <property name="minimumSize">
         <size>
             <width>540</width>
-            <height>370</height>
+            <height>400</height>
         </size>
     </property>
     <property name="maximumSize">
         <size>
             <width>540</width>
-            <height>370</height>
+            <height>400</height>
         </size>
     </property>
     <property name="font">
@@ -183,44 +183,6 @@
         </property>
         <property name="text">
             <string>chars</string>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>okPushButton</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>150</x>
-                <y>340</y>
-                <width>70</width>
-                <height>21</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>OK</string>
-        </property>
-    </widget>
-    <widget class="Line">
-        <property name="name">
-            <cstring>Line1</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>17</x>
-                <y>320</y>
-                <width>480</width>
-                <height>20</height>
-            </rect>
-        </property>
-        <property name="frameShape">
-            <enum>HLine</enum>
-        </property>
-        <property name="frameShadow">
-            <enum>Sunken</enum>
-        </property>
-        <property name="orientation">
-            <enum>Horizontal</enum>
         </property>
     </widget>
     <widget class="QCheckBox">
@@ -396,26 +358,6 @@
             <string>HTTP Browser</string>
         </property>
     </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>choosehttpPushButton</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>330</x>
-                <y>290</y>
-                <width>80</width>
-                <height>21</height>
-            </rect>
-        </property>
-        <property name="font">
-            <font>
-            </font>
-        </property>
-        <property name="text">
-            <string>Choose</string>
-        </property>
-    </widget>
     <widget class="QLabel">
         <property name="name">
             <cstring>textLabel1</cstring>
@@ -430,38 +372,6 @@
         </property>
         <property name="text">
             <string>Zmodem directory</string>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>cancelPushButton</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>270</x>
-                <y>340</y>
-                <width>70</width>
-                <height>21</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Cancel</string>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>browsePushButton</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>390</x>
-                <y>260</y>
-                <width>90</width>
-                <height>25</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>browse</string>
         </property>
     </widget>
     <widget class="QLineEdit">
@@ -488,6 +398,141 @@
                 <width>210</width>
                 <height>23</height>
             </rect>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>okPushButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>150</x>
+                <y>370</y>
+                <width>70</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>OK</string>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>cancelPushButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>270</x>
+                <y>370</y>
+                <width>70</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Cancel</string>
+        </property>
+    </widget>
+    <widget class="Line">
+        <property name="name">
+            <cstring>Line1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>17</x>
+                <y>350</y>
+                <width>480</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="frameShape">
+            <enum>HLine</enum>
+        </property>
+        <property name="frameShadow">
+            <enum>Sunken</enum>
+        </property>
+        <property name="orientation">
+            <enum>Horizontal</enum>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>textLabel1_2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>320</y>
+                <width>100</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Image Viewer</string>
+        </property>
+    </widget>
+    <widget class="QLineEdit">
+        <property name="name">
+            <cstring>imageLineEdit</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>130</x>
+                <y>320</y>
+                <width>190</width>
+                <height>23</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>browsePushButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>390</x>
+                <y>260</y>
+                <width>90</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Browse</string>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>choosehttpPushButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>330</x>
+                <y>290</y>
+                <width>80</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="font">
+            <font>
+            </font>
+        </property>
+        <property name="text">
+            <string>Choose</string>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>imagePushButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>330</x>
+                <y>320</y>
+                <width>80</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Choose</string>
         </property>
     </widget>
 </widget>
