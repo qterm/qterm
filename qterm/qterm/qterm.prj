@@ -16,8 +16,8 @@ mac:DEFINES += _NO_ARTS_COMPILED _NO_ESD_COMPILED
 # specially for *NIX
 unix:!mac{
 	DEFINES += HAVE_PYTHON _NO_ARTS_COMPILED _NO_ESD_COMPILED
-	INCLUDEPATH += /usr/include/python2.3
-	LIBS += -lpython2.3
+	INCLUDEPATH += /usr/include/python2.3 
+	LIBS += -lpython2.3 -lssl
 }
 
 HEADERS		= qtermframe.h \
@@ -35,6 +35,7 @@ HEADERS		= qtermframe.h \
 		qtermbbs.h	\
 		qtermparam.h	\
 		qtermsound.h	\
+		qtermsocket.h	\
 		qterm.h		\
 		aboutdialogui.h	\
 		aboutdialog.h	\
@@ -55,7 +56,24 @@ HEADERS		= qtermframe.h \
 		soundconfui.h	\
 		soundconf.h	\
 		trayicon.h	\
-		popwidget.h
+		popwidget.h	\
+		ssh/crc32.h	\
+		ssh/getput.h	\
+		ssh/qtermsshauth.h	\
+		ssh/qtermsshbuffer.h	\
+		ssh/qtermsshcipher.h	\
+		ssh/qtermsshconst.h	\
+		ssh/qtermsshdes.h	\
+		ssh/qtermsshhash.h	\
+		ssh/qtermsshkex.h	\
+		ssh/qtermsshlogin.h	\
+		ssh/qtermsshloginui.h	\
+		ssh/qtermsshmd5.h	\
+		ssh/qtermsshpacket.h	\
+		ssh/qtermsshrsa.h	\
+		ssh/qtermsshsession.h	\
+		ssh/qtermsshsocket.h
+
 		
 SOURCES		= qtermframe.cpp \
 		qtermwindow.cpp \
@@ -72,6 +90,7 @@ SOURCES		= qtermframe.cpp \
 		qtermbbs.cpp	\
 		qtermparam.cpp	\
 		qtermsound.cpp	\
+		qtermsocket.cpp	\
 		aboutdialogui.cpp	\
 		aboutdialog.cpp	\
 		addrdialogui.cpp	\
@@ -92,7 +111,20 @@ SOURCES		= qtermframe.cpp \
 		soundconf.cpp	\
 		popwidget.cpp	\
 		trayicon.cpp	\
-		main.cpp
+		main.cpp		\
+		ssh/crc32.cpp	\
+		ssh/qtermsshauth.cpp	\
+		ssh/qtermsshbuffer.cpp	\
+		ssh/qtermsshdes.cpp	\
+		ssh/qtermsshkex.cpp	\
+		ssh/qtermsshlogin.cpp	\
+		ssh/qtermsshloginui.cpp	\
+		ssh/qtermsshmd5.cpp	\
+		ssh/qtermsshpacket.cpp	\
+		ssh/qtermsshrsa.cpp	\
+		ssh/qtermsshsession.cpp	\
+		ssh/qtermsshsocket.cpp
+
 
 win32:SOURCES += trayicon_win.cpp
 unix:!mac{
