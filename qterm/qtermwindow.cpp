@@ -794,7 +794,6 @@ void QTermWindow::keyPressEvent( QKeyEvent * e )
 	pythonCallback("keyEvent",
 					Py_BuildValue("liii", this, 0, state, e->key()));
 #endif
-
     if ( !m_bConnected )
 	{
 		if(e->key() == Key_Return)
