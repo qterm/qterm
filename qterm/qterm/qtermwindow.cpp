@@ -967,6 +967,9 @@ void QTermWindow::keyPressEvent( QKeyEvent * e )
 		case Key_Right:
 			m_pTelnet->write( direction[7],3 );
 		return;
+		case Key_Delete: // stupid
+			m_pTelnet->write( "\x1b[3~",4 );
+		return;
 		default:	
 			break;
 	}
