@@ -1,4 +1,4 @@
-# 连续下载 4 片文章
+# This is demo script to continuousely download 4 articles
 import qterm
 import sys, time
 

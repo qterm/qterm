@@ -876,9 +876,15 @@ void QTermFrame::fullscreen()
 	m_bFullScreen = ! m_bFullScreen;
 	
 	if( m_bFullScreen )
+	{
+//		menuBar()->hide();
 		showFullScreen();
+	}
 	else
+	{
+//		menuBar()->show();
 		showNormal();
+	}
 
 	menuBar()->setItemChecked( ID_VIEW_FULL, m_bFullScreen );
 
@@ -1342,7 +1348,7 @@ void QTermFrame::addMainMenu()
 	codecMenu->setCheckable(true);
 		codecMenu->insertItem( tr("&GBK"), this, SLOT(gbkCodec()), 0, ID_EDIT_CODEC_GBK );
 		codecMenu->insertItem( tr("&Big5"), this, SLOT(big5Codec()), 0, ID_EDIT_CODEC_BIG5 );
-	edit->insertItem( tr("Clipboard encoding"), codecMenu);
+	edit->insertItem( tr("Clipboard &encoding"), codecMenu);
 
 	//View menu
 	QPopupMenu * view = new QPopupMenu( this );

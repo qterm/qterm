@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'addrdialog.ui'
 **
-** Created: Wed Sep 8 17:28:51 2004
+** Created: Mon Sep 13 21:42:29 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -115,13 +115,7 @@ public:
     QCheckBox* authCheckBox;
     QWidget* Widget3;
     QLabel* TextLabel9;
-    QLabel* textLabel5;
     QLineEdit* idletimeLineEdit;
-    QLabel* textLabel4;
-    QLabel* textLabel2;
-    QLabel* textLabel1;
-    QCheckBox* reconnectCheckBox;
-    QLineEdit* reconnectLineEdit;
     QLineEdit* retryLineEdit;
     QPushButton* scriptPushButton;
     QLineEdit* antiLineEdit;
@@ -133,6 +127,11 @@ public:
     QLineEdit* scriptLineEdit;
     QLineEdit* replyLineEdit;
     QLineEdit* replykeyLineEdit;
+    QLabel* textLabel4;
+    QLabel* textLabel5;
+    QLabel* textLabel2;
+    QCheckBox* reconnectCheckBox;
+    QLineEdit* reconnectLineEdit;
     QWidget* tab_4;
     QButtonGroup* menuGroup;
     QRadioButton* radioButton1;
