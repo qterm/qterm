@@ -429,7 +429,7 @@ distclean-tags:
 
 #>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #>+ 4
-KDE_DIST=subdirs RELEASE_NOTES Makefile.dist 
+KDE_DIST=subdirs QTerm.desktop RELEASE_NOTES Makefile.dist 
 
 DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
 
