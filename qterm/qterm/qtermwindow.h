@@ -88,6 +88,7 @@ protected slots:
    	void idleProcess();
 	void replyProcess();
 	void blinkTab();
+	void inputHandle(QString * text);
 
 protected:
 	void mouseMoveEvent( QMouseEvent * );

@@ -4,6 +4,7 @@
 #include <qwidget.h>
 #include <qscrollbar.h>
 #include <qpixmap.h>
+#include <qlabel.h>
 #include "qtermconvert.h"
 
 class QTextCodec;
@@ -35,6 +36,7 @@ public:
 signals:
 	// 0 - enter  1 - press  2 - move  3 - release 4 - leave
 	void mouseAction( int, QMouseEvent * );
+	void inputEvent(QString *);
 
 public slots:
 	
@@ -80,6 +82,9 @@ protected:
 	
 	void updateFont();
 	QImage& fade( QImage&, float, const QColor&);
+	void imStartEvent(QIMEvent * e);
+	void imComposeEvent(QIMEvent * e);
+	void imEndEvent(QIMEvent * e);
 
 protected slots:
 	void blinkEvent();
@@ -100,6 +105,7 @@ protected:
 	
 	QTimer * m_blinkTimer;
 	QTimer * m_cursorTimer;
+	QLabel * m_inputContent;
 
 	bool m_blinkScreen;
 	bool m_blinkCursor;

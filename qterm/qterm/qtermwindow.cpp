@@ -523,6 +523,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	setCentralWidget( m_pScreen);
 	connect(m_pFrame, SIGNAL(bossColor()), m_pScreen, SLOT(bossColor()));
 	connect(m_pFrame, SIGNAL(updateScroll()), m_pScreen, SLOT(updateScrollBar()));
+	connect(m_pScreen, SIGNAL(inputEvent(QString *)), this, SLOT(inputHandle(QString *)));
 
 	#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 	m_popWin = new popWidget(this,m_pFrame);
@@ -2007,4 +2008,11 @@ int QTermWindow::runPythonFile( const char * filename )
 #endif // HAVE_PYTHON
 
 	return 0;
+}
+
+void QTermWindow::inputHandle(QString * text)
+{
+	if (text->length() > 0) {
+		m_pTelnet->write( text->local8Bit(), strlen(text->local8Bit()) );
+	}
 }
