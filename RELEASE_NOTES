@@ -1,0 +1,35 @@
+QTerm 0.3.2 
+===========
+
+这个版本全面修改了 Python Script 运行的方法, 相信已经能够比
+较好的支持脚本程序.
+
+具体的修改
+Add
+	1. 以 Python 线程运行脚本.
+	2. 能够提示脚本出错信息.
+	3. download.py 下载精华区目录. 增加了存为 html 文件
+	的功能. 目前只在 Firebird BBS 下测试过.
+	4. system.py 中的 autoReply(). 增加了提取判断消息内
+	容进行自动回复的功能, 只在 smth.org 测试过.
+	5. 每个连接应用不同的控制脚本. (配置方法见后)
+Fix	
+	1. 修正了文章下载 CPU 消耗太大的 BUG. 
+	2. 一运行就 Segmentation Fault.
+
+[script 说明]
+ script 分为普通和控制两类,
+	1. 普通 script 可以从 
+		(1) 菜单 Script->Run...
+		(2) 工具栏 Key Setup, script 	
+		运行. 
+	现在还没有提供 Stop 的方法
+	2. 控制 script 必需在 AddressBook 对话框的 Misc 页
+	设置, Load Control Script, 脚本文件必须
+		(1) 放在 $HOME/.qterm/script
+		(2) 名字为 *.py
+
+欢迎 Python 用户帮助写 script, 提出现在 Python 支持的问题.
+
+                                       	The QTerm Team
+                                 http://qterm.sourceforge.net
