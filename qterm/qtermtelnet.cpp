@@ -231,6 +231,7 @@ void QTermTelnet::windowSizeChanged(int x, int y)
 	{
 		naws = 0;
 
+		qWarning("sent NAWS");
 		char cmd[10];
 		cmd[0] = (char)TCIAC;
 		cmd[1] = (char)TCSB;
@@ -735,6 +736,7 @@ int QTermTelnet::will_naws(int c)
 			return 0;
 	} else if (option_cmd == TCDONT)
 		return 0;
+
 
 	naws = !naws;
 
