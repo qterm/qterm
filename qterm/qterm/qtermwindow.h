@@ -24,7 +24,7 @@ class QTermBuffer;
 class QTermFrame;
 class QTermBBS;
 class popWidget;
-
+class QTermZmodem;
 class QTermWindow;
 
 // thread copy article
@@ -161,6 +161,8 @@ protected:
 	
 	// play sound
 	QTermSound * sound;
+	QTermZmodem *m_pZmodem;
+
 public:
 	QTermFrame * m_pFrame;
 

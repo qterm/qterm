@@ -107,7 +107,8 @@ QTermTelnet::QTermTelnet( QCString cstrTermType, bool isSSH, const char * sshuse
 	noga = 0;
 	termtype = 0;
 	naws = 0;
-	
+	raw_size = 0;	
+
 	// proxy related
 	proxy_type = NOPROXY;
 	proxy_state = 0;
@@ -460,6 +461,8 @@ void QTermTelnet::socketReadyRead()
     	nbytes=socket->bytesAvailable();
 	if (nbytes <= 0)   return;
 		
+    raw_size=nbytes;
+
 	//resize input buffer
 	from_socket->resize(nbytes);
 		
@@ -546,6 +549,34 @@ void QTermTelnet::socketReadyRead()
 		emit readyRead(rsize);	
 			
 }
+
+int QTermTelnet::raw_len()
+{
+    return raw_size;
+}
+
+/*------------------------------------------------------------------------
+ * actions
+ *------------------------------------------------------------------------
+ */
+int QTermTelnet::read_raw(char * data, uint maxlen)
+{
+    //do some checks
+    if(data==0) {
+        qWarning("read: NULL pointer");
+        return -1;
+    }
+    if(maxlen < raw_size) {
+        /* we need all data be read out in one read */
+        qWarning("read: upper layer accept buffer too small");
+        return -1;
+    }
+
+    //do it, memcpy( destination, source, size)
+    memcpy(data, from_socket->data(), raw_size);
+    return raw_size;
+}
+
 
 /*------------------------------------------------------------------------
  * actions
