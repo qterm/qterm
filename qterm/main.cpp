@@ -129,7 +129,7 @@ int iniWorkingDir( QString param )
 
 	// get executive file path 
 	fi.setFile(param);
-	pathLib+=fi.dirPath()+'/';
+	pathLib=fi.dirPath()+'/';
 #else
 	pathCfg=QDir::homeDirPath()+"/.qterm/";
 	if(checkPath(pathCfg)==-1)

@@ -79,6 +79,7 @@ extern QString addrCfg;
 
 extern QString pathLib;
 extern QString pathPic;
+extern QString pathCfg;
 
 extern QStringList loadNameList(QTermConfig *);
 extern void loadAddress(QTermConfig *, int, QTermParam &);
@@ -354,6 +355,9 @@ void QTermFrame::loadPref( QTermConfig * conf )
 	m_pref.nMethod=strTmp.toInt();
 	strTmp = conf->getItemValue("preference","externalplayer");
 	m_pref.strPlayer=strTmp;
+	strTmp = conf->getItemValue("preference","zmodem");
+	m_pref.strZmPath=strTmp.isEmpty()?pathCfg+"zmodem/":strTmp;
+
 }
 
 //save current setting to qterm.cfg
