@@ -1,0 +1,64 @@
+Module Name 
+	qterm -- the module for every BBS connection
+
+Methods
+	formatPythonError(string err)
+		give the error message
+
+	string copyArticle(long lp)
+		download the current article
+
+	string getText(long lp, int line) 		
+		get text at line
+
+	string getAttrText(long lp,int line,string escape)
+		the same with above, but with *[
+
+	int caretX(long lp)
+		caret postion x
+
+	int caretY(long lp)
+		caret postion y
+
+	int coulomns(long lp)
+		coulomns in buffer
+
+	int rows(long lp)
+		lines in buffer
+
+	sendString(long lp,string str) 
+		send string to server
+
+	sendParsedString(long lp, string str) 		
+		send string after parsed with such as "\n","^p"
+
+	int isConnected(long lp)
+		if current session is connected. 
+
+	reconnect(long lp)
+		reconnect to host
+
+	disconnect(long lp)
+		disconnect from host
+Example Code
+	1. download 4 continuous articles
+		import qterm
+		import sys, time
+		lp=long(sys.argv[0])
+		f=open("/home/kingson/test.txt","w")
+		for i in range(4):
+			qterm.sendString(lp,"r")
+			f.write(qterm.copyArticle(lp))
+			f.write("="*80)
+			f.write("\n\n")
+			qterm.sendString(lp,"q")
+			qterm.sendString(lp,"j")
+			time.sleep(5)
+		f.close()
+
+Bugs
+	1.
+
+TODO:
+	1. add some GUI for control, e.g. stop, pause, resume,  inside script
+
