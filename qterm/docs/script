@@ -5,7 +5,11 @@ Methods
 	formatPythonError(string err)
 		give the error message
 
-	string copyArticle(long lp)
+	(string,int success) copyArticle(long lp, int timeout)
+		download the current article in given timeout seconds,
+		return success=0 when timeout, otherwise 1
+	
+	string copyArticle(long lp) (obsolete)
 		download the current article
 
 	string getText(long lp, int line) 		
