@@ -1740,9 +1740,10 @@ void QTermWindow::runScriptFile( const QCString & cstr )
 #ifdef HAVE_PYTHON
 bool QTermWindow::pythonCallback(const char* func, PyObject* pArgs)
 {
-	Py_DECREF(pArgs);
-	if(!m_bPythonScriptLoaded)
+	if(!m_bPythonScriptLoaded) {
+		Py_DECREF(pArgs);
 		return false;
+	};
 	
 	bool done = false;
 	// get the global lock
