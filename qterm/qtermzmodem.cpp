@@ -526,7 +526,7 @@ int QTermZmodem::ZmodemTInit(ZModem *info)
 int QTermZmodem::ZmodemTFile(char *file, char *rfile,	uint f0, uint f1, uint f2, uint f3,	
 									int filesRem, int bytesRem, ZModem *info) 
 {
-	if( file == NULL || (info->file = fopen(file, "r")) == NULL )
+	if( file == NULL || (info->file = fopen(file, "rb")) == NULL )
 	  return ZmErrCantOpen ;
 
 	info->fileEof = 0 ;
@@ -630,7 +630,7 @@ int QTermZmodem::ZmodemRInit(ZModem *info)
 	    info->buffer = NULL ;
 	}
 	
-	info->buffer = (uchar *)malloc(8192) ;
+	info->buffer = (uchar *)malloc(1024) ;
 
 	info->state = RStart ;
 	info->timeoutCount = 0 ;
@@ -899,7 +899,7 @@ int QTermZmodem::XmodemRInit(ZModem *info)
 ulong QTermZmodem::FileCrc(char *name)
 {
 	ulong	crc ;
-	FILE	*ifile = fopen(name, "r") ;
+	FILE	*ifile = fopen(name, "rb") ;
 	int	i ;
 
 	if( ifile == NULL )	/* shouldn't happen, since we did access(2) */
@@ -1026,7 +1026,7 @@ FILE * QTermZmodem::ZOpenFile(char *name, ulong crc, ZModem *info)
 	FILE *rval;
 	int apnd=0;
 	QString str = ((QTermFrame *)qApp->mainWidget())->m_pref.strZmPath+name;
-	rval = fopen(str.local8Bit(), apnd ? "a" : "w") ;
+	rval = fopen(str.local8Bit(), apnd ? "ab" : "wb") ;
 
 	if( rval == NULL )
 	  perror(name) ;
@@ -1152,7 +1152,7 @@ uchar * QTermZmodem::putZdle( uchar *ptr, uchar c, ZModem *info )
 	 uchar	c2 = c & 0177 ;
 
 	if( c == ZDLE || c2 == 020 || c2 == 021 || c2 == 023 ||
-	    c2 == 0177  ||  (c2 == 015 /*&& info->atSign*/)  ||
+	    c2 == 0177  ||  (c2 == 015 && connectionType==0/*&& info->atSign*/)  ||
 	#ifdef	COMMENT
 	    c2 == 035  ||  (c2 == '~' && info->lastCR)  ||
 	#endif	/* COMMENT */
@@ -1340,7 +1340,7 @@ if(connectionType==0)
 	
 	lastPullByte = c;
 
-//	fprintf(stderr, "%02x, ", c);
+	//fprintf(stderr, "%02x, ", c);
 
 	switch( info->DataType ) {
 	  /* TODO: are hex data packets ever used? */
@@ -1402,6 +1402,7 @@ int QTermZmodem::HdrChar( uchar c, register ZModem *info )
 	    default:
 	      info->InputState = Idle ;
 	      info->chrCount = 0 ;
+		  printf("ft1 %c \n",c);
 	      return ZXmitHdrHex(ZNAK, zeros, info) ;
 	  }
 	  return 0 ;
@@ -2049,7 +2050,7 @@ int QTermZmodem::SendMoreFileData(  ZModem *info )
 
 	  len = ptr - info->buffer ;
 	}
-
+	
 	ZStatus(SndByteCount, info->offset, NULL) ;
 
 	if( (err = ZXmitStr(info->buffer, len, info)) )
@@ -2765,7 +2766,7 @@ int QTermZmodem::GotSendPos(  ZModem *info )
 {
 	ZStatus(DataErr, ++info->errCount, NULL) ;
 	info->waitflag = 1 ;		/* next pkt should wait, to resync */
-	printf("offset=%lx\n", info->offset);
+	printf("GotSendPos, offset=%lx\n", info->offset);
 	zmodemlog("GotSendPos[%s] %lx\n", sname(info), info->offset) ;
 	return startFileData(info) ;
 }
