@@ -257,6 +257,8 @@ void addrDialog::onSchema()
 	if(schema.exec()==1)
 	{
 		strSchemaFile = schema.getSchema();
+		if(strSchemaFile.isEmpty())
+			strSchemaFile="";
 	}
 }
 
