@@ -458,8 +458,6 @@ QTermZmodem::QTermZmodem(QObject *netinterface, int type)
 	ZmodemReset(&info);
 // other init function not complete	
 
-	strFileList.append("/home/kingson/doc/zmodem.txt");
-//	strFileList.append("/home/kingson/doc/3.2-api.tar.bz2");
 }
 
 QTermZmodem::~QTermZmodem()
@@ -514,6 +512,8 @@ int QTermZmodem::ZmodemTInit(ZModem *info)
 	  return err ;
 
 	info->timeout = 60 ;
+
+	strFileList = QFileDialog::getOpenFileNames("All files(*)",QDir::homeDirPath());
 
 	zmodemlog("ZmodemTInit[%s]: sent ZRQINIT\n", sname(info)) ;
 
@@ -2614,8 +2614,6 @@ int QTermZmodem::GotRinit(  ZModem *info )
 	zmodemlog("GotRinit[%s]\n", sname(info)) ;
 
 	if( AlwaysSinit || info->zsinitflags != 0  ||  info->attn != NULL )
-//		strFileList = QFileDialog::getOpenFileNames("All files(*)",QDir::homeDirPath());
-//		itFile = strFileList.begin();
 		SendZSInit(info) ;
 	
 	if(strFileList.count()==0)
