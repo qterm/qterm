@@ -16,6 +16,7 @@
 #include <qmessagebox.h>
 #include <qfiledialog.h>
 extern QString fileCfg;
+extern QString getOpenFileName(const QString&, QWidget*);
 
 /* 
  *  Constructs a fSoundConf which is a child of 'parent', with the 
@@ -43,7 +44,7 @@ fSoundConf::~fSoundConf()
  */
 void fSoundConf::onSelectFile()
 {
-    QString soundfile = QFileDialog::getOpenFileName( QString::null, QString::null, this );
+    QString soundfile = getOpenFileName( "*", this );
     if ( !soundfile.isEmpty() ) {
                 leFile->setText(soundfile);
     }
@@ -54,7 +55,7 @@ void fSoundConf::onSelectFile()
  */
 void fSoundConf::onSelectProg()
 {
-    QString progfile = QFileDialog::getOpenFileName( QString::null, QString::null, this );
+    QString progfile = getOpenFileName( "*", this );
     if ( !progfile.isEmpty() ) {
                 leFile->setText(progfile);
     }

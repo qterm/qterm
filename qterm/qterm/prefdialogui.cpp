@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'prefdialog.ui'
 **
-** Created: Wed Aug 25 22:02:50 2004
+** Created: Wed Sep 8 17:39:58 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -72,6 +72,9 @@ prefDialogUI::prefDialogUI( QWidget* parent, const char* name, bool modal, WFlag
     noneRadioButton = new QRadioButton( ButtonGroup1, "noneRadioButton" );
     noneRadioButton->setGeometry( QRect( 10, 20, 101, 20 ) );
 
+    beepRadioButton = new QRadioButton( ButtonGroup1, "beepRadioButton" );
+    beepRadioButton->setGeometry( QRect( 80, 20, 101, 20 ) );
+
     fileRadioButton = new QRadioButton( ButtonGroup1, "fileRadioButton" );
     fileRadioButton->setGeometry( QRect( 10, 60, 101, 20 ) );
 
@@ -80,9 +83,6 @@ prefDialogUI::prefDialogUI( QWidget* parent, const char* name, bool modal, WFlag
 
     selectsoundPushButton = new QPushButton( ButtonGroup1, "selectsoundPushButton" );
     selectsoundPushButton->setGeometry( QRect( 120, 60, 80, 21 ) );
-
-    beepRadioButton = new QRadioButton( ButtonGroup1, "beepRadioButton" );
-    beepRadioButton->setGeometry( QRect( 80, 20, 101, 20 ) );
 
     TextLabel1 = new QLabel( this, "TextLabel1" );
     TextLabel1->setGeometry( QRect( 290, 220, 80, 20 ) );
@@ -210,9 +210,9 @@ void prefDialogUI::languageChange()
     blinkCheckBox->setText( tr( "Blink Tab When Receive Message" ) );
     ButtonGroup1->setTitle( tr( "Sound When Receive Messages" ) );
     noneRadioButton->setText( tr( "None" ) );
+    beepRadioButton->setText( tr( "Beep" ) );
     fileRadioButton->setText( tr( "Sound File" ) );
     selectsoundPushButton->setText( tr( "Configure" ) );
-    beepRadioButton->setText( tr( "Beep" ) );
     TextLabel1->setText( tr( "Input Method" ) );
     okPushButton->setText( tr( "OK" ) );
     cancelPushButton->setText( tr( "Cancel" ) );

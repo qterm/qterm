@@ -1,4 +1,4 @@
-#下载精华区目录
+# download the directory
 # Notes:
 #  1. make sure the path is empty, otherwise mkdir complain and stoped
 #  2. the time for sleep() varies dependent on sites
@@ -112,7 +112,7 @@ def get_list_title(str_line):
 def down_folder():
 	global path
 	while(1):
-		line=qterm.caretY(lp)	# 光标位置
+		line=qterm.caretY(lp) 
 		str_line=qterm.getText(lp,line)
 	
 		article_num = get_list_num(str_line)
@@ -132,7 +132,7 @@ def down_folder():
 		article_categary = get_list_categary(str_line)
 		article_title = get_list_title(str_line)	
 
-		#如果这一行是文件就直接进入文章，下载全文
+		# download if its file
 		if article_categary == '[文件]':
 			# log in index.html
 			f=open(path+"index.html","a+")
@@ -150,7 +150,7 @@ def down_folder():
 			f.close()
 			qterm.sendString(lp,"q")
 			time.sleep(wait_time)
-		#如果这一行是目录就递归调用, 下载目录
+		# recursive callback if its directory
 		elif article_categary == '[目录]':
 			# log in index.html
 			f=open(path+"index.html","a+")

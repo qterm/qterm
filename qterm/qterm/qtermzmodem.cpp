@@ -3,11 +3,16 @@
 #include "qtermtelnet.h"
 #include "qtermframe.h"
 #include "qterm.h"
+#include "qtermconfig.h"
 
 #include <qapplication.h>
 #include <string.h>
 #include <qfiledialog.h>
 #include <qfileinfo.h>
+
+
+extern QString fileCfg;
+extern QString getOpenFileName(const QString&, QWidget*);
 
 //#include <sys/time.h>
 
@@ -520,9 +525,18 @@ int QTermZmodem::ZmodemTInit(ZModem *info)
 	  return err ;
 
 	info->timeout = 60 ;
-
-	strFileList = QFileDialog::getOpenFileNames("All files(*)",QDir::homeDirPath());
-
+    
+	QTermConfig conf(fileCfg);
+	QString path = QString::fromLocal8Bit(conf.getItemValue("global","openfiledialog"));
+	strFileList = QFileDialog::getOpenFileNames("All files(*)", path);
+	if(strFileList.count()!=0)
+	{
+		QStringList::Iterator itFile = strFileList.begin();
+		QFileInfo fi(*itFile);
+        conf.setItemValue("global","openfiledialog", fi.dirPath(true) );
+		conf.save(fileCfg);	
+	}
+	
 	zmodemlog("ZmodemTInit[%s]: sent ZRQINIT\n", sname(info)) ;
 
 	return 0 ;

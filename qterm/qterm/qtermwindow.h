@@ -101,7 +101,9 @@ protected slots:
 
 	// decode
 	void setMouseMode(bool);
+
 protected:
+	void mouseDoubleClickEvent( QMouseEvent * );
 	void mouseMoveEvent( QMouseEvent * );
 	void mousePressEvent( QMouseEvent * );
 	void mouseReleaseEvent( QMouseEvent * );
@@ -122,17 +124,19 @@ protected:
 	QCString parseString( const QCString&, int *len=0);
 	QString fromBBSCodec(const QCString& cstr);
 
-	void pythonCallback(const char*, const char*, ...);
+	#ifdef HAVE_PYTHON
+	bool pythonCallback(const char*, PyObject*);
+	#endif
 	int runPythonFile(const char*);
-
+	void pythonMouseEvent(int, ButtonState, ButtonState, const QPoint&, int);
+	
 	void closeEvent ( QCloseEvent * );
 	void keyPressEvent( QKeyEvent * );
 	
-	void sendMouseState(int, ButtonState, const QPoint&);
-	
+	void sendMouseState(int, ButtonState, ButtonState, const QPoint&);
+		
 	QTermScreen * m_pScreen;
 	QTermDecode * m_pDecode;
-	QTermBBS	* m_pBBS;
 	QPopupMenu *  m_pMenu;
 	QPopupMenu *  m_pUrl;
 	static char direction[][5];
@@ -186,7 +190,7 @@ public:
 	QTermBuffer * m_pBuffer;
 	QTermTelnet * m_pTelnet;
 	QTermParam m_param;
-
+	QTermBBS	* m_pBBS;
 	// menu and toolbar state
 	bool m_bCopyColor;
 	bool m_bCopyRect;

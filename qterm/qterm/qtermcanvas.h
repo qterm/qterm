@@ -25,6 +25,7 @@ protected slots:
 	void fullScreen();
 	void saveImage();
 	void copyImage();
+	void silentCopy();
 	void cwRotate();
 	void ccwRotate();
 	void deleteImage();
@@ -32,7 +33,7 @@ protected:
 	void moveImage(float,float);
 	void resizeImage(float);
 	void rotateImage(float);
-
+	
 	void closeEvent(QCloseEvent *);
 	void contentsMousePressEvent(QMouseEvent*);
 	void keyPressEvent(QKeyEvent *ke);

@@ -1,47 +1,83 @@
+"""
+This information is used to track the changes following this format
+	dd/mm/yy	Author
+		* changes
+		* ...
+
+	10/09/04	kingson
+		* merge code for ytht.net preview by cppgx
+	08/09/04	kingson
+		* add this changelog information
+"""
 import qterm, string
+import re, urllib
 
-# This works only for smth.org, make appropriate changes according
-# to each BBS site. 
+"""
+this is called when beep received
+"""
 def autoReply(lp):
-	# not message
-	if(qterm.caretY(lp)!=2):
-		return
-	text = qterm.getText(lp,0)
-	# sender
-	lst = text.split()
-	sender = lst[0] 
-
-	# who am i, this works when user ID in status bar
-	# so better set yourself
-	# text = qterm.getText(lp,qterm.rows(lp)-1)
-	#lst = string.split(text,"]")
-	#text = lst[2]
-	#lst = string.split(text,"[")
-	#me = lst[1]
-	me = "kingson"
-	msg = qterm.getText(lp,1)
-	reply="i am "+me+"'s autoreply script, can i help you?"
-
-	if(msg.find("ft")!=-1):
-		reply = sender+" ,why ft?"
-	elif(msg.find("怎么")!=-1 or msg.find("为什么")!=-1):
-		reply = "我也不知道耶"
-
-	qterm.sendString(lp,"r")
+	reply = "I am the auto replier, please wait..."
+	qterm.sendString(lp,qterm.getReplyKey(lp))
 	qterm.sendString(lp,reply)
 	qterm.sendParsedString(lp,"^M")
-	
+
+"""
+this is called when no activity after certain seconds, 
+which is set in AddressBook dialog
+"""
 def antiIdle(lp):
 	qterm.sendParsedString(lp,"^@")
 	print "antiIdle"
 
-def mouseEvent(button, key, x, y):
+"""
+whenever there is a mouse event
+type	0-press  1-release  2-move  3-double click 4-wheel
+state	0x01-left  0x02-right  0x04-middle 0x08-alt  0x10-control 0x20-shift
+cx/cy	cursor position x/y in character
+"""
+def mouseEvent(lp, type, state, x, y, delta):
+	# left click + control to preview image
+	if type==0 and state==0x11:
+		URL=qterm.getUrl(lp)
+		if(URL==''):
+			return;
+		if re.search('http://ytht.net/Ytht.Net' \
+			'(\S+)/con\?B=(\d+)&F=M\.(\d+)\.A', URL) != None:
+			# ytht artical URL
+			print 'Analizing ytht artical URL'
+			f_con = urllib.urlopen(URL)
+			con = f_con.read()
+			f_con.close()
+			m_con = re.search('src=\"http://162.105.31.(\d+)(/|:(\d+)/)' \
+				'Ytht.Net/boards/(\d+)/M\.(\d+)\.A\+\d+\"', con)
+			if m_con != None:
+				URL1 = con[(m_con.start() + 5):(m_con.end() - 1)]
+				print 'URL1 = %s' % URL1
+				f_con1 = urllib.urlopen(URL1)
+				con1_lines = f_con1.readlines()
+				f_con1.close()
+				x = range(0, len(con1_lines))
+				for i in x:
+					m_con1 = re.search('<a href=\'http://162.105.31.(\d+)' \
+					'(/|:(\d+)/)Ytht.Net/attach/bbscon/(\S+)\?B=(\d+)&amp;' \
+					'F=M\.(\d+)\.A&amp;attachpos=(\d+)&amp;attachname=/(\S+)\'', \
+					con1_lines[i])
+					if m_con1 != None:
+						URL2 = con1_lines[i][(m_con1.start() + 9): \
+						(m_con1.end() - 1)].replace('&amp;', '&')
+						print 'URL2 = %s' % URL2
+						qterm.previewImage(lp, qterm.toUTF8(URL2,"GBK"))
 
 
-def keyEvent(key, state):
 
-
-def dataRead():
-	
+"""
+whenever there is a key event
+type	0-press 1-release
+state	0x08-alt  0x10-control 0x20-shift
+key		refer to Qt/Doc
+"""
+def keyEvent(lp, type, state, key):
+		print "type=%d, state=%x, key=%x" % (type, state, key)
+	pass
 
 

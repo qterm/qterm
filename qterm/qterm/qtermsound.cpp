@@ -10,6 +10,7 @@
 #include <soundserver.h>
 using namespace Arts;
 #endif
+extern void runProgram(const QCString&);
 
 QTermSound::~QTermSound()
 {
@@ -61,6 +62,5 @@ void
 QTermExternalSound::play()
 {
 	QString command = _player + ' ' + _soundfile;
-	if (system(command.ascii()) == -1)
-		qWarning("Cannot run your external program\n");
+	runProgram(command.local8Bit());
 }
