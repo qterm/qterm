@@ -33,7 +33,7 @@ INCLUDES= $(all_includes) $(PYTHONINC)
 qterm_METASOURCES = AUTO
 
 # the library search path. 
-qterm_LDFLAGS = $(all_libraries) 
+qterm_LDFLAGS = $(all_libraries) $(PYTHONLIB)
 
 # them while "make clean", use CLEANFILES
 DISTCLEANFILES = $(qterm_METASOURCES)
