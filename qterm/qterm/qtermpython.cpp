@@ -89,56 +89,69 @@ static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
 
 	QTermWindow *pWin=(QTermWindow*)lp;
 
+	QStringList strList;
 	QCString cstrArticle;
-    QCString cstrCurrent0,cstrCurrent1;
-    QCString cstrTemp;
+	while(1)
+	{
+		// check it there is duplicated string
+		// it starts from the end in the range of one screen height
+		// so this is a non-greedy match
+		QString strTemp = pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
+		int i=0;
+		for(QStringList::Iterator it=strList.end();
+			it!=strList.begin(), i < pWin->m_pBuffer->line()-1; // not exceeeding the last screen
+			--it, i++)
+		{
+			if(*it==strTemp)
+			{
+				QStringList::Iterator it2 = it;
+				it2++;
+				bool dup=true;
+				// match more to see if its duplicated
+				for(int j=1; j<=i; j++)
+				{
+					QString str1 = pWin->stripWhitespace(
+									pWin->m_pBuffer->screen(j)->getText());
+					if(*it2!=str1)
+					{
+						dup = false;
+						break;
+					}
+					it2++;
+				}
+				if(dup)
+				{
+					// delete all duplicated
+					while(it2!=it)
+					{
+						strList.remove(it2);
+						it2--;
+					}
+					strList.remove(it);
+					break;
+				}
+			}
+		}
+		for(i=0;i<pWin->m_pBuffer->line()-1;i++)
+			strList+=pWin->stripWhitespace(
+			pWin->m_pBuffer->screen(i)->getText());
 
-    int pos0=-1,pos1=-1;
-
-    cstrArticle = pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
-    #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
-    cstrArticle += '\r';
-    #endif
-    cstrArticle += '\n';
-	
-    while(1)
-    {
-        cstrCurrent0=pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
-        cstrCurrent1=pWin->stripWhitespace(pWin->m_pBuffer->screen(1)->getText());
-
-        cstrTemp = cstrCurrent0;
-        #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
-        cstrTemp += '\r';
-        #endif
-        cstrTemp +='\n';
-        cstrTemp +=cstrCurrent1;
-
-        pos0=cstrArticle.findRev(cstrTemp);
-
-        if(pos0!=-1)
-        {
-            pos1=cstrArticle.find(cstrCurrent1,pos0);
-            if(pos1!=-1)
-                cstrArticle.truncate(pos1);
-        }
-
-        for(int i=1;i<pWin->m_pBuffer->line()-1;i++)
-        {
-            cstrArticle+=pWin->stripWhitespace(pWin->m_pBuffer->screen(i)->getText());
-            #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
-            cstrArticle += '\r';
-            #endif
-            cstrArticle+='\n';
-        }
-
-        if( pWin->m_pBuffer->screen(pWin->m_pBuffer->line()-1)->getText().find("%") == -1 )
-            break;
-        pWin->m_pTelnet->write(" ", 1);
-		
+		// the end
+		if( pWin->m_pBuffer->screen(
+		pWin->m_pBuffer->line()-1)->getText().find("%") == -1 )
+			break;
+		// continue
+		pWin->m_pTelnet->write(" ", 1);
+			
 		if(!pWin->m_wcWaiting.wait(10000))	// timeout
 			break;
-    }
-
+	}
+	#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
+	cstrArticle = strList.join("\r\n");
+	#else
+	cstrArticle = strList.join("\n");
+	#endif
+	
 	PyObject *py_text = PyString_FromString(cstrArticle);
 
 	Py_INCREF(py_text);
