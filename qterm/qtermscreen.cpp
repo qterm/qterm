@@ -125,6 +125,15 @@ QTermScreen::~QTermScreen()
 // focus event received
 void QTermScreen::focusInEvent( QFocusEvent * )
 {
+
+	#if (QT_VERSION>0x030300) // blame me for this...
+	if(m_pWindow->isMaximized()&&m_pWindow->m_pFrame->wndmgr->afterRemove())
+	{
+		m_pWindow->showNormal();
+		m_pWindow->showMaximized();
+	}
+	#endif
+
 	m_pWindow->m_pFrame->wndmgr->activateTheTab( m_pWindow );
 	
 #if (QT_VERSION<300)

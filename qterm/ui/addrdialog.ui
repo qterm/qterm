@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>addrDialogUI</class>
 <widget class="QDialog">
     <property name="name">
@@ -844,19 +844,6 @@
                     </rect>
                 </property>
             </widget>
-            <widget class="QLineEdit">
-                <property name="name">
-                    <cstring>scrollLineEdit</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>330</x>
-                        <y>60</y>
-                        <width>70</width>
-                        <height>23</height>
-                    </rect>
-                </property>
-            </widget>
             <widget class="QLabel">
                 <property name="name">
                     <cstring>TextLabel5_3</cstring>
@@ -929,6 +916,19 @@
                         <x>310</x>
                         <y>20</y>
                         <width>100</width>
+                        <height>23</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLineEdit">
+                <property name="name">
+                    <cstring>scrollLineEdit</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>330</x>
+                        <y>60</y>
+                        <width>70</width>
                         <height>23</height>
                     </rect>
                 </property>
@@ -1277,38 +1277,6 @@
             </attribute>
             <widget class="QLabel">
                 <property name="name">
-                    <cstring>TextLabel8</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>10</x>
-                        <y>50</y>
-                        <width>130</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Max Idle Time</string>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
-                    <cstring>TextLabel7_2</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>10</x>
-                        <y>20</y>
-                        <width>150</width>
-                        <height>20</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Anti-idle String</string>
-                </property>
-            </widget>
-            <widget class="QLabel">
-                <property name="name">
                     <cstring>TextLabel9</cstring>
                 </property>
                 <property name="geometry">
@@ -1442,35 +1410,6 @@
                     </rect>
                 </property>
             </widget>
-            <widget class="QLineEdit">
-                <property name="name">
-                    <cstring>replyLineEdit</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>180</x>
-                        <y>100</y>
-                        <width>220</width>
-                        <height>23</height>
-                    </rect>
-                </property>
-            </widget>
-            <widget class="QCheckBox">
-                <property name="name">
-                    <cstring>replyCheckBox</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>10</x>
-                        <y>100</y>
-                        <width>160</width>
-                        <height>22</height>
-                    </rect>
-                </property>
-                <property name="text">
-                    <string>Autoreply Message</string>
-                </property>
-            </widget>
             <widget class="QPushButton">
                 <property name="name">
                     <cstring>scriptPushButton</cstring>
@@ -1500,19 +1439,6 @@
                     </rect>
                 </property>
             </widget>
-            <widget class="QLineEdit">
-                <property name="name">
-                    <cstring>scriptLineEdit</cstring>
-                </property>
-                <property name="geometry">
-                    <rect>
-                        <x>40</x>
-                        <y>240</y>
-                        <width>230</width>
-                        <height>22</height>
-                    </rect>
-                </property>
-            </widget>
             <widget class="QCheckBox">
                 <property name="name">
                     <cstring>scriptCheckBox</cstring>
@@ -1527,6 +1453,109 @@
                 </property>
                 <property name="text">
                     <string>Load Control Script</string>
+                </property>
+            </widget>
+            <widget class="QCheckBox">
+                <property name="name">
+                    <cstring>replyCheckBox</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>110</y>
+                        <width>160</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Autoreply Message</string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>textLabel1_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>80</y>
+                        <width>170</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Key to reply message</string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel8</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>50</y>
+                        <width>130</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Max Idle Time</string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel7_2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>20</y>
+                        <width>150</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Anti-idle String</string>
+                </property>
+            </widget>
+            <widget class="QLineEdit">
+                <property name="name">
+                    <cstring>scriptLineEdit</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>40</x>
+                        <y>240</y>
+                        <width>230</width>
+                        <height>22</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLineEdit">
+                <property name="name">
+                    <cstring>replyLineEdit</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>190</x>
+                        <y>110</y>
+                        <width>220</width>
+                        <height>23</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLineEdit">
+                <property name="name">
+                    <cstring>replykeyLineEdit</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>190</x>
+                        <y>80</y>
+                        <width>90</width>
+                        <height>23</height>
+                    </rect>
                 </property>
             </widget>
         </widget>
@@ -1637,6 +1666,59 @@
     </widget>
 </widget>
 <tabstops>
+    <tabstop>tabWidget</tabstop>
+    <tabstop>nameLineEdit</tabstop>
+    <tabstop>addrLineEdit</tabstop>
+    <tabstop>portLineEdit</tabstop>
+    <tabstop>hostTypeComboBox</tabstop>
+    <tabstop>autoLoginCheckBox</tabstop>
+    <tabstop>preloginLineEdit</tabstop>
+    <tabstop>userLineEdit</tabstop>
+    <tabstop>passwdLineEdit</tabstop>
+    <tabstop>postloginLineEdit</tabstop>
+    <tabstop>bbscodeComboBox</tabstop>
+    <tabstop>displaycodeComboBox</tabstop>
+    <tabstop>autofontCheckBox</tabstop>
+    <tabstop>highlightCheckBox</tabstop>
+    <tabstop>ansicolorCheckBox</tabstop>
+    <tabstop>fontPushButton</tabstop>
+    <tabstop>fgcolorPushButton</tabstop>
+    <tabstop>bgcolorPushButton</tabstop>
+    <tabstop>schemaPushButton</tabstop>
+    <tabstop>termtypeLineEdit</tabstop>
+    <tabstop>keytypeComboBox</tabstop>
+    <tabstop>columnLineEdit</tabstop>
+    <tabstop>scrollLineEdit</tabstop>
+    <tabstop>rowLineEdit</tabstop>
+    <tabstop>cursorTypeComboBox</tabstop>
+    <tabstop>escapeLineEdit</tabstop>
+    <tabstop>proxytypeComboBox</tabstop>
+    <tabstop>proxyaddrLineEdit</tabstop>
+    <tabstop>proxyportLineEdit</tabstop>
+    <tabstop>authCheckBox</tabstop>
+    <tabstop>proxyuserLineEdit</tabstop>
+    <tabstop>proxypasswdLineEdit</tabstop>
+    <tabstop>protocolComboBox</tabstop>
+    <tabstop>sshuserLineEdit</tabstop>
+    <tabstop>sshpasswdLineEdit</tabstop>
+    <tabstop>antiLineEdit</tabstop>
+    <tabstop>idletimeLineEdit</tabstop>
+    <tabstop>replykeyLineEdit</tabstop>
+    <tabstop>replyCheckBox</tabstop>
+    <tabstop>replyLineEdit</tabstop>
+    <tabstop>reconnectCheckBox</tabstop>
+    <tabstop>reconnectLineEdit</tabstop>
+    <tabstop>retryLineEdit</tabstop>
+    <tabstop>scriptCheckBox</tabstop>
+    <tabstop>scriptLineEdit</tabstop>
+    <tabstop>scriptPushButton</tabstop>
+    <tabstop>radioButton1</tabstop>
+    <tabstop>radioButton2</tabstop>
+    <tabstop>radioButton3</tabstop>
+    <tabstop>menucolorButton</tabstop>
+    <tabstop>applyPushButton</tabstop>
+    <tabstop>connectPushButton</tabstop>
+    <tabstop>closePushButton</tabstop>
     <tabstop>nameListBox</tabstop>
     <tabstop>addPushButton</tabstop>
     <tabstop>deletePushButton</tabstop>

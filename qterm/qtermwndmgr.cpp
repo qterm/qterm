@@ -24,6 +24,8 @@ AUTHOR:        kingson fiasco
 #include <qlist.h>
 #endif
 
+#include <qglobal.h>
+
 #include <stdio.h>
 
 extern QString pathLib;
@@ -36,6 +38,7 @@ QTermWndMgr::QTermWndMgr( QObject * parent, const char * name )
 	pFrame = (QTermFrame *) parent;
 	
 	nActive = -1;
+
 	pWin.setAutoDelete( false );
 	pTab.setAutoDelete( false );
 	pIcon.setAutoDelete( false );
@@ -80,6 +83,7 @@ void QTermWndMgr::removeWindow(QTermWindow * mw)
 		pFrame->enableMenuToolBar( false );
 	}
 	
+	removed = true;
 	//remove from the Tabbar
 	pFrame->tabBar->removeTab(qtab);	
 }
@@ -115,12 +119,12 @@ void QTermWndMgr::activateTheWindow(QTab *qtab)
 
 	QTermWindow * mw=pWin.at(n);
 	//set focus to it
-//	#ifdef Q_OS_MACX
+	#if (QT_VERSION>=0x030300)
 	((QWidget*)pFrame->ws)->setFocus();
 	mw->showNormal();
-//	#else
-//	mw->setFocus();
-//	#endif
+	#else
+	mw->setFocus();
+	#endif
 	
 	pFrame->updateMenuToolBar();
 }
@@ -162,12 +166,12 @@ void QTermWndMgr::activeNextPrev(bool next)
 		n = (n==pWin.count()-1)?0:n+1;
 	else
 		n = (n==0)?pWin.count()-1:n-1;
-
+	
 	nActive = n;
 
 	QTermWindow * mw=pWin.at(n);
 	//set focus to it
-	#ifdef Q_OS_MACX
+	#if (QT_VERSION>=0x030300)
 	((QWidget*)pFrame->ws)->setFocus();
 	mw->showNormal();
 	#else
@@ -175,3 +179,14 @@ void QTermWndMgr::activeNextPrev(bool next)
 	#endif
 
 }
+
+bool QTermWndMgr::afterRemove()
+{
+	if(removed) 
+	{
+		removed=false;
+		return true;
+	}
+	else
+		return false;
+}	

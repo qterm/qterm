@@ -206,6 +206,7 @@ void iniSettings()
    //read settings from qterm.cfg
 	QTermConfig * conf= new QTermConfig(fileCfg);
 
+#if 0
 	// get the version info first
 	QString ver = conf->getItemValue("global","version");
 	if(ver.toInt()<0000300)
@@ -216,6 +217,7 @@ void iniSettings()
 				"Sorry for any inconvenience. We try not to make this happen again.\n");
 		exit(-1);
 	}
+#endif
 
 	//install the translator
 	QString lang = conf->getItemValue("global","language");
@@ -324,6 +326,10 @@ void loadAddress( QTermConfig *pConf, int n, QTermParam& param )
 
 	strTmp = pConf->getItemValue(strSection, "maxidle");
 	param.m_nMaxIdle = strTmp.toInt();
+	param.m_strReplyKey = pConf->getItemValue(strSection, "replykey");
+	if(param.m_strReplyKey.isNull())
+		printf("loading null\n");
+			
 	param.m_strAntiString = pConf->getItemValue(strSection, "antiidlestring");
 	param.m_strAutoReply = QString::fromLocal8Bit(pConf->getItemValue(strSection, "autoreply"));
 	strTmp = pConf->getItemValue(strSection, "bautoreply");
@@ -407,6 +413,7 @@ void saveAddress(QTermConfig *pConf, int n, const QTermParam& param)
 
 	strTmp.setNum(param.m_nMaxIdle);
 	pConf->setItemValue(strSection, "maxidle", strTmp);
+	pConf->setItemValue(strSection, "replykey", param.m_strReplyKey);
 	pConf->setItemValue(strSection, "antiidlestring", param.m_strAntiString);
 	pConf->setItemValue(strSection, "bautoreply", param.m_bAutoReply?"1":"0");
 	pConf->setItemValue(strSection, "autoreply", param.m_strAutoReply.local8Bit());

@@ -29,6 +29,7 @@ class QTermZmodem;
 class QTermWindow;
 class QTermCanvas;
 class zmodemDialog;
+class QProgressDialog;
 
 // thread copy article
 class QTermDAThread : public QThread
@@ -93,7 +94,7 @@ protected slots:
 	void blinkTab();
 	void inputHandle(QString * text);
 	void ZmodemState(int,int,const QCString&);
-	void httpDone(int,bool);
+	void httpDone(bool);
 	void dataRead(int,int);
 	void httpResponse( const QHttpResponseHeader &);
 
@@ -198,9 +199,12 @@ public:
 	QString m_strPythonError;
 
 	QWaitCondition m_wcWaiting;
-	QHttp httpDown;
-	QString strHttpFile;
+
+	// HTTP 
+	QHttp m_httpDown;
+	QString m_strHttpFile;
 	QTermCanvas *m_pCanvas;
+	QProgressDialog *m_pPd;
 	bool m_bPreview;
 };
 

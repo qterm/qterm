@@ -501,12 +501,12 @@ void QTermFrame::newWindow( const QTermParam&  param, int index )
 	else
 	{
 		ws->setFocus();
-		window->showMaximized();
+		window->show();
 	}
 
 	//activte the window-tab
-	window->setFocus();
-	wndmgr->activateTheTab(window);
+//	window->setFocus();
+//	wndmgr->activateTheTab(window);
 
 //	return window;
 }
@@ -570,7 +570,7 @@ void QTermFrame::windowsMenuActivated( int id )
 	if ( w ) 
 	{
 		w->showNormal();
-		wndmgr->activateTheTab((QTermWindow*)w);
+//		wndmgr->activateTheTab((QTermWindow*)w);
 	} 
 }
 

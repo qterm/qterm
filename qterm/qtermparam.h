@@ -89,6 +89,7 @@ public:
 // Misc
 	// Max Idle Time %s
 	int m_nMaxIdle;
+	QString m_strReplyKey;
 	// Send When Idle
 	QString m_strAntiString;
 	// wether autoreply

@@ -16,6 +16,8 @@ public:
 	~QTermCanvas();
 
 	void loadImage(const QString&);
+	void hideWindow();
+
 protected slots:
 	void oriSize();
 	void zoomIn();
@@ -38,7 +40,6 @@ protected:
 	void viewportResizeEvent(QResizeEvent *re);
 	void adjustSize(const QSize&);
 	QPixmap scaleImage(const QSize&);
-	void hideWindow();
 protected:
 	QLabel *label;
 	bool bFitWin;

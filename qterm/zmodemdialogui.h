@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'zmodemdialogui.ui'
 **
-** Created: Tue Jul 20 22:59:53 2004
+** Created: Wed Aug 18 19:57:45 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -16,6 +16,7 @@
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
+class QSpacerItem;
 class QProgressBar;
 class QLabel;
 class QPushButton;
@@ -31,11 +32,14 @@ public:
 
     QProgressBar* pbProgress;
     QLabel* labelStatus;
-    QLabel* labelFileName;
     QPushButton* buttonCancel;
     QTextBrowser* browserError;
+    QLabel* labelFileName;
 
 protected:
+    QGridLayout* zmodemDialogUILayout;
+    QSpacerItem* spacer2;
+    QSpacerItem* spacer1;
 
 protected slots:
     virtual void languageChange();

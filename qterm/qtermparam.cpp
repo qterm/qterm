@@ -52,6 +52,7 @@ QTermParam::QTermParam()
 	m_strSSHPasswd = "";
 // Misc
 	m_nMaxIdle = 180;
+	m_strReplyKey = "^Z";
 	m_strAntiString = "^@";
 	m_bAutoReply = false;
 	m_strAutoReply = "(QTerm) Sorry, I am not around";
@@ -107,6 +108,7 @@ QTermParam::QTermParam( const QTermParam & param )
 	m_strSSHPasswd = param.m_strSSHPasswd;
 // Misc
 	m_nMaxIdle = param.m_nMaxIdle;
+	m_strReplyKey = param.m_strReplyKey;
 	m_strAntiString = param.m_strAntiString;
 	m_bAutoReply = param.m_bAutoReply;
 	m_strAutoReply = param.m_strAutoReply;
@@ -166,6 +168,7 @@ QTermParam& QTermParam::operator=(const QTermParam& param)
 	m_strSSHPasswd = param.m_strSSHPasswd;
 // Misc
 	m_nMaxIdle = param.m_nMaxIdle;
+	m_strReplyKey = param.m_strReplyKey;
 	m_strAntiString = param.m_strAntiString;
 	m_bAutoReply = param.m_bAutoReply;
 	m_strAutoReply = param.m_strAutoReply;
