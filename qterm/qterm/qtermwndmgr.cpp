@@ -120,9 +120,9 @@ void QTermWndMgr::blinkTheTab(QTermWindow * mw,bool bVisible)
 	QIconSet* icon=pIcon.at(n);
 		
 	if(bVisible)
-		icon->setPixmap(pathLib+"./pic/tabpic.xpm",QIconSet::Automatic);
+		icon->setPixmap(pathLib+"pic/tabpad.png",QIconSet::Automatic);
 	else
-		icon->setPixmap(pathLib+"./pic/blink.xpm",QIconSet::Automatic);
+		icon->setPixmap(pathLib+"pic/transp.png",QIconSet::Automatic);
 
 	pFrame->tabBar->update();		
 }

@@ -129,16 +129,17 @@ QTermFrame::QTermFrame()
 //create a label to display current time
 	labelTime=new QTermTimeLabel(statusBar());
 	statusBar()->addWidget(labelTime,10,TRUE);
-	/*
+
+/*
 //create the float input
-	dock = new QToolBar(this);
-	dock->setOrientation(Qt::Horizontal);
-	dock->setHorizontallyStretchable(true);	
-	input = new QLineEdit(dock);
-	connect(input, SIGNAL(returnPressed()), this, SLOT(dialogInput()));
-	dock->setWidget(input);
-	moveDockWindow(dock, Bottom);
-	*/
+	QToolBar *inputBar = new QToolBar(this);
+	inputBar->setOrientation(Qt::Horizontal);
+	inputBar->setHorizontallyStretchable(true);	
+	txtInput = new QLineEdit(inputBar);
+	connect(txtInput, SIGNAL(returnPressed()), this, SLOT(dialogInput()));
+	inputBar->setWidget(txtInput);
+	moveDockWindow(inputBar, Bottom);
+*/
 
 //create the window manager to deal with the window-tab-icon pairs
 	wndmgr=new QTermWndMgr(this);
@@ -420,12 +421,14 @@ void QTermFrame::dialogInput()
 {
 	QCString cstr;
 	if(m_pref.nXIM==0)
-		cstr = U2G(input->text());
+		cstr = U2G(txtInput->text());
 	else	
-		cstr = U2B(input->text());
-		
-	wndmgr->activeWindow()->externInput(cstr);
-	input->clear();
+		cstr = U2B(txtInput->text());
+	QTermWindow *p = wndmgr->activeWindow();
+	if(p!=NULL)
+		p->externInput(cstr);
+
+	txtInput->clear();
 }
 
 //addressbook
