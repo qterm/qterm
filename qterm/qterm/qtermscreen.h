@@ -61,6 +61,7 @@ protected:
 	void wheelEvent( QWheelEvent * );
 	
 	// display
+	int testChar(int, int);
 	void eraseRect( QPainter& , int, int, int, int, short );
 	void drawStr( QPainter&, const QString&, int, int, int, short, bool );
 	void drawLine( QPainter&, int index, int startx = -1, int endx = -1, bool complete = true);

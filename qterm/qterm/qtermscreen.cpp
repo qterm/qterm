@@ -711,6 +711,7 @@ void QTermScreen::refreshScreen( )
   Finally get around this for pku & ytht, don't know why some weird things
   happened when only erase and draw the changed part. 
 */
+		startx = testChar(startx, index);
 
 		erase(mapToRect(startx, index, -1, 1));
 
@@ -733,6 +734,56 @@ void QTermScreen::refreshScreen( )
 	if(m_hasBlink)	m_blinkTimer->start(1000);
 
 }
+
+int QTermScreen::testChar(int startx, int index)
+{
+	QTermTextLine *pTextLine = m_pBuffer->at(index);
+	QString strDisplay;
+	QString strTest;
+	QCString cstrDisplay;
+	QCString cstrTest;
+	
+	if ( index >= m_pBuffer->lines())
+	{
+		printf("QTermScreen::drawLine wrong index %d\n", index);
+		return startx; 
+	}
+
+	cstrDisplay = pTextLine->getText(startx);
+	cstrTest = pTextLine->getText();
+
+	if(m_pParam->m_nDispCode != m_pParam->m_nBBSCode)
+	{
+		char * chDisplay;
+		char * chTest;
+		if(m_pParam->m_nBBSCode==0) {
+			chDisplay = m_converter.G2B( cstrDisplay, cstrDisplay.length() );
+			chTest = m_converter.G2B( cstrTest, cstrTest.length() );
+		}
+
+		else {
+			chDisplay = m_converter.G2B( cstrDisplay, cstrDisplay.length() );
+			chTest = m_converter.G2B( cstrTest, cstrTest.length() );
+		}
+		
+		strDisplay = m_pCodec->toUnicode(chDisplay);
+		strTest = m_pCodec->toUnicode(chTest);
+
+		delete chTest;
+		delete chDisplay;
+	}
+	else {
+		strDisplay = m_pCodec->toUnicode(cstrDisplay);
+		strTest = m_pCodec->toUnicode(cstrTest);
+	}
+
+	if (strTest.find(strDisplay) == -1)
+		return startx - 1;
+	else
+		return startx;
+}
+
+		
 void QTermScreen::paintEvent( QPaintEvent * pe )
 {
 	
@@ -790,7 +841,7 @@ void QTermScreen::drawLine( QPainter& painter, int index, int starx, int endx, b
 	int startx;
 	QCString cstrText;
 	QString strShow;
-
+	
 	if (starx < 0)
 		starx = 0;
 
