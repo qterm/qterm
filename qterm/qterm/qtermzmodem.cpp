@@ -382,7 +382,7 @@ StateTable	* QTermZmodem::tables[] = {
 	  QTermZmodem::DoneOps,
 	} ;
 
-char *	QTermZmodem::hdrnames[] = {
+const char *	QTermZmodem::hdrnames[] = {
 	  "ZRQINIT",
 	  "ZRINIT",
 	  "ZSINIT",
@@ -425,13 +425,11 @@ QTermZmodem::QTermZmodem(QObject *netinterface, int type)
 	{
 		// telnet
 		m_pTelnet= (QTermTelnet *)netinterface;
-		isSSH = false;
 	}
 	else if(connectionType ==1)
 	{
 		//ssh
 		m_pTelnet= (QTermTelnet *)netinterface;
-		isSSH = true;
 
 	}
 
@@ -486,7 +484,7 @@ int QTermZmodem::ZmodemTInit(ZModem *info)
 	info->waitflag = 0 ;
 	
 //	if( info->packetsize <= 0 )
-	  info->packetsize = 1024 ;
+	  info->packetsize = 8096 ;
 	info->windowsize = 0;
 	/* we won't be receiving much data, pick a reasonable buffer
 	 * size (largest packet will do)
@@ -534,7 +532,7 @@ int QTermZmodem::ZmodemTFile(char *file, char *rfile,	uint f0, uint f1, uint f2,
 	if (rfile != NULL)
 		info->rfilename = rfile;
 	else
-		info->rfilename = "noname";
+		info->rfilename = strdup("noname");
 	info->filesRem = filesRem ;
 	info->bytesRem = bytesRem ;
 	info->fileFlags[3] = f0 ;
@@ -561,6 +559,7 @@ int QTermZmodem::ZmodemTFile(char *file, char *rfile,	uint f0, uint f1, uint f2,
 	  return YSendFilename(info) ;
 
 	info->state = FileWait ;
+	ZStatus(FileBegin, info->bytesRem, info->rfilename);
 	zmodemlog("ZmodemTFile[%s]: send ZFILE(%s)\n",
 		sname(info), info->rfilename) ;
 	return sendFilename(info) ;
@@ -601,6 +600,11 @@ int QTermZmodem::ZmodemAbort(ZModem *info)
 	info->state = Done ;
 	ZIFlush(info) ;
 	ZOFlush(info) ;
+
+	transferstate = transferstop;  // transfer complete
+	ZmodemReset(info);  //Tranfer complete, zmodem return to receive state
+
+	zmodemlog("ZmodemAbort[%s]: send CAN\n", sname(info));
 	return ZXmitStr(canistr, sizeof(canistr), info) ;
 }
 
@@ -681,6 +685,7 @@ int QTermZmodem::ZmodemRcv(uchar *str, int len, ZModem *info)
 	  else if( c != XON && c != XOFF )
 	  {
 	    /* now look at what we have */
+	    //fprintf(stderr, "%02x, ", c);
 	    switch( info->InputState )
 	    {
 	      case Idle:
@@ -909,14 +914,14 @@ ulong QTermZmodem::FileCrc(char *name)
 
 
 
-char * QTermZmodem::sname(ZModem *info)
+const char * QTermZmodem::sname(ZModem *info)
 {
 		return sname2(info->state) ;
 }
 
-char * QTermZmodem::sname2(ZMState state)
+const char * QTermZmodem::sname2(ZMState state)
 {
-		char *names[] = {
+	const char *names[] = {
 	  "RStart", "RSinitWait", "RFileName", "RCrc", "RFile", "RData",
 	  "RDataErr", "RFinish", "TStart", "TInit", "FileWait", "CrcWait",
 	  "Sending", "SendWait", "SendDone", "SendEof", "TFinish",
@@ -958,8 +963,9 @@ int QTermZmodem::ZAttn(ZModem *info)
 	return 0;
 }
 
-void QTermZmodem::ZStatus(int type, int value, char *status)
+void QTermZmodem::ZStatus(int type, int value, const char *status)
 {
+	emit ZmodemState(type, value, status);
 	//to be completed
 	switch(type)
 	{
@@ -1319,20 +1325,19 @@ int QTermZmodem::DataChar( uchar c, register ZModem *info )
 	    default: c ^= 0100 ; break ;
 	  }
 	}
-
-	if (!isSSH)
-		if (lastPullByte == 0x0d && c == 0x00) {
-			lastPullByte = 0;
-			return 0;
-		}
-		else if (lastPullByte == 0xff && c == 0xff) {
-			lastPullByte = 0;
-			return 0;
-		}
-
+if(connectionType==0)
+	if (lastPullByte == 0x0d && c == 0x00) {
+		lastPullByte = 0;
+		return 0;
+	}
+	else if (lastPullByte == 0xff && c == 0xff) {
+		lastPullByte = 0;
+		return 0;
+	}
+	
 	lastPullByte = c;
 
-	// fprintf(stderr, "%02x ", c);
+//	fprintf(stderr, "%02x, ", c);
 
 	switch( info->DataType ) {
 	  /* TODO: are hex data packets ever used? */
@@ -2236,7 +2241,7 @@ int QTermZmodem::requestFile(  ZModem *info, ulong crc )
 	    sname(info), info->offset) ;
 	  info->offset = info->f0 == ZCRESUM ? ftell(info->file) : 0 ;
 	  info->state = RFile ;
-	  ZStatus(FileBegin, 0, info->filename) ;
+	  ZStatus(FileBegin, info->len, info->filename) ;
 	  return ZXmitHdrHex(ZRPOS, ZEnc4(info->offset), info) ;
 	}
 }
@@ -2537,6 +2542,10 @@ int QTermZmodem::sendFilename( ZModem *info )
 
 int QTermZmodem::GotRinit(  ZModem *info )
 {
+	if(strFileList.count()==0)
+		return ZmodemTFinish(info);
+
+
 	info->bufsize = info->hdrData[1] + info->hdrData[2]*256 ;
 	info->zrinitflags = info->hdrData[4] + info->hdrData[3]*256 ;
 	info->crc32 = info->zrinitflags & CANFC32 ;
@@ -2619,8 +2628,6 @@ int QTermZmodem::GotRinit(  ZModem *info )
 	if( AlwaysSinit || info->zsinitflags != 0  ||  info->attn != NULL )
 		SendZSInit(info) ;
 	
-	if(strFileList.count()==0)
-		return ZmodemTFinish(info);
 
 	itFile = strFileList.begin();
 	QFileInfo fi(*itFile);
@@ -2746,6 +2753,7 @@ int QTermZmodem::GotSendWaitAck(  ZModem *info )
 int QTermZmodem::SkipFile(  ZModem *info )
 {
 	zmodemlog("SkipFile[%s]\n", sname(info)) ;
+	ZStatus(FileEnd, 0, info->rfilename);
 	fclose(info->file) ;
 	return ZmDone ;
 }
@@ -2841,7 +2849,8 @@ void QTermZmodem::zmodemlog(const char *fmt, ... )
 
 	fclose(zmodemlogfile);
 }
-	
 
-
-
+void QTermZmodem::zmodemCancel()
+{
+	ZmodemAbort(&info);
+}

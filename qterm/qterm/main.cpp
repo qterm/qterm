@@ -32,124 +32,149 @@ AUTHOR:        kingson fiasco
 #include <qdir.h>
 #include <qfile.h>
 
-char fileCfg[128]="./qterm.cfg";
-char addrCfg[128]="./address.cfg";
+QString fileCfg="./qterm.cfg";
+QString addrCfg="./address.cfg";
 
 QString pathLib="./";
 QString pathPic="./";
 QString pathCfg="./";
 
-#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
+int checkPath( QString path )
+{
+	QDir dir(path);
+	if( ! dir.exists() )
+	{
+		if( !dir.mkdir(path) )
+		{
+			return -1;
+		}
+	}
+	return 0;
+}
+
+int checkFile( QString dst, QString src )
+{
+	QDir dir;
+	if(dir.exists(dst))
+		return 0;
+	
+	if( !dir.exists(src) )
+	{
+		printf("QTerm failed to find %s.\n"
+			"Please copy the qterm.cfg from the source tarball to %s\n", 
+			(const char*)src.local8Bit(), (const char*) dst.local8Bit() );
+		return -1;
+	}
+		
+	QString cmd;
+	cmd="/bin/cp -f "+ src+" "+dst;
+
+	if ( system((const char *)cmd.local8Bit())==-1 )
+	{
+		printf("QTerm failed to %s. \n"
+				"Please copy the qterm.cfg from the source tarball to %s\n", 
+			(const char*)cmd.local8Bit(), (const char *)dst.local8Bit());
+		return -1;
+	}
+	return 0;
+}
+
+#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
+#ifndef MAX_PATH
+#define MAX_PATH 128
+#endif
+#include <windows.h>
+#include <shellapi.h>
+int iniWorkingDir( QString param )
+{
+    char ExeNamePath[MAX_PATH], _fileCfg[MAX_PATH], _addrCfg[MAX_PATH];
+    size_t LastSlash = 0;
+
+    if(0 == GetModuleFileNameA(NULL, ExeNamePath, MAX_PATH))
+    {
+        const char *DefaultModuleName = "./qterm.exe";
+        strcpy(ExeNamePath, DefaultModuleName);
+    }
+    for(size_t i = 0, ModuleNameLen = strlen(ExeNamePath) ;
+        i < ModuleNameLen ; ++i)
+    {
+        if(ExeNamePath[i] == '\\')
+        {
+            ExeNamePath[i] = '/';
+            LastSlash = i;
+        }
+    }
+    ExeNamePath[LastSlash+1] = '\0';
+    pathLib = QString::fromLocal8Bit(ExeNamePath);
+    pathPic = QString::fromLocal8Bit(ExeNamePath);
+    pathCfg = QString::fromLocal8Bit(ExeNamePath);
+    strcpy(_fileCfg, ExeNamePath);
+    strcat(_fileCfg, "qterm.cfg");
+    fileCfg = QString::fromLocal8Bit(_fileCfg);
+    strcpy(_addrCfg, ExeNamePath);
+    strcat(_addrCfg, "address.cfg");
+    addrCfg = QString::fromLocal8Bit(_addrCfg);
+}
+#else
 int iniWorkingDir( QString param )
 {
 	QDir dir;
+	QFileInfo fi;
+#ifdef Q_OS_MACX
+	// $HOME/Library/QTerm/
+	QString pathHome=QDir::homeDirPath();
+	pathCfg = pathHome+"/Library/QTerm/";
+	if(checkPath(pathCfg)==-1)
+		return -1;
+
+	// get executive file path 
+	fi.setFile(param);
+	pathLib+=fi.dirPath()+'/';
+#else
+	pathCfg=QDir::homeDirPath()+"/.qterm/";
+	if(checkPath(pathCfg)==-1)
+		return -1;
+
 	// pathLib --- where datedir "pic", "cursor", "po"
 	if(param.find('/')==-1)
 		pathLib=QTERM_DATADIR"/";
 	else
 	{
-		// if its symbol link
 		QFileInfo fi(param);
-		if( fi.isSymLink() )
-			param = fi.readLink();
-		// get the pathname
-		param.truncate( param.findRev('/') );
-		QString oldPath=QDir::currentDirPath();
-		QDir::setCurrent( param );
 		dir.setPath(QTERM_BINDIR);
-		if( dir == QDir::current() )
+		if( dir == fi.dir() )
 			pathLib=QTERM_DATADIR;
 		else
 			pathLib=QDir::currentDirPath();
-		QDir::setCurrent( oldPath );
 		pathLib+='/';
 	}
+#endif
 
+	QString pathSchema=pathCfg+"schema";
+	if(checkPath(pathSchema)==-1)
+		return -1;
 
-	QString pathHome=QDir::homeDirPath()+"/.qterm";
+	QString pathZmodem=pathCfg+"zmodem";
+	if(checkPath(pathZmodem)==-1)
+		return -1;
 
-	dir.setPath( pathHome );
-	if( ! dir.exists() )
-	{
-		if( !dir.mkdir(pathHome) )
-		{
-			return -1;
-		}
-	}
-	pathCfg = QDir::homeDirPath();
-
-	QString pathSchema=QDir::homeDirPath()+"/.qterm/schema";
-	
-	dir.setPath( pathSchema );
-	if( !dir.exists() )
-	{
-		dir.mkdir(pathSchema);
-	}
-
-			
 	// picPath --- $HOME/.qterm/pic prefered
-	pathPic = QDir::homeDirPath()+"/.qterm/pic";
+	pathPic = pathCfg+"pic";
 	dir.setPath( pathPic );
 	if( !dir.exists() )
 		pathPic = pathLib;
 	else
-		pathPic = pathHome+"/";
-
-	QString file=QDir::homeDirPath()+"/.qterm/qterm.cfg";
-	QString addr=QDir::homeDirPath()+"/.qterm/address.cfg";
-
-	sprintf( fileCfg,file.ascii(),file.length() );
-	sprintf( addrCfg,addr.ascii(),addr.length() );
-
+		pathPic = pathCfg;
 	
-	if( !dir.exists(file) || !dir.exists(addr) )
-	{
-		QString srcCfg=pathLib+"qterm.cfg";
-		if( !dir.exists( srcCfg ) )
-		{
-			printf(" Failed to find %s\n Make sure you have this file there\n"
-				"There may be two reasons for this:\n"
-				" 1. QTerm is not install properly\n"
-				" 2. You have a corrupted source package.\n"
-				"Solution:\n"
-				"Re-Get source tarball and copy the qterm.cfg manually\n", srcCfg.ascii() );
-			exit(-1);
-		}
-		
-		QString cmd;
-		cmd="/bin/cp -f "+ pathLib+"qterm.cfg ";
-		cmd+=pathHome;
-		
+	// configuration files
+	fileCfg=pathCfg+"qterm.cfg";
+	if(checkFile(fileCfg,pathLib+"qterm.cfg")==-1)
+		return -1;
+	addrCfg=pathCfg+"address.cfg";
+	if(checkFile(addrCfg,pathLib+"address.cfg")==-1)
+		return -1;
 
-		if ( system(cmd)==-1 )
-		{
-			printf(" Failed to %s \nMake sure you have qterm.cfg in %s\n"
-				"There may be two reasons for this:\n"
-				" 1. QTerm is not installed properly\n"
-				" 2. You have a corrupted source package.\n"
-				"Solution:\n"
-				"Re-Get source tarball and copy the qterm.cfg manually\n",cmd.ascii(),pathLib.ascii());
-			exit(-1);
-		}
-
-		cmd="/bin/cp -f "+ pathLib+"address.cfg ";
-		cmd+=pathHome;
-		
-
-		if ( system(cmd)==-1 )
-		{
-			printf(" Failed to %s \nMake sure you have address.cfg in %s\n"
-				"There may be two reasons for this:\n"
-				" 1. QTerm is not installed properly\n"
-				" 2. You have a corrupted source package.\n"
-				"Solution:\n Re-Get source tarball and copy the address.cfg manually\n",cmd.ascii(),pathLib.ascii());
-			exit(-1);
-		}
-
-
-	}
-
-	return 1;
+	return 0;
 }
 #endif
 
@@ -388,13 +413,11 @@ int main( int argc, char ** argv )
 
 	qApp=&a;
 
-#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
     if( iniWorkingDir( argv[0] )<0 )
     {
 	    return -1;
     }
-#endif
-      //set font
+    //set font
     iniSettings();
 
 #ifdef HAVE_PYTHON

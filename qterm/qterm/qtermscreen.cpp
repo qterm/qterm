@@ -457,7 +457,6 @@ void QTermScreen::setSchema()
 		if(QFile::exists(pConf->getItemValue("image","name")) && m_nPxmType>1) // valid image name and type
 		{
 			m_pxmBg = QPixmap(pConf->getItemValue("image","name"));
-
 			QImage ima(m_pxmBg.convertToImage());
 			ima = fade(ima, alpha, fadecolor);
 			m_pxmBg.convertFromImage(ima);
@@ -1290,7 +1289,7 @@ void QTermInput::paintEvent(QPaintEvent * e)
 			len += 2;
 	}
 
-
+#ifndef Q_OS_MACX
 	QRect rcCurrent(cursor * d_width, 0, d_width*2, d_height);
 	if (d_text[d_pos] <= 0x7f)
 		rcCurrent.setRect(cursor * d_width, 0, d_width, d_height);
@@ -1298,5 +1297,6 @@ void QTermInput::paintEvent(QPaintEvent * e)
 	inputPainter.fillRect(rcCurrent, QBrush(Qt::darkGray));
 	inputPainter.setPen(Qt::white);
 	inputPainter.drawText(cursor * d_width ,d_ascent, d_text.mid(d_pos, 1));
+#endif
 	inputPainter.end();
 }

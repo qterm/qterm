@@ -74,8 +74,8 @@ AUTHOR:        kingson fiasco
 #include <qaction.h>
 #include <qinputdialog.h>
 
-extern char fileCfg[];
-extern char addrCfg[];
+extern QString fileCfg;
+extern QString addrCfg;
 
 extern QString pathLib;
 extern QString pathPic;
@@ -166,7 +166,7 @@ QTermFrame::QTermFrame()
 	//initialize all settings
 	iniSetting();
 
-	installEventFilter(this);
+//	installEventFilter(this);
 }
 
 //destructor
@@ -491,8 +491,14 @@ void QTermFrame::newWindow( const QTermParam&  param, int index )
 	
 	//add window-tab-icon to window manager
 	wndmgr->addWindow(window,qtab,icon);
-
-	window->showMaximized();
+	
+	if( ws->windowList().isEmpty() )
+		window->showMaximized();
+	else
+	{
+		ws->setFocus();
+		window->show();
+	}
 
 	//activte the window-tab
 	window->setFocus();
@@ -560,7 +566,6 @@ void QTermFrame::windowsMenuActivated( int id )
 	if ( w ) 
 	{
 		w->showNormal();
-		w->setFocus();
 		wndmgr->activateTheTab((QTermWindow*)w);
 	} 
 }
@@ -619,12 +624,16 @@ void QTermFrame::switchWin(int id)
 	}
 
 	QWidget *w = windows.at(id-1);
+	if(w == ws->activeWindow() )
+		return;
+
 	if(w!=NULL)
-		w->setFocus();
+		w->showNormal();
 }
 
 bool QTermFrame::eventFilter(QObject *o, QEvent *e)
 {
+/*
 	if( o==this && m_pref.bTray)
 	{
 		if( e->type()==QEvent::ShowMinimized && m_pref.bTray )
@@ -634,7 +643,7 @@ bool QTermFrame::eventFilter(QObject *o, QEvent *e)
 			return true;
 		}else
 			return false;
-    	}else 
+   	}else */
 		return QMainWindow::eventFilter(o, e);
 }
 
@@ -1621,7 +1630,11 @@ void QTermFrame::trayShow()
 		if(isMaximized())
 			showMaximized();
 		else
+			#ifdef Q_OS_MACX
+			showMaximized();
+			#else
 			showNormal();
+			#endif
 	}
 	raise();
 	setActiveWindow();

@@ -24,7 +24,7 @@
 #include <qtooltip.h>
 #include <qwhatsthis.h>
 
-extern char fileCfg[];
+extern QString fileCfg;
 
 /* 
  *  Constructs a keyDialog as a child of 'parent', with the 

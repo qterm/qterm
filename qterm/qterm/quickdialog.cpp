@@ -26,8 +26,8 @@
 #include <stdio.h>
 
 extern QString pathLib;
-extern char fileCfg[];
-extern char addrCfg[];
+extern QString fileCfg;
+extern QString addrCfg;
 extern void saveAddress(QTermConfig*,int,const QTermParam&);
 
 

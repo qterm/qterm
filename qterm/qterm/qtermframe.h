@@ -168,9 +168,10 @@ public:
 	bool m_bStatusBar;
 	
 	int m_nScrollPos;	// 0--hide 1--LEFT 2--RIGHT
+
+	QWorkspace* ws;
 protected:   
 	//variables
-	QWorkspace* ws;
 	QTermTimeLabel *labelTime;
 	QPopupMenu *windowsMenu;
 	QPopupMenu *themesMenu;
