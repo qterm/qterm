@@ -546,7 +546,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	// the system wide script
 	m_bPythonScriptLoaded = false;
 
-	if(m_param.m_bLoadScript)
+	if(m_param.m_bLoadScript && !m_param.m_strScriptFile.isEmpty() )
 	{
 		pName = PyString_FromString( m_param.m_strScriptFile );
 		pModule = PyImport_Import(pName);
