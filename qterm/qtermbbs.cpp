@@ -407,7 +407,8 @@ bool QTermBBS::isUrl(QRect& rcUrl, QRect& rcOld)
 	
 	if (cstrText.at(index-1) == '.')
 		return false;
-	if(i<2)
+
+	if(i<1)
 		return false;
 
 	m_cstrUrl = cstrText.mid(url, end-url);

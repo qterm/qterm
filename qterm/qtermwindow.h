@@ -115,7 +115,8 @@ protected:
 	void doAutoLogin();
 	void saveSetting();	
 	void replyMessage();
-
+	
+	void getHttpHelper();
 	void pasteHelper(bool);
 	QCString unicode2bbs(const QString&);
 
