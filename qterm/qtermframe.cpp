@@ -384,17 +384,17 @@ void QTermFrame::saveSetting()
 
 	cstrTmp = conf->getItemValue("global", "bbsbar");
 	sscanf(cstrTmp,"%d %d %d %d %d",&hide,&dock,&index,&nl,&extra);
-	conf->setItemValue("global","bbsbar", valueToString(mdiconnectTools->isVisible(), 
+	conf->setItemValue("global","bbsbar", valueToString(mdiconnectTools->isVisibleTo(this),
 							(int)dock, index, nl==1?true:false, extra));
 
 	cstrTmp = conf->getItemValue("global", "keybar");
 	sscanf(cstrTmp,"%d %d %d %d %d",&hide,&dock,&index,&nl,&extra);
-	conf->setItemValue("global","keybar", valueToString(key->isVisible(), 
+	conf->setItemValue("global","keybar", valueToString(key->isVisibleTo(this), 
 							(int)dock, index, nl==1?true:false, extra));
 
 	cstrTmp = conf->getItemValue("global", "mainbar");
 	sscanf(cstrTmp,"%d %d %d %d %d",&hide,&dock,&index,&nl,&extra);
-	conf->setItemValue("global","mainbar",valueToString(mdiTools->isVisible(),
+	conf->setItemValue("global","mainbar",valueToString(mdiTools->isVisibleTo(this),
 							(int)dock, index, nl==1?true:false, extra) );
 
 	
