@@ -1,3 +1,9 @@
+qterm (0.3.8-1) unstable; urgency=low
+
+  * Great improvements
+
+ -- Xiaoqiang Wang <xiaokiangwang@yahoo.com.cn> 
+ 
 qterm (0.2.0-2) unstable; urgency=low
 
   * New upstream release (official upload to Debian archive).

@@ -104,6 +104,7 @@ void QTermWndMgr::activateTheTab(QTermWindow * mw)
 //active the window when switch the tab
 void QTermWndMgr::activateTheWindow(QTab *qtab)
 {
+
 	//find where it is
 	int n=pTab.find(qtab);
 
@@ -114,12 +115,12 @@ void QTermWndMgr::activateTheWindow(QTab *qtab)
 
 	QTermWindow * mw=pWin.at(n);
 	//set focus to it
-	#ifdef Q_OS_MACX
+//	#ifdef Q_OS_MACX
 	((QWidget*)pFrame->ws)->setFocus();
 	mw->showNormal();
-	#else
-	mw->setFocus();
-	#endif
+//	#else
+//	mw->setFocus();
+//	#endif
 	
 	pFrame->updateMenuToolBar();
 }

@@ -501,7 +501,7 @@ void QTermFrame::newWindow( const QTermParam&  param, int index )
 	else
 	{
 		ws->setFocus();
-		window->show();
+		window->showMaximized();
 	}
 
 	//activte the window-tab
