@@ -68,7 +68,8 @@ QString getOpenFileName(const QString& filter, QWidget * widget)
 		conf.setItemValue("global","openfiledialog",fi.dirPath(true));
 		conf.save(fileCfg);
 	}
-
+	
+	return strOpen;
 }
 
 // warning for overwrite getSaveFileName

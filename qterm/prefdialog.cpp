@@ -62,6 +62,7 @@ void prefDialog::connectSlots()
     connect(ButtonGroup1 , SIGNAL(clicked(int)), this, SLOT(onBeep(int)) );
 	connect(browsePushButton, SIGNAL(clicked()), this, SLOT(onBrowse()) );
 	connect(imagePushButton, SIGNAL(clicked()), this, SLOT(onImage()) );
+	connect(poolPushButton, SIGNAL(clicked()), this, SLOT(onPool()) );
 }
 
 void prefDialog::loadSetting()
