@@ -1,17 +1,24 @@
 #ifndef QTERMTELNET_H
 #define QTERMTELNET_H
 
-// _OS_WIN32_ not defined if i dont include it
+// _OS_X_ not defined if i dont include it
 #include <qglobal.h>
 // different 
-#ifdef _OS_WIN32_
+#if defined(Q_OS_WIN32) || defined(_OS_WIN32_)
 	#include <winsock2.h>
+#elif defined(Q_OS_BSD4) || defined(_OS_FREEBSD_) \
+	|| defined(Q_OS_MACX) || defined(Q_OS_DARWIN)
+	#include <netdb.h>
+	#include <sys/socket.h>
+	#include <sys/types.h>
+	#include <netinet/in.h>
 #else
 	#include <netdb.h>
 	#include <sys/socket.h>
 	#include <sys/types.h>
 	#include <arpa/inet.h>
 #endif
+
 
 #include <qobject.h>
 

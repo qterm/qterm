@@ -611,7 +611,7 @@ QCString QTermBuffer::getSelectText( bool rect, bool color, const QCString& esca
 		cstrTemp.truncate(pos+1);
 	
 		cstrSelect += cstrTemp;
-		#ifdef _OS_WIN32_
+		#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 		cstrSelect += '\r';
 		#endif
 		cstrSelect += '\n';

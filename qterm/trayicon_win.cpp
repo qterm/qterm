@@ -18,7 +18,7 @@
  *
  */
 
-#if 0
+#if defined(Q_OS_WIN32) || defined(_OS_WIN32_)
 
 #include "trayicon.h"
 

@@ -13,9 +13,9 @@ AUTHOR:        kingson fiasco
 // remove this when use configure
 
 #include "qterm.h"
-
+#ifdef HAVE_PYTHON
 #include <Python.h>
-
+#endif
 #include <qpixmap.h>
 #include <qstringlist.h>
 #include <qapplication.h>
@@ -23,7 +23,7 @@ AUTHOR:        kingson fiasco
 #include "qtermconfig.h"
 #include "qtermparam.h"
 
-#ifndef _OS_WIN32_
+#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -38,7 +38,7 @@ char addrCfg[128]="./address.cfg";
 QString pathLib="./";
 QString pathPic="./";
 
-#ifndef _OS_WIN32_
+#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 int iniWorkingDir( QString param )
 {
 	// pathLib --- where datedir "pic", "cursor", "po"
@@ -370,7 +370,9 @@ void saveAddress(QTermConfig *pConf, int n, const QTermParam& param)
 
 }
 
+#ifdef HAVE_PYTHON
 PyThreadState * mainThreadState;
+#endif //HAVE_PYTHON
 
 int main( int argc, char ** argv ) 
 {
@@ -379,7 +381,7 @@ int main( int argc, char ** argv )
 
 	qApp=&a;
 
-#ifndef _OS_WIN32_
+#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
     if( iniWorkingDir( argv[0] )<0 )
     {
 	    return -1;
@@ -387,7 +389,8 @@ int main( int argc, char ** argv )
 #endif
       //set font
     iniSettings();
-  
+
+#ifdef HAVE_PYTHON
 	  // initialize Python
     Py_Initialize();
     // initialize thread support
@@ -404,7 +407,8 @@ int main( int argc, char ** argv )
 	pathCmd = "sys.path.insert(0,'";
 	pathCmd += pathLib+"script')";
 	PyRun_SimpleString(strdup(pathCmd));
-#ifndef _OS_WIN32_	
+
+#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 	// $HOME/.qterm/script, override 
 	pathCmd = "sys.path.insert(0,'";
 	pathCmd += QDir::homeDirPath()+"/.qterm/script')";
@@ -412,6 +416,7 @@ int main( int argc, char ** argv )
 #endif	
 	// release the lock
     PyEval_ReleaseLock();
+#endif // HAVE_PYTHON
 
   
     QTermFrame * mw = new QTermFrame();
@@ -422,6 +427,7 @@ int main( int argc, char ** argv )
     a.connect( &a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()) );
     int res = a.exec();
 
+#ifdef HAVE_PYTHON
 	// shut down the interpreter
 	PyInterpreterState * mainInterpreterState = mainThreadState->interp;
 	// create a thread state object for this thread
@@ -429,6 +435,6 @@ int main( int argc, char ** argv )
 	PyThreadState_Swap(myThreadState);
 	PyEval_AcquireLock();
 	Py_Finalize();
-
+#endif // HAVE_PYTHON
     return res;
 }

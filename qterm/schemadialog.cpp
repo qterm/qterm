@@ -33,9 +33,10 @@ schemaDialog::schemaDialog( QWidget* parent,  const char* name, bool modal, WFla
 	alphaSlider->setMaxValue(100);
 	alphaSlider->setLineStep(1);
 	alphaSlider->setPageStep(10);
-
+	
+	imagePixmapLabel->setScaledContents( false );
 	bgButtonGroup->setRadioButtonExclusive(true);
-
+	
 	connectSlots();
 	loadList();
 }
@@ -231,6 +232,7 @@ void schemaDialog::updateView()
 {
 	// title
 	titleLineEdit->setText( title );
+#if (QT_VERSION>300)
 	// color pane
 	clr0Button->setPaletteBackgroundColor(clr0);
 	clr1Button->setPaletteBackgroundColor(clr1);
@@ -248,6 +250,24 @@ void schemaDialog::updateView()
 	clr13Button->setPaletteBackgroundColor(clr13);
 	clr14Button->setPaletteBackgroundColor(clr14);
 	clr15Button->setPaletteBackgroundColor(clr15);
+#else
+    clr0Button->setPalette(clr0);
+    clr1Button->setPalette(clr1);
+    clr2Button->setPalette(clr2);
+    clr3Button->setPalette(clr3);
+    clr4Button->setPalette(clr4);
+    clr5Button->setPalette(clr5);
+    clr6Button->setPalette(clr6);
+    clr7Button->setPalette(clr7);
+    clr8Button->setPalette(clr8);
+    clr9Button->setPalette(clr9);
+    clr10Button->setPalette(clr10);
+    clr11Button->setPalette(clr11);
+    clr12Button->setPalette(clr12);
+    clr13Button->setPalette(clr13);
+    clr14Button->setPalette(clr14);
+    clr15Button->setPalette(clr15);
+#endif
 	// bg type
 	switch(type)
 	{
@@ -280,7 +300,11 @@ void schemaDialog::updateView()
 	// image file
 	imageLineEdit->setText(pxmBg);
 	// fade color
+#if (QT_VERSION>300)
 	fadeButton->setPaletteBackgroundColor(fade);
+#else
+	fadeButton->setPalette(fade);
+#endif
 	// alpha
 	alphaSlider->setValue(alpha*100);
 	
@@ -290,15 +314,19 @@ void schemaDialog::updateView()
 
 void schemaDialog::updateBgPreview()
 {
+#if (QT_VERSION>300)
 	imagePixmapLabel->setPaletteBackgroundColor(clr0);
+#else
+	imagePixmapLabel->setPalette(clr0);
+#endif
 	imagePixmapLabel->clear();
 	if(!QFile::exists(pxmBg) || type ==0)
 		return;
 	
-	QPixmap pixmap(pxmBg);
-	QImage img = pixmap.convertToImage();
+	QPixmap pixmap;
+	QImage img(pxmBg); 
  	img = fadeColor(img, alpha, fade);
-	pixmap.convertFromImage(img);
+	pixmap.convertFromImage( img.smoothScale(imagePixmapLabel->width(),imagePixmapLabel->height()) );
 /*
 	switch(type)
 	{
@@ -346,7 +374,11 @@ void schemaDialog::clr0Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr0 = color;
+#if (QT_VERSION>300)
 		clr0Button->setPaletteBackgroundColor(color);
+#else
+		clr0Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 }
@@ -356,7 +388,11 @@ void schemaDialog::clr1Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr1 = color;
+#if (QT_VERSION>300)
 		clr1Button->setPaletteBackgroundColor(color);
+#else
+		clr1Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 }
@@ -366,7 +402,11 @@ void schemaDialog::clr2Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr2 = color;
+#if (QT_VERSION>300)
 		clr2Button->setPaletteBackgroundColor(color);
+#else
+		clr2Button->setPalette(color);
+#endif
 		bModified = true;
 }
 
@@ -377,7 +417,11 @@ void schemaDialog::clr3Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr3 = color;
+#if (QT_VERSION>300)
 		clr3Button->setPaletteBackgroundColor(color);
+#else
+		clr3Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 
@@ -388,7 +432,11 @@ void schemaDialog::clr4Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr4 = color;
+#if (QT_VERSION>300)
 		clr4Button->setPaletteBackgroundColor(color);
+#else
+		clr4Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 
@@ -399,7 +447,11 @@ void schemaDialog::clr5Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr5 = color;
+#if (QT_VERSION>300)
 		clr5Button->setPaletteBackgroundColor(color);
+#else
+		clr5Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 }
@@ -408,7 +460,11 @@ void schemaDialog::clr6Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr6 = color;
+#if (QT_VERSION>300)
 		clr6Button->setPaletteBackgroundColor(color);
+#else
+		clr6Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 
@@ -418,7 +474,11 @@ void schemaDialog::clr7Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr7 = color;
+#if (QT_VERSION>300)
 		clr7Button->setPaletteBackgroundColor(color);
+#else
+		clr7Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 
@@ -428,7 +488,11 @@ void schemaDialog::clr8Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr8 = color;
+#if (QT_VERSION>300)
 		clr8Button->setPaletteBackgroundColor(color);
+#else
+		clr8Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 
@@ -438,7 +502,11 @@ void schemaDialog::clr9Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr9 = color;
+#if (QT_VERSION>300)
 		clr9Button->setPaletteBackgroundColor(color);
+#else
+		clr9Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 
@@ -448,7 +516,11 @@ void schemaDialog::clr10Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr10 = color;
+#if (QT_VERSION>300)
 		clr10Button->setPaletteBackgroundColor(color);
+#else
+		clr10Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 
@@ -458,7 +530,11 @@ void schemaDialog::clr11Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr11 = color;
+#if (QT_VERSION>300)
 		clr11Button->setPaletteBackgroundColor(color);
+#else
+		clr11Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 
@@ -468,7 +544,11 @@ void schemaDialog::clr12Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr12 = color;
+#if (QT_VERSION>300)
 		clr12Button->setPaletteBackgroundColor(color);
+#else
+		clr12Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 
@@ -478,7 +558,11 @@ void schemaDialog::clr13Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr13 = color;
+#if (QT_VERSION>300)
 		clr13Button->setPaletteBackgroundColor(color);
+#else
+		clr13Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 
@@ -489,7 +573,11 @@ void schemaDialog::clr14Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr14 = color;
+#if (QT_VERSION>300)
 		clr14Button->setPaletteBackgroundColor(color);
+#else
+		clr14Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 
@@ -500,7 +588,11 @@ void schemaDialog::clr15Clicked()
 	if(color.isValid()==TRUE)
 	{
 		clr15 = color;
+#if (QT_VERSION>300)
 		clr15Button->setPaletteBackgroundColor(color);
+#else
+		clr15Button->setPalette(color);
+#endif
 		bModified = true;
 	}
 
@@ -543,7 +635,8 @@ void schemaDialog::bgType(int n)
 			typeComboBox->setEnabled(true);
 			imageLineEdit->setEnabled(true);
 			chooseButton->setEnabled(true);
-
+			if(type==0)
+				type=2;
 			typeComboBox->setCurrentItem(type-2);
 			break;
 
@@ -592,7 +685,12 @@ void schemaDialog::fadeClicked()
 	if(color.isValid()==TRUE)
 	{
 		fade = color;
+#if (QT_VERSION>300)
 		fadeButton->setPaletteBackgroundColor(color);
+#else
+		fadeButton->setPalette(color);
+#endif
+
 		bModified = true;
 		updateBgPreview();
 	}

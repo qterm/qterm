@@ -1,3 +1,11 @@
+2003/11/08
+	add
+	1. disable python when no python-dev detected
+	2. qterm.pro for qmake use
+	fix
+	1. merge patch for BSD system
+	2. one bug in QTermTextLine::getText
+	
 2003/11/07
 	add
 	1. schema support

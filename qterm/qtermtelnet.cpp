@@ -223,7 +223,7 @@ void QTermTelnet::connectHost(const QString& hostname, Q_UINT16 portnumber)
 	{
 		//get ip addr from name
 		struct hostent * hostent;
-	#ifdef _OS_WIN32_	
+	#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 		WSADATA wsd;
 		if (WSAStartup(0x202,&wsd) != 0)
 		{
