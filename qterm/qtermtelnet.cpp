@@ -26,6 +26,8 @@ AUTHOR:		smartfish kafa
 #include <ctype.h>
 #include <qsocket.h>
 
+static bool bConn=false;
+
 struct fsm_trans QTermTelnet::ttstab[] = {
 	/* State	Input		Next State	Action	*/
 	/* ------	------		-----------	-------	*/
@@ -53,7 +55,7 @@ struct fsm_trans QTermTelnet::ttstab[] = {
 	{ TSWOPT,	TOTXBINARY,	TSDATA,		&QTermTelnet::do_txbinary	},
 	{ TSWOPT,	TCANY,		TSDATA,		&QTermTelnet::do_notsup	},
 
-//	{ TSDOPT,	TONAWS,		TSDATA,		&QTermTelnet::will_naws	},
+	{ TSDOPT,	TONAWS,		TSDATA,		&QTermTelnet::will_naws	},
 	{ TSDOPT,	TOTERMTYPE,	TSDATA,		&QTermTelnet::will_termtype	},
 	{ TSDOPT,	TOTXBINARY,	TSDATA,		&QTermTelnet::will_txbinary	},
 	{ TSDOPT,	TCANY,		TSDATA,		&QTermTelnet::will_notsup	},
@@ -65,14 +67,17 @@ struct fsm_trans QTermTelnet::ttstab[] = {
 struct fsm_trans QTermTelnet::substab[] = {
         /* State        Input           Next State      Action  */
         /* ------       ------          -----------     ------- */
-	{ SS_START,	TOTERMTYPE,	SS_TERMTYPE,	&QTermTelnet::no_op		},
-	{ SS_START,	TCANY,		SS_END,		&QTermTelnet::no_op		},
+	{ SS_START,		TOTERMTYPE,	SS_TERMTYPE,	&QTermTelnet::no_op		},
+	{ SS_START,		TCANY,		SS_END,			&QTermTelnet::no_op		},
 
-	{ SS_TERMTYPE,	TT_SEND,	SS_END,		&QTermTelnet::subtermtype	},
-	{ SS_TERMTYPE,	TCANY,		SS_END,		&QTermTelnet::no_op		},
+	{ SS_TERMTYPE,	TT_SEND,	SS_END,			&QTermTelnet::subtermtype	},
+	{ SS_TERMTYPE,	TCANY,		SS_END,			&QTermTelnet::no_op		},
 
-	{ SS_END,	TCANY,		SS_END,		&QTermTelnet::no_op		},
-	{ FSINVALID,	TCANY,		FSINVALID,	&QTermTelnet::tnabort		},
+	{ SS_NAWS,		TT_SEND,	SS_END,			&QTermTelnet::subnaws	},
+	{ SS_NAWS,		TCANY,		SS_END,			&QTermTelnet::no_op		},
+
+	{ SS_END,		TCANY,		SS_END,			&QTermTelnet::no_op		},
+	{ FSINVALID,	TCANY,		FSINVALID,		&QTermTelnet::tnabort		},
 };
 
 
@@ -81,15 +86,15 @@ struct fsm_trans QTermTelnet::substab[] = {
  * Constructor
  *------------------------------------------------------------------------
  */
-QTermTelnet::QTermTelnet( QCString cstrTermType, bool isSSH, const char * sshuser, const char * sshpasswd )
+QTermTelnet::QTermTelnet( QCString cstrTermType, int rows, int columns, bool isSSH, const char * sshuser, const char * sshpasswd )
 {
 	term = new char[21];
 	int i;
 	for(i=0;i<21;i++) term[i]='\000';	//clean up, need???
 	sprintf(term, cstrTermType);
 
-	wx=80;
-	wy=24;
+	wx=columns;
+	wy=rows;
 	done_naws=0;
 
 	synching = 0;
@@ -217,20 +222,36 @@ void QTermTelnet::connectHost(const QString& hostname, Q_UINT16 portnumber)
 	emit TelnetState( TSRESOLVING );
 }
 
+void QTermTelnet::windowSizeChanged(int x, int y)
+{
+	wx=x;
+	wy=y;
+	if(bConn)
+	{
+		setWindowSize(wx,wy);
+	}
+}
+
 void QTermTelnet::setWindowSize( int x, int y )
 {
 	wx=x;
 	wy=y;
-
+	
 	char cmd[10];
 	
 	cmd[0] = (char)TCIAC;
 	cmd[1] = (char)TCSB;
 	cmd[2] = (char)TONAWS;
+	
 	cmd[3] = (char)(short(x)>>8);
-	cmd[4] = (char)(short(x)%0xff);
+	printf("%d ",cmd[3]);
+	cmd[4] = (char)(short(x)&0xff);
+	printf("%d ",cmd[4]);
 	cmd[5] = (char)(short(y)>>8);
-	cmd[6] = (char)(short(y)%0xff);
+	printf("%d ",cmd[5]);
+	cmd[6] = (char)(short(y)&0xff);
+	printf("%d\n",cmd[6]);
+
 	cmd[7] = (char)TCIAC;
 	cmd[8] = (char)TCSE;
 
@@ -267,6 +288,7 @@ void QTermTelnet::close()
  */
 void QTermTelnet::connected()
 {
+	bConn = true;
 	emit TelnetState( TSHOSTCONNECTED );
 }
 /*------------------------------------------------------------------------
@@ -276,6 +298,7 @@ void QTermTelnet::connected()
 
 void QTermTelnet::closed()
 {
+	bConn = false;
 	emit TelnetState( TSCLOSED );
 }
 /*------------------------------------------------------------------------
@@ -710,8 +733,7 @@ int QTermTelnet::will_termtype(int c)
 
 int QTermTelnet::will_naws(int c)
 {
-	done_naws = 1;
-
+	printf("naws=%d, option_cmd=%d, (%d,%d)\n", naws, option_cmd, wx,wy);
 	if (naws) {
 		if (option_cmd == TCDO)
 			return 0;
@@ -722,16 +744,22 @@ int QTermTelnet::will_naws(int c)
 
 	if (naws)
 	{
-		if(!done_naws)
+//		if(!done_naws)
 		{
 			putc_down(TCIAC);
 			putc_down(TCWILL);
 			putc_down((char)c);
 		}
-		setWindowSize( wx, wy );
 	}
 	
+	done_naws = 1;
+
 	return 0;
+}
+
+int QTermTelnet::subnaws(int c)
+{
+	setWindowSize(wx, wy);
 }
 /*------------------------------------------------------------------------
  * subopt - do option subnegotiation FSM transitions
@@ -894,3 +922,4 @@ int QTermTelnet::tnabort(int)
 //	exit(-1);
 	return -1;
 }
+

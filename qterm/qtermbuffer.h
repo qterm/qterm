@@ -92,9 +92,9 @@ public:
 	QRect getSelectRect( int, bool );
 
 signals:
-	
 	void bufferSizeChanged();
-	
+	void windowSizeChanged(int,int);
+
 protected:	
 	void shiftStr( int, int, int, int );
 	void scrollLines( int, int );

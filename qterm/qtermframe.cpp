@@ -46,6 +46,7 @@ AUTHOR:        kingson fiasco
 #include <qstatusbar.h>
 #include <qmessagebox.h>
 #include <qhbox.h>
+#include <qregexp.h>
 
 #if QT_VERSION < 300
 #include <qplatinumstyle.h>
@@ -511,7 +512,14 @@ void QTermFrame::aboutQTerm()
 //slot Help->Homepage
 void QTermFrame::homepage()
 {
-	QCString cstrCmd = m_pref.strHttp.local8Bit()+" http://qterm.sourceforge.net";
+    QCString cstrCmd = m_pref.strHttp.local8Bit();
+	QCString cstrUrl = "http://qterm.sourceforge.net";
+
+    if(cstrCmd.find("%L")==-1)
+        cstrCmd += " \"" + cstrUrl +"\"";
+    else
+        cstrCmd.replace(QRegExp("%L",false), cstrUrl);
+
 	#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 	cstrCmd += " &";
 	#endif
