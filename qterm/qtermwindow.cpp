@@ -27,6 +27,7 @@ AUTHOR:        kingson fiasco
 #include "qtermtextline.h"
 #include "articledialog.h"
 #include "popwidget.h"
+#include "qtermzmodem.h"
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
@@ -516,6 +517,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, true, (const char *)m_param.m_strSSHUser, (const char *)m_param.m_strSSHPasswd );
 #endif
 	}
+	m_pZmodem = new QTermZmodem( m_pTelnet, param.m_nProtocolType);
 	m_pDecode = new QTermDecode( m_pBuffer );
 	m_pBBS	  = new QTermBBS( m_pBuffer );
 	m_pScreen = new QTermScreen( this, m_pBuffer, &m_param, m_pBBS );
@@ -1121,6 +1123,16 @@ void QTermWindow::readReady( int size )
 	char * str = new char[size+1];
 	m_pTelnet->read( str,size );
 	str[size]='\0';
+
+    int raw_size = m_pTelnet->raw_len();
+    char * raw_str = new char[raw_size];
+    m_pTelnet->read_raw(raw_str, raw_size);
+
+    // read raw buffer
+    m_pZmodem->ZmodemRcv( (uchar *)raw_str, raw_size, &(m_pZmodem->info));
+
+if(m_pZmodem->transferstate == notransfer)
+{	
 	//decode
 	m_pDecode->decode(str,size);
 	
@@ -1219,9 +1231,14 @@ void QTermWindow::readReady( int size )
 	
 	//refresh screen
 	m_pScreen->refreshScreen();
+}
+	
+    //delete the buf
+    delete []str;
+    delete []raw_str;
 
-	//delete the buf
-	delete []str;
+    if (m_pZmodem->transferstate == transferstop)
+        m_pZmodem->transferstate = notransfer;
 }
 
 // telnet state slot

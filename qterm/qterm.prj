@@ -52,6 +52,7 @@ HEADERS		= qtermframe.h \
 		qtermparam.h	\
 		qtermsound.h	\
 		qtermsocket.h	\
+		qtermzmodem.h	\
 		qterm.h		\
 		aboutdialogui.h	\
 		aboutdialog.h	\
@@ -108,6 +109,7 @@ SOURCES		= qtermframe.cpp \
 		qtermparam.cpp	\
 		qtermsound.cpp	\
 		qtermsocket.cpp	\
+		qtermzmodem.cpp	\
 		aboutdialogui.cpp	\
 		aboutdialog.cpp	\
 		addrdialogui.cpp	\

@@ -139,6 +139,9 @@ public:
 	int  read(char * data, uint maxlen);
 	int  write(const char * data, uint len);
 	void close();				// User close the connection
+	
+	int raw_len();
+	int read_raw(char *data, uint maxlen);
 
 signals:
 	void readyRead(int);		// There are datas to be read out
@@ -245,6 +248,8 @@ private:
 	int wx, wy;
 	int done_naws;
 	bool d_isSSH;
+
+	int raw_size;
 };
 
 #endif	// QTERMTELNET_H
