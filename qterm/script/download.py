@@ -45,7 +45,7 @@ def write_html_header(hfile, num):
 		<a href=index.html>Index</a>      
 		<a href=%d.html>Next</a></p align=center></p>""" % (num-1,num+1)
 	hfile.write(txt)
-	hfile.write("<hr><p></p>")
+	hfile.write("<hr><p></p>\n")
 
 def write_html_ender(hfile,num):
 	hfile.write("<hr><p></p>")
@@ -69,7 +69,7 @@ def write_index_header(hfile):
 	hfile.write("""<p><p align=center>
 				<a href=\"../index.html\">Up</a>
 				</p align=center</p>""")
-	hfile.write("<hr><p></p>")
+	hfile.write("<hr><p></p>\n")
 
 def write_index_ender(hfile):
 	hfile.write("<hr><p></p>")

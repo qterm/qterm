@@ -37,19 +37,27 @@ char addrCfg[128]="./address.cfg";
 
 QString pathLib="./";
 QString pathPic="./";
+QString pathCfg="./";
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 int iniWorkingDir( QString param )
 {
+	QDir dir;
 	// pathLib --- where datedir "pic", "cursor", "po"
 	if(param.find('/')==-1)
 		pathLib=QTERM_DATADIR"/";
 	else
 	{
+		// if its symbol link
+		QFileInfo fi(param);
+		if( fi.isSymLink() )
+			param = fi.readLink();
+		// get the pathname
 		param.truncate( param.findRev('/') );
 		QString oldPath=QDir::currentDirPath();
 		QDir::setCurrent( param );
-		if( QDir::currentDirPath()==QTERM_BINDIR )
+		dir.setPath(QTERM_BINDIR);
+		if( dir == QDir::current() )
 			pathLib=QTERM_DATADIR;
 		else
 			pathLib=QDir::currentDirPath();
@@ -57,8 +65,7 @@ int iniWorkingDir( QString param )
 		pathLib+='/';
 	}
 
-	QDir dir;
-	
+
 	QString pathHome=QDir::homeDirPath()+"/.qterm";
 
 	dir.setPath( pathHome );
@@ -69,7 +76,8 @@ int iniWorkingDir( QString param )
 			return -1;
 		}
 	}
-	
+	pathCfg = QDir::homeDirPath();
+
 	QString pathSchema=QDir::homeDirPath()+"/.qterm/schema";
 	
 	dir.setPath( pathSchema );

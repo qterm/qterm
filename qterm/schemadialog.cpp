@@ -99,34 +99,42 @@ void schemaDialog::connectSlots()
 void schemaDialog::loadList()
 {
 	QDir dir;
-	dir.setNameFilter("*.schema");
-	
-	dir.setPath(QDir::homeDirPath()+"/.qterm/schema");
-	const QFileInfoList *lstFile = dir.entryInfoList();
-	QFileInfoListIterator it(*lstFile);
+	const QFileInfoList *lstFile;
 	QFileInfo *fi;
-	while( (fi = it.current())!=0 )
-	{
-		QTermConfig *pConf = new QTermConfig(fi->absFilePath());
-		nameListBox->insertItem(pConf->getItemValue("schema","title"));
-		delete pConf;
-		fileList.append(fi->absFilePath());
-		++it;
-	}
-	
-	dir.setPath( pathLib+"schema" );
 
+	dir.setNameFilter("*.schema");
+
+#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
+	dir.setPath(QDir::homeDirPath()+"/.qterm/schema");
 	lstFile = dir.entryInfoList();
-	QFileInfoListIterator it2(*lstFile);
-	while( (fi = it2.current())!=0 )
+	if( lstFile!=NULL )
 	{
-		QTermConfig *pConf = new QTermConfig(fi->absFilePath());
-		nameListBox->insertItem(pConf->getItemValue("schema","title"));
-		delete pConf;
-		fileList.append(fi->absFilePath());
-		++it2;
+		QFileInfoListIterator it(*lstFile);
+		while( (fi = it.current())!=0 )
+		{
+			QTermConfig *pConf = new QTermConfig(fi->absFilePath());
+			nameListBox->insertItem(pConf->getItemValue("schema","title"));
+			delete pConf;
+			fileList.append(fi->absFilePath());
+			++it;
+		}
 	}
-	
+#endif	
+
+	dir.setPath( pathLib+"schema" );
+	lstFile = dir.entryInfoList();
+	if(lstFile != NULL)
+	{
+		QFileInfoListIterator it2(*lstFile);
+		while( (fi = it2.current())!=0 )
+		{
+			QTermConfig *pConf = new QTermConfig(fi->absFilePath());
+			nameListBox->insertItem(pConf->getItemValue("schema","title"));
+			delete pConf;
+			fileList.append(fi->absFilePath());
+			++it2;
+		}
+	}
 }
 
 void schemaDialog::loadSchema(const QString& strSchemaFile)
