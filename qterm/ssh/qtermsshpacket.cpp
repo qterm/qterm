@@ -185,7 +185,7 @@ void QTermSSH1PacketReceiver::parseData(QTermSSHBuffer * input)
 		// qDebug("incoming packet dump:");
 		// input->dump();
 		if (input->len() < 4) {
-			qDebug("parseData_readlen: packet too small");
+			// qDebug("parseData_readlen: packet too small");
 			return;
 		}
 		buf = input->data();
@@ -250,7 +250,7 @@ void QTermSSH1PacketReceiver::onPacket()
 
 void QTermSSH1PacketReceiver::startEncryption(const u_char * sessionkey)
 {
-	qDebug("We start encrypt communication\n");
+	//qDebug("We start encrypt communication\n");
 	d_sccipher = new QTermSSH1DES3;
 	d_sccipher->setIV(NULL);
 	d_sccipher->setKey(sessionkey);
