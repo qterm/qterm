@@ -24,7 +24,6 @@ QTermBBS::QTermBBS( QTermBuffer * buffer )
 
 QTermBBS::~QTermBBS()
 {
-
 }
 
 void QTermBBS::setScreenStart(int nStart )

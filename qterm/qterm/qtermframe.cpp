@@ -469,7 +469,8 @@ void QTermFrame::exitQTerm()
 }
 
 //create a new display window
-QTermWindow * QTermFrame::newWindow( const QTermParam&  param, int index )
+//QTermWindow * QTermFrame::newWindow( const QTermParam&  param, int index )
+void QTermFrame::newWindow( const QTermParam&  param, int index )
 {
 	QTermWindow * window=new QTermWindow( this, param, index, ws,
 					0,  WDestructiveClose );
@@ -494,7 +495,7 @@ QTermWindow * QTermFrame::newWindow( const QTermParam&  param, int index )
 	window->setFocus();
 	wndmgr->activateTheTab(window);
 
-	return window;
+//	return window;
 }
 
 //the tabbar selection changed
@@ -623,7 +624,7 @@ bool QTermFrame::eventFilter(QObject *o, QEvent *e)
 			return true;
 		}else
 			return false;
-    }else 
+    	}else 
 		return QMainWindow::eventFilter(o, e);
 }
 
