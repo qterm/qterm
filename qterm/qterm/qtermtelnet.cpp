@@ -231,7 +231,6 @@ void QTermTelnet::windowSizeChanged(int x, int y)
 	{
 		naws = 0;
 
-		qWarning("sent NAWS");
 		char cmd[10];
 		cmd[0] = (char)TCIAC;
 		cmd[1] = (char)TCSB;
@@ -242,14 +241,8 @@ void QTermTelnet::windowSizeChanged(int x, int y)
 		cmd[6] = (char)(short(wy)&0xff);
 		cmd[7] = (char)TCIAC;
 		cmd[8] = (char)TCSE;
-		write(cmd, 9);
-/*
-		char cmd[4];
-		cmd[0] = (char)TCIAC;
-		cmd[1] = (char)TCWILL;
-		cmd[2] = (char)TONAWS;
-		write(cmd, 3);
-*/
+		socket->writeBlock(cmd,9);
+
 	}
 }
 
