@@ -174,9 +174,15 @@ void schemaDialog::saveNumSchema(int n)
 	
 	title = titleLineEdit->text();
 	pxmBg = imageLineEdit->text();
+
+#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
+	QDir dir(pathLib);
+	QString strSchemaFile = dir.absPath()+"/schema/"+title+".schema";
+#else
 	// save it to $HOME/.qterm/schema/ with filename=title
 	QFileInfo fi(*it);
 	QString strSchemaFile = QDir::homeDirPath()+"/.qterm/schema/"+title+".schema";
+#endif
 
 	// create a new schema if title changed
 	if(strSchemaFile!=strCurrentSchema)
