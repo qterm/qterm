@@ -506,10 +506,8 @@ void QTermDecode::setMode()
 			case 1001:
 				emit mouseMode(true);
 				bCurMode[MODE_MouseX11]=true;
-				printf("setModeX11\n");
 				break;
 			default:
-				qWarning("unhandled setMode %d\n", n);
 				break;
 		}
 	}
@@ -532,10 +530,8 @@ void QTermDecode::resetMode()
 			case 1001:
 				bCurMode[MODE_MouseX11]=false;
 				emit mouseMode(false);
-				printf("resetModeX11\n");
 				break;
 			default:
-				qWarning("unhandled resetMode %d\n", n);
 			break;
 		}
 	}
@@ -551,10 +547,8 @@ void QTermDecode::saveMode()
 			case 1000:
 			case 1001:
 				bSaveMode[MODE_MouseX11]=bCurMode[MODE_MouseX11];
-				printf("save X11\n");
 				break;
 			default:
-				qWarning("unhandled saveMode %d\n", n);
 			break;
 		}
 	}
@@ -571,10 +565,8 @@ void QTermDecode::restoreMode()
 			case 1001:
 				bCurMode[MODE_MouseX11]=bSaveMode[MODE_MouseX11];
 				emit mouseMode( bCurMode[MODE_MouseX11] );
-				printf("restore X11\n");
 				break;
 			default:
-				qWarning("unhandled restoreMode %d\n", n);
 			break;
 		}
 	}
@@ -583,5 +575,4 @@ void QTermDecode::restoreMode()
 
 void QTermDecode::test()
 {
-	printf("QTermDecode::test()\n");
 }

@@ -181,6 +181,11 @@ void QTermWndMgr::activeNextPrev(bool next)
 //	mw->setFocus();
 //	#endif
 
+	QTab * qtab=pTab.at(n);
+	//set it seleted
+	pFrame->tabBar->setCurrentTab(qtab);
+	pFrame->updateMenuToolBar();
+
 }
 
 bool QTermWndMgr::afterRemove()

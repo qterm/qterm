@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'aboutdialog.ui'
 **
-** Created: Wed Apr 2 14:52:53 2003
+** Created: Sat Nov 13 22:38:36 2004
 **      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -16,11 +16,12 @@
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
+class QSpacerItem;
 class QLabel;
-class QPushButton;
 class QTabWidget;
-class QTextBrowser;
 class QWidget;
+class QTextBrowser;
+class QPushButton;
 
 class aboutDialogUI : public QDialog
 {
@@ -30,8 +31,8 @@ public:
     aboutDialogUI( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
     ~aboutDialogUI();
 
+    QLabel* pixmapLabel;
     QLabel* TextLabel;
-    QPushButton* closeButton;
     QTabWidget* mainTabWidget;
     QWidget* tab;
     QLabel* TextLabel3;
@@ -39,12 +40,13 @@ public:
     QLabel* TextLabel1;
     QWidget* tab_3;
     QTextBrowser* TextBrowser2;
-    QLabel* pixmapLabel;
+    QPushButton* closeButton;
 
 protected:
 
 protected slots:
     virtual void languageChange();
+
 };
 
 #endif // ABOUTDIALOGUI_H
