@@ -231,12 +231,12 @@ void prefDialog::onHttp()
 }
 void prefDialog::onBeep( int id )
 {
-	if(id==2)
+	if(id==1)
 	{
 		wavefileLineEdit->setEnabled(true);
 		selectsoundPushButton->setEnabled(true);
 	}
-	else if(id==0 || id==1 )
+	else if(id==0 || id==3 )
 	{
 		wavefileLineEdit->setEnabled(false);
 		selectsoundPushButton->setEnabled(false);
