@@ -972,6 +972,7 @@ void QTermWindow::ZmodemState(int type, int value, const QCString& status)
                 /* file transfer begins, str=name */
 //                qWarning("starting file %s", status);
 				m_pZmDialog->setFileInfo(G2U(status),value);
+				m_pZmDialog->setProgress(0);
 				m_pZmDialog->clearErrorLog();
 				m_pZmDialog->show();
 				#if (QT_VERSION>=0x030200)

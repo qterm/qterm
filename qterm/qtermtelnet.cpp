@@ -26,7 +26,6 @@ AUTHOR:		smartfish kafa
 #include <ctype.h>
 #include <qsocket.h>
 
-static bool bConn=false;
 
 struct fsm_trans QTermTelnet::ttstab[] = {
 	/* State	Input		Next State	Action	*/
@@ -53,9 +52,9 @@ struct fsm_trans QTermTelnet::ttstab[] = {
 	{ TSWOPT,	TOECHO,		TSDATA,		&QTermTelnet::do_echo		},
 	{ TSWOPT,	TONOGA,		TSDATA,		&QTermTelnet::do_noga		},
 	{ TSWOPT,	TOTXBINARY,	TSDATA,		&QTermTelnet::do_txbinary	},
-	{ TSWOPT,	TCANY,		TSDATA,		&QTermTelnet::do_notsup	},
+	{ TSWOPT,	TCANY,		TSDATA,		&QTermTelnet::do_notsup		},
 
-	{ TSDOPT,	TONAWS,		TSDATA,		&QTermTelnet::will_naws	},
+	{ TSDOPT,	TONAWS,		TSDATA,		&QTermTelnet::will_naws		},
 	{ TSDOPT,	TOTERMTYPE,	TSDATA,		&QTermTelnet::will_termtype	},
 	{ TSDOPT,	TOTXBINARY,	TSDATA,		&QTermTelnet::will_txbinary	},
 	{ TSDOPT,	TCANY,		TSDATA,		&QTermTelnet::will_notsup	},
@@ -72,12 +71,9 @@ struct fsm_trans QTermTelnet::substab[] = {
 
 	{ SS_TERMTYPE,	TT_SEND,	SS_END,			&QTermTelnet::subtermtype	},
 	{ SS_TERMTYPE,	TCANY,		SS_END,			&QTermTelnet::no_op		},
-
-	{ SS_NAWS,		TT_SEND,	SS_END,			&QTermTelnet::subnaws	},
-	{ SS_NAWS,		TCANY,		SS_END,			&QTermTelnet::no_op		},
-
+	
 	{ SS_END,		TCANY,		SS_END,			&QTermTelnet::no_op		},
-	{ FSINVALID,	TCANY,		FSINVALID,		&QTermTelnet::tnabort		},
+	{ FSINVALID,	TCANY,		FSINVALID,		&QTermTelnet::tnabort	},
 };
 
 
@@ -226,17 +222,16 @@ void QTermTelnet::windowSizeChanged(int x, int y)
 {
 	wx=x;
 	wy=y;
-	if(bConn)
-	{
+	if(bConnected)
 		setWindowSize(wx,wy);
-	}
 }
 
 void QTermTelnet::setWindowSize( int x, int y )
 {
 	wx=x;
 	wy=y;
-	
+
+
 	char cmd[10];
 	
 	cmd[0] = (char)TCIAC;
@@ -244,13 +239,9 @@ void QTermTelnet::setWindowSize( int x, int y )
 	cmd[2] = (char)TONAWS;
 	
 	cmd[3] = (char)(short(x)>>8);
-	printf("%d ",cmd[3]);
 	cmd[4] = (char)(short(x)&0xff);
-	printf("%d ",cmd[4]);
 	cmd[5] = (char)(short(y)>>8);
-	printf("%d ",cmd[5]);
 	cmd[6] = (char)(short(y)&0xff);
-	printf("%d\n",cmd[6]);
 
 	cmd[7] = (char)TCIAC;
 	cmd[8] = (char)TCSE;
@@ -288,7 +279,7 @@ void QTermTelnet::close()
  */
 void QTermTelnet::connected()
 {
-	bConn = true;
+	bConnected = true;
 	emit TelnetState( TSHOSTCONNECTED );
 }
 /*------------------------------------------------------------------------
@@ -298,7 +289,7 @@ void QTermTelnet::connected()
 
 void QTermTelnet::closed()
 {
-	bConn = false;
+	bConnected = false;
 	emit TelnetState( TSCLOSED );
 }
 /*------------------------------------------------------------------------
@@ -308,6 +299,7 @@ void QTermTelnet::closed()
 
 void QTermTelnet::delayCloseFinished()
 {
+	bConnected = false;
 	emit TelnetState( TSCLOSEFINISH );
 }
 /*------------------------------------------------------------------------
@@ -733,7 +725,6 @@ int QTermTelnet::will_termtype(int c)
 
 int QTermTelnet::will_naws(int c)
 {
-	printf("naws=%d, option_cmd=%d, (%d,%d)\n", naws, option_cmd, wx,wy);
 	if (naws) {
 		if (option_cmd == TCDO)
 			return 0;
@@ -742,25 +733,26 @@ int QTermTelnet::will_naws(int c)
 
 	naws = !naws;
 
+	putc_down(TCIAC);
 	if (naws)
-	{
-//		if(!done_naws)
-		{
-			putc_down(TCIAC);
-			putc_down(TCWILL);
-			putc_down((char)c);
-		}
-	}
-	
-	done_naws = 1;
+		putc_down(TCWILL);
+	else
+		putc_down(TCWONT);
+	putc_down((char)c);
+
+	putc_down(TCIAC);
+	putc_down(TCSB);
+	putc_down(TONAWS);
+	putc_down((char)(short(wx)>>8));
+	putc_down((char)(short(wx)&0xff));
+	putc_down((char)(short(wy)>>8));
+	putc_down((char)(short(wy)&0xff));
+	putc_down(((char)TCIAC));
+	putc_down((char)TCSE);
 
 	return 0;
 }
 
-int QTermTelnet::subnaws(int c)
-{
-	setWindowSize(wx, wy);
-}
 /*------------------------------------------------------------------------
  * subopt - do option subnegotiation FSM transitions
  *------------------------------------------------------------------------
