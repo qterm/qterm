@@ -4036,8 +4036,16 @@ AC_DEFUN(KDE_CHECK_THREADING,
 ])
 AC_DEFUN(AC_CHECK_ARTS,
 [
+
 AC_MSG_CHECKING(for Arts)
-arts_default_dirs="/usr /usr/local /opt/kde /opt/kde3"
+
+AC_ARG_WITH(artsdir,
+[  --with-arts-dir=DIR   where Arts is installed (optional) ],
+[
+  arts_default_dirs="/usr /usr/local /opt/kde /opt/kde3 $withval"
+], arts_default_dirs="/usr /usr/local /opt/kde /opt/kde3"
+)
+
 test -n "$KDEDIR" && arts_default_dirs="$arts_default_dirs $KDEDIR"
 AC_FIND_FILE(include/kde/arts/soundserver.h, $arts_default_dirs, SOUNDSERVER_INC)
 if test "$SOUNDSERVER_INC" = "NO"; then
@@ -4080,7 +4088,14 @@ AC_SUBST(LIB_SOUNDSERVER)
 AC_DEFUN(AC_CHECK_ESD,
 [
 AC_MSG_CHECKING(for ESD)
-esd_default_dirs="/usr/bin /usr/local/bin"
+
+AC_ARG_WITH(esddir,
+[  --with-esd-dir=DIR   where ESD is installed (optional) ],
+[
+  esd_default_dirs="/usr/bin /usr/local/bin $withval"
+], esd_default_dirs="/usr/bin /usr/local/bin"
+)
+
 AC_FIND_FILE(esd-config, $esd_default_dirs, ESD_CONFIG)
 if test "$ESD_CONFIG" = "NO"; then
   ESD_LIB=
@@ -5265,9 +5280,83 @@ dnl $(SSL_LDFLAGS) will be -Lsslliblocation (if needed)
 dnl and $(SSL_INCLUDES) will be -Isslhdrlocation (if needed)
 dnl ------------------------------------------------------------------------
 dnl
+AC_DEFUN(AC_CHECK_SSL,
+[
+LIBSSL="-lssl"
+ac_ssl_includes=NO ac_ssl_libraries=NO
+ssl_libraries=""
+ssl_includes=""
+
+AC_ARG_WITH(ssl-dir,
+    [  --with-ssl-dir=DIR      where the root of OpenSSL is installed],
+    [  ac_ssl_includes="$withval"/include
+       ac_ssl_libraries="$withval"/lib$kdelibsuff
+    ])
+
+want_ssl=yes
+AC_ARG_ENABLE(ssh,
+    [  --disable-ssh           disable SSL],
+    want_ssl=$enableval, want_ssl=yes)
+AC_MSG_CHECKING(for OpenSSL)
+
+if test $want_ssl = yes; then
+
+ssl_incdirs="/usr/include /usr/local/include /usr/ssl/include /usr/local/ssl/include $prefix/include $kde_extra_includes"
+ssl_incdirs="$ac_ssl_includes $ssl_incdirs"
+AC_FIND_FILE(openssl/ssl.h, $ssl_incdirs, ssl_incdir)
+ac_ssl_includes="$ssl_incdir"
+
+ssl_libdirs="/usr/lib$kdelibsuff /usr/local/lib$kdelibsuff /usr/ssl/lib$kdelibsuff /usr/local/ssl/lib$kdelibsuff $libdir $prefix/lib$kdelibsuff $exec_prefix/lib$kdelibsuff $kde_extra_libs"
+if test ! "$ac_ssl_libraries" = "NO"; then
+  ssl_libdirs="$ac_ssl_libraries $ssl_libdirs"
+fi
+
+test=NONE
+ssl_libdir=NONE
+for dir in $ssl_libdirs; do
+  try="ls -1 $dir/libssl*"
+  if test=`eval $try 2> /dev/null`; then ssl_libdir=$dir; break; else echo "tried $dir" >&AC_FD_CC ; fi
+done
+
+ac_ssl_libraries="$ssl_libdir"
+
+if test "$ac_ssl_includes" = NO || test "$ac_ssl_libraries" = NO; then
+  CXXFLAGS="$CXXFLAGS -D_NO_SSH_COMPILED"
+  OPENSSL_INC=
+  OPENSSL_LIB=
+  LIB_OPENSSL=
+  want_ssl=no
+  AC_MSG_RESULT(no)
+  AC_MSG_WARN([OpenSSL cannot be found on your system, SSH support will not be compiled, Check your setting and try to use --with-ssl-dir to specify the dir of your OpenSSL installation])
+else
+  CXXFLAGS="$CXXFLAGS -I$ssl_incdir $all_includes"
+  OPENSSL_INC="-I$ssl_incdir"
+  OPENSSL_LIB="-L$ssl_libdir"
+  LIB_OPENSSL="-lssl"
+  AC_MSG_RESULT(yes)
+fi
+
+else
+  CXXFLAGS="$CXXFLAGS -D_NO_SSH_COMPILED"
+  OPENSSL_INC=
+  OPENSSL_LIB=
+  LIB_OPENSSL=
+  DO_NOT_COMPILE="$DO_NOT_COMPILE ssh"
+  AC_MSG_RESULT(no)
+  AC_MSG_WARN([SSH support disabled by the user])
+fi
+
+AM_CONDITIONAL(WANT_SSL, test x$want_ssl = xyes)
+
+AC_SUBST(OPENSSL_INC)
+AC_SUBST(OPENSSL_LIB)
+AC_SUBST(LIB_OPENSSL)
+])
+
 AC_DEFUN(KDE_CHECK_SSL,
 [
 LIBSSL="-lssl -lcrypto"
+
 AC_REQUIRE([KDE_CHECK_LIB64])
 
 ac_ssl_includes=NO ac_ssl_libraries=NO
