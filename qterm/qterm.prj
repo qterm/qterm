@@ -18,15 +18,15 @@ mac {
 	# copy files to application bundle
 	conf.path = qterm.app/Contents/MacOS/
 	conf.files = qterm.cfg address.cfg credits
-    script.path = qterm.app/Contents/MacOS/script
-    script.files = script/*.py
-    pic.path = qterm.app/Contents/MacOS/pic
-    pic.files = pic/*.png
-    cursor.path = qterm.app/Contents/MacOS/cursor
-    cursor.files = cursor/mac_16x16/*.xpm
-    po.path = qterm.app/Contents/MacOS/po
-    po.files = po/*.qm
-    INSTALLS = conf script pic cursor po
+	script.path = qterm.app/Contents/MacOS/script
+	script.files = script/*.py
+	pic.path = qterm.app/Contents/MacOS/pic
+	pic.files = pic/*.png
+	cursor.path = qterm.app/Contents/MacOS/cursor
+	cursor.files = cursor/mac_16x16/*.xpm
+	po.path = qterm.app/Contents/MacOS/po
+	po.files = po/*.qm
+	INSTALLS = conf script pic cursor po
 	DEFINES += HAVE_PYTHON _NO_ARTS_COMPILED _NO_ESD_COMPILED
 	INCLUDEPATH += /usr/include/malloc /System/Library/Frameworks/Python.framework/Versions/Current/Headers
 	LIBS += -lssl -lcrypto -framework Python
