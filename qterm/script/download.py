@@ -133,7 +133,7 @@ def down_folder():
 		article_title = get_list_title(str_line)	
 
 		#如果这一行是文件就直接进入文章，下载全文
-		if article_categary == '[文件]':	
+		if article_categary == '[文件]':
 			# log in index.html
 			f=open(path+"index.html","a+")
 			f.write("<p><a href="+article_num+".html>")
@@ -168,7 +168,7 @@ def down_folder():
 			# recursive call
 			qterm.sendString(lp,'r')
 			time.sleep(wait_time)
-									# increase delay when condition not met
+			# increase delay when condition not met
 			down_folder()
 		else:
 			raise "Unrecognized Categary"

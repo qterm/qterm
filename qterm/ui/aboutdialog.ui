@@ -1,0 +1,235 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>aboutDialogUI</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>aboutDialogUI</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>400</width>
+            <height>290</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>5</hsizetype>
+            <vsizetype>5</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="minimumSize">
+        <size>
+            <width>400</width>
+            <height>290</height>
+        </size>
+    </property>
+    <property name="maximumSize">
+        <size>
+            <width>400</width>
+            <height>290</height>
+        </size>
+    </property>
+    <property name="baseSize">
+        <size>
+            <width>0</width>
+            <height>0</height>
+        </size>
+    </property>
+    <property name="font">
+        <font>
+        </font>
+    </property>
+    <property name="caption">
+        <string>About QTerm</string>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>false</bool>
+    </property>
+    <spacer>
+        <property name="name">
+            <cstring>Spacer2</cstring>
+        </property>
+        <property name="orientation">
+            <enum>Horizontal</enum>
+        </property>
+        <property name="sizeType">
+            <enum>Expanding</enum>
+        </property>
+        <property name="sizeHint">
+            <size>
+                <width>292</width>
+                <height>16</height>
+            </size>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>250</y>
+                <width>292</width>
+                <height>16</height>
+            </rect>
+        </property>
+    </spacer>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>closeButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>310</x>
+                <y>250</y>
+                <width>80</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Close</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>pixmapLabel</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>10</y>
+                <width>32</width>
+                <height>32</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string></string>
+        </property>
+        <property name="scaledContents">
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>60</x>
+                <y>20</y>
+                <width>310</width>
+                <height>17</height>
+            </rect>
+        </property>
+        <property name="frameShape">
+            <enum>NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+            <enum>Plain</enum>
+        </property>
+        <property name="text">
+            <string>QTerm 0.3.2 (QT 2.3.2 and 3.1.x based)</string>
+        </property>
+    </widget>
+    <widget class="QTabWidget">
+        <property name="name">
+            <cstring>mainTabWidget</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>50</y>
+                <width>380</width>
+                <height>190</height>
+            </rect>
+        </property>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>About</string>
+            </attribute>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel3</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>50</x>
+                        <y>10</y>
+                        <width>270</width>
+                        <height>140</height>
+                    </rect>
+                </property>
+                <property name="backgroundOrigin">
+                    <enum>WindowOrigin</enum>
+                </property>
+                <property name="text">
+                    <string>QTerm --- BBS Client for X Window
+
+2001-2003, The QTerm Developers
+
+http://qterm.sourceforge.net</string>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>Authors</string>
+            </attribute>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel1</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>40</x>
+                        <y>10</y>
+                        <width>280</width>
+                        <height>140</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>kingson     
+	xiaokiangwang@yahoo.com.cn  
+
+fiasco     
+	yinshouyi@peoplemail.com.cn
+
+hooey
+	hephooey@hotmail.com</string>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>Credits</string>
+            </attribute>
+            <widget class="QTextBrowser">
+                <property name="name">
+                    <cstring>TextBrowser2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>10</y>
+                        <width>360</width>
+                        <height>170</height>
+                    </rect>
+                </property>
+            </widget>
+        </widget>
+    </widget>
+</widget>
+<tabstops>
+    <tabstop>closeButton</tabstop>
+    <tabstop>mainTabWidget</tabstop>
+</tabstops>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
