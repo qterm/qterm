@@ -8,11 +8,12 @@ AUTHOR:        kingson fiasco
                                     NOTE
  This file may be used, distributed and modified without limitation.
  *******************************************************************************/
+
+#include "qterm.h"
 #include "qtermwindow.h"
 #include "qtermframe.h"
 #include "qtermwndmgr.h"
 
-#include "qterm.h"
 #include "qtermscreen.h"
 #include "qtermdecode.h"
 #include "qtermtelnet.h"
@@ -27,11 +28,10 @@ AUTHOR:        kingson fiasco
 #include "articledialog.h"
 #include "popwidget.h"
 
-#ifndef _OS_WIN32_
+#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
 #endif
 
-#include <Python.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -67,12 +67,13 @@ extern QString pathPic;
 
 extern void saveAddress(QTermConfig*,int,const QTermParam&);
 
+
 /* **************************************************************************
  *
  *				Pythons Embedding
  *
  * ***************************************************************************/
-
+#ifdef HAVE_PYTHON
 
 // copy current artcle
 static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
@@ -90,7 +91,7 @@ static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
     int pos0=-1,pos1=-1;
 
     cstrArticle = pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
-    #ifdef _OS_WIN32_
+    #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
     cstrArticle += '\r';
     #endif
     cstrArticle += '\n';
@@ -101,7 +102,7 @@ static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
         cstrCurrent1=pWin->stripWhitespace(pWin->m_pBuffer->screen(1)->getText());
 
         cstrTemp = cstrCurrent0;
-        #ifdef _OS_WIN32_
+        #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
         cstrTemp += '\r';
         #endif
         cstrTemp +='\n';
@@ -119,7 +120,7 @@ static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
         for(int i=1;i<pWin->m_pBuffer->line()-1;i++)
         {
             cstrArticle+=pWin->stripWhitespace(pWin->m_pBuffer->screen(i)->getText());
-            #ifdef _OS_WIN32_
+            #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
             cstrArticle += '\r';
             #endif
             cstrArticle+='\n';
@@ -342,7 +343,7 @@ static PyMethodDef qterm_methods[] = {
 
 	{NULL,	 			(PyCFunction)NULL, 						0, 				NULL}
 };
-
+#endif //HAVE_PYTHON
 
 // script thread
 QTermDAThread::QTermDAThread(QTermWindow *win)
@@ -364,7 +365,7 @@ void QTermDAThread::run()
     int pos0=-1,pos1=-1;
 
     cstrArticle =pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
-    #ifdef _OS_WIN32_
+    #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
     cstrArticle += '\r';
     #endif
     cstrArticle += '\n';
@@ -375,7 +376,7 @@ void QTermDAThread::run()
         cstrCurrent1=pWin->stripWhitespace(pWin->m_pBuffer->screen(1)->getText());
 
         cstrTemp = cstrCurrent0;
-        #ifdef _OS_WIN32_
+        #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
         cstrTemp += '\r';
         #endif
         cstrTemp +='\n';
@@ -393,7 +394,7 @@ void QTermDAThread::run()
         for(int i=1;i<pWin->m_pBuffer->line()-1;i++)
         {
             cstrArticle+=pWin->stripWhitespace(pWin->m_pBuffer->screen(i)->getText());
-            #ifdef _OS_WIN32_
+            #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
             cstrArticle += '\r';
             #endif
             cstrArticle+='\n';
@@ -451,7 +452,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	connect(m_pFrame, SIGNAL(bossColor()), m_pScreen, SLOT(bossColor()));
 	connect(m_pFrame, SIGNAL(updateScroll()), m_pScreen, SLOT(updateScrollBar()));
 
-	#ifdef _OS_WIN32_
+	#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 	m_popWin = new popWidget(this,m_pFrame);
 	#else
 	m_popWin = new popWidget(this);
@@ -527,7 +528,9 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	cursor[7] = QCursor(QPixmap(pathLib+"cursor/hand.xpm"));
 	cursor[8] = Qt::arrowCursor;
 
-
+	// the system wide script
+	m_bPythonScriptLoaded = false;
+#ifdef HAVE_PYTHON
 // python thread module
 	// get the global python thread lock
     PyEval_AcquireLock();
@@ -544,8 +547,6 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	Py_InitModule4("qterm", qterm_methods,
 			NULL,(PyObject*)NULL,PYTHON_API_VERSION);
 
-	// the system wide script
-	m_bPythonScriptLoaded = false;
 
 	if(m_param.m_bLoadScript && !m_param.m_strScriptFile.isEmpty() )
 	{
@@ -567,6 +568,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
     PyThreadState_Clear(myThreadState);
     PyThreadState_Delete(myThreadState);
     PyEval_ReleaseLock();
+#endif //HAVE_PYTHON
 
 	connectHost();
 }
@@ -585,7 +587,7 @@ QTermWindow::~QTermWindow()
 	delete m_replyTimer;
 	delete m_tabTimer;
 
-
+#ifdef HAVE_PYTHON
 	// get the global python thread lock
 	PyEval_AcquireLock();
 
@@ -606,7 +608,7 @@ QTermWindow::~QTermWindow()
 	PyThreadState_Clear(myThreadState);
 	PyThreadState_Delete(myThreadState);
 	PyEval_ReleaseLock();
-
+#endif // HAVE_PYTHON
 }
 
 //close event received
@@ -658,7 +660,11 @@ void QTermWindow::idleProcess()
 
 	// system script can handle that
 	if(m_bPythonScriptLoaded)
+	{
+		#ifdef HAVE_PYTHON
 		pythonCallback("antiIdle");
+		#endif
+	}
 	else// the default function
 	{
 		int length;	
@@ -835,7 +841,7 @@ void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 		{
 			//QApplication::clipboard()->setText(strUrl);
 			QCString cstrCmd = m_pFrame->m_pref.strHttp.local8Bit() + " \"" + strUrl.local8Bit() +"\"";
-			#ifndef _OS_WIN32_
+			#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 			cstrCmd += " &";
 			#endif
 			system(cstrCmd);
@@ -1105,11 +1111,13 @@ void QTermWindow::readReady( int size )
 		}
 		if(m_bAutoReply)
 		{	
+			#ifdef HAVE_PYTHON
 			if(m_bPythonScriptLoaded)
 			{
 				pythonCallback("autoReply");
 				return;
 			}
+			#endif
 			// TODO: save messages
 	        if ( m_bIdling )
 				replyMessage();
@@ -1549,7 +1557,7 @@ void QTermWindow::doAutoLogin()
 		m_pTelnet->write( &ch, 1 );
 	}
 	// smth ignore continous input, so sleep 1 sec :)
-	#ifdef _OS_WIN32_
+	#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 	Sleep(1);
 	#else
 	sleep(1);
@@ -1750,7 +1758,7 @@ void QTermWindow::runScriptFile( const QCString & cstr )
 	
 	char *argv[2]={str,NULL};
 
-
+#ifdef HAVE_PYTHON
     // get the global python thread lock
     PyEval_AcquireLock();
 
@@ -1772,13 +1780,15 @@ void QTermWindow::runScriptFile( const QCString & cstr )
     PyThreadState_Clear(myThreadState);
     PyThreadState_Delete(myThreadState);
     PyEval_ReleaseLock();
-
+#endif // HAVE_PYTHON
 }
 
 void QTermWindow::pythonCallback(const char* func)
 {
 	if(!m_bPythonScriptLoaded)
 		return;
+
+#ifdef HAVE_PYTHON
 	// get the global lock
 	 PyEval_AcquireLock();
 	// get a reference to the PyInterpreterState
@@ -1823,10 +1833,13 @@ void QTermWindow::pythonCallback(const char* func)
       PyThreadState_Delete(myThreadState);
       // release the lock
       PyEval_ReleaseLock();
+#endif //HAVE_PYTHON
+
 }
 
 int QTermWindow::runPythonFile( const char * filename )
 {
+#ifdef HAVE_PYTHON
     static char buffer[1024];
     const char *file = filename;
 
@@ -1885,7 +1898,9 @@ int QTermWindow::runPythonFile( const char * filename )
 	PyRun_SimpleString("import thread,string,sys,traceback,qterm");
 	PyRun_SimpleString(buffer);
 	PyRun_SimpleString(	"thread.start_new_thread(work_thread,())\n");
-	
+
+#endif // HAVE_PYTHON
+
 	return 0;
 }
 

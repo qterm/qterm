@@ -25,7 +25,7 @@ AUTHOR:        kingson fiasco
 #include "keydialog.h"
 #include "trayicon.h"
 
-#ifndef _OS_WIN32_
+#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
 #endif
 
@@ -210,40 +210,44 @@ void QTermFrame::iniSetting()
 	/* FIXME qt3.1.1 on debian/sid doesnot support style */
 	theme = conf->getItemValue("global","theme");
 #if QT_VERSION < 300
-	switch( theme )
+	if(theme.isEmpty())
 	{
-		case "":
-			break;
-		case "CDE":
-			#ifndef QT_NO_STYLE_CDE
-			qApp->setStyle( new QCDEStyle(true) );
-			#endif
-			break;
-		case "Motif":
-			#ifndef QT_NO_STYLE_MOTIF
-			qApp->setStyle( new QMotifStyle(true) );
-			#endif
-			break;
-		case "MotifPlus":
-			#ifndef QT_NO_STYLE_MOTIFPLUS
-			qApp->setStyle( new QMotifPlusStyle(true) );
-			#endif
-			break;
-		case "Platinum":
-			#ifndef QT_NO_STYLE_PLATINUM
-			qApp->setStyle( new QPlatinumStyle() );
-			#endif
-			break;
-		case "SGI":
-			#ifndef QT_NO_STYLE_SGI
-			qApp->setStyle( new QSGIStyle(true) );
-			#endif
-			break;
-		case "Windows":
-			#ifndef QT_NO_STYLE_WINDOWS
-			qApp->setStyle( new QWindowsStyle() );
-			#endif
-			break;
+	}
+	else if(theme=="CDE")
+	{
+		#ifndef QT_NO_STYLE_CDE
+		qApp->setStyle( new QCDEStyle(true) );
+		#endif
+	}
+	else if(theme=="Motif")
+	{
+		#ifndef QT_NO_STYLE_MOTIF
+		qApp->setStyle( new QMotifStyle(true) );
+		#endif
+	}
+	else if(theme=="MotifPlus")
+	{
+		#ifndef QT_NO_STYLE_MOTIFPLUS
+		qApp->setStyle( new QMotifPlusStyle(true) );
+		#endif
+	}
+	else if(theme=="Platinum")
+	{
+		#ifndef QT_NO_STYLE_PLATINUM
+		qApp->setStyle( new QPlatinumStyle() );
+		#endif
+	}
+	else if(theme=="SGI")
+	{
+		#ifndef QT_NO_STYLE_SGI
+		qApp->setStyle( new QSGIStyle(true) );
+		#endif
+	}
+	else if(theme == "Windows")
+	{
+		#ifndef QT_NO_STYLE_WINDOWS
+		qApp->setStyle( new QWindowsStyle() );
+		#endif
 	}
 #else
 	QStyle * style = QStyleFactory::create(theme);
@@ -510,7 +514,7 @@ void QTermFrame::aboutQTerm()
 void QTermFrame::homepage()
 {
 	QCString cstrCmd = m_pref.strHttp.local8Bit()+" http://qterm.sourceforge.net";
-	#ifndef _OS_WIN32_
+	#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 	cstrCmd += " &";
 	#endif
 	system(cstrCmd);
@@ -863,7 +867,7 @@ void QTermFrame::themesMenuAboutToShow()
 {
 	themesMenu->clear();
 #if QT_VERSION < 300
-	insertThemeItem("defautl");	
+	insertThemeItem("default");	
 	#ifndef QT_NO_STYLE_CDE
 	insertThemeItem("CDE");
 	#endif
@@ -894,42 +898,46 @@ void QTermFrame::themesMenuActivated( int id )
 
 	theme = themesMenu->text(id);
 	fprintf(stderr, "Theme: %s\n", theme.ascii());
-	/*  FIXME qt3.1.1 on debian/sid doesnot support style */
+
 #if QT_VERSION < 300
-	switch( theme )
+	if(theme=="default")
 	{
-		case "default":
-			break;
-		case "CDE":
-			#ifndef QT_NO_STYLE_CDE
-			qApp->setStyle( new QCDEStyle(true) );
-			#endif
-			break;
-		case "Motif":
-			#ifndef QT_NO_STYLE_MOTIF
-			qApp->setStyle( new QMotifStyle(true) );
-			#endif
-			break;
-		case "MotifPlus":
-			#ifndef QT_NO_STYLE_MOTIFPLUS
-			qApp->setStyle( new QMotifPlusStyle(true) );
-			#endif
-			break;
-		case "Platinum":
-			#ifndef QT_NO_STYLE_PLATINUM
-			qApp->setStyle( new QPlatinumStyle() );
-			#endif
-			break;
-		case "SGI":
-			#ifndef QT_NO_STYLE_SGI
-			qApp->setStyle( new QSGIStyle(true) );
-			#endif
-			break;
-		case "Windows":
-			#ifndef QT_NO_STYLE_WINDOWS
-			qApp->setStyle( new QWindowsStyle() );
-			#endif
-			break;
+	}
+	else if(theme=="CDE")
+	{
+		#ifndef QT_NO_STYLE_CDE
+		qApp->setStyle( new QCDEStyle(true) );
+		#endif
+	}
+	else if(theme=="Motif")
+	{
+		#ifndef QT_NO_STYLE_MOTIF
+		qApp->setStyle( new QMotifStyle(true) );
+		#endif
+	}
+	else if(theme=="MotifPlus")
+	{
+		#ifndef QT_NO_STYLE_MOTIFPLUS
+		qApp->setStyle( new QMotifPlusStyle(true) );
+		#endif
+	}
+	else if(theme=="Platinum")
+	{
+		#ifndef QT_NO_STYLE_PLATINUM
+		qApp->setStyle( new QPlatinumStyle() );
+		#endif
+	}
+	else if(theme=="SGI")
+	{
+		#ifndef QT_NO_STYLE_SGI
+		qApp->setStyle( new QSGIStyle(true) );
+		#endif
+	}
+	else if(theme=="Windows")
+	{
+		#ifndef QT_NO_STYLE_WINDOWS
+		qApp->setStyle( new QWindowsStyle() );
+		#endif
 	}
 #else
 	QStyle * style = QStyleFactory::create(theme);

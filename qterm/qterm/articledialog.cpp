@@ -54,7 +54,11 @@ void articleDialog::connectSlots()
 
 void articleDialog::onSelect()
 {
+#if (QT_VERSION>=300)
 	textBrowser2->selectAll(true);
+#else
+	textBrowser2->selectAll();
+#endif
 }
 
 void articleDialog::onCopy()

@@ -308,7 +308,7 @@ void addrDialog::onLoadScript(bool on)
 void addrDialog::onChooseScript()
 {
 	QString path;
-#ifdef _OS_WIN32_
+#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 	path=pathLib+"script";
 #else
 	path=QDir::homeDirPath()+"/.qterm/script";

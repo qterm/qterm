@@ -21,6 +21,8 @@
 
 #include "trayicon.h"
 
+#ifdef Q_WS_X11
+
 #include<qapplication.h>
 #include<qimage.h>
 #include<qpixmap.h>
@@ -363,3 +365,5 @@ void TrayIcon::sysUpdateToolTip()
 	else
 		QToolTip::add(d, tip);
 }
+
+#endif // Q_WS_X11

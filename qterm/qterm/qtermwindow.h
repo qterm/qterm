@@ -1,7 +1,11 @@
 #ifndef QTERMWINDOW_H
 #define QTERMWINDOW_H
 
+#include "qterm.h"
+#ifdef HAVE_PYTHON
 #include <Python.h>
+#endif
+
 #include <qmainwindow.h>
 #include <qcursor.h>
 
@@ -10,6 +14,7 @@
 #include "qtermparam.h"
 #include "qtermconvert.h"
 #include "qtermsound.h"
+
 
 class QTermTextLine;
 class QTermScreen;
@@ -145,7 +150,9 @@ protected:
 	QTermDAThread *m_pDAThread;
 
 	// python 
+#ifdef HAVE_PYTHON
 	PyObject *pModule, *pDict, *pName, *pFunc;
+#endif
 	bool m_bPythonScriptLoaded;
 	
 	// play sound
