@@ -1,3 +1,7 @@
+2003/10/16
+   fix
+   1. checking Python 2.3, 2.2
+   
 2003/9/27
 	add
 	1. play wave files using Arts, ESD, or external program.

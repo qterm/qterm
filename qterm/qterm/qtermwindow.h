@@ -1,11 +1,11 @@
 #ifndef QTERMWINDOW_H
 #define QTERMWINDOW_H
 
+#include <Python.h>
 #include <qmainwindow.h>
 #include <qcursor.h>
 
 #include <qthread.h>
-#include <Python.h>
 
 #include "qtermparam.h"
 #include "qtermconvert.h"
