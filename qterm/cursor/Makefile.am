@@ -1,5 +1,6 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
+SUBDIRS = mac_16x16
 
 EXTRA_DIST = end.xpm enter.xpm exit.xpm hand.xpm home.xpm next.xpm pagedown.xpm pageup.xpm prev.xpm 
 
