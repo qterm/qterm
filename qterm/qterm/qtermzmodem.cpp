@@ -232,7 +232,7 @@ StateTable	QTermZmodem::TStartOps[] = {
 
 		/* sent ZSINIT, waiting for response */
 StateTable	QTermZmodem::TInitOps[] = {
-	  {ZACK,&QTermZmodem::RetDone,1,0,FileWait},
+	  {ZACK,&QTermZmodem::RetDone,1,0,TInit},
 	  {ZNAK,&QTermZmodem::SendZSInit,1,0,TInit},
 	  {ZRINIT,&QTermZmodem::GotRinit,1,1,TInit},	/* redundant, but who cares */
 	  {ZCHALLENGE,&QTermZmodem::AnswerChallenge,1,0,TInit},
@@ -257,7 +257,7 @@ StateTable	QTermZmodem::FileWaitOps[] = {
 	  {ZCHALLENGE,&QTermZmodem::AnswerChallenge,1,0,FileWait},
 	  {ZCOMMAND,&QTermZmodem::GotCommand,0,0,CommandData},
 	  {ZSTDERR,&QTermZmodem::GotStderr,0,0,StderrData},
-	  {ZACK,&QTermZmodem::SendFileData,1,0,Sending}, // receiver always sends ZACK back
+//	  {ZACK,&QTermZmodem::SendFileData,1,0,Sending}, // receiver always sends ZACK back
 	  {99,&QTermZmodem::ZPF,0,0,FileWait},
 	} ;
 
@@ -306,7 +306,7 @@ StateTable	QTermZmodem::SendDoneOps[] = {
 		/* sending data, waiting for ACK */
 StateTable	QTermZmodem::SendWaitOps[] = {
 	  {ZACK,&QTermZmodem::GotSendWaitAck,0,0,Sending},
-	  {ZRPOS,&QTermZmodem::GotSendPos,0,0,Sending},
+	  {ZRPOS,&QTermZmodem::GotSendPos,0,0,SendWait},
 	  {ZSKIP,&QTermZmodem::SkipFile,1,1,FileWait},
 	  {ZNAK,&QTermZmodem::GotSendNak,0,0,Sending},
 	  {ZRINIT,&QTermZmodem::sendFilename,1,1,FileWait},	/* rcvr confused, retry file */
@@ -1142,7 +1142,7 @@ uchar * QTermZmodem::putZdle( uchar *ptr, uchar c, ZModem *info )
 	 uchar	c2 = c & 0177 ;
 
 	if( c == ZDLE || c2 == 020 || c2 == 021 || c2 == 023 ||
-	    c2 == 0177  ||  (c2 == 015 && info->atSign)  ||
+	    c2 == 0177  ||  (c2 == 015 /*&& info->atSign*/)  ||
 	#ifdef	COMMENT
 	    c2 == 035  ||  (c2 == '~' && info->lastCR)  ||
 	#endif	/* COMMENT */
@@ -2593,12 +2593,10 @@ int QTermZmodem::GotRinit(  ZModem *info )
 	  if( info->windowsize == 0 )
 	  {
 	    info->Streaming = Full ;
-		printf("FullStreaming\n");
 	  }
 	  else
 	  {
 	    info->Streaming = StrWindow ;
-		printf("StrWindow\n");
 	  }
 	}
 
@@ -2606,13 +2604,11 @@ int QTermZmodem::GotRinit(  ZModem *info )
 	    info->bufsize == 0 )
 	{
 	  info->Streaming = SlidingWindow ;
-	  printf("SlidingWindow\n");
 	}
 
 	else
 	{
 	  info->Streaming = Segmented ;
-	  printf("Segmented\n");
 	}
 	// get filenames to transfer
 	zmodemlog("GotRinit[%s]\n", sname(info)) ;
