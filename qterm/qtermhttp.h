@@ -5,8 +5,6 @@
 #include <qhttp.h>
 #include <qprogressdialog.h>
 
-class QTermCanvas;
-
 class QTermHttp : public QObject
 {
 	Q_OBJECT
@@ -29,7 +27,6 @@ signals:
 protected:
     QHttp m_httpDown;
     QString m_strHttpFile;
-    QTermCanvas *m_pCanvas;
     QProgressDialog m_pDialog;
     bool m_bPreview;
 	bool m_bExist;
