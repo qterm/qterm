@@ -5,6 +5,7 @@
 #include <qpixmap.h>
 
 class QLabel;
+class QPopupMenu;
 
 class QTermCanvas : public QScrollView
 {
@@ -15,13 +16,21 @@ public:
 	~QTermCanvas();
 
 	void loadImage(const QString&);
-	
+protected slots:
+	void oriSize();
+	void zoomIn();
+	void zoomOut();
+	void fitWin();
+	void fullScreen();
+	void saveImage();
+	void copyImage();
+	void cwRotate();
+	void ccwRotate();
+
 protected:
 	void moveImage(float,float);
 	void resizeImage(float);
 	void rotateImage(float);
-	void saveImage();
-	void copyImage();
 	
 	void contentsMousePressEvent(QMouseEvent*);
 	void closeEvent(QCloseEvent *);
@@ -36,6 +45,7 @@ protected:
 	QSize szImage;
 	QString strFileName;
 	QPixmap pxm;
+	QPopupMenu *m_pMenu;
 };
 
 #endif

@@ -114,6 +114,18 @@ int iniWorkingDir( QString param )
     strcpy(_addrCfg, ExeNamePath);
     strcat(_addrCfg, "address.cfg");
     addrCfg = QString::fromLocal8Bit(_addrCfg);
+
+	QString pathSchema=pathCfg+"schema";
+	if(checkPath(pathSchema)==-1)
+		return -1;
+
+	QString pathZmodem=pathCfg+"zmodem";
+	if(checkPath(pathZmodem)==-1)
+		return -1;
+	
+	QString pathPool=pathCfg+"pool";
+	if(checkPath(pathPool)==-1)
+		return -1;
 }
 #else
 int iniWorkingDir( QString param )
@@ -166,7 +178,6 @@ int iniWorkingDir( QString param )
 		return -1;
 	
 	QString pathPool=pathCfg+"pool";
-	dir.rmdir(pathPool);
 	if(checkPath(pathPool)==-1)
 		return -1;
 
