@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>aboutDialogUI</class>
 <widget class="QDialog">
     <property name="name">
@@ -73,22 +73,6 @@
             </rect>
         </property>
     </spacer>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>closeButton</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>310</x>
-                <y>250</y>
-                <width>80</width>
-                <height>30</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Close</string>
-        </property>
-    </widget>
     <widget class="QLabel">
         <property name="name">
             <cstring>pixmapLabel</cstring>
@@ -167,7 +151,7 @@
                 <property name="text">
                     <string>QTerm --- BBS Client for X Window
 
-2001-2003, The QTerm Developers
+2001-2004, The QTerm Developers
 
 http://qterm.sourceforge.net</string>
                 </property>
@@ -225,6 +209,22 @@ hooey
                 </property>
             </widget>
         </widget>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>closeButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>310</x>
+                <y>250</y>
+                <width>80</width>
+                <height>30</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Close</string>
+        </property>
     </widget>
 </widget>
 <tabstops>

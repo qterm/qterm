@@ -136,10 +136,14 @@ void QTermScreen::focusInEvent( QFocusEvent * )
 	m_pWindow->m_pFrame->wndmgr->activateTheTab( m_pWindow );
 	
 #if (QT_VERSION<300)
-	m_pAccel->connectItem(idPrevPage=m_pAccel->insertItem(Key_PageUp+SHIFT), this, SLOT(prevPage()));
-	m_pAccel->connectItem(idNextPage=m_pAccel->insertItem(Key_PageDown+SHIFT), this, SLOT(nextPage()));
-	m_pAccel->connectItem(idPrevLine=m_pAccel->insertItem(Key_Up+SHIFT), this, SLOT(prevLine()));
-	m_pAccel->connectItem(idNextLine=m_pAccel->insertItem(Key_Down+SHIFT), this, SLOT(nextLine()));
+	m_pAccel->connectItem(idPrevPage=m_pAccel->insertItem(Key_PageUp+SHIFT),
+					this, SLOT(prevPage()));
+	m_pAccel->connectItem(idNextPage=m_pAccel->insertItem(Key_PageDown+SHIFT),
+					this, SLOT(nextPage()));
+	m_pAccel->connectItem(idPrevLine=m_pAccel->insertItem(Key_Up+SHIFT), 
+					this, SLOT(prevLine()));
+	m_pAccel->connectItem(idNextLine=m_pAccel->insertItem(Key_Down+SHIFT),
+					this, SLOT(nextLine()));
 #endif
 }
 
@@ -215,7 +219,6 @@ void QTermScreen::resizeEvent( QResizeEvent *  )
 	}
 	else
 	{
-		// FIXME this still not work
 		int cx = m_rcClient.width()/m_nCharWidth;
 		int cy = m_rcClient.height()/m_nCharHeight;
 		if( cx>10 && cy>10 )

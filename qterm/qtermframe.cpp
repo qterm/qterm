@@ -888,12 +888,24 @@ void QTermFrame::fullscreen()
 	
 	if( m_bFullScreen )
 	{
-//		menuBar()->hide();
+		menuBar()->hide();
+		mdiTools->hide();
+		mdiconnectTools->hide();
+		key->hide();
+		hideScroll();
+		showStatusBar();
+		showSwitchBar();
 		showFullScreen();
 	}
 	else
 	{
-//		menuBar()->show();
+		menuBar()->show();
+		mdiTools->show();
+		mdiconnectTools->show();
+		key->show();
+		leftScroll();
+		showStatusBar();
+		showSwitchBar();
 		showNormal();
 	}
 
@@ -1388,7 +1400,10 @@ void QTermFrame::addMainMenu()
 	     this, SLOT( themesMenuAboutToShow() ) );
 	view->insertItem( tr("&Themes"), themesMenu );
 
+	QAccel *a = new QAccel(this);
+	a->connectItem(a->insertItem(Qt::Key_F6), this, SLOT(fullscreen()) );
 	view->insertItem( tr("&Fullscreen"), this, SLOT(fullscreen()), Qt::Key_F6, ID_VIEW_FULL );
+
 	view->insertItem( tr("Boss &Color"), this, SLOT(bosscolor()), Qt::Key_F12, ID_VIEW_BOSS );
 
 	view->insertSeparator();
