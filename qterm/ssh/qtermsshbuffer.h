@@ -3,7 +3,7 @@
 #define QTERMSSHBUFFER_H
 
 #include <openssl/bn.h>
-#include <sys/types.h>
+#include "types.h"
 #include <string.h>
 
 #define SSH_BUFFER_MAX 10000000

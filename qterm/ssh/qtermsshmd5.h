@@ -2,7 +2,7 @@
 #define QTERMSSHMD5_H
 
 #include <openssl/md5.h>
-#include <sys/types.h>
+#include "types.h"
 #include "qtermsshhash.h"
 
 class QTermSSHMD5 : public QTermSSHHash

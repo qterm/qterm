@@ -50,7 +50,7 @@ void QTermSSH1Kex::makeSessionKey()
 {
 	int i;
 	BIGNUM * key;
-	u_int32_t rand;
+	u_int32_t rand_val;
 	int bits;
 	int rbits;
 	
@@ -103,9 +103,9 @@ void QTermSSH1Kex::makeSessionKey()
 	
 	for (i = 0; i < 32; i++) {
 		if (i % 4 == 0)
-			rand = random();
-		d_sessionkey[i] = (rand & 0xff);
-		rand >>= 8;
+			rand_val = rand();
+		d_sessionkey[i] = (rand_val & 0xff);
+		rand_val >>= 8;
 	}
 
 	key = BN_new();

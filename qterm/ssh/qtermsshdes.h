@@ -3,7 +3,7 @@
 
 #include "qtermsshcipher.h"
 #include <openssl/des.h>
-#include <sys/types.h>
+#include "types.h"
 
 /*
 class QTermSSHDES : public QTermSSHCipher

@@ -3,7 +3,7 @@
 #define QTERMSSHPACKET_H
 
 #include <openssl/bn.h>
-#include <sys/types.h>
+#include "types.h"
 #include "qtermsshbuffer.h"
 
 #ifndef QOBJECT_H

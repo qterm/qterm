@@ -1,7 +1,7 @@
 #ifndef QTERMSSHHASH_H
 #define QTERMSSHHASH_H
 
-#include <sys/types.h>
+#include "types.h"
 
 class QTermSSHHash
 {

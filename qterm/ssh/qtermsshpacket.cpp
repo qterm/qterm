@@ -68,7 +68,7 @@ void QTermSSH1PacketSender::putBN(BIGNUM * bn)
 void QTermSSH1PacketSender::makePacket()
 {
 	int len, padding, i;
-	u_int32_t rand = 0;
+	u_int32_t rand_val = 0;
 	//QTermSSHBuffer * output;
 	delete d_output;
 
@@ -80,9 +80,9 @@ void QTermSSH1PacketSender::makePacket()
 	
 	for (i = 0; i < padding; i++) {
 		if (i % 4 == 0)
-			rand = random();
-		d_output->putByte(rand & 0xff);
-		rand >>= 8;
+			rand_val = rand();
+		d_output->putByte(rand_val & 0xff);
+		rand_val >>= 8;
 	}
 
 	d_output->putBuffer((const char *)d_buffer->data(), d_buffer->len());

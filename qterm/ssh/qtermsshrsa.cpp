@@ -1,4 +1,4 @@
-#include <sys/types.h>
+#include "types.h"
 #include <qglobal.h>
 
 #include "qtermsshrsa.h"
