@@ -27,6 +27,7 @@
 #include <qfiledialog.h>
 
 extern QString fileCfg;
+extern QString pathCfg;
 /* 
  *  Constructs a prefDialog which is a child of 'parent', with the 
  *  name 'name' and widget flags set to 'f'.
@@ -57,7 +58,7 @@ void prefDialog::connectSlots()
 	connect(selectsoundPushButton, SIGNAL(clicked()), this, SLOT(onSound()) );
 	connect(choosehttpPushButton, SIGNAL(clicked()), this, SLOT(onHttp()) );
     connect(ButtonGroup1 , SIGNAL(clicked(int)), this, SLOT(onBeep(int)) );
-	connect(browsePushButton, SIGNAL(clicked()), this, SLOT(omBrowse()) );
+	connect(browsePushButton, SIGNAL(clicked()), this, SLOT(onBrowse()) );
 }
 
 void prefDialog::loadSetting()
@@ -115,6 +116,9 @@ void prefDialog::loadSetting()
  	httpLineEdit->setText( strTmp );
 
 	strTmp = conf.getItemValue("preference","zmodem");
+	if(strTmp.isEmpty())
+		strTmp = pathCfg+"zmodem";
+
 	zmodemLineEdit->setText( strTmp );
 }
 void prefDialog::saveSetting()

@@ -1,7 +1,9 @@
 
 #include "qtermzmodem.h"
 #include "qtermtelnet.h"
+#include "qtermframe.h"
 
+#include <qapplication.h>
 #include <string.h>
 #include <qfiledialog.h>
 #include <qfileinfo.h>
@@ -1023,7 +1025,8 @@ FILE * QTermZmodem::ZOpenFile(char *name, ulong crc, ZModem *info)
 	//to be complete
 	FILE *rval;
 	int apnd=0;
-	rval = fopen(name, apnd ? "a" : "w") ;
+	QString str = ((QTermFrame *)qApp->mainWidget())->m_pref.strZmPath+name;
+	rval = fopen(str.local8Bit(), apnd ? "a" : "w") ;
 
 	if( rval == NULL )
 	  perror(name) ;

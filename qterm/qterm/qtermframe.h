@@ -37,6 +37,7 @@ struct QTermPref
 	bool	bAutoCopy;
 	bool	bAA;
 	bool	bTray;
+	QString strZmPath;
 };
 
 class MTray : public QObject
