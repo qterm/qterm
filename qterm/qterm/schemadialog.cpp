@@ -632,11 +632,41 @@ void schemaDialog::removeSchema()
 
 void schemaDialog::onOK()
 {
+	if( bModified )
+    {
+        QMessageBox mb( "QTerm",
+            "Setting changed, do you want to save?",
+            QMessageBox::Warning,
+            QMessageBox::Yes | QMessageBox::Default,
+            QMessageBox::No  | QMessageBox::Escape ,
+            0,this,0,true);
+        if ( mb.exec() == QMessageBox::Yes )
+		{
+			int n =nameListBox->currentItem();
+			saveNumSchema(n);
+		}
+    }
+	
 	done(1);
 }
 
 void schemaDialog::onCancel()
 {
+	if( bModified )
+    {
+        QMessageBox mb( "QTerm",
+            "Setting changed, do you want to save?",
+            QMessageBox::Warning,
+            QMessageBox::Yes | QMessageBox::Default,
+            QMessageBox::No  | QMessageBox::Escape ,
+            0,this,0,true);
+        if ( mb.exec() == QMessageBox::Yes )
+		{
+			int n =nameListBox->currentItem();
+			saveNumSchema(n);
+		}
+    }
+
 	done(0);
 }
 
