@@ -53,7 +53,6 @@ void QTermHttp::getLink(const QString& url, bool preview)
 	QUrl u(QString::fromUtf8(url));
 	if(u.isLocalFile())
 	{
-		qWarning("local file "+u.path());
 		previewImage(u.path());
 		emit done(this);
 		return;
@@ -76,7 +75,6 @@ void QTermHttp::getLink(const QString& url, bool preview)
 		}
 	}
 	m_strHttpFile = u.fileName();
-	qWarning(m_strHttpFile);
 	m_httpDown.setHost(u.host(),u.hasPort()?u.port():80);
 	m_httpDown.get(u.encodedPathAndQuery());
 }
