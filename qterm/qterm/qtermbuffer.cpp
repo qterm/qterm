@@ -63,6 +63,9 @@ QTermBuffer::~QTermBuffer()
 
 void QTermBuffer::setSize(int col, int lin)
 {
+	if(m_col==col && m_lin==lin)
+		return;
+
 	if(m_lin<lin)
 		for(int i=0; i<lin-m_lin; i++ )
 			m_lineList.append( new QTermTextLine );
