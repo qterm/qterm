@@ -1,11 +1,8 @@
-QTerm 0.3.4 
+QTerm 0.3.5 
 ===========
 
-Õâ¸ö°æ±¾Ôö¼ÓÁË Schema£¬Ö§³ÖÓÃ»§×Ô¶¨ÒåµÄÑÕÉ«ÅäÖÃºÍ±³¾°Í¼°¸£¬¡
-µ«ÊÇÌ«´óµÄ±³¾°Í¼»áÓ°Ïì¼ÓÔØËÙ¶È¡£
-ÐÞÕýÁË Tray Icon µÄÖ§³Ö£¬ÏÖÔÚÄÜ±È½ÏºÃµÄÔÚ GNOME2 ÏÂ¹¤×÷£¬
-ÔÚ KDE3 ÏÂ»¹ÓÐÐ©ÎÊÌâ¡£
-»¹ÓÐÒ»Ð©Ð¡µÄµ«ÊÇÒ»Ö±±»ÒªÇóµÄÐÞ¸Ä£¬¾ßÌå¼û ChangeLog¡£
+Õâ¸ö°æ±¾ÊµÏÖÁËSSH1Ð­ÒéµÄÖ§³Ö£¬±àÒëÐèÒªOpenSSL¿â£¬Èç¹ûOpenSSLÃ»ÓÐ°²×°£¬SSH½«²»»á
+±»±àÒë£¬¶ÔTray Icon×öÁËÒ»Ð©¸Ä½ø¡£¾ßÌåµÄ¸Ä½øÇë¿´ChangeLog¡£
 »¶Ó­±¨¸æ BUG£¬Ìá³ö½¨Òé£¬Ð»Ð»¡£
 
                                    	The QTerm Team
