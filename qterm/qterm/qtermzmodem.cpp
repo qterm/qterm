@@ -9,7 +9,7 @@
 #include <qfiledialog.h>
 #include <qfileinfo.h>
 
-#include <sys/time.h>
+//#include <sys/time.h>
 
 /*
  *  Crc calculation stuff
@@ -322,7 +322,7 @@ StateTable	QTermZmodem::SendWaitOps[] = {
 
 		/* sent ZEOF, waiting for new RINIT */
 StateTable	QTermZmodem::SendEofOps[] = {
-	  {ZRINIT,&QTermZmodem::SkipFile,1,0,TStart},	/* successful completion */
+	  {ZRINIT,&QTermZmodem::SkipFile,1,0,TFinish},	/* successful completion */
 	  {ZACK,&QTermZmodem::Ignore,0,0,SendEof},	/* probably ACK from last packet */
 	  {ZRPOS,&QTermZmodem::GotSendPos,1,1,SendWait},
 	  {ZSKIP,&QTermZmodem::SkipFile,1,1,TStart},
@@ -446,11 +446,11 @@ QTermZmodem::QTermZmodem(QObject *netinterface, int type)
 	connect(zmodemTimer, SIGNAL(timeout()), this, SLOT(ZmodemTimeout()));
 	
 	// for debug
-
+/*
 	zmodemlogfile = fopen("zmodem.log","w+");
 	fprintf(zmodemlogfile, "%s", "\n================================\n");
 	fclose(zmodemlogfile);
-
+*/
 
 
 //init struct INFO
@@ -590,10 +590,6 @@ int QTermZmodem::ZmodemTFinish(ZModem *info)
 	}
 	zmodemlog("ZmodemTFinish[%s]: send ZFIN\n", sname(info)) ;
 	i=ZXmitHdr(ZFIN, ZHEX, zeros, info) ;
-
-	transferstate = transferstop;  // transfer complete
-
-	ZmodemReset(info);  //Tranfer complete, zmodem return to receive state
 
 	return i;
 }
@@ -974,7 +970,6 @@ int QTermZmodem::ZAttn(ZModem *info)
 void QTermZmodem::ZStatus(int type, int value, const char *status)
 {
 	emit ZmodemState(type, value, status);
-	//to be completed
 	switch(type)
 	{
 		case	RcvByteCount:
@@ -1031,7 +1026,7 @@ FILE * QTermZmodem::ZOpenFile(char *name, ulong crc, ZModem *info)
 	//to be complete
 	FILE *rval;
 	int apnd=0;
-	QString str = ((QTermFrame *)qApp->mainWidget())->m_pref.strZmPath+G2U(name);
+	QString str = ((QTermFrame *)qApp->mainWidget())->m_pref.strZmPath+G2U(name); // lazy, should use bbs2unicode
 	rval = fopen(str.local8Bit(), apnd ? "ab" : "wb") ;
 
 	if( rval == NULL )
@@ -1152,10 +1147,7 @@ int QTermZmodem::ZXmitHdrBin32(int type, uchar data[4], ZModem *info)
 
 uchar * QTermZmodem::putZdle( uchar *ptr, uchar c, ZModem *info )
 {
-	if(ptr==NULL)
-		qWarning("ft, whats going on");
-
-	 uchar	c2 = c & 0177 ;
+	uchar	c2 = c & 0177 ;
 
 	if( c == ZDLE || c2 == 020 || c2 == 021 || c2 == 023 ||
 	    c2 == 0177  ||  (c2 == 015 && connectionType==0/*&& info->atSign*/)  ||
@@ -1725,6 +1717,8 @@ int QTermZmodem::GotStderr( register ZModem *info )
 
 int QTermZmodem::RetDone( ZModem *info )
 {
+
+
 	return ZmDone ;
 }
 
@@ -2789,7 +2783,14 @@ int QTermZmodem::ResendEof(  ZModem *info )
 
 int QTermZmodem::OverAndOut( ZModem *info )
 {
+	zmodemlog("OverAndOut[%s]\n", sname(info)) ;
+
 	ZXmitStr((uchar *)"OO", 2, info) ;
+
+	transferstate = transferstop;  // transfer complete
+
+	ZmodemReset(info);  //Tranfer complete, zmodem return to receive state
+
 	return ZmDone ;
 }
 
@@ -2833,7 +2834,7 @@ int QTermZmodem::ZmodemReset(ZModem * info)
 void QTermZmodem::zmodemlog(const char *fmt, ... )
 {
 // only for debug
-#if 1
+#if 0
 	va_list ap;
 	struct timeval tv ;
 	struct tm *tm ;

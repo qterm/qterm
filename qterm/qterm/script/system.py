@@ -35,3 +35,13 @@ def antiIdle(lp):
 	qterm.sendParsedString(lp,"^@")
 	print "antiIdle"
 
+def mouseEvent(button, key, x, y):
+
+
+def keyEvent(key, state):
+
+
+def dataRead():
+	
+
+

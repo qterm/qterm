@@ -32,7 +32,7 @@ QTermCanvas::QTermCanvas(QWidget *parent, const char *name, WFlags f)
 	m_pMenu->insertItem( tr("fullscreen"), this, SLOT(fullScreen()), Key_F );
 	m_pMenu->insertItem( tr("save as"), this, SLOT(saveImage()), Key_S );
 	m_pMenu->insertItem( tr("copy to"), this, SLOT(copyImage()), Key_C );
-
+	m_pMenu->insertItem( tr("delete"), this, SLOT(deleteImage()), Key_D );
 
 }
 QTermCanvas::~QTermCanvas()
@@ -189,6 +189,12 @@ void QTermCanvas::copyImage()
 	if(strSave.isEmpty())
 		return;
 	pxm.save(strSave, fi.extension(false));
+}
+
+void QTermCanvas::deleteImage()
+{
+	QFile::remove(strFileName);
+	hideWindow();
 }
 
 void QTermCanvas::closeEvent(QCloseEvent *ce)

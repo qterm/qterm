@@ -28,7 +28,7 @@ protected slots:
 	void copyImage();
 	void cwRotate();
 	void ccwRotate();
-
+	void deleteImage();
 protected:
 	void moveImage(float,float);
 	void resizeImage(float);

@@ -1,3 +1,9 @@
+2004/09/03
+	fix
+	1. better finishing operation in zmodem upload
+	remove
+	1. change to "qt 3.1.x+ based" in aboutdialog
+	
 2004/08/31
 	add
 	1. partial support for *[?1001 

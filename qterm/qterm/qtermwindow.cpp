@@ -505,36 +505,35 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 		m_tabTimer->stop();
 		m_pFrame->wndmgr->blinkTheTab(this,TRUE);
     }
-
-	if((me->button()&RightButton)&&!m_pBBS->getUrl().isEmpty())
+	// Right Button
+	if((me->button()&RightButton))
 	{
-		if(me->state()&ControlButton)
+		if(!m_pBBS->getUrl().isEmpty())		// on Url
 		{
-			m_bPreview = true;
-			getHttpHelper();
+			if(me->state()&ControlButton)
+			{
+				m_bPreview = true;
+				getHttpHelper();
+			}
+			else
+				m_pUrl->popup(me->globalPos());
 		}
-		else
-			m_pUrl->popup(me->globalPos());
+		else	// on other pos
+			m_pMenu->popup(me->globalPos());
+
 		return;
 	}
-
-	// Right Button for context menu
-	if(me->button() & RightButton)
-	{
-		m_pMenu->popup(me->globalPos());
-	}
-
 	// Middle Button for paste
 	if( me->button() & MidButton )
 	{
 		if(m_bConnected)
 		{
-			if(m_pFrame->m_pref.bWheel)
+/*			if(m_pFrame->m_pref.bWheel)
 			{
 				char ch = CHAR_CR;
 				m_pTelnet->write(&ch,1);
 			}
-			else
+			else */
 				pasteHelper(false);
 		}
 		return;
@@ -1721,7 +1720,6 @@ void QTermWindow::sendMouseState( int num, ButtonState state, const QPoint& pt )
 			num+keystate+0x20,
 			ptc.x()+1+0x20,
 			ptc.y()+1+0x20);
-	printf("%0x %0x %0x %0x\n", num, keystate, ptc.x(), ptc.y());
 	m_pTelnet->write( mouse, strlen(mouse) );
 }
 
