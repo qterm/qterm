@@ -2,6 +2,7 @@
 #include "qtermzmodem.h"
 #include "qtermtelnet.h"
 #include "qtermframe.h"
+#include "qterm.h"
 
 #include <qapplication.h>
 #include <string.h>
@@ -1025,7 +1026,7 @@ FILE * QTermZmodem::ZOpenFile(char *name, ulong crc, ZModem *info)
 	//to be complete
 	FILE *rval;
 	int apnd=0;
-	QString str = ((QTermFrame *)qApp->mainWidget())->m_pref.strZmPath+name;
+	QString str = ((QTermFrame *)qApp->mainWidget())->m_pref.strZmPath+G2U(name);
 	rval = fopen(str.local8Bit(), apnd ? "ab" : "wb") ;
 
 	if( rval == NULL )
@@ -2827,7 +2828,8 @@ int QTermZmodem::ZmodemReset(ZModem * info)
 
 void QTermZmodem::zmodemlog(const char *fmt, ... )
 {
-
+// only for debug
+#if 0
 	va_list ap;
 	struct timeval tv ;
 	struct tm *tm ;
@@ -2852,6 +2854,8 @@ void QTermZmodem::zmodemlog(const char *fmt, ... )
 	va_end(ap) ;
 
 	fclose(zmodemlogfile);
+#endif
+
 }
 
 void QTermZmodem::zmodemCancel()
