@@ -15,8 +15,7 @@ public:
 					WFlags f=WType_Dialog);
 	~QTermCanvas();
 
-	void loadImage(const QString&);
-	void hideWindow();
+	void loadImage(QString);
 
 protected slots:
 	void oriSize();
@@ -33,9 +32,9 @@ protected:
 	void moveImage(float,float);
 	void resizeImage(float);
 	void rotateImage(float);
-	
-	void contentsMousePressEvent(QMouseEvent*);
+
 	void closeEvent(QCloseEvent *);
+	void contentsMousePressEvent(QMouseEvent*);
 	void keyPressEvent(QKeyEvent *ke);
 	void viewportResizeEvent(QResizeEvent *re);
 	void adjustSize(const QSize&);

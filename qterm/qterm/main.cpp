@@ -31,6 +31,12 @@ AUTHOR:        kingson fiasco
 #endif
 #include <qdir.h>
 #include <qfile.h>
+#include <qfileinfo.h>
+
+#include <qmessagebox.h>
+#include <qfiledialog.h>
+#include <qobject.h>
+#include <qwidget.h>
 
 QString fileCfg="./qterm.cfg";
 QString addrCfg="./address.cfg";
@@ -38,6 +44,46 @@ QString addrCfg="./address.cfg";
 QString pathLib="./";
 QString pathPic="./";
 QString pathCfg="./";
+
+void runProgram(const QCString& cmd)
+{
+	QCString cstrCmd=cmd;
+	#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
+	cstrCmd += " &";
+	#endif
+	system(cstrCmd);
+}
+
+QString getSaveFileName(const QString& filename, QWidget* widget)
+{
+	// get the previous dir
+	QTermConfig conf(fileCfg);
+	QString path = QString::fromLocal8Bit(conf.getItemValue("global","savefiledialog"));
+
+	QString strSave = QFileDialog::getSaveFileName(	path+"/"+G2U(filename), "*", widget);
+
+	QFileInfo fi(strSave);
+	
+	while(fi.exists())
+	{
+		int yn = QMessageBox::warning(widget, "QTerm", 
+					"File exists. Overwrite?", "Yes", "No");
+		if(yn==0)
+			break;
+		strSave = QFileDialog::getSaveFileName(path+"/"+G2U(filename), "*", widget);
+		if(strSave.isEmpty())
+			break;
+	}
+
+	if(strSave.isEmpty())
+	{
+		// save the path
+		conf.setItemValue("global","savefiledialog",fi.dirPath(true));
+		conf.save(fileCfg);
+	}
+
+	return strSave;
+}
 
 void clearDir( const QString& path )
 {

@@ -8,7 +8,6 @@
 
 #include <qmainwindow.h>
 #include <qcursor.h>
-#include <qhttp.h>
 
 #include <qthread.h>
 
@@ -27,9 +26,9 @@ class QTermBBS;
 class popWidget;
 class QTermZmodem;
 class QTermWindow;
-class QTermCanvas;
 class zmodemDialog;
 class QProgressDialog;
+class QTermHttp;
 
 // thread copy article
 class QTermDAThread : public QThread
@@ -78,7 +77,8 @@ public:
 	void runScriptFile(const QCString&);
 	void externInput(const QCString&);
 	QCString stripWhitespace(const QCString& cstr);
-	
+	void getHttpHelper(const QString&, bool);
+
 protected slots:
 	// from QTermTelnet
 	void readReady(int);
@@ -89,16 +89,15 @@ protected slots:
 	void replyProcess();
 	void blinkTab();
 	void inputHandle(QString * text);
-	// http
-	void httpDone(bool);
-	void dataRead(int,int);
-	void httpResponse( const QHttpResponseHeader &);
 
 	//http menu
 	void previewLink();
 	void openLink();
 	void copyLink();
 	void saveLink();
+	
+	// httpDone
+	void httpDone(QTermHttp*);
 
 	// decode
 	void setMouseMode(bool);
@@ -117,14 +116,12 @@ protected:
 	void saveSetting();	
 	void replyMessage();
 	
-	void getHttpHelper();
 	void pasteHelper(bool);
 	QCString unicode2bbs(const QString&);
 
 	QCString parseString( const QCString&, int *len=0);
 	QString fromBBSCodec(const QCString& cstr);
 
-	void runProgram(const QCString&);
 	void pythonCallback(const char*, const char*, ...);
 	int runPythonFile(const char*);
 
@@ -182,13 +179,6 @@ protected:
 
 	zmodemDialog *m_pZmDialog;
 
-	// HTTP 
-	QHttp m_httpDown;
-	QString m_strHttpFile;
-	QTermCanvas *m_pCanvas;
-	QProgressDialog *m_pPd;
-	bool m_bPreview;
-	
 	// Decode
 	bool m_bMouseX11;
 public:
