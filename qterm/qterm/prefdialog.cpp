@@ -96,7 +96,7 @@ void prefDialog::loadSetting()
     ((QRadioButton *)ButtonGroup1->find(strTmp.toInt()))->setChecked(true);
 
 
-	if(strTmp.toInt()!=2)
+	if(strTmp.toInt()!=1)
 	{
 		wavefileLineEdit->setEnabled(false);
 		selectsoundPushButton->setEnabled(false);

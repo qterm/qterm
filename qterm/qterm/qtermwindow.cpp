@@ -870,7 +870,7 @@ if(m_pZmodem->transferstate == notransfer)
     if( m_pDecode->bellReceive() ) //&& m_pBuffer->caret().y()==1 )
     {
 		if( m_bBeep )
-			if(m_pFrame->m_pref.strWave.isEmpty()||m_pFrame->m_pref.nBeep==1)
+			if(m_pFrame->m_pref.strWave.isEmpty()||m_pFrame->m_pref.nBeep==3)
 				qApp->beep();
 			else {
 				//QSound::play(m_pFrame->m_pref.strWave);
