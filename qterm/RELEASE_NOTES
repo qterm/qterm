@@ -5,13 +5,24 @@ QTerm 0.3.9
 具体如下
 1. zmodem 在上载时候停止响应
 2. 增加的 python 函数和系统调用如下:
-
+	* 函数
+		. getBBSCodec(window)
+		. getAddress(window)
+		. getPort(window)
+		. getProtocol(window)
+		. getReplyKey(window)
+		. getURL(window)
+		. previewImage(window, url)
+	* 系统调用
+		. mouseEvent(window, type, state, x, y, delta)
+		. keyEvent(window, type, state, key)
+   使用方法参考 qterm/doc/script, qterm/script/system.py
 3. 地址簿里支持设置非标准的 80X24 的行列值
 4. UI 字体使用 Preference 里面的设置开关 Antialias
 5. 可以同时打开多个 HTTP 下载浏览
 6. 修正 Preference 里 Beep 值设置的问题(thanks to careless)
 7. about 对话框改成 qt 3.1.x based, 因为加入 http 之后不能再兼容
-qt2.3 了, 所以 windowz binary 都不能放主页上了.
+   qt2.3 了, 所以 windowz binary 都不能放主页上了.
 8. 图片浏览器改正功能,
     s save the current displayed image
     c copy the file
@@ -22,7 +33,7 @@ qt2.3 了, 所以 windowz binary 都不能放主页上了.
 
 已知问题:
 1. 如果取消 auto select font size when resize window, 在关闭窗口的时候
-会出错
+   会出错
 
 这个可能就是 0.4.0 能有的所有功能了,所以有什么 bug 请尽快报告, 谢谢.
                                    	The QTerm Team
