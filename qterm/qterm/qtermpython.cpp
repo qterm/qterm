@@ -80,7 +80,8 @@ QString getErrOutputFile(QTermWindow* lp)
 	return pathCfg+str2;
 }
 
-// copy current artcle
+// copy current artcle for back compatible use only
+// for new coder please use getArticle
 static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
 {
 	long lp;
@@ -96,11 +97,12 @@ static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
 		// check it there is duplicated string
 		// it starts from the end in the range of one screen height
 		// so this is a non-greedy match
-		QString strTemp = pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
+		QString strTemp = pWin->stripWhitespace(
+				pWin->m_pBuffer->screen(0)->getText());
 		int i=0;
 		int start=0;
 		for(QStringList::Iterator it=strList.fromLast();
-			it!=strList.begin(), i < pWin->m_pBuffer->line()-1; // not exceeeding the last screen
+	it!=strList.begin(), i < pWin->m_pBuffer->line()-1; // not exceeeding the last screen
 			--it, i++)
 		{
 			if(*it!=strTemp)
@@ -111,7 +113,7 @@ static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
 			for(int j=0; j<=i; j++, it2++)
 			{
 				QString str1 = pWin->stripWhitespace(
-								pWin->m_pBuffer->screen(j)->getText());
+					pWin->m_pBuffer->screen(j)->getText());
 				if(*it2!=str1)
 				{
 					dup = false;
@@ -150,6 +152,86 @@ static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
 
 	Py_INCREF(py_text);
 	return py_text;
+}
+
+static PyObject *qterm_getArticle(PyObject *, PyObject *args)
+{
+	long lp;
+	int timeout;
+	int succeed=1;
+
+	if (!PyArg_ParseTuple(args, "li", &lp, &timeout))
+		return NULL;
+
+	QTermWindow *pWin=(QTermWindow*)lp;
+
+	QStringList strList;
+	QCString cstrArticle;
+	while(1)
+	{
+		// check it there is duplicated string
+		// it starts from the end in the range of one screen height
+		// so this is a non-greedy match
+		QString strTemp = pWin->stripWhitespace(
+				pWin->m_pBuffer->screen(0)->getText());
+		int i=0;
+		int start=0;
+		for(QStringList::Iterator it=strList.fromLast();
+	it!=strList.begin(), i < pWin->m_pBuffer->line()-1; // not exceeeding the last screen
+			--it, i++)
+		{
+			if(*it!=strTemp)
+				continue;
+			QStringList::Iterator it2 = it;
+			bool dup=true;
+			// match more to see if its duplicated
+			for(int j=0; j<=i; j++, it2++)
+			{
+				QString str1 = pWin->stripWhitespace(
+					pWin->m_pBuffer->screen(j)->getText());
+				if(*it2!=str1)
+				{
+					dup = false;
+					break;
+				}
+			}
+			if(dup)
+			{
+				// set the start point
+				start = i+1;
+				break;
+			}
+		}
+		// add new lines
+		for(i=start;i<pWin->m_pBuffer->line()-1;i++)
+			strList+=pWin->stripWhitespace(
+			pWin->m_pBuffer->screen(i)->getText());
+
+		// the end of article
+		if( pWin->m_pBuffer->screen(
+		pWin->m_pBuffer->line()-1)->getText().find("%") == -1 )
+			break;
+		// continue
+		pWin->m_pTelnet->write(" ", 1);
+		
+		if(!pWin->m_wcWaiting.wait(timeout*1000))	// timeout
+		{
+			succeed=0;
+			break;
+		}
+	}
+	#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
+	cstrArticle = strList.join("\r\n");
+	#else
+	cstrArticle = strList.join("\n");
+	#endif
+	
+	PyObject *py_res = Py_BuildValue("si",(const char *)cstrArticle, succeed);
+	
+	Py_INCREF(py_res);
+
+	return py_res;
+
 }
 
 static PyObject *qterm_formatError(PyObject *, PyObject *args)
@@ -474,11 +556,14 @@ static PyObject *qterm_toUTF8(PyObject *, PyObject *args)
 PyMethodDef qterm_methods[] = {
 	{"formatError",		(PyCFunction)qterm_formatError,			METH_VARARGS,	
 			"get the traceback info"},
-
-	{"copyArticle",		(PyCFunction)qterm_copyArticle,			METH_VARARGS,
+	
+	{"getArticle",		(PyCFunction)qterm_getArticle,			METH_VARARGS,
 			"copy current article"},
 
-	{"getText",			(PyCFunction)qterm_getText,				METH_VARARGS,
+	{"copyArticle",		(PyCFunction)qterm_copyArticle,			METH_VARARGS,
+			"copy current article (obsolete)"},
+
+	{"getText",		(PyCFunction)qterm_getText,			METH_VARARGS,
 			"get text at line#"},
 
 	{"getAttrText",		(PyCFunction)qterm_getAttrText,			METH_VARARGS,
@@ -487,19 +572,19 @@ PyMethodDef qterm_methods[] = {
 	{"sendString",		(PyCFunction)qterm_sendString,			METH_VARARGS,
 			"send string to server"},
 	
-	{"sendParsedString",(PyCFunction)qterm_sendParsedString,	METH_VARARGS,
+	{"sendParsedString",(PyCFunction)qterm_sendParsedString,		METH_VARARGS,
 			"send string with escape"},
 
-	{"caretX",			(PyCFunction)qterm_caretX,				METH_VARARGS,
+	{"caretX",		(PyCFunction)qterm_caretX,			METH_VARARGS,
 			"caret x"},
 	
-	{"caretY",			(PyCFunction)qterm_caretY,				METH_VARARGS,
+	{"caretY",		(PyCFunction)qterm_caretY,			METH_VARARGS,
 			"caret y"},
 
-	{"columns",			(PyCFunction)qterm_columns,				METH_VARARGS,
+	{"columns",		(PyCFunction)qterm_columns,			METH_VARARGS,
 			"screen width"},
 	
-	{"rows",			(PyCFunction)qterm_rows,				METH_VARARGS,
+	{"rows",		(PyCFunction)qterm_rows,			METH_VARARGS,
 			"screen height"},
 	
 	{"isConnected",		(PyCFunction)qterm_isConnected,			METH_VARARGS,
@@ -517,16 +602,16 @@ PyMethodDef qterm_methods[] = {
 	{"getAddress",		(PyCFunction)qterm_getAddress,			METH_VARARGS,
 			"get the bbs address"},
 
-	{"getPort",			(PyCFunction)qterm_getPort,				METH_VARARGS,
+	{"getPort",		(PyCFunction)qterm_getPort,			METH_VARARGS,
 			"get the bbs port number"},
 
-	{"getProtocol",		(PyCFunction)qterm_getPort,				METH_VARARGS,
+	{"getProtocol",		(PyCFunction)qterm_getPort,			METH_VARARGS,
 			"get the bbs protocol, 0/1/2 TELNET/SSH1/SSH2"},
 	
 	{"getReplyKey",		(PyCFunction)qterm_getReplyKey,			METH_VARARGS,
 			"get the key to reply messages"},
 
-	{"getURL",			(PyCFunction)qterm_getURL,				METH_VARARGS,
+	{"getURL",		(PyCFunction)qterm_getURL,			METH_VARARGS,
 			"get the url string under mouse"},
 
 	{"previewImage",	(PyCFunction)qterm_previewImage,		METH_VARARGS,
@@ -535,7 +620,7 @@ PyMethodDef qterm_methods[] = {
 	{"fromUTF8",		(PyCFunction)qterm_fromUTF8,			METH_VARARGS,
 			"decode from utf8 to string in specified codec"},
 	
-	{"toUTF8",			(PyCFunction)qterm_toUTF8,				METH_VARARGS,
+	{"toUTF8",		(PyCFunction)qterm_toUTF8,			METH_VARARGS,
 			"decode from string in specified codec to utf8"},
 
 	{NULL,	 			(PyCFunction)NULL, 						0, 				NULL}

@@ -5,8 +5,14 @@
 
 #include <ctype.h>
 #include <qregexp.h>
+
+#ifdef Q_OS_WIN32
+#include <winsock2.h>
+#else
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#endif
+
 #include <qstring.h>
 
 extern QString pathCfg;
@@ -140,9 +146,14 @@ void QTermIPLocation::setIpRange( int rec_no, _ip_finder *f )
 
 bool QTermIPLocation::getLocation( QString& url, QCString& country, QCString& city )
 {
-	int rec, record_count, B, E, ip;
+	int rec, record_count, B, E;
 	char *buf;
+	uint32 ip;
+	#ifdef	Q_OS_WIN32
+	uint32 ipValue = inet_addr( (const char*)url.latin1() );
+	#else
 	in_addr_t ipValue = inet_addr( (const char*)url.latin1() );
+	#endif
 	if( ipValue == -1 )
 		return false;
 	else

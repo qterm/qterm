@@ -17,7 +17,7 @@ AUTHOR:		smartfish kafa
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #else 
-#define VERSION	"0.4.0pre1"
+#define VERSION	"0.4.0pre2"
 #define QTERM_DATADIR "/usr/share/qterm"
 #define QTERM_BINDIR  "/usr/bin"
 #endif
