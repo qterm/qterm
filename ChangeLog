@@ -1,3 +1,11 @@
+2004/02/19
+	add
+	1. SSH1 support
+	fix
+	1. better look of tray icon
+	2. hide the window only when tray icon is enabled
+	3. close qterm when there is no connection.
+
 2003/11/09
 	fix
 	1. support for redhat's menu.
