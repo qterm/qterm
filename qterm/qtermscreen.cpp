@@ -237,9 +237,11 @@ void QTermScreen::mousePressEvent( QMouseEvent * me )
 }
 void QTermScreen::mouseMoveEvent( QMouseEvent * me)
 {
-
+#ifdef Q_OS_MACX
+	m_pWindow->mouseMoveEvent(me);
+#else
 	QApplication::sendEvent(m_pWindow, me);
-
+#endif
 }
 
 void QTermScreen::mouseReleaseEvent( QMouseEvent * me )
