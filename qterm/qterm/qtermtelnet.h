@@ -65,12 +65,10 @@
 
 
 // Telnet Option Subnegotiation FSM States:
-#define SS_START	0		// initial state			
-#define	SS_TERMTYPE	1		// TERMINAL_TYPE option subnegotiation	
-#define SS_NAWS		2		// NAWS option subnegotiation
-#define	SS_END		3		// state after all legal input		
-
-#define	NSSTATES	4		// # of SS_* states			
+#define SS_START	0		// initial state
+#define	SS_TERMTYPE	1		// TERMINAL_TYPE option subnegotiation
+#define	SS_END		2		// state after all legal input
+#define	NSSTATES	3		// # of SS_* states	
 
 #define	FSINVALID	0xff		// an invalid state number		
 #define	NCHRS		256		// number of valid characters	
@@ -141,7 +139,7 @@ protected:
 	void init_telnet();
 	void fsmbuild();
 	void fsminit(u_char fsm[][NCHRS], struct fsm_trans ttab[], int nstates);
-	
+
 	//actions
 	int tcdm(int);
 	int recopt(int);
@@ -156,7 +154,6 @@ protected:
 	int will_naws(int);
 	int subopt(int);
 	int subtermtype(int);
-	int subnaws(int);
 	int subend(int);
 	int soputc(int);
 	int ttputc(int);
@@ -215,7 +212,7 @@ private:
 	int wx, wy;
 	int done_naws;
 	bool d_isSSH;
-
+	bool bConnected;
 	int raw_size;
 };
 

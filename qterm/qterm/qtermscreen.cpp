@@ -219,7 +219,6 @@ void QTermScreen::resizeEvent( QResizeEvent *  )
 		// FIXME this still not work
 		int cx = m_rcClient.width()/m_nCharWidth;
 		int cy = m_rcClient.height()/m_nCharHeight;
-		printf("new size (%d,%d)\n", cx,cy);
 		if( cx>10 && cy>10 )
 		{
 			m_pBuffer->setSize( cx, cy );
