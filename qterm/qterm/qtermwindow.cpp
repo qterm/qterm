@@ -1221,14 +1221,26 @@ void QTermWindow::copy( )
 	QClipboard *clipboard = QApplication::clipboard();
 	
 	#if (QT_VERSION>=0x030100)
+   // as most users complain they cant copy from qterm to other program by context ment, we copy
+   // the text to clipboard except mouse selection
 	if( m_param.m_nBBSCode==0 )
+	{
 		clipboard->setText(G2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor, 
-										 parseString((const char *)m_param.m_strEscape))), 
-						QClipboard::Selection );
+									 parseString((const char *)m_param.m_strEscape))), 
+					QClipboard::Clipboard );
+		clipboard->setText(G2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor, 
+									 parseString((const char *)m_param.m_strEscape))), 
+					QClipboard::Selection );
+	}
 	else
+	{
 		clipboard->setText(B2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor, 
-										 parseString((const char *)m_param.m_strEscape))), 
-						QClipboard::Selection );
+									 parseString((const char *)m_param.m_strEscape))), 
+					QClipboard::Clipboard );
+		clipboard->setText(B2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor, 
+									 parseString((const char *)m_param.m_strEscape))), 
+					QClipboard::Selection );
+	}
 	#else
 	if( m_param.m_nBBSCode==0 )
 		clipboard->setText(G2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor, 
