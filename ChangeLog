@@ -10,6 +10,8 @@
 	fix
 	1. support for redhat's menu.
 	2. some anony bug when move around the cursor
+	3. fatal error when no schema selected
+	4. save schema error in Windowz
 
 2003/11/08
 	add

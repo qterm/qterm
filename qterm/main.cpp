@@ -57,7 +57,6 @@ int iniWorkingDir( QString param )
 		pathLib+='/';
 	}
 
-
 	QDir dir;
 	
 	QString pathHome=QDir::homeDirPath()+"/.qterm";
