@@ -11,11 +11,15 @@ AUTHOR:		smartfish kafa
 #include "qtermtelnet.h"
 #include "qterm.h"
 #include <stdio.h>
-#include <qsocket.h>
+#include "qtermsocket.h"
+#ifndef _NO_SSH_COMPILED
+#include "ssh/qtermsshsocket.h"
+#endif
 #include <qcstring.h>
 #include <malloc.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <qsocket.h>
 
 /* hack from wget/http.c */
 #define BASE64_LENGTH(len) (4 * (((len) + 2) / 3))
@@ -85,7 +89,7 @@ struct fsm_trans QTermTelnet::substab[] = {
  * Constructor
  *------------------------------------------------------------------------
  */
-QTermTelnet::QTermTelnet( QCString cstrTermType )
+QTermTelnet::QTermTelnet( QCString cstrTermType, bool isSSH, const char * sshuser, const char * sshpasswd )
 {
 	term = new char[21];
 	int i;
@@ -115,7 +119,13 @@ QTermTelnet::QTermTelnet( QCString cstrTermType )
 	to_socket   = new QByteArray();
 	
 	// create socket
-    	socket = new QSocket( this );
+	d_isSSH = isSSH;
+#ifndef _NO_SSH_COMPILED
+	if (d_isSSH)
+		socket = new QTermSSHSocket(sshuser, sshpasswd);
+	else
+#endif
+		socket = new QTermTelnetSocket();
 	
 	// connect signal and slots
 	connect ( socket, SIGNAL( connected() ),
@@ -276,6 +286,10 @@ void QTermTelnet::setProxy( int nProxyType, bool bAuth,
 			const QString& strProxyHost, Q_UINT16 uProxyPort,
 			const QString& strProxyUsr, const QString& strProxyPwd)
 {
+#ifndef _NO_SSH_COMPILED
+	if (d_isSSH)
+		return;
+#endif
 	proxy_type=nProxyType;
 	if ( proxy_type==NOPROXY )
 		return;

@@ -119,14 +119,14 @@ struct fsm_trans {
 *-------------------------------------------------------------------------------
 */
 
-class QSocket;
+class QTermSocket;
 
 class QTermTelnet : public QObject
 {
     Q_OBJECT
 
 public:
-	QTermTelnet( const QCString ) ;
+	QTermTelnet( const QCString termtype, bool isSSH, const char * sshuser = NULL, const char * sshpasswd = NULL ) ;
 	~QTermTelnet();
 	
 	void setWindowSize( int x, int y );
@@ -217,7 +217,7 @@ private:
 	u_char	subfsm[NSSTATES][NCHRS];
 
 	// socket stuffs
-	QSocket *socket;
+	QTermSocket *socket;
 	
 	//Pointers to internal buffers
 	//
@@ -244,6 +244,7 @@ private:
 	// for test
 	int wx, wy;
 	int done_naws;
+	bool d_isSSH;
 };
 
 #endif	// QTERMTELNET_H

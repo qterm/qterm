@@ -443,7 +443,16 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 //init the textline list
 
 	m_pBuffer = new QTermBuffer( m_param.m_nRow, m_param.m_nCol, m_param.m_nScrollLines );
-	m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm );
+	if (param.m_nProtocolType == 0)
+		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, false );
+	else {
+#if defined(_NO_SSH_COMPILED)
+		QMessageBox::warning(this, "sorry", "SSH support is not compiled, QTerm can only use Telnet!");
+		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, false );
+#else
+		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, true, (const char *)m_param.m_strSSHUser, (const char *)m_param.m_strSSHPasswd );
+#endif
+	}
 	m_pDecode = new QTermDecode( m_pBuffer );
 	m_pBBS	  = new QTermBBS( m_pBuffer );
 	m_pScreen = new QTermScreen( this, m_pBuffer, &m_param, m_pBBS );
@@ -515,8 +524,13 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	m_bIdling = false;
 
 	m_bSetChanged = false;
-
-	m_bDoingLogin = false;
+	
+#ifndef _NO_SSH_COMPILED
+	if (param.m_nProtocolType != 0)
+		m_bDoingLogin = true;
+	else
+#endif
+		m_bDoingLogin = false;
 
 	cursor[0] = QCursor(QPixmap(pathLib+"cursor/home.xpm"));
 	cursor[1] = QCursor(QPixmap(pathLib+"cursor/end.xpm"));
@@ -1016,8 +1030,8 @@ void QTermWindow::connectHost()
 {
 
 	m_pTelnet->setProxy( m_param.m_nProxyType, m_param.m_bAuth,
-		m_param.m_strProxyHost, m_param.m_uProxyPort,
-		m_param.m_strProxyUser, m_param.m_strProxyPasswd);
+			m_param.m_strProxyHost, m_param.m_uProxyPort,
+			m_param.m_strProxyUser, m_param.m_strProxyPasswd);
 	
 	m_pTelnet->connectHost( m_param.m_strAddr , m_param.m_uPort );
 }
