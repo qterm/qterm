@@ -142,6 +142,16 @@ void iniSettings()
    //read settings from qterm.cfg
 	QTermConfig * conf= new QTermConfig(fileCfg);
 
+	// get the version info first
+	QString ver = conf->getItemValue("global","version");
+	if(ver.toInt()<0000300)
+	{
+		printf("It seems that you still using the old formated configuration file, please update\n"
+				"The simple way is to backup your directory ~/.qterm, delete it and run qterm again\n"
+				"Sorry for any inconvenience\n");
+		exit(-1);
+	}
+
 	//install the translator
 	QString lang = conf->getItemValue("global","language");
 	if(lang !="eng" && !lang.isEmpty())
