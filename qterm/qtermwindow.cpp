@@ -556,7 +556,7 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 		}
 	}
 
-	if(m_bMouse && !m_bConnected)
+	if(m_bMouse && m_bConnected)
 	{
 		// set cursor pos, repaint if state changed
 		QRect rect;
