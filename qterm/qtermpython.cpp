@@ -23,7 +23,7 @@ extern QString pathCfg;
 
 QString getException()
 {
-	PyObject *pType, *pValue, *pTb, *pName, *pTraceback;
+	PyObject *pType=NULL, *pValue=NULL, *pTb=NULL, *pName, *pTraceback;
 
     PyErr_Fetch(&pType, &pValue, &pTb);
 
