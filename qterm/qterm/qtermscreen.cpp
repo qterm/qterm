@@ -449,6 +449,7 @@ void QTermScreen::setSchema()
 			m_pxmBg.convertFromImage(ima);
 
 		}
+		delete pConf;
 	}
 
 // override schema using user defined Fg/Bg color	
@@ -890,7 +891,7 @@ void QTermScreen::drawLine( QPainter& painter, int index, int starx, int endx, b
 		// Draw Charactors one by one to fix the variable font display problem
 		for (uint j=0; j < strShow.length(); ++j){
 			int length = 2;
-			if (strShow.at(j) < 0xff) {
+			if (strShow.at(j) < 0x7f) {
 				int en=0;
 				QString en_str(strShow.at(j));
 				// Pick up ascii char to draw them together
