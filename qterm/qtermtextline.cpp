@@ -211,7 +211,7 @@ QCString QTermTextLine::getText( int index, int len )
 	if ( index == -1 )
 		str = m_text;
 	else if ( len == -1 )	
-		str = m_text.right( index );
+		str = m_text.mid( index, len );
 	else
 		str = m_text.mid( index, len );
 
