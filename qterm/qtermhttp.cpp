@@ -18,11 +18,10 @@ extern QString fileCfg;
 extern void runProgram(const QCString&);
 extern QString getSaveFileName(const QString&, QWidget*);
 
-QTermHttp::QTermHttp()
+QTermHttp::QTermHttp(QWidget *p)
 {
-	m_pDialog.setCaption(tr("QTerm Http Downlader"));
-	connect(&m_pDialog, SIGNAL(canceled()), this, SLOT(cancel()));
-
+	m_pDialog = NULL;
+	parent = p;
 	connect(&m_httpDown, SIGNAL(done(bool)), this, SLOT(httpDone(bool)));
 	connect(&m_httpDown, SIGNAL(dataReadProgress(int,int)), 
 				this, SLOT(httpRead(int,int)));
@@ -32,6 +31,8 @@ QTermHttp::QTermHttp()
 
 QTermHttp::~QTermHttp()
 {
+	if(m_pDialog!=NULL)
+		delete m_pDialog;
 }
 
 void QTermHttp::cancel()
@@ -53,7 +54,7 @@ void QTermHttp::getLink(const QString& url, bool preview)
 	QUrl u(url);
 	if(u.isLocalFile())
 	{
-		qWarning("local file %s", u.path());
+		qWarning("local file "+u.path());
 		previewImage(u.path());
 		emit done(this);
 		return;
@@ -100,11 +101,12 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 
 		QFileInfo fi(m_strHttpFile);
 		
-		int i=2;
-		while(fi.exists())
+		int i=1;
+		QFileInfo fi2=fi;
+		while(fi2.exists())
 		{
 			// all the same 
-			if(fi.size()==FileLength)
+			if(fi2.size()==FileLength)
 			{
 				m_bExist = true;
 				m_httpDown.abort();
@@ -117,9 +119,11 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 							.arg(fi.baseName(true))
 							.arg(i)
 							.arg(fi.extension(false));
-				fi.setFile(m_strHttpFile);
+				fi2.setFile(m_strHttpFile);
+				i++;
 			}
 		}
+		fi.setFile(m_strHttpFile);
 		
 		QString strExt=fi.extension(false).lower();
 		if(strExt=="jpg" || strExt=="jpeg" || strExt=="gif" || 
@@ -140,7 +144,15 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 		}
 		m_strHttpFile = strSave;
 	}
-	m_pDialog.setLabelText(QFileInfo(m_strHttpFile).fileName());
+	
+	m_pDialog  = new QProgressDialog(parent, 0,false, WStyle_Tool);
+	m_pDialog->setCaption(tr("QTerm Http Downloader"));
+	m_pDialog->setFocusPolicy(QWidget::NoFocus);
+	connect(m_pDialog, SIGNAL(canceled()), this, SLOT(cancel()));
+
+	QRect rc = ((QTermFrame *)qApp->mainWidget())->frameGeometry();
+	m_pDialog->move(rc.right()-m_pDialog->width(), rc.y());
+	m_pDialog->setLabelText(QFileInfo(m_strHttpFile).fileName());
 }
 
 
@@ -155,7 +167,7 @@ void QTermHttp::httpRead(int done, int total)
 		file.close();
 	}
 	if(total!=0)
-		m_pDialog.setProgress(done,total);
+		m_pDialog->setProgress(done,total);
 }
 
 void QTermHttp::httpDone(bool err)

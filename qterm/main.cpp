@@ -107,7 +107,7 @@ QString getSaveFileName(const QString& filename, QWidget* widget)
 void clearDir( const QString& path )
 {
 	QDir dir(path);
-	if( !dir.exists() )
+	if( dir.exists() )
 	{
 		const QFileInfoList *list = dir.entryInfoList();
 		QFileInfoListIterator it( *list );

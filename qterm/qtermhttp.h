@@ -10,7 +10,7 @@ class QTermHttp : public QObject
 	Q_OBJECT
 
 public:
-	QTermHttp();
+	QTermHttp(QWidget*);
 	~QTermHttp();
 
 	void getLink(const QString&, bool);
@@ -27,9 +27,10 @@ signals:
 protected:
     QHttp m_httpDown;
     QString m_strHttpFile;
-    QProgressDialog m_pDialog;
+    QProgressDialog *m_pDialog;
     bool m_bPreview;
 	bool m_bExist;
+	QWidget *parent;
 };
 
 #endif

@@ -12,7 +12,7 @@ class QTermCanvas : public QScrollView
 	Q_OBJECT
 public: 
 	QTermCanvas(QWidget *parent=NULL, const char *name=NULL, 
-					WFlags f=WType_Dialog);
+					WFlags f=WType_TopLevel);
 	~QTermCanvas();
 
 	void loadImage(QString);

@@ -153,6 +153,7 @@ QTermFrame::QTermFrame()
 	accel->insertItem(ALT+Key_Up, 200);
 	accel->insertItem(ALT+Key_Right, 201);
 	accel->insertItem(ALT+Key_Down, 201);
+	accel->insertItem(CTRL+Key_Tab, 202);
 
 	connect( accel, SIGNAL(activated(int)), this, SLOT(switchWin(int)) );
 	
@@ -454,7 +455,15 @@ void QTermFrame::exitQTerm()
 			return;
 		}
 	}
+
 	saveSetting();
+	// clear zmodem and pool if needed
+	if(m_pref.bClearPool)
+	{
+		clearDir(m_pref.strZmPath);
+		clearDir(m_pref.strPoolPath);
+	}
+
 	setUseDock(false);
 	qApp->quit();
 }
@@ -612,7 +621,7 @@ void QTermFrame::switchWin(int id)
 		wndmgr->activeNextPrev(false);
 		return;
 	}
-	if(id==201)
+	if(id==201 || id==202)
 	{
 		wndmgr->activeNextPrev(true);
 		return;

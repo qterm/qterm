@@ -2026,7 +2026,7 @@ void QTermWindow::saveLink()
 
 void QTermWindow::getHttpHelper(const QString& strUrl, bool bPreview)
 {
-	QTermHttp *pHttp = new QTermHttp();
+	QTermHttp *pHttp = new QTermHttp(this);
 	connect(pHttp, SIGNAL(done(QTermHttp*)), this, SLOT(httpDone(QTermHttp*)));
 	pHttp->getLink(strUrl, bPreview);
 }
