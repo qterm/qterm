@@ -9,6 +9,7 @@
 #endif
 #include <stdlib.h>
 
+#include <ctype.h>
 
 /* hack from wget/http.c */
 #define BASE64_LENGTH(len) (4 * (((len) + 2) / 3))
