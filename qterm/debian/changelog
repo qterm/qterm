@@ -1,6 +1,35 @@
+qterm (0.2.0-2) unstable; urgency=low
+
+  * New upstream release (official upload to Debian archive).
+  * Build-Depends: libqt3-compat-headers.  Thanks to upstream author
+    Xiaoqiang Wang for the tip!
+
+ -- Anthony Fok <foka@debian.org>  Wed, 16 Apr 2003 00:44:42 +0800
+
 qterm (0.2.0-1) unstable; urgency=low
 
   * 0.2.x first release.
+  * Provided on upstream website; not uploaded to Debian.
 
- -- Xiaoqiang Wang <xiaokiangwang@yahoo.com.cn>  Sat, 11 Jan 2003 21:29:00 +0800
+ -- Xiaoqiang Wang <xiaokiangwang@yahoo.com.cn>  Thu, 10 Apr 2003 17:10:22 +0800
+
+qterm (0.1.9+0.2.0pre2-2) unstable; urgency=medium
+
+  * FTBFS: Missing Build-Depends: xutils (autoconf needs xmkmf to detect X).
+    Thanks to Adam Conrad and James Troup for the bug report and solution!
+    (Closes: Bug#187115)
+
+ -- Anthony Fok <foka@debian.org>  Wed,  2 Apr 2003 01:34:56 +0800
+
+qterm (0.1.9+0.2.0pre2-1) unstable; urgency=low
+
+  * New upstream development version 0.2.0pre2.
+
+ -- Anthony Fok <foka@debian.org>  Tue,  1 Apr 2003 10:52:45 +0800
+
+qterm (0.1.4-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Anthony Fok <foka@debian.org>  Sat, 16 Mar 2002 16:57:20 +0800
 

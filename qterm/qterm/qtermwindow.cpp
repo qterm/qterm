@@ -31,6 +31,8 @@ AUTHOR:        kingson fiasco
 #include <unistd.h>
 #endif
 
+#include <Python.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -49,6 +51,7 @@ AUTHOR:        kingson fiasco
 #include <qinputdialog.h>
 #include <qtooltip.h>
 #include <qregexp.h>
+#include <qfiledialog.h>
 
 extern char fileCfg[];
 extern char addrCfg[];
@@ -56,6 +59,53 @@ extern QString pathLib;
 extern QString pathPic;
 
 extern void saveAddress(QTermConfig*,int,const QTermParam&);
+
+extern int Python_Init();
+extern int Python_Finalize();
+extern int DoPythonFile(const char *);
+
+// script thread
+QTermThread::QTermThread(QObject *o, const QCString& str)
+{
+	receiver = o;
+	script = str;
+}
+
+QTermThread::~QTermThread()
+{
+
+}
+
+void QTermThread::run()
+{
+	char str[32];
+	sprintf(str,"%ld",receiver);
+	
+	char *argv[2]={str,NULL};
+
+	if(Python_Init())
+	{
+		QMessageBox::information( (QTermWindow*)receiver, "QTerm",
+			"Failed To Initialized Python");	
+		return;
+	}
+
+	PySys_SetArgv(1, argv);
+
+	if(DoPythonFile(script)!=0)
+	{
+		QMessageBox::information( (QTermWindow*)receiver, "QTerm",
+		"Failed To Run Script");	
+	}
+	
+	Python_Finalize();
+
+}
+
+void QTermThread::stop()
+{
+	Python_Finalize();
+}
 
 char QTermWindow::direction[][5]=
 {
@@ -226,11 +276,12 @@ void QTermWindow::closeEvent ( QCloseEvent * clse)
 /* ------------------------------------------------------------------------ */
 void QTermWindow::idleProcess()
 {
-	if(m_replyTimer->isActive())
+	// do as autoreply when it is enabled
+	if(m_replyTimer->isActive() && m_bAutoReply)
 	{
 		replyMessage();
 		if(m_tabTimer->isActive())
-	    {
+	   	{
 			m_tabTimer->stop();
 			m_pFrame->wndmgr->blinkTheTab(this,TRUE);
     	}
@@ -247,7 +298,12 @@ void QTermWindow::idleProcess()
 
 void QTermWindow::replyProcess()
 {
-	replyMessage();
+	// if AutoReply still enabled, then autoreply
+	if(m_bAutoReply)
+		replyMessage();
+	else // else just stop the timer
+		m_replyTimer->stop();
+
 	if(m_tabTimer->isActive())
     {
 		m_tabTimer->stop();
@@ -410,7 +466,7 @@ void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 	if(!m_pBBS->getUrl().isEmpty())
 	{
 		bool ok;
-		QString caption = tr("Open Url");
+		QString caption = tr("Open URL");
 		QString hint = "url";
 		#if (QT_VERSION>=300)
 		QString strUrl = QInputDialog::getText(caption, hint,QLineEdit::Normal, QString(m_pBBS->getUrl()), &ok);
@@ -889,54 +945,7 @@ void QTermWindow::copyArticle( )
 	if(!m_bConnected)
 		return;
 	
-	QCString cstrArticle;
-	QCString cstrCurrent0,cstrCurrent1;
-	QCString cstrTemp;
-	
-	int pos0=-1,pos1=-1;
-
-	cstrArticle = stripWhitespace(m_pBuffer->screen(0)->getText());
-	#ifdef _OS_WIN32_
-	cstrArticle += '\r';
-	#endif
-	cstrArticle += '\n';
-
-	// we assume page complete
-	m_bPageComplete = true;
-	while(waitForNewPage(10000))
-	{
- 		cstrCurrent0=stripWhitespace(m_pBuffer->screen(0)->getText());
-		cstrCurrent1=stripWhitespace(m_pBuffer->screen(1)->getText());
-
-		cstrTemp = cstrCurrent0;
-		#ifdef _OS_WIN32_
-		cstrTemp += '\r';
-		#endif
-		cstrTemp +='\n';
-		cstrTemp +=cstrCurrent1;
-
-		pos0=cstrArticle.findRev(cstrTemp);      
-		
-		if(pos0!=-1)
-		{
-			pos1=cstrArticle.find(cstrCurrent1,pos0);
-			if(pos1!=-1)
-				cstrArticle.truncate(pos1);
-		}
-		
-		for(int i=1;i<m_pBuffer->line()-1;i++)
-		{
-			cstrArticle+=stripWhitespace(m_pBuffer->screen(i)->getText());
-			#ifdef _OS_WIN32_
-			cstrArticle += '\r';
-			#endif
-			cstrArticle+='\n';
-		}
-		
-		if( m_pBuffer->screen(m_pBuffer->line()-1)->getText().find("%") == -1 )
-			break;
-		m_pTelnet->write(direction[7], 3);
-	}
+	QCString cstrArticle = downloadArticle();	
 
 	articleDialog article(this);
 	QTermConfig conf(fileCfg);
@@ -979,6 +988,7 @@ void QTermWindow::color()
 	QMessageBox::information( this, "QTerm",
 		"Not Implemented Yet :(");
 }
+
 void QTermWindow::disconnect()
 {
 	m_pTelnet->close();
@@ -1003,6 +1013,26 @@ void QTermWindow::showStatusBar(bool bShow)
 		statusBar()->show();
 	else
 		statusBar()->hide();
+}
+
+void QTermWindow::runScript()
+{
+
+	QString file = QFileDialog::getOpenFileName(
+							"/home",
+							"Python File (*.py *.txt)", this,
+							"open file dialog"
+							"choose a script file" );
+	if(file.isEmpty())
+		return;
+
+	runScriptFile(file.local8Bit());
+}
+
+void QTermWindow::stopScript()
+{
+	if(m_pThread!=0)
+		m_pThread->stop();
 }
 
 void QTermWindow::viewMessages( )
@@ -1032,6 +1062,7 @@ void QTermWindow::viewMessages( )
 	conf.save(fileCfg);
 
 }
+
 void QTermWindow::setting( )
 {
 	addrDialog set(this, true);
@@ -1049,10 +1080,10 @@ void QTermWindow::setting( )
 void QTermWindow::antiIdle()
 {
 	m_bAntiIdle = !m_bAntiIdle;
-
+	//enabled
 	if( !m_bAntiIdle && m_idleTimer->isActive() )
 		m_idleTimer->stop();
-
+	//disabled
 	if( m_bAntiIdle && !m_idleTimer->isActive() )
 		m_idleTimer->start(m_param.m_nMaxIdle*1000);
 }
@@ -1060,10 +1091,12 @@ void QTermWindow::antiIdle()
 void QTermWindow::autoReply()
 {
 	m_bAutoReply = !m_bAutoReply;
-
+	// disabled
 	if( !m_bAutoReply && m_replyTimer->isActive() )
 		m_replyTimer->stop();
-
+	// enabled
+	if( m_bAutoReply && !m_replyTimer->isActive() )
+		m_replyTimer->start(m_param.m_nMaxIdle*1000/2);
 }
 
 void QTermWindow::connectionClosed()
@@ -1266,5 +1299,73 @@ QCString QTermWindow::stripWhitespace( const QCString& cstr )
 	else
 		cstrText.truncate(pos+1);
 	return cstrText;
+}
+
+void QTermWindow::sendParsedString( const char * str)
+{
+    int length;
+	QCString cstr = parseString( str, &length );
+	m_pTelnet->write( cstr, length );
+}
+
+void QTermWindow::runScriptFile( const QCString & cstr )
+{
+	m_pThread = new QTermThread(this, cstr);
+
+	m_pThread->run();
+}
+
+
+QCString QTermWindow::downloadArticle()
+{
+    QCString cstrArticle;
+    QCString cstrCurrent0,cstrCurrent1;
+    QCString cstrTemp;
+
+    int pos0=-1,pos1=-1;
+
+    cstrArticle = m_pBuffer->screen(0)->getText();
+    #ifdef _OS_WIN32_
+    cstrArticle += '\r';
+    #endif
+    cstrArticle += '\n';
+
+//    m_bPageComplete = true;
+
+    while(waitForNewPage(10000))
+    {
+        cstrCurrent0=m_pBuffer->screen(0)->getText();
+        cstrCurrent1=m_pBuffer->screen(1)->getText();
+
+        cstrTemp = cstrCurrent0;
+        #ifdef _OS_WIN32_
+        cstrTemp += '\r';
+        #endif
+        cstrTemp +='\n';
+        cstrTemp +=cstrCurrent1;
+
+        pos0=cstrArticle.findRev(cstrTemp);
+
+        if(pos0!=-1)
+        {
+            pos1=cstrArticle.find(cstrCurrent1,pos0);
+            if(pos1!=-1)
+                cstrArticle.truncate(pos1);
+        }
+
+        for(int i=1;i<m_pBuffer->line()-1;i++)
+        {
+            cstrArticle+=m_pBuffer->screen(i)->getText();
+            #ifdef _OS_WIN32_
+            cstrArticle += '\r';
+            #endif
+            cstrArticle+='\n';
+        }
+
+        if( m_pBuffer->screen(m_pBuffer->line()-1)->getText().find("%") == -1 )
+            break;
+        m_pTelnet->write(direction[7], 3);
+    }
+    return cstrArticle;
 }
 

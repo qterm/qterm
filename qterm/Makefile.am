@@ -2,7 +2,7 @@
 
 SUBDIRS = qterm debian 
 
-EXTRA_DIST = admin AUTHORS COPYING ChangeLog INSTALL README TODO README.gb INSTALL.gb BUGS INSTALL.big5 RELEASE-NOTES README.big5 QTerm.desktop 
+EXTRA_DIST = qterm.kdevprj admin README README.big5 README.gb qterm.spec AUTHORS BUGS ChangeLog COPYING 
 
 ####### kdevelop will overwrite this part!!! (end)############
 # not a GNU package. You can remove this line, if 

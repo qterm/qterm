@@ -12,7 +12,7 @@ AC_CONFIG_AUX_DIR(admin)
 AC_CANONICAL_SYSTEM 
 
 dnl Automake doc recommends to do this only here. (Janos)
-AM_INIT_AUTOMAKE(qterm,0.2.0)
+AM_INIT_AUTOMAKE(qterm,0.2.1)
 
 dnl KDE_SET_PREFIX
 
@@ -27,6 +27,11 @@ AM_CONFIG_HEADER(config.h) dnl at the distribution this done
 
 dnl Checks for programs.
 AC_CHECK_COMPILERS
+
+dnl CXXFLAGS="$NOOPT_CXXFLAGS" dnl __kdevelop[noopt]__
+dnl CFLAGS="$NOOPT_CFLAGS" dnl __kdevelop[noopt]__
+dnl CXXFLAGS="$CXXFLAGS $USE_EXCEPTIONS" dnl __kdevelop[exc]__
+
 AC_ENABLE_SHARED(yes)
 AC_ENABLE_STATIC(no)
 KDE_PROG_LIBTOOL
@@ -40,7 +45,22 @@ dnl for NLS support. Call them in this order!
 dnl WITH_NLS is for the po files
 AM_KDE_WITH_NLS
 
+KDE_USE_QT(3)
 AC_PATH_QT
+
+KDE_CHECK_PYTHON
+
+eval QTERM_BINDIR=${bindir}
+eval QTERM_BINDIR=$QTERM_BINDIR
+eval QTERM_DATADIR=${datadir}/qterm
+eval QTERM_DATADIR=$QTERM_DATADIR
+AC_DEFINE_UNQUOTED(QTERM_BINDIR, "${QTERM_BINDIR}",
+				       [Define the path to the qterm binary])
+AC_DEFINE_UNQUOTED(QTERM_DATADIR, "${QTERM_DATADIR}",
+				       [Define the path to qterm data files])
+
+dnl KDE_NEED_FLEX dnl __kdevelop__
+dnl AC_PROG_YACC dnl __kdevelop__
 
 dnl Perform program name transformation
 dnl AC_ARG_PROGRAM
@@ -50,17 +70,10 @@ dnl PACKAGE set before
 
 KDE_CREATE_SUBDIRSLIST
 
-test "x$exec_prefix" = xNONE && exec_prefix='${prefix}'
-
-eval QTERM_BINDIR=${bindir}
-eval QTERM_BINDIR=$QTERM_BINDIR
-eval QTERM_DATADIR=${datadir}/qterm
-eval QTERM_DATADIR=$QTERM_DATADIR
-AC_DEFINE_UNQUOTED(QTERM_BINDIR, "${QTERM_BINDIR}",
-    [Define the path to the qterm binary])
-AC_DEFINE_UNQUOTED(QTERM_DATADIR, "${QTERM_DATADIR}",
-    [Define the path to qterm data files])
-
-
 dnl add here all your Makefiles. This are created by configure
-AC_OUTPUT(Makefile qterm/Makefile qterm/pic/Makefile qterm/cursor/Makefile qterm/po/Makefile debian/Makefile )
+AC_CONFIG_FILES([ Makefile ])
+AC_CONFIG_FILES([ debian/Makefile ])
+AC_CONFIG_FILES([ qterm/Makefile ])
+AC_CONFIG_FILES([ qterm/pic/Makefile ])
+AC_CONFIG_FILES([ qterm/cursor/Makefile ])
+AC_OUTPUT

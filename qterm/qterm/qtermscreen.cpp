@@ -284,6 +284,11 @@ void QTermScreen::setDispFont( const QFont& font)
 	else
 		m_pFont = new QFont(font);
 
+	#if (QT_VERSION >= 300 )
+	m_pFont->setStyleHint(QFont::System, 
+				m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+	#endif
+
 	QFontMetrics *fm = new QFontMetrics( *m_pFont );
 	m_nCharWidth  = fm->width('W');
 	m_nCharHeight = fm->height();

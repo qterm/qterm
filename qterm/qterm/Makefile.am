@@ -3,35 +3,32 @@ bin_PROGRAMS = qterm
 
 ## INCLUDES were found outside kdevelop specific part
 
-qterm_SOURCES = msgdialogui.cpp schemadialogui.cpp schemadialog.cpp popwidget.cpp quickdialogui.cpp qtermtoolbutton.cpp qtermparam.cpp qtermtimelabel.cpp qtermframe.cpp prefdialogui.cpp qtermconfig.cpp qtermbuffer.cpp qtermbbs.cpp qtermconvert.cpp quickdialog.cpp prefdialog.cpp keydialogui.cpp keydialog.cpp articledialogui.cpp articledialog.cpp addrdialogui.cpp aboutdialogui.cpp aboutdialog.cpp qtermwndmgr.cpp qtermwindow.cpp qtermtextline.cpp qtermtelnet.cpp qtermscreen.cpp qtermdecode.cpp msgdialog.cpp main.cpp addrdialog.cpp 
-SOURCES = msgdialogui.cpp schemadialogui.cpp schemadialog.cpp popwidget.cpp quickdialogui.cpp qtermtoolbutton.cpp qtermparam.cpp qtermtimelabel.cpp qtermframe.cpp prefdialogui.cpp qtermconfig.cpp qtermbuffer.cpp qtermbbs.cpp qtermconvert.cpp quickdialog.cpp prefdialog.cpp keydialogui.cpp keydialog.cpp articledialogui.cpp articledialog.cpp addrdialogui.cpp aboutdialogui.cpp aboutdialog.cpp qtermwndmgr.cpp qtermwindow.cpp qtermtextline.cpp qtermtelnet.cpp qtermscreen.cpp qtermdecode.cpp msgdialog.cpp main.cpp addrdialog.cpp 
+qterm_SOURCES = qtermpythonembed.cpp schemadialogui.cpp schemadialog.cpp quickdialogui.cpp quickdialog.cpp qtermwndmgr.cpp qtermwindow.cpp qtermtoolbutton.cpp qtermtimelabel.cpp qtermtextline.cpp qtermtelnet.cpp qtermscreen.cpp qtermparam.cpp qtermframe.cpp qtermdecode.cpp qtermconvert.cpp qtermconfig.cpp qtermbuffer.cpp qtermbbs.cpp prefdialogui.cpp prefdialog.cpp popwidget.cpp msgdialogui.cpp msgdialog.cpp main.cpp keydialogui.cpp keydialog.cpp articledialogui.cpp articledialog.cpp addrdialogui.cpp addrdialog.cpp aboutdialogui.cpp aboutdialog.cpp 
+SOURCES = qtermpythonembed.cpp schemadialogui.cpp schemadialog.cpp quickdialogui.cpp quickdialog.cpp qtermwndmgr.cpp qtermwindow.cpp qtermtoolbutton.cpp qtermtimelabel.cpp qtermtextline.cpp qtermtelnet.cpp qtermscreen.cpp qtermparam.cpp qtermframe.cpp qtermdecode.cpp qtermconvert.cpp qtermconfig.cpp qtermbuffer.cpp qtermbbs.cpp prefdialogui.cpp prefdialog.cpp popwidget.cpp msgdialogui.cpp msgdialog.cpp main.cpp keydialogui.cpp keydialog.cpp articledialogui.cpp articledialog.cpp addrdialogui.cpp addrdialog.cpp aboutdialogui.cpp aboutdialog.cpp 
 INTERFACES = 
 TRANSLATIONS = 
 KDE_OPTIONS = qtonly
-qterm_LDADD   =  $(LIB_QT) -lXext -lX11 $(LIBSOCKET)
+qterm_LDADD   =  $(LIB_QPE) $(LIB_QT) $(LIBSOCKET) $(LIBPYTHON)
 
-SUBDIRS = pic cursor po 
+SUBDIRS = cursor pic 
 
-EXTRA_DIST = addrdialog.cpp addrdialog.h main.cpp msgdialog.cpp msgdialog.h qterm.cfg qterm.h qtermdecode.cpp qtermdecode.h qtermscreen.cpp qtermscreen.h qtermtelnet.cpp qtermtelnet.h qtermtextline.cpp qtermtextline.h qtermwindow.cpp qtermwindow.h qtermwndmgr.cpp qtermwndmgr.h qterm.pro aboutdialog.cpp aboutdialog.h aboutdialogui.cpp aboutdialogui.h addrdialogui.cpp addrdialogui.h articledialog.cpp articledialog.h articledialogui.cpp articledialogui.h keydialog.cpp keydialog.h keydialogui.cpp keydialogui.h prefdialog.cpp quickdialogui.h quickdialog.cpp qtermconvert.cpp qtermbbs.cpp qtermbbs.h qtermbuffer.cpp qtermbuffer.h qtermconfig.cpp qtermconfig.h qtermconvert.h prefdialog.h prefdialogui.cpp prefdialogui.h qtermframe.cpp qtermframe.h qtermtimelabel.cpp qtermparam.cpp qtermparam.h qtermtimelabel.h qtermtoolbutton.h qtermtoolbutton.cpp quickdialogui.cpp quickdialog.h address.cfg popwidget.cpp popwidget.h schemadialog.cpp schemadialog.h schemadialogui.cpp schemadialogui.h msgdialogui.cpp msgdialogui.h credits.txt 
+EXTRA_DIST = aboutdialog.cpp aboutdialog.h aboutdialogui.cpp aboutdialogui.h addrdialog.cpp addrdialog.h addrdialogui.cpp addrdialogui.h articledialog.cpp articledialog.h articledialogui.cpp articledialogui.h keydialog.cpp keydialog.h keydialogui.cpp keydialogui.h main.cpp msgdialog.cpp msgdialog.h msgdialogui.cpp msgdialogui.h popwidget.cpp popwidget.h prefdialog.cpp prefdialog.h prefdialogui.cpp prefdialogui.h qtermbbs.cpp qtermbbs.h qtermbuffer.cpp qtermbuffer.h qterm.cfg qtermconfig.cpp qtermconfig.h qtermconvert.cpp qtermconvert.h qtermdecode.cpp qtermdecode.h qtermframe.cpp qtermframe.h qterm.h qtermparam.cpp qtermparam.h qtermscreen.cpp qtermscreen.h qtermtelnet.cpp qtermtelnet.h qtermtextline.cpp qtermtextline.h qtermtimelabel.cpp qtermtimelabel.h qtermtoolbutton.cpp qtermtoolbutton.h qtermwindow.cpp qtermwindow.h qtermwndmgr.cpp qtermwndmgr.h quickdialog.cpp quickdialog.h quickdialogui.cpp quickdialogui.h schemadialog.cpp schemadialog.h schemadialogui.cpp schemadialogui.h address.cfg qtermpythonembed.cpp 
 
 install-data-local:
-	$(mkinstalldirs) $(datadir)/qterm/
-	$(INSTALL_DATA) $(srcdir)/qterm.cfg $(datadir)/qterm/qterm.cfg
-	$(mkinstalldirs) $(datadir)/qterm/
-	$(INSTALL_DATA) $(srcdir)/address.cfg $(datadir)/qterm/address.cfg
-	$(mkinstalldirs) $(datadir)/qterm/
-	$(INSTALL_DATA) $(srcdir)/credits.txt $(datadir)/qterm/credits.txt
+	$(mkinstalldirs) $(datadir)/
+	$(INSTALL_DATA) $(srcdir)/qterm.cfg $(datadir)/qterm.cfg
+	$(mkinstalldirs) $(datadir)/
+	$(INSTALL_DATA) $(srcdir)/address.cfg $(datadir)/address.cfg
 
 uninstall-local:
-	-rm -f $(datadir)/qterm/qterm.cfg
-	-rm -f $(datadir)/qterm/address.cfg
-	-rm -f $(datadir)/qterm/credits.txt
+	-rm -f $(datadir)/qterm.cfg
+	-rm -f $(datadir)/address.cfg
 
 ####### kdevelop will overwrite this part!!! (end)############
 
 
 # set the include path for X, qt and KDE
-INCLUDES= $(all_includes)
+INCLUDES= $(all_includes) $(PYTHONINC)
 
 qterm_METASOURCES = AUTO
 

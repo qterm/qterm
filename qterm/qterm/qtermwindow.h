@@ -4,6 +4,8 @@
 #include <qmainwindow.h>
 #include <qcursor.h>
 
+#include <qthread.h>
+
 #include "qtermparam.h"
 #include "qtermconvert.h"
 
@@ -15,6 +17,19 @@ class QTermBuffer;
 class QTermFrame;
 class QTermBBS;
 class popWidget;
+
+class QTermThread : public QThread
+{
+public:
+	QTermThread(QObject*, const QCString&);
+	~QTermThread();
+
+	void run();
+	void stop();
+private:
+	QObject *receiver;
+	QCString script;
+};
 
 class QTermWindow: public QMainWindow
 {
@@ -34,10 +49,15 @@ public slots:
 	void font();
 	void setting();
 	void color();
+	void runScript();
+	void stopScript();
 
 	void showStatusBar(bool);
 
 	void reconnect();
+
+	void sendParsedString(const char*);
+	QCString downloadArticle();
 
 public:
 	void disconnect();
@@ -45,7 +65,8 @@ public:
 	void viewMessages();
 	void autoReply();
 	void antiIdle();
-	
+
+	void runScriptFile(const QCString&);
 	void externInput(const QCString&);
 protected slots:
 	// from QTermTelnet
@@ -77,9 +98,7 @@ protected:
 	void closeEvent ( QCloseEvent * );
 	void keyPressEvent( QKeyEvent * );
 	QTermScreen * m_pScreen;
-	QTermTelnet * m_pTelnet;
 	QTermDecode * m_pDecode;
-	QTermBuffer * m_pBuffer;
 	QTermBBS	* m_pBBS;
 	QPopupMenu *  m_pMenu;
 	static char direction[][5];
@@ -115,9 +134,14 @@ protected:
 	// 
 	popWidget *m_popWin;
 
+	QTermThread *m_pThread;
+
 public:
 	QTermFrame * m_pFrame;
 
+	QTermBuffer * m_pBuffer;
+
+	QTermTelnet * m_pTelnet;
 	// menu and toolbar state
 	bool m_bCopyColor;
 	bool m_bCopyRect;
@@ -132,5 +156,4 @@ public:
 };
 
 #endif	//QTERMWINDOW_H
-
 
