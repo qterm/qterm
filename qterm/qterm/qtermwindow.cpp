@@ -1970,10 +1970,7 @@ int QTermWindow::runPythonFile( const char * filename )
 	
 //	cstr.sprintf("\t\tqterm.formatError(%ld,'')\n",this);
 //	strcat(buffer, cstr);
-	// construct an err file
 	
-	printf("%s\n", getErrOutputFile(this).data());
-
 	cstr.sprintf("\texcept:\n"
 				"\t\texc, val, tb = sys.exc_info()\n"
 				"\t\tlines = traceback.format_exception(exc, val, tb)\n"
