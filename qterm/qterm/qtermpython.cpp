@@ -38,13 +38,11 @@ QString getException()
     Py_DECREF(pName);
 	
 	Py_DECREF(pTraceback);
-/*
-    Py_DECREF(pType);
-    Py_DECREF(pValue);
-	qWarning("1");
-    Py_DECREF(pTb);
-	qWarning("2");
-*/
+
+    Py_XDECREF(pType);
+    Py_XDECREF(pValue);
+    Py_XDECREF(pTb);
+
 	if(pRes==NULL)
 		return "General Error in Python Callback";
 	
