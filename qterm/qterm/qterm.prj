@@ -10,8 +10,12 @@ win32:DEFINES += HAVE_PYTHON _NO_ARTS_COMPILED _NO_ESD_COMPILED
 win32:INCLUDEPATH += c:/progra~1/python23/include
 win32:LIBS += c:/progra~1/python23/libs/python23.lib
 
-# specially for MacOS 
-mac:DEFINES += _NO_ARTS_COMPILED _NO_ESD_COMPILED
+# specially for MacOSX 
+mac {
+	DEFINES += HAVE_PYTHON _NO_ARTS_COMPILED _NO_ESD_COMPILED
+	INCLUDEPATH += /usr/include/malloc /System/Library/Frameworks/Python.framework/Version/Current/Headers
+	LIBS += -lssl -lcrypto -framework Python
+}
 
 # specially for *NIX
 unix:!mac{
