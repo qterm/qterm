@@ -257,9 +257,10 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	m_pDecode = new QTermDecode( m_pBuffer );
 	m_pBBS	  = new QTermBBS( m_pBuffer );
 	m_pScreen = new QTermScreen( this, m_pBuffer, &m_param, m_pBBS );
+
 	m_pIPLocation = new QTermIPLocation(pathLib);
-	if (!m_pIPLocation->haveFile())
-		m_bCheckIP = false;
+	m_bCheckIP = m_pIPLocation->haveFile();
+
 	setFocusProxy( m_pScreen);
 	setCentralWidget( m_pScreen);
 	connect(m_pFrame, SIGNAL(bossColor()), m_pScreen, SLOT(bossColor()));

@@ -58,6 +58,7 @@ QTermBuffer::QTermBuffer( int line, int column, int limit )
 
 QTermBuffer::~QTermBuffer()
 {
+
 }
 
 void QTermBuffer::setSize(int col, int lin)

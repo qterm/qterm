@@ -145,13 +145,14 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 		m_strHttpFile = strSave;
 	}
 	
-	m_pDialog  = new QProgressDialog(parent, 0,false, WStyle_Customize|WStyle_Title|WStyle_Tool);
+	m_pDialog  = new QProgressDialog(parent, 0,false, WStyle_Customize|WStyle_Title|WX11BypassWM|WStyle_Title|WStyle_Tool);
 	connect(m_pDialog, SIGNAL(canceled()), this, SLOT(cancel()));
 	m_pDialog->setCaption(tr("QTerm Http Downloader"));
 	// move it to top-right corner
 	QRect rc = ((QTermFrame *)qApp->mainWidget())->frameGeometry();
 	m_pDialog->move(rc.right()-m_pDialog->width(), rc.y());
 	m_pDialog->setLabelText(QFileInfo(m_strHttpFile).fileName());
+	m_pDialog->setFocusPolicy(QWidget::NoFocus);
 	m_pDialog->show();
 }
 
