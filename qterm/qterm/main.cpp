@@ -348,13 +348,18 @@ QStringList loadNameList( QTermConfig * pConf )
 	return listName;
 }
 
-void loadAddress( QTermConfig *pConf, int n, QTermParam& param )
+bool loadAddress( QTermConfig *pConf, int n, QTermParam& param )
 {
 	QString strTmp, strSection;
 	if(n<0)
 		strSection="default";
 	else
 		strSection.sprintf("bbs %d", n);
+	
+	// check if larger than existence
+	strTmp = pConf->getItemValue("bbs list","num");
+	if(n>=strTmp.toInt())
+		return false;
 	
 	param.m_strName = QString::fromLocal8Bit(pConf->getItemValue(strSection, "name"));
 	param.m_strAddr = pConf->getItemValue(strSection, "addr");

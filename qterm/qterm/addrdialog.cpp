@@ -39,7 +39,7 @@ extern QString pathLib;
 extern QString pathCfg;
 
 extern QStringList loadNameList(QTermConfig*);
-extern void loadAddress(QTermConfig*,int,QTermParam&);
+extern bool loadAddress(QTermConfig*,int,QTermParam&);
 extern void saveAddress(QTermConfig*,int,const QTermParam&);
 
 /*
