@@ -266,10 +266,11 @@ void addrDialog::onProtocol(int n)
 	}
 	else
 	{
-		sshuserLineEdit->setEnabled(true);
-		sshpasswdLineEdit->setEnabled(true);
+		QMessageBox::information(this, "sorry", "We are trying to bring you this function soon :)");
+		//sshuserLineEdit->setEnabled(true);
+		//sshpasswdLineEdit->setEnabled(true);
+		protocolComboBox->setCurrentItem(0);
 	}
-	
 }
 void addrDialog::onAutologin(bool on)
 {
