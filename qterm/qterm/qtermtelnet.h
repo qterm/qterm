@@ -67,9 +67,10 @@
 // Telnet Option Subnegotiation FSM States:
 #define SS_START	0		// initial state			
 #define	SS_TERMTYPE	1		// TERMINAL_TYPE option subnegotiation	
-#define	SS_END		2		// state after all legal input		
+#define SS_NAWS		2		// NAWS option subnegotiation
+#define	SS_END		3		// state after all legal input		
 
-#define	NSSTATES	3		// # of SS_* states			
+#define	NSSTATES	4		// # of SS_* states			
 
 #define	FSINVALID	0xff		// an invalid state number		
 #define	NCHRS		256		// number of valid characters	
@@ -105,7 +106,7 @@ class QTermTelnet : public QObject
     Q_OBJECT
 
 public:
-	QTermTelnet( const QCString termtype, bool isSSH, const char * sshuser = NULL, const char * sshpasswd = NULL ) ;
+	QTermTelnet( const QCString termtype, int rows, int columns, bool isSSH, const char * sshuser = NULL, const char * sshpasswd = NULL ) ;
 	~QTermTelnet();
 	
 	void setWindowSize( int x, int y );
@@ -121,6 +122,9 @@ public:
 	
 	int raw_len();
 	int read_raw(char *data, uint maxlen);
+
+public slots:
+	void windowSizeChanged(int, int);
 
 signals:
 	void readyRead(int);		// There are datas to be read out
@@ -152,6 +156,7 @@ protected:
 	int will_naws(int);
 	int subopt(int);
 	int subtermtype(int);
+	int subnaws(int);
 	int subend(int);
 	int soputc(int);
 	int ttputc(int);

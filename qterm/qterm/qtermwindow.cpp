@@ -170,15 +170,17 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 
 	m_pBuffer = new QTermBuffer( m_param.m_nRow, m_param.m_nCol, m_param.m_nScrollLines );
 	if (param.m_nProtocolType == 0)
-		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, false );
+		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, m_param.m_nRow, m_param.m_nCol, false );
 	else {
 #if defined(_NO_SSH_COMPILED)
 		QMessageBox::warning(this, "sorry", "SSH support is not compiled, QTerm can only use Telnet!");
-		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, false );
+		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, m_param.m_nRow, m_param.m_nCol,false );
 #else
-		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, true, (const char *)m_param.m_strSSHUser, (const char *)m_param.m_strSSHPasswd );
+		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, m_param.m_nRow, m_param.m_nCol,true, (const char *)m_param.m_strSSHUser, (const char *)m_param.m_strSSHPasswd );
 #endif
 	}
+	connect( m_pBuffer, SIGNAL(windowSizeChanged(int,int)), 
+					m_pTelnet, SLOT(windowSizeChanged(int,int)) );
 	m_pZmDialog = new zmodemDialog(this);
 	m_pZmodem = new QTermZmodem( m_pTelnet, param.m_nProtocolType);
 	m_pDecode = new QTermDecode( m_pBuffer );

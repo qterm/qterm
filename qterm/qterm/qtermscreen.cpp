@@ -216,16 +216,14 @@ void QTermScreen::resizeEvent( QResizeEvent *  )
 	}
 	else
 	{
-		/*
 		// FIXME this still not work
 		int cx = m_rcClient.width()/m_nCharWidth;
 		int cy = m_rcClient.height()/m_nCharHeight;
-		if( cx>0 && cy>0 )
+		printf("new size (%d,%d)\n", cx,cy);
+		if( cx>10 && cy>10 )
 		{
 			m_pBuffer->setSize( cx, cy );
-			m_pWindow->m_pTelnet->setWindowSize( cx, cy );
 		}
-		*/
 	}
 }
 

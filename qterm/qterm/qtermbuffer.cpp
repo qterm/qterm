@@ -75,10 +75,9 @@ void QTermBuffer::setSize(int col, int lin)
 	m_top = 0;
 	m_bottom = m_lin -1;
 
-	m_ptSelStart = QPoint(-1,-1);
-	m_ptSelEnd = QPoint(-1,-1);
-	
+	clearSelect();
 
+	emit windowSizeChanged(m_col,m_lin);
 
 	emit bufferSizeChanged();
 }
@@ -115,7 +114,10 @@ void QTermBuffer::setCurAttr( short attr )
 void QTermBuffer::setBuffer( const QCString& cstr, int n )
 {
 	
-	QTermTextLine * line = line = m_lineList.at( m_lines + m_caretY );
+	QTermTextLine * line =  m_lineList.at( m_lines + m_caretY );
+	
+	if(line==NULL)
+		qWarning("setBuffer null line");
 
 	if ( Insert_Mode /*bInsert*/ )
 		line->insertText( cstr, m_curAttr, m_caretX );
