@@ -90,7 +90,7 @@ void QTermSSH1Kex::makeSessionKey()
 	d_sauth = d_incomingPacket->getInt();
 	
 	// Debug.
-	qDebug("Server flags: %d, %d, %d\n", d_servFlag, d_sciphers, d_sauth);
+	// qDebug("Server flags: %d, %d, %d\n", d_servFlag, d_sciphers, d_sauth);
 
 	if ((d_sciphers & (1 << SSH_CIPHER_3DES)) == 0)
 		qDebug("server do not support my cipher");
