@@ -1477,6 +1477,7 @@ void QTermWindow::setting( )
 	{
 		m_param = set.param;
 		m_bSetChanged = true;
+
 	}
 }
 
