@@ -3,7 +3,7 @@
 Makefile
 Makefile.in
 crc32.lo
-libssh.la
+libssh.a
 Makefile
 Makefile.in
 qtermsshauth.lo
