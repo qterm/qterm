@@ -153,14 +153,13 @@ QTermFrame::QTermFrame()
 	accel->insertItem(ALT+Key_Up, 200);
 	accel->insertItem(ALT+Key_Right, 201);
 	accel->insertItem(ALT+Key_Down, 201);
-	accel->insertItem(CTRL+Key_Tab, 202);
 
 	connect( accel, SIGNAL(activated(int)), this, SLOT(switchWin(int)) );
 	
 	//initialize all settings
 	iniSetting();
 
-//	installEventFilter(this);
+	installEventFilter(this);
 }
 
 //destructor
@@ -645,10 +644,11 @@ bool QTermFrame::eventFilter(QObject *o, QEvent *e)
 			printf("QTermFrame::eventFilter\n");
 			trayHide();
 			return true;
-		}else
-			return false;
-   	}else */
-		return QMainWindow::eventFilter(o, e);
+		}
+	}
+	return false;
+*/
+	return false;
 }
 
 //slot draw something e.g. logo in the background
@@ -673,6 +673,8 @@ void QTermFrame::closeEvent(QCloseEvent * clse)
 				clse->ignore();
 				return;
 			}
+			else // dont drop down becuase its already closed
+				continue;
 		}
 		wndmgr->activeWindow()->close();
 	}
