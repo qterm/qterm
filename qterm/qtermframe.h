@@ -199,7 +199,8 @@ protected:
 	QPopupMenu *trayMenu;
 
 	//function
-	QTermWindow * newWindow( const QTermParam& param, int index=-1 );
+	//QTermWindow * newWindow( const QTermParam& param, int index=-1 );
+	void newWindow( const QTermParam& param, int index=-1 );
 	void closeEvent(QCloseEvent * );
 	void selectStyleMenu(int ,int );
 	void iniSetting();

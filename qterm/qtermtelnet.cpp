@@ -151,7 +151,7 @@ QTermTelnet::QTermTelnet( QCString cstrTermType, bool isSSH, const char * sshuse
 QTermTelnet::~QTermTelnet()
 {
 	// delete objects
-	delete term;
+	delete [] term;
     	delete socket;
 	delete from_socket;
 	delete to_ansi;
@@ -384,7 +384,7 @@ void QTermTelnet::connected()
 					proxyauth!=NULL?proxyauth:"");
 
 		write(request, strlen(request));
-		delete request;
+		delete [] request;
 		free(proxyauth);
 		proxy_state=1;
 		emit TelnetState( TSPROXYCONNECTED );

@@ -26,7 +26,7 @@ QTermTimeLabel::QTermTimeLabel(QWidget * parent, const char * name, WFlags f)
 //destructor
 QTermTimeLabel::~QTermTimeLabel()
 {
-	
+	delete currentTime;	
 }
 //timer to display the current time
 void QTermTimeLabel::timerEvent(QTimerEvent*)

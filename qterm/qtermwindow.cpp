@@ -590,8 +590,8 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 //destructor
 QTermWindow::~QTermWindow()
 {
-	delete m_pScreen;
 	delete m_pTelnet;
+	delete m_pBBS;
 	delete m_pDecode;
 	delete m_pBuffer;
 	
@@ -600,6 +600,10 @@ QTermWindow::~QTermWindow()
 	delete m_idleTimer;
 	delete m_replyTimer;
 	delete m_tabTimer;
+
+	delete m_pMenu;
+	delete m_pScreen;
+	delete m_reconnectTimer;
 
 #ifdef HAVE_PYTHON
 	// get the global python thread lock
