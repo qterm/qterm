@@ -1,18 +1,17 @@
 # This spec file was generated using Kpp
 # If you find any problems with this spec file please report
 # the error to ian geiser <geiseri@msoe.edu>
-Summary:   %%info%%
+Summary:   BBS client based on Qt library in Linux
 Name:      qterm
 Version:   0.3.4
-Release:   %%release%%
+Release:   1
 Copyright: GPL
 Vendor:    kingson fiasco hooey<xiaokiangwang@yahoo.com.cn yinshouyi@peoplemail.com.cn hephooey@hotmail.com>
-URL:       http://qterm.gnuchina.org
-
+URL:       http://qterm.sourceforge.net
 Packager:  kingson fiasco hooey<xiaokiangwang@yahoo.com.cn yinshouyi@peoplemail.com.cn hephooey@hotmail.com>
-Group:     internet
+Group:     Applications/Internet
 Source:    qterm-0.3.4.tar.gz
-BuildRoot: %%buildroot%%
+BuildRoot: %{_tmppath}/%{name}-root
 
 %description
 QTerm is a BBS client in Linux
