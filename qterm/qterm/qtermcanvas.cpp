@@ -3,10 +3,9 @@
 #include <qpixmap.h>
 #include <qlabel.h>
 
-QTermCanvas::QTermCanvas(QWidget *parent, const char *name)
-  :QWidget(parent, name)
+QTermCanvas::QTermCanvas(QWidget *parent, const char *name, WFlags f)
+  :QWidget(parent, name, f)
 {
-	setWFlags(WStyle_NoBorder|WX11BypassWM);
 	label = new QLabel(this);
 	label->setScaledContents(true);
 }
@@ -27,7 +26,6 @@ void QTermCanvas::loadImage(const QString& name)
 			sz.scale(320,240, QSize::ScaleMin);
 
 		resize(sz);
-		label->resize(sz);
 		label->setPixmap(img);
 	}
 	else
@@ -36,6 +34,8 @@ void QTermCanvas::loadImage(const QString& name)
 
 void QTermCanvas::resizeImage(float ratio)
 {
+	if(ratio>0)
+		resize(size()*(1+ratio));
 }
 
 void QTermCanvas::moveImage(float)
@@ -65,6 +65,12 @@ void QTermCanvas::keyPressEvent(QKeyEvent *ke)
 			break;
 		case Qt::Key_F:
 			showFullScreen();
+			break;
+		case Qt::Key_Plus:
+			resizeImage(0.05);
+			break;
+		case Qt::Key_Minus:
+			resizeImage(-0.05);
 			break;
 	}
 }
