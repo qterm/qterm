@@ -61,6 +61,6 @@ QTermExternalSound::setPlayer(const QString & playername)
 void
 QTermExternalSound::play()
 {
-	QString command = _player + ' ' + _soundfile;
+	QString command = _player + ' ' + _soundfile + '&';
 	runProgram(command.local8Bit());
 }
