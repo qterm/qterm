@@ -108,7 +108,11 @@ protected:
 	int m_col, m_lin, m_lines, m_limit;
 
 	QTermTextLine * m_pCurrentLine;
+#if (QT_VERSION>=300)
+	QPtrList<QTermTextLine>  m_lineList;
+#else
 	QList<QTermTextLine>  m_lineList;
+#endif
 	
 	// caret
 	int   m_caretX, m_caretY, m_saveX, m_saveY;
