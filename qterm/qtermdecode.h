@@ -1,6 +1,8 @@
 #ifndef QTERMDECODE_H
 #define QTERMDECODE_H
 
+#include <qobject.h>
+
 class QTermDecode;
 
 class QTermBuffer;
@@ -15,10 +17,9 @@ struct StateOption
 	StateOption *nextState;
 };
 
-// i think not use signal and slot in this class
-class QTermDecode	// : QObject
+class QTermDecode : public QObject
 {
-//	Q_OBJECT
+	Q_OBJECT
 	
 public:
 	QTermDecode( QTermBuffer * );
@@ -37,9 +38,7 @@ private:
 // you'd better see FSM structure array in QTermDecode.cpp
 
 	void nextLine();
-	
 	void getAttr();	
-
 	void setMargins();
 
 	// char screen functions
@@ -49,7 +48,6 @@ private:
 	void insertLine();
 	void eraseStr();	
 	void eraseLine();
-	
 	void eraseScreen();
 	
 	// cursor functions
@@ -75,8 +73,14 @@ private:
 
 	void setMode();
 	void resetMode();
+	
+	void saveMode();
+	void restoreMode();
 
 	void test();
+
+signals:
+	void mouseMode(bool);
 
 private:
 	
@@ -85,7 +89,7 @@ private:
 
 	// ********** ansi decoder states ****************	
 	StateOption *currentState;
-	static StateOption normalState[], escState[], bracketState[];
+	static StateOption normalState[], escState[], bracketState[], privateState[];
 
 	// ********** decoder		*****************
 	const char *inputData;
@@ -93,6 +97,9 @@ private:
 
 	int nParam, param[30];
 	bool bParam;
+
+	bool bSaveMode[30];
+	bool bCurMode[30];
 
 	QTermBuffer * m_pBuffer;
 

@@ -19,6 +19,8 @@ AUTHOR:        kingson fiasco
 #include <stdio.h>
 #include <qcstring.h>
 
+#define MODE_MouseX11	0
+
 /************************************************************************/
 // state for FSM
 // please read ANSI decoding
@@ -30,7 +32,7 @@ StateOption QTermDecode::normalState[] =
     { CHAR_TAB, 	&QTermDecode::tab,			normalState },
     { CHAR_BS,  	&QTermDecode::bs,			normalState },
     { CHAR_BELL,  	&QTermDecode::bell,			normalState },
-    { CHAR_ESC, 	0,					escState    },
+    { CHAR_ESC, 	0,							escState    },
     { CHAR_NORMAL, 	&QTermDecode::normalInput,  		normalState }
 };
 
@@ -38,11 +40,11 @@ StateOption QTermDecode::normalState[] =
 // only for BBS, so I reduce a lots
 StateOption QTermDecode::escState[] =
 {
-    { '[', 		&QTermDecode::clearParam,  		bracketState },
-    { CHAR_NORMAL, 	0,					normalState  }
+    { '[', 			&QTermDecode::clearParam,  		bracketState },
+    { CHAR_NORMAL, 	0,								normalState  }
 };
 
-// state after '*['
+// state after ESC [
 StateOption QTermDecode::bracketState[] =
 {
     { '0', 		&QTermDecode::paramDigit,		bracketState },
@@ -57,6 +59,8 @@ StateOption QTermDecode::bracketState[] =
     { '9', 		&QTermDecode::paramDigit,		bracketState },
     { ';', 		&QTermDecode::nextParam,		bracketState },
 
+	{ '?',		&QTermDecode::clearParam,		privateState},
+	
     { 'A', 		&QTermDecode::cursorUp,			normalState },
     { 'B', 		&QTermDecode::cursorDown,		normalState },
     { 'C', 		&QTermDecode::cursorRight,		normalState },
@@ -86,6 +90,30 @@ StateOption QTermDecode::bracketState[] =
     { CHAR_NORMAL, 	0,							normalState }
 };
 
+// state after ESC [ ?
+
+StateOption QTermDecode::privateState[] =
+{
+	{ '0', 		&QTermDecode::paramDigit,			privateState },
+    { '1', 		&QTermDecode::paramDigit,			privateState },
+    { '2', 		&QTermDecode::paramDigit,			privateState },
+    { '3', 		&QTermDecode::paramDigit,			privateState },
+    { '4', 		&QTermDecode::paramDigit,			privateState },
+    { '5',		&QTermDecode::paramDigit,			privateState },
+    { '6', 		&QTermDecode::paramDigit,			privateState },
+    { '7', 		&QTermDecode::paramDigit,			privateState },
+    { '8', 		&QTermDecode::paramDigit,			privateState },
+    { '9', 		&QTermDecode::paramDigit,			privateState },
+    { ';', 		&QTermDecode::nextParam,			privateState },
+
+	{ 'h',		&QTermDecode::setMode,				normalState	 },
+	{ 'l',		&QTermDecode::resetMode,			normalState	 },
+	{ 's',		&QTermDecode::saveMode,				normalState	 },
+	{ 'r',		&QTermDecode::restoreMode,			normalState	 },
+
+	{ CHAR_NORMAL, 	0,								normalState  }
+};
+
 QTermDecode::QTermDecode( QTermBuffer * buffer )
 {
 	m_pBuffer = buffer;
@@ -97,6 +125,8 @@ QTermDecode::QTermDecode( QTermBuffer * buffer )
 	m_curAttr = m_defAttr;
 
 	m_pBuffer->setCurAttr( m_curAttr );
+
+	bCurMode[MODE_MouseX11]=bSaveMode[MODE_MouseX11]=false;
 }
 
 QTermDecode::~QTermDecode()
@@ -127,7 +157,8 @@ void QTermDecode::decode( const char *cstr, int length )
 		// current state always be initialized to point to the deginning of three structures
 		// ( normalState, escState, bracketState )
 		i = 0;
-		while ( currentState[i].byte != CHAR_NORMAL && currentState[i].byte != inputData[dataIndex] )
+		while ( currentState[i].byte != CHAR_NORMAL 
+			&& currentState[i].byte != inputData[dataIndex] )
 			   i++;
 
 		// action must be allowed to redirect state change
@@ -450,40 +481,97 @@ void QTermDecode::getAttr()
 
 void QTermDecode::setMode()
 {
-	int n = param[0];
-
-	switch(n)
+	for( int i=0; i<=nParam; i++)
 	{
-		case 4:
-			m_pBuffer->setMode( INSERT_MODE );
-			break;
-		case 20:
-			m_pBuffer->setMode( INSERT_MODE );
-			break;
-		default:
-			break;
+		int n = param[i];
+		switch(n)
+		{
+			case 4:
+				m_pBuffer->setMode( INSERT_MODE );
+				break;
+			case 20:
+				m_pBuffer->setMode( INSERT_MODE );
+				break;
+			case 1000:
+			case 1001:
+				emit mouseMode(true);
+				bCurMode[MODE_MouseX11]=true;
+				printf("setModeX11\n");
+				break;
+			default:
+				qWarning("unhandled setMode %d\n", n);
+				break;
+		}
 	}
 }
 
 void QTermDecode::resetMode()
 {
-	int n = param[0];
-
-	switch(n)
+	for( int i=0; i<=nParam; i++)
 	{
-		case 4:
-			m_pBuffer->resetMode( INSERT_MODE );
+		int n = param[i];
+		switch(n)
+		{
+			case 4:
+				m_pBuffer->resetMode( INSERT_MODE );
+				break;
+			case 20:
+				m_pBuffer->resetMode( NEWLINE_MODE );
+				break;
+			case 1000:
+			case 1001:
+				bCurMode[MODE_MouseX11]=false;
+				emit mouseMode(false);
+				printf("resetModeX11\n");
+				break;
+			default:
+				qWarning("unhandled resetMode %d\n", n);
 			break;
-		case 20:
-			m_pBuffer->resetMode( NEWLINE_MODE );
-			break;
-		default:
-			break;
+		}
 	}
-
 }
+
+void QTermDecode::saveMode()
+{
+	for( int i=0; i<=nParam; i++)
+	{
+		int n = param[i];
+		switch(n)
+		{
+			case 1000:
+			case 1001:
+				bSaveMode[MODE_MouseX11]=bCurMode[MODE_MouseX11];
+				printf("save X11\n");
+				break;
+			default:
+				qWarning("unhandled saveMode %d\n", n);
+			break;
+		}
+	}
+}
+
+void QTermDecode::restoreMode()
+{
+	for( int i=0; i<=nParam; i++)
+	{
+		int n = param[i];
+		switch(n)
+		{
+			case 1000:
+			case 1001:
+				bCurMode[MODE_MouseX11]=bSaveMode[MODE_MouseX11];
+				emit mouseMode( bCurMode[MODE_MouseX11] );
+				printf("restore X11\n");
+				break;
+			default:
+				qWarning("unhandled restoreMode %d\n", n);
+			break;
+		}
+	}
+}
+
 
 void QTermDecode::test()
 {
-		printf("QTermDecode::test()\n");
+	printf("QTermDecode::test()\n");
 }

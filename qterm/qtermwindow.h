@@ -65,10 +65,8 @@ public slots:
 	void color();
 	void runScript();
 	void stopScript();
-
 	void showStatusBar(bool);
 	void reconnect();
-
 	void sendParsedString(const char*);
 public:
 	void disconnect();
@@ -80,7 +78,7 @@ public:
 	void runScriptFile(const QCString&);
 	void externInput(const QCString&);
 	QCString stripWhitespace(const QCString& cstr);
-
+	
 protected slots:
 	// from QTermTelnet
 	void readReady(int);
@@ -102,6 +100,8 @@ protected slots:
 	void copyLink();
 	void saveLink();
 
+	// decode
+	void setMouseMode(bool);
 protected:
 	void mouseMoveEvent( QMouseEvent * );
 	void mousePressEvent( QMouseEvent * );
@@ -130,6 +130,9 @@ protected:
 
 	void closeEvent ( QCloseEvent * );
 	void keyPressEvent( QKeyEvent * );
+	
+	void sendMouseState(int, ButtonState, const QPoint&);
+	
 	QTermScreen * m_pScreen;
 	QTermDecode * m_pDecode;
 	QTermBBS	* m_pBBS;
@@ -185,7 +188,9 @@ protected:
 	QTermCanvas *m_pCanvas;
 	QProgressDialog *m_pPd;
 	bool m_bPreview;
-
+	
+	// Decode
+	bool m_bMouseX11;
 public:
 	QTermFrame * m_pFrame;
 	QTermBuffer * m_pBuffer;

@@ -170,14 +170,20 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 
 	m_pBuffer = new QTermBuffer( m_param.m_nRow, m_param.m_nCol, m_param.m_nScrollLines );
 	if (param.m_nProtocolType == 0)
-		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, m_param.m_nRow, m_param.m_nCol, false );
+		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, 
+						m_param.m_nRow, m_param.m_nCol, false );
 	else {
-#if defined(_NO_SSH_COMPILED)
-		QMessageBox::warning(this, "sorry", "SSH support is not compiled, QTerm can only use Telnet!");
-		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, m_param.m_nRow, m_param.m_nCol,false );
-#else
-		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, m_param.m_nRow, m_param.m_nCol,true, (const char *)m_param.m_strSSHUser, (const char *)m_param.m_strSSHPasswd );
-#endif
+		#if defined(_NO_SSH_COMPILED)
+		QMessageBox::warning(this, "sorry", 
+						"SSH support is not compiled, QTerm can only use Telnet!");
+		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, 
+						m_param.m_nRow, m_param.m_nCol,false );
+		#else
+		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, 
+						m_param.m_nRow, m_param.m_nCol,true, 
+						(const char *)m_param.m_strSSHUser, 
+						(const char *)m_param.m_strSSHPasswd );
+		#endif
 	}
 	connect( m_pBuffer, SIGNAL(windowSizeChanged(int,int)), 
 					m_pTelnet, SLOT(windowSizeChanged(int,int)) );
@@ -195,7 +201,8 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 					this, SLOT(ZmodemState(int,int,const QCString&)));
 	connect(m_pZmDialog, SIGNAL(canceled()), m_pZmodem, SLOT(zmodemCancel()));
 
-	
+	connect(m_pDecode, SIGNAL(mouseMode(bool)), this, SLOT(setMouseMode(bool)));
+
 	#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 	m_popWin = new popWidget(this,m_pFrame);
 	#else
@@ -268,6 +275,8 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	m_bSetChanged = false;
 	
 	m_pPd = NULL;
+
+	m_bMouseX11 = false;
 #ifndef _NO_SSH_COMPILED
 	if (param.m_nProtocolType != 0)
 		m_bDoingLogin = true;
@@ -486,13 +495,16 @@ void QTermWindow::leaveEvent( QEvent * )
 
 void QTermWindow::mousePressEvent( QMouseEvent * me )
 {
+	// no local mouse event
+	if(m_bMouseX11)
+		return sendMouseState(0, me->state(), me->pos());
+
 	// stop  the tab blinking
     if(m_tabTimer->isActive())
     {
 		m_tabTimer->stop();
 		m_pFrame->wndmgr->blinkTheTab(this,TRUE);
     }
-
 
 	if((me->button()&RightButton)&&!m_pBBS->getUrl().isEmpty())
 	{
@@ -508,9 +520,26 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 
 	// Right Button for context menu
 	if(me->button() & RightButton)
+	{
 		m_pMenu->popup(me->globalPos());
-	
-		
+	}
+
+	// Middle Button for paste
+	if( me->button() & MidButton )
+	{
+		if(m_bConnected)
+		{
+			if(m_pFrame->m_pref.bWheel)
+			{
+				char ch = CHAR_CR;
+				m_pTelnet->write(&ch,1);
+			}
+			else
+				pasteHelper(false);
+		}
+		return;
+	}
+
 	// Left Button for selecting
 	if(me->button() & LeftButton)
 	{
@@ -527,6 +556,9 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 }
 void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 {
+	if(m_bMouseX11)
+		return;
+
 	// selecting by leftbutton
 	if( (me->state() & LeftButton) && m_bSelecting )
 	{
@@ -578,21 +610,9 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 
 void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 {	
-	// Middle Button for paste
-	if( me->button() & MidButton )
-	{
-		if(m_bConnected)
-		{
-			if(m_pFrame->m_pref.bWheel)
-			{
-				char ch = CHAR_CR;
-				m_pTelnet->write(&ch,1);
-			}
-			else
-				pasteHelper(false);
-		}
-		return;
-	}
+	// no local mouse event
+	if(m_bMouseX11)
+		return sendMouseState(3, me->state(), me->pos());
 
 	// other than Left Button ignored
 	if( !(me->button() & LeftButton) )
@@ -695,11 +715,13 @@ void QTermWindow::wheelEvent( QWheelEvent *we)
 {
 	if(!m_bConnected)
 		return;
+	
+	int j = we->delta()>0 ? 4 : 5;
 
-	if(we->delta()>0)
-		m_pTelnet->write(direction[4], sizeof(direction[4]));
-	else
-		m_pTelnet->write(direction[5], sizeof(direction[5]));
+	sendMouseState(j, we->state(), we->pos());
+	
+	if(m_pFrame->m_pref.bWheel)
+		m_pTelnet->write(direction[j], sizeof(direction[j]));
 }
 
 //keyboard input event
@@ -1657,6 +1679,52 @@ void QTermWindow::sendParsedString( const char * str)
 	m_pTelnet->write( cstr, length );
 }
 
+void QTermWindow::setMouseMode(bool on)
+{
+	m_bMouseX11 = on;
+}
+
+/* 0-left 1-middle 2-right 3-relsase 4/5-wheel
+ *
+ */
+void QTermWindow::sendMouseState( int num, ButtonState state, const QPoint& pt )
+{
+	if(!m_bMouseX11)
+		return;
+	
+	QPoint ptc = m_pScreen->mapToChar(pt);
+	
+	int keystate = 0;
+	switch( state )
+	{
+		case LeftButton:
+			num = num==0?0:num;
+		case MidButton:
+			num = num==0?1:num;
+		case RightButton:
+			num = num==0?2:num;
+		case ShiftButton:
+			keystate += 0x04;
+		case MetaButton:
+			keystate += 0x08;
+		case ControlButton :
+			keystate += 0x10;
+		default:
+			break;
+	}
+ 	// normal buttons are passed as 0x20 + button,
+	// mouse wheel (buttons 4,5) as 0x5c + button
+	if(num>3)	num += 0x3c;
+
+	char mouse[10];
+	sprintf(mouse, "\033[M%c%c%c", 
+			num+keystate+0x20,
+			ptc.x()+1+0x20,
+			ptc.y()+1+0x20);
+	printf("%0x %0x %0x %0x\n", num, keystate, ptc.x(), ptc.y());
+	m_pTelnet->write( mouse, strlen(mouse) );
+}
+
 /* ------------------------------------------------------------------------ */
 /*	                                                                        */
 /* 	                         Python Func                                    */
@@ -1931,7 +1999,7 @@ void QTermWindow::httpDone(bool err)
 		else
 		{
 			QCString cstrCmd=m_pFrame->m_pref.strImageViewer.local8Bit();
-			cstrCmd += " "+m_strHttpFile;
+			cstrCmd += " "+m_strHttpFile.local8Bit();
 			runProgram(cstrCmd);
 		}
 	}

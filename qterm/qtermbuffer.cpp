@@ -65,13 +65,13 @@ void QTermBuffer::setSize(int col, int lin)
 	if(m_lin<lin)
 		for(int i=0; i<lin-m_lin; i++ )
 			m_lineList.append( new QTermTextLine );
-	else
+	else if(m_lin>lin)
 		for(int i=0; i<m_lin-lin; i++ )
-			m_lineList.removeLast();
+			m_lineList.remove(m_lines+m_top);
 	
 	m_col = col;
 	m_lin = lin;
-
+	
 	m_top = 0;
 	m_bottom = m_lin -1;
 
@@ -117,7 +117,10 @@ void QTermBuffer::setBuffer( const QCString& cstr, int n )
 	QTermTextLine * line =  m_lineList.at( m_lines + m_caretY );
 	
 	if(line==NULL)
+	{	
 		qWarning("setBuffer null line");
+		return;
+	}
 
 	if ( Insert_Mode /*bInsert*/ )
 		line->insertText( cstr, m_curAttr, m_caretX );
