@@ -836,7 +836,7 @@ void QTermWindow::keyPressEvent( QKeyEvent * e )
 	if(m_replyTimer->isActive())
 		m_replyTimer->stop();
 
-	if( e->state() & ControlButton )
+	if( e->state() & MetaButton )
 	{
 		if( e->key()>=Key_A && e->key()<=Key_Z )
 		{	
@@ -1893,7 +1893,7 @@ bool QTermWindow::pythonCallback(const char* func, PyObject* pArgs)
 	return done;
 }
 #endif //HAVE_PYTHON
-
+#if 0
 int QTermWindow::runPythonFile( const char * filename )
 {
 #ifdef HAVE_PYTHON
@@ -1966,6 +1966,81 @@ int QTermWindow::runPythonFile( const char * filename )
 
 	return 0;
 }
+#endif
+
+int QTermWindow::runPythonFile( const char * filename )
+{
+#ifdef HAVE_PYTHON
+    static char buffer[1024];
+    const char *file = filename;
+
+    char *p;
+
+    /* Have to do it like this. PyRun_SimpleFile requires you to pass a
+     * stdio file pointer, but Vim and the Python DLL are compiled with
+     * different options under Windows, meaning that stdio pointers aren't
+     * compatible between the two. Yuk.
+     *
+     * Put the string "execfile('file')" into buffer. But, we need to
+     * escape any backslashes or single quotes in the file name, so that
+     * Python won't mangle the file name.
+	 * ---- kafa
+     */
+	strcpy(buffer, "def work_thread():\n"
+					"\ttry:\n\t\texecfile('");
+    p = buffer + 37; /* size of above  */
+
+    while (*file && p < buffer + (1024 - 3))
+    {
+	if (*file == '\\' || *file == '\'')
+	    *p++ = '\\';
+	*p++ = *file++;
+    }
+
+    /* If we didn't finish the file name, we hit a buffer overflow */
+    if (*file != '\0')
+	return -1;
+
+    /* Put in the terminating "')" and a null */
+    *p++ = '\'';
+	*p++ = ',';
+	*p++ = '{';
+	*p++ = '}';
+	*p++ = ')';
+    *p++ = '\n';
+	*p++ = '\0';
+
+	QCString cstr;
+	
+//	cstr.sprintf("\t\tqterm.formatError(%ld,'')\n",this);
+//	strcat(buffer, cstr);
+	
+	cstr.sprintf("\texcept:\n"
+				"\t\texc, val, tb = sys.exc_info()\n"
+				"\t\tlines = traceback.format_exception(exc, val, tb)\n"
+				"\t\terr = string.join(lines)\n"
+				"\t\tprint err\n"
+				"\t\tf=open('%s','w')\n"
+				"\t\tf.write(err)\n"
+				"\t\tf.close()\n"
+				,getErrOutputFile(this).data());
+	strcat(buffer, cstr);
+
+	cstr.sprintf("\t\tqterm.formatError(%ld)\n",this);
+	strcat(buffer, cstr);
+
+	strcat(buffer, "\t\texit\n");
+
+    /* Execute the file */
+	PyRun_SimpleString("import string,sys,traceback,qterm");
+	PyRun_SimpleString(buffer);
+	PyRun_SimpleString("work_thread()\n");
+
+#endif // HAVE_PYTHON
+
+	return 0;
+}
+
 
 void QTermWindow::pythonMouseEvent(int type, ButtonState btnstate, ButtonState keystate, 
 				const QPoint& pt, int delta  )

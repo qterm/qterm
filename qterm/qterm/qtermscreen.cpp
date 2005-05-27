@@ -1252,7 +1252,7 @@ void QTermScreen::imStartEvent(QIMEvent * e)
 	m_inputContent = new QTermInput(this, m_nCharWidth, m_nCharHeight, m_nCharAscent);
 	m_inputContent->setFont(*m_pFont);
 	//m_inputContent->setTextFormat(Qt::RichText);
-
+	
 	m_inputContent->show();
 }
 
@@ -1266,7 +1266,18 @@ void QTermScreen::imComposeEvent(QIMEvent * e)
 	int pos = e->cursorPos();
 
 	text += e->text();
-
+// how dirty
+#ifdef Q_OS_MACX
+ushort code=text[0].unicode();
+if( (code>0xff00&&code<0xffef) || 
+(code>0x3000&&code<0x303f) || 
+(code>0x2000&&code<0x206f)
+code==0x00b7)
+{
+imEndEvent(e);
+return;
+}
+#endif
 	m_inputContent->drawInput(text, pos);
 /*
 	QString text_before = text.left(pos);
