@@ -87,10 +87,14 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 	int FileLength = ValueString.toInt();
 	
 	ValueString = hrh.value("Content-Disposition");
-	ValueString = ValueString.mid(ValueString.find(';') + 1).stripWhiteSpace();
-	if(ValueString.lower().find("filename") == 0)
-		m_strHttpFile = ValueString.mid(ValueString.find('=') + 1).stripWhiteSpace();
-	
+//	ValueString = ValueString.mid(ValueString.find(';') + 1).stripWhiteSpace();
+//	if(ValueString.lower().find("filename") == 0)
+//	m_strHttpFile = ValueString.mid(ValueString.find('=') + 1).stripWhiteSpace();
+	QRegExp re("filename\=.*;", false);
+	int pos=re.search(ValueString);
+	if(pos!=-1)
+		m_strHttpFile = ValueString.mid(pos+9,re.matchedLength()-10);
+
 	if(m_bPreview)
 	{
 		QString strPool = ((QTermFrame *)qApp->mainWidget())->m_pref.strPoolPath;
@@ -214,7 +218,7 @@ void QTermHttp::previewImage(const QString& filename)
 	}
 	else
 	{
-		QCString cstrCmd = cstrViewer+" "+filename.local8Bit();
+		QCString cstrCmd = cstrViewer+" \""+filename.local8Bit()+"\"";
 		runProgram(cstrCmd);
 	}
 }

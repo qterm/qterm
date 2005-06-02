@@ -732,7 +732,7 @@ void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 				//QApplication::clipboard()->setText(strUrl);
 				cstrCmd += " \"" + strUrl.local8Bit() +"\"";
 			else
-				cstrCmd.replace("%L", strUrl.local8Bit());
+				cstrCmd.replace("%L",  "\""+strUrl.local8Bit()+ "\"");
 			
 			runProgram(cstrCmd);
 		}

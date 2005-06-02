@@ -1271,7 +1271,7 @@ void QTermScreen::imComposeEvent(QIMEvent * e)
 ushort code=text[0].unicode();
 if( (code>0xff00&&code<0xffef) || 
 (code>0x3000&&code<0x303f) || 
-(code>0x2000&&code<0x206f)
+(code>0x2000&&code<0x206f) ||
 code==0x00b7)
 {
 imEndEvent(e);
