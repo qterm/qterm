@@ -90,10 +90,10 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 //	ValueString = ValueString.mid(ValueString.find(';') + 1).stripWhiteSpace();
 //	if(ValueString.lower().find("filename") == 0)
 //	m_strHttpFile = ValueString.mid(ValueString.find('=') + 1).stripWhiteSpace();
-	QRegExp re("filename\=.*;", false);
+	QRegExp re("filename\=.*", false);
 	int pos=re.search(ValueString);
 	if(pos!=-1)
-		m_strHttpFile = ValueString.mid(pos+9,re.matchedLength()-10);
+		m_strHttpFile = ValueString.mid(pos+9,re.matchedLength()-9);
 
 	if(m_bPreview)
 	{
