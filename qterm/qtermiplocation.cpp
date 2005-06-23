@@ -14,6 +14,10 @@
 #endif
 
 #include <qstring.h>
+#include <qdir.h>
+#include <qstringlist.h>
+
+
 
 extern QString pathCfg;
 
@@ -21,11 +25,25 @@ QTermIPLocation::QTermIPLocation(QString & pathLib)
 {
 	f = new _ip_finder;
 	fileExist = true;
-	if( ( f->ipfp = fopen( pathLib + DEFAULT_IP_LOCATION_FILE, "r" ) ) == NULL )
-		if( ( f->ipfp = fopen( pathCfg + DEFAULT_IP_LOCATION_FILE, "r" ) ) == NULL ){
-			qDebug( "can't open ipfile !" );
-			fileExist = false;
+	
+	//case-insensitive match
+	QDir dir(pathCfg);
+	QStringList files = dir.entryList("[Qq][Qq][Ww][Rr][Yy].[Dd][Aa][Tt]",QDir::Files);
+	if(!files.isEmpty()){
+		if( ( f->ipfp = fopen( pathCfg + (*files.at(0)), "r" ) ) == NULL ){
+		qDebug( "can't open ipfile !" );
+		fileExist = false;
 		}
+	}
+	else
+		fileExist =  false;
+
+//	if( ( f->ipfp = fopen( pathLib + DEFAULT_IP_LOCATION_FILE, "r" ) ) == NULL )
+//		if( ( f->ipfp = fopen( pathCfg + DEFAULT_IP_LOCATION_FILE, "r" ) ) == NULL ){
+//			qDebug( "can't open ipfile !" );
+//			fileExist = false;
+//		}
+
 }
 
 QTermIPLocation::~QTermIPLocation()
