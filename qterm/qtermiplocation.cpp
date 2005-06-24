@@ -24,6 +24,8 @@ extern QString pathCfg;
 QTermIPLocation::QTermIPLocation(QString & pathLib)
 {
 	f = new _ip_finder;
+	f->ipfp = NULL;
+
 	fileExist = true;
 	
 	//case-insensitive match

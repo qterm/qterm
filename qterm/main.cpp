@@ -360,7 +360,6 @@ bool loadAddress( QTermConfig *pConf, int n, QTermParam& param )
 	strTmp = pConf->getItemValue("bbs list","num");
 	if(n>=strTmp.toInt())
 		return false;
-	
 	param.m_strName = QString::fromLocal8Bit(pConf->getItemValue(strSection, "name"));
 	param.m_strAddr = pConf->getItemValue(strSection, "addr");
 	strTmp = pConf->getItemValue(strSection, "port");
@@ -443,6 +442,8 @@ bool loadAddress( QTermConfig *pConf, int n, QTermParam& param )
 	strTmp = pConf->getItemValue(strSection, "menutype");
 	param.m_nMenuType = strTmp.toInt();
 	param.m_clrMenu.setNamedColor(pConf->getItemValue(strSection, "menucolor"));
+
+	return true;
 }
 
 void saveAddress(QTermConfig *pConf, int n, const QTermParam& param)
