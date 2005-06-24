@@ -93,7 +93,6 @@ extern void saveAddress(QTermConfig *, int, const QTermParam &);
 QTermFrame::QTermFrame()
     : QMainWindow( 0, "QTerm", WDestructiveClose )
 {
-
 //set the layout
 	QVBox *vb = new QVBox( this );
 	vb->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
@@ -102,7 +101,7 @@ QTermFrame::QTermFrame()
 
 	tray = 0;
 	trayMenu = 0;
-
+	
 //set menubar
 	addMainMenu();
 
@@ -620,7 +619,6 @@ void QTermFrame::connectMenuActivated( int id )
 	QTermParam param;
 	if(loadAddress(pConf, connectMenu->itemParameter(id), param))
 		newWindow(param, connectMenu->itemParameter(id));
-	
 	delete pConf;
 }
 
