@@ -392,15 +392,12 @@ void QTermScreen::updateFont()
 
 void QTermScreen::updateFont2()
 {
-	QString strFamily = m_pFont->family();
-	delete m_pFont;
-
 	int nPixelSize;
 	int nIniSize = QMAX(8,QMIN(m_rcClient.height()/m_pBuffer->line(),
 					m_rcClient.width()*2/m_pBuffer->columns()));
+
 	for( nPixelSize=nIniSize-3; nPixelSize<=nIniSize+3; nPixelSize++)
 	{
-		m_pFont = new QFont(strFamily);
 		m_pFont->setPixelSize( nPixelSize );
 		
 		QFontMetrics fm( *m_pFont );
@@ -410,9 +407,7 @@ void QTermScreen::updateFont2()
 		{
 			while(nPixelSize>5)
 			{
-				delete m_pFont;
 				nPixelSize--;
-				m_pFont = new QFont(strFamily);
 				m_pFont->setPixelSize( nPixelSize );
 		
 				QFontMetrics fm2( *m_pFont );
@@ -423,7 +418,6 @@ void QTermScreen::updateFont2()
 			}
 			break;	
 		}
-		delete m_pFont;
 	}
 	#if (QT_VERSION >= 300 )
 	m_pFont->setStyleHint(QFont::System, 
