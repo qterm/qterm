@@ -14,6 +14,7 @@ win32:LIBS += c:/python23/libs/python23.lib c:/openssl/lib/vc/libeay32.lib
 
 # specially for MacOSX 
 mac {
+	QMAKE_LFFLAGS_SONAME = -Wl,-install_name,@executable_path/../Frameworks/
 	RC_FILE = qterm.icns
 	# copy files to application bundle
 	conf.path = qterm.app/Contents/MacOS/
