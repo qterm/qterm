@@ -175,9 +175,9 @@ void QTermSSH1PacketReceiver::getBN(BIGNUM * bignum)
 void QTermSSH1PacketReceiver::parseData(QTermSSHBuffer * input)
 {
 	u_int mycrc, gotcrc;
-	u_char * buf;
-	u_char * targetData;
-	u_char * sourceData;
+	u_char * buf=NULL;
+	u_char * targetData=NULL;
+	u_char * sourceData=NULL;
 
 	// Get the length of the packet.
 	// fprintf(stderr, "input packet len: %d\n", input->len());
