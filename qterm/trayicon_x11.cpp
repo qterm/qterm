@@ -125,7 +125,7 @@ class TrayIcon::TrayIconPrivate : public QLabel
 {
 public:
 	TrayIconPrivate( TrayIcon *object, const QPixmap &pm, bool _isWMDock )
-	: QLabel(NULL, "psidock",  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_StaysOnTop | WMouseNoMask), iconObject(object)
+	: QLabel(NULL, "qtermdock",  WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_StaysOnTop | WMouseNoMask), iconObject(object)
 //	: QLabel( 0, "psidock", WMouseNoMask ), iconObject(object)
 	{
 		isWMDock = _isWMDock;
@@ -142,7 +142,7 @@ public:
 		WId win = winId();		 // get the window
 		
 		XClassHint classhint;
-		classhint.res_name  = (char*)"psidock";
+		classhint.res_name  = (char*)"qtermdock";
 		classhint.res_class = (char*)"Wharf";
 		XSetClassHint(dsp, win, &classhint);
 		XWMHints *hints;  // hints
