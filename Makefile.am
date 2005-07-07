@@ -1,6 +1,6 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
-SUBDIRS = qterm debian 
+SUBDIRS = qterm 
 
 EXTRA_DIST = qterm.kdevprj admin README README.big5 README.gb qterm.spec AUTHORS BUGS ChangeLog COPYING INSTALL
 

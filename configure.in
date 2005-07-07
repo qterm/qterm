@@ -83,7 +83,6 @@ KDE_CREATE_SUBDIRSLIST
 
 dnl add here all your Makefiles. This are created by configure
 AC_CONFIG_FILES([ Makefile ])
-AC_CONFIG_FILES([ debian/Makefile ])
 AC_CONFIG_FILES([ qterm/Makefile ])
 AC_CONFIG_FILES([ qterm/pic/Makefile ])
 AC_CONFIG_FILES([ qterm/cursor/Makefile ])
