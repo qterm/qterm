@@ -7,94 +7,39 @@ AUTOM4TE="autom4te"
 AUTOMAKE="automake"
 ACLOCAL="aclocal"
 
+# Please add higher versions first. The last version number is the minimum
+# needed to compile KDE. Do not forget to include the name/version #
+# separator if one is present, e.g. -1.2 where - is the separator.
+KDE_AUTOCONF_VERS="-2.58 -2.57 257 -2.54 -2.53a -2.53 -2.52 -2.5x"
+KDE_AUTOMAKE_VERS="-1.7 17 -1.6"
 
-# We don't use variable here for remembering the type ... strings.
-# local variables are not that portable, but we fear namespace issues with
-# our includer.  The repeated type calls are not that expensive.
+# We don't use variable here for remembering the type ... strings. Local 
+# variables are not that portable, but we fear namespace issues with our
+# includer.
 checkAutoconf()
 {
-  if test -x "`$WHICH autoconf-2.5x`" ; then	
-    AUTOCONF="`$WHICH autoconf-2.5x`"
-  elif test -x "`$WHICH autoconf25x`" ; then	
-    AUTOCONF="`$WHICH autoconf25x`"  
-  elif test -x "`$WHICH autoconf-2.54`" ; then
-    AUTOCONF="`$WHICH autoconf-2.54`"
-  elif test -x "`$WHICH autoconf254`" ; then
-    AUTOCONF="`$WHICH autoconf254`"
-  elif test -x "`$WHICH autoconf-2.53`" ; then
-    AUTOCONF="`$WHICH autoconf-2.53`"
-  elif test -x "`$WHICH autoconf253`" ; then
-    AUTOCONF="`$WHICH autoconf253`"
-  elif test -x "`$WHICH autoconf-2.53a`" ; then
-    AUTOCONF="`$WHICH autoconf-2.53a`"
-  elif test -x "`$WHICH autoconf253a`" ; then
-    AUTOCONF="`$WHICH autoconf253a`"
-  elif test -x "`$WHICH autoconf-2.52`" ; then
-    AUTOCONF="`$WHICH autoconf-2.52`"
-  elif test -x "`$WHICH autoconf2.52`" ; then
-    AUTOCONF="`$WHICH autoconf252`"  
-  elif test -x "`$WHICH autoconf2.50`" ; then
-    AUTOCONF="`$WHICH autoconf2.50`"
-  elif test -x "`$WHICH autoconf250`" ; then
-    AUTOCONF="`$WHICH autoconf250`"
-  fi
-}
-
-checkAutoheader()
-{
-  if test -x "`$WHICH autoheader25x`" ; then
-    AUTOHEADER="`$WHICH autoheader25x`"
-    AUTOM4TE="`$WHICH autom4te25x`"
-  elif test -x "`$WHICH autoheader-2.5x`" ; then
-    AUTOHEADER="`$WHICH autoheader-2.5x`"
-    AUTOM4TE="`$WHICH autom4te25x`"  
-  elif test -x "`$WHICH autoheader254`" ; then
-    AUTOHEADER="`$WHICH autoheader254`"
-    AUTOM4TE="`$WHICH autom4te254`"
-  elif test -x "`$WHICH autoheader-2.54`" ; then
-    AUTOHEADER="`$WHICH autoheader-2.54`"
-    AUTOM4TE="`$WHICH autom4te-2.54`"
-  elif test -x "`$WHICH autoheader253`" ; then
-    AUTOHEADER="`$WHICH autoheader253`"
-    AUTOM4TE="`$WHICH autom4te253`"
-  elif test -x "`$WHICH autoheader-2.53`" ; then
-    AUTOHEADER="`$WHICH autoheader-2.53`"
-    AUTOM4TE="`$WHICH autom4te-2.53`"
-  elif test -x "`$WHICH autoheader253a`" ; then
-    AUTOHEADER="`$WHICH autoheader253a`"
-    AUTOM4TE="`$WHICH autom4te253a`"
-  elif test -x "`$WHICH autoheader-2.53a`" ; then
-    AUTOHEADER="`$WHICH autoheader-2.53a`"
-    AUTOM4TE="`$WHICH autom4te-2.53a`"
-  elif test -x "`$WHICH autoheader252`" ; then
-    AUTOHEADER="`$WHICH autoheader252`"
-  elif test -x "`$WHICH autoheader-2.52`" ; then
-    AUTOHEADER="`$WHICH autoheader-2.52`"
-  elif test -x "`$WHICH autoheader250`" ; then
-    AUTOHEADER="`$WHICH autoheader250`"
-  elif test -x "`$WHICH autoheader2.50`" ; then
-    AUTOHEADER="`$WHICH autoheader2.50`"
-  fi
-}
-
-checkAutomakeAclocal ()
-{
-  if test -z "$UNSERMAKE"; then
-    if test -x "`$WHICH automake15`" ; then
-      AUTOMAKE="`$WHICH automake15`"
-      ACLOCAL="`$WHICH aclocal15`"
-    elif test -x "`$WHICH automake-1.5`" ; then
-      AUTOMAKE="`$WHICH automake-1.5`"
-      ACLOCAL="`$WHICH aclocal-1.5`"      
-    elif test -x "`$WHICH automake16`" ; then
-      AUTOMAKE="`$WHICH automake16`"
-      ACLOCAL="`$WHICH aclocal16`"
-    elif test -x "`$WHICH automake-1.6`" ; then
-      AUTOMAKE="`$WHICH automake-1.6`"
-      ACLOCAL="`$WHICH aclocal-1.6`"      
+  for kde_autoconf_version in $KDE_AUTOCONF_VERS; do
+    if test -x "`$WHICH $AUTOCONF$kde_autoconf_version 2>/dev/null`"; then
+      AUTOCONF="`$WHICH $AUTOCONF$kde_autoconf_version`"
+      AUTOHEADER="`$WHICH $AUTOHEADER$kde_autoconf_version`"
+      AUTOM4TE="`$WHICH $AUTOM4TE$kde_autoconf_version`"
+      break
     fi
-  else
-     AUTOMAKE="$UNSERMAKE"
+  done
+}
+
+checkAutomake ()
+{
+  for kde_automake_version in $KDE_AUTOMAKE_VERS; do
+    if test -x "`$WHICH $AUTOMAKE$kde_automake_version 2>/dev/null`"; then
+      AUTOMAKE="`$WHICH $AUTOMAKE$kde_automake_version`"
+      ACLOCAL="`$WHICH $ACLOCAL$kde_automake_version`"
+      break
+    fi
+  done
+
+  if test "$UNSERMAKE" != no && test -x "`$WHICH unsermake 2>/dev/null`"; then
+      AUTOMAKE="`$WHICH unsermake` -c"
   fi
 }
 
@@ -109,7 +54,6 @@ checkWhich ()
 
 checkWhich
 checkAutoconf
-checkAutoheader
-checkAutomakeAclocal
+checkAutomake
 
 export WHICH AUTOHEADER AUTOCONF AUTOM4TE AUTOMAKE ACLOCAL
