@@ -673,33 +673,39 @@ void QTermFrame::paintEvent( QPaintEvent * )
 
 void QTermFrame::closeEvent(QCloseEvent * clse)
 {
-	while( wndmgr->count()>0 ) 
-	{
-		bool isConnected = wndmgr->activeWindow()->isConnected();
-		if(isConnected)
-		{
-			if (m_pref.bTray) {
-				trayHide();
-				return;
-			}
-			if (!wndmgr->activeWindow()->close()){
-				clse->ignore();
-				return;
-			}
-			else // dont drop down becuase its already closed
-				continue;
-		}
-		wndmgr->activeWindow()->close();
-	}
-	saveSetting();
-	// clear zmodem and pool if needed
-	if(m_pref.bClearPool)
-	{
-		clearDir(m_pref.strZmPath);
-		clearDir(m_pref.strPoolPath);
-	}
+        QWidgetList windows = ws->windowList();
+        for ( int i = 0; i < int(windows.count()); ++i )
+        {
 
-	clse->accept();
+                if( ( (QTermWindow *)windows.at(i) )->isConnected() )
+                {
+                        if (m_pref.bTray) {
+                                trayHide();
+                                return;
+                        }
+                }
+        }
+        while( wndmgr->count()>0 )
+        {
+                bool closed = ws->activeWindow()->close();
+                if(!closed)
+                {
+                        return;
+                }
+        }
+
+        saveSetting();
+        // clear zmodem and pool if needed
+        if(m_pref.bClearPool)
+        {
+                clearDir(m_pref.strZmPath);
+                clearDir(m_pref.strPoolPath);
+        }
+
+        setUseDock(false);
+
+        clse->accept();
+
 }
 
 void QTermFrame::langEnglish()
