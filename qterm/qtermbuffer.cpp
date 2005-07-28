@@ -164,9 +164,9 @@ void QTermBuffer::tab()
 	int x = ( m_caretX + 8 ) & -8;	// or ( caretX/8 + 1 ) * 8 
 	moveCursor( x, m_caretY );
 
-//	QCString cstr;
-//	cstr.fill(' ',x-m_caretX);
-//	setBuffer(cstr,x-m_caretX);
+	QCString cstr;
+	cstr.fill(' ',x-m_caretX);
+	setBuffer(cstr,x-m_caretX);
 }
 
 void QTermBuffer::setMargins( int top, int bottom )

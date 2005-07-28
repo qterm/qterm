@@ -14,7 +14,9 @@
 extern QString fileCfg;
 extern QString getOpenFileName(const QString&, QWidget*);
 
+#ifdef QT_DEBUG // for zmodemlog()
 #include <sys/time.h>
+#endif
 
 /*
  *  Crc calculation stuff
@@ -449,13 +451,12 @@ QTermZmodem::QTermZmodem(QObject *netinterface, int type)
 
 	zmodemTimer= new QTimer(this);
 	connect(zmodemTimer, SIGNAL(timeout()), this, SLOT(ZmodemTimeout()));
-	
-	// for debug
 
+#ifdef QT_DEBUG
 	zmodemlogfile = fopen("zmodem.log","w+");
 	fprintf(zmodemlogfile, "%s", "\n================================\n");
 	fclose(zmodemlogfile);
-
+#endif
 
 
 //init struct INFO
@@ -674,7 +675,7 @@ int QTermZmodem::ZmodemRcv(uchar *str, int len, ZModem *info)
 	register uchar	c ;
 	int	err ;
 
-//	zmodemlog("zmodemRcv called");
+	zmodemlog("zmodemRcv called");
 	
 	info->rcvlen = len ;
 	
@@ -853,7 +854,7 @@ int QTermZmodem::YmodemTInit(ZModem *info)
 
 int QTermZmodem::XmodemTInit(ZModem *info)
 {
-		(void) YmodemTInit(info) ;
+	(void) YmodemTInit(info) ;
 	info->Protocol = XMODEM ;
 	return 0 ;
 }
@@ -987,50 +988,50 @@ void QTermZmodem::ZStatus(int type, int value, const char *status)
 	switch(type)
 	{
 		case	RcvByteCount:
-				qWarning("received %d bytes", value);
+				qDebug("received %d bytes", value);
 				break;
 		case	SndByteCount:
-				qWarning("sent %lx bytes", value);
+				qDebug("sent %lx bytes", value);
 				break;
 		case	RcvTimeout:
 				/* receiver did not respond, aborting */
-				qWarning("time out!");
+				qDebug("time out!");
 				break;
 		case 	SndTimeout:
 				/* value is # of consecutive send timeouts */
-				qWarning("time out after trying %d times", value);
+				qDebug("time out after trying %d times", value);
 				break;
 		case 	RmtCancel:
 				/* remote end has cancelled */
-				qWarning("canceled by remote peer");
+				qDebug("canceled by remote peer");
 				break;
 		case 	ProtocolErr:
 				/* protocol error has occurred, val=hdr */
-				qWarning("unhandled header %d at state %s", value, status);
+				qDebug("unhandled header %d at state %s", value, status);
 				break;
 		case 	RemoteMessage:
 				/* message from remote end */
-				qWarning("msg from remote peer: %s",status);
+				qDebug("msg from remote peer: %s",status);
 				break;
 		case 	DataErr:	
 				/* data error, val=error count */
-				qWarning("data errors %d", value);
+				qDebug("data errors %d", value);
 				break;
 		case 	FileErr:
 				/* error writing file, val=errno */
-				qWarning("falied to write file");
+				qDebug("falied to write file");
 				break;
 		case 	FileBegin:
 				/* file transfer begins, str=name */
-				qWarning("starting file %s", status);
+				qDebug("starting file %s", status);
 				break;
 		case 	FileEnd:
 				/* file transfer ends, str=name */
-				qWarning("finishing file %s", status);
+				qDebug("finishing file %s", status);
 				break;
 		case 	FileSkip:
 				/* file being skipped, str=name */
-				qWarning("skipping file %s", status);
+				qDebug("skipping file %s", status);
 				break;
 	}
 }
@@ -1352,8 +1353,6 @@ if(connectionType==0)
 	
 	lastPullByte = c;
 
-	//fprintf(stderr, "%02x, ", c);
-
 	switch( info->DataType ) {
 	  /* TODO: are hex data packets ever used? */
 
@@ -1645,8 +1644,6 @@ int QTermZmodem::ZProtocol( register ZModem *info )
 	info->timeoutCount = 0 ;
 	info->noiseCount = 0 ;
 	
-	zmstate state = info->state;
-
 //	zmodemTimer->start(info->timeout*1000);
 
 	table = tables[(int)info->state] ;
@@ -1890,8 +1887,6 @@ int QTermZmodem::SendRinit(  ZModem *info )
 #endif	/* COMMENT */
 
 	transferstate = transferstart; //transfer would be active, it must be set to false when transfer complete or abort
-//	ZmodemRInit(info); 		//Zmodem receive init
-
 	zmodemlog("SendRinit[%s]: send ZRINIT\n", sname(info)) ;
 
 	info->timeout = ResponseTime ;
@@ -2155,8 +2150,6 @@ void QTermZmodem::ZFlowControl(int onoff, ZModem *info)
 
 int QTermZmodem::GotSinit(  ZModem *info )
 {
-
-
 	zmodemlog("GotSinit[%s]: call dataSetup\n", sname(info)) ;
 
 	info->zsinitflags = info->hdrData[4] ;
@@ -2651,7 +2644,7 @@ int QTermZmodem::GotRinit(  ZModem *info )
 
 	itFile = strFileList.begin();
 	QFileInfo fi(*itFile);
-	qWarning("files to be transfered %d", strFileList.count());
+	qDebug("files to be transfered %d", strFileList.count());
 	char *filename = strdup(fi.absFilePath().latin1());
 	char *rfilename = strdup(fi.fileName().latin1());
 	ZmodemTFile( filename, rfilename,
@@ -2855,7 +2848,7 @@ int QTermZmodem::ZmodemReset(ZModem * info)
 void QTermZmodem::zmodemlog(const char *fmt, ... )
 {
 // only for debug
-#if 1
+#ifdef QT_DEBUG
 	va_list ap;
 	struct timeval tv ;
 	struct tm *tm ;
