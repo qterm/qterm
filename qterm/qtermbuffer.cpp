@@ -162,7 +162,6 @@ void QTermBuffer::newLine()
 void QTermBuffer::tab()
 {
 	int x = ( m_caretX + 8 ) & -8;	// or ( caretX/8 + 1 ) * 8 
-
 	moveCursor( x, m_caretY );
 
 //	QCString cstr;

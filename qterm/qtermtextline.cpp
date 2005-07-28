@@ -67,7 +67,7 @@ void QTermTextLine::insertText( const QCString& str, short attribute, int index 
 	else			// insert
 	{
 
-		if(index>m_length)
+		if(index>=m_length)
 		{
 			m_text.insert( index, str );
 			m_length = m_text.length();		
@@ -137,7 +137,7 @@ void QTermTextLine::replaceText( const QCString& str, short attribute, int index
 	if ( len == -1 )	// replace with  str
 		len = newlen;
 
-	if( index>m_length )
+	if( index>=m_length )
 	{
 			tmp.fill( ' ', index-m_length );
 			m_text.replace( index, len, str );
