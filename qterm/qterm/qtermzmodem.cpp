@@ -14,7 +14,7 @@
 extern QString fileCfg;
 extern QString getOpenFileName(const QString&, QWidget*);
 
-//#include <sys/time.h>
+#include <sys/time.h>
 
 /*
  *  Crc calculation stuff
@@ -452,9 +452,9 @@ QTermZmodem::QTermZmodem(QObject *netinterface, int type)
 	
 	// for debug
 
-//	zmodemlogfile = fopen("zmodem.log","w+");
-//	fprintf(zmodemlogfile, "%s", "\n================================\n");
-//	fclose(zmodemlogfile);
+	zmodemlogfile = fopen("zmodem.log","w+");
+	fprintf(zmodemlogfile, "%s", "\n================================\n");
+	fclose(zmodemlogfile);
 
 
 
@@ -1644,6 +1644,8 @@ int QTermZmodem::ZProtocol( register ZModem *info )
 
 	info->timeoutCount = 0 ;
 	info->noiseCount = 0 ;
+	
+	zmstate state = info->state;
 
 //	zmodemTimer->start(info->timeout*1000);
 
@@ -1656,6 +1658,7 @@ int QTermZmodem::ZProtocol( register ZModem *info )
 	    table->OFlush, table->func) ;
 
 	info->state = table->newstate ;
+
 	if( table->IFlush ) {info->rcvlen = 0 ; ZIFlush(info) ;}
 	if( table->OFlush ) ZOFlush(info) ;
 	return (this->*(table->func))(info) ;
@@ -2772,7 +2775,11 @@ int QTermZmodem::SkipFile(  ZModem *info )
 	zmodemlog("SkipFile[%s]\n", sname(info)) ;
 	ZStatus(FileEnd, 0, info->rfilename);
 	fclose(info->file) ;
-	return ZmDone ;
+	
+	// stupid SMTH doesnt send further command, kick
+	// lets send files in the list
+	info-> state= TStart;
+	return GotRinit(info);
 }
 
 int QTermZmodem::GotSendPos(  ZModem *info )
@@ -2848,7 +2855,7 @@ int QTermZmodem::ZmodemReset(ZModem * info)
 void QTermZmodem::zmodemlog(const char *fmt, ... )
 {
 // only for debug
-#if 0
+#if 1
 	va_list ap;
 	struct timeval tv ;
 	struct tm *tm ;
