@@ -2,7 +2,7 @@
 #define QTERMCANVAS_H
 
 #include <qscrollview.h>
-#include <qpixmap.h>
+#include <qimage.h>
 
 class QLabel;
 class QPopupMenu;
@@ -45,7 +45,7 @@ protected:
 	bool bFitWin;
 	QSize szImage;
 	QString strFileName;
-	QPixmap pxm;
+	QImage img;
 	QPopupMenu *m_pMenu;
 };
 
