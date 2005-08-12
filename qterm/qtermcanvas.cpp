@@ -2,6 +2,7 @@
 #include "qterm.h"
 #include "qtermconfig.h"
 
+#include <qimage.h>
 #include <qpixmap.h>
 #include <qlabel.h>
 #include <qfileinfo.h>
@@ -54,7 +55,7 @@ QTermCanvas::~QTermCanvas()
 void QTermCanvas::oriSize()
 {
 	bFitWin=false;
-	szImage = pxm.size();
+	szImage = img.size();
 	adjustSize(QSize(visibleWidth(),visibleHeight()));
 }
 
@@ -96,8 +97,8 @@ void QTermCanvas::fullScreen()
 
 void QTermCanvas::loadImage(QString name)
 {
-	pxm.load(name);
-	if(!pxm.isNull())
+	img.load(name);
+	if(!img.isNull())
 	{
 
 		strFileName = name;
@@ -105,10 +106,10 @@ void QTermCanvas::loadImage(QString name)
 
 		bFitWin=true;
 
-		QSize szView(pxm.size());
+		QSize szView(img.size());
 		szView.scale(640,480,QSize::ScaleMin);
 		
-		if(szView.width()<pxm.width())
+		if(szView.width()<img.width())
 		{
 			szImage = szView;
 			label->setPixmap(scaleImage(szImage));
@@ -116,8 +117,8 @@ void QTermCanvas::loadImage(QString name)
 		}
 		else
 		{
-			szImage = pxm.size();
-			label->setPixmap(pxm);
+			szImage = img.size();
+			label->setPixmap(QPixmap(img));
 			resize(szImage+QSize(5,5));
 		}
 		
@@ -150,9 +151,9 @@ void QTermCanvas::rotateImage(float ang)
 	
 	wm.rotate(ang);
 
-	pxm = pxm.xForm(wm);
+	img = img.xForm(wm);
 	
-	szImage = pxm.size();
+	szImage = img.size();
 
 	adjustSize(QSize(visibleWidth(), visibleHeight()));
 }
@@ -222,10 +223,7 @@ void QTermCanvas::silentCopy()
 
 QPixmap QTermCanvas::scaleImage(const QSize& sz)
 {
-	QWMatrix wm;
-	wm.scale((double)sz.width()/pxm.width(),
-			(double)sz.height()/pxm.height());
-	return pxm.xForm(wm);
+	return QPixmap(img.scale(sz));
 }
 
 void QTermCanvas::moveImage(float dx, float dy)
@@ -241,7 +239,7 @@ void QTermCanvas::saveImage()
 	if(strSave.isEmpty())
 		return;
 	QString fmt = fi.extension(false).upper();
-	if(!pxm.save(strSave, fmt=="JPG"?QString("JPEG"):fmt))
+	if(!img.save(strSave, fmt=="JPG"?QString("JPEG"):fmt))
 		QMessageBox::warning(this, "Failed to save file", "Cant save file, maybe format not supported");
 }
 
@@ -316,11 +314,11 @@ void QTermCanvas::adjustSize(const QSize& szView)
 	{
 		if(szImg.width()>szView.width() || 
 			szImg.height()>szView.height() ||
-			szImg.width()<pxm.width())
+			szImg.width()<img.width())
 		{	
 			szImg.scale(szView, QSize::ScaleMin);
 		}
-		szImg = szImg.boundedTo(pxm.size());
+		szImg = szImg.boundedTo(img.size());
 	}
 
 	int x=szView.width()-szImg.width();
