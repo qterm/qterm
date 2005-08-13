@@ -8,6 +8,7 @@
 #include <qimage.h>
 #include <qlistview.h>
 #include <qpushbutton.h>
+#include <qmessagebox.h>
 
 ImageViewer::ImageViewer(const QString & image, const QString & path, QWidget * parent)
 	:ImageViewerUI(parent)
@@ -130,7 +131,10 @@ QTermImage::QTermImage(const QString & image, const QString & path, QWidget * pa
 		}
 		++it;
 	}
-	d_canvas->loadImage(*(d_list->first()));
+	if (!d_list->isEmpty())
+		d_canvas->loadImage(*(d_list->first()));
+	else
+		QMessageBox::warning(this, "Sorry", "You have no picture in pool to view");
 }
 
 QTermImage::~QTermImage()
@@ -144,7 +148,9 @@ QTermImage::~QTermImage()
 
 void QTermImage::next()
 {
-	if (d_index < d_list->count()) {
+	if (d_list->isEmpty())
+		return;
+	if (d_index < d_list->count() - 1) {
 		++d_index;
 		d_canvas->loadImage(*(d_list->at(d_index)));
 	}
@@ -152,6 +158,8 @@ void QTermImage::next()
 
 void QTermImage::previous()
 {
+	if (d_list->isEmpty())
+		return;
 	if (d_index <= 0)
 		return;
 	--d_index;
@@ -160,6 +168,8 @@ void QTermImage::previous()
 
 void QTermImage::browser()
 {
+	if (d_list->isEmpty())
+		return;
 	ImageViewer * browser = new ImageViewer(d_shadow, d_path, this);
 	connect(browser, SIGNAL(selectionChanged(const QString&)), this, SLOT(onChange(const QString&)));
 	browser->exec();
