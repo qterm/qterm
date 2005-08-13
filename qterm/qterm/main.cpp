@@ -322,9 +322,14 @@ int iniSettings()
 		return -1;
 	
 	QString pathPool = QString::fromLocal8Bit(conf->getItemValue("preference", "pool"));
-	if(pathPool.isEmpty())
-		pathPool = pathCfg+"pool";
-	if(checkPath(pathPool)==-1)
+	if (pathPool.right(1) != "/")
+		pathPool.append('/');
+	QString pathCache = pathPool+"shadow-cache/";
+	if(pathPool.isEmpty()) {
+		pathPool = pathCfg+"pool/";
+		pathCache = pathPool+"shadow-cache/";
+	}
+	if(checkPath(pathPool)==-1 || checkPath(pathCache) == -1)
 		return -1;
 
     delete conf;

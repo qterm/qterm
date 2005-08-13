@@ -53,6 +53,8 @@ install-data-local:
 	$(mkinstalldirs) $(datadir)/qterm/pic/
 	$(INSTALL_DATA) $(srcdir)/sound.png $(datadir)/qterm/pic/sound.png
 	$(mkinstalldirs) $(datadir)/qterm/pic/
+	$(INSTALL_DATA) $(srcdir)/shadow.png $(datadir)/qterm/pic/shadow.png
+	$(mkinstalldirs) $(datadir)/qterm/pic/
 	$(INSTALL_DATA) $(srcdir)/tabpad.png $(datadir)/qterm/pic/tabpad.png
 
 uninstall-local:
@@ -80,6 +82,7 @@ uninstall-local:
 	-rm -f $(datadir)/qterm/pic/rect.png
 	-rm -f $(datadir)/qterm/pic/refresh.png
 	-rm -f $(datadir)/qterm/pic/sound.png
+	-rm -f $(datadir)/qterm/pic/shadow.png
 	-rm -f $(datadir)/qterm/pic/tabpad.png
 
 ####### kdevelop will overwrite this part!!! (end)############
