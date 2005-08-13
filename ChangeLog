@@ -1,3 +1,10 @@
+2005/08/13
+	add
+	1. a simple image viewer.
+2005/08/12
+	fix
+	1. QTermCanvas now use QImage instead of QPixmap for internal data
+	processing.
 2005/07/28
 	fix
 	1. don't crash when adjust font size
