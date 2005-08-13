@@ -476,6 +476,7 @@ void QTermFrame::exitQTerm()
 	{
 		clearDir(m_pref.strZmPath);
 		clearDir(m_pref.strPoolPath);
+		clearDir(m_pref.strPoolPath+"shadow-cache/");
 	}
 
 	setUseDock(false);
