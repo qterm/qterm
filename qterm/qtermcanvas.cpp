@@ -19,25 +19,37 @@ QTermCanvas::QTermCanvas(QWidget *parent, const char *name, WFlags f)
   :QScrollView(parent, name, f)
 {
 
+	//dirty trick
+	if (f == 0)
+		bEmbed = true;
+	else
+		bEmbed = false;
+
 	m_pMenu = new QPopupMenu(this);
 	m_pMenu->insertItem( tr("zoom 1:1"), this, SLOT(oriSize()), Key_Z );
 	m_pMenu->insertItem( tr("fit window"), this, SLOT(fitWin()), Key_X );
 	m_pMenu->insertSeparator();	
 	m_pMenu->insertItem( tr("zoom in"), this, SLOT(zoomIn()), Key_Equal );
 	m_pMenu->insertItem( tr("zoom out"), this, SLOT(zoomOut()), Key_Minus );
-	m_pMenu->insertItem( tr("fullscreen"), this, SLOT(fullScreen()), Key_F );
+	if (!bEmbed)
+		m_pMenu->insertItem( tr("fullscreen"), this, SLOT(fullScreen()), Key_F );
 	m_pMenu->insertSeparator();	
 	m_pMenu->insertItem( tr("rotate CW 90"), this, SLOT(cwRotate()), Key_BracketRight );
 	m_pMenu->insertItem( tr("rotate CCW 90"), this, SLOT(ccwRotate()), Key_BracketLeft );
-	m_pMenu->insertSeparator();
-	m_pMenu->insertItem( tr("save as"), this, SLOT(saveImage()), Key_S );
-	m_pMenu->insertItem( tr("copy to"), this, SLOT(copyImage()), Key_C );
-	m_pMenu->insertItem( tr("silent copy"), this, SLOT(silentCopy()), Key_S+SHIFT );
-	m_pMenu->insertItem( tr("delete"), this, SLOT(deleteImage()), Key_D );
-	m_pMenu->insertSeparator();
-	m_pMenu->insertItem( tr("exit"), this, SLOT(close()), Key_Q );
+
+	if (!bEmbed) {
+		m_pMenu->insertSeparator();
+		m_pMenu->insertItem( tr("save as"), this, SLOT(saveImage()), Key_S );
+		m_pMenu->insertItem( tr("copy to"), this, SLOT(copyImage()), Key_C );
+		m_pMenu->insertItem( tr("silent copy"), this, SLOT(silentCopy()), Key_S+SHIFT );
+		m_pMenu->insertItem( tr("delete"), this, SLOT(deleteImage()), Key_D );
+
+		m_pMenu->insertSeparator();
+		m_pMenu->insertItem( tr("exit"), this, SLOT(close()), Key_Q );
+	}
 
 	bFitWin=true;
+	
 	label = new QLabel(viewport());
 	label->setScaledContents(true);
 	label->setAlignment(AlignCenter);
@@ -113,14 +125,18 @@ void QTermCanvas::loadImage(QString name)
 		{
 			szImage = szView;
 			label->setPixmap(scaleImage(szImage));
-			resize(szView*1.1);
+			if (!bEmbed)
+				resize(szView*1.1);
 		}
 		else
 		{
 			szImage = img.size();
 			label->setPixmap(QPixmap(img));
-			resize(szImage+QSize(5,5));
+			if (!bEmbed)
+				resize(szImage+QSize(5,5));
 		}
+		if (bEmbed)
+			fitWin();
 		
 	}
 	else
@@ -251,7 +267,8 @@ void QTermCanvas::deleteImage()
 
 void QTermCanvas::closeEvent(QCloseEvent *ce)
 {
-	delete this;
+	if (!bEmbed)
+		delete this;
 }
 
 void QTermCanvas::viewportResizeEvent(QResizeEvent *re)

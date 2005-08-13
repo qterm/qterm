@@ -24,6 +24,7 @@ AUTHOR:        kingson fiasco
 #include "quickdialog.h"
 #include "keydialog.h"
 #include "trayicon.h"
+#include "imageviewer.h"
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
@@ -1153,6 +1154,13 @@ void QTermFrame::enableMouse( )
 	specMouse->setOn( wndmgr->activeWindow()->m_bMouse );
 
 }
+
+void QTermFrame::viewImages()
+{
+	QTermImage viewer(pathPic+"pic/shadow.png", m_pref.strPoolPath, this);
+	viewer.exec();
+}
+
 void QTermFrame::beep()
 {
 	wndmgr->activeWindow()->m_bBeep = !wndmgr->activeWindow()->m_bBeep;
@@ -1460,6 +1468,7 @@ void QTermFrame::addMainMenu()
 					tr("&Beep "), this, SLOT(beep()), 0, ID_SPEC_BEEP );
 	spec->insertItem( QPixmap(pathLib+"pic/mouse.png"),
 					tr("&Mouse support"), this, SLOT(enableMouse()), 0, ID_SPEC_MOUSE );
+	spec->insertItem(tr("&Image viewer"), this, SLOT(viewImages()));
 
 	
 	//Script

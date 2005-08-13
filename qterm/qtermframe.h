@@ -140,6 +140,8 @@ protected slots:
     void beep();
 	void reconnect();
 	void keySetup();
+
+	void viewImages();
 	
 	void themesMenuAboutToShow();
 	void themesMenuActivated(int);

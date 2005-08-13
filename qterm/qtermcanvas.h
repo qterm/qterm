@@ -47,6 +47,9 @@ protected:
 	QString strFileName;
 	QImage img;
 	QPopupMenu *m_pMenu;
+	
+//Very dirty trick, I hate it
+	bool bEmbed;
 };
 
 #endif
