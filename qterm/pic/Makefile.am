@@ -1,7 +1,7 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
 
-EXTRA_DIST = addr.png anti-idle.png article.png auto-reply.png color-copy.png color.png connect.png copy.png disconnect.png fonts.png keys.png message.png mouse.png paste.png popwidget.png pref.png qterm_32x32.png qterm_48x48.png quick.png reconnect.png rect.png refresh.png sound.png tabpad.png qterm_tray.png
+EXTRA_DIST = addr.png anti-idle.png article.png auto-reply.png color-copy.png color.png connect.png copy.png disconnect.png fonts.png keys.png message.png mouse.png paste.png popwidget.png pref.png qterm_32x32.png qterm_48x48.png quick.png reconnect.png rect.png refresh.png sound.png tabpad.png qterm_tray.png messagebox_warning.png messagebox_critical.png messagebox_info.png
 
 install-data-local:
 	$(mkinstalldirs) $(datadir)/qterm/pic/
@@ -56,6 +56,12 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/shadow.png $(datadir)/qterm/pic/shadow.png
 	$(mkinstalldirs) $(datadir)/qterm/pic/
 	$(INSTALL_DATA) $(srcdir)/tabpad.png $(datadir)/qterm/pic/tabpad.png
+	$(mkinstalldirs) $(datadir)/qterm/pic/
+	$(INSTALL_DATA) $(srcdir)/messagebox_info.png $(datadir)/qterm/pic/messagebox_info.png
+	$(mkinstalldirs) $(datadir)/qterm/pic/
+	$(INSTALL_DATA) $(srcdir)/messagebox_critical.png $(datadir)/qterm/pic/messagebox_critical.png
+	$(mkinstalldirs) $(datadir)/qterm/pic/
+	$(INSTALL_DATA) $(srcdir)/messagebox_warning.png $(datadir)/qterm/pic/messagebox_warning.png
 
 uninstall-local:
 	-rm -f $(datadir)/qterm/pic/addr.png
@@ -84,5 +90,8 @@ uninstall-local:
 	-rm -f $(datadir)/qterm/pic/sound.png
 	-rm -f $(datadir)/qterm/pic/shadow.png
 	-rm -f $(datadir)/qterm/pic/tabpad.png
+	-rm -f $(datadir)/qterm/pic/messagebox_info.png
+	-rm -f $(datadir)/qterm/pic/messagebox_critical.png
+	-rm -f $(datadir)/qterm/pic/messagebox_warning.png
 
 ####### kdevelop will overwrite this part!!! (end)############
