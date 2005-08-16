@@ -105,3 +105,10 @@ trayicon.moc.o
 trayicon.o
 trayicon_win.o
 trayicon_x11.o
+imageviewer.moc.cpp
+imageviewerui.moc.cpp
+qtermcanvas.moc.cpp
+qtermhttp.moc.cpp
+qtermzmodem.moc.cpp
+zmodemdialog.moc.cpp
+zmodemdialogui.moc.cpp
