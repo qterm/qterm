@@ -1690,7 +1690,12 @@ void QTermWindow::replyMessage()
 	
 	QCString cstrTmp = m_param.m_strReplyKey.local8Bit();
 	QCString cstr = parseString(cstrTmp.isEmpty()?QCString("^Z"):cstrTmp);
-	cstr += m_param.m_strAutoReply.local8Bit();
+	//cstr += m_param.m_strAutoReply.local8Bit();
+	if( m_param.m_nBBSCode==0 )
+		cstr += U2G(m_param.m_strAutoReply);
+	else
+		cstr += U2B(m_param.m_strAutoReply);
+	
 	cstr += '\n';
 	m_pTelnet->write( cstr, cstr.length() );
 	m_pMessage->display("You have messages", PageViewMessage::Info, 0);
