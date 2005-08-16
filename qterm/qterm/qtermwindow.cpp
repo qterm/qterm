@@ -32,6 +32,7 @@ AUTHOR:        kingson fiasco
 #include "qtermpython.h"
 #include "qtermhttp.h"
 #include "qtermiplocation.h"
+#include "osdmessage.h"
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
@@ -259,6 +260,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	m_pScreen = new QTermScreen( this, m_pBuffer, &m_param, m_pBBS );
 
 	m_pIPLocation = new QTermIPLocation(pathLib);
+	m_pMessage = new PageViewMessage(this);
 	m_bCheckIP = m_pIPLocation->haveFile();
 
 	setFocusProxy( m_pScreen);
@@ -279,7 +281,8 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	#endif
 
 	//set the status bar
-	statusBar()->message( tr("Not Connected") );
+	//statusBar()->message( tr("Not Connected") );
+	m_pMessage->display(tr("Not Connected"));
 	statusBar()->setSizeGripEnabled(false);
 
 	if(m_pFrame->m_bStatusBar)
@@ -344,6 +347,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	m_bSetChanged = false;
 	
 	m_bMouseX11 = false;
+	m_bMouseClicked = false;
 #ifndef _NO_SSH_COMPILED
 	if (param.m_nProtocolType != 0)
 		m_bDoingLogin = true;
@@ -604,6 +608,9 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 		return;
 	}
 
+	// If it is a click, there should be a press event and a release event.
+	m_bMouseClicked = true;
+
 	// xterm mouse event
 	sendMouseState(0, me->button(), me->state(), me->pos());
 
@@ -686,6 +693,9 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 
 void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 {	
+	if (!m_bMouseClicked)
+		return;
+	m_bMouseClicked = false;
 	// other than Left Button ignored
 	if( !(me->button()&LeftButton) || (me->state()&KeyButtonMask))
 	{
@@ -1116,70 +1126,87 @@ void QTermWindow::TelnetState(int state)
 	switch( state )
 	{
 	case TSRESOLVING:
-		statusBar()->message( tr("resolving host name") );
+		//statusBar()->message( tr("resolving host name") );
+		m_pMessage->display( tr("resolving host name") );
 		break;
 	case TSHOSTFOUND:
-		statusBar()->message( tr("host found") );
+		//statusBar()->message( tr("host found") );
+		m_pMessage->display( tr("host found") );
 		break;
 	case TSHOSTNOTFOUND:
-		statusBar()->message( tr("host not found") );
+		//statusBar()->message( tr("host not found") );
+		m_pMessage->display( tr("host not found") );
 		connectionClosed();
 		break;
 	case TSCONNECTING:
-		statusBar()->message( tr("connecting...") );
+		//statusBar()->message( tr("connecting...") );
+		m_pMessage->display( tr("connecting...") );
 		break;
 	case TSHOSTCONNECTED:
-		statusBar()->message( tr("connected") );
+		//statusBar()->message( tr("connected") );
+		m_pMessage->display( tr("connected") );
 		m_bConnected = true;
 		m_pFrame->updateMenuToolBar();
 		if(m_param.m_bAutoLogin)
 			m_bDoingLogin = true;
 		break;
 	case TSPROXYCONNECTED:
-		statusBar()->message( tr("connected to proxy" ) );
+		//statusBar()->message( tr("connected to proxy" ) );
+		m_pMessage->display( tr("connected to proxy" ) );
 		break;
 	case TSPROXYAUTH:
-		statusBar()->message( tr("proxy authentation") );
+		//statusBar()->message( tr("proxy authentation") );
+		m_pMessage->display( tr("proxy authentation") );
 		break;
 	case TSPROXYFAIL:
-		statusBar()->message( tr("proxy failed") );
+		//statusBar()->message( tr("proxy failed") );
+		m_pMessage->display( tr("proxy failed") );
 		disconnect();
 		break;
 	case TSREFUSED:
-		statusBar()->message( tr("connection refused") );
+		//statusBar()->message( tr("connection refused") );
+		m_pMessage->display( tr("connection refused") );
 		connectionClosed();
 		break;
 	case TSREADERROR:
-		statusBar()->message( tr("error when reading from server") );
+		//statusBar()->message( tr("error when reading from server") );
+		m_pMessage->display( tr("error when reading from server"),PageViewMessage::Error );
 		disconnect();
 		break;
 	case TSCLOSED:
-		statusBar()->message( tr("connection closed") );
+		//statusBar()->message( tr("connection closed") );
+		m_pMessage->display( tr("connection closed") );
 		connectionClosed();
 		if( m_param.m_bReconnect && m_bReconnect )
 			reconnectProcess();
 		break;
 	case TSCLOSEFINISH:
-		statusBar()->message( tr("connection close finished") );
+		//statusBar()->message( tr("connection close finished") );
+		m_pMessage->display( tr("connection close finished") );
 		connectionClosed();
 		break;
 	case TSCONNECTVIAPROXY:
-		statusBar()->message( tr("connect to host via proxy") );
+		//statusBar()->message( tr("connect to host via proxy") );
+		m_pMessage->display( tr("connect to host via proxy") );
 		break;
 	case TSEGETHOSTBYNAME:
-		statusBar()->message( tr("error in gethostbyname") );
+		//statusBar()->message( tr("error in gethostbyname") );
+		m_pMessage->display( tr("error in gethostbyname"), PageViewMessage::Error );
 		connectionClosed();
 		break;
 	case TSEINIWINSOCK:
-		statusBar()->message( tr("error in startup winsock") );
+		//statusBar()->message( tr("error in startup winsock") );
+		m_pMessage->display( tr("error in startup winsock"), PageViewMessage::Error );
 		connectionClosed();
 		break;
 	case TSERROR:
-		statusBar()->message( tr("error in connection") );
+		//statusBar()->message( tr("error in connection") );
+		m_pMessage->display( tr("error in connection"), PageViewMessage::Error );
 		disconnect();
 		break;
 	case TSPROXYERROR:
-		statusBar()->message( tr("eoor in proxy") );
+		//statusBar()->message( tr("eoor in proxy") );
+		m_pMessage->display( tr("error in proxy"), PageViewMessage::Error );
 		disconnect();
 		break;
 	case TSWRITED:
@@ -1493,7 +1520,8 @@ void QTermWindow::connectionClosed()
 	if(m_idleTimer->isActive())
 		m_idleTimer->stop();
 	
-	statusBar()->message( tr("connection closed") );
+	//statusBar()->message( tr("connection closed") );
+	m_pMessage->display( tr("connection closed") );
 
 	m_pFrame->updateMenuToolBar();
 
@@ -1665,6 +1693,7 @@ void QTermWindow::replyMessage()
 	cstr += m_param.m_strAutoReply.local8Bit();
 	cstr += '\n';
 	m_pTelnet->write( cstr, cstr.length() );
+	m_pMessage->display("You have messages", PageViewMessage::Info, 0);
 }
 
 void QTermWindow::saveSetting()
@@ -1837,7 +1866,7 @@ void QTermWindow::runScriptFile( const QCString & cstr )
 }
 
 #ifdef HAVE_PYTHON
-bool QTermWindow::pythonCallback(const char* func, PyObject* pArgs)
+bool QTermWindow::pythonCallback(const QString & func, PyObject* pArgs)
 {
 	if(!m_bPythonScriptLoaded) {
 		Py_DECREF(pArgs);
@@ -1857,7 +1886,7 @@ bool QTermWindow::pythonCallback(const char* func, PyObject* pArgs)
 	PyThreadState * myThreadState = PyThreadState_New(mainInterpreterState);
 	PyThreadState_Swap(myThreadState);
     
-	PyObject *pF = PyString_FromString(func);
+	PyObject *pF = PyString_FromString(func.latin1());
 	PyObject *pFunc = PyDict_GetItem(pDict, pF);
  	Py_DECREF(pF);
 
@@ -1878,7 +1907,7 @@ bool QTermWindow::pythonCallback(const char* func, PyObject* pArgs)
 	else 
 	{
 		PyErr_Print();
-		printf("Cannot find python %s callback function\n", func);
+		printf("Cannot find python %s callback function\n", func.latin1());
 	}
       
 	// swap my thread state out of the interpreter
@@ -1889,6 +1918,9 @@ bool QTermWindow::pythonCallback(const char* func, PyObject* pArgs)
 	PyThreadState_Delete(myThreadState);
 	// release the lock
 	PyEval_ReleaseLock();
+
+	if (func == "autoReply")
+		m_pMessage->display("You have messages", PageViewMessage::Info, 0);
 
 	return done;
 }

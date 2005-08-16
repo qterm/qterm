@@ -34,6 +34,7 @@ class zmodemDialog;
 class QProgressDialog;
 class QTermHttp;
 class QTermIPLocation;
+class PageViewMessage;
 
 // thread copy article
 class QTermDAThread : public QThread
@@ -130,7 +131,7 @@ protected:
 	QString fromBBSCodec(const QCString& cstr);
 
 	#ifdef HAVE_PYTHON
-	bool pythonCallback(const char*, PyObject*);
+	bool pythonCallback(const QString &, PyObject*);
 	#endif
 	int runPythonFile(const char*);
 	void pythonMouseEvent(int, ButtonState, ButtonState, const QPoint&, int);
@@ -195,6 +196,11 @@ protected:
 	//IP location
 	QString location;
 	QTermIPLocation * m_pIPLocation;
+
+	//osd
+	PageViewMessage * m_pMessage;
+
+	bool m_bMouseClicked;
 public:
 	QTermFrame * m_pFrame;
 	QTermBuffer * m_pBuffer;
