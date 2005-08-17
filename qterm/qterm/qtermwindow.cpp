@@ -436,6 +436,7 @@ QTermWindow::~QTermWindow()
 	delete m_pScreen;
 	delete m_reconnectTimer;
 	delete m_pIPLocation;
+	delete m_pMessage;
 
 #ifdef HAVE_PYTHON
 	// get the global python thread lock
