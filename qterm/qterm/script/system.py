@@ -54,9 +54,9 @@ def autoReply(lp):
 	reply = "I am the auto replier, please wait..."
 	reply_key = qterm.getReplyKey(lp)
 	if(reply_key==''):
-		qterm.sendParsedString(lp,reply_key)
-	else:
 		qterm.sendParsedString(lp,"^Z")
+	else:
+		qterm.sendParsedString(lp,reply_key)
 	qterm.sendString(lp,reply)
 	qterm.sendParsedString(lp,"^M")
 
