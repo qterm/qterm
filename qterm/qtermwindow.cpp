@@ -1510,8 +1510,10 @@ void QTermWindow::autoReply()
 	if( !m_bAutoReply && m_replyTimer->isActive() )
 		m_replyTimer->stop();
 	// enabled
+	/*
 	if( m_bAutoReply && !m_replyTimer->isActive() )
 		m_replyTimer->start(m_param.m_nMaxIdle*1000/2);
+	*/
 }
 
 void QTermWindow::connectionClosed()
