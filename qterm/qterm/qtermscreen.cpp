@@ -884,8 +884,6 @@ void QTermScreen::paintEvent( QPaintEvent * pe )
 
 	setUpdatesEnabled( true );
 
-	setMicroFocusHint((m_pBuffer->caret().x()+2)*m_nCharWidth,(m_pBuffer->caret().y()+1)*m_nCharHeight, 
-					m_nCharWidth, m_nCharHeight, true);
 }
 
 // draw a line with the specialAtter if given.
