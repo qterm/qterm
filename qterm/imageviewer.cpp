@@ -34,8 +34,8 @@ ImageViewer::ImageViewer(const QString & image, const QString & path, QWidget * 
 	setColumnWidth(0, thumbsize+50);
 	setItemMargin(5);
 	//d_imageList->setColumnAlignment(0, Qt::AlignCenter);
-	//setColumnAlignment(1, Qt::AlignVCenter);
-	//setAllColumnsShowFocus(true);
+	setColumnAlignment(1, Qt::AlignVCenter);
+	setAllColumnsShowFocus(true);
 	//imageList->setVariableHeight(false);
 
 	const QString folder = d_path+"shadow-cache/";
@@ -101,6 +101,7 @@ QTermImage::QTermImage(const QString & image, const QString & path, QWidget * pa
 {
 	d_list = new QPtrList<QString>;
 	d_viewer = NULL;
+	d_browser->setText("Show Browser");
 
 	connect(d_next, SIGNAL(clicked()), this, SLOT(next()));
 	connect(d_previous, SIGNAL(clicked()), this, SLOT(previous()));
@@ -136,9 +137,15 @@ QTermImage::QTermImage(const QString & image, const QString & path, QWidget * pa
 		setExtension(d_viewer);
 		setOrientation(Horizontal);
 		showExtension( d_extensionShown );
+		d_previous->setEnabled(false);
 	}
-	else
+	else {
 		QMessageBox::warning(this, "Sorry", "You have no picture in pool to view");
+		d_previous->setEnabled(false);
+		d_browser->setEnabled(false);
+		d_next->setEnabled(false);
+	}
+		
 }
 
 QTermImage::~QTermImage()
@@ -174,6 +181,10 @@ void QTermImage::browser()
 		return;
 	d_extensionShown = !d_extensionShown;
 	showExtension( d_extensionShown );
+	if (d_extensionShown)
+		d_browser->setText(tr("Hide &Browser"));
+	else
+		d_browser->setText(tr("Show &Browser"));
 }
 
 void QTermImage::onChange(const QString & filename)
@@ -191,6 +202,14 @@ void QTermImage::onChange(const QString & filename)
 		}
 		++position;
 	}
+	
+	d_previous->setEnabled(true);
+	d_next->setEnabled(true);
+
+	if (d_index == 0)
+		d_previous->setEnabled(false);
+	else if (d_index == d_list->count() - 1)
+		d_next->setEnabled(false);
 	
 	d_canvas->loadImage(d_path+filename);
 }
