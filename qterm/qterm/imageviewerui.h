@@ -1,14 +1,14 @@
 /****************************************************************************
-** Form interface generated from reading ui file 'imageviewerui.ui'
+** Form interface generated from reading ui file 'browser.ui'
 **
-** Created: 五  8月 12 14:26:46 2005
+** Created: 一  8月 22 19:32:06 2005
 **      by: The User Interface Compiler ()
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
 
-#ifndef IMAGEVIEWERUI_H
-#define IMAGEVIEWERUI_H
+#ifndef QTERMIMAGEUI_H
+#define QTERMIMAGEUI_H
 
 #include <qvariant.h>
 #include <qdialog.h>
@@ -17,25 +17,28 @@ class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
 class QSpacerItem;
-class QListView;
-class QListViewItem;
+class QTermCanvas;
 class QPushButton;
 
-class ImageViewerUI : public QDialog
+class QTermImageUI : public QDialog
 {
     Q_OBJECT
 
 public:
-    ImageViewerUI( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
-    ~ImageViewerUI();
+    QTermImageUI( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    ~QTermImageUI();
 
-    QListView* imageList;
-    QPushButton* buttonClose;
+    QTermCanvas* d_canvas;
+    QPushButton* d_previous;
+    QPushButton* d_browser;
+    QPushButton* d_next;
 
 protected:
-    QVBoxLayout* ImageViewerUILayout;
-    QHBoxLayout* layout13;
+    QGridLayout* QTermImageUILayout;
+    QHBoxLayout* layout2;
+    QSpacerItem* spacer3_3;
     QSpacerItem* spacer3;
+    QSpacerItem* spacer3_2;
     QSpacerItem* spacer4;
 
 protected slots:
@@ -43,4 +46,4 @@ protected slots:
 
 };
 
-#endif // IMAGEVIEWERUI_H
+#endif // QTERMIMAGEUI_H
