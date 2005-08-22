@@ -80,7 +80,7 @@ QTermImageUI::~QTermImageUI()
  */
 void QTermImageUI::languageChange()
 {
-    setCaption( tr( "Form1" ) );
+    setCaption( tr( "Image Viewer" ) );
     d_previous->setText( tr( "&Previous" ) );
     d_previous->setAccel( QKeySequence( tr( "Alt+P" ) ) );
     d_browser->setText( tr( "&Browser" ) );
