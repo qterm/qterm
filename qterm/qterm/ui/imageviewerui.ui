@@ -1,78 +1,87 @@
 <!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>ImageViewerUI</class>
+<class>QTermImageUI</class>
 <widget class="QDialog">
     <property name="name">
-        <cstring>ImageViewerUI</cstring>
+        <cstring>QTermImageUI</cstring>
     </property>
     <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>497</width>
-            <height>344</height>
+            <width>705</width>
+            <height>527</height>
         </rect>
     </property>
     <property name="sizePolicy">
         <sizepolicy>
-            <hsizetype>7</hsizetype>
-            <vsizetype>7</vsizetype>
+            <hsizetype>5</hsizetype>
+            <vsizetype>5</vsizetype>
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
         </sizepolicy>
     </property>
     <property name="caption">
-        <string>ImageViewer</string>
+        <string>Form1</string>
     </property>
-    <property name="sizeGripEnabled">
-        <bool>false</bool>
-    </property>
-    <vbox>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QListView">
-            <column>
-                <property name="text">
-                    <string>ThumbView</string>
-                </property>
-                <property name="clickable">
-                    <bool>false</bool>
-                </property>
-                <property name="resizable">
-                    <bool>true</bool>
-                </property>
-            </column>
-            <column>
-                <property name="text">
-                    <string>FileName</string>
-                </property>
-                <property name="clickable">
-                    <bool>false</bool>
-                </property>
-                <property name="resizable">
-                    <bool>true</bool>
-                </property>
-            </column>
+        <widget class="QFrame" row="0" column="0">
             <property name="name">
-                <cstring>imageList</cstring>
+                <cstring>d_canvas</cstring>
             </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
+            <property name="frameShape">
+                <enum>StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Raised</enum>
             </property>
         </widget>
-        <widget class="QLayoutWidget">
+        <widget class="QLayoutWidget" row="1" column="0">
             <property name="name">
-                <cstring>layout13</cstring>
+                <cstring>layout2</cstring>
             </property>
             <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer3_3</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>40</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>d_previous</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Previous</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+P</string>
+                    </property>
+                </widget>
                 <spacer>
                     <property name="name">
                         <cstring>spacer3</cstring>
@@ -85,22 +94,33 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>90</width>
-                            <height>30</height>
+                            <width>130</width>
+                            <height>20</height>
                         </size>
                     </property>
                 </spacer>
                 <widget class="QPushButton">
                     <property name="name">
-                        <cstring>buttonOK</cstring>
+                        <cstring>d_browser</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>OK</string>
+                        <string>&amp;Browser</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+B</string>
                     </property>
                 </widget>
                 <spacer>
                     <property name="name">
-                        <cstring>spacer4_2</cstring>
+                        <cstring>spacer3_2</cstring>
                     </property>
                     <property name="orientation">
                         <enum>Horizontal</enum>
@@ -110,17 +130,28 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>120</width>
-                            <height>30</height>
+                            <width>130</width>
+                            <height>20</height>
                         </size>
                     </property>
                 </spacer>
                 <widget class="QPushButton">
                     <property name="name">
-                        <cstring>buttonCancel</cstring>
+                        <cstring>d_next</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>Cancel</string>
+                        <string>&amp;Next</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+N</string>
                     </property>
                 </widget>
                 <spacer>
@@ -135,14 +166,14 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>90</width>
-                            <height>30</height>
+                            <width>40</width>
+                            <height>20</height>
                         </size>
                     </property>
                 </spacer>
             </hbox>
         </widget>
-    </vbox>
+    </grid>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>
