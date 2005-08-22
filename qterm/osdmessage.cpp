@@ -13,6 +13,7 @@
 #include <qimage.h>
 #include <qtimer.h>
 #include <qapplication.h>
+#include <qcursor.h>
 
 // local includes
 #include "osdmessage.h"
@@ -25,6 +26,7 @@ PageViewMessage::PageViewMessage( QWidget * parent )
     setFocusPolicy( NoFocus );
     setBackgroundMode( NoBackground );
     setPaletteBackgroundColor(qApp->palette().color(QPalette::Active, QColorGroup::Background));
+    setCursor(QCursor(ArrowCursor));
     move( 10, 10 );
     resize( 0, 0 );
     hide();
