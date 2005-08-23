@@ -208,7 +208,7 @@ void QTermImage::onChange(const QString & filename)
 
 	if (d_index == 0)
 		d_previous->setEnabled(false);
-	else if (d_index == d_list->count() - 1)
+	if (d_index == d_list->count() - 1)
 		d_next->setEnabled(false);
 	
 	d_canvas->loadImage(d_path+filename);
