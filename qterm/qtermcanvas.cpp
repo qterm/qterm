@@ -155,7 +155,7 @@ void QTermCanvas::resizeImage(float ratio)
 		return;
 	szImage = szImg;
 
-	if(!isFullScreen())		
+	if(!isFullScreen() && !bEmbed)		
 		resize(szImage*1.1);
 	else
 		adjustSize(QSize(visibleWidth(), visibleHeight()));
