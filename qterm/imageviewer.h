@@ -47,7 +47,7 @@ private:
 	ImageViewer * d_viewer;
 	QString d_path;
 	QString d_shadow;
-	QPtrList<QString> * d_list;
-	int d_index;
+	QStringList * d_list;
+	unsigned int d_index;
 	bool d_extensionShown;
 };

@@ -30,7 +30,8 @@ ImageViewer::ImageViewer(const QString & image, const QString & path, QWidget * 
 	header()->setClickEnabled( FALSE, this->header()->count() - 1 );
 	addColumn( tr( "FileName" ) );
 	header()->setClickEnabled( FALSE, this->header()->count() - 1 );
-		    
+	setSortColumn(-1);
+
 	setColumnWidth(0, thumbsize+50);
 	setItemMargin(5);
 	//d_imageList->setColumnAlignment(0, Qt::AlignCenter);
@@ -46,8 +47,9 @@ ImageViewer::ImageViewer(const QString & image, const QString & path, QWidget * 
 			const QString file = QString( "shadow_cache_%1_%2.png" ).arg(fi->fileName()).arg( thumbsize );
 			if ( QFile::exists( folder + file ) ) {
 				QPixmap target( folder + file );
-				QListViewItem * item = new QListViewItem(this, "", fi->fileName());
+				QListViewItem * item = new QListViewItem(this, lastItem());
 				item->setPixmap(0, target);
+				item->setText(1,fi->fileName());
 				insertItem(item);
 			}
 
@@ -69,9 +71,9 @@ ImageViewer::ImageViewer(const QString & image, const QString & path, QWidget * 
 				bitBlt (&target, 0, 0, &original);
 
 				target.save( folder + file, "PNG" );
-				QListViewItem * item = new QListViewItem(this, "", fi->fileName());
+				QListViewItem * item = new QListViewItem(this, lastItem());
 				item->setPixmap(0, QPixmap(target));
-				insertItem(item);
+				item->setText(1,fi->fileName());
 			}
 		}			
 		++it;
@@ -99,7 +101,7 @@ void ImageViewer::viewImage(QListViewItem * item)
 QTermImage::QTermImage(const QString & image, const QString & path, QWidget * parent)
 	:QTermImageUI(parent), d_index(0)
 {
-	d_list = new QPtrList<QString>;
+	d_list = new QStringList;
 	d_viewer = NULL;
 	d_browser->setText("Show Browser");
 
@@ -113,7 +115,6 @@ QTermImage::QTermImage(const QString & image, const QString & path, QWidget * pa
 	d_shadow = image;
 	if (d_path.right(1) != "/")
 		d_path.append('/');
-	d_list->setAutoDelete ( true );
 
 	const QFileInfoList * list = dir.entryInfoList();
 
@@ -122,14 +123,12 @@ QTermImage::QTermImage(const QString & image, const QString & path, QWidget * pa
 	while ((fi = it.current()) != 0) {
 		QString strExt=fi->extension(false).lower();
 		if(strExt=="jpg" || strExt=="jpeg" || strExt=="gif" ||
-			strExt=="mng" || strExt=="png" || strExt=="bmp") {
-			QString * filename = new QString(fi->fileName());
-			d_list->append( filename);
-		}
+			strExt=="mng" || strExt=="png" || strExt=="bmp")
+			d_list->append(fi->fileName());
 		++it;
 	}
 	if (!d_list->isEmpty()){
-		d_canvas->loadImage(d_path+(*d_list->first()));
+		d_canvas->loadImage(d_path+(d_list->first()));
 		d_extensionShown = false;
 		d_viewer = new ImageViewer(d_shadow, d_path, 0);
 		connect(d_viewer, SIGNAL(selectionChanged(const QString&)), this, SLOT(onChange(const QString&)));
@@ -189,20 +188,10 @@ void QTermImage::browser()
 
 void QTermImage::onChange(const QString & filename)
 {
-	//FIXME: find seems have no effect :(
-	//int position = d_list->find(&filename);
-	//if (position != -1)
-		//d_index = position;
-	int position = 0;
-	QString * name;
-	for (name=d_list->first(); name; name=d_list->next()) {
-		if (* name == filename) {
-			d_index = position;
-			break;
-		}
-		++position;
-	}
-	
+	int position = d_list->findIndex(filename);
+	if (position != -1)
+		d_index = position;
+
 	d_previous->setEnabled(true);
 	d_next->setEnabled(true);
 
