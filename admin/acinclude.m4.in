@@ -5753,7 +5753,7 @@ AC_ARG_WITH(esddir,
 
 want_esd=no
 AC_ARG_ENABLE(esd,
-    [  --disable-esd           disable EsounD],
+    [  --enable-esd           enable EsounD],
     want_esd=$enableval, want_esd=no)
 if test $want_esd = yes; then
 AC_FIND_FILE(esd-config, $esd_default_dirs, ESD_CONFIG)
