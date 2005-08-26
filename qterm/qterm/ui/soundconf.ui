@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>fSoundConfUI</class>
 <widget class="QDialog">
     <property name="name">
@@ -11,6 +11,18 @@
             <width>453</width>
             <height>332</height>
         </rect>
+    </property>
+    <property name="minimumSize">
+        <size>
+            <width>453</width>
+            <height>332</height>
+        </size>
+    </property>
+    <property name="maximumSize">
+        <size>
+            <width>453</width>
+            <height>332</height>
+        </size>
     </property>
     <property name="caption">
         <string>Configure</string>
@@ -37,7 +49,7 @@
             <property name="geometry">
                 <rect>
                     <x>10</x>
-                    <y>20</y>
+                    <y>25</y>
                     <width>260</width>
                     <height>25</height>
                 </rect>
@@ -50,58 +62,13 @@
             <property name="geometry">
                 <rect>
                     <x>310</x>
-                    <y>20</y>
+                    <y>25</y>
                     <width>110</width>
                     <height>25</height>
                 </rect>
             </property>
             <property name="text">
                 <string>Select...</string>
-            </property>
-        </widget>
-    </widget>
-    <widget class="QGroupBox">
-        <property name="name">
-            <cstring>groupBox3</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>10</x>
-                <y>190</y>
-                <width>431</width>
-                <height>70</height>
-            </rect>
-        </property>
-        <property name="title">
-            <string>External Program:</string>
-        </property>
-        <widget class="QPushButton">
-            <property name="name">
-                <cstring>bpSelect</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>310</x>
-                    <y>30</y>
-                    <width>110</width>
-                    <height>25</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Select...</string>
-            </property>
-        </widget>
-        <widget class="QLineEdit">
-            <property name="name">
-                <cstring>leProg</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>30</y>
-                    <width>261</width>
-                    <height>25</height>
-                </rect>
             </property>
         </widget>
     </widget>
@@ -122,40 +89,24 @@
         </property>
         <widget class="QRadioButton">
             <property name="name">
-                <cstring>radioButton16</cstring>
+                <cstring>radioButton13</cstring>
             </property>
             <property name="geometry">
                 <rect>
-                    <x>322</x>
+                    <x>11</x>
                     <y>41</y>
-                    <width>97</width>
+                    <width>98</width>
                     <height>19</height>
                 </rect>
             </property>
             <property name="text">
-                <string>External</string>
+                <string>Internal</string>
+            </property>
+            <property name="checked">
+                <bool>true</bool>
             </property>
             <property name="buttonGroupId">
-                <number>3</number>
-            </property>
-        </widget>
-        <widget class="QRadioButton">
-            <property name="name">
-                <cstring>radioButton14</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>115</x>
-                    <y>41</y>
-                    <width>97</width>
-                    <height>19</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>ARTS</string>
-            </property>
-            <property name="buttonGroupId">
-                <number>1</number>
+                <number>0</number>
             </property>
         </widget>
         <widget class="QRadioButton">
@@ -179,24 +130,40 @@
         </widget>
         <widget class="QRadioButton">
             <property name="name">
-                <cstring>radioButton13</cstring>
+                <cstring>radioButton14</cstring>
             </property>
             <property name="geometry">
                 <rect>
-                    <x>11</x>
+                    <x>115</x>
                     <y>41</y>
-                    <width>98</width>
+                    <width>97</width>
                     <height>19</height>
                 </rect>
             </property>
             <property name="text">
-                <string>Internal</string>
-            </property>
-            <property name="checked">
-                <bool>true</bool>
+                <string>ARTS</string>
             </property>
             <property name="buttonGroupId">
-                <number>0</number>
+                <number>1</number>
+            </property>
+        </widget>
+        <widget class="QRadioButton">
+            <property name="name">
+                <cstring>radioButton16</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>322</x>
+                    <y>41</y>
+                    <width>97</width>
+                    <height>19</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>External</string>
+            </property>
+            <property name="buttonGroupId">
+                <number>3</number>
             </property>
         </widget>
     </widget>
@@ -232,6 +199,51 @@
             <string>Cancel</string>
         </property>
     </widget>
+    <widget class="QGroupBox">
+        <property name="name">
+            <cstring>groupBox3</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>190</y>
+                <width>431</width>
+                <height>70</height>
+            </rect>
+        </property>
+        <property name="title">
+            <string>External Program:</string>
+        </property>
+        <widget class="QLineEdit">
+            <property name="name">
+                <cstring>leProg</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>30</y>
+                    <width>261</width>
+                    <height>25</height>
+                </rect>
+            </property>
+        </widget>
+        <widget class="QPushButton">
+            <property name="name">
+                <cstring>bpSelect</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>310</x>
+                    <y>30</y>
+                    <width>110</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Select...</string>
+            </property>
+        </widget>
+    </widget>
 </widget>
 <connections>
     <connection>
@@ -265,13 +277,10 @@
         <slot>onPlayMethod(int)</slot>
     </connection>
 </connections>
-<includes>
-    <include location="local" impldecl="in implementation">fconfigure.ui.h</include>
-</includes>
 <slots>
-    <slot>onSelectFile()</slot>
-    <slot>onSelectProg()</slot>
-    <slot>onPlayMethod( int id )</slot>
+    <slot specifier="pure virtual">onSelectFile()</slot>
+    <slot specifier="pure virtual">onPlayMethod( int id )</slot>
+    <slot specifier="pure virtual">onSelectProg()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>
