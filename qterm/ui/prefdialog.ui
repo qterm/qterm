@@ -24,10 +24,6 @@
             <height>460</height>
         </size>
     </property>
-    <property name="font">
-        <font>
-        </font>
-    </property>
     <property name="caption">
         <string>Preference</string>
     </property>
@@ -182,99 +178,6 @@
             <string>Blink Tab When Receive Message</string>
         </property>
     </widget>
-    <widget class="QButtonGroup">
-        <property name="name">
-            <cstring>ButtonGroup1</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>280</x>
-                <y>70</y>
-                <width>250</width>
-                <height>130</height>
-            </rect>
-        </property>
-        <property name="title">
-            <string>Sound When Receive Messages</string>
-        </property>
-        <widget class="QRadioButton">
-            <property name="name">
-                <cstring>noneRadioButton</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>101</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>None</string>
-            </property>
-		</widget>
-		<widget class="QRadioButton">
-            <property name="name">
-                <cstring>beepRadioButton</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>80</x>
-                    <y>20</y>
-                    <width>101</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Beep</string>
-            </property>
-        </widget>
-        <widget class="QRadioButton">
-            <property name="name">
-                <cstring>fileRadioButton</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>60</y>
-                    <width>101</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Sound File</string>
-            </property>
-        </widget>
-        <widget class="QLineEdit">
-            <property name="name">
-                <cstring>wavefileLineEdit</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>90</y>
-                    <width>180</width>
-                    <height>22</height>
-                </rect>
-            </property>
-        </widget>
-        <widget class="QPushButton">
-            <property name="name">
-                <cstring>selectsoundPushButton</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>120</x>
-                    <y>60</y>
-                    <width>80</width>
-                    <height>21</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Configure</string>
-            </property>
-        </widget>
-    </widget>
     <widget class="QLabel">
         <property name="name">
             <cstring>TextLabel1</cstring>
@@ -289,22 +192,6 @@
         </property>
         <property name="text">
             <string>Input Method</string>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>okPushButton</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>150</x>
-                <y>430</y>
-                <width>70</width>
-                <height>21</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>OK</string>
         </property>
     </widget>
     <widget class="Line">
@@ -327,22 +214,6 @@
         </property>
         <property name="orientation">
             <enum>Horizontal</enum>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>cancelPushButton</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>270</x>
-                <y>430</y>
-                <width>70</width>
-                <height>21</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Cancel</string>
         </property>
     </widget>
     <widget class="QLabel">
@@ -401,22 +272,6 @@
         </property>
         <property name="text">
             <string>Image Viewer</string>
-        </property>
-    </widget>
-    <widget class="QPushButton">
-        <property name="name">
-            <cstring>imagePushButton</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>340</x>
-                <y>390</y>
-                <width>80</width>
-                <height>25</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>Choose</string>
         </property>
     </widget>
     <widget class="QLabel">
@@ -528,6 +383,147 @@
             <string>Clear ZModem and HTTP directory when exit</string>
         </property>
     </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>textLabel1_3</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>30</x>
+                <y>320</y>
+                <width>120</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>HTTP directory</string>
+        </property>
+    </widget>
+    <widget class="QButtonGroup">
+        <property name="name">
+            <cstring>ButtonGroup1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>280</x>
+                <y>70</y>
+                <width>250</width>
+                <height>130</height>
+            </rect>
+        </property>
+        <property name="title">
+            <string>Sound When Receive Messages</string>
+        </property>
+        <widget class="QRadioButton">
+            <property name="name">
+                <cstring>noneRadioButton</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>25</y>
+                    <width>101</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>None</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit">
+            <property name="name">
+                <cstring>wavefileLineEdit</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>95</y>
+                    <width>180</width>
+                    <height>22</height>
+                </rect>
+            </property>
+        </widget>
+        <widget class="QRadioButton">
+            <property name="name">
+                <cstring>fileRadioButton</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>65</y>
+                    <width>101</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Sound File</string>
+            </property>
+        </widget>
+        <widget class="QRadioButton">
+            <property name="name">
+                <cstring>beepRadioButton</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>80</x>
+                    <y>25</y>
+                    <width>101</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Beep</string>
+            </property>
+        </widget>
+        <widget class="QPushButton">
+            <property name="name">
+                <cstring>selectsoundPushButton</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>120</x>
+                    <y>65</y>
+                    <width>80</width>
+                    <height>21</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Configure</string>
+            </property>
+        </widget>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>cancelPushButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>270</x>
+                <y>430</y>
+                <width>70</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Cancel</string>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
+            <cstring>okPushButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>150</x>
+                <y>430</y>
+                <width>70</width>
+                <height>21</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>OK</string>
+        </property>
+    </widget>
     <widget class="QPushButton">
         <property name="name">
             <cstring>browsePushButton</cstring>
@@ -562,6 +558,22 @@
     </widget>
     <widget class="QPushButton">
         <property name="name">
+            <cstring>imagePushButton</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>340</x>
+                <y>390</y>
+                <width>80</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Choose</string>
+        </property>
+    </widget>
+    <widget class="QPushButton">
+        <property name="name">
             <cstring>choosehttpPushButton</cstring>
         </property>
         <property name="geometry">
@@ -569,31 +581,11 @@
                 <x>340</x>
                 <y>360</y>
                 <width>80</width>
-                <height>21</height>
+                <height>25</height>
             </rect>
-        </property>
-        <property name="font">
-            <font>
-            </font>
         </property>
         <property name="text">
             <string>Choose</string>
-        </property>
-    </widget>
-    <widget class="QLabel">
-        <property name="name">
-            <cstring>textLabel1_3</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>30</x>
-                <y>320</y>
-                <width>120</width>
-                <height>20</height>
-            </rect>
-        </property>
-        <property name="text">
-            <string>HTTP directory</string>
         </property>
     </widget>
 </widget>
