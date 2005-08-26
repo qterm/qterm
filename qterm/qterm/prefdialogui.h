@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'prefdialog.ui'
 **
-** Created: Wed Sep 8 17:39:42 2004
-**      by: The User Interface Compiler ($Id$)
+** Created: 五  8月 26 16:10:14 2005
+**      by: The User Interface Compiler ()
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
@@ -19,12 +19,12 @@ class QGridLayout;
 class QSpacerItem;
 class QCheckBox;
 class QComboBox;
-class QButtonGroup;
-class QRadioButton;
-class QLineEdit;
-class QPushButton;
 class QLabel;
 class QFrame;
+class QLineEdit;
+class QButtonGroup;
+class QRadioButton;
+class QPushButton;
 
 class prefDialogUI : public QDialog
 {
@@ -43,21 +43,12 @@ public:
     QCheckBox* trayCheckBox;
     QCheckBox* smartCheckBox;
     QCheckBox* blinkCheckBox;
-    QButtonGroup* ButtonGroup1;
-    QRadioButton* noneRadioButton;
-    QRadioButton* beepRadioButton;
-    QRadioButton* fileRadioButton;
-    QLineEdit* wavefileLineEdit;
-    QPushButton* selectsoundPushButton;
     QLabel* TextLabel1;
-    QPushButton* okPushButton;
     QFrame* Line1;
-    QPushButton* cancelPushButton;
     QLabel* TextLabel3;
     QLineEdit* httpLineEdit;
     QLineEdit* imageLineEdit;
     QLabel* textLabel1_2;
-    QPushButton* imagePushButton;
     QLabel* textLabel1;
     QLabel* TextLabel1_2;
     QLineEdit* wordLineEdit3;
@@ -65,10 +56,19 @@ public:
     QLineEdit* zmodemLineEdit;
     QLineEdit* poolLineEdit;
     QCheckBox* clearCheckBox;
+    QLabel* textLabel1_3;
+    QButtonGroup* ButtonGroup1;
+    QRadioButton* noneRadioButton;
+    QLineEdit* wavefileLineEdit;
+    QRadioButton* fileRadioButton;
+    QRadioButton* beepRadioButton;
+    QPushButton* selectsoundPushButton;
+    QPushButton* cancelPushButton;
+    QPushButton* okPushButton;
     QPushButton* browsePushButton;
     QPushButton* poolPushButton;
+    QPushButton* imagePushButton;
     QPushButton* choosehttpPushButton;
-    QLabel* textLabel1_3;
 
 protected:
 
