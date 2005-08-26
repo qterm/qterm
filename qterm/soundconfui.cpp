@@ -1,7 +1,7 @@
 /****************************************************************************
-** Form implementation generated from reading ui file 'fconfigure.ui'
+** Form implementation generated from reading ui file 'soundconf.ui'
 **
-** Created: 三  9月 24 09:45:00 2003
+** Created: 五  8月 26 15:52:29 2005
 **      by: The User Interface Compiler ()
 **
 ** WARNING! All changes made in this file will be lost!
@@ -31,50 +31,52 @@ fSoundConfUI::fSoundConfUI( QWidget* parent, const char* name, bool modal, WFlag
 {
     if ( !name )
 	setName( "fSoundConfUI" );
+    setMinimumSize( QSize( 453, 332 ) );
+    setMaximumSize( QSize( 453, 332 ) );
 
     groupBox2 = new QGroupBox( this, "groupBox2" );
     groupBox2->setGeometry( QRect( 11, 11, 430, 60 ) );
 
     leFile = new QLineEdit( groupBox2, "leFile" );
-    leFile->setGeometry( QRect( 10, 20, 260, 25 ) );
+    leFile->setGeometry( QRect( 10, 25, 260, 25 ) );
 
     bfSelect = new QPushButton( groupBox2, "bfSelect" );
-    bfSelect->setGeometry( QRect( 310, 20, 110, 25 ) );
-
-    groupBox3 = new QGroupBox( this, "groupBox3" );
-    groupBox3->setGeometry( QRect( 10, 190, 431, 70 ) );
-
-    bpSelect = new QPushButton( groupBox3, "bpSelect" );
-    bpSelect->setGeometry( QRect( 310, 30, 110, 25 ) );
-
-    leProg = new QLineEdit( groupBox3, "leProg" );
-    leProg->setGeometry( QRect( 10, 30, 261, 25 ) );
+    bfSelect->setGeometry( QRect( 310, 25, 110, 25 ) );
 
     bgMethod = new QButtonGroup( this, "bgMethod" );
     bgMethod->setGeometry( QRect( 10, 90, 431, 90 ) );
-
-    radioButton16 = new QRadioButton( bgMethod, "radioButton16" );
-    radioButton16->setGeometry( QRect( 322, 41, 97, 19 ) );
-    bgMethod->insert( radioButton16, 3 );
-
-    radioButton14 = new QRadioButton( bgMethod, "radioButton14" );
-    radioButton14->setGeometry( QRect( 115, 41, 97, 19 ) );
-    bgMethod->insert( radioButton14, 1 );
-
-    radioButton15 = new QRadioButton( bgMethod, "radioButton15" );
-    radioButton15->setGeometry( QRect( 218, 41, 98, 19 ) );
-    bgMethod->insert( radioButton15, 2 );
 
     radioButton13 = new QRadioButton( bgMethod, "radioButton13" );
     radioButton13->setGeometry( QRect( 11, 41, 98, 19 ) );
     radioButton13->setChecked( TRUE );
     bgMethod->insert( radioButton13, 0 );
 
+    radioButton15 = new QRadioButton( bgMethod, "radioButton15" );
+    radioButton15->setGeometry( QRect( 218, 41, 98, 19 ) );
+    bgMethod->insert( radioButton15, 2 );
+
+    radioButton14 = new QRadioButton( bgMethod, "radioButton14" );
+    radioButton14->setGeometry( QRect( 115, 41, 97, 19 ) );
+    bgMethod->insert( radioButton14, 1 );
+
+    radioButton16 = new QRadioButton( bgMethod, "radioButton16" );
+    radioButton16->setGeometry( QRect( 322, 41, 97, 19 ) );
+    bgMethod->insert( radioButton16, 3 );
+
     bOK = new QPushButton( this, "bOK" );
     bOK->setGeometry( QRect( 170, 280, 111, 25 ) );
 
     bCancel = new QPushButton( this, "bCancel" );
     bCancel->setGeometry( QRect( 320, 280, 111, 25 ) );
+
+    groupBox3 = new QGroupBox( this, "groupBox3" );
+    groupBox3->setGeometry( QRect( 10, 190, 431, 70 ) );
+
+    leProg = new QLineEdit( groupBox3, "leProg" );
+    leProg->setGeometry( QRect( 10, 30, 261, 25 ) );
+
+    bpSelect = new QPushButton( groupBox3, "bpSelect" );
+    bpSelect->setGeometry( QRect( 310, 30, 110, 25 ) );
     languageChange();
     resize( QSize(453, 332).expandedTo(minimumSizeHint()) );
     clearWState( WState_Polished );
@@ -104,14 +106,14 @@ void fSoundConfUI::languageChange()
     setCaption( tr( "Configure" ) );
     groupBox2->setTitle( tr( "Sound File:" ) );
     bfSelect->setText( tr( "Select..." ) );
-    groupBox3->setTitle( tr( "External Program:" ) );
-    bpSelect->setText( tr( "Select..." ) );
     bgMethod->setTitle( tr( "Play With:" ) );
-    radioButton16->setText( tr( "External" ) );
-    radioButton14->setText( tr( "ARTS" ) );
-    radioButton15->setText( tr( "ESD" ) );
     radioButton13->setText( tr( "Internal" ) );
+    radioButton15->setText( tr( "ESD" ) );
+    radioButton14->setText( tr( "ARTS" ) );
+    radioButton16->setText( tr( "External" ) );
     bOK->setText( tr( "OK" ) );
     bCancel->setText( tr( "Cancel" ) );
+    groupBox3->setTitle( tr( "External Program:" ) );
+    bpSelect->setText( tr( "Select..." ) );
 }
 
