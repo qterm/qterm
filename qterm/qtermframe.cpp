@@ -381,9 +381,9 @@ void QTermFrame::saveSetting()
 	QCString cstrTmp;
 	//save font
 	conf->setItemValue("global","font",qApp->font().family().local8Bit());
-	cstrTmp.setNum(qApp->font().pointSize());
+	cstrTmp.setNum(QFontInfo(qApp->font()).pointSize());
 	conf->setItemValue("global","pointsize",cstrTmp);
-	cstrTmp.setNum(qApp->font().pixelSize());
+	cstrTmp.setNum(QFontInfo(qApp->font()).pixelSize());
 	conf->setItemValue("global","pixelsize",cstrTmp);
 
 	//save window position and size
