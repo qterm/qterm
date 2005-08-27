@@ -303,9 +303,14 @@ int iniSettings()
 	//set font
 	QString family = conf->getItemValue("global","font");
 	QString pointsize = conf->getItemValue("global","pointsize");
-	if( family!=NULL && pointsize.toInt()!=0 )
+	QString pixelsize = conf->getItemValue("global","pixelsize");
+	if( !family.isEmpty() )
 	{
-		QFont font(QString::fromLocal8Bit(family),pointsize.toInt(),QFont::Normal,false);
+		QFont font(QString::fromLocal8Bit(family));
+		if (pointsize.toInt() > 0)
+			font.setPointSize(pointsize.toInt());
+		if (pixelsize.toInt() > 0)
+			font.setPixelSize(pixelsize.toInt());
 		#if (QT_VERSION>=300)
 		QString bAA = conf->getItemValue("global", "antialias");
 		if(bAA!="0")
