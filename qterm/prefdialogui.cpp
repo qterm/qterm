@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'prefdialog.ui'
 **
-** Created: 五  8月 26 16:10:27 2005
+** Created: 日  8月 28 14:15:15 2005
 **      by: The User Interface Compiler ()
 **
 ** WARNING! All changes made in this file will be lost!
@@ -117,17 +117,19 @@ prefDialogUI::prefDialogUI( QWidget* parent, const char* name, bool modal, WFlag
     noneRadioButton = new QRadioButton( ButtonGroup1, "noneRadioButton" );
     noneRadioButton->setGeometry( QRect( 10, 25, 101, 20 ) );
 
-    wavefileLineEdit = new QLineEdit( ButtonGroup1, "wavefileLineEdit" );
-    wavefileLineEdit->setGeometry( QRect( 10, 95, 180, 22 ) );
+    beepRadioButton = new QRadioButton( ButtonGroup1, "beepRadioButton" );
+    beepRadioButton->setGeometry( QRect( 80, 25, 101, 20 ) );
+    ButtonGroup1->insert( beepRadioButton, 1 );
 
     fileRadioButton = new QRadioButton( ButtonGroup1, "fileRadioButton" );
     fileRadioButton->setGeometry( QRect( 10, 65, 101, 20 ) );
-
-    beepRadioButton = new QRadioButton( ButtonGroup1, "beepRadioButton" );
-    beepRadioButton->setGeometry( QRect( 80, 25, 101, 20 ) );
+    ButtonGroup1->insert( fileRadioButton, 2 );
 
     selectsoundPushButton = new QPushButton( ButtonGroup1, "selectsoundPushButton" );
     selectsoundPushButton->setGeometry( QRect( 120, 65, 80, 21 ) );
+
+    wavefileLineEdit = new QLineEdit( ButtonGroup1, "wavefileLineEdit" );
+    wavefileLineEdit->setGeometry( QRect( 10, 95, 180, 22 ) );
 
     cancelPushButton = new QPushButton( this, "cancelPushButton" );
     cancelPushButton->setGeometry( QRect( 270, 430, 70, 21 ) );
@@ -214,8 +216,8 @@ void prefDialogUI::languageChange()
     textLabel1_3->setText( tr( "HTTP directory" ) );
     ButtonGroup1->setTitle( tr( "Sound When Receive Messages" ) );
     noneRadioButton->setText( tr( "None" ) );
-    fileRadioButton->setText( tr( "Sound File" ) );
     beepRadioButton->setText( tr( "Beep" ) );
+    fileRadioButton->setText( tr( "Sound File" ) );
     selectsoundPushButton->setText( tr( "Configure" ) );
     cancelPushButton->setText( tr( "Cancel" ) );
     okPushButton->setText( tr( "OK" ) );

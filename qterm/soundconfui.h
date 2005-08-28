@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'soundconf.ui'
 **
-** Created: 五  8月 26 15:52:27 2005
+** Created: 日  8月 28 13:31:59 2005
 **      by: The User Interface Compiler ()
 **
 ** WARNING! All changes made in this file will be lost!
@@ -34,21 +34,23 @@ public:
     QGroupBox* groupBox2;
     QLineEdit* leFile;
     QPushButton* bfSelect;
-    QButtonGroup* bgMethod;
-    QRadioButton* radioButton13;
-    QRadioButton* radioButton15;
-    QRadioButton* radioButton14;
-    QRadioButton* radioButton16;
     QPushButton* bOK;
     QPushButton* bCancel;
+    QButtonGroup* bgMethod;
+    QRadioButton* radioButton13;
+    QRadioButton* radioButton14;
+    QRadioButton* radioButton15;
+    QRadioButton* radioButton16;
+    QPushButton* bpTest;
     QGroupBox* groupBox3;
     QLineEdit* leProg;
     QPushButton* bpSelect;
 
 public slots:
     virtual void onSelectFile() = 0;
-    virtual void onSelectProg() = 0;
     virtual void onPlayMethod( int id ) = 0;
+    virtual void onSelectProg() = 0;
+    virtual void onTestPlay() = 0;
 
 protected:
 
