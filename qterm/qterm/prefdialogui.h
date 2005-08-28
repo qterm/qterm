@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'prefdialog.ui'
 **
-** Created: 五  8月 26 16:10:14 2005
+** Created: 日  8月 28 14:14:53 2005
 **      by: The User Interface Compiler ()
 **
 ** WARNING! All changes made in this file will be lost!
@@ -59,10 +59,10 @@ public:
     QLabel* textLabel1_3;
     QButtonGroup* ButtonGroup1;
     QRadioButton* noneRadioButton;
-    QLineEdit* wavefileLineEdit;
-    QRadioButton* fileRadioButton;
     QRadioButton* beepRadioButton;
+    QRadioButton* fileRadioButton;
     QPushButton* selectsoundPushButton;
+    QLineEdit* wavefileLineEdit;
     QPushButton* cancelPushButton;
     QPushButton* okPushButton;
     QPushButton* browsePushButton;
