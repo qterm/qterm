@@ -1,5 +1,6 @@
 #include "qtermsound.h"
 #include <qsound.h>
+#include <qfile.h>
 #include <qmessagebox.h>
 #include <stdlib.h>
 #ifndef _NO_ESD_COMPILED
@@ -19,7 +20,8 @@ QTermSound::~QTermSound()
 void
 QTermInternalSound::play()
 {
-	QSound::play(_soundfile);
+	if(QFile::exists(_soundfile))
+		QSound::play(_soundfile);
 }
 
 #ifndef _NO_ARTS_COMPILED
@@ -35,7 +37,8 @@ QTermArtsSound::play()
 		return;
 	}
 
-	server.play(_soundfile.ascii());
+	if(QFile::exists(_soundfile))
+		server.play(_soundfile.ascii());
 }
 #endif
 
@@ -44,7 +47,7 @@ void
 QTermEsdSound::play()
 {
 	int fd = esd_open_sound(NULL);
-	if (fd >= 0) {
+	if (fd >= 0 && QFile::exists(_soundfile) ) {
 		esd_play_file(NULL, _soundfile.ascii(), 0);
 		esd_close(fd);
 	}else
@@ -61,6 +64,8 @@ QTermExternalSound::setPlayer(const QString & playername)
 void
 QTermExternalSound::play()
 {
-	QString command = _player + ' ' + _soundfile;
-	runProgram(command.local8Bit());
+	if(QFile::exists(_soundfile)) {
+		QString command = _player + ' ' + _soundfile;
+		runProgram(command.local8Bit());
+	}
 }

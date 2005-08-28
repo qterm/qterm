@@ -1,6 +1,8 @@
 #ifndef FSOUNDCONF_H
 #define FSOUNDCONF_H
+
 #include "soundconfui.h"
+class QTermSound;
 
 class fSoundConf : public fSoundConfUI
 {
@@ -16,9 +18,12 @@ public slots:
     void onSelectFile();
     void onSelectProg();
     void onPlayMethod( int id );
+    void onTestPlay();
 protected slots:
     void accept();
 
+private:
+    QTermSound * m_pSound;
 };
 
 #endif // FSOUNDCONF_H

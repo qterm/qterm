@@ -262,6 +262,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	m_pIPLocation = new QTermIPLocation(pathLib);
 	m_pMessage = new PageViewMessage(this);
 	m_bCheckIP = m_pIPLocation->haveFile();
+	m_pSound = NULL;
 
 	setFocusProxy( m_pScreen);
 	setCentralWidget( m_pScreen);
@@ -437,6 +438,7 @@ QTermWindow::~QTermWindow()
 	delete m_reconnectTimer;
 	delete m_pIPLocation;
 	delete m_pMessage;
+	delete m_pSound;
 
 #ifdef HAVE_PYTHON
 	// get the global python thread lock
@@ -978,25 +980,29 @@ if(m_pZmodem->transferstate == notransfer)
 				//QSound::play(m_pFrame->m_pref.strWave);
 				switch (m_pFrame->m_pref.nMethod){
 				case 0:
-					sound = new QTermInternalSound(m_pFrame->m_pref.strWave);
+					m_pSound = new QTermInternalSound(m_pFrame->m_pref.strWave);
 					break;
 				#ifndef _NO_ARTS_COMPILED
 				case 1:
-					sound = new QTermArtsSound(m_pFrame->m_pref.strWave);
+					m_pSound = new QTermArtsSound(m_pFrame->m_pref.strWave);
 					break;
 				#endif
 				#ifndef _NO_ESD_COMPILED
 				case 2:
-					sound = new QTermEsdSound(m_pFrame->m_pref.strWave);
+					m_pSound = new QTermEsdSound(m_pFrame->m_pref.strWave);
 					break;
 				#endif
 				case 3:
-					sound = new QTermExternalSound(m_pFrame->m_pref.strPlayer,
+					m_pSound = new QTermExternalSound(m_pFrame->m_pref.strPlayer,
 									m_pFrame->m_pref.strWave);
 					break;
+				default:
+					m_pSound = NULL;
 				}
-				sound->play();
-				delete sound;
+				if (m_pSound)
+					m_pSound->play();
+				delete m_pSound;
+				m_pSound = NULL;
 			}
 
 		if(m_pFrame->m_pref.bBlinkTab)
