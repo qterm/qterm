@@ -58,7 +58,7 @@ class QTermExternalSound : public QTermSound
 private:
 	QString _player;
 public:
-	QTermExternalSound(const QString & playername, QString & filename, QObject * parent = 0, const char * name = 0)
+	QTermExternalSound(const QString & playername, const QString & filename, QObject * parent = 0, const char * name = 0)
 		:QTermSound(filename, parent, name),
 		 _player(playername)
 	{

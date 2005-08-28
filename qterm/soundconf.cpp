@@ -1,5 +1,6 @@
 #include "soundconf.h"
 #include "qtermconfig.h"
+#include "qtermsound.h"
 #include "qterm.h"
 #include <stdlib.h>
 #include <qvariant.h>
@@ -28,6 +29,7 @@ extern QString getOpenFileName(const QString&, QWidget*);
 fSoundConf::fSoundConf( QWidget* parent,  const char* name, bool modal, WFlags fl )
     : fSoundConfUI( parent, name, modal, fl )
 {
+	m_pSound = NULL;
 	loadSetting();
 }
 
@@ -37,6 +39,7 @@ fSoundConf::fSoundConf( QWidget* parent,  const char* name, bool modal, WFlags f
 fSoundConf::~fSoundConf()
 {
     // no need to delete child widgets, Qt does it all for us
+    delete m_pSound;
 }
 
 /*
@@ -66,7 +69,25 @@ void fSoundConf::onSelectProg()
  */
 void fSoundConf::onPlayMethod( int id )
 {
-    if(id==3)
+#ifdef _NO_ARTS_COMPILED
+    if (id == 1){
+	QMessageBox::critical(this, tr("No such output driver"),
+	    tr("ARTS is not supported by this instance of QTerm,\nCheck whether your ARTS support is enabled in compile time."),
+	    tr("&OK"));
+	QRadioButton * tmp = static_cast<QRadioButton *>(bgMethod->find(3));
+	tmp->setChecked(true);
+    }
+#endif
+#ifdef _NO_ESD_COMPILED
+    if (id == 2){
+	QMessageBox::critical(this, tr("No such output driver"),
+	    tr("ESD is not supported by this instance of QTerm,\nCheck whether your ESD support is enabled in compile time"),
+	    tr("&OK"));
+	QRadioButton * tmp = static_cast<QRadioButton *>(bgMethod->find(3));
+	tmp->setChecked(true);
+    }
+#endif
+    if(id == 3 || bgMethod->selectedId() == 3)
     {
 	leProg->setEnabled(true);
         bpSelect->setEnabled(true);
@@ -77,14 +98,48 @@ void fSoundConf::onPlayMethod( int id )
         bpSelect->setEnabled(false);
     }
 }
-
+void fSoundConf::onTestPlay()
+{
+    if (leFile->text().isEmpty())
+	QMessageBox::critical(this, tr("No sound file"),
+	tr("You have to select a file to test the sound"),
+	tr("&Ok"));
+    switch (bgMethod->selectedId()) {
+    case 0:
+	 m_pSound = new QTermInternalSound(leFile->text());
+	break;
+    case 1:
+#ifndef _NO_ARTS_COMPILED
+	m_pSound = new QTermArtsSound(leFile->text());
+#endif
+	break;
+    case 2:
+#ifndef _NO_ESD_COMPILED
+	m_pSound = new QTermEsdSound(leFile->text());
+#endif
+	break;
+    case 3:
+	if (leProg->text().isEmpty())
+	    QMessageBox::critical(this, tr("No player"),
+		tr("You have to specify an external player"),
+		tr("&Ok"));
+	    else
+		m_pSound = new QTermExternalSound(leProg->text(), leFile->text());
+	    break;
+    default:
+	m_pSound = NULL;
+    }
+    if (m_pSound)
+	m_pSound->play();
+    delete m_pSound;
+    m_pSound = NULL;
+}
+	    
 void fSoundConf::loadSetting()
 {
 	QTermConfig conf(fileCfg);
 
 	QString strTmp;
-
-	//fprintf(stderr, "we got here\n");
 
 	strTmp = conf.getItemValue("preference", "wavefile");
 	if (!strTmp.isEmpty())
@@ -121,22 +176,6 @@ void fSoundConf::saveSetting()
 	conf.setItemValue("preference", "wavefile", leFile->text());
 
 	strTmp.setNum(bgMethod->id(bgMethod->selected()));
-#ifdef _NO_ARTS_COMPILED
-	if (strTmp == "1"){
-		QMessageBox::critical(this, tr("No such output driver"),
-			tr("ARTS is not supported by this instance of QTerm,\nCheck whether your ARTS support is enabled in compile time."),
-			tr("&OK"));
-		return;
-	}
-#endif
-#ifdef _NO_ESD_COMPILED
-	if (strTmp == "2"){
-		QMessageBox::critical(this, tr("No such output driver"),
-			tr("ESD is not supported by this instance of QTerm,\nCheck whether your ESD support is enabled in compile time"),
-			tr("&OK"));
-		return;
-	}
-#endif
 	conf.setItemValue("preference", "playmethod", strTmp);
 
 	if (strTmp == "3")

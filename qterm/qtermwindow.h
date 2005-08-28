@@ -185,7 +185,7 @@ protected:
 	bool m_bPythonScriptLoaded;
 	
 	// play sound
-	QTermSound * sound;
+	QTermSound * m_pSound;
 	QTermZmodem *m_pZmodem;
 
 	zmodemDialog *m_pZmDialog;
