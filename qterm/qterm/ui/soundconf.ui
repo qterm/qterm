@@ -72,101 +72,6 @@
             </property>
         </widget>
     </widget>
-    <widget class="QButtonGroup">
-        <property name="name">
-            <cstring>bgMethod</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>10</x>
-                <y>90</y>
-                <width>431</width>
-                <height>90</height>
-            </rect>
-        </property>
-        <property name="title">
-            <string>Play With:</string>
-        </property>
-        <widget class="QRadioButton">
-            <property name="name">
-                <cstring>radioButton13</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>11</x>
-                    <y>41</y>
-                    <width>98</width>
-                    <height>19</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Internal</string>
-            </property>
-            <property name="checked">
-                <bool>true</bool>
-            </property>
-            <property name="buttonGroupId">
-                <number>0</number>
-            </property>
-        </widget>
-        <widget class="QRadioButton">
-            <property name="name">
-                <cstring>radioButton15</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>218</x>
-                    <y>41</y>
-                    <width>98</width>
-                    <height>19</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>ESD</string>
-            </property>
-            <property name="buttonGroupId">
-                <number>2</number>
-            </property>
-        </widget>
-        <widget class="QRadioButton">
-            <property name="name">
-                <cstring>radioButton14</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>115</x>
-                    <y>41</y>
-                    <width>97</width>
-                    <height>19</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>ARTS</string>
-            </property>
-            <property name="buttonGroupId">
-                <number>1</number>
-            </property>
-        </widget>
-        <widget class="QRadioButton">
-            <property name="name">
-                <cstring>radioButton16</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>322</x>
-                    <y>41</y>
-                    <width>97</width>
-                    <height>19</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>External</string>
-            </property>
-            <property name="buttonGroupId">
-                <number>3</number>
-            </property>
-        </widget>
-    </widget>
     <widget class="QPushButton">
         <property name="name">
             <cstring>bOK</cstring>
@@ -198,6 +103,117 @@
         <property name="text">
             <string>Cancel</string>
         </property>
+    </widget>
+    <widget class="QButtonGroup">
+        <property name="name">
+            <cstring>bgMethod</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>90</y>
+                <width>430</width>
+                <height>90</height>
+            </rect>
+        </property>
+        <property name="title">
+            <string>Play With:</string>
+        </property>
+        <widget class="QRadioButton">
+            <property name="name">
+                <cstring>radioButton13</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>25</y>
+                    <width>98</width>
+                    <height>19</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Internal</string>
+            </property>
+            <property name="checked">
+                <bool>true</bool>
+            </property>
+            <property name="buttonGroupId">
+                <number>0</number>
+            </property>
+        </widget>
+        <widget class="QRadioButton">
+            <property name="name">
+                <cstring>radioButton14</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>60</y>
+                    <width>97</width>
+                    <height>19</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>ARTS</string>
+            </property>
+            <property name="buttonGroupId">
+                <number>1</number>
+            </property>
+        </widget>
+        <widget class="QRadioButton">
+            <property name="name">
+                <cstring>radioButton15</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>130</x>
+                    <y>25</y>
+                    <width>98</width>
+                    <height>19</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>ESD</string>
+            </property>
+            <property name="buttonGroupId">
+                <number>2</number>
+            </property>
+        </widget>
+        <widget class="QRadioButton">
+            <property name="name">
+                <cstring>radioButton16</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>130</x>
+                    <y>60</y>
+                    <width>97</width>
+                    <height>19</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>External</string>
+            </property>
+            <property name="buttonGroupId">
+                <number>3</number>
+            </property>
+        </widget>
+        <widget class="QPushButton">
+            <property name="name">
+                <cstring>bpTest</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>310</x>
+                    <y>55</y>
+                    <width>110</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Test</string>
+            </property>
+        </widget>
     </widget>
     <widget class="QGroupBox">
         <property name="name">
@@ -276,11 +292,18 @@
         <receiver>fSoundConfUI</receiver>
         <slot>onPlayMethod(int)</slot>
     </connection>
+    <connection>
+        <sender>bpTest</sender>
+        <signal>clicked()</signal>
+        <receiver>fSoundConfUI</receiver>
+        <slot>onTestPlay()</slot>
+    </connection>
 </connections>
 <slots>
     <slot specifier="pure virtual">onSelectFile()</slot>
     <slot specifier="pure virtual">onPlayMethod( int id )</slot>
     <slot specifier="pure virtual">onSelectProg()</slot>
+    <slot specifier="pure virtual">onTestPlay()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

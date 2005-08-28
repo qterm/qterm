@@ -430,17 +430,23 @@
                 <string>None</string>
             </property>
         </widget>
-        <widget class="QLineEdit">
+        <widget class="QRadioButton">
             <property name="name">
-                <cstring>wavefileLineEdit</cstring>
+                <cstring>beepRadioButton</cstring>
             </property>
             <property name="geometry">
                 <rect>
-                    <x>10</x>
-                    <y>95</y>
-                    <width>180</width>
-                    <height>22</height>
+                    <x>80</x>
+                    <y>25</y>
+                    <width>101</width>
+                    <height>20</height>
                 </rect>
+            </property>
+            <property name="text">
+                <string>Beep</string>
+            </property>
+            <property name="buttonGroupId">
+                <number>1</number>
             </property>
         </widget>
         <widget class="QRadioButton">
@@ -458,21 +464,8 @@
             <property name="text">
                 <string>Sound File</string>
             </property>
-        </widget>
-        <widget class="QRadioButton">
-            <property name="name">
-                <cstring>beepRadioButton</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>80</x>
-                    <y>25</y>
-                    <width>101</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Beep</string>
+            <property name="buttonGroupId">
+                <number>2</number>
             </property>
         </widget>
         <widget class="QPushButton">
@@ -489,6 +482,19 @@
             </property>
             <property name="text">
                 <string>Configure</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit">
+            <property name="name">
+                <cstring>wavefileLineEdit</cstring>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>95</y>
+                    <width>180</width>
+                    <height>22</height>
+                </rect>
             </property>
         </widget>
     </widget>
