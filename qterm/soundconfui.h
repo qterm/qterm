@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'soundconf.ui'
 **
-** Created: 日  8月 28 13:31:59 2005
+** Created: 日  8月 28 16:27:08 2005
 **      by: The User Interface Compiler ()
 **
 ** WARNING! All changes made in this file will be lost!
@@ -18,8 +18,8 @@ class QHBoxLayout;
 class QGridLayout;
 class QSpacerItem;
 class QGroupBox;
-class QLineEdit;
 class QPushButton;
+class QLineEdit;
 class QButtonGroup;
 class QRadioButton;
 
@@ -32,19 +32,19 @@ public:
     ~fSoundConfUI();
 
     QGroupBox* groupBox2;
-    QLineEdit* leFile;
     QPushButton* bfSelect;
+    QLineEdit* leFile;
+    QGroupBox* groupBox3;
+    QPushButton* bpSelect;
+    QLineEdit* leProg;
     QPushButton* bOK;
-    QPushButton* bCancel;
     QButtonGroup* bgMethod;
     QRadioButton* radioButton13;
     QRadioButton* radioButton14;
     QRadioButton* radioButton15;
     QRadioButton* radioButton16;
     QPushButton* bpTest;
-    QGroupBox* groupBox3;
-    QLineEdit* leProg;
-    QPushButton* bpSelect;
+    QPushButton* bCancel;
 
 public slots:
     virtual void onSelectFile() = 0;
