@@ -3,6 +3,7 @@
 #include "qterm.h"
 #include "qtermconfig.h"
 #include "qtermframe.h"
+#include "imageviewer.h"
 
 #include <qapplication.h>
 #include <qstring.h>
@@ -14,7 +15,7 @@
 
 extern QString pathCfg;
 extern QString fileCfg;
-
+extern QString pathPic;
 extern void runProgram(const QCString&);
 extern QString getSaveFileName(const QString&, QWidget*);
 
@@ -196,8 +197,12 @@ void QTermHttp::httpDone(bool err)
 		}
 	}
 
-	if(m_bPreview)
+	if(m_bPreview) {
+		QString strPool = ((QTermFrame *)qApp->mainWidget())->m_pref.strPoolPath;
 		previewImage(m_strHttpFile);
+		QFileInfo fi = QFileInfo(m_strHttpFile);
+		ImageViewer::genThumb(pathPic+"pic/shadow.png", strPool, fi.fileName());
+	}
 	else
 		QMessageBox::information(NULL, tr("Download Complete"),
 			tr("Download one file successfully"));

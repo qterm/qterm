@@ -11,16 +11,16 @@
 #include <qmessagebox.h>
 #include <qheader.h>
 
+const QString ImageViewer::thumbDir = "shadow-cache/";
+
 ImageViewer::ImageViewer(const QString & image, const QString & path, QWidget * parent)
 	:QListView(parent)
 {
 	QDir dir;
 	dir.setPath(path);
 	d_path = path;
-	d_shadow = image;
 	if (d_path.right(1) != "/")
 		d_path.append('/');
-	int thumbsize = 100;
 
 	const QFileInfoList * list = dir.entryInfoList();
 
@@ -32,19 +32,23 @@ ImageViewer::ImageViewer(const QString & image, const QString & path, QWidget * 
 	header()->setClickEnabled( FALSE, this->header()->count() - 1 );
 	setSortColumn(-1);
 
-	setColumnWidth(0, thumbsize+50);
+	setColumnWidth(0, thumbSize+30);
 	setItemMargin(5);
 	//d_imageList->setColumnAlignment(0, Qt::AlignCenter);
 	setColumnAlignment(1, Qt::AlignVCenter);
 	setAllColumnsShowFocus(true);
 	//imageList->setVariableHeight(false);
 
-	const QString folder = d_path+"shadow-cache/";
+	const QString folder = d_path+thumbDir;
 	while ((fi = it.current()) != 0) {
 		QString strExt=fi->extension(false).lower();
 		if(strExt=="jpg" || strExt=="jpeg" || strExt=="gif" ||
 			strExt=="mng" || strExt=="png" || strExt=="bmp") {
-			const QString file = QString( "shadow_cache_%1_%2.png" ).arg(fi->fileName()).arg( thumbsize );
+			const QString file = QString( "shadow_cache_%1_%2.png" ).arg(fi->fileName()).arg( thumbSize );
+			if ( !QFile::exists( folder + file ) ) {
+				QString filename = fi->fileName();
+				genThumb(image, d_path, filename);
+			}
 			if ( QFile::exists( folder + file ) ) {
 				QPixmap target( folder + file );
 				QListViewItem * item = new QListViewItem(this, lastItem());
@@ -52,11 +56,11 @@ ImageViewer::ImageViewer(const QString & image, const QString & path, QWidget * 
 				item->setText(1,fi->fileName());
 				insertItem(item);
 			}
-
+/*
 			else {//generate thumbnail
 				QString filename = fi->filePath();
 				QImage original(filename);
-				original = original.scale(thumbsize, thumbsize, QImage::ScaleMin);
+				original = original.scale(thumbSize, thumbSize, QImage::ScaleMin);
 				QImage shadow;
 				uint shadowSize;
 				if (original.width() > original.height())
@@ -75,12 +79,35 @@ ImageViewer::ImageViewer(const QString & image, const QString & path, QWidget * 
 				item->setPixmap(0, QPixmap(target));
 				item->setText(1,fi->fileName());
 			}
+			*/
 		}			
 		++it;
 	}
 
 	connect(this, SIGNAL(selectionChanged(QListViewItem *)), this, SLOT(viewImage(QListViewItem *)));
 
+}
+
+void ImageViewer::genThumb(const QString & background, const QString & path, const QString & filename)
+{
+	const QString file = QString( "shadow_cache_%1_%2.png" ).arg(filename).arg( thumbSize );
+	const QString folder = path+thumbDir;
+	QImage original(path+filename);
+	original = original.scale(thumbSize, thumbSize, QImage::ScaleMin);
+	QImage shadow;
+	uint shadowSize;
+	if (original.width() > original.height())
+		shadowSize = static_cast<uint>(original.width()/100.0*6.0);
+	else
+		shadowSize = static_cast<uint>(original.height()/100.0*6.0);
+	
+	shadow.load(background);
+	shadow = shadow.scale( original.width() + shadowSize, original.height() + shadowSize);
+
+	QImage target(shadow);
+	bitBlt (&target, 0, 0, &original);
+
+	target.save( folder + file, "PNG" );
 }
 
 ImageViewer::~ImageViewer()
