@@ -367,8 +367,12 @@ void QTermFrame::loadPref( QTermConfig * conf )
 	m_pref.bClearPool=(strTmp!="0");
 	strTmp = conf->getItemValue("preference","pool");
 	m_pref.strPoolPath=strTmp.isEmpty()?pathCfg+"pool/":strTmp;
+	if( m_pref.strPoolPath.find('/')!=m_pref.strPoolPath.length() )
+		m_pref.strPoolPath.append('/');
 	strTmp = conf->getItemValue("preference","zmodem");
 	m_pref.strZmPath=strTmp.isEmpty()?pathCfg+"zmodem/":strTmp;
+	if( m_pref.strZmPath.find('/')!=m_pref.strZmPath.length() )
+		m_pref.strZmPath.append('/');
 	strTmp = conf->getItemValue("preference","image");
 	m_pref.strImageViewer=QString::fromLocal8Bit(strTmp);
 }
