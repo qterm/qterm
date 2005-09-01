@@ -81,6 +81,9 @@ HEADERS		= qtermframe.h \
 		soundconf.h	\
 		zmodemdialogui.h	\
 		zmodemdialog.h	\
+		imageviewer.h	\
+		imageviewerui.h	\
+		osdmessage.h	\
 		qtermcanvas.h	\
 		trayicon.h	\
 		popwidget.h	\
@@ -144,6 +147,9 @@ SOURCES		= qtermframe.cpp \
 		zmodemdialogui.cpp	\
 		zmodemdialog.cpp	\
 		popwidget.cpp	\
+		imageviewer.cpp	\
+		imageviewerui.cpp	\
+		osdmessage.cpp	\	
 		trayicon.cpp	\
 		qtermcanvas.cpp	\
 		main.cpp		\
