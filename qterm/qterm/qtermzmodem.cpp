@@ -14,7 +14,7 @@
 extern QString fileCfg;
 extern QString getOpenFileName(const QString&, QWidget*);
 
-#ifdef QT_DEBUG // for zmodemlog()
+#ifdef QTERM_DEBUG // for zmodemlog()
 #include <sys/time.h>
 #endif
 
@@ -452,7 +452,7 @@ QTermZmodem::QTermZmodem(QObject *netinterface, int type)
 	zmodemTimer= new QTimer(this);
 	connect(zmodemTimer, SIGNAL(timeout()), this, SLOT(ZmodemTimeout()));
 
-#ifdef QT_DEBUG
+#ifdef QTERM_DEBUG
 	zmodemlogfile = fopen("zmodem.log","w+");
 	fprintf(zmodemlogfile, "%s", "\n================================\n");
 	fclose(zmodemlogfile);
@@ -2848,7 +2848,7 @@ int QTermZmodem::ZmodemReset(ZModem * info)
 void QTermZmodem::zmodemlog(const char *fmt, ... )
 {
 // only for debug
-#ifdef QT_DEBUG
+#ifdef QTERM_DEBUG
 	va_list ap;
 	struct timeval tv ;
 	struct tm *tm ;
