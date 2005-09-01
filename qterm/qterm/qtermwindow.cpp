@@ -607,7 +607,10 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 	if( me->button()&MidButton && !(me->state()&KeyButtonMask))
 	{
 		if( m_bConnected )
-			pasteHelper(false);
+			if(!m_pBBS->getUrl().isEmpty())         // on Url
+			        previewLink();
+			else
+				pasteHelper(false);
 		return;
 	}
 
