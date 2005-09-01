@@ -17,7 +17,7 @@ public:
 	QSize sizeHint() const {
 		return QSize(300,10);//Tell me how to do it correctly :(
 	}
-	
+	static void genThumb(const QString &, const QString &, const QString &);
 
 public slots:
 	void viewImage(QListViewItem * );
@@ -25,8 +25,9 @@ public slots:
 signals:
 	void selectionChanged(const QString &);
 private:
+	static const int thumbSize = 100;
+	static const QString thumbDir;
 	QString d_path;
-	QString d_shadow;
 };
 
 class QTermImage : public QTermImageUI
