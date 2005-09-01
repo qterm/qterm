@@ -82,7 +82,7 @@ void PageViewMessage::display( const QString & message, Icon icon, int durationM
     QRect geometry( 0, 0, width + 10, height + 8 );
 
     // resize pixmap, mask and widget
-    static QBitmap mask;
+    static QPixmap mask;
     mask.resize( geometry.size() );
     m_pixmap.resize( geometry.size() );
     resize( geometry.size() );
@@ -92,7 +92,7 @@ void PageViewMessage::display( const QString & message, Icon icon, int durationM
     mask.fill( Qt::black );
     maskPainter.setBrush( Qt::white );
     maskPainter.drawRoundRect( geometry, 1600 / geometry.width(), 1600 / geometry.height() );
-    setMask( mask );
+    setMask( mask.createHeuristicMask() );
 
     // draw background
     QPainter bufferPainter( &m_pixmap );
