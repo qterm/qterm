@@ -46,7 +46,7 @@ qterm_METASOURCES = AUTO
 qterm_LDFLAGS = $(all_libraries) -Wl -export-dynamic $(PYTHONLIB) $(SOUNDSERVER_LIB) $(ESD_LIB) $(OPENSSL_LIB)
 
 # them while "make clean", use CLEANFILES
-DISTCLEANFILES = $(qterm_METASOURCES)
+DISTCLEANFILES = $(qterm_METASOURCES) qterm.desktop
 
 applnkInternet_DATA =  qterm.desktop
 applnkInternetdir = ${prefix}/share/applications
