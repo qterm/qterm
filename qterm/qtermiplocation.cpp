@@ -99,13 +99,13 @@ int QTermIPLocation::readLineFrom( FILE *fp, uint32 offset, QCString& ret_str )
 	if( fseek( fp, (long)offset, SEEK_SET ) ==-1 )
 	{
 		qDebug( " readLineFrom error 1 " );
-		ret_str = QCString(NULL);
+		ret_str = QCString(0);
 		return -1;
 	}
 	if( fgets( (char *) str, 512, fp ) == NULL )
 	{
 		qDebug( " readLineFrom error 2 " );
-		ret_str = QCString(NULL);
+		ret_str = QCString(0);
 		return -1;
 	}
 	ret_str = str;
