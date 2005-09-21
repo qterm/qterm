@@ -933,7 +933,7 @@ void QTermFrame::fullscreen()
 		mdiTools->show();
 		mdiconnectTools->show();
 		key->show();
-		leftScroll();
+		emit updateScroll();
 		showStatusBar();
 		showSwitchBar();
 		showNormal();
