@@ -18,7 +18,8 @@
 #include "qtermparam.h"
 #include "qtermconvert.h"
 #include "qtermsound.h"
-
+#include "popupMessage.h"
+#include "statusBar.h"
 
 class QTermTextLine;
 class QTermScreen;
@@ -35,6 +36,7 @@ class QProgressDialog;
 class QTermHttp;
 class QTermIPLocation;
 class PageViewMessage;
+class QProgressBar;
 
 // thread copy article
 class QTermDAThread : public QThread
@@ -59,6 +61,7 @@ public:
 	
 	void connectHost();
 	bool isConnected() { return m_bConnected; }
+	QTerm::StatusBar * mainStatusBar() { return m_pStatusBar; }
 
 public slots:
 	// ui
@@ -74,6 +77,7 @@ public slots:
 	void reconnect();
 	void sendParsedString(const char*);
 	void showIP();
+	void addNewProgress(QObject *, const QString &);
 public:
 	void disconnect();
 	void refresh();
@@ -104,7 +108,7 @@ protected slots:
 	void saveLink();
 	
 	// httpDone
-	void httpDone(QTermHttp*);
+	void httpDone(QObject*);
 
 	// decode
 	void setMouseMode(bool);
@@ -200,6 +204,7 @@ protected:
 
 	//osd
 	PageViewMessage * m_pMessage;
+	QTerm::StatusBar * m_pStatusBar;
 
 	bool m_bMouseClicked;
 public:
@@ -223,7 +228,6 @@ public:
 	QString m_strPythonError;
 
 	QWaitCondition m_wcWaiting;
-
 
 };
 

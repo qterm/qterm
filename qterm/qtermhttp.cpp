@@ -147,17 +147,7 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 		}
 		m_strHttpFile = strSave;
 	}
-	
-	m_pDialog  = new QProgressDialog(0, 0,false, 
-		WStyle_Customize|WX11BypassWM|WStyle_Title|WStyle_Tool|Qt::WStyle_StaysOnTop);
-	connect(m_pDialog, SIGNAL(canceled()), this, SLOT(cancel()));
-	m_pDialog->setCaption(tr("QTerm Http Downloader"));
-	// move it to top-right corner
-	QRect rc = ((QTermFrame *)qApp->mainWidget())->frameGeometry();
-	m_pDialog->move(rc.right()-m_pDialog->width(), rc.y());
-	m_pDialog->setLabelText(QFileInfo(m_strHttpFile).fileName());
-	m_pDialog->setFocusPolicy(QWidget::NoFocus);
-	m_pDialog->show();
+	emit newTask(this, QFileInfo(m_strHttpFile).fileName());
 }
 
 
@@ -172,7 +162,8 @@ void QTermHttp::httpRead(int done, int total)
 		file.close();
 	}
 	if(total!=0)
-		m_pDialog->setProgress(done,total);
+		//m_pDialog->setProgress(done,total);
+		emit percent(done*100/total);
 }
 
 void QTermHttp::httpDone(bool err)
@@ -204,8 +195,6 @@ void QTermHttp::httpDone(bool err)
 		ImageViewer::genThumb(pathPic+"pic/shadow.png", strPool, fi.fileName());
 	}
 	else
-		//QMessageBox::information(NULL, tr("Download Complete"),
-			//tr("Download one file successfully"));
 		emit message("Download one file successfully");
 	
 	emit done(this);
