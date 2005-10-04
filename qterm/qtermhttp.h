@@ -22,7 +22,8 @@ protected slots:
 	void previewImage(const QString&);
 
 signals:
-	void done(QTermHttp*);
+	void done(QTermHttp *);
+	void message(const QString &);
 
 protected:
     QHttp m_httpDown;

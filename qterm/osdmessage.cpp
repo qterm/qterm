@@ -21,7 +21,7 @@
 extern QString pathPic;
 
 PageViewMessage::PageViewMessage( QWidget * parent )
-    : QWidget( parent, "pageViewMessage" ), m_timer( 0 )
+    : QWidget( parent, "pageViewMessage" ), m_timer( 0 ), m_message()
 {
     setFocusPolicy( NoFocus );
     setBackgroundMode( NoBackground );
@@ -30,6 +30,12 @@ PageViewMessage::PageViewMessage( QWidget * parent )
     move( 10, 10 );
     resize( 0, 0 );
     hide();
+}
+
+//slot warp for display, ugly.
+void PageViewMessage::showText( const QString & message)
+{
+	display(message);
 }
 
 void PageViewMessage::display( const QString & message, Icon icon, int durationMs )
@@ -45,6 +51,11 @@ void PageViewMessage::display( const QString & message, Icon icon, int durationM
     }
 */
     // determine text rectangle
+    if (!isHidden() && message == m_message){
+	    m_timer->start( durationMs, true );
+	    return;
+    }
+    m_message = message;
     QRect textRect = fontMetrics().boundingRect( message );
     textRect.moveBy( -textRect.left(), -textRect.top() );
     textRect.addCoords( 0, 0, 2, 2 );
@@ -140,3 +151,5 @@ void PageViewMessage::mousePressEvent( QMouseEvent * /*e*/ )
         m_timer->stop();
     hide();
 }
+
+#include "osdmessage.moc"

@@ -73,6 +73,7 @@ public slots:
 	void showStatusBar(bool);
 	void reconnect();
 	void sendParsedString(const char*);
+	void showIP();
 public:
 	void disconnect();
 	void refresh();
@@ -160,7 +161,7 @@ protected:
 
 	// timer
 	bool m_bIdling;
-	QTimer *m_idleTimer, *m_replyTimer, *m_tabTimer, *m_reconnectTimer;
+	QTimer *m_idleTimer, *m_replyTimer, *m_tabTimer, *m_reconnectTimer, * m_ipTimer;
 	
 	// address setting
 	bool m_bSetChanged;

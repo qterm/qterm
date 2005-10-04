@@ -204,8 +204,9 @@ void QTermHttp::httpDone(bool err)
 		ImageViewer::genThumb(pathPic+"pic/shadow.png", strPool, fi.fileName());
 	}
 	else
-		QMessageBox::information(NULL, tr("Download Complete"),
-			tr("Download one file successfully"));
+		//QMessageBox::information(NULL, tr("Download Complete"),
+			//tr("Download one file successfully"));
+		emit message("Download one file successfully");
 	
 	emit done(this);
 }
