@@ -272,6 +272,7 @@ StatusBar::newProgressOperation( QObject *owner)
     QHBox * hbox = new QHBox( m_popupProgress );
     QLabel *label = new QLabel( hbox );
     ProgressBar *pBar = new ProgressBar( hbox, label );
+    hbox->show();
     m_popupProgress->addWidget( hbox );
     m_progressMap.insert( owner, pBar );
 
