@@ -327,6 +327,8 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	connect( m_tabTimer, SIGNAL(timeout()), this, SLOT(blinkTab()) );
 	m_reconnectTimer = new QTimer;
 	connect( m_reconnectTimer, SIGNAL(timeout()), this, SLOT(reconnect()) );
+	m_ipTimer = new QTimer;
+	connect( m_ipTimer, SIGNAL(timeout()), this, SLOT(showIP()) );
 
 
 // initial varibles
@@ -659,15 +661,21 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 			if (m_pBBS->isIP(rcUrl_leave_me_alone, rcOld_i_dont_need_you) && m_bCheckIP)
 			{
 				if(rcUrl_leave_me_alone != rcOld_i_dont_need_you)
-				{
+				{/*
 					QCString country,city;
 					QString url = m_pBBS->getIP();
 					if (m_pIPLocation->getLocation(url, country, city)) {
 						statusBar()->message( G2U(country + city) );
-					}
+						//m_pMessage->display(G2U(country + city), PageViewMessage::Info, 0);
+					}*/
+					if (!m_ipTimer->isActive())
+						m_ipTimer->start(100, false);
 				}
 			} else{
-				statusBar()->message("");
+				//statusBar()->message("");
+				//m_pMessage->hide();
+				if (m_ipTimer->isActive())
+					m_ipTimer->stop();
 			}
 			
 			if(m_pBBS->isUrl(m_rcUrl, rcOld))
@@ -1430,6 +1438,16 @@ void QTermWindow::reconnect()
 		m_pTelnet->connectHost( m_param.m_strAddr , m_param.m_uPort );
 
 }
+
+void QTermWindow::showIP()
+{
+	QCString country,city;
+	QString url = m_pBBS->getIP();
+	if (m_pIPLocation->getLocation(url, country, city)) {
+		m_pMessage->display(G2U(country + city), PageViewMessage::Info, 100);
+	}
+}
+
 void QTermWindow::refresh( )
 {
 	m_pScreen->repaint(true);
@@ -2175,6 +2193,7 @@ void QTermWindow::getHttpHelper(const QString& strUrl, bool bPreview)
 {
 	QTermHttp *pHttp = new QTermHttp(this);
 	connect(pHttp, SIGNAL(done(QTermHttp*)), this, SLOT(httpDone(QTermHttp*)));
+	connect(pHttp, SIGNAL(message(const QString &)), m_pMessage, SLOT(showText(const QString &)));
 	pHttp->getLink(strUrl, bPreview);
 }
 

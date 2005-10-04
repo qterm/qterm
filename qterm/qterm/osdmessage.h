@@ -20,11 +20,14 @@
  */
 class PageViewMessage : public QWidget
 {
+	Q_OBJECT
     public:
         PageViewMessage( QWidget * parent );
 
         enum Icon { None, Info, Warning, Error, Find };
         void display( const QString & message, Icon icon = Info, int durationMs = 4000 );
+    public slots:
+	void showText( const QString &);
 
     protected:
         void paintEvent( QPaintEvent * e );
@@ -32,6 +35,7 @@ class PageViewMessage : public QWidget
 
     private:
         QPixmap m_pixmap;
+	QString m_message;
         QTimer * m_timer;
 };
 
