@@ -22,8 +22,10 @@ protected slots:
 	void previewImage(const QString&);
 
 signals:
-	void done(QTermHttp *);
+	void done(QObject*);
+	void newTask(QObject*, const QString &);
 	void message(const QString &);
+	void percent(int);
 
 protected:
     QHttp m_httpDown;
