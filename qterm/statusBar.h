@@ -21,6 +21,7 @@ namespace QTerm
 		Q_OBJECT
 	public:
 		StatusBar(QWidget * parent, const char * name = "mainStatusBar" );
+		static StatusBar* instance() { return s_instance; }
 		/**
 		 * Start a progress operation, if owner is 0, the return value is
 	         * undefined - the application will probably crash.
@@ -102,6 +103,7 @@ namespace QTerm
 		QString m_mainText;
 		
 		QLayout *m_otherWidgetLayout;
+		static StatusBar * s_instance;
 	};
 }
 
