@@ -112,3 +112,6 @@ qtermhttp.moc.cpp
 qtermzmodem.moc.cpp
 zmodemdialog.moc.cpp
 zmodemdialogui.moc.cpp
+osdmessage.moc
+popupMessage.moc
+statusBar.moc.cpp
