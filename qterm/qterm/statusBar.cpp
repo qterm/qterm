@@ -28,10 +28,12 @@ namespace QTerm
 	
 //TODO allow for uncertain progress periods
 
+StatusBar* StatusBar::s_instance = 0;
 
 StatusBar::StatusBar( QWidget *parent, const char *name )
         : QWidget( parent, name )
 {
+    s_instance = this;
     QBoxLayout *mainlayout = new QHBoxLayout( this, 2, /*spacing*/5 );
 
     //we need extra spacing due to the way we paint the surrounding boxes
