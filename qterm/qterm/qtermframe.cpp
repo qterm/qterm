@@ -129,10 +129,10 @@ QTermFrame::QTermFrame()
 	connect(tabBar,SIGNAL(selected(int)),this,SLOT(selectionChanged(int)));
 	tabBar->setShape(QTabBar::TriangularBelow);
 	//tabBar->setShape(QTabBar::RoundedBelow);
-//create a label to display current time
-	labelTime=new QTermTimeLabel(statusBar());
-	statusBar()->addWidget(labelTime,10,TRUE);
 
+//create a progress bar to notify the download process
+	m_pStatusBar = new QTerm::StatusBar(statusBar(), "mainStatusBar");
+	statusBar()->addWidget(m_pStatusBar, 0, false);
 
 //create the window manager to deal with the window-tab-icon pairs
 	wndmgr=new QTermWndMgr(this);

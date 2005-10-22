@@ -3,7 +3,7 @@
 
 
 #include <qmainwindow.h>
-
+#include "statusBar.h"
 
 class QLineEdit;
 class QToolBar;
@@ -188,6 +188,8 @@ protected:
 	QPopupMenu * escapeMenu;
 	QPopupMenu * langMenu;	
 	QPopupMenu * connectMenu;
+
+	QTerm::StatusBar * m_pStatusBar;
 
 	QToolButton *connectButton, *disconnectButton,
 				*editRect, *editColor,
