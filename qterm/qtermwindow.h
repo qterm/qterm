@@ -18,8 +18,6 @@
 #include "qtermparam.h"
 #include "qtermconvert.h"
 #include "qtermsound.h"
-#include "popupMessage.h"
-#include "statusBar.h"
 
 class QTermTextLine;
 class QTermScreen;
@@ -61,7 +59,6 @@ public:
 	
 	void connectHost();
 	bool isConnected() { return m_bConnected; }
-	QTerm::StatusBar * mainStatusBar() { return m_pStatusBar; }
 
 public slots:
 	// ui
@@ -77,7 +74,6 @@ public slots:
 	void reconnect();
 	void sendParsedString(const char*);
 	void showIP();
-	void addNewProgress(QObject *, const QString &);
 public:
 	void disconnect();
 	void refresh();
@@ -204,7 +200,6 @@ protected:
 
 	//osd
 	PageViewMessage * m_pMessage;
-	QTerm::StatusBar * m_pStatusBar;
 
 	bool m_bMouseClicked;
 public:
