@@ -23,7 +23,6 @@ protected slots:
 
 signals:
 	void done(QObject*);
-	void newTask(QObject*, const QString &);
 	void message(const QString &);
 	void percent(int);
 

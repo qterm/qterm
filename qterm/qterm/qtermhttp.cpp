@@ -83,6 +83,7 @@ void QTermHttp::getLink(const QString& url, bool preview)
 void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 {
 	QString ValueString;
+	QString filename;
 	
 	ValueString = hrh.value("Content-Length");
 	int FileLength = ValueString.toInt();
@@ -94,7 +95,7 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 	QRegExp re("filename\=.*", false);
 	int pos=re.search(ValueString);
 	if(pos!=-1)
-		m_strHttpFile = ValueString.mid(pos+9,re.matchedLength()-9);
+		filename = m_strHttpFile = ValueString.mid(pos+9,re.matchedLength()-9);
 
 	if(m_bPreview)
 	{
@@ -147,7 +148,13 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 		}
 		m_strHttpFile = strSave;
 	}
-	emit newTask(this, QFileInfo(m_strHttpFile).fileName());
+	QTerm::StatusBar::instance()->newProgressOperation(this)
+		.setDescription( filename )
+		.setAbortSlot( this, SLOT(cancel()) )
+		.setTotalSteps( 100 );
+	QTerm::StatusBar::instance()->resetMainText();
+	connect(this, SIGNAL(done(QObject*)), QTerm::StatusBar::instance(), SLOT(endProgressOperation(QObject *)));
+	connect(this, SIGNAL(percent(int)), QTerm::StatusBar::instance(), SLOT(setProgress(int)));
 }
 
 

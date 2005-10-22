@@ -284,9 +284,6 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	m_popWin = new popWidget(this);
 	#endif
 
-	m_pStatusBar = new QTerm::StatusBar(statusBar(), "mainStatusBar");
-
-	statusBar()->addWidget(m_pStatusBar, 0, false);
 	m_pMessage->display(tr("Not Connected"));
 	statusBar()->setSizeGripEnabled(false);
 
@@ -2192,32 +2189,11 @@ void QTermWindow::saveLink()
 {
 	getHttpHelper(m_pBBS->getUrl(), false);
 }
-void QTermWindow::addNewProgress(QObject * obj, const QString & filename)
-{
-	QTermHttp *pHttp = static_cast<QTermHttp *>(obj);
-	m_pStatusBar->newProgressOperation(pHttp)
-		.setDescription( filename )
-		.setAbortSlot( pHttp, SLOT(cancel()) )
-		.setTotalSteps( 100 );
-	m_pStatusBar->resetMainText();
-	connect(pHttp, SIGNAL(done(QObject*)), m_pStatusBar, SLOT(endProgressOperation(QObject *)));
-	connect(pHttp, SIGNAL(percent(int)), m_pStatusBar, SLOT(setProgress(int)));
-}
-
 void QTermWindow::getHttpHelper(const QString& strUrl, bool bPreview)
 {
 	QTermHttp *pHttp = new QTermHttp(this);
 	connect(pHttp, SIGNAL(done(QObject*)), this, SLOT(httpDone(QObject*)));
-	connect(pHttp, SIGNAL(newTask(QObject *, const QString &)), this, SLOT(addNewProgress(QObject *, const QString &)));
 	connect(pHttp, SIGNAL(message(const QString &)), m_pMessage, SLOT(showText(const QString &)));
-	/*
-	m_pStatusBar->newProgressOperation(pHttp)
-		.setDescription( tr( "Download file" ) )
-		.setAbortSlot( pHttp, SLOT(cancel()) )
-		.setTotalSteps( 100 );
-	connect(pHttp, SIGNAL(done(QObject*)), m_pStatusBar, SLOT(endProgressOperation(QObject *)));
-	connect(pHttp, SIGNAL(percent(int)), m_pStatusBar, SLOT(setProgress(int)));
-	*/
 	pHttp->getLink(strUrl, bPreview);
 }
 
