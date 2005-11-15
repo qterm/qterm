@@ -95,13 +95,14 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 	QRegExp re("filename\=.*", false);
 	int pos=re.search(ValueString);
 	if(pos!=-1)
-		filename = m_strHttpFile = ValueString.mid(pos+9,re.matchedLength()-9);
+		m_strHttpFile = ValueString.mid(pos+9,re.matchedLength()-9);
+        filename = m_strHttpFile = G2U(m_strHttpFile);
 
 	if(m_bPreview)
 	{
 		QString strPool = ((QTermFrame *)qApp->mainWidget())->m_pref.strPoolPath;
 		
-		m_strHttpFile = strPool + G2U(m_strHttpFile);
+		m_strHttpFile = strPool + m_strHttpFile;
 
 		QFileInfo fi(m_strHttpFile);
 		
