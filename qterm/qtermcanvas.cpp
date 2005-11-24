@@ -53,7 +53,7 @@ QTermCanvas::QTermCanvas(QWidget *parent, const char *name, WFlags f)
 	label = new QLabel(viewport());
 	label->setScaledContents(true);
 	label->setAlignment(AlignCenter);
-	label->setText("Loading...");
+	label->setText("No Preview Available");
 	addChild(label);
 	resize(200,100);
 
