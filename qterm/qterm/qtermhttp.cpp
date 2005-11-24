@@ -92,10 +92,13 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 //	ValueString = ValueString.mid(ValueString.find(';') + 1).stripWhiteSpace();
 //	if(ValueString.lower().find("filename") == 0)
 //	m_strHttpFile = ValueString.mid(ValueString.find('=') + 1).stripWhiteSpace();
-	QRegExp re("filename\=.*", false);
+	if(ValueString.right(1)!=";")
+		ValueString+=";";
+	QRegExp re("filename=.*;", false);
+	re.setMinimal(true); //Dont FIXME:this will also split filenames with ';' inside, does anyone really do this?
 	int pos=re.search(ValueString);
 	if(pos!=-1)
-		m_strHttpFile = ValueString.mid(pos+9,re.matchedLength()-9);
+		m_strHttpFile = ValueString.mid(pos+9,re.matchedLength()-10);
         filename = m_strHttpFile = G2U(m_strHttpFile);
 
 	if(m_bPreview)
