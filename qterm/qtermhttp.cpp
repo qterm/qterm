@@ -194,7 +194,7 @@ void QTermHttp::httpDone(bool err)
 			default:
 				QMessageBox::critical(NULL, tr("Download Error"),
 					tr("Failed to download file"));
-				delete this;
+				deleteLater();
 				return;
 		}
 	}
