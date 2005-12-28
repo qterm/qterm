@@ -917,6 +917,20 @@ void QTermWindow::keyPressEvent( QKeyEvent * e )
 	}
 }
 
+void QTermWindow::imStartEvent(QIMEvent * e)
+{
+	m_pScreen->imStartEvent(e);
+}
+
+void QTermWindow::imComposeEvent(QIMEvent * e)
+{
+	m_pScreen->imComposeEvent(e);
+}
+
+void QTermWindow::imEndEvent(QIMEvent * e)
+{
+	m_pScreen->imEndEvent(e);
+}
 
 //connect slot
 void QTermWindow::connectHost()
