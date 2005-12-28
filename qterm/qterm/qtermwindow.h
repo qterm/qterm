@@ -118,6 +118,9 @@ protected:
 	void enterEvent( QEvent * );
 	void leaveEvent( QEvent * );
 	void customEvent( QCustomEvent * );
+	void imStartEvent (QIMEvent *);
+	void imComposeEvent (QIMEvent *);
+	void imEndEvent (QIMEvent *);
 
 	void reconnectProcess();
 	void connectionClosed();
