@@ -18,6 +18,7 @@ class QFontDialog;
 class QTermParam;
 class QTermConfig;
 class TrayIcon;
+class QTermImage;
 
 struct QTermPref
 {
@@ -85,6 +86,9 @@ signals:
 	void bossColor();
 	void updateScroll();
 	void updateStatusBar(bool);
+
+public slots:
+	void previewImage(const QString&);
 
 protected slots:
 	void keyClicked(int);
@@ -159,6 +163,9 @@ protected slots:
 
 	void switchWin(int);
 	void paintEvent( QPaintEvent * );
+
+	void startDown();
+	void endDown();
 public:
 	QTabBar *tabBar;
 	QTermWndMgr * wndmgr;
@@ -204,6 +211,7 @@ protected:
 	MTray *tray;
 	QPopupMenu *trayMenu;
 
+	QTermImage *viewer;
 	//function
 	//QTermWindow * newWindow( const QTermParam& param, int index=-1 );
 	void newWindow( const QTermParam& param, int index=-1 );

@@ -265,12 +265,17 @@ StatusBar::newProgressOperation( QObject *owner)
     if ( m_progressMap.contains( owner ) )
         return *m_progressMap[owner];
 
+    if(m_progressMap.count()==0)
+	    emit started();
+
     if( allDone() )
         // if we're allDone then we need to remove the old progressBars before
         // we start anything new or the total progress will not be accurate
         pruneProgressBars();
     else
         static_cast<QWidget*>(progressBox()->child("showAllProgressDetails"))->show();
+
+
     QHBox * hbox = new QHBox( m_popupProgress );
     QLabel *label = new QLabel( hbox );
     ProgressBar *pBar = new ProgressBar( hbox, label );
@@ -343,6 +348,9 @@ StatusBar::endProgressOperation( QObject *owner )
     }
 
     updateTotalProgress();
+
+    if(m_progressMap.count()==0)
+	emit ended();
 }
 
 void

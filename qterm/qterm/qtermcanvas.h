@@ -5,51 +5,49 @@
 #include <qimage.h>
 
 class QLabel;
-class QPopupMenu;
 
 class QTermCanvas : public QScrollView
 {
 	Q_OBJECT
 public: 
 	QTermCanvas(QWidget *parent=NULL, const char *name=NULL, 
-					WFlags f=WType_TopLevel);
+					WFlags f=0);
 	~QTermCanvas();
 
-	void loadImage(QString);
-
-protected slots:
+	QLabel* picLabel(){return label;}
+	bool isScrollbarVisible(){return horizontalScrollBar()->isVisible() || verticalScrollBar()->isVisible();}
+	
+public slots:
+	void loadImage(const QString&);
 	void oriSize();
 	void zoomIn();
 	void zoomOut();
 	void fitWin();
-	void fullScreen();
 	void saveImage();
 	void copyImage();
 	void silentCopy();
 	void cwRotate();
 	void ccwRotate();
 	void deleteImage();
-protected:
 	void moveImage(float,float);
 	void resizeImage(float);
 	void rotateImage(float);
+	void setFixed(bool);
+
+signals:
+	void resizeWindow(const QSize&);
+	void filesChanged();
 	
-	void closeEvent(QCloseEvent *);
-	void contentsMousePressEvent(QMouseEvent*);
-	void keyPressEvent(QKeyEvent *ke);
+protected:
 	void viewportResizeEvent(QResizeEvent *re);
 	void adjustSize(const QSize&);
 	QPixmap scaleImage(const QSize&);
 protected:
 	QLabel *label;
-	bool bFitWin;
+	bool bFitWin, bFixed;
 	QSize szImage;
 	QString strFileName;
 	QImage img;
-	QPopupMenu *m_pMenu;
-	
-//Very dirty trick, I hate it
-	bool bEmbed;
 };
 
 #endif
