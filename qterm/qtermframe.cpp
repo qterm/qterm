@@ -25,6 +25,7 @@ AUTHOR:        kingson fiasco
 #include "keydialog.h"
 #include "trayicon.h"
 #include "imageviewer.h"
+#include "qtermimage.h"
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
@@ -103,6 +104,8 @@ QTermFrame::QTermFrame()
 	tray = 0;
 	trayMenu = 0;
 	
+	viewer = NULL;
+	
 //set menubar
 	addMainMenu();
 
@@ -133,6 +136,9 @@ QTermFrame::QTermFrame()
 //create a progress bar to notify the download process
 	m_pStatusBar = new QTerm::StatusBar(statusBar(), "mainStatusBar");
 	statusBar()->addWidget(m_pStatusBar, 0, false);
+	connect(m_pStatusBar, SIGNAL(started()), this, SLOT(startDown()));
+	connect(m_pStatusBar, SIGNAL(ended()), this, SLOT(endDown()));
+
 
 //create the window manager to deal with the window-tab-icon pairs
 	wndmgr=new QTermWndMgr(this);
@@ -1167,8 +1173,9 @@ void QTermFrame::enableMouse( )
 
 void QTermFrame::viewImages()
 {
-	QTermImage viewer(pathPic+"pic/shadow.png", m_pref.strPoolPath, this);
-	viewer.exec();
+	if(viewer==NULL)
+		viewer = new QTermImage(this, m_pref.strPoolPath, true);
+	viewer->showNormal();
 }
 
 void QTermFrame::beep()
@@ -1219,6 +1226,30 @@ void QTermFrame::keyClicked(int id)
 	{
 		system(cstrTmp.mid(1)+" &");
 	}
+}
+
+void QTermFrame::startDown()
+{
+	if(viewer==NULL)
+		viewer = new QTermImage(this, m_pref.strPoolPath, true);
+
+	viewer->setTimeFilter(QDateTime::currentDateTime());
+}
+
+void QTermFrame::endDown()
+{
+	viewer->setTimeFilter(QDateTime());
+}
+
+void QTermFrame::previewImage(const QString& filename)
+{
+	if(viewer==NULL)
+		viewer = new QTermImage(this, m_pref.strPoolPath, true);
+
+	viewer->updateList();
+	viewer->loadImage(filename);
+
+	viewer->showNormal();
 }
 
 void QTermFrame::toolBarPosChanged(QToolBar*)

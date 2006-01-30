@@ -41,8 +41,8 @@ void QTermHttp::cancel()
 	m_httpDown.abort();
 
 	// remove unsuccessful download
-	if(QFile::exists(m_strHttpFile))
-		QFile::remove(m_strHttpFile);
+	if(QFile::exists(m_strHttpFile+".part"))
+		QFile::remove(m_strHttpFile+".part");
 
 	emit done(this);
 }
@@ -165,7 +165,7 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 void QTermHttp::httpRead(int done, int total)
 {
 	QByteArray ba = m_httpDown.readAll();
-	QFile file(m_strHttpFile);
+	QFile file(m_strHttpFile+".part");
 	if(file.open(IO_ReadWrite | IO_Append))
 	{
 		QDataStream ds(&file);
@@ -200,10 +200,13 @@ void QTermHttp::httpDone(bool err)
 	}
 
 	if(m_bPreview) {
+		// rename first
+		QDir dir;
+		dir.rename(m_strHttpFile+".part",m_strHttpFile,true);
 		QString strPool = ((QTermFrame *)qApp->mainWidget())->m_pref.strPoolPath;
 		previewImage(m_strHttpFile);
 		QFileInfo fi = QFileInfo(m_strHttpFile);
-		ImageViewer::genThumb(pathPic+"pic/shadow.png", strPool, fi.fileName());
+		ImageViewer::genThumb(strPool, fi.fileName());
 	}
 	else
 		emit message("Download one file successfully");
@@ -218,9 +221,7 @@ void QTermHttp::previewImage(const QString& filename)
 
 	if(cstrViewer.isEmpty())
 	{
-		QTermCanvas *pCanvas = new QTermCanvas();
-		pCanvas->loadImage(filename);
-		pCanvas->show();
+		((QTermFrame *)qApp->mainWidget())->previewImage(filename);
 	}
 	else
 	{

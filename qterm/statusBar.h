@@ -70,7 +70,9 @@ namespace QTerm
 		void showMainProgressBar();
 		void hideMainProgressBar();
 		void updateProgressAppearance();
-
+	signals:
+		void started();
+		void ended();
 	protected:
 		virtual void polish();
 		virtual void customEvent( QCustomEvent* );
