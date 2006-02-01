@@ -1175,6 +1175,8 @@ void QTermFrame::viewImages()
 {
 	if(viewer==NULL)
 		viewer = new QTermImage(this, m_pref.strPoolPath, true);
+	else
+		viewer->updateList();
 	viewer->showNormal();
 }
 
@@ -1245,8 +1247,9 @@ void QTermFrame::previewImage(const QString& filename)
 {
 	if(viewer==NULL)
 		viewer = new QTermImage(this, m_pref.strPoolPath, true);
+	else
+		viewer->updateList();
 
-	viewer->updateList();
 	viewer->loadImage(filename);
 
 	viewer->showNormal();
