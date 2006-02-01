@@ -926,10 +926,9 @@ void QTermScreen::drawLine( QPainter& painter, int index, int starx, int endx, b
 		tempea = attr.at(i);
 		bSelected = m_pBuffer->isSelected(QPoint(i,index), m_pWindow->m_bCopyRect);
 		// get str of the same attribute
-		while ( tempcp == color.at(i) && 
+		while ( i < endx && tempcp == color.at(i) && 
 				tempea == attr.at(i)  && 
-				bSelected == m_pBuffer->isSelected(QPoint(i,index), m_pWindow->m_bCopyRect) && 
-				i < endx )
+				bSelected == m_pBuffer->isSelected(QPoint(i,index), m_pWindow->m_bCopyRect) )
 			++i;
 
 		if(bSelected)	// selected area is text=color(0) background=color(7)
