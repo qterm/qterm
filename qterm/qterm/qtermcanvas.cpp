@@ -20,7 +20,8 @@ QTermCanvas::QTermCanvas(QWidget *parent, const char *name, WFlags f)
   :QScrollView(parent, name, f)
 {
 	bFitWin=true;
-	
+	bFixed = false;
+
 	label = new QLabel(viewport());
 	label->setScaledContents(false);
 	label->setAlignment(AlignCenter);
