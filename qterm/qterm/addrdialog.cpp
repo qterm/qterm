@@ -581,7 +581,6 @@ void addrDialog::updateData(bool save)
 		reconnectCheckBox->setChecked(param.m_bReconnect);
 		onReconnect(param.m_bReconnect);
 		strTmp.setNum(param.m_nReconnectInterval);
-		reconnectCheckBox->setChecked(param.m_bReconnect);
 		reconnectLineEdit->setText(strTmp);
 		strTmp.setNum(param.m_nRetry);
 		retryLineEdit->setText(strTmp);
