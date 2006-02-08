@@ -1,0 +1,107 @@
+## started by Thomas Nagy (aka ita on freenode)
+
+SUMMARY:
+* HOW TO RUN
+* THE API
+* STRUCTURE OF THE MODULES
+* DISCUSSION
+
+HOW TO RUN:
+-----------
+
+* without scons installed:
+cd kdelibs
+tar xjvf bksys/scons-mini.tar.bz2
+./scons configure
+./scons
+
+* with scons installed:
+cd kdelibs && scons
+add this to your .bashrc to run scons anywhere in the tree
+export SCONSFLAGS="-u"
+
+Miniscons is based on scons-0.96.1, but the version 0.96.91
+is about 30% faster at computing the dependencies
+
+To make scons run faster you may use these flags:
+export SCONSFLAGS="-u --max-drift=1 --implicit-deps-unchanged",
+but in this case Miniscons and 0.96.91 are about as fast
+
+To install:
+scons install DESTDIR=/tmp/blah
+
+THE API:
+--------
+
+For building objects, one will use the 'obj' builders.
+These are python classes that accept 5 types when initialized:
+program      : compiled program
+shlib        : shared library
+staticlib    : static library
+convenience  : static library made of objects compiled with pic (position-independent code)
+kioslave     : same as shlib, but without 'lib' as a prefix
+
+The existing classes are the following:
+* genobj:     build generic c++ or c applications, depending on the sources given to build
+* qt4obj:     build a qt4 object, scanning for moc files and adding the dependencies on .rcc files
+* kde4obj:    build a kde4 object, scanning for ... 
+* kdeinitobj: build a kdeinit object, scanning for ... 
+
+Targets are then specified like this:
+obj = env.qt4obj('shlib',env)
+obj.vnum     = '6.0.2'
+obj.target   = 'libDCOP'
+obj.source   = 'dcopstub.cpp dcopref.cpp dcopobject.cpp dcopclient.cpp'
+obj.uselib   = 'QTCORE QT3SUPPORT KDE4'
+obj.libs     = env.join('KDE-ICE', 'libkICE.a')
+obj.execute()
+
+More to come:
+obj.findfile = '. gui algos' # scan for source files automatically
+
+STRUCTURE OF THE MODULES:
+-------------------------
+
+A scons module must contain the following functions:
+* exists(env)
+	returns True usually
+* generate(env) 
+	attach to the env the necessary builders and detect the configuration
+
+* Suggested layout for the modules:
+bksys/
+bksys/unix
+bksys/win32
+bksys/osx
+
+If possible add the platform specific code to those directories and import the code needed like this
+import sys
+if sys.platform == 'darwin':
+   sys.path.append('bksys'+os.sep+'osx')
+   from somemodule import runfunction
+   runfunction(env)
+else:
+   ...
+
+* There will be one config.h in build which will include all other configuration files
+
+DISCUSSION:
+-----------
+
+No more question for the moment :)
+
+
+BUGS:
+-----
+see BUGS.TXT
+
+
+TODO:
+-----
+see TODO.TXT and search for TODO tags in the python sources 
+
+
+RULES:
+-----
+see RULES.TXT for some programming rules 
+

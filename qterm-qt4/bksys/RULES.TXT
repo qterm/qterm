@@ -1,0 +1,7 @@
+RULES
+-----
+
+- uses tab indents for python source code  
+- document functions/classes in the doxygen style comment form documentated on 
+		http://www.stack.nl/~dimitri/doxygen/docblocks.html#pythonblocks
+
