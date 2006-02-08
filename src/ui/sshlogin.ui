@@ -1,0 +1,119 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>SSHLogin</class>
+ <widget class="QDialog" name="SSHLogin" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>359</width>
+    <height>173</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Login</string>
+  </property>
+  <widget class="QLabel" name="textLabel2_2" >
+   <property name="geometry" >
+    <rect>
+     <x>23</x>
+     <y>10</y>
+     <width>310</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <family>Bitstream Vera Sans</family>
+     <pointsize>15</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>false</underline>
+     <strikeout>false</strikeout>
+    </font>
+   </property>
+   <property name="text" >
+    <string>Please enter your username and password</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="leUserName" >
+   <property name="geometry" >
+    <rect>
+     <x>110</x>
+     <y>50</y>
+     <width>210</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lePassword" >
+   <property name="geometry" >
+    <rect>
+     <x>110</x>
+     <y>90</y>
+     <width>210</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="textLabel1" >
+   <property name="geometry" >
+    <rect>
+     <x>30</x>
+     <y>50</y>
+     <width>73</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>UserName:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="textLabel2" >
+   <property name="geometry" >
+    <rect>
+     <x>30</x>
+     <y>90</y>
+     <width>70</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Password:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="bOK" >
+   <property name="geometry" >
+    <rect>
+     <x>40</x>
+     <y>130</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="bCancel" >
+   <property name="geometry" >
+    <rect>
+     <x>230</x>
+     <y>130</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Cancel</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <resources/>
+ <connections/>
+</ui>

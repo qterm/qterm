@@ -1,0 +1,28 @@
+BUGS
+====
+
+
+generic
+-------
+* installing versioned libraries is broken at the very moment
+* duplicate PREFIX entry in modules
+    
+    
+mac
+----
+
+
+
+
+unix
+----
+* SConscript containing "#!/usr/bin/env scons -u" in the first line and run with ./SConscript 	
+  does not work -> error "No such file or directory"  (from kde-buildsystem@kde.org)
+
+
+
+win32
+-----
+* mingw: fix bug in lowlevel.py not detecting winsock gethostname() function 
+
+ 

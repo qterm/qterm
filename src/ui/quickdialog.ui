@@ -1,0 +1,212 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>quickDialog</class>
+ <widget class="QDialog" name="quickDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>350</width>
+    <height>150</height>
+   </rect>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>350</width>
+    <height>150</height>
+   </size>
+  </property>
+  <property name="maximumSize" >
+   <size>
+    <width>350</width>
+    <height>150</height>
+   </size>
+  </property>
+  <property name="font" >
+   <font>
+    <family>Bitstream Vera Sans</family>
+    <pointsize>9</pointsize>
+    <weight>50</weight>
+    <italic>false</italic>
+    <bold>false</bold>
+    <underline>false</underline>
+    <strikeout>false</strikeout>
+   </font>
+  </property>
+  <property name="windowTitle" >
+   <string>Quick Login</string>
+  </property>
+  <widget class="QLabel" name="TextLabel4" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>50</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="frameShape" >
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="frameShadow" >
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text" >
+    <string>History</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="TextLabel5" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>50</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Address</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="historyComboBox" >
+   <property name="geometry" >
+    <rect>
+     <x>70</x>
+     <y>20</y>
+     <width>131</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="addrLineEdit" >
+   <property name="geometry" >
+    <rect>
+     <x>70</x>
+     <y>60</y>
+     <width>131</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="Line" name="line" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>331</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="connectPushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>170</x>
+     <y>110</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Connect</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="closePushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>260</x>
+     <y>110</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Close</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="advPushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Advanced</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="portLineEdit" >
+   <property name="geometry" >
+    <rect>
+     <x>280</x>
+     <y>60</y>
+     <width>60</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="deletePushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>210</x>
+     <y>20</y>
+     <width>91</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Delete</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="addPushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>310</x>
+     <y>20</y>
+     <width>30</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string/>
+   </property>
+   <property name="icon" >
+    <iconset/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="TextLabel6" >
+   <property name="geometry" >
+    <rect>
+     <x>240</x>
+     <y>60</y>
+     <width>40</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Port</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <tabstops>
+  <tabstop>historyComboBox</tabstop>
+  <tabstop>deletePushButton</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>addrLineEdit</tabstop>
+  <tabstop>portLineEdit</tabstop>
+  <tabstop>advPushButton</tabstop>
+  <tabstop>connectPushButton</tabstop>
+  <tabstop>closePushButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

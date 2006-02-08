@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# creates bksys documentation  (requires doxygen >= 1.4.4)
+# 
+# (@) 2005 by Ralf Habacker 
+#  
+echo "/** @page design Design" >design.dox
+echo "<pre>" >>design.dox
+cat design >>design.dox
+echo "</pre> */" >>design.dox 
+doxygen bksys.doxy
+rm design.dox
+
+ 

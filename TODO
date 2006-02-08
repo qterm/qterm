@@ -1,0 +1,20 @@
+aboutdialog: QTextStream---Fixed
+clearWState---Remove
+QRubberBand for selection---No need
+QIMEvent->QInputMethodEvent--Partially finished
+QTermScreen: Cursor Events, drawMenuSelect---Partially finished
+QTermWindow: QTooltip
+StatusBar: drawPrimitive
+Copy Article: crash
+SchemaDialog: does not work
+QTermScreen: menu does not clear completely,
+QTermScreen: menu type 2 does not work
+QTermScreen: block cursor does not work properly when move in Chinese chars.
+QList<T*> setAutoDelete?
+QTermConvert
+Q3Accel
+QTermFrame setItemChecked
+substitution of sscanf, or redesign the config format
+QTermFrame Toolbar(getLocation, moveToolBar) and Menu, add action, about to hide
+QTcpSocket writeBlock & readBlock
+Change the api to cope with the new Qt4 api (setProgress->setValue etc.)

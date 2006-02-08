@@ -1,0 +1,1011 @@
+Number of log entries: 944
+No changes made to file /home/hooey/qterm-dev/qterm/Makefile.am
+No changes made to file /home/hooey/qterm-dev/qterm/Makefile.in
+In file /home/hooey/qterm-dev/qterm/aboutdialog.cpp at line 20 column 22: qtextbrowser.h -> q3textbrowser.h
+In file /home/hooey/qterm-dev/qterm/aboutdialog.cpp at line 23 column 80: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/aboutdialog.cpp at line 27 column 28: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/hooey/qterm-dev/qterm/aboutdialog.cpp: Added the following include directives:
+	#include <QPixmap> 
+In file /home/hooey/qterm-dev/qterm/aboutdialog.h at line 20 column 85: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/aboutdialogui.cpp at line 16 column 22: qtextbrowser.h -> q3textbrowser.h
+In file /home/hooey/qterm-dev/qterm/aboutdialogui.cpp at line 20 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/aboutdialogui.cpp at line 23 column 83: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/aboutdialogui.cpp at line 63 column 35: QTextBrowser -> Q3TextBrowser
+In file /home/hooey/qterm-dev/qterm/aboutdialogui.h at line 21 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/aboutdialogui.h at line 22 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/aboutdialogui.h at line 23 column 17: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/aboutdialogui.h at line 28 column 18: QTextBrowser -> Q3TextBrowser
+In file /home/hooey/qterm-dev/qterm/aboutdialogui.h at line 36 column 88: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/aboutdialogui.h at line 47 column 16: QTextBrowser -> Q3TextBrowser
+In file /home/hooey/qterm-dev/qterm/aboutdialogui.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3HBoxLayout> 	#include <QLabel> 	#include <Q3GridLayout> 
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 21 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 25 column 19: qcombobox.h -> q3combobox.h
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 26 column 16: qframe.h -> q3frame.h
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 27 column 19: qgroupbox.h -> q3groupbox.h
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 30 column 18: qlistbox.h -> q3listbox.h
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 32 column 22: qbuttongroup.h -> q3buttongroup.h
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 37 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 48 column 91: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 96 column 42: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 328 column 30: QFileDialog -> Q3FileDialog
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 386 column 59: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 386 column 100: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 387 column 56: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp at line 388 column 56: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/addrdialog.cpp: Added the following include directives:
+	#include <QPixmap> 
+In file /home/hooey/qterm-dev/qterm/addrdialog.h at line 24 column 52: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/addrdialog.h at line 34 column 31: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 14 column 18: qlistbox.h -> q3listbox.h
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 15 column 16: qframe.h -> q3frame.h
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 19 column 19: qcombobox.h -> q3combobox.h
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 22 column 19: qgroupbox.h -> q3groupbox.h
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 23 column 22: qbuttongroup.h -> q3buttongroup.h
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 27 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 30 column 81: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 53 column 30: QListBox -> Q3ListBox
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 64 column 22: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 66 column 32: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 67 column 33: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 68 column 32: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 222 column 29: QGroupBox -> Q3GroupBox
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 244 column 29: QGroupBox -> Q3GroupBox
+In file /home/hooey/qterm-dev/qterm/addrdialogui.cpp at line 341 column 32: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 22 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 23 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 24 column 17: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 27 column 14: QListBox -> Q3ListBox
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 28 column 18: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 29 column 12: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 36 column 15: QGroupBox -> Q3GroupBox
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 37 column 18: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 45 column 87: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 51 column 12: QListBox -> Q3ListBox
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 54 column 10: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 103 column 13: QGroupBox -> Q3GroupBox
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 110 column 13: QGroupBox -> Q3GroupBox
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h at line 142 column 16: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/addrdialogui.h: Added the following include directives:
+	#include <Q3GridLayout> 	#include <Q3Frame> 	#include <QLabel> 	#include <Q3HBoxLayout> 	#include <Q3VBoxLayout> 
+No changes made to file /home/hooey/qterm-dev/qterm/address.cfg
+In file /home/hooey/qterm-dev/qterm/articledialog.cpp at line 14 column 22: qtextbrowser.h -> q3textbrowser.h
+In file /home/hooey/qterm-dev/qterm/articledialog.cpp at line 17 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/articledialog.cpp at line 19 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/hooey/qterm-dev/qterm/articledialog.cpp at line 25 column 83: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/articledialog.cpp at line 74 column 12: QFileDialog -> Q3FileDialog
+In file /home/hooey/qterm-dev/qterm/articledialog.cpp at line 80 column 33: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/hooey/qterm-dev/qterm/articledialog.h at line 22 column 87: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/articledialog.h at line 25 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/articledialog.h: Added the following include directives:
+	#include <Q3CString> 
+In file /home/hooey/qterm-dev/qterm/articledialogui.cpp at line 16 column 22: qtextbrowser.h -> q3textbrowser.h
+In file /home/hooey/qterm-dev/qterm/articledialogui.cpp at line 19 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/articledialogui.cpp at line 22 column 87: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/articledialogui.cpp at line 28 column 43: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/articledialogui.cpp at line 56 column 35: QTextBrowser -> Q3TextBrowser
+In file /home/hooey/qterm-dev/qterm/articledialogui.cpp: Added the following include directives:
+	#include <Q3GridLayout> 
+In file /home/hooey/qterm-dev/qterm/articledialogui.h at line 20 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/articledialogui.h at line 21 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/articledialogui.h at line 22 column 17: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/articledialogui.h at line 24 column 18: QTextBrowser -> Q3TextBrowser
+In file /home/hooey/qterm-dev/qterm/articledialogui.h at line 31 column 90: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/articledialogui.h at line 38 column 16: QTextBrowser -> Q3TextBrowser
+In file /home/hooey/qterm-dev/qterm/articledialogui.h at line 41 column 15: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/articledialogui.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3HBoxLayout> 	#include <Q3GridLayout> 
+No changes made to file /home/hooey/qterm-dev/qterm/credits
+In file /home/hooey/qterm-dev/qterm/imageviewer.cpp at line 9 column 19: qlistview.h -> q3listview.h
+In file /home/hooey/qterm-dev/qterm/imageviewer.cpp at line 12 column 17: qheader.h -> q3header.h
+In file /home/hooey/qterm-dev/qterm/imageviewer.cpp at line 17 column 11: QListView -> Q3ListView
+In file /home/hooey/qterm-dev/qterm/imageviewer.cpp at line 54 column 17: QListViewItem -> Q3ListViewItem
+In file /home/hooey/qterm-dev/qterm/imageviewer.cpp at line 54 column 44: QListViewItem -> Q3ListViewItem
+In file /home/hooey/qterm-dev/qterm/imageviewer.cpp at line 64 column 52: QListViewItem -> Q3ListViewItem
+In file /home/hooey/qterm-dev/qterm/imageviewer.cpp at line 64 column 92: QListViewItem -> Q3ListViewItem
+In file /home/hooey/qterm-dev/qterm/imageviewer.cpp at line 73 column 55: QImage::ScaleMin -> Qt::KeepAspectRatio
+In file /home/hooey/qterm-dev/qterm/imageviewer.cpp at line 99 column 41: QListViewItem -> Q3ListViewItem
+In file /home/hooey/qterm-dev/qterm/imageviewer.h at line 5 column 19: qlistview.h -> q3listview.h
+In file /home/hooey/qterm-dev/qterm/imageviewer.h at line 10 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/imageviewer.h at line 11 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/imageviewer.h at line 13 column 36: QListView -> Q3ListView
+In file /home/hooey/qterm-dev/qterm/imageviewer.h at line 26 column 29: QListViewItem -> Q3ListViewItem
+In file /home/hooey/qterm-dev/qterm/imageviewer.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3HBoxLayout> 
+In file /home/hooey/qterm-dev/qterm/imageviewerui.cpp at line 17 column 16: qframe.h -> q3frame.h
+In file /home/hooey/qterm-dev/qterm/imageviewerui.cpp at line 21 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/imageviewerui.cpp at line 24 column 81: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/imageviewerui.cpp at line 30 column 40: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/imageviewerui.cpp at line 38 column 29: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/imageviewerui.cpp: Added the following include directives:
+	#include <Q3HBoxLayout> 	#include <Q3GridLayout> 
+In file /home/hooey/qterm-dev/qterm/imageviewerui.h at line 20 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/imageviewerui.h at line 21 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/imageviewerui.h at line 22 column 17: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/imageviewerui.h at line 32 column 87: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/imageviewerui.h at line 41 column 15: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/imageviewerui.h at line 42 column 15: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/imageviewerui.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3HBoxLayout> 	#include <Q3GridLayout> 
+In file /home/hooey/qterm-dev/qterm/keydialog.cpp at line 14 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/hooey/qterm-dev/qterm/keydialog.cpp at line 17 column 22: qbuttongroup.h -> q3buttongroup.h
+In file /home/hooey/qterm-dev/qterm/keydialog.cpp at line 20 column 18: qlistbox.h -> q3listbox.h
+In file /home/hooey/qterm-dev/qterm/keydialog.cpp at line 25 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/keydialog.cpp at line 31 column 75: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/keydialog.cpp at line 52 column 59: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/keydialog.cpp at line 52 column 100: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/keydialog.cpp at line 68 column 42: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/keydialog.h at line 22 column 83: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/keydialog.h at line 32 column 31: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/keydialogui.cpp at line 13 column 22: qbuttongroup.h -> q3buttongroup.h
+In file /home/hooey/qterm-dev/qterm/keydialogui.cpp at line 16 column 18: qlistbox.h -> q3listbox.h
+In file /home/hooey/qterm-dev/qterm/keydialogui.cpp at line 21 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/keydialogui.cpp at line 24 column 79: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/keydialogui.cpp at line 33 column 35: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/keydialogui.cpp at line 85 column 30: QListBox -> Q3ListBox
+In file /home/hooey/qterm-dev/qterm/keydialogui.h at line 21 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/keydialogui.h at line 22 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/keydialogui.h at line 23 column 17: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/keydialogui.h at line 24 column 18: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/keydialogui.h at line 27 column 14: QListBox -> Q3ListBox
+In file /home/hooey/qterm-dev/qterm/keydialogui.h at line 28 column 18: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/keydialogui.h at line 37 column 86: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/keydialogui.h at line 40 column 16: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/keydialogui.h at line 57 column 12: QListBox -> Q3ListBox
+In file /home/hooey/qterm-dev/qterm/keydialogui.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3HBoxLayout> 	#include <QLabel> 	#include <Q3GridLayout> 
+In file /home/hooey/qterm-dev/qterm/main.cpp at line 37 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/hooey/qterm-dev/qterm/main.cpp at line 48 column 30: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/main.cpp at line 50 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/main.cpp at line 62 column 30: QFileDialog -> Q3FileDialog
+In file /home/hooey/qterm-dev/qterm/main.cpp at line 82 column 30: QFileDialog -> Q3FileDialog
+In file /home/hooey/qterm-dev/qterm/main.cpp at line 92 column 23: QFileDialog -> Q3FileDialog
+In file /home/hooey/qterm-dev/qterm/main.cpp: Added the following include directives:
+	#include <Q3CString> 	#include <QTranslator> 
+In file /home/hooey/qterm-dev/qterm/msgdialog.cpp at line 12 column 22: qtextbrowser.h -> q3textbrowser.h
+In file /home/hooey/qterm-dev/qterm/msgdialog.cpp at line 16 column 76: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/msgdialog.h at line 19 column 83: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/msgdialogui.cpp at line 16 column 22: qtextbrowser.h -> q3textbrowser.h
+In file /home/hooey/qterm-dev/qterm/msgdialogui.cpp at line 19 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/msgdialogui.cpp at line 22 column 79: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/msgdialogui.cpp at line 28 column 39: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/msgdialogui.cpp at line 30 column 33: QTextBrowser -> Q3TextBrowser
+In file /home/hooey/qterm-dev/qterm/msgdialogui.cpp: Added the following include directives:
+	#include <Q3GridLayout> 
+In file /home/hooey/qterm-dev/qterm/msgdialogui.h at line 20 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/msgdialogui.h at line 21 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/msgdialogui.h at line 22 column 17: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/msgdialogui.h at line 24 column 18: QTextBrowser -> Q3TextBrowser
+In file /home/hooey/qterm-dev/qterm/msgdialogui.h at line 31 column 86: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/msgdialogui.h at line 34 column 16: QTextBrowser -> Q3TextBrowser
+In file /home/hooey/qterm-dev/qterm/msgdialogui.h at line 38 column 15: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/msgdialogui.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3HBoxLayout> 	#include <Q3GridLayout> 
+In file /home/hooey/qterm-dev/qterm/osdmessage.cpp at line 33 column 33: ArrowCursor -> Qt::ArrowCursor
+In file /home/hooey/qterm-dev/qterm/osdmessage.cpp: Added the following include directives:
+	#include <QPixmap> 	#include <QMouseEvent> 	#include <QPaintEvent> 
+In file /home/hooey/qterm-dev/qterm/osdmessage.h: Added the following include directives:
+	#include <QMouseEvent> 	#include <QPaintEvent> 
+In file /home/hooey/qterm-dev/qterm/overlayWidget.cpp at line 35 column 16: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/overlayWidget.cpp at line 75 column 17: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/overlayWidget.cpp at line 82 column 10: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/overlayWidget.cpp at line 88 column 43: ChildInserted -> ChildAdded
+In file /home/hooey/qterm-dev/qterm/overlayWidget.cpp at line 91 column 17: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/overlayWidget.cpp: Added the following include directives:
+	#include <Q3Frame> 	#include <QResizeEvent> 	#include <QEvent> 
+In file /home/hooey/qterm-dev/qterm/overlayWidget.h at line 27 column 15: qhbox.h -> q3hbox.h
+In file /home/hooey/qterm-dev/qterm/overlayWidget.h at line 31 column 39: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/overlayWidget.h: Added the following include directives:
+	#include <Q3Frame> 	#include <QResizeEvent> 	#include <QEvent> 
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp at line 36 column 16: qframe.h -> q3frame.h
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp at line 60 column 25: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp at line 60 column 41: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp at line 61 column 25: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp at line 64 column 15: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp at line 69 column 30: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp at line 71 column 26: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp at line 73 column 50: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp at line 75 column 43: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp at line 75 column 59: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp at line 89 column 26: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp at line 113 column 22: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp at line 191 column 10: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/popupMessage.cpp: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <QPixmap> 	#include <Q3HBoxLayout> 	#include <QTimerEvent> 
+In file /home/hooey/qterm-dev/qterm/popupMessage.h at line 77 column 19: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/popupMessage.h at line 78 column 14: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/popupMessage.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <QTimerEvent> 	#include <Q3Frame> 
+In file /home/hooey/qterm-dev/qterm/popwidget.cpp at line 30 column 81: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/popwidget.cpp at line 46 column 33: QLabel -> Qt
+In file /home/hooey/qterm-dev/qterm/popwidget.cpp at line 46 column 50: QLabel::WordBreak -> Qt::TextWordWrap
+In file /home/hooey/qterm-dev/qterm/popwidget.cpp: Added the following include directives:
+	#include <QMouseEvent> 
+In file /home/hooey/qterm-dev/qterm/popwidget.h at line 22 column 11: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/popwidget.h at line 22 column 32: WStyle_StaysOnTop -> Qt::WStyle_StaysOnTop
+In file /home/hooey/qterm-dev/qterm/popwidget.h at line 22 column 45: WX11BypassWM -> Qt::WX11BypassWM
+In file /home/hooey/qterm-dev/qterm/popwidget.h at line 22 column 57: WStyle_Tool -> Qt::WStyle_Tool
+In file /home/hooey/qterm-dev/qterm/popwidget.h: Added the following include directives:
+	#include <QMouseEvent> 	#include <QLabel> 
+In file /home/hooey/qterm-dev/qterm/prefdialog.cpp at line 17 column 22: qbuttongroup.h -> q3buttongroup.h
+In file /home/hooey/qterm-dev/qterm/prefdialog.cpp at line 19 column 19: qcombobox.h -> q3combobox.h
+In file /home/hooey/qterm-dev/qterm/prefdialog.cpp at line 20 column 16: qframe.h -> q3frame.h
+In file /home/hooey/qterm-dev/qterm/prefdialog.cpp at line 27 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/prefdialog.cpp at line 29 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/hooey/qterm-dev/qterm/prefdialog.cpp at line 36 column 78: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/prefdialog.cpp at line 238 column 26: QFileDialog -> Q3FileDialog
+In file /home/hooey/qterm-dev/qterm/prefdialog.cpp at line 254 column 27: QFileDialog -> Q3FileDialog
+In file /home/hooey/qterm-dev/qterm/prefdialog.cpp: Added the following include directives:
+	#include <QCloseEvent> 
+In file /home/hooey/qterm-dev/qterm/prefdialog.h at line 21 column 84: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/prefdialog.h: Added the following include directives:
+	#include <QCloseEvent> 
+In file /home/hooey/qterm-dev/qterm/prefdialogui.cpp at line 14 column 19: qcombobox.h -> q3combobox.h
+In file /home/hooey/qterm-dev/qterm/prefdialogui.cpp at line 16 column 16: qframe.h -> q3frame.h
+In file /home/hooey/qterm-dev/qterm/prefdialogui.cpp at line 18 column 22: qbuttongroup.h -> q3buttongroup.h
+In file /home/hooey/qterm-dev/qterm/prefdialogui.cpp at line 23 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/prefdialogui.cpp at line 26 column 81: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/prefdialogui.cpp at line 64 column 22: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/prefdialogui.cpp at line 66 column 32: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/prefdialogui.cpp at line 67 column 33: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/prefdialogui.cpp at line 68 column 32: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/prefdialogui.cpp at line 108 column 35: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/prefdialogui.h at line 22 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/prefdialogui.h at line 23 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/prefdialogui.h at line 24 column 17: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/prefdialogui.h at line 29 column 12: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/prefdialogui.h at line 31 column 18: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/prefdialogui.h at line 40 column 87: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/prefdialogui.h at line 53 column 10: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/prefdialogui.h at line 66 column 16: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/prefdialogui.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3HBoxLayout> 	#include <QLabel> 	#include <Q3GridLayout> 	#include <Q3Frame> 
+In file /home/hooey/qterm-dev/qterm/progressBar.cpp at line 33 column 22: QProgressBar -> Q3ProgressBar
+In file /home/hooey/qterm-dev/qterm/progressBar.cpp: Added the following include directives:
+	#include <QPixmap> 
+In file /home/hooey/qterm-dev/qterm/progressBar.h at line 29 column 22: qprogressbar.h -> q3progressbar.h
+In file /home/hooey/qterm-dev/qterm/progressBar.h at line 37 column 43: QProgressBar -> Q3ProgressBar
+In file /home/hooey/qterm-dev/qterm/progressBar.h: Added the following include directives:
+	#include <QLabel> 
+No changes made to file /home/hooey/qterm-dev/qterm/qterm.cfg
+No changes made to file /home/hooey/qterm-dev/qterm/qterm.desktop.in
+No changes made to file /home/hooey/qterm-dev/qterm/qterm.h
+No changes made to file /home/hooey/qterm-dev/qterm/qterm.icns
+No changes made to file /home/hooey/qterm-dev/qterm/qterm.png
+No changes made to file /home/hooey/qterm-dev/qterm/qterm.prj
+No changes made to file /home/hooey/qterm-dev/qterm/qterm.rc
+In file /home/hooey/qterm-dev/qterm/qtermbbs.cpp at line 46 column 8: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbbs.cpp at line 49 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbbs.cpp at line 72 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbbs.cpp at line 207 column 20: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbbs.cpp at line 267 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbbs.cpp at line 324 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbbs.cpp at line 472 column 8: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbbs.cpp at line 477 column 8: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbbs.cpp: Added the following include directives:
+	#include <Q3CString> 
+In file /home/hooey/qterm-dev/qterm/qtermbbs.h at line 31 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbbs.h at line 32 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbbs.h at line 37 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbbs.h at line 45 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbbs.h at line 46 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbbs.h: Added the following include directives:
+	#include <Q3CString> 
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.cpp at line 120 column 43: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.cpp at line 166 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.cpp at line 279 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.cpp at line 404 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.cpp at line 596 column 8: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.cpp at line 596 column 74: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.cpp at line 598 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.cpp at line 604 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.cpp: Added the following include directives:
+	#include <Q3CString> 
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.h at line 9 column 18: qptrlist.h -> q3ptrlist.h
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.h at line 21 column 14: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.h at line 46 column 31: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.h at line 93 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.h at line 93 column 51: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.h at line 114 column 9: QPtrList -> Q3PtrList
+In file /home/hooey/qterm-dev/qterm/qtermbuffer.h: Added the following include directives:
+	#include <Q3CString> 
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 14 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 16 column 18: qwmatrix.h -> qmatrix.h
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 17 column 20: qpopupmenu.h -> q3popupmenu.h
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 23 column 66: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 24 column 14: QScrollView -> Q3ScrollView
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 33 column 25: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 34 column 66: Key_Z -> Qt::Key_Z
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 35 column 67: Key_X -> Qt::Key_X
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 37 column 68: Key_Equal -> Qt::Key_Equal
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 38 column 70: Key_Minus -> Qt::Key_Minus
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 40 column 72: Key_F -> Qt::Key_F
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 42 column 82: Key_BracketRight -> Qt::Key_BracketRight
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 43 column 83: Key_BracketLeft -> Qt::Key_BracketLeft
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 47 column 68: Key_S -> Qt::Key_S
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 48 column 68: Key_C -> Qt::Key_C
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 49 column 73: Key_S -> Qt::Key_S
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 49 column 79: SHIFT -> Qt::SHIFT
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 50 column 69: Key_D -> Qt::Key_D
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 53 column 61: Key_Q -> Qt::Key_Q
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 60 column 32: AlignCenter -> Qt::AlignCenter
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 127 column 28: QSize::ScaleMin -> Qt::KeepAspectRatio
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 171 column 9: QWMatrix -> QMatrix
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 190 column 25: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 193 column 27: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 230 column 25: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 233 column 27: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 287 column 28: RightButton -> Qt::RightButton
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp at line 335 column 28: QSize::ScaleMin -> Qt::KeepAspectRatio
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.cpp: Added the following include directives:
+	#include <QCloseEvent> 	#include <QKeyEvent> 	#include <QResizeEvent> 	#include <QMouseEvent> 
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.h at line 12 column 21: qscrollview.h -> q3scrollview.h
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.h at line 16 column 16: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.h at line 18 column 38: QScrollView -> Q3ScrollView
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.h at line 23 column 11: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.h at line 23 column 28: WType_TopLevel -> Qt::WType_TopLevel
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.h at line 57 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermcanvas.h: Added the following include directives:
+	#include <QMouseEvent> 	#include <QPixmap> 	#include <QLabel> 	#include <QKeyEvent> 	#include <QResizeEvent> 	#include <Q3PopupMenu> 	#include <QCloseEvent> 
+In file /home/hooey/qterm-dev/qterm/qtermconfig.cpp at line 20 column 32: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/hooey/qterm-dev/qterm/qtermconfig.cpp at line 41 column 33: IO_WriteOnly -> QIODevice::WriteOnly
+In file /home/hooey/qterm-dev/qterm/qtermconfig.cpp: Added the following include directives:
+	#include <QTextStream> 
+In file /home/hooey/qterm-dev/qterm/qtermconfig.h: Added the following include directives:
+	#include <QTextStream> 
+No changes made to file /home/hooey/qterm-dev/qterm/qtermconvert.cpp
+No changes made to file /home/hooey/qterm-dev/qterm/qtermconvert.h
+In file /home/hooey/qterm-dev/qterm/qtermdecode.cpp at line 17 column 18: qcstring.h -> q3cstring.h
+In file /home/hooey/qterm-dev/qterm/qtermdecode.cpp at line 197 column 9: QCString -> Q3CString
+No changes made to file /home/hooey/qterm-dev/qterm/qtermdecode.h
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 44 column 18: qtoolbar.h -> q3toolbar.h
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 46 column 15: qvbox.h -> q3vbox.h
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 48 column 20: qpopupmenu.h -> q3popupmenu.h
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 53 column 15: qhbox.h -> q3hbox.h
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 73 column 18: qlistbox.h -> q3listbox.h
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 79 column 16: qaccel.h -> q3accel.h
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 99 column 17: QMainWindow -> Q3MainWindow
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 99 column 48: WDestructiveClose -> Qt::WDestructiveClose
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 102 column 6: QVBox -> Q3VBox
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 102 column 22: QVBox -> Q3VBox
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 103 column 26: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 103 column 48: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 123 column 53: QToolBar -> Q3ToolBar
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 124 column 40: QToolBar -> Q3ToolBar
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 129 column 6: QHBox -> Q3HBox
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 129 column 21: QHBox -> Q3HBox
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 135 column 39: RoundedBelow ->  RoundedSouth
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 145 column 7: QAccel -> Q3Accel
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 145 column 28: QAccel -> Q3Accel
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 146 column 24: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 146 column 28: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 146 column 34: Key_1 -> Qt::Key_1
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 147 column 24: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 147 column 28: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 147 column 34: Key_2 -> Qt::Key_2
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 148 column 24: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 148 column 28: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 148 column 34: Key_3 -> Qt::Key_3
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 149 column 24: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 149 column 28: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 149 column 34: Key_4 -> Qt::Key_4
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 150 column 24: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 150 column 28: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 150 column 34: Key_5 -> Qt::Key_5
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 151 column 24: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 151 column 28: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 151 column 34: Key_6 -> Qt::Key_6
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 152 column 24: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 152 column 28: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 152 column 34: Key_7 -> Qt::Key_7
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 153 column 24: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 153 column 28: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 153 column 34: Key_8 -> Qt::Key_8
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 154 column 24: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 154 column 28: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 154 column 34: Key_9 -> Qt::Key_9
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 155 column 24: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 155 column 28: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 155 column 34: Key_9 -> Qt::Key_9
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 160 column 7: QAccel -> Q3Accel
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 160 column 27: QAccel -> Q3Accel
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 161 column 22: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 161 column 28: Key_1 -> Qt::Key_1
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 162 column 22: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 162 column 28: Key_2 -> Qt::Key_2
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 163 column 22: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 163 column 28: Key_3 -> Qt::Key_3
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 164 column 22: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 164 column 28: Key_4 -> Qt::Key_4
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 165 column 22: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 165 column 28: Key_5 -> Qt::Key_5
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 166 column 22: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 166 column 28: Key_6 -> Qt::Key_6
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 167 column 22: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 167 column 28: Key_7 -> Qt::Key_7
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 168 column 22: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 168 column 28: Key_8 -> Qt::Key_8
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 169 column 22: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 169 column 28: Key_9 -> Qt::Key_9
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 171 column 22: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 171 column 31: Key_Left -> Qt::Key_Left
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 172 column 22: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 172 column 29: Key_Up -> Qt::Key_Up
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 173 column 22: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 173 column 32: Key_Right -> Qt::Key_Right
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 174 column 22: ALT -> Qt::ALT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 174 column 31: Key_Down -> Qt::Key_Down
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 389 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 502 column 26: WDestructiveClose -> Qt::WDestructiveClose
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 507 column 9: QIconSet -> QIcon
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 507 column 28: QIconSet -> QIcon
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 550 column 12: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 551 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 625 column 15: QMouseEvent -> Qt
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 625 column 40: QMouseEvent -> Qt
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 844 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1200 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1202 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1217 column 43: QToolBar -> Q3ToolBar
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1221 column 12: ToolBarDock -> Qt::ToolBarDock
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1249 column 24: QToolBar -> Q3ToolBar
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1255 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1259 column 36: ToolBarDock -> Qt::ToolBarDock
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1265 column 29: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1273 column 19: QToolBar -> Q3ToolBar
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1279 column 31: ToolBarDock -> Qt::ToolBarDock
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1285 column 31: QToolBar -> Q3ToolBar
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1290 column 43: ToolBarDock -> Qt::ToolBarDock
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1360 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1360 column 35: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1376 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1376 column 35: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1381 column 42: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1381 column 53: Key_Insert -> Qt::Key_Insert
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1383 column 45: SHIFT -> Qt::SHIFT
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1383 column 56: Key_Insert -> Qt::Key_Insert
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1392 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1392 column 41: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1400 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1400 column 40: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1407 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1407 column 35: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1419 column 26: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1427 column 28: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1433 column 7: QAccel -> Q3Accel
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1433 column 23: QAccel -> Q3Accel
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1440 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1440 column 40: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1450 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1450 column 37: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1459 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1459 column 35: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1478 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1478 column 37: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1484 column 29: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1493 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1493 column 35: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1600 column 8: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1602 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1651 column 26: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp at line 1748 column 64: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.cpp: Added the following include directives:
+	#include <QPaintEvent> 	#include <QMouseEvent> 	#include <Q3Frame> 	#include <QEvent> 	#include <Q3CString> 	#include <QCloseEvent> 
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 12 column 21: qmainwindow.h -> q3mainwindow.h
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 16 column 14: QToolBar -> Q3ToolBar
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 23 column 11: QVBox -> Q3VBox
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 57 column 58: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 80 column 37: QMainWindow -> Q3MainWindow
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 99 column 32: QToolBar -> Q3ToolBar
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 177 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 189 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 190 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 194 column 9: QToolBar -> Q3ToolBar
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 196 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 197 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 198 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 207 column 9: QToolBar -> Q3ToolBar
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 213 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermframe.h at line 231 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermframe.h: Added the following include directives:
+	#include <QPixmap> 	#include <Q3CString> 	#include <QPaintEvent> 	#include <QCloseEvent> 	#include <QEvent> 	#include <Q3PopupMenu> 
+In file /home/hooey/qterm-dev/qterm/qtermhttp.cpp at line 15 column 14: qurl.h -> q3url.h
+In file /home/hooey/qterm-dev/qterm/qtermhttp.cpp at line 21 column 37: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermhttp.cpp at line 31 column 77: QHttpResponseHeader -> Q3HttpResponseHeader
+In file /home/hooey/qterm-dev/qterm/qtermhttp.cpp at line 32 column 53: QHttpResponseHeader -> Q3HttpResponseHeader
+In file /home/hooey/qterm-dev/qterm/qtermhttp.cpp at line 56 column 5: QUrl -> Q3Url
+In file /home/hooey/qterm-dev/qterm/qtermhttp.cpp at line 85 column 55: QHttpResponseHeader -> Q3HttpResponseHeader
+In file /home/hooey/qterm-dev/qterm/qtermhttp.cpp at line 171 column 26: IO_ReadWrite -> QIODevice::ReadWrite
+In file /home/hooey/qterm-dev/qterm/qtermhttp.cpp at line 171 column 38: IO_Append -> QIODevice::Append
+In file /home/hooey/qterm-dev/qterm/qtermhttp.cpp at line 188 column 13: QHttp -> Q3Http
+In file /home/hooey/qterm-dev/qterm/qtermhttp.cpp at line 219 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermhttp.cpp at line 229 column 10: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermhttp.cpp: Added the following include directives:
+	#include <Q3CString> 
+In file /home/hooey/qterm-dev/qterm/qtermhttp.h at line 5 column 15: qhttp.h -> q3http.h
+In file /home/hooey/qterm-dev/qterm/qtermhttp.h at line 6 column 25: qprogressdialog.h -> q3progressdialog.h
+In file /home/hooey/qterm-dev/qterm/qtermhttp.h at line 21 column 48: QHttpResponseHeader -> Q3HttpResponseHeader
+In file /home/hooey/qterm-dev/qterm/qtermhttp.h at line 30 column 9: QHttp -> Q3Http
+In file /home/hooey/qterm-dev/qterm/qtermhttp.h at line 32 column 19: QProgressDialog -> Q3ProgressDialog
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.cpp at line 98 column 68: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.cpp at line 104 column 20: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.cpp at line 110 column 20: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.cpp at line 117 column 87: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.cpp at line 142 column 71: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.cpp at line 142 column 90: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.cpp at line 169 column 57: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.cpp at line 169 column 76: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.cpp: Added the following include directives:
+	#include <Q3CString> 
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.h at line 11 column 14: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.h at line 29 column 48: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.h at line 29 column 67: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.h at line 35 column 59: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.h at line 36 column 78: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.h at line 37 column 62: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.h at line 37 column 81: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermiplocation.h: Added the following include directives:
+	#include <Q3CString> 
+No changes made to file /home/hooey/qterm-dev/qterm/qtermparam.cpp
+No changes made to file /home/hooey/qterm-dev/qterm/qtermparam.h
+In file /home/hooey/qterm-dev/qterm/qtermpython.cpp at line 98 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermpython.cpp at line 173 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermpython.cpp at line 255 column 23: IO_ReadOnly -> QIODevice::ReadOnly
+In file /home/hooey/qterm-dev/qterm/qtermpython.cpp at line 375 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermpython.cpp at line 391 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermpython.cpp: Added the following include directives:
+	#include <QCustomEvent> 	#include <QTextStream> 	#include <Q3CString> 
+No changes made to file /home/hooey/qterm-dev/qterm/qtermpython.h
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 30 column 16: qaccel.h -> q3accel.h
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 86 column 36: arrowCursor -> Qt::arrowCursor
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 96 column 22: QAccel -> Q3Accel
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 99 column 54: Key_PageUp -> Qt::Key_PageUp
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 99 column 60: SHIFT -> Qt::SHIFT
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 100 column 56: Key_PageDown -> Qt::Key_PageDown
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 100 column 62: SHIFT -> Qt::SHIFT
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 101 column 50: Key_Up -> Qt::Key_Up
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 101 column 56: SHIFT -> Qt::SHIFT
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 102 column 52: Key_Down -> Qt::Key_Down
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 102 column 58: SHIFT -> Qt::SHIFT
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 144 column 65: Key_PageUp -> Qt::Key_PageUp
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 144 column 71: SHIFT -> Qt::SHIFT
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 146 column 67: Key_PageDown -> Qt::Key_PageDown
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 146 column 73: SHIFT -> Qt::SHIFT
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 148 column 61: Key_Up -> Qt::Key_Up
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 148 column 67: SHIFT -> Qt::SHIFT
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 150 column 63: Key_Down -> Qt::Key_Down
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 150 column 69: SHIFT -> Qt::SHIFT
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 702 column 12: QWMatrix -> QMatrix
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 725 column 11: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 805 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 806 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 893 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 894 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 901 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 932 column 10: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1180 column 11: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1180 column 23: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1181 column 13: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1181 column 27: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1182 column 12: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1182 column 25: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1192 column 17: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1193 column 23: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1195 column 18: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1196 column 19: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1197 column 25: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1199 column 20: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1200 column 18: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1201 column 24: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1203 column 19: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1214 column 28: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1215 column 41: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1217 column 36: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1218 column 30: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1219 column 43: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1221 column 38: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1222 column 29: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1223 column 42: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp at line 1225 column 37: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/qtermscreen.cpp: Added the following include directives:
+	#include <QPaintEvent> 	#include <QResizeEvent> 	#include <QMouseEvent> 	#include <QFocusEvent> 	#include <QMoveEvent> 	#include <Q3CString> 	#include <QWheelEvent> 
+In file /home/hooey/qterm-dev/qterm/qtermscreen.h at line 167 column 7: QAccel -> Q3Accel
+In file /home/hooey/qterm-dev/qterm/qtermscreen.h: Added the following include directives:
+	#include <QWheelEvent> 	#include <QFocusEvent> 	#include <QPaintEvent> 	#include <QMoveEvent> 	#include <QEvent> 	#include <QResizeEvent> 	#include <QMouseEvent> 
+In file /home/hooey/qterm-dev/qterm/qtermsocket.cpp at line 6 column 17: qsocket.h -> q3socket.h
+In file /home/hooey/qterm-dev/qterm/qtermsocket.cpp at line 35 column 23: QSocket -> Q3Socket
+In file /home/hooey/qterm-dev/qterm/qtermsocket.cpp at line 70 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermsocket.cpp: Added the following include directives:
+	#include <Q3CString> 
+In file /home/hooey/qterm-dev/qterm/qtermsocket.h at line 24 column 13: QSocket -> Q3Socket
+In file /home/hooey/qterm-dev/qterm/qtermsocket.h at line 76 column 8: QSocket -> Q3Socket
+In file /home/hooey/qterm-dev/qterm/qtermsound.cpp at line 16 column 37: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermsound.cpp: Added the following include directives:
+	#include <Q3CString> 
+No changes made to file /home/hooey/qterm-dev/qterm/qtermsound.h
+In file /home/hooey/qterm-dev/qterm/qtermtelnet.cpp at line 15 column 18: qcstring.h -> q3cstring.h
+In file /home/hooey/qterm-dev/qterm/qtermtelnet.cpp at line 19 column 17: qsocket.h -> q3socket.h
+In file /home/hooey/qterm-dev/qterm/qtermtelnet.cpp at line 74 column 34: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtelnet.cpp at line 279 column 13: QSocket -> Q3Socket
+In file /home/hooey/qterm-dev/qterm/qtermtelnet.cpp at line 279 column 13: QSocket -> Q3Socket
+In file /home/hooey/qterm-dev/qterm/qtermtelnet.cpp at line 282 column 13: QSocket -> Q3Socket
+In file /home/hooey/qterm-dev/qterm/qtermtelnet.cpp at line 282 column 13: QSocket -> Q3Socket
+In file /home/hooey/qterm-dev/qterm/qtermtelnet.cpp at line 285 column 13: QSocket -> Q3Socket
+In file /home/hooey/qterm-dev/qterm/qtermtelnet.cpp at line 285 column 13: QSocket -> Q3Socket
+In file /home/hooey/qterm-dev/qterm/qtermtelnet.h at line 78 column 12: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermtelnet.h at line 103 column 28: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtelnet.h: Added the following include directives:
+	#include <Q3CString> 
+In file /home/hooey/qterm-dev/qterm/qtermtextline.cpp at line 34 column 46: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.cpp at line 50 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.cpp at line 105 column 47: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.cpp at line 120 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.cpp at line 206 column 8: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.cpp at line 208 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.cpp at line 221 column 8: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.cpp at line 221 column 71: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.cpp at line 223 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.cpp at line 254 column 10: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.cpp: Added the following include directives:
+	#include <Q3CString> 
+In file /home/hooey/qterm-dev/qterm/qtermtextline.h at line 22 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.h at line 24 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.h at line 28 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.h at line 28 column 67: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.h at line 30 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.h at line 32 column 32: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.h at line 36 column 33: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.h at line 45 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.h at line 46 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.h at line 47 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermtextline.h: Added the following include directives:
+	#include <Q3CString> 
+In file /home/hooey/qterm-dev/qterm/qtermtimelabel.cpp at line 18 column 74: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/qtermtimelabel.cpp: Added the following include directives:
+	#include <QLabel> 	#include <QTimerEvent> 
+In file /home/hooey/qterm-dev/qterm/qtermtimelabel.h at line 13 column 61: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/qtermtimelabel.h: Added the following include directives:
+	#include <QTimerEvent> 
+No changes made to file /home/hooey/qterm-dev/qterm/qtermtoolbutton.cpp
+No changes made to file /home/hooey/qterm-dev/qterm/qtermtoolbutton.h
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 58 column 18: qtoolbar.h -> q3toolbar.h
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 66 column 20: qpopupmenu.h -> q3popupmenu.h
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 67 column 22: qtextbrowser.h -> q3textbrowser.h
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 71 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 74 column 22: qprogressbar.h -> q3progressbar.h
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 75 column 15: qhbox.h -> q3hbox.h
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 84 column 37: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 179 column 17: QMainWindow -> Q3MainWindow
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 225 column 61: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 226 column 50: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 248 column 24: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 255 column 25: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 256 column 91: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 256 column 102: Key_Insert -> Qt::Key_Insert
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 257 column 95: SHIFT -> Qt::SHIFT
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 257 column 106: Key_Insert -> Qt::Key_Insert
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 258 column 111: Key_F9 -> Qt::Key_F9
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 475 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 528 column 27: LeftButton -> Qt::LeftButton
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 528 column 58: KeyButtonMask -> Qt::KeyboardModifierMask
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 541 column 29: RightButton -> Qt::RightButton
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 543 column 30: ControlButton -> Qt::ControlModifier
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 550 column 32: KeyButtonMask -> Qt::KeyboardModifierMask
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 560 column 27: MidButton -> Qt::MidButton
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 560 column 58: KeyButtonMask -> Qt::KeyboardModifierMask
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 584 column 28: LeftButton -> Qt::LeftButton
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 659 column 30: LeftButton -> Qt::LeftButton
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 659 column 61: KeyButtonMask -> Qt::KeyboardModifierMask
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 699 column 11: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 768 column 31: KeyButtonMask -> Qt::KeyboardModifierMask
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 775 column 29: NoButton -> Qt::NoButton
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 777 column 27: NoButton -> Qt::NoButton
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 786 column 24: AltButton -> Qt::AltModifier
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 788 column 28: ControlButton -> Qt::ControlModifier
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 790 column 26: ShiftButton -> Qt::ShiftModifier
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 797 column 27: Key_Return -> Qt::Key_Return
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 813 column 28: MetaButton -> Qt::MetaModifier
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 815 column 21: Key_A -> Qt::Key_A
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 815 column 40: Key_Z -> Qt::Key_Z
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 831 column 15: Key_Home -> Qt::Key_Home
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 834 column 14: Key_End -> Qt::Key_End
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 837 column 17: Key_PageUp -> Qt::Key_PageUp
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 840 column 19: Key_PageDown -> Qt::Key_PageDown
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 843 column 13: Key_Up -> Qt::Key_Up
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 846 column 15: Key_Down -> Qt::Key_Down
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 849 column 15: Key_Left -> Qt::Key_Left
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 852 column 16: Key_Right -> Qt::Key_Right
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 855 column 17: Key_Delete -> Qt::Key_Delete
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 866 column 10: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 930 column 11: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 941 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 988 column 10: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1036 column 65: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1038 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1263 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1411 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1467 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1524 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1539 column 10: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1544 column 10: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1551 column 10: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1565 column 10: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1609 column 10: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1635 column 8: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1635 column 49: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1637 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1649 column 18: CTRL -> Qt::CTRL
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1685 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1686 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1686 column 55: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1718 column 45: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1720 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1725 column 8: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1727 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1753 column 49: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1761 column 8: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1761 column 53: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1763 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1781 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1792 column 15: ButtonState -> Qt::ButtonState
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1792 column 37: ButtonState -> Qt::ButtonState
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1799 column 23: LeftButton -> Qt::LeftButton
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1801 column 27: MidButton -> Qt::MidButton
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1803 column 29: RightButton -> Qt::RightButton
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1807 column 24: ShiftButton -> Qt::ShiftModifier
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1809 column 23: MetaButton -> Qt::MetaModifier
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1811 column 26: ControlButton -> Qt::ControlModifier
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1833 column 47: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 1959 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 2024 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 2056 column 56: ButtonState -> Qt::ButtonState
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 2056 column 78: ButtonState -> Qt::ButtonState
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 2061 column 23: LeftButton -> Qt::LeftButton
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 2063 column 24: RightButton -> Qt::RightButton
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 2065 column 22: MidButton -> Qt::MidButton
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 2068 column 22: AltButton -> Qt::AltModifier
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 2070 column 26: ControlButton -> Qt::ControlModifier
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 2072 column 24: ShiftButton -> Qt::ShiftModifier
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 2086 column 10: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp at line 2099 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.cpp: Added the following include directives:
+	#include <QCustomEvent> 	#include <QResizeEvent> 	#include <QMouseEvent> 	#include <QKeyEvent> 	#include <QEvent> 	#include <Q3CString> 	#include <QWheelEvent> 	#include <QCloseEvent> 	#include <QPixmap> 
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 22 column 21: qmainwindow.h -> q3mainwindow.h
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 42 column 21: QProgressDialog -> Q3ProgressDialog
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 46 column 18: QProgressBar -> Q3ProgressBar
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 56 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 61 column 37: QMainWindow -> Q3MainWindow
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 93 column 34: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 94 column 32: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 95 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 95 column 40: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 102 column 40: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 141 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 143 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 143 column 37: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 144 column 36: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 150 column 39: ButtonState -> Qt::ButtonState
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 150 column 52: ButtonState -> Qt::ButtonState
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 155 column 37: ButtonState -> Qt::ButtonState
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 155 column 50: ButtonState -> Qt::ButtonState
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 159 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h at line 160 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/qtermwindow.h: Added the following include directives:
+	#include <QCustomEvent> 	#include <Q3PopupMenu> 	#include <QMouseEvent> 	#include <QKeyEvent> 	#include <QEvent> 	#include <Q3CString> 	#include <QWheelEvent> 	#include <QCloseEvent> 
+In file /home/hooey/qterm-dev/qterm/qtermwndmgr.cpp at line 15 column 18: qiconset.h -> qicon.h
+In file /home/hooey/qterm-dev/qterm/qtermwndmgr.cpp at line 19 column 18: qptrlist.h -> q3ptrlist.h
+In file /home/hooey/qterm-dev/qterm/qtermwndmgr.cpp at line 52 column 67: QIconSet -> QIcon
+In file /home/hooey/qterm-dev/qterm/qtermwndmgr.cpp at line 73 column 9: QIconSet -> QIcon
+In file /home/hooey/qterm-dev/qterm/qtermwndmgr.cpp at line 138 column 9: QIconSet -> QIcon
+In file /home/hooey/qterm-dev/qterm/qtermwndmgr.cpp at line 141 column 51: QIconSet -> QIcon
+In file /home/hooey/qterm-dev/qterm/qtermwndmgr.cpp at line 143 column 51: QIconSet -> QIcon
+In file /home/hooey/qterm-dev/qterm/qtermwndmgr.h at line 7 column 18: qptrlist.h -> q3ptrlist.h
+In file /home/hooey/qterm-dev/qterm/qtermwndmgr.h at line 14 column 14: QIconSet -> QIcon
+In file /home/hooey/qterm-dev/qterm/qtermwndmgr.h at line 26 column 51: QIconSet -> QIcon
+In file /home/hooey/qterm-dev/qterm/qtermwndmgr.h at line 40 column 15: QIconSet -> QIcon
+In file /home/hooey/qterm-dev/qterm/qtermzmodem.cpp at line 10 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/hooey/qterm-dev/qterm/qtermzmodem.cpp at line 513 column 26: QFileDialog -> Q3FileDialog
+In file /home/hooey/qterm-dev/qterm/qtermzmodem.h at line 605 column 40: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/qtermzmodem.h: Added the following include directives:
+	#include <Q3CString> 
+In file /home/hooey/qterm-dev/qterm/quickdialog.cpp at line 19 column 19: qcombobox.h -> q3combobox.h
+In file /home/hooey/qterm-dev/qterm/quickdialog.cpp at line 25 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/quickdialog.cpp at line 38 column 80: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/quickdialog.cpp at line 71 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/quickdialog.cpp at line 73 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/quickdialog.cpp at line 99 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/quickdialog.cpp at line 103 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/quickdialog.cpp at line 131 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/quickdialog.cpp at line 136 column 10: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/quickdialog.cpp at line 203 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/quickdialog.cpp at line 209 column 9: QCString -> Q3CString
+In file /home/hooey/qterm-dev/qterm/quickdialog.cpp: Added the following include directives:
+	#include <Q3CString> 	#include <QCloseEvent> 
+In file /home/hooey/qterm-dev/qterm/quickdialog.h at line 24 column 85: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/quickdialog.h: Added the following include directives:
+	#include <QCloseEvent> 
+In file /home/hooey/qterm-dev/qterm/quickdialogui.cpp at line 13 column 19: qcombobox.h -> q3combobox.h
+In file /home/hooey/qterm-dev/qterm/quickdialogui.cpp at line 19 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/quickdialogui.cpp at line 25 column 83: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/quickdialogui.h at line 21 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/quickdialogui.h at line 22 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/quickdialogui.h at line 23 column 17: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/quickdialogui.h at line 34 column 88: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/quickdialogui.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3HBoxLayout> 	#include <QLabel> 	#include <Q3GridLayout> 
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 7 column 22: qbuttongroup.h -> q3buttongroup.h
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 8 column 18: qlistbox.h -> q3listbox.h
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 10 column 19: qcombobox.h -> q3combobox.h
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 12 column 18: qwmatrix.h -> qmatrix.h
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 19 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 27 column 82: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 88 column 59: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 88 column 99: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 583 column 43: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 651 column 26: QFileDialog -> Q3FileDialog
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 770 column 11: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 770 column 23: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 771 column 13: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 771 column 27: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 772 column 12: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 772 column 25: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 782 column 17: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 783 column 23: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 785 column 18: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 786 column 19: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 787 column 25: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 789 column 20: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 790 column 18: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 791 column 24: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 793 column 19: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 804 column 28: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 805 column 41: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 807 column 36: red -> Qt::red
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 808 column 30: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 809 column 43: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 811 column 38: green -> Qt::green
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 812 column 29: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 813 column 42: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/schemadialog.cpp at line 815 column 37: blue -> Qt::blue
+In file /home/hooey/qterm-dev/qterm/schemadialog.h at line 11 column 86: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/schemadialog.h at line 60 column 30: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/schemadialogui.cpp at line 15 column 18: qlistbox.h -> q3listbox.h
+In file /home/hooey/qterm-dev/qterm/schemadialogui.cpp at line 17 column 22: qbuttongroup.h -> q3buttongroup.h
+In file /home/hooey/qterm-dev/qterm/schemadialogui.cpp at line 20 column 19: qcombobox.h -> q3combobox.h
+In file /home/hooey/qterm-dev/qterm/schemadialogui.cpp at line 23 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/schemadialogui.cpp at line 26 column 85: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/schemadialogui.cpp at line 40 column 30: QListBox -> Q3ListBox
+In file /home/hooey/qterm-dev/qterm/schemadialogui.cpp at line 99 column 36: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/schemadialogui.cpp at line 131 column 40: QSlider -> Qt
+In file /home/hooey/qterm-dev/qterm/schemadialogui.h at line 21 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/schemadialogui.h at line 22 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/schemadialogui.h at line 23 column 17: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/schemadialogui.h at line 26 column 14: QListBox -> Q3ListBox
+In file /home/hooey/qterm-dev/qterm/schemadialogui.h at line 27 column 18: QListBoxItem -> Q3ListBoxItem
+In file /home/hooey/qterm-dev/qterm/schemadialogui.h at line 29 column 18: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/schemadialogui.h at line 39 column 89: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/schemadialogui.h at line 44 column 12: QListBox -> Q3ListBox
+In file /home/hooey/qterm-dev/qterm/schemadialogui.h at line 63 column 16: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/schemadialogui.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3HBoxLayout> 	#include <QLabel> 	#include <Q3GridLayout> 
+In file /home/hooey/qterm-dev/qterm/soundconf.cpp at line 7 column 19: qgroupbox.h -> q3groupbox.h
+In file /home/hooey/qterm-dev/qterm/soundconf.cpp at line 10 column 22: qbuttongroup.h -> q3buttongroup.h
+In file /home/hooey/qterm-dev/qterm/soundconf.cpp at line 14 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/soundconf.cpp at line 18 column 21: qfiledialog.h -> q3filedialog.h
+In file /home/hooey/qterm-dev/qterm/soundconf.cpp at line 23 column 78: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/soundconf.h at line 12 column 85: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/soundconfui.cpp at line 13 column 19: qgroupbox.h -> q3groupbox.h
+In file /home/hooey/qterm-dev/qterm/soundconfui.cpp at line 16 column 22: qbuttongroup.h -> q3buttongroup.h
+In file /home/hooey/qterm-dev/qterm/soundconfui.cpp at line 20 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/soundconfui.cpp at line 23 column 81: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/soundconfui.cpp at line 31 column 29: QGroupBox -> Q3GroupBox
+In file /home/hooey/qterm-dev/qterm/soundconfui.cpp at line 40 column 29: QGroupBox -> Q3GroupBox
+In file /home/hooey/qterm-dev/qterm/soundconfui.cpp at line 52 column 31: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/soundconfui.h at line 20 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/soundconfui.h at line 21 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/soundconfui.h at line 22 column 17: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/soundconfui.h at line 24 column 15: QGroupBox -> Q3GroupBox
+In file /home/hooey/qterm-dev/qterm/soundconfui.h at line 27 column 18: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/soundconfui.h at line 35 column 87: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/soundconfui.h at line 38 column 13: QGroupBox -> Q3GroupBox
+In file /home/hooey/qterm-dev/qterm/soundconfui.h at line 41 column 13: QGroupBox -> Q3GroupBox
+In file /home/hooey/qterm-dev/qterm/soundconfui.h at line 45 column 16: QButtonGroup -> Q3ButtonGroup
+In file /home/hooey/qterm-dev/qterm/soundconfui.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3HBoxLayout> 	#include <Q3GridLayout> 
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 15 column 21: qobjectlist.h -> qobject.h
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 18 column 22: qprogressbar.h -> q3progressbar.h
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 23 column 15: qvbox.h -> q3vbox.h
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 25 column 18: qiconset.h -> qicon.h
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 43 column 14: QBoxLayout -> Q3BoxLayout
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 43 column 44: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 46 column 14: QBoxLayout -> Q3BoxLayout
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 46 column 40: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 50 column 9: QHBox -> Q3HBox
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 50 column 41: QHBox -> Q3HBox
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 52 column 41: QProgressBar -> Q3ProgressBar
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 62 column 41: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 81 column 42: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 81 column 56: QFrame -> Q3Frame
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 139 column 37: Style_Default -> State_None
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 149 column 40: LayoutHint -> LayoutRequest
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 245 column 9: QHBox -> Q3HBox
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp at line 245 column 28: QHBox -> Q3HBox
+In file /home/hooey/qterm-dev/qterm/statusBar.cpp: Added the following include directives:
+	#include <QPaintEvent> 	#include <QEvent> 	#include <Q3Frame> 	#include <Q3HBoxLayout> 	#include <QCustomEvent> 
+In file /home/hooey/qterm-dev/qterm/statusBar.h at line 12 column 20: qvaluelist.h -> q3valuelist.h
+In file /home/hooey/qterm-dev/qterm/statusBar.h at line 83 column 14: QProgressBar -> Q3ProgressBar
+In file /home/hooey/qterm-dev/qterm/statusBar.h at line 86 column 12: QValueList -> Q3ValueList
+In file /home/hooey/qterm-dev/qterm/statusBar.h: Added the following include directives:
+	#include <QCustomEvent> 	#include <QLabel> 	#include <QEvent> 	#include <QPaintEvent> 
+In file /home/hooey/qterm-dev/qterm/trayicon.cpp at line 26 column 23: qpopupmenu.h -> q3popupmenu.h
+In file /home/hooey/qterm-dev/qterm/trayicon.cpp at line 38 column 75: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/trayicon.cpp at line 51 column 35: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/trayicon.cpp at line 57 column 10: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/trayicon.cpp at line 144 column 20: RightButton -> Qt::RightButton
+In file /home/hooey/qterm-dev/qterm/trayicon.cpp at line 158 column 19: LeftButton -> Qt::LeftButton
+In file /home/hooey/qterm-dev/qterm/trayicon.cpp at line 159 column 18: MidButton -> Qt::MidButton
+In file /home/hooey/qterm-dev/qterm/trayicon.cpp at line 171 column 34: LeftButton -> Qt::LeftButton
+In file /home/hooey/qterm-dev/qterm/trayicon.cpp: Added the following include directives:
+	#include <QPixmap> 	#include <QMouseEvent> 	#include <QEvent> 
+In file /home/hooey/qterm-dev/qterm/trayicon.h at line 32 column 16: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/trayicon.h at line 43 column 55: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/trayicon.h at line 51 column 26: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/trayicon.h at line 52 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/trayicon.h at line 79 column 11: QPopupMenu -> Q3PopupMenu
+In file /home/hooey/qterm-dev/qterm/trayicon.h: Added the following include directives:
+	#include <QPixmap> 	#include <QMouseEvent> 	#include <QEvent> 	#include <Q3PopupMenu> 
+No changes made to file /home/hooey/qterm-dev/qterm/trayicon_mac.cpp
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 135 column 92: LeftButton -> Qt::LeftButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 135 column 104: LeftButton -> Qt::LeftButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 138 column 94: LeftButton -> Qt::LeftButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 138 column 106: LeftButton -> Qt::LeftButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 141 column 95: LeftButton -> Qt::LeftButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 141 column 107: LeftButton -> Qt::LeftButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 144 column 93: RightButton -> Qt::RightButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 144 column 106: RightButton -> Qt::RightButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 147 column 95: RightButton -> Qt::RightButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 147 column 108: RightButton -> Qt::RightButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 150 column 96: RightButton -> Qt::RightButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 150 column 109: RightButton -> Qt::RightButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 153 column 91: MidButton -> Qt::MidButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 153 column 102: MidButton -> Qt::MidButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 156 column 93: MidButton -> Qt::MidButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 156 column 104: MidButton -> Qt::MidButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 159 column 94: MidButton -> Qt::MidButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 159 column 105: MidButton -> Qt::MidButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 162 column 95: RightButton -> Qt::RightButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp at line 162 column 108: RightButton -> Qt::RightButton
+In file /home/hooey/qterm-dev/qterm/trayicon_win.cpp: Added the following include directives:
+	#include <QMouseEvent> 	#include <QEvent> 
+In file /home/hooey/qterm-dev/qterm/trayicon_x11.cpp at line 103 column 44: WType_TopLevel -> Qt::WType_TopLevel
+In file /home/hooey/qterm-dev/qterm/trayicon_x11.cpp at line 103 column 63: WStyle_Customize -> Qt::WStyle_Customize
+In file /home/hooey/qterm-dev/qterm/trayicon_x11.cpp at line 103 column 81: WStyle_NoBorder -> Qt::WStyle_NoBorder
+In file /home/hooey/qterm-dev/qterm/trayicon_x11.cpp at line 103 column 101: WStyle_StaysOnTop -> Qt::WStyle_StaysOnTop
+In file /home/hooey/qterm-dev/qterm/trayicon_x11.cpp at line 103 column 116: WMouseNoMask -> Qt::WMouseNoMask
+In file /home/hooey/qterm-dev/qterm/trayicon_x11.cpp at line 265 column 25: NoFocus -> Qt::NoFocus
+In file /home/hooey/qterm-dev/qterm/trayicon_x11.cpp: Added the following include directives:
+	#include <QMouseEvent> 	#include <QCloseEvent> 
+In file /home/hooey/qterm-dev/qterm/zmodemdialog.cpp at line 5 column 22: qprogressbar.h -> q3progressbar.h
+In file /home/hooey/qterm-dev/qterm/zmodemdialog.cpp at line 7 column 22: qtextbrowser.h -> q3textbrowser.h
+In file /home/hooey/qterm-dev/qterm/zmodemdialog.cpp at line 10 column 80: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/zmodemdialog.h at line 11 column 79: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.cpp at line 15 column 22: qprogressbar.h -> q3progressbar.h
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.cpp at line 18 column 22: qtextbrowser.h -> q3textbrowser.h
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.cpp at line 21 column 20: qwhatsthis.h -> q3whatsthis.h
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.cpp at line 24 column 85: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.cpp at line 29 column 42: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.cpp at line 31 column 33: QProgressBar -> Q3ProgressBar
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.cpp at line 49 column 35: QTextBrowser -> Q3TextBrowser
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.cpp: Added the following include directives:
+	#include <Q3GridLayout> 
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.h at line 21 column 17: QVBoxLayout -> Q3VBoxLayout
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.h at line 22 column 17: QHBoxLayout -> Q3HBoxLayout
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.h at line 23 column 17: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.h at line 25 column 18: QProgressBar -> Q3ProgressBar
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.h at line 28 column 18: QTextBrowser -> Q3TextBrowser
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.h at line 35 column 89: WFlags -> Qt::WFlags
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.h at line 38 column 16: QProgressBar -> Q3ProgressBar
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.h at line 41 column 16: QTextBrowser -> Q3TextBrowser
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.h at line 45 column 15: QGridLayout -> Q3GridLayout
+In file /home/hooey/qterm-dev/qterm/zmodemdialogui.h: Added the following include directives:
+	#include <Q3VBoxLayout> 	#include <Q3HBoxLayout> 	#include <QLabel> 	#include <Q3GridLayout> 
