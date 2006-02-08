@@ -199,10 +199,14 @@ void QTermHttp::httpDone(bool err)
 		}
 	}
 
-	if(m_bPreview) {
+	if(!m_bExist)
+	{
 		// rename first
 		QDir dir;
 		dir.rename(m_strHttpFile+".part",m_strHttpFile,true);
+	}
+
+	if(m_bPreview) {
 		QString strPool = ((QTermFrame *)qApp->mainWidget())->m_pref.strPoolPath;
 		previewImage(m_strHttpFile);
 		QFileInfo fi = QFileInfo(m_strHttpFile);
