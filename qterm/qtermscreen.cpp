@@ -915,11 +915,11 @@ void QTermScreen::drawLine( QPainter& painter, int index, int starx, int endx, b
 	if (endx > linelength || endx < 0)
 		endx = linelength;
 
-	if (complete == true) {
-		drawMenuSelect(painter, index);
-		starx = 0;
-		endx = linelength;
-	}
+	if (complete == true) 
+		if (drawMenuSelect(painter, index)) {
+			starx = 0;
+			endx = linelength;
+		}
 
 	for( uint i=starx; i < endx;i++)
 	{
@@ -1070,7 +1070,7 @@ void QTermScreen::bossColor()
 	repaint(true);
 }	
 
-void QTermScreen::drawMenuSelect( QPainter& painter, int index )
+bool QTermScreen::drawMenuSelect( QPainter& painter, int index )
 {
 	QRect rcSelect, rcMenu, rcInter;
 	if( m_pBuffer->isSelected(index) )
@@ -1123,7 +1123,9 @@ void QTermScreen::drawMenuSelect( QPainter& painter, int index )
 					painter.fillRect(rcMenu, QBrush(m_pParam->m_clrMenu));
 			break;
 		}
+		return true;
 	}
+	return false;
 }
 
 /* ------------------------------------------------------------------------ */

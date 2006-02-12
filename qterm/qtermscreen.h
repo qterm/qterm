@@ -87,7 +87,7 @@ protected:
 	void drawStr( QPainter&, const QString&, int, int, int, short, bool );
 	void drawLine( QPainter&, int index, int startx = -1, int endx = -1, bool complete = true);
 	void drawCaret( QPainter&, bool );
-	void drawMenuSelect( QPainter&, int );
+	bool drawMenuSelect( QPainter&, int );
 
 	// auxiluary
 	int getPosX( int xChar ) { return xChar*m_nCharWidth; }
