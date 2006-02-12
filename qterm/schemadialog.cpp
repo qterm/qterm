@@ -855,3 +855,4 @@ QImage& schemaDialog::fadeColor( QImage& img, float val, const QColor& color)
     return img;
 }
 
+#include <schemadialog.moc>

@@ -131,3 +131,4 @@ void popWidget::showTimer()
 	move(ptPos);
 }
 
+#include <popwidget.moc>

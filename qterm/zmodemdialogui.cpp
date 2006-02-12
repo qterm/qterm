@@ -83,3 +83,4 @@ void zmodemDialogUI::languageChange()
     labelFileName->setText( tr( "textLabel1" ) );
 }
 
+#include <zmodemdialogui.moc>

@@ -298,3 +298,4 @@ int main(int argc, char **argv)
 
 }
 */
+#include <qtermimage.moc>

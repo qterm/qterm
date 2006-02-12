@@ -264,3 +264,4 @@ void prefDialog::onPool()
 	}
 }
 
+#include <prefdialog.moc>

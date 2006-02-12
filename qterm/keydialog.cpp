@@ -281,3 +281,4 @@ void keyDialog::loadKey(int n)
 	}
 }
 
+#include <keydialog.moc>

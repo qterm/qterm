@@ -1361,3 +1361,4 @@ void QTermInput::paintEvent(QPaintEvent * e)
 #endif
 	inputPainter.end();
 }
+#include <qtermscreen.moc>

@@ -507,4 +507,4 @@ StatusBar::pruneProgressBars()
 } //namespace QTerm
 
 
-//#include "statusBar.moc"
+#include <statusBar.moc>

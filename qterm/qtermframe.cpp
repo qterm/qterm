@@ -1858,3 +1858,4 @@ QPixmap MTray::makeIcon(const QImage &_in)
 }
 
 
+#include <qtermframe.moc>

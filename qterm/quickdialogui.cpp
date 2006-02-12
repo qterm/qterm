@@ -111,3 +111,4 @@ void quickDialogUI::languageChange()
     addPushButton->setText( QString::null );
 }
 
+#include <quickdialogui.moc>

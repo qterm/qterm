@@ -82,4 +82,4 @@ void fSSHLoginUI::languageChange()
     textLabel2_2->setText( tr( "Please enter your username and password" ) );
     textLabel2->setText( tr( "Password:" ) );
 }
-
+#include <qtermsshloginui.moc>

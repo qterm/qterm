@@ -116,3 +116,4 @@ void aboutDialogUI::languageChange()
     closeButton->setText( tr( "Close" ) );
 }
 
+#include <aboutdialogui.moc>

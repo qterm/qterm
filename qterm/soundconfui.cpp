@@ -123,3 +123,4 @@ void fSoundConfUI::languageChange()
     bCancel->setText( tr( "Cancel" ) );
 }
 
+#include <soundconfui.moc>

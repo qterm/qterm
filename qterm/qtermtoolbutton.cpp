@@ -27,3 +27,4 @@ void QTermToolButton::slotClicked()
 	emit(buttonClicked(id));
 }
 
+#include <qtermtoolbutton.moc>

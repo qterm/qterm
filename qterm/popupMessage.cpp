@@ -325,4 +325,4 @@ void PopupMessage::slideMask()
 
 }
 
-#include "popupMessage.moc"
+#include <popupMessage.moc>

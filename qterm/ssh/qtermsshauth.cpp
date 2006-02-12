@@ -71,3 +71,4 @@ void QTermSSH1PasswdAuth::handlePacket(int type)
 		return;
 	}
 }
+#include <qtermsshauth.moc>

@@ -323,3 +323,4 @@ void QTermCanvas::adjustSize(const QSize& szView)
 
 }
 
+#include <qtermcanvas.moc>

@@ -536,3 +536,4 @@ void addrDialogUI::languageChange()
     tabWidget->changeTab( tab_4, tr( "Mouse" ) );
 }
 
+#include <addrdialogui.moc>

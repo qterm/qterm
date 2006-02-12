@@ -591,7 +591,7 @@ int main( int argc, char ** argv )
   
     QTermFrame * mw = new QTermFrame();
     mw->setCaption( "QTerm "+QString(VERSION) );
-	mw->setIcon( QPixmap(pathLib+"pic/qterm_32x32.png") );
+	mw->setIcon( QPixmap(pathLib+"pic/qterm.png") );
 	a.setMainWidget(mw);
     mw->show();
     a.connect( &a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()) );

@@ -2215,3 +2215,4 @@ void QTermWindow::httpDone(QObject *pHttp)
 {
 	pHttp->deleteLater();
 }
+#include <qtermwindow.moc>

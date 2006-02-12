@@ -160,3 +160,4 @@ void keyDialogUI::languageChange()
     closeButton->setText( tr( "Close" ) );
 }
 
+#include <keydialogui.moc>

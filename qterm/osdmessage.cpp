@@ -152,4 +152,4 @@ void PageViewMessage::mousePressEvent( QMouseEvent * /*e*/ )
     hide();
 }
 
-#include "osdmessage.moc"
+#include <osdmessage.moc>

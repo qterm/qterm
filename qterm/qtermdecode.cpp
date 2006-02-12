@@ -576,3 +576,4 @@ void QTermDecode::restoreMode()
 void QTermDecode::test()
 {
 }
+#include <qtermdecode.moc>

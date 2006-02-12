@@ -2881,3 +2881,4 @@ void QTermZmodem::zmodemCancel()
 {
 	ZmodemAbort(&info);
 }
+#include <qtermzmodem.moc>

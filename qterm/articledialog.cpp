@@ -108,3 +108,4 @@ void articleDialog::onClose()
 }
 
 
+#include <articledialog.moc>

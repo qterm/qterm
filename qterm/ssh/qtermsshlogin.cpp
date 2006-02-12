@@ -35,3 +35,4 @@ void fSSHLogin::accept()
 	*strPassword  = lePassword->text();
 	fSSHLoginUI::accept();
 }
+#include <qtermsshlogin.moc>

@@ -226,4 +226,4 @@ void prefDialogUI::languageChange()
     imagePushButton->setText( tr( "Choose" ) );
     choosehttpPushButton->setText( tr( "Choose" ) );
 }
-
+#include <prefdialogui.moc>

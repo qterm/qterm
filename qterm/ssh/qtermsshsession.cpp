@@ -92,3 +92,4 @@ void QTermSSH1Session::handlePacket(int type)
 	}
 }
 
+#include <qtermsshsession.moc>

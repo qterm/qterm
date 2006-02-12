@@ -64,3 +64,4 @@ void msgDialogUI::languageChange()
     okButton->setText( tr( "OK" ) );
 }
 
+#include <msgdialogui.moc>

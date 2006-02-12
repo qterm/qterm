@@ -86,3 +86,4 @@ void articleDialogUI::languageChange()
     textBrowser2->setText( QString::null );
 }
 
+#include <articledialogui.moc>

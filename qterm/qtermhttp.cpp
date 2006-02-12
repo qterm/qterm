@@ -234,3 +234,4 @@ void QTermHttp::previewImage(const QString& filename)
 	}
 }
 
+#include <qtermhttp.moc>

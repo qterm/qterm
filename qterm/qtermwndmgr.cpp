@@ -200,3 +200,4 @@ bool QTermWndMgr::afterRemove()
 	else
 		return false;
 }	
+#include <qtermwndmgr.moc>

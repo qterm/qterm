@@ -28,3 +28,4 @@ msgDialog::~msgDialog()
     // no need to delete child widgets, Qt does it all for us
 }
 
+#include <msgdialog.moc>

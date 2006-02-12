@@ -915,3 +915,4 @@ int QTermTelnet::tnabort(int)
 	return -1;
 }
 
+#include <qtermtelnet.moc>

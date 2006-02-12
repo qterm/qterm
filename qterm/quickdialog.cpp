@@ -264,3 +264,4 @@ void quickDialog::close()
 }
 
 
+#include <quickdialog.moc>

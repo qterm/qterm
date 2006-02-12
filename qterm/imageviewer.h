@@ -1,3 +1,6 @@
+#ifndef IMAGEVIEWER_H
+#define IMAGEVIEWER_H
+
 #include <qlistbox.h>
 #include <qdir.h>
 #include <qdatetime.h>
@@ -52,3 +55,4 @@ private:
 	QDateTime dtFilter;
 };
 
+#endif

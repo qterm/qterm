@@ -218,3 +218,4 @@ void schemaDialogUI::Frame4_destroyed(QObject*)
     qWarning( "schemaDialogUI::Frame4_destroyed(QObject*): Not implemented yet" );
 }
 
+#include <schemadialogui.moc>

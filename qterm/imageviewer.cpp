@@ -181,3 +181,4 @@ void ImageViewer::buildList()
 	}
 
 }
+#include <imageviewer.moc>

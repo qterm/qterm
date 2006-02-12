@@ -68,6 +68,7 @@ protected:
 	u_int d_padding;
 	QTermSSHBuffer * d_buffer;
 	QTermSSHCipher * d_sccipher;
+	int debug;
 	
 public:
 	QTermSSHPacketReceiver();

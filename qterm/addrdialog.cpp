@@ -593,3 +593,4 @@ void addrDialog::updateData(bool save)
 		onMenuType(param.m_nMenuType);
 	}
 }
+#include <addrdialog.moc>
