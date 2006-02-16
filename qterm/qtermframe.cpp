@@ -1235,7 +1235,7 @@ void QTermFrame::startDown()
 	if(viewer==NULL)
 		viewer = new QTermImage(this, m_pref.strPoolPath, true);
 
-	viewer->setTimeFilter(QDateTime::currentDateTime());
+	viewer->setTimeFilter(QDateTime::currentDateTime().addSecs(-1));
 }
 
 void QTermFrame::endDown()

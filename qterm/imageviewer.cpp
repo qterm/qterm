@@ -160,7 +160,7 @@ void ImageViewer::buildList()
 	while ((fi = it.current()) != 0)
 	{
 		QString strExt=fi->extension(false).lower();
-		if(fi->created()>=dtFilter && (strExt=="jpg" || strExt=="jpeg" || strExt=="gif" ||
+		if(fi->created()>dtFilter && (strExt=="jpg" || strExt=="jpeg" || strExt=="gif" ||
 			strExt=="mng" || strExt=="png" || strExt=="bmp"))
 		{
 			const QString file = QString( "shadow_cache_%1_%2.png" ).arg(fi->fileName()).arg( thumbSize );
