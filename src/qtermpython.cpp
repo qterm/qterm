@@ -465,7 +465,7 @@ static PyObject *qterm_getAddress(PyObject *, PyObject *args)
 		return NULL;
 	
 	PyObject *py_addr = PyString_FromString(
-					((QTermWindow*)lp)->m_param.m_strAddr.local8Bit());
+					((QTermWindow*)lp)->m_param.m_strAddr.toLocal8Bit());
 	Py_INCREF(py_addr);
 	return py_addr;
 }
@@ -501,7 +501,7 @@ static PyObject *qterm_getReplyKey(PyObject *, PyObject *args)
 	if(!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
 
-	PyObject *py_key = PyString_FromString(((QTermWindow*)lp)->m_param.m_strReplyKey.local8Bit());
+	PyObject *py_key = PyString_FromString(((QTermWindow*)lp)->m_param.m_strReplyKey.toLocal8Bit());
 	Py_INCREF(py_key);
 	return py_key;
 }

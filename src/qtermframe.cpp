@@ -384,7 +384,7 @@ void QTermFrame::saveSetting()
 
 	QString strTmp;
 	//save font
-	conf->setItemValue("global","font",qApp->font().family().local8Bit());
+	conf->setItemValue("global","font",qApp->font().family().toLocal8Bit());
 	strTmp.setNum(QFontInfo(qApp->font()).pointSize());
 	conf->setItemValue("global","pointsize",strTmp);
 	strTmp.setNum(QFontInfo(qApp->font()).pixelSize());

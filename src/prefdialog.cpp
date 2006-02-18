@@ -176,15 +176,15 @@ void prefDialog::saveSetting()
 	strTmp=ui.poolLineEdit->text();
 	if(strTmp.isEmpty())
 		strTmp = pathCfg+"pool/";
-	conf.setItemValue("preference","pool",strTmp.local8Bit());
+	conf.setItemValue("preference","pool",strTmp.toLocal8Bit());
 
 	strTmp=ui.zmodemLineEdit->text();
 	if(strTmp.isEmpty())
 		strTmp = pathCfg+"zmodem/";
-	conf.setItemValue("preference","zmodem",strTmp.local8Bit());
+	conf.setItemValue("preference","zmodem",strTmp.toLocal8Bit());
 	
 	conf.setItemValue("preference","http",ui.httpLineEdit->text());
-	conf.setItemValue("preference","image",ui.imageLineEdit->text().local8Bit());
+	conf.setItemValue("preference","image",ui.imageLineEdit->text().toLocal8Bit());
 	
 	conf.save(fileCfg);
 }

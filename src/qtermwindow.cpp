@@ -792,7 +792,7 @@ void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 				strCmd += " \"" + strUrl +"\"";
 			else
 				strCmd.replace("%L",  "\""+strUrl+ "\"");
-				//cstrCmd.replace("%L",  strUrl.local8Bit());
+				//cstrCmd.replace("%L",  strUrl.toLocal8Bit());
 			
 			runProgram(strCmd);
 		}
@@ -1530,7 +1530,7 @@ void QTermWindow::runScript()
 	if(file.isEmpty())
 		return;
 
-	runScriptFile(file.local8Bit());
+	runScriptFile(file.toLocal8Bit());
 }
 
 void QTermWindow::stopScript()
@@ -1780,7 +1780,7 @@ void QTermWindow::replyMessage()
 	
 	QByteArray cstrTmp = m_param.m_strReplyKey.toLocal8Bit();
 	QByteArray cstr = parseString(cstrTmp.isEmpty()?QByteArray("^Z"):cstrTmp);
-	//cstr += m_param.m_strAutoReply.local8Bit();
+	//cstr += m_param.m_strAutoReply.toLocal8Bit();
 	if( m_param.m_nBBSCode==0 )
 		cstr += U2G(m_param.m_strAutoReply);
 	else

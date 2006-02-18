@@ -76,7 +76,7 @@ void QTermHttp::getLink(const QString& url, bool preview)
 	if(QFile::exists(pathCfg+"hosts.cfg"))
 	{
 		QTermConfig conf(pathCfg+"hosts.cfg");
-		QString strTmp = conf.getItemValue("hosts",u.host().local8Bit());
+		QString strTmp = conf.getItemValue("hosts",u.host().toLocal8Bit());
 		if(!strTmp.isEmpty())
 		{
 			QString strUrl = url;

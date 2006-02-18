@@ -83,7 +83,7 @@ void QTermSocketPrivate::socketConnected()
 		return;
 	case WINGATE:		// Wingate Proxy
 		strPort.setNum( port );
-		writeBlock( host.local8Bit(), host.length() );
+		writeBlock( host.toLocal8Bit(), host.length() );
 		writeBlock( " ",1 );
 		writeBlock( strPort, strPort.length() );
 		writeBlock( &wingate_enter,1 );// CTRL+J
@@ -306,8 +306,8 @@ void QTermSocketPrivate::socks5_auth()
 	int ulen = proxy_usr.length();
 	int plen = proxy_pwd.length();
 	char * command = new char[3+ulen+plen];
-	sprintf((char *)command,"  %s %s",proxy_usr.local8Bit().data(),
-					proxy_pwd.local8Bit().data());
+	sprintf((char *)command,"  %s %s",proxy_usr.toLocal8Bit().data(),
+					proxy_pwd.toLocal8Bit().data());
 	command[0]='\x01';
 	command[1]=ulen;
 	command[2+ulen] = plen;

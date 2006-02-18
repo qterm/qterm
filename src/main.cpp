@@ -131,7 +131,7 @@ int checkPath( const QString& path )
 	{
 		if( !dir.mkdir(path) )
 		{
-			printf("Failed to create directory %s\n", (const char*)path.local8Bit());
+			printf("Failed to create directory %s\n", (const char*)path.toLocal8Bit());
 			return -1;
 		}
 	}
@@ -148,18 +148,18 @@ int checkFile( const QString& dst, const QString& src )
 	{
 		printf("QTerm failed to find %s.\n"
 			"Please copy the qterm.cfg from the source tarball to %s\n", 
-			(const char*)src.local8Bit(), (const char*) dst.local8Bit() );
+			(const char*)src.toLocal8Bit(), (const char*) dst.toLocal8Bit() );
 		return -1;
 	}
 		
 	QString cmd;
 	cmd="/bin/cp -f "+ src+" "+dst;
 
-	if ( system((const char *)cmd.local8Bit())==-1 )
+	if ( system((const char *)cmd.toLocal8Bit())==-1 )
 	{
 		printf("QTerm failed to %s. \n"
 				"Please copy the qterm.cfg from the source tarball to %s\n", 
-			(const char*)cmd.local8Bit(), (const char *)dst.local8Bit());
+			(const char*)cmd.toLocal8Bit(), (const char *)dst.toLocal8Bit());
 		return -1;
 	}
 	return 0;
@@ -469,7 +469,7 @@ void saveAddress(QTermConfig *pConf, int n, const QTermParam& param)
 	else
 		strSection.sprintf("bbs %d", n);
 
-	pConf->setItemValue(strSection, "name", param.m_strName.local8Bit());
+	pConf->setItemValue(strSection, "name", param.m_strName.toLocal8Bit());
 	pConf->setItemValue(strSection, "addr", param.m_strAddr);
 	strTmp.setNum(param.m_uPort);
 	pConf->setItemValue(strSection, "port", strTmp);
@@ -488,7 +488,7 @@ void saveAddress(QTermConfig *pConf, int n, const QTermParam& param)
 	pConf->setItemValue(strSection, "autofont", param.m_bAutoFont?"1":"0");
 	pConf->setItemValue(strSection, "alwayshighlight", param.m_bAlwaysHighlight?"1":"0");
 	pConf->setItemValue(strSection, "ansicolor", param.m_bAnsiColor?"1":"0");
-	pConf->setItemValue(strSection, "fontname", param.m_strFontName.local8Bit());
+	pConf->setItemValue(strSection, "fontname", param.m_strFontName.toLocal8Bit());
 	strTmp.setNum(param.m_nFontSize);
 	pConf->setItemValue(strSection, "fontsize", strTmp);
 	pConf->setItemValue(strSection, "fgcolor", param.m_clrFg.name());
@@ -526,7 +526,7 @@ void saveAddress(QTermConfig *pConf, int n, const QTermParam& param)
 	pConf->setItemValue(strSection, "replykey", param.m_strReplyKey);
 	pConf->setItemValue(strSection, "antiidlestring", param.m_strAntiString);
 	pConf->setItemValue(strSection, "bautoreply", param.m_bAutoReply?"1":"0");
-	pConf->setItemValue(strSection, "autoreply", param.m_strAutoReply.local8Bit());
+	pConf->setItemValue(strSection, "autoreply", param.m_strAutoReply.toLocal8Bit());
 	pConf->setItemValue(strSection, "reconnect", param.m_bReconnect?"1":"0");
 	strTmp.setNum(param.m_nReconnectInterval);
 	pConf->setItemValue(strSection, "interval", strTmp);

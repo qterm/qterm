@@ -1045,7 +1045,7 @@ FILE * QTermZmodem::ZOpenFile(char *name, ulong crc, ZModem *info)
 	FILE *rval;
 	int apnd=0;
 	QString str = ((QTermFrame *)qApp->mainWidget())->m_pref.strZmPath+G2U(name); // lazy, should use bbs2unicode
-	rval = fopen(str.local8Bit(), apnd ? "ab" : "wb") ;
+	rval = fopen(str.toLocal8Bit(), apnd ? "ab" : "wb") ;
 
 	if( rval == NULL )
 	  perror(name) ;
