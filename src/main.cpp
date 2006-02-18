@@ -61,7 +61,7 @@ void runProgram(const QString & cmd)
 QString getOpenFileName(const QString& filter, QWidget * widget)
 {
 	QTermConfig conf(fileCfg);
-	QString path = QString::fromLocal8Bit(conf.getItemValue("global","openfiledialog"));
+	QString path = conf.getItemValue("global","openfiledialog");
 
 	QString strOpen = QFileDialog::getOpenFileName(widget, "choose a file", path, filter);
 
@@ -69,7 +69,7 @@ QString getOpenFileName(const QString& filter, QWidget * widget)
 	{
 		// save the path
 		QFileInfo fi(strOpen);
-		conf.setItemValue("global","openfiledialog",fi.dirPath(true));
+		conf.setItemValue("global","openfiledialog",fi.absolutePath());
 		conf.save(fileCfg);
 	}
 	
@@ -81,9 +81,9 @@ QString getSaveFileName(const QString& filename, QWidget* widget)
 {
 	// get the previous dir
 	QTermConfig conf(fileCfg);
-	QString path = QString::fromLocal8Bit(conf.getItemValue("global","savefiledialog"));
+	QString path = conf.getItemValue("global","savefiledialog");
 
-	QString strSave = QFileDialog::getSaveFileName(widget, "Choose a file to save under", path+"/"+G2U(filename), "*");
+	QString strSave = QFileDialog::getSaveFileName(widget, "Choose a file to save under", path+"/"+filename, "*");
 
 	QFileInfo fi(strSave);
 	
@@ -93,7 +93,7 @@ QString getSaveFileName(const QString& filename, QWidget* widget)
 					"File exists. Overwrite?", "Yes", "No");
 		if(yn==0)
 			break;
-		strSave = QFileDialog::getSaveFileName(widget, "Choose a file to save under", path+"/"+G2U(filename), "*");
+		strSave = QFileDialog::getSaveFileName(widget, "Choose a file to save under", path+"/"+filename, "*");
 		if(strSave.isEmpty())
 			break;
 	}
@@ -101,7 +101,7 @@ QString getSaveFileName(const QString& filename, QWidget* widget)
 	if(!strSave.isEmpty())
 	{
 		// save the path
-		conf.setItemValue("global","savefiledialog",fi.dirPath(true));
+		conf.setItemValue("global","savefiledialog",fi.absolutePath());
 		conf.save(fileCfg);
 	}
 
@@ -222,12 +222,12 @@ int iniWorkingDir( QString param )
 	fi.setFile(param);
 	pathLib=fi.dirPath()+'/';
 #else
-	pathCfg=QDir::homeDirPath()+"/.qterm/";
+	pathCfg=QDir::homePath()+"/.qterm/";
 	if(checkPath(pathCfg)==-1)
 		return -1;
 
 	// pathLib --- where datedir "pic", "cursor", "po"
-	if(param.find('/')==-1)
+	if(param.indexOf('/')==-1)
 		pathLib=QTERM_DATADIR"/";
 	else
 	{
@@ -235,14 +235,14 @@ int iniWorkingDir( QString param )
         if( fi.isSymLink() )
             param = fi.readLink();
         // get the pathname
-        param.truncate( param.findRev('/') );
-        QString oldPath=QDir::currentDirPath();
+        param.truncate( param.lastIndexOf('/') );
+        QString oldPath=QDir::currentPath();
         QDir::setCurrent( param );
         dir.setPath(QTERM_BINDIR);
         if( dir == QDir::current() )
             pathLib=QTERM_DATADIR;
         else
-            pathLib=QDir::currentDirPath();
+            pathLib=QDir::currentPath();
         QDir::setCurrent( oldPath );
         pathLib+='/';
 	}
@@ -296,7 +296,7 @@ int iniSettings()
 	if(lang !="eng" && !lang.isEmpty())
 	{
 		// look in $HOME/.qterm/po/ first
-		QString qm=QDir::homeDirPath()+"/.qterm/po/qterm_"+lang+".qm";
+		QString qm=QDir::homePath()+"/.qterm/po/qterm_"+lang+".qm";
 		if(!QFile::exists(qm))
 			qm=pathLib+"po/qterm_"+lang+".qm";
 		static QTranslator * translator = new QTranslator(0);
@@ -309,7 +309,7 @@ int iniSettings()
 	QString pixelsize = conf->getItemValue("global","pixelsize");
 	if( !family.isEmpty() )
 	{
-		QFont font(QString::fromLocal8Bit(family));
+		QFont font(family);
 		if (pointsize.toInt() > 0)
 			font.setPointSize(pointsize.toInt());
 		if (pixelsize.toInt() > 0)
@@ -319,17 +319,17 @@ int iniSettings()
 		if(bAA!="0")
 			font.setStyleStrategy(QFont::PreferAntialias);
 		#endif
-		qApp->setFont(font,true);
+		qApp->setFont(font);
 	}
 
 	// zmodem and pool directory
-	QString pathZmodem = QString::fromLocal8Bit(conf->getItemValue("preference", "zmodem"));
+	QString pathZmodem = conf->getItemValue("preference", "zmodem");
 	if(pathZmodem.isEmpty())
 		pathZmodem = pathCfg+"zmodem";
 	if(checkPath(pathZmodem)==-1)
 		return -1;
 	
-	QString pathPool = QString::fromLocal8Bit(conf->getItemValue("preference", "pool"));
+	QString pathPool = conf->getItemValue("preference", "pool");
 
 	if(pathPool.isEmpty()) 
 		pathPool = pathCfg+"pool/";
@@ -358,7 +358,7 @@ QStringList loadNameList( QTermConfig * pConf )
 	for(int i=0; i<strTmp.toInt(); i++)
 	{
 		strSection.sprintf("bbs %d", i);
-		listName.append(QString::fromLocal8Bit(pConf->getItemValue(strSection, "name")));
+		listName.append(pConf->getItemValue(strSection, "name"));
 	}
 	return listName;
 }
@@ -375,7 +375,7 @@ bool loadAddress( QTermConfig *pConf, int n, QTermParam& param )
 	strTmp = pConf->getItemValue("bbs list","num");
 	if(n>=strTmp.toInt())
 		return false;
-	param.m_strName = QString::fromLocal8Bit(pConf->getItemValue(strSection, "name"));
+	param.m_strName = pConf->getItemValue(strSection, "name");
 	param.m_strAddr = pConf->getItemValue(strSection, "addr");
 	strTmp = pConf->getItemValue(strSection, "port");
 	param.m_uPort = strTmp.toUShort();
@@ -398,7 +398,7 @@ bool loadAddress( QTermConfig *pConf, int n, QTermParam& param )
 	param.m_bAlwaysHighlight = (strTmp!="0");
 	strTmp = pConf->getItemValue(strSection, "ansicolor");
 	param.m_bAnsiColor = (strTmp!="0");
-	param.m_strFontName = QString::fromLocal8Bit(pConf->getItemValue(strSection, "fontname"));
+	param.m_strFontName = pConf->getItemValue(strSection, "fontname");
 	strTmp = pConf->getItemValue(strSection, "fontsize");
 	param.m_nFontSize = strTmp.toInt();
 	param.m_clrFg.setNamedColor(pConf->getItemValue(strSection, "fgcolor"));
@@ -439,7 +439,7 @@ bool loadAddress( QTermConfig *pConf, int n, QTermParam& param )
 		printf("loading null\n");
 			
 	param.m_strAntiString = pConf->getItemValue(strSection, "antiidlestring");
-	param.m_strAutoReply = QString::fromLocal8Bit(pConf->getItemValue(strSection, "autoreply"));
+	param.m_strAutoReply = pConf->getItemValue(strSection, "autoreply");
 	strTmp = pConf->getItemValue(strSection, "bautoreply");
 	param.m_bAutoReply = (strTmp!="0");
 			
@@ -593,9 +593,9 @@ int main( int argc, char ** argv )
 
   
     QTermFrame * mw = new QTermFrame();
-    mw->setCaption( "QTerm "+QString(VERSION) );
-	mw->setIcon( QPixmap(pathLib+"pic/qterm.png") );
-	a.setMainWidget(mw);
+    mw->setWindowTitle( "QTerm "+QString(VERSION) );
+	mw->setWindowIcon( QPixmap(pathLib+"pic/qterm.png") );
+	//a.setMainWidget(mw);
     mw->show();
     a.connect( &a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()) );
     int res = a.exec();

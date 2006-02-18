@@ -23,6 +23,7 @@
 #include <QApplication>
 #include <QPainter>
 #include <QBitmap>
+#include <QPalette>
 
 // local includes
 #include "osdmessage.h"
@@ -30,11 +31,14 @@
 extern QString pathPic;
 
 PageViewMessage::PageViewMessage( QWidget * parent )
-    : QWidget( parent, "pageViewMessage" ), m_timer( 0 ), m_message()
+    : QWidget( parent ), m_timer( 0 ), m_message()
 {
     setFocusPolicy( Qt::NoFocus );
-    setBackgroundMode( Qt::NoBackground );
-    setPaletteBackgroundColor(qApp->palette().color(QPalette::Active, QColorGroup::Background));
+    //setBackgroundMode( Qt::NoBackground );
+    QPalette palette;
+    palette.setColor(backgroundRole(), qApp->palette().color(QPalette::Active, QPalette::Background));
+    setPalette(palette);
+//     setPaletteBackgroundColor(qApp->palette().color(QPalette::Active, QPalette::Background));
     setCursor(QCursor(Qt::ArrowCursor));
     move( 10, 10 );
     resize( 0, 0 );
@@ -61,13 +65,14 @@ void PageViewMessage::display( const QString & message, Icon icon, int durationM
 */
     // determine text rectangle
     if (!isHidden() && message == m_message){
-	    m_timer->start( durationMs, true );
+        m_timer->setSingleShot(true);
+	    m_timer->start( durationMs );
 	    return;
     }
     m_message = message;
     QRect textRect = fontMetrics().boundingRect( message );
-    textRect.moveBy( -textRect.left(), -textRect.top() );
-    textRect.addCoords( 0, 0, 2, 2 );
+    textRect.translate( -textRect.left(), -textRect.top() );
+    textRect.adjust( 0, 0, 2, 2 );
     int width = textRect.width(),
         height = textRect.height(),
         textXOffset = 0,
@@ -103,8 +108,8 @@ void PageViewMessage::display( const QString & message, Icon icon, int durationM
 
     // resize pixmap, mask and widget
     static QPixmap mask;
-    mask.resize( geometry.size() );
-    m_pixmap.resize( geometry.size() );
+    mask = QPixmap( geometry.size() );
+    m_pixmap = QPixmap( geometry.size() );
     resize( geometry.size() );
 
     // create and set transparency mask
@@ -117,7 +122,7 @@ void PageViewMessage::display( const QString & message, Icon icon, int durationM
     // draw background
     QPainter bufferPainter( &m_pixmap );
     bufferPainter.setPen( Qt::black );
-    bufferPainter.setBrush( paletteBackgroundColor() );
+    bufferPainter.setBrush( palette().brush(QPalette::Window) );
     bufferPainter.drawRoundRect( geometry, 1600 / geometry.width(), 1600 / geometry.height() );
 
     // draw icon if present
@@ -126,9 +131,9 @@ void PageViewMessage::display( const QString & message, Icon icon, int durationM
 
     // draw shadow and text
     int yText = geometry.height() - height / 2;
-    bufferPainter.setPen( paletteBackgroundColor().dark( 115 ) );
+    bufferPainter.setPen( palette().color(QPalette::Window).dark( 115 ) );
     bufferPainter.drawText( 5 + textXOffset + shadowOffset, yText + 1, message );
-    bufferPainter.setPen( foregroundColor() );
+    bufferPainter.setPen( palette().color(QPalette::WindowText) );
     bufferPainter.drawText( 5 + textXOffset, yText, message );
 
     // show widget and schedule a repaint
@@ -141,9 +146,10 @@ void PageViewMessage::display( const QString & message, Icon icon, int durationM
         if ( !m_timer )
         {
             m_timer = new QTimer( this );
+            m_timer->setSingleShot(true);
             connect( m_timer, SIGNAL( timeout() ), SLOT( hide() ) );
         }
-        m_timer->start( durationMs, true );
+        m_timer->start( durationMs );
     } else if ( m_timer )
         m_timer->stop();
 }
