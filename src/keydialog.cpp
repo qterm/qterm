@@ -232,7 +232,7 @@ void keyDialog::loadName()
 	for(int i=0; i<num; i++)
 	{
 		strTmp = QString("name%1").arg(i);
-		ui.nameListWidget->addItem(QString::fromLocal8Bit(pConf->getItemValue("key", strTmp)));
+		ui.nameListWidget->addItem(pConf->getItemValue("key", strTmp));
 	}
 	if(num>0)
 		ui.nameListWidget->setCurrentRow(0);
@@ -251,24 +251,24 @@ void keyDialog::loadKey(int n)
 	QString strItem;
 
 	strItem = QString("name%1").arg(n);
-	ui.nameEdit->setText(QString::fromLocal8Bit(pConf->getItemValue("key", strItem)));
+	ui.nameEdit->setText(pConf->getItemValue("key", strItem));
 
 	strItem = QString("key%1").arg(n);
 	strTmp = pConf->getItemValue("key", strItem);
 	if(strTmp[0]=='0')
 	{
-		ui.keyEdit->setText(QString::fromLocal8Bit(strTmp.mid(1).toLatin1()));
+		ui.keyEdit->setText(strTmp.mid(1));
 		ui.radioButton1->setChecked(true);
 		//onSelect(0);
 	}else if(strTmp[0]=='1')
 	{
-		ui.scriptEdit->setText(QString::fromLocal8Bit(strTmp.mid(1).toLatin1()));
+		ui.scriptEdit->setText(strTmp.mid(1));
 		ui.radioButton2->setChecked(true);
 		//onSelect(7);
 	}
 	else if(strTmp[0]=='2')
 	{
-		ui.programEdit->setText(QString::fromLocal8Bit(strTmp.mid(1).toLatin1()));
+		ui.programEdit->setText(strTmp.mid(1));
 		ui.radioButton3->setChecked(true);
 		//onSelect(6);
 	}
