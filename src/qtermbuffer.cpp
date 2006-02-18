@@ -81,8 +81,8 @@ void QTermBuffer::setSize(int col, int lin)
 	m_top = 0;
 	m_bottom = m_lin -1;
 
-	m_caretY = QMIN(m_caretY, lin-1);
-	m_oldCaretY = QMIN(m_caretY, lin-1);
+	m_caretY = qMin(m_caretY, lin-1);
+	m_oldCaretY = qMin(m_caretY, lin-1);
 
 	clearSelect();
 
@@ -173,8 +173,8 @@ void QTermBuffer::tab()
 
 void QTermBuffer::setMargins( int top, int bottom )
 {
-	m_top = QMAX(top-1,0);
-	m_bottom = QMIN(QMAX(bottom - 1,0), m_lin-1);
+	m_top = qMax(top-1,0);
+	m_bottom = qMin(qMax(bottom - 1,0), m_lin-1);
 }
 
 // cursor functions
@@ -245,7 +245,7 @@ void QTermBuffer::eraseStr( int n )
 
 	int x = line->getLength() - m_caretX;
 	
-	clearArea( m_caretX, m_caretY, QMIN(n, x), 1, m_curAttr );
+	clearArea( m_caretX, m_caretY, qMin(n, x), 1, m_curAttr );
 }
 // delete functions
 void QTermBuffer::deleteStr( int n )
@@ -443,7 +443,7 @@ void QTermBuffer::addHistoryLine( int n )
 		}
 		
 		m_lineList.append( new QTermTextLine );
-		m_lines = QMIN(m_lines+1,m_limit);
+		m_lines = qMin(m_lines+1,m_limit);
 		n--;
 	}
 	
@@ -528,20 +528,20 @@ void QTermBuffer::setSelect( const QPoint& pt1, const QPoint& pt2, bool rect )
 	{
 		if(rect)
 		{
-			for( int i=QMIN(ptSelStart.y(),m_ptSelStart.y()); i<=QMAX(ptSelEnd.y(), m_ptSelEnd.y()); i++)
+			for( int i=qMin(ptSelStart.y(),m_ptSelStart.y()); i<=qMax(ptSelEnd.y(), m_ptSelEnd.y()); i++)
 				at(i)->setChanged(-1,-1);
 		}
 		else
 		{
 			if( ptSelStart==m_ptSelStart )
-				for(int i=QMIN(ptSelEnd.y(), m_ptSelEnd.y()); i<=QMAX(ptSelEnd.y(), m_ptSelEnd.y()); i++)
+				for(int i=qMin(ptSelEnd.y(), m_ptSelEnd.y()); i<=qMax(ptSelEnd.y(), m_ptSelEnd.y()); i++)
 					at(i)->setChanged(-1,-1);
 			else
 				if( ptSelEnd==m_ptSelEnd )
-					for(int i=QMIN(ptSelStart.y(), m_ptSelStart.y()); i<=QMAX(ptSelStart.y(), m_ptSelStart.y()); i++)
+					for(int i=qMin(ptSelStart.y(), m_ptSelStart.y()); i<=qMax(ptSelStart.y(), m_ptSelStart.y()); i++)
 						at(i)->setChanged(-1,-1);
 				else
-					for(int i=QMIN(ptSelStart.y(), m_ptSelStart.y()); i<=QMAX(ptSelEnd.y(), m_ptSelEnd.y()); i++)
+					for(int i=qMin(ptSelStart.y(), m_ptSelStart.y()); i<=qMax(ptSelEnd.y(), m_ptSelEnd.y()); i++)
 						at(i)->setChanged(-1,-1);
 
 		}
@@ -578,8 +578,8 @@ bool QTermBuffer::isSelected( const QPoint& pt, bool rect )
 	if(rect)
 	{
 		int x1, x2;
-		x1=QMIN(m_ptSelStart.x(), m_ptSelEnd.x());
-		x2=QMAX(m_ptSelStart.x(), m_ptSelEnd.x());
+		x1=qMin(m_ptSelStart.x(), m_ptSelEnd.x());
+		x2=qMax(m_ptSelStart.x(), m_ptSelEnd.x());
 		return pt.x()<=x2 && pt.x()>=x1 && pt.y()>=m_ptSelStart.y() && pt.y()<=m_ptSelEnd.y();
 	}
 
@@ -636,16 +636,16 @@ QByteArray QTermBuffer::getSelectText( bool rect, bool color, const QByteArray& 
 QRect QTermBuffer::getSelectRect( int index, bool rect )
 {
 	if(rect)
-		return QRect( QMIN(m_ptSelStart.x(),m_ptSelEnd.x()), index, abs(m_ptSelEnd.x()-m_ptSelStart.x())+1, 1);
+		return QRect( qMin(m_ptSelStart.x(),m_ptSelEnd.x()), index, abs(m_ptSelEnd.x()-m_ptSelStart.x())+1, 1);
 	else
 		if( m_ptSelStart.y()==m_ptSelEnd.y() )
-				return QRect( m_ptSelStart.x(), index, QMIN(m_ptSelEnd.x(),m_col)-m_ptSelStart.x()+1, 1);
+				return QRect( m_ptSelStart.x(), index, qMin(m_ptSelEnd.x(),m_col)-m_ptSelStart.x()+1, 1);
 		else
 			if( index==m_ptSelStart.y() )
-				return QRect( m_ptSelStart.x(), index, QMAX(0,m_col-m_ptSelStart.x()), 1);
+				return QRect( m_ptSelStart.x(), index, qMax(0,m_col-m_ptSelStart.x()), 1);
 			else 
 				if( index==m_ptSelEnd.y() )
-					return QRect( 0, index, QMIN(m_col, m_ptSelEnd.x()+1), 1);
+					return QRect( 0, index, qMin(m_col, m_ptSelEnd.x()+1), 1);
 				else
 					return QRect( 0, index, m_col, 1);
 }

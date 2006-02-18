@@ -156,7 +156,7 @@ void quickDialog::deleteAddr()
 		}
 
 		strTmp = pConf->getItemValue("quick list", "num" );
-		strTmp.setNum( QMAX(0,strTmp.toInt()-1) );
+		strTmp.setNum( qMax(0,strTmp.toInt()-1) );
 		pConf->setItemValue("quick list", "num", strTmp.toLatin1());
 	
 		// update
@@ -167,8 +167,8 @@ void quickDialog::deleteAddr()
 		}
 		else
 		{
-			ui.historyComboBox->setCurrentItem(QMIN(n,num-2));
-			listChanged(QMIN(n,num-2));
+			ui.historyComboBox->setCurrentItem(qMin(n,num-2));
+			listChanged(qMin(n,num-2));
 		}
 	}
 }

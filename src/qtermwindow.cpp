@@ -1012,7 +1012,7 @@ if(m_pZmodem->transferstate == notransfer)
 		int n = m_pBuffer->caret().y();
 		for(int y=n-5;y<n+5;y++ )
 		{
-			y=QMAX(0,y);
+			y=qMax(0,y);
 			QTermTextLine *pTextLine=m_pBuffer->screen(y);
 			if(pTextLine==NULL)
 				continue;

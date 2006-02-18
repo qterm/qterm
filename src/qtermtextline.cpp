@@ -131,7 +131,7 @@ void QTermTextLine::replaceText( const QByteArray& str, short attribute, int ind
 		m_color.fill( m_curColor, newlen );
 		m_attr.fill( m_curAttr, newlen );
 	
-		setChanged( 0,QMAX(newlen, m_length) );
+		setChanged( 0,qMax(newlen, m_length) );
 
 		m_length = newlen;
 		
@@ -146,7 +146,7 @@ void QTermTextLine::replaceText( const QByteArray& str, short attribute, int ind
 			tmp.fill( ' ', index-m_length );
 			m_text.replace( index, len, str );
 		
-			setChanged( index, QMAX(m_length, m_text.length()));
+			setChanged( index, qMax(m_length, m_text.length()));
 
 			m_length = m_text.length();
 	
@@ -166,7 +166,7 @@ void QTermTextLine::replaceText( const QByteArray& str, short attribute, int ind
 	{
 		m_text.replace( index, len, str );
 
-		setChanged( index, QMAX(m_length, m_text.length()));
+		setChanged( index, qMax(m_length, m_text.length()));
 
 		m_length = m_text.length();
 
@@ -341,8 +341,8 @@ void QTermTextLine::setChanged( int start, int end )
 	{
 		if(!(m_start==-1 && m_end==-1))
 		{
-			m_start=QMIN(start, m_start);
-			m_end = QMAX(end, m_end);
+			m_start=qMin(start, m_start);
+			m_end = qMax(end, m_end);
 		}
 	}
 	else

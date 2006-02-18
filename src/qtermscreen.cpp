@@ -375,7 +375,7 @@ void QTermScreen::initFontMetrics()
 	if(m_pParam->m_bAutoFont)
 		m_pFont = new QFont(m_pParam->m_strFontName); 
 	else {
-		m_pFont = new QFont(m_pParam->m_strFontName, QMAX(8,m_pParam->m_nFontSize) ); 
+		m_pFont = new QFont(m_pParam->m_strFontName, qMax(8,m_pParam->m_nFontSize) ); 
 		QFontMetrics *fm = new QFontMetrics( *m_pFont );
 
 		getFontMetrics(fm);
@@ -424,7 +424,7 @@ void QTermScreen::updateFont()
 
 	int nPixelSize;
 
-	int nIniSize = QMAX(8,QMIN(m_rcClient.height()/m_pBuffer->line(),
+	int nIniSize = qMax(8,qMin(m_rcClient.height()/m_pBuffer->line(),
 						m_rcClient.width()*2/m_pBuffer->columns()));
 
 	for( nPixelSize=nIniSize-3; nPixelSize<=nIniSize+3; nPixelSize++)
@@ -483,7 +483,7 @@ void QTermScreen::updateFont()
 void QTermScreen::updateFont2()
 {
 	int nPixelSize;
-	int nIniSize = QMAX(8,QMIN(m_rcClient.height()/m_pBuffer->line(),
+	int nIniSize = qMax(8,qMin(m_rcClient.height()/m_pBuffer->line(),
 					m_rcClient.width()*2/m_pBuffer->columns()));
 
 	for( nPixelSize=nIniSize-3; nPixelSize<=nIniSize+3; nPixelSize++)
@@ -521,9 +521,9 @@ void QTermScreen::getFontMetrics(QFontMetrics *fm)
 	float cn=fm->width(QChar(0x4e00));
 	float en=fm->width('W');
 	if(en/cn<0.7) // almost half
-		m_nCharWidth = QMAX((cn+1)/2,en);
+		m_nCharWidth = qMax((cn+1)/2,en);
 	else
-		m_nCharWidth = (QMAX(en,cn)+1)/2;
+		m_nCharWidth = (qMax(en,cn)+1)/2;
 
 	m_nCharHeight = fm->height();
 	m_nCharAscent = fm->ascent();
@@ -1294,7 +1294,7 @@ QPoint QTermScreen::mapToChar( const QPoint& point )
 	QPoint chPoint;
 	
 	chPoint.setX( (point.x()-pt.x())/m_nCharWidth  );
-	chPoint.setY( QMIN( QMAX(0,(point.y()-pt.y())/m_nCharHeight+m_nStart), m_nEnd) );
+	chPoint.setY( qMin( qMax(0,(point.y()-pt.y())/m_nCharHeight+m_nStart), m_nEnd) );
 
 	//FIXME add bound check
 	
