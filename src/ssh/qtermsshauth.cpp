@@ -30,7 +30,7 @@ void QTermSSH1PasswdAuth::initAuth(QTermSSHPacketReceiver * packet, QTermSSHPack
 		}
 	}
 		
-	d_outcomingPacket->putString(d_user.latin1());
+	d_outcomingPacket->putString(d_user.toLatin1());
 	d_outcomingPacket->write();
 	d_state = USER_SENT;
 	d_isTried = false;
@@ -61,7 +61,7 @@ void QTermSSH1PasswdAuth::handlePacket(int type)
 			d_isTried = false;
 		}
 		d_outcomingPacket->startPacket(SSH1_CMSG_AUTH_PASSWORD);
-		d_outcomingPacket->putString(d_passwd.latin1());
+		d_outcomingPacket->putString(d_passwd.toLatin1());
 		d_outcomingPacket->write();
 		d_isTried = true;
 		break;

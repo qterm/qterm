@@ -2648,8 +2648,8 @@ int QTermZmodem::GotRinit(  ZModem *info )
 	itFile = strFileList.begin();
 	QFileInfo fi(*itFile);
 	qDebug("files to be transfered %d", strFileList.count());
-	char *filename = strdup(fi.absFilePath().latin1());
-	char *rfilename = strdup(fi.fileName().latin1());
+	char *filename = strdup(fi.absFilePath().toLatin1());
+	char *rfilename = strdup(fi.fileName().toLatin1());
 	ZmodemTFile( filename, rfilename,
 						0,0,0,0, strFileList.count(), fi.size(), info);
 	strFileList.erase(itFile);

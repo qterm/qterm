@@ -175,9 +175,9 @@ bool QTermIPLocation::getLocation( QString& url, QString& country, QString& city
 	char *buf;
 	uint32 ip;
 	#ifdef	Q_OS_WIN32
-	uint32 ipValue = inet_addr( (const char*)url.latin1() );
+	uint32 ipValue = inet_addr( (const char*)url.toLatin1() );
 	#else
-	in_addr_t ipValue = inet_addr( (const char*)url.latin1() );
+	in_addr_t ipValue = inet_addr( (const char*)url.toLatin1() );
 	#endif
 	if( ipValue == -1 )
 		return false;

@@ -1981,7 +1981,7 @@ bool QTermWindow::pythonCallback(const QString & func, PyObject* pArgs)
 	PyThreadState * myThreadState = PyThreadState_New(mainInterpreterState);
 	PyThreadState_Swap(myThreadState);
     
-	PyObject *pF = PyString_FromString(func.latin1());
+	PyObject *pF = PyString_FromString(func.toLatin1());
 	PyObject *pFunc = PyDict_GetItem(pDict, pF);
  	Py_DECREF(pF);
 
@@ -2002,7 +2002,7 @@ bool QTermWindow::pythonCallback(const QString & func, PyObject* pArgs)
 	else 
 	{
 		PyErr_Print();
-		qDebug("Cannot find python %s callback function", func.latin1());
+		qDebug("Cannot find python %s callback function", func.toLatin1());
 	}
       
 	// swap my thread state out of the interpreter
