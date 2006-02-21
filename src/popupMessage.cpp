@@ -65,7 +65,7 @@ PopupMessage::PopupMessage( QWidget *parent, QWidget *anchor, int timeout)
 {
     setFrameStyle( QFrame::Panel | QFrame::Raised );
     setFrameShape( QFrame::StyledPanel );
-    overrideWindowFlags( Qt::WX11BypassWM );
+//     overrideWindowFlags( Qt::WX11BypassWM );
 
     QHBoxLayout *hbox;
     QLabel *label;
@@ -81,16 +81,22 @@ PopupMessage::PopupMessage( QWidget *parent, QWidget *anchor, int timeout)
 	
 	m_layout->addLayout(hbox);
 
-    hbox->addWidget( m_countdownFrame = new QFrame( this, "counterVisual" ) );
+    hbox->addWidget( m_countdownFrame = new QFrame( this ));//, "counterVisual" ) );
+    m_countdownFrame->setObjectName( "counterVisual" );
     m_countdownFrame->setFixedWidth( fontMetrics().width( "X" ) );
     m_countdownFrame->setFrameStyle( QFrame::Plain | QFrame::Box );
-    m_countdownFrame->setPaletteForegroundColor( paletteBackgroundColor().dark() );
+    QPalette tmp_palette;
+    tmp_palette.setColor(m_countdownFrame->foregroundRole(), palette().color(QPalette::Window).dark());
+    m_countdownFrame->setPalette(tmp_palette);
+//     m_countdownFrame->setPaletteForegroundColor( paletteBackgroundColor().dark() );
 
-    label = new QLabel( this, "image" );
+    label = new QLabel( this );//, "image" );
+    label->setObjectName("image");
     hbox->addWidget( label );
     label->hide();
 
-    alabel = new QLabel( "Details of the tasks: ", this, "label");
+    alabel = new QLabel( "Details of the tasks: ", this );//, "label");
+    alabel->setObjectName("label");
     //alabel = new KActiveLabel( this, "label" );
     //alabel->setTextFormat( Qt::RichText );
     alabel->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Preferred );
@@ -103,9 +109,11 @@ PopupMessage::PopupMessage( QWidget *parent, QWidget *anchor, int timeout)
 
     hbox->addItem( new QSpacerItem( 4, 4, QSizePolicy::Expanding, QSizePolicy::Preferred ) );
     //FIXME: add icon
-    hbox->addWidget( new QPushButton( "Close", this, "closeButton" ) );
+    QPushButton * tmp_button = new QPushButton( "Close", this );
+    tmp_button->setObjectName( "closeButton" );
+    hbox->addWidget( tmp_button );//, "closeButton" ) );
 
-    connect( child( "closeButton" ), SIGNAL(clicked()), SLOT(close()) );
+    connect( findChild<QPushButton *>( "closeButton" ), SIGNAL(clicked()), SLOT(close()) );
 }
 
 void PopupMessage::addWidget( QWidget *widget )
@@ -116,26 +124,26 @@ void PopupMessage::addWidget( QWidget *widget )
 
 void PopupMessage::showCloseButton( const bool show )
 {
-    static_cast<QPushButton*>(child( "closeButton" ))->setShown( show );
+    findChild<QPushButton *>( "closeButton" )->setShown( show );
     adjustSize();
 }
 
 void PopupMessage::showCounter( const bool show )
 {
     m_showCounter = show;
-    static_cast<QFrame*>(child( "counterVisual" ))->setShown( show );
+    findChild<QFrame*>( "counterVisual" )->setShown( show );
     adjustSize();
 }
 
 void PopupMessage::setText( const QString &text )
 {
-    static_cast<QLabel*>(child( "label" ))->setText( text );
+    findChild<QLabel*>( "label" )->setText( text );
     adjustSize();
 }
 
 void PopupMessage::setImage( const QString &location )
 {
-    static_cast<QLabel*>(child( "image" ))->setPixmap( QPixmap( location ) );
+    findChild<QLabel*>( "image" )->setPixmap( QPixmap( location ) );
     adjustSize();
 }
 
@@ -159,7 +167,7 @@ void PopupMessage::display() //SLOT
     if( m_maskEffect == Dissolve )
     {
         // necessary to create the mask
-        m_mask.resize( width(), height() );
+        m_mask = QBitmap( width(), height() );
         // make the mask empty and hence will not show widget with show() called below
         dissolveMask();
         m_timerId = startTimer( 1000 / 30 );
@@ -204,9 +212,9 @@ void PopupMessage::countDown()
     QFrame *&h = m_countdownFrame;
 
     if( m_counter < h->height() - 3 )
-        QPainter( h ).fillRect( 2, 2, h->width() - 4, m_counter, palette().active().highlight() );
+      QPainter( h ).fillRect( 2, 2, h->width() - 4, m_counter, palette().color(QPalette::Active,QPalette::Highlight) );
 
-    if( !hasMouse() )
+    if( !testAttribute(Qt::WA_UnderMouse) )
         m_counter++;
 
     if( m_counter > h->height() )
@@ -226,7 +234,7 @@ void PopupMessage::dissolveMask()
 {
     if( m_stage == 1 )
     {
-        repaint( false );
+        //repaint( false );
         QPainter maskPainter(&m_mask);
 
         m_mask.fill(Qt::black);
