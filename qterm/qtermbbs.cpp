@@ -459,7 +459,7 @@ bool QTermBBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 		m_cstrUrl = "mailto:"+m_cstrUrl;
 	else if(nNoType==1)
 		if(checkIP) {
-			if( ((const char *) m_cstrIP)[ m_cstrIP.length()-1 ] == '*' )
+			if( m_cstrIP[ m_cstrIP.length()-1 ] == '*' )
 				m_cstrIP.replace( m_cstrIP.length() -1 , 1, "1" );
 		}else
 			m_cstrUrl = "http://"+m_cstrUrl;
