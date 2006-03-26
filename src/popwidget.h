@@ -19,7 +19,7 @@ public:
 //	popWidget(QTermWindow * win, QWidget *parent = 0, const char *name=0, WFlags f=WStyle_Splash);
 //	#else
 	popWidget(QTermWindow * win, QWidget *parent = 0, const char *name=0, 
-					Qt::WFlags f= Qt::WStyle_StaysOnTop|Qt::WX11BypassWM|Qt::WStyle_Tool);
+					Qt::WFlags f= Qt::WindowStaysOnTopHint|Qt::X11BypassWindowManagerHint|Qt::Tool);
 //	#endif
 	~popWidget();
 	

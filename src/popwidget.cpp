@@ -22,7 +22,8 @@ AUTHOR:        kingson fiasco
 #include <qlabel.h>
 //Added by qt3to4:
 #include <QMouseEvent>
-
+#include <QPalette>
+#include <QX11Info>
 //X11 includes
 #include<X11/Xlib.h>
 #include<X11/Xutil.h>
@@ -31,13 +32,16 @@ AUTHOR:        kingson fiasco
 extern QString pathLib;
 
 popWidget::popWidget( QTermWindow *win, QWidget *parent, const char *name, Qt::WFlags f )
-		: QWidget(parent,name,f)
+		: QWidget(parent,f)
 {
 	QPixmap pxm(QPixmap(pathLib+"pic/popwidget.png") );
 	if(!pxm.isNull())
 	{
 		resize(pxm.width(), pxm.height());
-		setBackgroundPixmap(pxm);
+		QPalette palette;
+		palette.setBrush(backgroundRole(), QBrush(pxm));
+		setPalette(palette);
+		//setBackgroundPixmap(pxm);
 	}
 	else
 	{
@@ -46,12 +50,21 @@ popWidget::popWidget( QTermWindow *win, QWidget *parent, const char *name, Qt::W
 
 	label = new QLabel(this);
 	label->setGeometry( QRect( 5, height()/3, width()-10, height()*2/3 ) );
-	label->setAlignment( int( Qt::AlignTop|Qt::TextWordWrap ) );
-	if(!pxm.isNull())
-		label->setBackgroundPixmap(pxm);
-	else
-		label->setBackgroundColor(QColor(249,250,229));
-	label->setBackgroundOrigin( ParentOrigin );
+	label->setAlignment( Qt::AlignTop );
+	label->setWordWrap(true);
+	if(!pxm.isNull()){
+		QPalette palette;
+		palette.setBrush(label->backgroundRole(), QBrush(pxm));
+		label->setPalette(palette);
+	//	label->setBackgroundPixmap(pxm);
+	}
+	else {
+		QPalette palette;
+		palette.setColor(label->backgroundRole(), QColor(249,250,229));
+		label->setPalette(palette);
+		//label->setBackgroundColor(QColor(249,250,229));
+	}
+	//label->setBackgroundOrigin( ParentOrigin );
 	label->setFont(QFont(qApp->font().family(), 12));
 	
 	pTimer = new QTimer(this);
@@ -69,7 +82,7 @@ popWidget::popWidget( QTermWindow *win, QWidget *parent, const char *name, Qt::W
 	
 	hide();
 	
-	Display *dsp = x11Display();
+	Display *dsp = QX11Info::display();
 	int screen = DefaultScreen(dsp);
 	Window root = RootWindow(dsp, screen);
 	
@@ -99,12 +112,14 @@ popWidget::~popWidget()
 
 void popWidget::mousePressEvent(QMouseEvent * me)
 {
-	((QTermFrame *)qApp->mainWidget())->popupFocusIn(window);
+	QWidgetList list = QApplication::topLevelWidgets();
+
+	//((QTermFrame *)qApp->mainWidget())->popupFocusIn(window);
 
 	if(nState==1)
 	{
 		nState = 2;
-		pTimer->changeInterval(nInterval);
+		pTimer->setInterval(nInterval);
 	}
 }
 
@@ -137,12 +152,12 @@ void popWidget::showTimer()
 		else
 		{
 			nState = 1;
-			pTimer->changeInterval(5000);
+			pTimer->setInterval(5000);
 		}
 		break;
 	case 1:		// wait
 		nState = 2;
-		pTimer->changeInterval(nInterval);
+		pTimer->setInterval(nInterval);
 		break;
 	case 2:		// hiding
 		if(ptPos.y()<rcDesktop.height())
