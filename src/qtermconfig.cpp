@@ -17,20 +17,20 @@ REVISION:      2001.10.10 first created.
 #include <QTextStream>
 #include <QFile>
 #include <QString>
-
+#include <QTextCodec>
 
 QTermConfig::QTermConfig(const QString & szFileName)
 {
 	QFile file( szFileName );
     if ( !file.open( QIODevice::ReadOnly ) ) 
 	{
-		qWarning( "could not open for reading `%s'", szFileName );
+		//qWarning( "could not open for reading `%s'", szFileName.toLatin1() );
 		return;
     }
 	QTextStream is;
 	is.setDevice(&file);
 	loadFromStream(is);
-	is.unsetDevice();
+	//is.unsetDevice();
 	file.close();
 }
 
@@ -45,14 +45,14 @@ bool QTermConfig::save (const QString & szFileName)
     QFile file( szFileName );
     if ( !file.open( QIODevice::WriteOnly ) ) 
 	{
-		qWarning( "could not open for writing `%s'", szFileName );
+		//qWarning( "could not open for writing `%s'", szFileName.toLatin1() );
 		return false;
     }
 
 	QTextStream os;
 	os.setDevice(&file);
 	saveToStream(os);
-	os.unsetDevice();
+// 	os.unsetDevice();
 	file.close();
 	return true;
 }
@@ -63,11 +63,11 @@ bool QTermConfig::loadFromStream(QTextStream& is)
 
     data.clear();
 	
-	is.setEncoding(QTextStream::Latin1);
+	is.setCodec(QTextCodec::codecForName("Latin1"));
 
     while(!is.atEnd())
     {
-        strLine = is.readLine().stripWhiteSpace();
+        strLine = is.readLine().trimmed();
         if(strLine.isEmpty() || strLine[0] == '#')
             continue;
 
@@ -91,16 +91,16 @@ bool QTermConfig::saveToStream(QTextStream& os)
     QString strLine, strSection;
     Section::iterator iStr;
 
-	os.setEncoding(QTextStream::Latin1);
+	os.setCodec(QTextCodec::codecForName("Latin1"));
 
     for(StrSecMap::iterator iSec = data.begin();
          iSec != data.end() ; ++iSec)
     {
         os << '[' << iSec.key() << "]\n";
-        for(iStr = iSec.data().begin() ;
-             iStr != iSec.data().end() ; ++iStr)
+        for(iStr = iSec.value().begin() ;
+             iStr != iSec.value().end() ; ++iStr)
         {
-            os << iStr.key() << '=' << iStr.data() << '\n';
+            os << iStr.key() << '=' << iStr.value() << '\n';
         }
         os << '\n';
     }
@@ -160,7 +160,7 @@ bool QTermConfig::deleteSection (const QString & szSection)
 {
 	if(hasSection(szSection))
     {
-        data.erase(szSection);
+        data.remove(szSection);
         return true;
     }
     return false;
@@ -171,7 +171,7 @@ bool QTermConfig::deleteItem( const QString & szSection, const QString & szItemN
 	if(hasSection(szSection))
 		if(data[szSection].find(szItemName) != data[szSection].end());
 		{
-			data[szSection].erase(szItemName);
+			data[szSection].remove(szItemName);
 			return true;
 		}
 	return false;

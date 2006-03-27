@@ -124,7 +124,7 @@ void QTermCanvas::loadImage(QString name)
 	{
 
 		strFileName = name;
-		setCaption(QFileInfo(name).fileName());
+		setWindowTitle(QFileInfo(name).fileName());
 
 		bFitWin=true;
 
@@ -141,7 +141,7 @@ void QTermCanvas::loadImage(QString name)
 		else
 		{
 			szImage = img.size();
-			label->setPixmap(QPixmap(img));
+			label->setPixmap(QPixmap::fromImage(img));
 			if (!bEmbed)
 				resize(szImage+QSize(5,5));
 		}
@@ -150,7 +150,7 @@ void QTermCanvas::loadImage(QString name)
 		
 	}
 	else
-		qWarning("cant load image "+name);
+		qWarning("cant load image");
 }
 
 void QTermCanvas::resizeImage(float ratio)
@@ -177,7 +177,7 @@ void QTermCanvas::rotateImage(float ang)
 	
 	wm.rotate(ang);
 
-	img = img.xForm(wm);
+	img = img.transformed(wm);
 	
 	szImage = img.size();
 
@@ -199,7 +199,7 @@ void QTermCanvas::copyImage()
 		{
 			QByteArray ba = file.readAll();
 			QDataStream ds(&save);
-			ds.writeRawBytes(ba,ba.size());
+			ds.writeRawData(ba,ba.size());
 			save.close();
 		}
 		file.close();
@@ -210,8 +210,7 @@ void QTermCanvas::silentCopy()
 {
 	// save it to $savefiledialog
 	QTermConfig conf(fileCfg);
-	QString strPath = QString::fromLocal8Bit(
-					conf.getItemValue("global","savefiledialog"));
+	QString strPath = conf.getItemValue("global","savefiledialog");
 	
 	QFileInfo fi(strFileName);
 	QString strSave = strPath+"/"+fi.fileName();
@@ -223,10 +222,10 @@ void QTermCanvas::silentCopy()
 	while(fi.exists())
 	{
 		strSave = QString("%1/%2(%3).%4")
-                            .arg(fi.dirPath())
-                            .arg(fi.baseName(true))
+                            .arg(fi.dir().path())
+                            .arg(fi.completeBaseName())
                             .arg(i)
-                            .arg(fi.extension(false));
+                            .arg(fi.suffix());
 		fi.setFile(strSave);
 	}
 
@@ -239,7 +238,7 @@ void QTermCanvas::silentCopy()
 		{
 			QByteArray ba = file.readAll();
 			QDataStream ds(&save);
-			ds.writeRawBytes(ba,ba.size());
+			ds.writeRawData(ba,ba.size());
 			save.close();
 		}
 		file.close();
@@ -249,7 +248,7 @@ void QTermCanvas::silentCopy()
 
 QPixmap QTermCanvas::scaleImage(const QSize& sz)
 {
-	return QPixmap(img.scaled(sz));
+	return QPixmap::fromImage(img.scaled(sz));
 }
 
 void QTermCanvas::moveImage(float dx, float dy)
@@ -264,8 +263,8 @@ void QTermCanvas::saveImage()
 
 	if(strSave.isEmpty())
 		return;
-	QString fmt = fi.extension(false).upper();
-	if(!img.save(strSave, fmt=="JPG"?QString("JPEG"):fmt))
+	QString fmt = fi.suffix().toUpper();
+	if(!img.save(strSave, fmt.toLatin1()))
 		QMessageBox::warning(this, "Failed to save file", "Cant save file, maybe format not supported");
 }
 

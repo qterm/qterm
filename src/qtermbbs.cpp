@@ -54,7 +54,7 @@ QString QTermBBS::getMessage()
 		return message;
 
 	int i = 1;
-	message = QString::fromLatin1(m_pBuffer->screen(0)->getText().simplifyWhiteSpace());
+	message = QString::fromLatin1(m_pBuffer->screen(0)->getText().simplified());
 	line = m_pBuffer->screen(i);
 	while (isUnicolor(line))
 	{
@@ -222,9 +222,9 @@ QRect QTermBBS::getSelectRect()
                 reg = QRegExp( "[^ ]" );
 
                 int nMenuBaseLength = 20;
-                int nMenuLength = cstr.findRev( reg, nMenuStart + nMenuBaseLength ) - nMenuStart + 1;
+                int nMenuLength = cstr.lastIndexOf( reg, nMenuStart + nMenuBaseLength ) - nMenuStart + 1;
                 if ( nMenuLength == nMenuBaseLength + 1 )
-                    nMenuLength = cstr.find( " ", nMenuStart + nMenuBaseLength ) - nMenuStart;
+                    nMenuLength = cstr.indexOf( " ", nMenuStart + nMenuBaseLength ) - nMenuStart;
 				if( m_ptCursor.x()>=nMenuStart && m_ptCursor.x()<=nMenuStart+nMenuLength )
 				{
 					rect.setX(nMenuStart);
@@ -460,7 +460,7 @@ bool QTermBBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 		m_strUrl = "mailto:"+m_strUrl;
 	else if(nNoType==1)
 		if(checkIP) {
-			if( ((const char *) m_strIP)[ m_strIP.length()-1 ] == '*' )
+			if( m_strIP[ m_strIP.length()-1 ] == '*' )
 				m_strIP.replace( m_strIP.length() -1 , 1, "1" );
 		}else
 			m_strUrl = "http://"+m_strUrl;

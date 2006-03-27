@@ -435,7 +435,7 @@ void QTermBuffer::addHistoryLine( int n )
 	{
 		if( m_lines == m_limit )
 		{
-			m_lineList.remove(uint(0));
+			m_lineList.removeFirst();
 			//m_ptSelStart.setY( m_ptSelStart.y()-1 );
 			//m_ptSelEnd.setY( m_ptSelEnd.y()-1 );
 			//if(m_ptSelStart.y()<0)
@@ -616,7 +616,7 @@ QByteArray QTermBuffer::getSelectText( bool rect, bool color, const QByteArray& 
 			strTemp = QString::fromLatin1(m_lineList.at(i)->getText( rc.left(), rc.width() ));
 		
 		//FIXME: potential problem?
-		int pos=strTemp.findRev(QRegExp("[\\S]"));
+		int pos=strTemp.lastIndexOf(QRegExp("[\\S]"));
 		strTemp.truncate(pos+1);
 		cstrSelect += strTemp.toLatin1();
 		

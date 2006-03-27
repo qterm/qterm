@@ -43,10 +43,11 @@ ProgressBar::ProgressBar( QWidget *parent, QLabel *label )
     //DEBUG_FUNC_INFO
 	setMaximum(100);
     m_label->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
-    m_abort = new QPushButton("Abort", parent, "Abort" );
+    m_abort = new QPushButton("Abort", parent);
+    m_abort->setObjectName("Abort");
     m_abort->hide();
     //m_abort->setText( tr("Abort") );
-    m_abort->setIconSet( QPixmap( pathPic + "pic/messagebox_critical.png" ));
+    m_abort->setIcon( QPixmap( pathPic + "pic/messagebox_critical.png" ));
     m_label->show();
     show();
 }
