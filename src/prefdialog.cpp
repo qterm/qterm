@@ -67,7 +67,7 @@ void prefDialog::loadSetting()
 	QString strTmp;
 	
 	strTmp = conf.getItemValue("preference","xim");
-	ui.ximComboBox->setCurrentItem(strTmp.toInt());
+	ui.ximComboBox->setCurrentIndex(strTmp.toInt());
 	
 	strTmp = conf.getItemValue("preference","wordwrap");
 	ui.wordLineEdit3->setText(strTmp);
@@ -134,7 +134,7 @@ void prefDialog::saveSetting()
 
 	QString strTmp;
 
-	strTmp.setNum(ui.ximComboBox->currentItem());
+	strTmp.setNum(ui.ximComboBox->currentIndex());
     conf.setItemValue("preference","xim", strTmp);
 	
 
@@ -238,7 +238,7 @@ void prefDialog::onHttp()
 
 void prefDialog::onBrowse()
 {
-	qDebug(ui.zmodemLineEdit->text());
+	//qDebug(ui.zmodemLineEdit->text());
 	QString dir = QFileDialog::getExistingDirectory(this, "Choose a directory", ui.zmodemLineEdit->text());
 	if( !dir.isNull() )
 		ui.zmodemLineEdit->setText(dir);
