@@ -31,7 +31,7 @@ private:
 	QTermSSHSession * d_session;
 
 	int chooseVersion(const QString & ver);
-	Q_ULONG socketWriteBlock(const char * data, Q_ULONG len);
+	unsigned long socketWriteBlock(const char * data, unsigned long len);
 	void parsePacket();
 		
 private slots:
@@ -49,12 +49,12 @@ public:
 	~QTermSSHSocket();
 	void setProxy( int nProxyType,//0-no proxy; 1-wingate; 2-sock4; 3-socks5
 		bool bAuth,	// if authentation needed
-		const QString& strProxyHost,Q_UINT16 uProxyPort,
+		const QString& strProxyHost,quint16 uProxyPort,
 		const QString& strProxyUsr,const QString& strProxyPwd);	
-	void connectToHost(const QString & host_name, Q_UINT16 port);
-	Q_LONG readBlock(char * data, Q_ULONG size);
-	Q_LONG writeBlock(const char * data, Q_ULONG size);
-	Q_ULONG bytesAvailable();
+	void connectToHost(const QString & host_name, quint16 port);
+	long readBlock(char * data, unsigned long size);
+	long writeBlock(const char * data, unsigned long size);
+	unsigned long bytesAvailable();
 	void flush();
 	void close();
 };

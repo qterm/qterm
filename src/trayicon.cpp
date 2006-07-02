@@ -38,8 +38,9 @@
   \sa show
 */
 TrayIcon::TrayIcon( QObject *parent, const char *name )
-: QObject(parent, name), pop(0), d(0)
+: QObject(parent), pop(0), d(0)
 {
+	setObjectName(name);
 	v_isWMDock = FALSE;
 }
 
@@ -51,8 +52,9 @@ TrayIcon::TrayIcon( QObject *parent, const char *name )
   \sa show
 */
 TrayIcon::TrayIcon( const QPixmap &icon, const QString &tooltip, QMenu *popup, QObject *parent, const char *name )
-: QObject(parent, name), pop(popup), pm(icon), tip(tooltip), d(0)
+: QObject(parent), pop(popup), pm(icon), tip(tooltip), d(0)
 {
+	setObjectName(name);
 	v_isWMDock = FALSE;
 }
 

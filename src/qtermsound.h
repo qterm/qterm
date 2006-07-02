@@ -10,7 +10,7 @@ protected:
 	QString _soundfile;
 public:
 	QTermSound(const QString & filename, QObject * parent = 0, const char * name = 0)
-		:QObject(parent, name),
+		:QObject(parent),
 		 _soundfile(filename)
 	{
 	}

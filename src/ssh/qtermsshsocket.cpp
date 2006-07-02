@@ -97,14 +97,14 @@ void QTermSSHSocket::sessionReadyRead()
 	emit readyRead();
 }
 
-Q_ULONG QTermSSHSocket::socketWriteBlock(const char * data, Q_ULONG len)
+unsigned long QTermSSHSocket::socketWriteBlock(const char * data, unsigned long len)
 {
 	return d_socket->writeBlock(data, len);
 }
 
 void QTermSSHSocket::socketReadyRead()
 {
-	Q_ULONG size;
+	unsigned long size;
 
 	switch (d_state) {
 	case BeforeSession:
@@ -139,7 +139,7 @@ void QTermSSHSocket::socketReadyRead()
 
 void QTermSSHSocket::parsePacket()
 {
-	Q_ULONG size;
+	unsigned long size;
 	char * data;
 	size = d_socket->bytesAvailable();
 	data = new char[size];
@@ -157,7 +157,7 @@ void QTermSSHSocket::parsePacket()
 
 int QTermSSHSocket::chooseVersion(const QString & ver)
 {
-	if (ver.find("SSH-") != 0)
+	if (ver.indexOf("SSH-") != 0)
 		return -1;
 	if (ver.at(4) == '1')
 		return 1;
@@ -167,7 +167,7 @@ int QTermSSHSocket::chooseVersion(const QString & ver)
 		return -1;
 }
 	
-void QTermSSHSocket::connectToHost(const QString & host_name, Q_UINT16 port)
+void QTermSSHSocket::connectToHost(const QString & host_name, quint16 port)
 {
 	d_state = BeforeSession;
 	d_socket->connectToHost(host_name, port);
@@ -194,12 +194,12 @@ void QTermSSHSocket::handlePacket(int type)
 	}
 }
 
-Q_ULONG QTermSSHSocket::bytesAvailable()
+unsigned long QTermSSHSocket::bytesAvailable()
 {
 	return d_inBuffer->len();
 }
 
-Q_LONG QTermSSHSocket::readBlock(char * data, Q_ULONG size)
+long QTermSSHSocket::readBlock(char * data, unsigned long size)
 {
 	if (data == NULL)
 		return -1;
@@ -207,7 +207,7 @@ Q_LONG QTermSSHSocket::readBlock(char * data, Q_ULONG size)
 	return size;
 }
 
-Q_LONG QTermSSHSocket::writeBlock(const char * data, Q_ULONG size)
+long QTermSSHSocket::writeBlock(const char * data, unsigned long size)
 {
 	if (data == NULL)
 		return -1;
@@ -239,7 +239,7 @@ void QTermSSHSocket::handleError(const char * reason)
 }
 
 void QTermSSHSocket::setProxy( int nProxyType, bool bAuth,
-			const QString& strProxyHost, Q_UINT16 uProxyPort,
+			const QString& strProxyHost, quint16 uProxyPort,
 			const QString& strProxyUsr, const QString& strProxyPwd)
 {
 	d_socket->setProxy(nProxyType, bAuth,

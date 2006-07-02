@@ -531,13 +531,13 @@ int QTermZmodem::ZmodemTInit(ZModem *info)
 	info->timeout = 60 ;
     
 	QTermConfig conf(fileCfg);
-	QString path = QString::fromLocal8Bit(conf.getItemValue("global","openfiledialog"));
+	QString path = conf.getItemValue("global","openfiledialog");
 	strFileList = QFileDialog::getOpenFileNames(0, "Choose the files", path, "All files(*)");
 	if(strFileList.count()!=0)
 	{
 		QStringList::Iterator itFile = strFileList.begin();
 		QFileInfo fi(*itFile);
-        conf.setItemValue("global","openfiledialog", fi.dirPath(true) );
+        conf.setItemValue("global","openfiledialog", fi.absoluteDir().absolutePath() );
 		conf.save(fileCfg);	
 	}
 	
@@ -1044,7 +1044,7 @@ FILE * QTermZmodem::ZOpenFile(char *name, ulong crc, ZModem *info)
 	//to be complete
 	FILE *rval;
 	int apnd=0;
-	QString str = ((QTermFrame *)qApp->mainWidget())->m_pref.strZmPath+G2U(name); // lazy, should use bbs2unicode
+	QString str = QTermFrame::instance()->m_pref.strZmPath+G2U(name); // lazy, should use bbs2unicode
 	rval = fopen(str.toLocal8Bit(), apnd ? "ab" : "wb") ;
 
 	if( rval == NULL )
@@ -2648,7 +2648,7 @@ int QTermZmodem::GotRinit(  ZModem *info )
 	itFile = strFileList.begin();
 	QFileInfo fi(*itFile);
 	qDebug("files to be transfered %d", strFileList.count());
-	char *filename = strdup(fi.absFilePath().toLatin1());
+	char *filename = strdup(fi.absoluteFilePath().toLatin1());
 	char *rfilename = strdup(fi.fileName().toLatin1());
 	ZmodemTFile( filename, rfilename,
 						0,0,0,0, strFileList.count(), fi.size(), info);

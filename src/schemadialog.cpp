@@ -20,9 +20,9 @@ schemaDialog::schemaDialog( QWidget* parent, Qt::WFlags fl )
 	nLastItem = -1;
 	bModified = false;
 
-	ui.alphaSlider->setMinValue(0);
-	ui.alphaSlider->setMaxValue(100);
-	ui.alphaSlider->setLineStep(1);
+	ui.alphaSlider->setMinimum(0);
+	ui.alphaSlider->setMaximum(100);
+	ui.alphaSlider->setSingleStep(1);
 	ui.alphaSlider->setPageStep(10);
 	
 	ui.imagePixmapLabel->setScaledContents( false );
@@ -41,7 +41,7 @@ void schemaDialog::setSchema(const QString& strSchemaFile)
 {
 	if(!QFile::exists(strSchemaFile))
 		return;
-	int  n = fileList.findIndex(strSchemaFile);
+	int  n = fileList.indexOf(strSchemaFile);
 	ui.nameListWidget->setCurrentRow(n);
 }
 
@@ -58,22 +58,22 @@ void schemaDialog::connectSlots()
 	connect( ui.cancelButton, SIGNAL(clicked()), this, SLOT(onCancel()));
 
 
-	connect( ui.clr0Button, SIGNAL(clicked()), this, SLOT(clr0Clicked()) );
-	connect( ui.clr1Button, SIGNAL(clicked()), this, SLOT(clr1Clicked()) );
-	connect( ui.clr2Button, SIGNAL(clicked()), this, SLOT(clr2Clicked()) );
-	connect( ui.clr3Button, SIGNAL(clicked()), this, SLOT(clr3Clicked()) );
-	connect( ui.clr4Button, SIGNAL(clicked()), this, SLOT(clr4Clicked()) );
-	connect( ui.clr5Button, SIGNAL(clicked()), this, SLOT(clr5Clicked()) );
-	connect( ui.clr6Button, SIGNAL(clicked()), this, SLOT(clr6Clicked()) );
-	connect( ui.clr7Button, SIGNAL(clicked()), this, SLOT(clr7Clicked()) );
-	connect( ui.clr8Button, SIGNAL(clicked()), this, SLOT(clr8Clicked()) );
-	connect( ui.clr9Button, SIGNAL(clicked()), this, SLOT(clr9Clicked()) );
-	connect( ui.clr10Button, SIGNAL(clicked()), this, SLOT(clr10Clicked()) );
-	connect( ui.clr11Button, SIGNAL(clicked()), this, SLOT(clr11Clicked()) );
-	connect( ui.clr12Button, SIGNAL(clicked()), this, SLOT(clr12Clicked()) );
-	connect( ui.clr13Button, SIGNAL(clicked()), this, SLOT(clr13Clicked()) );
-	connect( ui.clr14Button, SIGNAL(clicked()), this, SLOT(clr14Clicked()) );
-	connect( ui.clr15Button, SIGNAL(clicked()), this, SLOT(clr15Clicked()) );
+	connect( ui.clr0Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr1Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr2Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr3Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr4Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr5Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr6Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr7Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr8Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr9Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr10Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr11Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr12Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr13Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr14Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
+	connect( ui.clr15Button, SIGNAL(clicked()), this, SLOT(buttonClicked()) );
 
 	connect( ui.nameListWidget, SIGNAL(currentRowChanged(int)), this, SLOT(nameChanged(int)) );
 
@@ -93,7 +93,7 @@ void schemaDialog::loadList()
 	QFileInfoList lstFile;
 	//QFileInfo *fi;
 
-	dir.setNameFilter("*.schema");
+	dir.setNameFilters(QStringList("*.schema"));
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 	dir.setPath(pathCfg+"/schema");
@@ -101,10 +101,10 @@ void schemaDialog::loadList()
 	//if( lstFile.count()!=0 )
 	{
 		foreach (QFileInfo fi, lstFile) {
-			QTermConfig *pConf = new QTermConfig(fi.absFilePath());
+			QTermConfig *pConf = new QTermConfig(fi.absoluteFilePath());
 			ui.nameListWidget->addItem(pConf->getItemValue("schema","title"));
 			delete pConf;
-			fileList.append(fi.absFilePath());
+			fileList.append(fi.absoluteFilePath());
 		}
 	}
 #endif	
@@ -114,10 +114,10 @@ void schemaDialog::loadList()
 	//if(lstFile != NULL)
 	{
 		foreach (QFileInfo fi, lstFile) {
-			QTermConfig *pConf = new QTermConfig(fi.absFilePath());
+			QTermConfig *pConf = new QTermConfig(fi.absoluteFilePath());
 			ui.nameListWidget->addItem(pConf->getItemValue("schema","title"));
 			delete pConf;
-			fileList.append(fi.absFilePath());
+			fileList.append(fi.absoluteFilePath());
 		}
 	}
 }
@@ -175,7 +175,7 @@ void schemaDialog::saveNumSchema(int n)
 #else
 	// save it to $HOME/.qterm/schema/ with filename=title
 	QFileInfo fi(*it);
-	QString strSchemaFile = QDir::homeDirPath()+"/.qterm/schema/"+title+".schema";
+	QString strSchemaFile = QDir::homePath()+"/.qterm/schema/"+title+".schema";
 #endif
 
 	// create a new schema if title changed
@@ -234,7 +234,10 @@ void schemaDialog::updateView()
 	ui.titleLineEdit->setText( title );
 
 // #if (QT_VERSION>300)
-// 	// color pane
+	// color pane
+// 	QPalette palette;
+// 	palette.setColor(clr0Button->backgroundRole(), clr0);
+// 	clr0Button->setPalette(palette);
 // 	clr0Button->setPaletteBackgroundColor(clr0);
 // 	clr1Button->setPaletteBackgroundColor(clr1);
 // 	clr2Button->setPaletteBackgroundColor(clr2);
@@ -301,8 +304,12 @@ void schemaDialog::updateView()
 	// image file
 	ui.imageLineEdit->setText(pxmBg);
 	// fade color
-#if (QT_VERSION>300)
-	ui.fadeButton->setPaletteBackgroundColor(fade);
+#if (QT_VERSION>300)    
+	QPalette palette;
+	palette.setColor(ui.fadeButton->backgroundRole(), fade);
+	ui.fadeButton->setPalette(palette);
+
+// 	ui.fadeButton->setPaletteBackgroundColor(fade);
 #else
 	ui.fadeButton->setPalette(fade);
 #endif
@@ -315,8 +322,12 @@ void schemaDialog::updateView()
 
 void schemaDialog::updateBgPreview()
 {
-#if (QT_VERSION>300)
-	ui.imagePixmapLabel->setPaletteBackgroundColor(clr0);
+#if (QT_VERSION>300)    
+	QPalette palette;
+	palette.setColor(ui.imagePixmapLabel->backgroundRole(), clr0);
+	ui.imagePixmapLabel->setPalette(palette);
+
+// 	ui.imagePixmapLabel->setPaletteBackgroundColor(clr0);
 #else
 	ui.imagePixmapLabel->setPalette(clr0);
 #endif
@@ -327,7 +338,7 @@ void schemaDialog::updateBgPreview()
 	QPixmap pixmap;
 	QImage img(pxmBg); 
  	img = fadeColor(img, alpha, fade);
-	pixmap.convertFromImage( img.smoothScale(ui.imagePixmapLabel->width(),ui.imagePixmapLabel->height()) );
+	pixmap = QPixmap::fromImage( img.scaled(ui.imagePixmapLabel->width(),ui.imagePixmapLabel->height()) );
 /*
 	switch(type)
 	{
@@ -367,8 +378,19 @@ void schemaDialog::updateBgPreview()
 
 }
 
-
-
+void schemaDialog::buttonClicked()
+{
+	QPushButton * button = (QPushButton* )sender();
+	QColor color = QColorDialog::getColor(button->palette().color(button->backgroundRole()));
+	if (color.isValid() == true)
+	{
+		QPalette palette;
+		palette.setColor(button->backgroundRole(), color);
+		button->setPalette(palette);
+		bModified = true;
+	}
+}
+/*
 void schemaDialog::clr0Clicked()
 {
 	QColor color=QColorDialog::getColor(clr0);
@@ -598,7 +620,7 @@ void schemaDialog::clr15Clicked()
 	}
 
 }
-
+*/
 void schemaDialog::nameChanged(int item)
 {
     if( bModified )
@@ -608,7 +630,7 @@ void schemaDialog::nameChanged(int item)
             QMessageBox::Warning,
             QMessageBox::Yes | QMessageBox::Default,
             QMessageBox::No  | QMessageBox::Escape ,
-            0,this,0,true);
+            0,this);
         if ( mb.exec() == QMessageBox::Yes )
 		{
 			if(nLastItem!=-1)
@@ -636,7 +658,7 @@ void schemaDialog::bgType(int n)
 // 			chooseButton->setEnabled(true);
 			if(type==0)
 				type=2;
-			ui.typeComboBox->setCurrentItem(type-2);
+			ui.typeComboBox->setCurrentIndex(type-2);
 			break;
 
 		case 2: // none
@@ -673,7 +695,7 @@ void schemaDialog::chooseImage()
 	{
 		ui.imageLineEdit->setText(img);
 		pxmBg = img;
-		type = 2 + ui.typeComboBox->currentItem();
+		type = 2 + ui.typeComboBox->currentIndex();
 		bModified = true;
 		updateBgPreview();
 	}
@@ -686,7 +708,11 @@ void schemaDialog::fadeClicked()
 	{
 		fade = color;
 #if (QT_VERSION>300)
-		ui.fadeButton->setPaletteBackgroundColor(color);
+		QPalette palette;
+		palette.setColor(ui.fadeButton->backgroundRole(), color);
+		ui.fadeButton->setPalette(palette);
+
+// 		ui.fadeButton->setPaletteBackgroundColor(color);
 #else
 		ui.fadeButton->setPalette(color);
 #endif
@@ -721,7 +747,7 @@ void schemaDialog::removeSchema()
 		ui.nameListWidget->takeItem(n);
 		while(n--)
 			it++;
-		fileList.remove(it);
+		fileList.erase(it);
 	}	else
 	{
 		QMessageBox::warning(this, "Error", "This is a system schema. Permission Denied");
@@ -737,7 +763,7 @@ void schemaDialog::onOK()
             QMessageBox::Warning,
             QMessageBox::Yes | QMessageBox::Default,
             QMessageBox::No  | QMessageBox::Escape ,
-            0,this,0,true);
+            0,this);
         if ( mb.exec() == QMessageBox::Yes )
 		{
 			int n = ui.nameListWidget->currentRow();
@@ -757,7 +783,7 @@ void schemaDialog::onCancel()
             QMessageBox::Warning,
             QMessageBox::Yes | QMessageBox::Default,
             QMessageBox::No  | QMessageBox::Escape ,
-            0,this,0,true);
+            0,this);
         if ( mb.exec() == QMessageBox::Yes )
 		{
 			int n =ui.nameListWidget->currentRow();

@@ -22,7 +22,7 @@
 #include <QMainWindow>
 #include <QCursor>
 #include <QThread>
-#include <QCustomEvent>
+//#include <QCustomEvent>
 // #include <Q3PopupMenu>
 #include <QMouseEvent>
 #include <QKeyEvent>
@@ -69,7 +69,7 @@ class QTermWindow: public QMainWindow
 	Q_OBJECT
 public:
 	QTermWindow( QTermFrame * frame,QTermParam param, int addr=-1, QWidget* parent = 0, 
-					const char* name = 0, Qt::WFlags wflags = Qt::WType_TopLevel );
+					const char* name = 0, Qt::WFlags wflags = Qt::Window );
 	~QTermWindow();
 	
 	void connectHost();
@@ -132,7 +132,7 @@ protected:
 	void wheelEvent( QWheelEvent * );
 	void enterEvent( QEvent * );
 	void leaveEvent( QEvent * );
-	void customEvent( QCustomEvent * );
+//  	void customEvent( QCustomEvent * );
 	/*
 	void imStartEvent (QIMEvent *);
 	void imComposeEvent (QIMEvent *);
@@ -154,12 +154,12 @@ protected:
 	bool pythonCallback(const QString &, PyObject*);
 	#endif
 	int runPythonFile(const char*);
-	void pythonMouseEvent(int, Qt::ButtonState, Qt::ButtonState, const QPoint&, int);
+	void pythonMouseEvent(int, Qt::KeyboardModifier, Qt::KeyboardModifier, const QPoint&, int);
 	
 	void closeEvent ( QCloseEvent * );
 	void keyPressEvent( QKeyEvent * );
 	
-	void sendMouseState(int, Qt::ButtonState, Qt::ButtonState, const QPoint&);
+	void sendMouseState(int, Qt::KeyboardModifier, Qt::KeyboardModifier, const QPoint&);
 		
 	QTermScreen * m_pScreen;
 	QTermDecode * m_pDecode;

@@ -54,7 +54,7 @@ QTermSocketPrivate::~QTermSocketPrivate()
 }
 
 void QTermSocketPrivate::setProxy(int nProxyType, bool bAuth,
-			const QString& strProxyHost, Q_UINT16 uProxyPort,
+			const QString& strProxyHost, quint16 uProxyPort,
 			const QString& strProxyUsr, const QString& strProxyPwd)
 {
 	proxy_type=nProxyType;
@@ -121,7 +121,7 @@ void QTermSocketPrivate::socketConnected()
 		proxyauth=NULL;
 		if(bauth)
 			proxyauth = basic_authentication_encode
-				(proxy_usr, proxy_pwd, "Proxy-Authorization");
+				(proxy_usr.toLocal8Bit(), proxy_pwd.toLocal8Bit(), "Proxy-Authorization");
 
 		len = proxyauth!=NULL?strlen(proxyauth):0;
 	
@@ -215,7 +215,7 @@ void QTermSocketPrivate::flush()
 	m_socket->flush();
 }
 
-void QTermSocketPrivate::connectToHost(const QString & hostname, Q_UINT16 portnumber)
+void QTermSocketPrivate::connectToHost(const QString & hostname, quint16 portnumber)
 {
     host=hostname;
     port=portnumber;
@@ -245,7 +245,7 @@ void QTermSocketPrivate::connectToHost(const QString & hostname, Q_UINT16 portnu
 		}
 		else
 */		{
-			hostent = gethostbyname( host );
+			hostent = gethostbyname( host.toLocal8Bit() );
 		}
 
 		if( hostent==NULL )
@@ -265,17 +265,17 @@ void QTermSocketPrivate::close()
 	m_socket->close();
 }
 
-Q_LONG QTermSocketPrivate::readBlock(char * data, Q_ULONG maxlen)
+long QTermSocketPrivate::readBlock(char * data, unsigned long maxlen)
 {
 	return m_socket->read(data, maxlen);
 }
 
-Q_LONG QTermSocketPrivate::writeBlock(const char * data, Q_ULONG len)
+long QTermSocketPrivate::writeBlock(const char * data, unsigned long len)
 {
 	return m_socket->write(data, len);
 }
 
-Q_ULONG QTermSocketPrivate::bytesAvailable()
+unsigned long QTermSocketPrivate::bytesAvailable()
 {
 	return m_socket->bytesAvailable();
 }
@@ -551,7 +551,7 @@ void QTermTelnetSocket::flush()
 }
 
 void QTermTelnetSocket::setProxy( int nProxyType, bool bAuth,
-			const QString& strProxyHost, Q_UINT16 uProxyPort,
+			const QString& strProxyHost, quint16 uProxyPort,
 			const QString& strProxyUsr, const QString& strProxyPwd)
 {
 	d_socket->setProxy(nProxyType, bAuth,
@@ -559,7 +559,7 @@ void QTermTelnetSocket::setProxy( int nProxyType, bool bAuth,
 			strProxyUsr, strProxyPwd);
 }
 
-void QTermTelnetSocket::connectToHost(const QString & host, Q_UINT16 port)
+void QTermTelnetSocket::connectToHost(const QString & host, quint16 port)
 {
 	d_socket->connectToHost(host, port);
 }
@@ -569,17 +569,17 @@ void QTermTelnetSocket::close()
 	d_socket->close();
 }
 
-Q_LONG QTermTelnetSocket::readBlock(char * data, Q_ULONG maxlen)
+long QTermTelnetSocket::readBlock(char * data, unsigned long maxlen)
 {
 	return d_socket->readBlock(data, maxlen);
 }
 
-Q_LONG QTermTelnetSocket::writeBlock(const char * data, Q_ULONG len)
+long QTermTelnetSocket::writeBlock(const char * data, unsigned long len)
 {
 	return d_socket->writeBlock(data, len);
 }
 
-Q_ULONG QTermTelnetSocket::bytesAvailable()
+unsigned long QTermTelnetSocket::bytesAvailable()
 {
 	return d_socket->bytesAvailable();
 }

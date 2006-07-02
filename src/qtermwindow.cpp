@@ -21,7 +21,7 @@ AUTHOR:        kingson fiasco
 #include "qtermbuffer.h"
 #include "qtermparam.h"
 //Added by qt3to4:
-#include <QCustomEvent>
+//#include <QCustomEvent>
 #include <QResizeEvent>
 #include <QMouseEvent>
 #include <QKeyEvent>
@@ -105,7 +105,7 @@ extern QString pathCfg;
 extern void saveAddress(QTermConfig*,int,const QTermParam&);
 extern void runProgram(const QString &);
 extern QString getOpenFileName(const QString&, QWidget*);
-
+/*
 // script thread
 QTermDAThread::QTermDAThread(QTermWindow *win)
 {
@@ -169,7 +169,7 @@ void QTermDAThread::run()
 		
 		if(!pWin->m_wcWaiting.wait(&mutex, 10000))	// timeout
 		{
-			qApp->postEvent(pWin, new QCustomEvent(DAE_TIMEOUT));
+			//qApp->postEvent(pWin, new QCustomEvent(DAE_TIMEOUT));
 			break;
 		}
 	}
@@ -178,9 +178,9 @@ void QTermDAThread::run()
 	#else
 	strArticle = strList.join("\n");
 	#endif
-	qApp->postEvent(pWin, new QCustomEvent(DAE_FINISH));
+	//qApp->postEvent(pWin, new QCustomEvent(DAE_FINISH));
 	mutex.unlock();
-}
+}*/
 
 /*
 void QTermDAThread::run()
@@ -257,7 +257,7 @@ char QTermWindow::direction[][5]=
 
 //constructor
 QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidget * parent, const char * name, Qt::WFlags wflags )
-    : QMainWindow( parent, name, wflags ),location()
+    : QMainWindow( parent, wflags ),location()
 {
 
 	m_pFrame = frame;
@@ -270,19 +270,19 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 
 	m_pBuffer = new QTermBuffer( m_param.m_nRow, m_param.m_nCol, m_param.m_nScrollLines );
 	if (param.m_nProtocolType == 0)
-		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, 
+		m_pTelnet = new QTermTelnet( m_param.m_strTerm.toLatin1(), 
 						m_param.m_nRow, m_param.m_nCol, false );
 	else {
 		#if defined(_NO_SSH_COMPILED)
 		QMessageBox::warning(this, "sorry", 
 						"SSH support is not compiled, QTerm can only use Telnet!");
-		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, 
+		m_pTelnet = new QTermTelnet( m_param.m_strTerm.toUtf8(), 
 						m_param.m_nRow, m_param.m_nCol,false );
 		#else
-		m_pTelnet = new QTermTelnet( (const char *)m_param.m_strTerm, 
+		m_pTelnet = new QTermTelnet( m_param.m_strTerm.toUtf8(), 
 						m_param.m_nRow, m_param.m_nCol,true, 
-						(const char *)m_param.m_strSSHUser, 
-						(const char *)m_param.m_strSSHPasswd );
+						m_param.m_strSSHUser.toUtf8(), 
+						m_param.m_strSSHPasswd.toUtf8() );
 		#endif
 	}
 	connect( m_pBuffer, SIGNAL(windowSizeChanged(int,int)), 
@@ -327,21 +327,30 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 // 	setDockMenuEnabled(false);
 
 	m_pUrl = new QMenu(m_pScreen);
+	/*
 	m_pUrl->insertItem( tr("Preview image"), this, SLOT(previewLink()) );
 	m_pUrl->insertItem( tr("Open link"), this, SLOT(openLink()) );
 	m_pUrl->insertItem( tr("Copy link address"), this, SLOT(copyLink()) );
 	m_pUrl->insertItem( tr("Save target as..."), this, SLOT(saveLink()) );
+	*/
 
-	
+	m_pUrl->addAction( tr("Preview image"), this, SLOT(previewLink()) );
+	m_pUrl->addAction( tr("Open link"), this, SLOT(openLink()) );
+	m_pUrl->addAction( tr("Copy link address"), this, SLOT(copyLink()) );
+
 	m_pMenu = new QMenu(m_pScreen);
-	m_pMenu->insertItem( QPixmap(pathLib+"pic/copy.png"), tr("Copy"), this, SLOT(copy()), Qt::CTRL+Qt::Key_Insert );
-	m_pMenu->insertItem( QPixmap(pathLib+"pic/paste.png"), tr("Paste"), this, SLOT(paste()), Qt::SHIFT+Qt::Key_Insert );
-	m_pMenu->insertItem( QPixmap(pathLib+"pic/article.png"), tr("Copy Article"), this, SLOT(copyArticle()), Qt::Key_F9 );
-	m_pMenu->insertSeparator();
-	m_pMenu->insertItem( QPixmap(pathLib+"pic/fonts.png"), tr("Font"), this, SLOT(font()) );
-	m_pMenu->insertItem( QPixmap(pathLib+"pic/color.png"), tr("Color"), this, SLOT(color()) );
-	m_pMenu->insertSeparator();
-	m_pMenu->insertItem( QPixmap(pathLib+"pic/pref.png"), tr("Setting"), this, SLOT(setting()) );
+	//FIXME: shortcut
+	//m_pMenu->insertItem( QPixmap(pathLib+"pic/copy.png"), tr("Copy"), this, SLOT(copy()), Qt::CTRL+Qt::Key_Insert );
+	//m_pMenu->insertItem( QPixmap(pathLib+"pic/paste.png"), tr("Paste"), this, SLOT(paste()), Qt::SHIFT+Qt::Key_Insert );
+	//m_pMenu->insertItem( QPixmap(pathLib+"pic/article.png"), tr("Copy Article"), this, SLOT(copyArticle()), Qt::Key_F9 );
+	m_pMenu->addAction( QPixmap(pathLib+"pic/copy.png"), tr("Copy"), this, SLOT(copy()) );
+	m_pMenu->addAction( QPixmap(pathLib+"pic/paste.png"), tr("Paste"), this, SLOT(paste()) );
+	m_pMenu->addAction( QPixmap(pathLib+"pic/article.png"), tr("Copy Article"), this, SLOT(copyArticle()) );
+	m_pMenu->addSeparator();
+	m_pMenu->addAction( QPixmap(pathLib+"pic/fonts.png"), tr("Font"), this, SLOT(font()) );
+	m_pMenu->addAction( QPixmap(pathLib+"pic/color.png"), tr("Color"), this, SLOT(color()) );
+	m_pMenu->addSeparator();
+	m_pMenu->addAction( QPixmap(pathLib+"pic/pref.png"), tr("Setting"), this, SLOT(setting()) );
 
 //connect telnet signal to slots
 	connect(m_pTelnet,SIGNAL( readyRead(int) ),
@@ -398,7 +407,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	cursor[5] = QCursor(QPixmap(pathLib+"cursor/next.xpm"));
 	cursor[6] = QCursor(QPixmap(pathLib+"cursor/exit.xpm"),0,10);
 	cursor[7] = QCursor(QPixmap(pathLib+"cursor/hand.xpm"));
-	cursor[8] = Qt::arrowCursor;
+	cursor[8] = Qt::ArrowCursor;
 
 	// the system wide script
 	m_bPythonScriptLoaded = false;
@@ -508,7 +517,7 @@ void QTermWindow::closeEvent ( QCloseEvent * clse)
 			QMessageBox::Warning,
 			QMessageBox::Yes | QMessageBox::Default,
 			QMessageBox::No  | QMessageBox::Escape ,
-			0,this,0,true);
+			0,this);
 		if ( mb.exec() == QMessageBox::Yes )
 		{
 			m_pTelnet->close();
@@ -593,7 +602,7 @@ void QTermWindow::leaveEvent( QEvent * )
 }
 void QTermWindow::mouseDoubleClickEvent( QMouseEvent * me)
 {
-	pythonMouseEvent(3, me->button(), me->state(), me->pos(),0);
+	//pythonMouseEvent(3, me->button(), me->state(), me->pos(),0);
 }
 
 void QTermWindow::mousePressEvent( QMouseEvent * me )
@@ -606,7 +615,7 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
     }
 
 	// Left Button for selecting
-	if(me->button()&Qt::LeftButton && !(me->state()&Qt::KeyboardModifierMask))
+	if(me->button()&Qt::LeftButton && !(me->modifiers()))
 	{
 		// clear the selected before
 		m_pBuffer->clearSelect();
@@ -622,14 +631,14 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 	// Right Button
 	if((me->button()&Qt::RightButton))
 	{
-		if(me->state()&Qt::ControlModifier)
+		if(me->modifiers()&Qt::ControlModifier)
 		{
 			if(!m_pBBS->getUrl().isEmpty())		// on Url
 				previewLink();
 			return;
 		}
 		
-		if(!(me->state()&Qt::KeyboardModifierMask))
+		if(!(me->modifiers()))
 		{
 			if(!m_pBBS->getUrl().isEmpty())		// on Url
 				m_pUrl->popup(me->globalPos());
@@ -639,7 +648,7 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 		}
 	}
 	// Middle Button for paste
-	if( me->button()&Qt::MidButton && !(me->state()&Qt::KeyboardModifierMask))
+	if( me->button()&Qt::MidButton && !(me->modifiers()))
 	{
 		if( m_bConnected )
 			if(!m_pBBS->getUrl().isEmpty())         // on Url
@@ -653,17 +662,17 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 	m_bMouseClicked = true;
 
 	// xterm mouse event
-	sendMouseState(0, me->button(), me->state(), me->pos());
+	//sendMouseState(0, me->button(), me->state(), me->pos());
 
 	// python mouse event
-	pythonMouseEvent(0, me->button(), me->state(), me->pos(),0);
+	//pythonMouseEvent(0, me->button(), me->state(), me->pos(),0);
 }
 
 
 void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 {
 	// selecting by leftbutton
-	if( (me->state()&Qt::LeftButton) && m_bSelecting )
+	if( (me->buttons()&Qt::LeftButton) && m_bSelecting )
 	{
         if(me->pos().y()< childrenRect().top())
 			m_pScreen->scrollLine(-1);
@@ -684,7 +693,7 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 		// set cursor pos, repaint if state changed
 		QRect rect;
 		if( m_pBBS->setCursorPos( m_pScreen->mapToChar(me->pos()),rect ) )
-			m_pScreen->repaint( m_pScreen->mapToRect(rect), true );
+			m_pScreen->repaint( m_pScreen->mapToRect(rect) );
 		// judge if URL
 		QRect rcOld;
 		QRect rcOld_i_dont_need_you;
@@ -702,8 +711,10 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 // 						statusBar()->message( G2U(country + city) );
 // 						//m_pMessage->display(G2U(country + city), PageViewMessage::Info, 0);
 // 					}
-					if (!m_ipTimer->isActive())
-						m_ipTimer->start(100, false);
+					if (!m_ipTimer->isActive()){
+						m_ipTimer->setSingleShot(false);
+						m_ipTimer->start(100);
+					}
 				}
 			} else{
 				//statusBar()->message("");
@@ -736,7 +747,7 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 		}
 	}
 	// python mouse event
-	pythonMouseEvent(2, me->button(), me->state(), me->pos(),0);
+	//pythonMouseEvent(2, me->button(), me->state(), me->pos(),0);
 }
 
 void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
@@ -745,11 +756,11 @@ void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 		return;
 	m_bMouseClicked = false;
 	// other than Left Button ignored
-	if( !(me->button()&Qt::LeftButton) || (me->state()&Qt::KeyboardModifierMask))
+	if( !(me->button()&Qt::LeftButton) || (me->modifiers()&Qt::KeyboardModifierMask))
 	{
-		pythonMouseEvent(1, me->button(), me->state(), me->pos(),0);
+		//pythonMouseEvent(1, me->button(), me->state(), me->pos(),0);
 		// no local mouse event
-		sendMouseState(3, me->button(), me->state(), me->pos());
+		//sendMouseState(3, me->button(), me->state(), me->pos());
 		return;
 	}
 	
@@ -778,16 +789,16 @@ void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 		QString caption = tr("Open URL");
 		QString hint = "url";
 		#if (QT_VERSION>=300)
-		QString strUrl = QInputDialog::getText(caption, hint,
+		QString strUrl = QInputDialog::getText(this,caption, hint,
 						QLineEdit::Normal, QString(m_pBBS->getUrl()), &ok);
 		#else
-		QString strUrl = QInputDialog::getText(caption, hint, 
+		QString strUrl = QInputDialog::getText(this,caption, hint, 
 						QString(m_pBBS->getUrl()), &ok);
 		#endif
 		if (ok)
 		{
 			QString strCmd=m_pFrame->m_pref.strHttp;
-			if(strCmd.find("%L")==-1) // no replace
+			if(strCmd.indexOf("%L")==-1) // no replace
 				//QApplication::clipboard()->setText(strUrl);
 				strCmd += " \"" + strUrl +"\"";
 			else
@@ -855,16 +866,16 @@ void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 void QTermWindow::wheelEvent( QWheelEvent *we)
 {
 	int j = we->delta()>0 ? 4 : 5;
-	if(!(we->state()&Qt::KeyboardModifierMask))
+	if(!(we->modifiers()))
 	{
 		if(m_pFrame->m_pref.bWheel && m_bConnected)
 			m_pTelnet->write(direction[j], sizeof(direction[j]));
 		return;
 	}
 
-	pythonMouseEvent(4, Qt::NoButton, we->state(), we->pos(),we->delta());
+	//pythonMouseEvent(4, Qt::NoButton, we->state(), we->pos(),we->delta());
 
-	sendMouseState(j, Qt::NoButton, we->state(), we->pos());
+	//sendMouseState(j, Qt::NoButton, we->state(), we->pos());
 }
 
 //keyboard input event
@@ -899,7 +910,7 @@ void QTermWindow::keyPressEvent( QKeyEvent * e )
 	if(m_replyTimer->isActive())
 		m_replyTimer->stop();
 
-	if( e->state() & Qt::MetaModifier )
+	if( e->modifiers() )
 	{
 		if( e->key()>=Qt::Key_A && e->key()<=Qt::Key_Z )
 		{	
@@ -1017,7 +1028,7 @@ if(m_pZmodem->transferstate == notransfer)
 			if(pTextLine==NULL)
 				continue;
 			QString str=pTextLine->getText();
-			if(str.find("guest")!=-1 && str.find("new")!=-1)
+			if(str.indexOf("guest")!=-1 && str.indexOf("new")!=-1)
 			{
 				doAutoLogin();
 				break;
@@ -1176,7 +1187,7 @@ void QTermWindow::ZmodemState(int type, int value, const QString& status)
         case    FileBegin:
                 /* file transfer begins, str=name */
 //                qWarning("starting file %s", status);
-				m_pZmDialog->setFileInfo(G2U(status),value);
+				m_pZmDialog->setFileInfo(G2U(status.toLatin1()),value);
 				m_pZmDialog->setProgress(0);
 				m_pZmDialog->clearErrorLog();
 				m_pZmDialog->show();
@@ -1317,19 +1328,19 @@ void QTermWindow::copy( )
 	if( m_param.m_nBBSCode==0 )
 	{
 		clipboard->setText(G2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor, 
-									 parseString((const char *)m_param.m_strEscape))), 
+				   parseString((const char *)m_param.m_strEscape.toLatin1()))), 
 					QClipboard::Clipboard );
 		clipboard->setText(G2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor, 
-									 parseString((const char *)m_param.m_strEscape))), 
+				   parseString((const char *)m_param.m_strEscape.toLatin1()))), 
 					QClipboard::Selection );
 	}
 	else
 	{
 		clipboard->setText(B2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor, 
-									 parseString((const char *)m_param.m_strEscape))), 
+				   parseString((const char *)m_param.m_strEscape.toLatin1()))), 
 					QClipboard::Clipboard );
 		clipboard->setText(B2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor, 
-									 parseString((const char *)m_param.m_strEscape))), 
+				   parseString((const char *)m_param.m_strEscape.toLatin1()))), 
 					QClipboard::Selection );
 	}
 	#else
@@ -1393,7 +1404,7 @@ void QTermWindow::pasteHelper( bool clip )
 	if(!m_pFrame->m_strEscape.isEmpty())
 	#if (QT_VERSION>=0x030100)
 		cstrText.replace(parseString(m_pFrame->m_strEscape.toLatin1()), 
-						parseString((const char *)m_param.m_strEscape));
+				 parseString((const char *)m_param.m_strEscape.toLatin1()));
 	#else
 		cstrText.replace(QRegExp(parseString(m_pFrame->m_cstrEscape)), 
 						parseString((const char *)m_param.m_strEscape));
@@ -1424,7 +1435,7 @@ void QTermWindow::pasteHelper( bool clip )
 					break;
 				}
 				// double byte or not
-				if(strText.constref(j).row()=='\0')
+				if(strText.at(j).row()=='\0')
 					l++;
 				else
 					l+=2;
@@ -1443,11 +1454,13 @@ void QTermWindow::pasteHelper( bool clip )
 }
 void QTermWindow::copyArticle( )
 {
+	return;
+/*
 	if(!m_bConnected)
 		return;
 	
 	m_pDAThread = new QTermDAThread(this);
-	m_pDAThread->start();
+	m_pDAThread->start();*/
 		
 }
 void QTermWindow::font()
@@ -1471,7 +1484,7 @@ void QTermWindow::color()
 	
 	set.param = m_param;
 	set.updateData(false);		 
-	set.ui.tabWidget->setCurrentPage(1);
+	set.ui.tabWidget->setCurrentIndex(1);
 
 	if(set.exec()==1)
 	{
@@ -1542,7 +1555,7 @@ void QTermWindow::viewMessages( )
 	msgDialog msg(this);
 
 	QTermConfig conf(fileCfg);
-	const char * size = conf.getItemValue("global","msgdialog");
+	const char * size = conf.getItemValue("global","msgdialog").toLatin1();
 	if(size!=NULL)
 	{
 		int x,y,cx,cy;
@@ -1552,9 +1565,9 @@ void QTermWindow::viewMessages( )
 	}
 
 	if( m_param.m_nBBSCode==0 )
-		msg.ui.msgBrowser->setPlainText(G2U(m_strMessage));
+		msg.ui.msgBrowser->setPlainText(G2U(m_strMessage.toLatin1()));
 	else
-		msg.ui.msgBrowser->setPlainText(B2U(m_strMessage));
+		msg.ui.msgBrowser->setPlainText(B2U(m_strMessage.toLatin1()));
 	
 	msg.exec();
 
@@ -1681,6 +1694,7 @@ void QTermWindow::reconnectProcess()
 /* 	                         Events                                         */
 /*                                                                          */
 /* ------------------------------------------------------------------------ */
+/*
 void QTermWindow::customEvent(QCustomEvent*e)
 {
 
@@ -1721,7 +1735,7 @@ void QTermWindow::customEvent(QCustomEvent*e)
 	}
 
 }
-
+*/
 /* ------------------------------------------------------------------------ */
 /*	                                                                        */
 /* 	                         Aux Func                                       */
@@ -1801,7 +1815,7 @@ void QTermWindow::saveSetting()
 		QMessageBox::Warning,
 		QMessageBox::Yes | QMessageBox::Default,
 		QMessageBox::No  | QMessageBox::Escape ,
-			0,this,0,true);
+			0,this);
 	if ( mb.exec() == QMessageBox::Yes )
 	{
 		QTermConfig *pConf = new QTermConfig(addrCfg);
@@ -1859,9 +1873,9 @@ QByteArray QTermWindow::stripWhitespace( const QByteArray& cstr )
 	QString cstrText=QString::fromLatin1(cstr);
 	
 	#if (QT_VERSION>=300)
-	int pos=cstrText.findRev(QRegExp("[\\S]"));
+	int pos=cstrText.lastIndexOf(QRegExp("[\\S]"));
 	#else
-	int pos=cstrText.findRev(QRegExp("[^\\s]"));
+	int pos=cstrText.lastIndexOf(QRegExp("[^\\s]"));
 	#endif
 
 	if(pos==-1)
@@ -1886,9 +1900,11 @@ void QTermWindow::setMouseMode(bool on)
 /* 0-left 1-middle 2-right 3-relsase 4/5-wheel
  *
  */
-void QTermWindow::sendMouseState( int num, 
-				Qt::ButtonState btnstate, Qt::ButtonState keystate, const QPoint& pt )
+//void QTermWindow::sendMouseState( int num, 
+//				Qt::ButtonState btnstate, Qt::ButtonState keystate, const QPoint& pt )
+void QTermWindow::sendMouseState( int num, Qt::KeyboardModifier btnstate, Qt::KeyboardModifier keystate, const QPoint& pt)
 {
+	/*
 	if(!m_bMouseX11)
 		return;
 	
@@ -1919,6 +1935,7 @@ void QTermWindow::sendMouseState( int num,
 			ptc.x()+1+0x20,
 			ptc.y()+1+0x20);
 	m_pTelnet->write( mouse, strlen(mouse) );
+	*/
 }
 
 /* ------------------------------------------------------------------------ */
@@ -2168,9 +2185,11 @@ int QTermWindow::runPythonFile( const char * filename )
 }
 
 
-void QTermWindow::pythonMouseEvent(int type, Qt::ButtonState btnstate, Qt::ButtonState keystate, 
-				const QPoint& pt, int delta  )
+//void QTermWindow::pythonMouseEvent(int type, Qt::ButtonState btnstate, Qt::ButtonState keystate, 
+//				const QPoint& pt, int delta  )
+void QTermWindow::pythonMouseEvent(int type, Qt::KeyboardModifier, Qt::KeyboardModifier, const QPoint & pt, int delta)
 {
+	/*
 	int state=0;
 
 	if(btnstate&Qt::LeftButton)
@@ -2193,6 +2212,7 @@ void QTermWindow::pythonMouseEvent(int type, Qt::ButtonState btnstate, Qt::Butto
 	pythonCallback("mouseEvent", 
 					Py_BuildValue("liiiii", this, type, state, ptc.x(), ptc.y(),delta));
 #endif
+*/
 }
 
 void QTermWindow::inputHandle(QString * text)
@@ -2212,11 +2232,11 @@ void QTermWindow::inputHandle(QString * text)
 void QTermWindow::openLink()
 {
 	QString strCmd=m_pFrame->m_pref.strHttp;
-	if(strCmd.find("%L")==-1) // no replace
+	if(strCmd.indexOf("%L")==-1) // no replace
 	//QApplication::clipboard()->setText(strUrl);
 		strCmd += " \"" + m_pBBS->getUrl() +"\"";
 	else
-		strCmd.replace(QRegExp("%L",false), m_pBBS->getUrl());
+		strCmd.replace(QRegExp("%L",Qt::CaseInsensitive), m_pBBS->getUrl());
 	runProgram(strCmd);
 }
 
@@ -2229,9 +2249,9 @@ void QTermWindow::copyLink()
 {
 	QString strUrl;
 	if( m_param.m_nBBSCode==0 )
-		strUrl=G2U(m_pBBS->getUrl());
+		strUrl=G2U(m_pBBS->getUrl().toLatin1());
 	else
-		strUrl=B2U(m_pBBS->getUrl());
+		strUrl=B2U(m_pBBS->getUrl().toLatin1());
 				
 	QClipboard *clipboard = QApplication::clipboard();
 

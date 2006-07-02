@@ -35,9 +35,9 @@ QTermIPLocation::QTermIPLocation(QString & pathLib)
 	
 	//case-insensitive match
 	QDir dir(pathCfg);
-	QStringList files = dir.entryList("[Qq][Qq][Ww][Rr][Yy].[Dd][Aa][Tt]",QDir::Files);
+	QStringList files = dir.entryList(QStringList("[Qq][Qq][Ww][Rr][Yy].[Dd][Aa][Tt]"),QDir::Files);
 	if(!files.isEmpty()){
-		if( ( f->ipfp = fopen( pathCfg + (*files.at(0)), "r" ) ) == NULL ){
+		if( ( f->ipfp = fopen( (pathCfg + (files.at(0))).toLocal8Bit(), "r" ) ) == NULL ){
 		qDebug( "can't open ipfile !" );
 		fileExist = false;
 		}
@@ -137,7 +137,7 @@ uint32 QTermIPLocation::getString( FILE *fp, uint32 offset, uint32 lastoffset, Q
     switch ( flag ) {
         case 0x01:  return 0; 
         case 0x02:  return lastoffset + 4; 
-        default:   return offset + strlen(ret) + 1;
+        default:   return offset + strlen(ret.toLatin1()) + 1;
     }// switch
 }
 
@@ -209,7 +209,7 @@ bool QTermIPLocation::getLocation( QString& url, QString& country, QString& city
 	{
 		getCountryCity(f->ipfp, f->offset_cur_end_ip + 4, country, city);
 		//country.replace( country.find( "CZ88.NET", 0, FALSE ), 8, "" );
-		if( (rec =city.find( "CZ88.NET", 0, FALSE )) >= 0 )
+		if( (rec =city.indexOf( "CZ88.NET", 0, Qt::CaseInsensitive )) >= 0 )
 			city.replace( rec, 8, "" );
 			
 	} 

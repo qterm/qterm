@@ -60,7 +60,7 @@ void QTermHttp::getLink(const QString& url, bool preview)
 {
 	m_bExist = false;
 	m_bPreview = preview;
-	QUrl u(QString::fromUtf8(url));
+	QUrl u(url);
 	if(u.isRelative() || u.scheme() == "file")
 	{
 		previewImage(u.path());
@@ -80,12 +80,12 @@ void QTermHttp::getLink(const QString& url, bool preview)
 		if(!strTmp.isEmpty())
 		{
 			QString strUrl = url;
-			strUrl.replace(QRegExp(u.host(),false),strTmp);
+			strUrl.replace(QRegExp(u.host(),Qt::CaseInsensitive),strTmp);
 			u = strUrl;
 		}
 	}
-	m_strHttpFile = u.fileName();
-	m_httpDown.setHost(u.host(),u.hasPort()?u.port():80);
+	m_strHttpFile = QFileInfo(u.path()).fileName();
+	m_httpDown.setHost(u.host(),u.port(80));
 	m_httpDown.get(u.path()+u.encodedQuery());
 }
 
@@ -103,16 +103,16 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 //	m_strHttpFile = ValueString.mid(ValueString.find('=') + 1).stripWhiteSpace();
 	if(ValueString.right(1)!=";")
 		ValueString+=";";
-	QRegExp re("filename=.*;", false);
+	QRegExp re("filename=.*;", Qt::CaseInsensitive);
 	re.setMinimal(true); //Dont FIXME:this will also split filenames with ';' inside, does anyone really do this?
-	int pos=re.search(ValueString);
+	int pos=re.indexIn(ValueString);
 	if(pos!=-1)
 		m_strHttpFile = ValueString.mid(pos+9,re.matchedLength()-10);
-        filename = m_strHttpFile = G2U(m_strHttpFile);
+        filename = m_strHttpFile = G2U(m_strHttpFile.toLatin1());
 
 	if(m_bPreview)
 	{
-		QString strPool = ((QTermFrame *)qApp->mainWidget())->m_pref.strPoolPath;
+		QString strPool = QTermFrame::instance()->m_pref.strPoolPath;
 		
 		m_strHttpFile = strPool + m_strHttpFile;
 
@@ -132,17 +132,17 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 			else
 			{
 				m_strHttpFile = QString("%1/%2(%3).%4") 
-							.arg(fi.dirPath()) 
-							.arg(fi.baseName(true))
+							.arg(fi.path()) 
+							.arg(fi.completeBaseName())
 							.arg(i)
-							.arg(fi.extension(false));
+							.arg(fi.suffix());
 				fi2.setFile(m_strHttpFile);
 				i++;
 			}
 		}
 		fi.setFile(m_strHttpFile);
 		
-		QString strExt=fi.extension(false).lower();
+		QString strExt=fi.suffix().toLower();
 		if(strExt=="jpg" || strExt=="jpeg" || strExt=="gif" || 
 			strExt=="mng" || strExt=="png" || strExt=="bmp")
 			m_bPreview=true;
@@ -178,7 +178,7 @@ void QTermHttp::httpRead(int done, int total)
 	if(file.open(QIODevice::ReadWrite | QIODevice::Append))
 	{
 		QDataStream ds(&file);
-		ds.writeRawBytes(ba,ba.size());
+		ds.writeRawData(ba,ba.size());
 		file.close();
 	}
 	if(total!=0)
@@ -209,7 +209,7 @@ void QTermHttp::httpDone(bool err)
 	}
 
 	if(m_bPreview) {
-		QString strPool = ((QTermFrame *)qApp->mainWidget())->m_pref.strPoolPath;
+		QString strPool = QTermFrame::instance()->m_pref.strPoolPath;
 		previewImage(m_strHttpFile);
 		QFileInfo fi = QFileInfo(m_strHttpFile);
 		ImageViewer::genThumb(pathPic+"pic/shadow.png", strPool, fi.fileName());

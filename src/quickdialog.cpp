@@ -42,7 +42,7 @@ quickDialog::quickDialog( QWidget* parent, Qt::WFlags fl )
 {
 	ui.setupUi(this);
 	
-	ui.addPushButton->setPixmap(QPixmap(pathLib+"pic/addr.png"));
+	ui.addPushButton->setIcon(QPixmap(pathLib+"pic/addr.png"));
 	
 	ui.addPushButton->setToolTip(tr("Add To AddressBook" ));
 
@@ -79,12 +79,12 @@ void quickDialog::loadHistory()
 	for( int i=0; i<strTmp.toInt(); i++ )
 	{
 		strSection = QString("quick %1").arg(i);
-		ui.historyComboBox->insertItem( pConf->getItemValue( strSection.toLatin1(), "addr" ) );
+		ui.historyComboBox->addItem( pConf->getItemValue( strSection.toLatin1(), "addr" ) );
 	}
 	
 	if(strTmp != "0")
 	{
-		ui.historyComboBox->setCurrentItem(0);
+		ui.historyComboBox->setCurrentIndex(0);
 		listChanged(0);
 	}
 }
@@ -131,7 +131,7 @@ void quickDialog::addAddr()
 }
 void quickDialog::deleteAddr()
 {
-	int n = ui.historyComboBox->currentItem();
+	int n = ui.historyComboBox->currentIndex();
 	
 	QString strTmp =  pConf->getItemValue("quick list", "num");
 	int num = strTmp.toInt();
@@ -167,7 +167,7 @@ void quickDialog::deleteAddr()
 		}
 		else
 		{
-			ui.historyComboBox->setCurrentItem(qMin(n,num-2));
+			ui.historyComboBox->setCurrentIndex(qMin(n,num-2));
 			listChanged(qMin(n,num-2));
 		}
 	}
@@ -200,7 +200,7 @@ void quickDialog::connectIt()
                   "address or port cant be blank",
                   QMessageBox::Warning,
                   QMessageBox::Ok | QMessageBox::Default,0,
-                  0,0,0,true);
+                  0);
         mb.exec();
 		return;
 	}

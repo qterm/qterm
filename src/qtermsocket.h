@@ -32,13 +32,13 @@ public:
 
 	void flush();
 	void setProxy(int nProxyType, bool bAuth,
-			const QString& strProxyHost, Q_UINT16 uProxyPort,
+			const QString& strProxyHost, quint16 uProxyPort,
 			const QString& strProxyUsr, const QString& strProxyPwd);
-	void connectToHost(const QString & hostname, Q_UINT16 portnumber);
+	void connectToHost(const QString & hostname, quint16 portnumber);
 	void close();
-	Q_LONG readBlock(char * data, Q_ULONG maxlen);
-	Q_LONG writeBlock(const char * data, Q_ULONG len);
-	Q_ULONG bytesAvailable();
+	long readBlock(char * data, unsigned long maxlen);
+	long writeBlock(const char * data, unsigned long len);
+	unsigned long bytesAvailable();
 
 signals:
 	void connected();
@@ -64,10 +64,10 @@ private:
 	int 		proxy_type;
 	QString 	proxy_host;
 	QString 	proxy_usr;
-	Q_UINT16  	proxy_port;
+	quint16  	proxy_port;
 	QString 	proxy_pwd;
 	QString 	host;
-	Q_UINT16 	port;
+	quint16 	port;
 	int			proxy_state;
 	bool		bauth;
 
@@ -89,13 +89,13 @@ public:
 	}
 	virtual void flush() = 0;
 	virtual void setProxy(int nProxyType, bool bAuth,
-			const QString& strProxyHost, Q_UINT16 uProxyPort,
+			const QString& strProxyHost, quint16 uProxyPort,
 			const QString& strProxyUsr, const QString& strProxyPwd) = 0;
-	virtual void connectToHost(const QString & host, Q_UINT16 port) = 0;
+	virtual void connectToHost(const QString & host, quint16 port) = 0;
 	virtual void close() = 0;
-	virtual Q_LONG readBlock(char * data, Q_ULONG maxlen) = 0;
-	virtual Q_LONG writeBlock(const char * data, Q_ULONG len) = 0;
-	virtual Q_ULONG bytesAvailable() = 0;
+	virtual long readBlock(char * data, unsigned long maxlen) = 0;
+	virtual long writeBlock(const char * data, unsigned long len) = 0;
+	virtual unsigned long bytesAvailable() = 0;
 signals:
 	void connected();
 	void hostFound();
@@ -115,13 +115,13 @@ public:
 	~QTermTelnetSocket();
 	void flush();
 	void setProxy(int nProxyType, bool bAuth,
-			const QString& strProxyHost, Q_UINT16 uProxyPort,
+			const QString& strProxyHost, quint16 uProxyPort,
 			const QString& strProxyUsr, const QString& strProxyPwd);
-	void connectToHost(const QString & host, Q_UINT16 port);
+	void connectToHost(const QString & host, quint16 port);
 	void close();
-	Q_LONG readBlock(char * data, Q_ULONG maxlen);
-	Q_LONG writeBlock(const char * data, Q_ULONG len);
-	Q_ULONG bytesAvailable();
+	long readBlock(char * data, unsigned long maxlen);
+	long writeBlock(const char * data, unsigned long len);
+	unsigned long bytesAvailable();
 };
 
 #endif		//QTERMSOCKET_H

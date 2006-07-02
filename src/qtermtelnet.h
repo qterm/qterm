@@ -111,9 +111,9 @@ public:
 	
 	void setProxy( int nProxyType,//0-no proxy; 1-wingate; 2-sock4; 3-socks5
 		bool bAuth,	// if authentation needed
-		const QString& strProxyHost,Q_UINT16 uProxyPort,
+		const QString& strProxyHost,quint16 uProxyPort,
 		const QString& strProxyUsr,const QString& strProxyPwd);
-	void connectHost(const QString & hostname, Q_UINT16 portnumber);
+	void connectHost(const QString & hostname, quint16 portnumber);
 	int  read(char * data, uint maxlen);
 	int  write(const char * data, uint len);
 	void close();				// User close the connection

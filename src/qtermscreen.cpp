@@ -75,11 +75,12 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 	m_ePaintState = Repaint;
 	m_bCursor = true;
 
-	setFocusPolicy(Qt::ClickFocus);	
+	setFocusPolicy(Qt::ClickFocus);
+	setAttribute(Qt::WA_InputMethodEnabled, true);
 
-	#if (QT_VERSION>=0x030200)
-	setInputMethodEnabled(true);
-	#endif
+// 	#if (QT_VERSION>=0x030200)
+// 	setInputMethodEnabled(true);
+// 	#endif
 
 	setSchema();
 
@@ -103,12 +104,12 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 
 	// the scrollbar
 	m_scrollBar = new QScrollBar(this);
-	m_scrollBar->setCursor( Qt::arrowCursor );
+	m_scrollBar->setCursor( Qt::ArrowCursor );
 	m_nStart = 0;
 	m_nEnd = m_pBuffer->line()-1;
 	m_pBlinkLine = new bool[m_nEnd - m_nStart + 1];
 	m_scrollBar->setRange( 0, 0 );
-	m_scrollBar->setLineStep(1);
+	m_scrollBar->setSingleStep(1);
 	m_scrollBar->setPageStep( m_pBuffer->line() );
 	m_scrollBar->setValue(0);
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), 
@@ -127,8 +128,9 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 	m_scNextLine = new QShortcut(Qt::Key_Down+Qt::SHIFT, this, "nextLine");
 	
 	// to avoid flickering
-	setBackgroundMode( Qt::NoBackground );
-
+	//FIXME: port this to Qt 4.
+ 	//setBackgroundMode( Qt::NoBackground );
+	setAttribute(Qt::WA_NoSystemBackground, true);
 	setMouseTracking( true );
 
 // init variable
@@ -152,6 +154,8 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 // 	}
 // 	m_pBand = new QRubberBand(QRubberBand::Rectangle, this);
 // 	setAttribute(Qt::WA_InputMethodEnabled);
+	QFont::removeSubstitution("Bitstream Vera Sans Mono");
+	QFont::insertSubstitution("Bitstream Vera Sans Mono","FZZhunYuan-M02");
 }
 
 QTermScreen::~QTermScreen()
@@ -381,11 +385,12 @@ void QTermScreen::initFontMetrics()
 		getFontMetrics(fm);
 		delete fm;
 	}
+	m_pFont->setWeight(QFont::Normal);
 
-	#if (QT_VERSION >= 300 )
-	m_pFont->setStyleHint(QFont::System, 
-		m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
-	#endif
+// 	#if (QT_VERSION >= 300 )
+// 	m_pFont->setStyleHint(QFont::System, 
+// 		m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+// 	#endif
 	
 }
 
@@ -404,10 +409,10 @@ void QTermScreen::setDispFont( const QFont& font)
 		delete fm;
 	}
 
-	#if (QT_VERSION >= 300 )
-	m_pFont->setStyleHint(QFont::System, 
-		m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
-	#endif
+// 	#if (QT_VERSION >= 300 )
+// 	m_pFont->setStyleHint(QFont::System, 
+// 		m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+// 	#endif
 
 }
 
@@ -457,10 +462,10 @@ void QTermScreen::updateFont()
 
 	m_pFont = new QFont(strFamily);
 	m_pFont->setPixelSize( nPixelSize-1 );
-	#if (QT_VERSION >= 300 )
-	m_pFont->setStyleHint(QFont::System, 
-									m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
-	#endif
+// 	#if (QT_VERSION >= 300 )
+// 	m_pFont->setStyleHint(QFont::System, 
+// 									m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+// 	#endif
 	QFontMetrics fm( *m_pFont );
 	if (abs(nPixelSize - 1 - fm.width(QChar(0x4e00))) < abs(nPixelSize - 1 - fm.width('W') * 2))
 		m_nCharWidth  = (fm.width(QChar(0x4e00)) + 1)/2;
@@ -486,6 +491,7 @@ void QTermScreen::updateFont2()
 	int nIniSize = qMax(8,qMin(m_rcClient.height()/m_pBuffer->line(),
 					m_rcClient.width()*2/m_pBuffer->columns()));
 
+	qDebug()<<"Font name:"<< m_pFont->family()<<" , "<< m_pFont->substitutions();
 	for( nPixelSize=nIniSize-3; nPixelSize<=nIniSize+3; nPixelSize++)
 	{
 		m_pFont->setPixelSize( nPixelSize );
@@ -509,10 +515,11 @@ void QTermScreen::updateFont2()
 			break;	
 		}
 	}
-	#if (QT_VERSION >= 300 )
-	m_pFont->setStyleHint(QFont::System, 
-		m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
-	#endif
+	m_pFont->setWeight(QFont::Normal);
+// 	#if (QT_VERSION >= 300 )
+// 	m_pFont->setStyleHint(QFont::System, 
+// 		m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+// 	#endif
 
 }
 
@@ -597,9 +604,9 @@ void QTermScreen::setSchema()
 		if(QFile::exists(pConf->getItemValue("image","name")) && m_nPxmType>1) // valid image name and type
 		{
 			m_pxmBg = QPixmap(pConf->getItemValue("image","name"));
-			QImage ima(m_pxmBg.convertToImage());
+			QImage ima(m_pxmBg.toImage());
 			ima = fade(ima, alpha, fadecolor);
-			m_pxmBg.convertFromImage(ima);
+			m_pxmBg = QPixmap::fromImage(ima);
 
 		}
 		delete pConf;
@@ -731,7 +738,7 @@ void QTermScreen::bufferSizeChanged()
 			this, SLOT(scrollChanged(int)));
 
 	m_scrollBar->setRange( 0, m_pBuffer->lines()-m_pBuffer->line());
-	m_scrollBar->setLineStep(1);
+	m_scrollBar->setSingleStep(1);
 	m_scrollBar->setPageStep( m_pBuffer->line() );
 	m_scrollBar->setValue(m_pBuffer->lines()-m_pBuffer->line());
 
@@ -763,17 +770,21 @@ void QTermScreen::setBgPxm( const QPixmap& pixmap, int nType)
 	m_hasBg = false;
 	m_pxmBg = pixmap;
 	m_nPxmType = nType;
+	QPalette palette;
 
 	if( m_pWindow->m_pFrame->m_bBossColor )
 	{
-		setBackgroundColor( Qt::white );
+		palette.setColor(backgroundRole(), Qt::white);
+		setPalette(palette);
+// 		setBackgroundColor( Qt::white );
 		return;
 	}
 
 	switch( nType )
 	{
 		case 0:	// none
-			setBackgroundColor( m_color[0] );
+			palette.setColor(backgroundRole(), m_color[0]);
+			setPalette(palette);
 		break;
 		case 1:	// transparent
 		{
@@ -782,22 +793,24 @@ void QTermScreen::setBgPxm( const QPixmap& pixmap, int nType)
 		case 2:	// tile
 			if( !pixmap.isNull() )
 			{
-				setBackgroundPixmap( pixmap );
+				palette.setBrush(backgroundRole(), QBrush(pixmap));
+				setPalette(palette);
+// 				setBackgroundPixmap( pixmap );
 				m_hasBg = true;
 				break;
 			}
 		case 3:	// center
 			if( !pixmap.isNull() )
 			{
-				QPixmap pxmBg;
-				pxmBg.resize(size());
+				QPixmap pxmBg = QPixmap(size());
+				QPainter painter(&pxmBg);
 				pxmBg.fill( m_color[0]);
-				bitBlt( &pxmBg, 
-				( size().width() - pixmap.width() ) / 2,
-				( size().height() - pixmap.height() ) / 2,
-				 &pixmap, 0, 0,
-				 pixmap.width(), pixmap.height() );
-				setBackgroundPixmap(pxmBg);
+				painter.drawPixmap( ( size().width() - pixmap.width() ) / 2,
+						( size().height() - pixmap.height() ) / 2,  pixmap.width(),
+						pixmap.height(), pixmap );
+				palette.setBrush(backgroundRole(), QBrush(pxmBg));
+				setPalette(palette);
+// 				setBackgroundPixmap(pxmBg);
 				m_hasBg = true;
 				break;
 			}
@@ -808,12 +821,16 @@ void QTermScreen::setBgPxm( const QPixmap& pixmap, int nType)
 				float sy = (float)size().height() /pixmap.height();
 				QMatrix matrix;
 				matrix.scale( sx, sy );
-				setBackgroundPixmap(pixmap.xForm( matrix ));
+				palette.setBrush(backgroundRole(), QBrush(pixmap.transformed( matrix )));
+				setPalette(palette);
+// 				setBackgroundPixmap(pixmap.transformed( matrix ));
 				m_hasBg = true;
 				break;
 			}
 		default:
-			setBackgroundColor( m_color[0] );
+			palette.setColor(backgroundRole(), m_color[0]);
+			setPalette(palette);
+// 			setBackgroundColor( m_color[0] );
 
 	}
 }
@@ -959,7 +976,7 @@ int QTermScreen::testChar(int startx, int index)
 		strTest = m_pCodec->toUnicode(cstrTest);
 	}
 
-	if (strTest.find(strDisplay) == -1)
+	if (strTest.indexOf(strDisplay) == -1)
 		return startx - 1;
 	else
 		return startx;
@@ -1161,7 +1178,7 @@ void QTermScreen::drawStr( QPainter& painter, const QString& str, int x, int y, 
 			painter.setBackgroundMode(Qt::OpaqueMode);
 		else
 			painter.setBackgroundMode(Qt::TransparentMode);
-		painter.setBackgroundColor(GETBG(cp)==7?Qt::black:Qt::white);
+		painter.setBackground(GETBG(cp)==7?Qt::black:Qt::white);
 		painter.drawText( pt.x(), pt.y()+m_nCharAscent, str);
 		return;
 	}
@@ -1171,7 +1188,7 @@ void QTermScreen::drawStr( QPainter& painter, const QString& str, int x, int y, 
 	if( GETBG(cp)!=0 && !transparent )
 	{
 		painter.setBackgroundMode(Qt::OpaqueMode);
-		painter.setBackgroundColor( m_color[m_pParam->m_bAnsiColor||GETBG(cp)==7?GETBG(cp):0] );
+		painter.setBackground( m_color[m_pParam->m_bAnsiColor||GETBG(cp)==7?GETBG(cp):0] );
 
 	}
 	else

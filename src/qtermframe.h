@@ -86,6 +86,7 @@ class QTermFrame : public QMainWindow
 public:
 	QTermFrame();
 	~QTermFrame();
+	static QTermFrame * instance(){return s_instance;}
 
 	void updateMenuToolBar();
 	void enableMenuToolBar( bool );
@@ -155,7 +156,7 @@ protected slots:
 	void viewImages();
 	
 	void themesMenuAboutToShow();
-	void themesMenuActivated(int);
+	void themesMenuActivated();
 	void windowsMenuAboutToShow();
 	void windowsMenuActivated(int);
 	void connectMenuActivated(int);
@@ -191,7 +192,7 @@ protected:
 	QTermTimeLabel *labelTime;
 	QMenu *windowsMenu;
 	QMenu *themesMenu;
-	int sEng,sChs,sCht;
+// 	int sEng,sChs,sCht;
 	QString theme;
 
 	QToolBar * key;
@@ -199,7 +200,47 @@ protected:
 	QMenu * escapeMenu;
 	QMenu * langMenu;	
 	QMenu * connectMenu;
-
+// 	File
+	QAction * m_disconnectAction;
+	QAction * m_quickConnectAction;
+// 	Edit
+	QAction * m_copyAction;
+	QAction * m_pasteAction;
+	QAction * m_colorAction;//used
+	QAction * m_rectAction;//used
+	QAction * m_autoCopyAction;//used
+	QAction * m_wwrapAction;//used
+	QAction * m_noescAction;//used
+	QAction * m_escescAction;//used
+	QAction * m_uescAction;//used
+	QAction * m_customescAction;//used
+	QAction * m_GBKAction;//used
+	QAction * m_BIG5Action;//used
+	QAction * m_scrollHideAction;//used
+	QAction * m_scrollLeftAction;//used
+	QAction * m_scrollRightAction;//used
+	QAction * m_engAction;
+	QAction * m_chsAction;
+	QAction * m_chtAction;
+	QAction * m_statusAction;
+	QAction * m_switchAction;//used
+// 	View
+	QAction * m_fullAction;
+	QAction * m_bossAction;
+	QAction * m_antiIdleAction;
+	QAction * m_autoReplyAction;
+	QAction * m_mouseAction;
+	QAction * m_beepAction;
+	QAction * m_reconnectAction;
+	QAction * m_fontAction;
+	QAction * m_refreshAction;
+	
+	QAction * m_currentSessionAction;
+	QAction * m_copyArticleAction;
+	QAction * m_scriptRunAction;
+	QAction * m_scriptStopAction;
+	QAction * m_viewMessageAction;
+	
 	QTerm::StatusBar * m_pStatusBar;
 
 	QToolButton *connectButton, *disconnectButton,
@@ -234,6 +275,8 @@ protected:
 	QString valueToString(bool, int, int, bool, int);
 	void insertThemeItem(QString);
 	void setUseDock(bool);
+private:
+	static QTermFrame * s_instance;
 };
 
 #endif	//QTERMFRAME_H

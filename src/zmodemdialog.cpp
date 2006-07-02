@@ -47,7 +47,7 @@ void zmodemDialog::slotCancel()
             QMessageBox::Warning,
             QMessageBox::Yes,
             QMessageBox::No  | QMessageBox::Escape | QMessageBox::Default,
-            0,this,0,true);
+            0,this);
     if ( mb.exec() == QMessageBox::Yes )
     {
 		emit canceled();

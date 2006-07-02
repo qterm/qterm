@@ -38,8 +38,9 @@ extern QString pathLib;
 
 //constructor
 QTermWndMgr::QTermWndMgr( QObject * parent, const char * name )
-	:QObject(parent,name)
+	:QObject(parent)
 {
+	setObjectName(name);
 	pFrame = (QTermFrame *) parent;
 	
 	nActive = -1;
@@ -80,9 +81,9 @@ void QTermWndMgr::removeWindow(QTermWindow * mw)
 	QString qtab=pTab.at(n);
 	QIcon * qicon=pIcon.at(n);
 	//remove them from list
-	pTab.remove(qtab);
-	pWin.remove(mw);
-	pIcon.remove(qicon);
+	pTab.removeAll(qtab);
+	pWin.removeAll(mw);
+	pIcon.removeAll(qicon);
 
 	if( pWin.count()==0 )
 	{
@@ -111,7 +112,7 @@ void QTermWndMgr::activateTheTab(QTermWindow * mw)
 	QString qtab=pTab.at(n);
 	//set it seleted
 	
-	pFrame->tabBar->setCurrentTab(n);
+	pFrame->tabBar->setCurrentIndex(n);
 
 	pFrame->updateMenuToolBar();
 }
@@ -144,11 +145,11 @@ void QTermWndMgr::blinkTheTab(QTermWindow * mw,bool bVisible)
 	//find where it is
 	int n=pWin.indexOf(mw);
 	QIcon* icon=pIcon.at(n);
-		
+	//FIXME: QIcon::Automatic
 	if(bVisible)
-		icon->setPixmap(pathLib+"pic/tabpad.png",QIcon::Automatic);
+		icon->addFile(pathLib+"pic/tabpad.png");//,QIcon::Automatic);
 	else
-		icon->setPixmap(pathLib+"pic/transp.png",QIcon::Automatic);
+		icon->addFile(pathLib+"pic/transp.png");//,QIcon::Automatic);
 
 	pFrame->tabBar->update();		
 }
@@ -190,7 +191,7 @@ void QTermWndMgr::activeNextPrev(bool next)
 
 	QString qtab=pTab.at(n);
 	//set it seleted
-	pFrame->tabBar->setCurrentTab(n);
+	pFrame->tabBar->setCurrentIndex(n);
 	pFrame->updateMenuToolBar();
 
 }

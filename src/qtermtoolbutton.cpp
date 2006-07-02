@@ -12,8 +12,9 @@ AUTHOR:        kingson fiasco
 #include "qtermtoolbutton.h"
 
 QTermToolButton::QTermToolButton( QWidget *parent, int id, const char *name )
-		:QToolButton(parent, name)
+		:QToolButton(parent)
 {
+	setObjectName(name);
 	this->id = id;
 	connect(this, SIGNAL(clicked()), this, SLOT(slotClicked()));
 }

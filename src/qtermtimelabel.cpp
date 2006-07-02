@@ -20,7 +20,7 @@ AUTHOR:        kingson fiasco
 
 //constructor
 QTermTimeLabel::QTermTimeLabel(QWidget * parent, const char * name, Qt::WFlags f)
-	:QLabel(parent,name,f)
+	:QLabel(parent,f)
 {
 	setAlignment(Qt::AlignHCenter);
 	currentTime=new QTime();	

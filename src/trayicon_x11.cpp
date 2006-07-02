@@ -130,9 +130,11 @@ class TrayIcon::TrayIconPrivate : public QLabel
 {
 public:
 	TrayIconPrivate( TrayIcon *object, const QPixmap &pm, bool _isWMDock )
-	: QLabel(NULL, "qtermdock",  Qt::WType_TopLevel | Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_StaysOnTop | Qt::WMouseNoMask), iconObject(object)
+	: QLabel(0, Qt::WindowFlags(
+Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WA_MouseNoMask)), iconObject(object)
 //	: QLabel( 0, "psidock", WMouseNoMask ), iconObject(object)
 	{
+		setObjectName("qtermdock");
 		isWMDock = _isWMDock;
 		inNetTray = false;
 		bInit = false;
@@ -143,7 +145,7 @@ public:
 		//setMinimumSize(22, 22);
 		setPixmap(pm);
 
-		Display *dsp = x11Display(); // get the display
+		Display *dsp = QX11Info::display(); // get the display
 		WId win = winId();		 // get the window
 		
 		XClassHint classhint;
@@ -368,9 +370,9 @@ void TrayIcon::sysUpdateToolTip()
 		return;
 
 	if(tip.isEmpty())
-		QToolTip::remove(d);
+		d->setToolTip("");
 	else
-		QToolTip::add(d, tip);
+		d->setToolTip(tip);
 }
 
 #endif // Q_WS_X11

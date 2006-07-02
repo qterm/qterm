@@ -45,9 +45,10 @@ namespace QTerm
 StatusBar* StatusBar::s_instance = 0;
 
 StatusBar::StatusBar( QWidget *parent, const char *name )
-        : QWidget( parent, name )
+        : QWidget( parent )
 {
-    s_instance = this;
+	setObjectName(name);
+	s_instance = this;
 	QBoxLayout *mainlayout = new QHBoxLayout( this );//, 2, /*spacing*/5 );
 	mainlayout->setMargin(2);
 	mainlayout->setSpacing(5);
@@ -57,7 +58,8 @@ StatusBar::StatusBar( QWidget *parent, const char *name )
 	layout->setSpacing(5);
 	mainlayout->addLayout(layout);
 
-    m_mainTextLabel = new QLabel( this, "mainTextLabel" );
+	m_mainTextLabel = new QLabel( this );
+	m_mainTextLabel->setObjectName("mainTextLabel");
 	
 	QWidget * mainProgressBarBox = new QWidget(this);
 	mainProgressBarBox->setObjectName("progressBox");
@@ -88,9 +90,9 @@ StatusBar::StatusBar( QWidget *parent, const char *name )
 
     //b1->setIconSet( SmallIconSet( "cancel" ) );
     //b2->setIconSet( SmallIconSet( "2uparrow") );
-    b1->setIconSet( QPixmap( pathPic + "pic/messagebox_critical.png" ));
-    b2->setIconSet( QPixmap( pathPic + "pic/messagebox_info.png" ));
-    b2->setToggleButton( true );
+    b1->setIcon( QPixmap( pathPic + "pic/messagebox_critical.png" ));
+    b2->setIcon( QPixmap( pathPic + "pic/messagebox_info.png" ));
+    b2->setCheckable( true );
 //     QToolTip::add( b1, tr( "Abort all background-operations" ) );
 //     QToolTip::add( b2, tr( "Show progress detail" ) );
 	b1->setToolTip( tr( "Abort all background-operations" ) );
@@ -117,15 +119,16 @@ StatusBar::addWidget( QWidget *widget )
 /// reimplemented functions
 
 void
-StatusBar::polish()
+StatusBar::ensurePolished()
 {
-    QWidget::polish();
+    QWidget::ensurePolished();
 
     int h = 0;
-    QObjectList list = queryList( "QWidget", 0, false, false );
+    QObjectList list = children();
 
     //for( QObject * o = list.first(); o; o = list.next() ) {
 	foreach (QObject * o, list){
+	if (o->inherits("QWidget")){
         int _h = static_cast<QWidget*>( o ) ->minimumSizeHint().height();
         if ( _h > h )
             h = _h;
@@ -134,6 +137,7 @@ StatusBar::polish()
 
         if ( o->inherits( "QLabel" ) )
             static_cast<QLabel*>(o)->setIndent( 4 );
+	}
     }
 
     h -= 4; // it's too big usually
@@ -148,11 +152,12 @@ StatusBar::polish()
 void
 StatusBar::paintEvent( QPaintEvent* )
 {
-    QObjectList list = queryList( "QWidget", 0, false, false );
+    QObjectList list = children();//queryList( "QWidget", 0, false, false );
     QPainter p( this );
 
     //for( QObject * o = list.first(); o; o = list.next() ) {
 	foreach (QObject * o, list) {
+	if (o->inherits("QWidget")){
         QWidget *w = (QWidget*)o;
 
         if ( !w->isVisible() )
@@ -165,6 +170,7 @@ StatusBar::paintEvent( QPaintEvent* )
                 colorGroup(),
                 QStyle::State_None,
                 QStyleOption( w ) );*/
+	}
     }
 
     //delete list;
@@ -212,7 +218,7 @@ StatusBar::resetMainText()
     if( SingleShotPool::isActive( this, SLOT(resetMainText()) ) )
         return;
 */
-    m_mainTextLabel->unsetPalette();
+    m_mainTextLabel->setPalette(QPalette());
 
     if( allDone() )
         m_mainTextLabel->setText( m_mainText );
@@ -305,7 +311,7 @@ StatusBar::newProgressOperation( QObject *owner)
         // we start anything new or the total progress will not be accurate
         pruneProgressBars();
     else
-        static_cast<QWidget*>(progressBox()->child("showAllProgressDetails"))->show();
+        (progressBox()->findChild<QWidget*>("showAllProgressDetails"))->show();
     QWidget * hbox = new QWidget( m_popupProgress );
 	QHBoxLayout *hlayout = new QHBoxLayout( hbox );
     QLabel *label = new QLabel( hbox );
@@ -374,7 +380,7 @@ StatusBar::endProgressOperation( QObject *owner )
 
     m_progressMap[owner]->setDone();
 
-    if( allDone() && !m_popupProgress->isShown() ) {
+    if( allDone() && m_popupProgress->isHidden() ) {
         cancelButton()->setEnabled( false );
         //SingleShotPool::startTimer( 2000, this, SLOT(hideMainProgressBar()) );
 	hideMainProgressBar();
@@ -415,7 +421,7 @@ StatusBar::showMainProgressBar()
 void
 StatusBar::hideMainProgressBar()
 {
-    if( allDone() && !m_popupProgress->isShown() )
+    if( allDone() && m_popupProgress->isHidden() )
     {
         pruneProgressBars();
 
@@ -529,7 +535,7 @@ StatusBar::pruneProgressBars()
     if(count==1 && removedBar) //if its gone from 2 or more bars to one bar...
     {
         resetMainText();
-        static_cast<QWidget*>(progressBox()->child("showAllProgressDetails"))->hide();
+        (progressBox()->findChild<QWidget*>("showAllProgressDetails"))->hide();
         m_popupProgress->setShown(false);
     }
 }

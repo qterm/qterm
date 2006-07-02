@@ -207,7 +207,7 @@ void QTermTelnet::fsminit(u_char fsm[][NCHRS], struct fsm_trans ttab[], int nsta
  * connect to host
  *------------------------------------------------------------------------
  */
-void QTermTelnet::connectHost(const QString& hostname, Q_UINT16 portnumber)
+void QTermTelnet::connectHost(const QString& hostname, quint16 portnumber)
 {
 	done_naws=0;
 	synching = 0;
@@ -251,7 +251,7 @@ void QTermTelnet::windowSizeChanged(int x, int y)
  *-----------------------------------------------------------------------
  */
 void QTermTelnet::setProxy( int nProxyType, bool bAuth,
-			const QString& strProxyHost, Q_UINT16 uProxyPort,
+			const QString& strProxyHost, quint16 uProxyPort,
 			const QString& strProxyUsr, const QString& strProxyPwd)
 {
 	socket->setProxy(nProxyType, bAuth,

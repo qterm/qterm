@@ -81,7 +81,7 @@ namespace QTerm
 		void updateProgressAppearance();
 
 	protected:
-		virtual void polish();
+		virtual void ensurePolished();
 // 		virtual void customEvent( QCustomEvent* );
 		virtual void paintEvent( QPaintEvent* );
 		virtual bool event( QEvent* );
