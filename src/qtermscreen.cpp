@@ -154,8 +154,6 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 // 	}
 // 	m_pBand = new QRubberBand(QRubberBand::Rectangle, this);
 // 	setAttribute(Qt::WA_InputMethodEnabled);
-	QFont::removeSubstitution("Bitstream Vera Sans Mono");
-	QFont::insertSubstitution("Bitstream Vera Sans Mono","FZZhunYuan-M02");
 }
 
 QTermScreen::~QTermScreen()
