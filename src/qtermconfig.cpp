@@ -63,7 +63,7 @@ bool QTermConfig::loadFromStream(QTextStream& is)
 
     data.clear();
 	
-	is.setCodec(QTextCodec::codecForName("Latin1"));
+	is.setCodec(QTextCodec::codecForName("UTF-8"));
 
     while(!is.atEnd())
     {
@@ -91,7 +91,7 @@ bool QTermConfig::saveToStream(QTextStream& os)
     QString strLine, strSection;
     Section::iterator iStr;
 
-	os.setCodec(QTextCodec::codecForName("Latin1"));
+	os.setCodec(QTextCodec::codecForName("UTF-8"));
 
     for(StrSecMap::iterator iSec = data.begin();
          iSec != data.end() ; ++iSec)

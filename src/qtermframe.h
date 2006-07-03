@@ -159,7 +159,7 @@ protected slots:
 	void themesMenuActivated();
 	void windowsMenuAboutToShow();
 	void windowsMenuActivated(int);
-	void connectMenuActivated(int);
+	void connectMenuActivated();
 	void popupConnectMenu();
 	void connectMenuAboutToHide();
 	

@@ -7,7 +7,7 @@ class QTermToolButton: public QToolButton
 {
 	Q_OBJECT
 public:
-	 QTermToolButton( QWidget *parent, int id, const char *name = 0 );
+	 QTermToolButton( QWidget *parent, int id, QString name="" );
 	~QTermToolButton();
 
 signals:

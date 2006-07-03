@@ -77,6 +77,7 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 
 	setFocusPolicy(Qt::ClickFocus);
 	setAttribute(Qt::WA_InputMethodEnabled, true);
+	setMouseTracking(true);
 
 // 	#if (QT_VERSION>=0x030200)
 // 	setInputMethodEnabled(true);
@@ -131,7 +132,6 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 	//FIXME: port this to Qt 4.
  	//setBackgroundMode( Qt::NoBackground );
 	setAttribute(Qt::WA_NoSystemBackground, true);
-	setMouseTracking( true );
 
 // init variable
 	m_blinkScreen = false;
@@ -340,7 +340,8 @@ void QTermScreen::mousePressEvent( QMouseEvent * me )
 {
 	setFocus();
 
-	QApplication::sendEvent(m_pWindow, me);
+	m_pWindow->mousePressEvent(me);
+	//QApplication::sendEvent(m_pWindow, me);
 
 }
 void QTermScreen::mouseMoveEvent( QMouseEvent * me)
@@ -348,13 +349,15 @@ void QTermScreen::mouseMoveEvent( QMouseEvent * me)
 #ifdef Q_OS_MACX
 	m_pWindow->mouseMoveEvent(me);
 #else
-	QApplication::sendEvent(m_pWindow, me);
+	m_pWindow->mouseMoveEvent(me);
+	//QApplication::sendEvent(m_pWindow, me);
 #endif
 }
 
 void QTermScreen::mouseReleaseEvent( QMouseEvent * me )
 {
-	QApplication::sendEvent(m_pWindow, me);
+	m_pWindow->mouseReleaseEvent(me);
+	//QApplication::sendEvent(m_pWindow, me);
 }
 
 void QTermScreen::wheelEvent( QWheelEvent * we )
@@ -489,7 +492,6 @@ void QTermScreen::updateFont2()
 	int nIniSize = qMax(8,qMin(m_rcClient.height()/m_pBuffer->line(),
 					m_rcClient.width()*2/m_pBuffer->columns()));
 
-	qDebug()<<"Font name:"<< m_pFont->family()<<" , "<< m_pFont->substitutions();
 	for( nPixelSize=nIniSize-3; nPixelSize<=nIniSize+3; nPixelSize++)
 	{
 		m_pFont->setPixelSize( nPixelSize );
@@ -1088,7 +1090,7 @@ void QTermScreen::drawLine( QPainter& painter, int index, int starx, int endx, b
 			tempattr = SETCOLOR(tempcp) | SETATTR(tempea);
 		
 		cstrText = pTextLine->getText(startx, i - startx);
-// 		qDebug()<<"raw: " << cstrText;
+ 		//qDebug()<<"raw: " << cstrText;
 		QString strShow;
 		if(m_pParam->m_nDispCode != m_pParam->m_nBBSCode)
 		{
@@ -1105,7 +1107,7 @@ void QTermScreen::drawLine( QPainter& painter, int index, int starx, int endx, b
 		else
 			strShow = m_pCodec->toUnicode(cstrText);
 
-// 		qDebug() << "string: " << strShow.toLocal8Bit();
+ 		//qDebug() << "string: " << strShow.toLocal8Bit();
 		// Draw Charactors one by one to fix the variable font display problem
 		for (uint j=0; j < strShow.length(); ++j){
 			int length = 2;

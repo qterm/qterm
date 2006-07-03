@@ -11,7 +11,7 @@ AUTHOR:        kingson fiasco
 
 #include "qtermtoolbutton.h"
 
-QTermToolButton::QTermToolButton( QWidget *parent, int id, const char *name )
+QTermToolButton::QTermToolButton( QWidget *parent, int id, QString name )
 		:QToolButton(parent)
 {
 	setObjectName(name);

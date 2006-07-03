@@ -613,11 +613,11 @@ void QTermFrame::popupConnectMenu()
 	for ( int i=0; i<listName.count(); i++ )
 	{
 		QAction * idAction = connectMenu->addAction( listName[i],
-					this, SLOT(connectMenuActivated(int)));
+					this, SLOT(connectMenuActivated()));
 		idAction->setData(i);
 	}
 	
-	connectMenu->exec( connectButton->mapToGlobal( connectButton->rect().bottomLeft() ));
+	//connectMenu->exec( connectButton->mapToGlobal( connectButton->rect().bottomLeft() ));
 }
 void QTermFrame::connectMenuAboutToHide()
 {
@@ -626,9 +626,10 @@ void QTermFrame::connectMenuAboutToHide()
 	QApplication::sendEvent( connectButton, &me );
 
 }
-void QTermFrame::connectMenuActivated( int id )
+void QTermFrame::connectMenuActivated()
 {
 	QTermConfig *pConf = new QTermConfig(addrCfg);
+	int id = static_cast<QAction *>(sender())->data().toInt();
 	QTermParam param;
 	// FIXME: don't know the relation with id and param setted by setItemParameter
 	if(loadAddress(pConf, id, param))
@@ -1286,6 +1287,7 @@ void QTermFrame::addMainTool()
 	// hte main toolbar	
 	mdiTools = addToolBar( "Main ToolBar" );
 // 	mdiTools->setLabel("Main ToolBar");
+	mdiTools->setIconSize(QSize(22,22));
 
 	QTermConfig conf(fileCfg);
 	int hide,dock,index,nl,extra;
@@ -1299,18 +1301,23 @@ void QTermFrame::addMainTool()
 			mdiTools->hide();
 	}
 	connectButton = new QToolButton( mdiTools );
+	connectButton->setIcon(QPixmap(pathPic+"pic/connect.png"));
 
 // 	connectButton = new QToolButton( QPixmap(pathPic+"pic/connect.png"), tr("Connect"), 
 // 			QString::null, NULL, NULL, mdiTools, "Connect" );
  	mdiTools->addWidget(connectButton);
 	connectMenu = new QMenu(this);
+	//FIXME: autoupdate menu
+	popupConnectMenu();
 	connectButton->setMenu(connectMenu);
+	connectButton->setPopupMode(QToolButton::InstantPopup);
 // 	connect( connectMenu, SIGNAL(aboutToHide()), this, SLOT(connectMenuAboutToHide()) );
 // 	connect( connectButton, SIGNAL(pressed()), this, SLOT(popupConnectMenu()) );
 	
 // 	mdiTools->addAction( QPixmap(pathPic+"pic/quick.png"), tr("Quick Login"), 
 // 						this, SLOT(quickLogin()));
 	mdiTools->addAction( m_quickConnectAction );
+	m_quickConnectAction->setIcon(QPixmap(pathPic+"pic/quick.png"));
 	// custom define
 	key = addToolBar("Custom Key");
 // 	key->setLabel(tr("Custom Key"));
@@ -1347,8 +1354,11 @@ void QTermFrame::addMainTool()
 // 	mdiconnectTools->addAction( QPixmap(pathPic+"pic/paste.png"), tr("Paste"), this, SLOT(paste()));
 // 	m_rectAction = mdiconnectTools->addAction(QPixmap(pathPic+"pic/rect.png"), tr("Rectangle Select"),this, SLOT(copyRect()));
 	mdiconnectTools->addAction(m_copyAction);
+	m_copyAction->setIcon(QPixmap(pathPic+"pic/copy.png"));
 	mdiconnectTools->addAction(m_pasteAction);
+	m_pasteAction->setIcon(QPixmap(pathPic+"pic/paste.png"));
 	mdiconnectTools->addAction(m_rectAction);
+	m_rectAction->setIcon(QPixmap(pathPic+"pic/rect.png"));
 // 	editRect	=
 // 		new QToolButton( QPixmap(pathPic+"pic/rect.png"), tr("Rectangle Select"), QString::null,
 // 			this, SLOT(copyRect()), mdiconnectTools, "Rectangle Select" );
@@ -1360,6 +1370,7 @@ void QTermFrame::addMainTool()
 // 			this, SLOT(copyColor()), mdiconnectTools, "Copy With Color" );
 // 	m_colorAction = mdiconnectTools->addAction(QPixmap(pathPic+"pic/color-copy.png"), tr("Copy With Color"),this, SLOT(copyColor()));
 	mdiconnectTools->addAction(m_colorAction);
+	m_colorAction->setIcon(QPixmap(pathPic+"pic/color-copy.png"));
 	m_colorAction->setCheckable(true);
 // 	editColor->setToggleButton(TRUE);
 // 	mdiconnectTools->addWidget(editColor);
@@ -1370,34 +1381,44 @@ void QTermFrame::addMainTool()
 // 	mdiconnectTools->addAction( QPixmap(pathPic+"pic/color.png"), tr("Color"), this, SLOT(color()));
 // 	mdiconnectTools->addAction( QPixmap(pathPic+"pic/refresh.png"), tr("Refresh Screen"), this, SLOT(refresh()));
 	mdiconnectTools->addAction(m_fontAction);
+	m_fontAction->setIcon(QPixmap(pathPic+"pic/fonts.png"));
 	mdiconnectTools->addAction(m_colorAction);
+	m_colorAction->setIcon(QPixmap(pathPic+"pic/color.png"));
 	mdiconnectTools->addAction(m_refreshAction);
+	m_refreshAction->setIcon(QPixmap(pathPic+"pic/refresh.png"));
 	mdiconnectTools->addSeparator();
 	
 	// Option 
 // 	mdiconnectTools->addAction( QPixmap(pathPic+"pic/pref.png"), tr("Advanced Option"), this, SLOT(setting()) );
 	mdiconnectTools->addAction(m_currentSessionAction);
+	m_currentSessionAction->setIcon(QPixmap(pathPic+"pic/pref.png"));
 	mdiconnectTools->addSeparator();
 
 	// Spec (5)
 // 	mdiconnectTools->addAction( QPixmap(pathPic+"pic/article.png"), tr("Copy Article"), this, SLOT(copyArticle()));
 	mdiconnectTools->addAction(m_copyArticleAction);
+	m_copyArticleAction->setIcon(QPixmap(pathPic+"pic/article.png"));
 // 	m_antiIdleAction = mdiconnectTools->addAction( QPixmap(pathPic+"pic/anti-idle.png"), tr("Anti-Idle"), this, SLOT(antiIdle()));
 	mdiconnectTools->addAction(m_antiIdleAction);
+	m_antiIdleAction->setIcon(QPixmap(pathPic+"pic/anti-idle.png"));
 	m_antiIdleAction->setCheckable(true);
 // 	mdiconnectTools->addWidget(specAnti);
 	mdiconnectTools->addAction( m_autoReplyAction );
+	m_autoReplyAction->setIcon(QPixmap(pathPic+"pic/auto-reply.png"));
 // 	specAuto->setCheckable(true);
 	m_autoReplyAction->setCheckable(true);
 // 	mdiconnectTools->addWidget(specAuto);
 // 	mdiconnectTools->addAction( QPixmap(pathPic+"pic/message.png"), tr("View Message"), this, SLOT(viewMessages()) );
 	mdiconnectTools->addAction(m_viewMessageAction);
+	m_viewMessageAction->setIcon(QPixmap(pathPic+"pic/message.png"));
 // 	m_mouseAction	= mdiconnectTools->addAction( QPixmap(pathPic+"pic/mouse.png"), tr("Enable Mouse Support"), this, SLOT(enableMouse()) );
 	mdiconnectTools->addAction(m_mouseAction);
+	m_mouseAction->setIcon(QPixmap(pathPic+"pic/mouse.png"));
 	m_mouseAction->setCheckable(true);
 // 	mdiconnectTools->addWidget(specMouse);
 // 	m_beepAction = mdiconnectTools->addAction( QPixmap(pathPic+"pic/sound.png"), tr("Beep When Message Coming"), this, SLOT(beep()) );
 	mdiconnectTools->addAction(m_beepAction);
+	m_beepAction->setIcon(QPixmap(pathPic+"pic/sound.png"));
 // 	specBeep->setCheckable(true);
 	m_beepAction->setCheckable(true);
 // 	mdiconnectTools->addWidget(specBeep);
@@ -1508,7 +1529,7 @@ void QTermFrame::addMainMenu()
 	QMenu * option = new QMenu( tr("&Option"), this );
 	mainMenu->addMenu( option );
 
-	m_currentSessionAction = option->addAction( tr("&Setting for currrent session"), this, SLOT(setting()) );
+	m_currentSessionAction = option->addAction( QPixmap(pathLib+"pic/pref.png"), tr("&Setting for currrent session"), this, SLOT(setting()) );
 	option->addSeparator();
 	option->addAction( tr("&Default setting"), this, SLOT(defaultSetting()) );
 	option->addAction( tr("&Preference"), this, SLOT(preference()) );
@@ -1678,9 +1699,9 @@ void QTermFrame::updateKeyToolBar()
 	{
 		strItem = QString("name%1").arg(i);
 		strTmp = conf->getItemValue("key", strItem);
-		QTermToolButton *button = new QTermToolButton(key, i, strTmp.toLatin1());
+		QTermToolButton *button = new QTermToolButton(key, i, strTmp);
 // 		button->setUsesTextLabel(true);
-// 		button->setTextLabel(strTmp, false);
+ 		button->setText(strTmp);
 // 		button->setTextPosition(QToolButton::BesideIcon);
 		strItem = QString("key%1").arg(i);
 		strTmp = (conf->getItemValue("key", strItem));
