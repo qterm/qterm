@@ -90,6 +90,7 @@ obj.libs='ssl'
 obj.includes="""
 .
 ssh
+ui
 """
 obj.instdir='/usr/bin'
 obj.execute()
