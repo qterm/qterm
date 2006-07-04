@@ -1,7 +1,7 @@
 #ifndef SOUNDCONF_H
 #define SOUNDCONF_H
 
-#include "ui/ui_soundconf.h"
+#include "ui_soundconf.h"
 class QTermSound;
 
 class soundConf : public QDialog

@@ -10,7 +10,7 @@
 #ifndef KEYDIALOG_H
 #define KEYDIALOG_H
 
-#include "ui/ui_keydialog.h"
+#include "ui_keydialog.h"
 
 class QTermConfig;
 

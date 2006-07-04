@@ -10,7 +10,8 @@
 #define ABOUTDIALOG_H
 
 //#include <qwidget.h>
-#include "ui/ui_aboutdialog.h"
+//#include "ui/ui_aboutdialog.h"
+#include "ui_aboutdialog.h"
 
 class aboutDialog : public QDialog
 { 

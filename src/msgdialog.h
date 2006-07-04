@@ -9,7 +9,7 @@
 #ifndef MSGDIALOG_H
 #define MSGDIALOG_H
 
-#include "ui/ui_msgdialog.h"
+#include "ui_msgdialog.h"
 
 class msgDialog : public QDialog
 { 

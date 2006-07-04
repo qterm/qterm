@@ -10,7 +10,7 @@
 #ifndef ARTICLEDIALOG_H
 #define ARTICLEDIALOG_H
 
-#include "ui/ui_articledialog.h"
+#include "ui_articledialog.h"
 
 class articleDialog : public QDialog
 {

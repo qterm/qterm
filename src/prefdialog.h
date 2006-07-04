@@ -9,7 +9,7 @@
 #ifndef PREFDIALOG_H
 #define PREFDIALOG_H
 
-#include "ui/ui_prefdialog.h"
+#include "ui_prefdialog.h"
 //Added by qt3to4:
 //#include <QCloseEvent>
 class QCloseEvnt;

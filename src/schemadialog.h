@@ -1,7 +1,7 @@
 #ifndef SCHEMADIALOG_H
 #define SCHEMADIALOG_H
 
-#include "ui/ui_schemadialog.h"
+#include "ui_schemadialog.h"
 
 class schemaDialog : public QDialog
 { 

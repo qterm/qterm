@@ -1,7 +1,7 @@
 #ifndef IMAGEVIERWER_H
 #define IMAGEVIERWER_H
 
-#include "ui/ui_imageviewer.h"
+#include "ui_imageviewer.h"
 
 //Added by qt3to4:
 #include <QVBoxLayout>

@@ -10,7 +10,7 @@
 #define QUICKDIALOG_H
 
 #include "qtermparam.h"
-#include "ui/ui_quickdialog.h"
+#include "ui_quickdialog.h"
 //Added by qt3to4:
 //#include <QCloseEvent>
 

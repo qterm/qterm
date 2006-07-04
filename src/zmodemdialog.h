@@ -1,7 +1,7 @@
 #ifndef ZMODEMDIALOG_H
 #define ZMODEMDIALOG_H
 
-#include "ui/ui_zmodemdialog.h"
+#include "ui_zmodemdialog.h"
 
 class zmodemDialog : public QDialog
 {

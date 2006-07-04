@@ -10,7 +10,7 @@
 #define ADDRDIALOG_H
 
 #include "qtermparam.h"
-#include "ui/ui_addrdialog.h"
+#include "ui_addrdialog.h"
 #include <QButtonGroup>
 
 class QTermConfig;
