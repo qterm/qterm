@@ -26,7 +26,8 @@ class QTermTimeLabel;
 class QFontDialog;
 class QTermParam;
 class QTermConfig;
-class TrayIcon;
+//class TrayIcon;
+class QSystemTrayIcon;
 // class QTerm::statusBar;
 
 struct QTermPref
@@ -52,7 +53,7 @@ struct QTermPref
 	QString strPoolPath;
 	QString strImageViewer;
 };
-
+/*
 class MTray : public QObject
 {
 	Q_OBJECT
@@ -78,7 +79,7 @@ private:
 
 	QPixmap makeIcon(const QImage &_in);
 };
-
+*/
 
 class QTermFrame : public QMainWindow
 {
@@ -162,9 +163,10 @@ protected slots:
 	void connectMenuActivated();
 	void popupConnectMenu();
 	void connectMenuAboutToHide();
-	
-	void trayClicked(const QPoint &, int);
-	void trayDoubleClicked();	
+	void trayActived(int);
+
+	//void trayClicked(const QPoint &, int);
+	//void trayDoubleClicked();	
 	void trayHide();
 	void trayShow();
 	void buildTrayMenu();
@@ -206,7 +208,7 @@ protected:
 // 	Edit
 	QAction * m_copyAction;
 	QAction * m_pasteAction;
-	QAction * m_colorAction;//used
+	QAction * m_colorCopyAction;//used
 	QAction * m_rectAction;//used
 	QAction * m_autoCopyAction;//used
 	QAction * m_wwrapAction;//used
@@ -233,6 +235,7 @@ protected:
 	QAction * m_beepAction;
 	QAction * m_reconnectAction;
 	QAction * m_fontAction;
+	QAction * m_colorAction;
 	QAction * m_refreshAction;
 	
 	QAction * m_currentSessionAction;
@@ -243,9 +246,9 @@ protected:
 	
 	QTerm::StatusBar * m_pStatusBar;
 
-	QToolButton *connectButton, *disconnectButton,
-				*editRect, *editColor,
-				*specAnti, *specAuto, *specMouse, *specBeep, *specReconnect;
+	QToolButton *connectButton;// *disconnectButton,
+// 				*editRect, *editColor,
+// 				*specAnti, *specAuto, *specMouse, *specBeep, *specReconnect;
 
 	QMenuBar * mainMenu;
 	QToolBar *mdiconnectTools, *mdiTools;
@@ -253,7 +256,7 @@ protected:
 	bool m_bFullScreen;
 	bool m_bSwitchBar;
 
-	MTray *tray;
+	QSystemTrayIcon *tray;
 	QMenu *trayMenu;
 
 	//function

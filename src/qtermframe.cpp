@@ -26,6 +26,7 @@ AUTHOR:        kingson fiasco
 #include <QByteArray>
 #include <QCloseEvent>
 #include <QTime>
+#include <QSystemTrayIcon>
 
 #include "aboutdialog.h"
 #include "addrdialog.h"
@@ -42,7 +43,6 @@ AUTHOR:        kingson fiasco
 #include <stdlib.h>
 #include <stdio.h>
 
-// #include <qtooltip.h>
 #include <QTextCodec>
 #include <QApplication>
 #include <QWorkspace>
@@ -56,31 +56,6 @@ AUTHOR:        kingson fiasco
 #include <QTabBar>
 #include <QMessageBox>
 #include <QRegExp>
-// #include <qtextcodec.h>
-// #include <qapplication.h>
-// #include <qworkspace.h>
-// #include <q3toolbar.h>
-// #include <qtoolbutton.h>
-// #include <q3vbox.h>
-// #include <qpixmap.h>
-// #include <q3popupmenu.h>
-// #include <qmenubar.h>
-// #include <qtabbar.h>
-// #include <qstatusbar.h>
-// #include <qmessagebox.h>
-// #include <q3hbox.h>
-// #include <qregexp.h>
-
-// #if QT_VERSION < 300
-// #include <qplatinumstyle.h>
-// #include <qmotifstyle.h>
-// #include <qmotifplusstyle.h>
-// #include <qcdestyle.h>
-// #include <qsgistyle.h>
-// #else
-// #include <qstylefactory.h>
-// #include <qstyle.h>
-// #endif
 #include <QStyle>
 #include <QStyleFactory>
 #include <QFont>
@@ -91,24 +66,9 @@ AUTHOR:        kingson fiasco
 #include <QListWidget>
 #include <QLabel>
 #include <QMovie>
-// #include <qfont.h>
-// #include <qfontdialog.h>
-// #include <qtranslator.h>
-// #include <qpalette.h>
-// #include <qdir.h>
-// #include <qstringlist.h>
-// #include <q3listbox.h>
-// #include <qlabel.h>
-// #include <qmovie.h>
 #include <QLineEdit>
-// #include <QAction>
 #include <QInputDialog>
 #include <QStatusBar>
-
-// #include <qlineedit.h>
-// #include <q3accel.h>
-// #include <qaction.h>
-// #include <qinputdialog.h>
 
 extern QString fileCfg;
 extern QString addrCfg;
@@ -621,9 +581,9 @@ void QTermFrame::popupConnectMenu()
 }
 void QTermFrame::connectMenuAboutToHide()
 {
-	QMouseEvent me( QEvent::MouseButtonRelease, QPoint(0,0), QPoint(0,0), 
-			Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
-	QApplication::sendEvent( connectButton, &me );
+// 	QMouseEvent me( QEvent::MouseButtonRelease, QPoint(0,0), QPoint(0,0), 
+// 			Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+// 	QApplication::sendEvent( connectButton, &me );
 
 }
 void QTermFrame::connectMenuActivated()
@@ -796,12 +756,12 @@ void QTermFrame::copyRect()
 void QTermFrame::copyColor()
 {
 	wndmgr->activeWindow()->m_bCopyColor = !wndmgr->activeWindow()->m_bCopyColor;
-
-	m_colorAction->setChecked(wndmgr->activeWindow()->m_bCopyColor);
+	
+	m_colorCopyAction->setChecked(wndmgr->activeWindow()->m_bCopyColor);
 	//menuBar()->setItemChecked( ID_EDIT_COLOR, wndmgr->activeWindow()->m_bCopyColor );
-
-	editColor->setChecked( wndmgr->activeWindow()->m_bCopyColor );
-
+// 	qDebug("before crash");
+// 	editColor->setChecked( wndmgr->activeWindow()->m_bCopyColor );
+// 	qDebug("after crash");
 }
 void QTermFrame::copyArticle( )
 {
@@ -1166,7 +1126,7 @@ void QTermFrame::antiIdle( )
 	
 	m_antiIdleAction->setChecked(wndmgr->activeWindow()->m_bAntiIdle);
 
-	specAnti->setChecked( wndmgr->activeWindow()->m_bAntiIdle );
+// 	specAnti->setChecked( wndmgr->activeWindow()->m_bAntiIdle );
 }
 
 void QTermFrame::autoReply( )
@@ -1177,7 +1137,7 @@ void QTermFrame::autoReply( )
 	
 	m_autoReplyAction->setChecked(wndmgr->activeWindow()->m_bAutoReply);
 
-	specAuto->setChecked( wndmgr->activeWindow()->m_bAutoReply );
+// 	specAuto->setChecked( wndmgr->activeWindow()->m_bAutoReply );
 
 }
 void QTermFrame::viewMessages( )
@@ -1192,7 +1152,7 @@ void QTermFrame::enableMouse( )
 	
 	m_mouseAction->setChecked(wndmgr->activeWindow()->m_bMouse);
 
-	specMouse->setChecked( wndmgr->activeWindow()->m_bMouse );
+// 	specMouse->setChecked( wndmgr->activeWindow()->m_bMouse );
 
 }
 
@@ -1209,7 +1169,7 @@ void QTermFrame::beep()
 // 	menuBar()->setItemChecked( ID_SPEC_BEEP, wndmgr->activeWindow()->m_bBeep );
 	m_beepAction->setChecked(wndmgr->activeWindow()->m_bBeep);
 
-	specBeep->setChecked( wndmgr->activeWindow()->m_bBeep );
+// 	specBeep->setChecked( wndmgr->activeWindow()->m_bBeep );
 
 }
 
@@ -1217,7 +1177,7 @@ void QTermFrame::reconnect()
 {
 	wndmgr->activeWindow()->m_bReconnect = !wndmgr->activeWindow()->m_bReconnect;
 
-	specReconnect->setChecked( wndmgr->activeWindow()->m_bReconnect );
+// 	specReconnect->setChecked( wndmgr->activeWindow()->m_bReconnect );
 }
 
 void QTermFrame::runScript()
@@ -1308,7 +1268,7 @@ void QTermFrame::addMainTool()
  	mdiTools->addWidget(connectButton);
 	connectMenu = new QMenu(this);
 	//FIXME: autoupdate menu
-	popupConnectMenu();
+	connect( connectMenu, SIGNAL(aboutToShow()), this, SLOT(popupConnectMenu()) );
 	connectButton->setMenu(connectMenu);
 	connectButton->setPopupMode(QToolButton::InstantPopup);
 // 	connect( connectMenu, SIGNAL(aboutToHide()), this, SLOT(connectMenuAboutToHide()) );
@@ -1369,9 +1329,9 @@ void QTermFrame::addMainTool()
 // 		new QToolButton( QPixmap(pathPic+"pic/color-copy.png"), tr("Copy With Color"), QString::null,
 // 			this, SLOT(copyColor()), mdiconnectTools, "Copy With Color" );
 // 	m_colorAction = mdiconnectTools->addAction(QPixmap(pathPic+"pic/color-copy.png"), tr("Copy With Color"),this, SLOT(copyColor()));
-	mdiconnectTools->addAction(m_colorAction);
-	m_colorAction->setIcon(QPixmap(pathPic+"pic/color-copy.png"));
-	m_colorAction->setCheckable(true);
+	mdiconnectTools->addAction(m_colorCopyAction);
+	m_colorCopyAction->setIcon(QPixmap(pathPic+"pic/color-copy.png"));
+	m_colorCopyAction->setCheckable(true);
 // 	editColor->setToggleButton(TRUE);
 // 	mdiconnectTools->addWidget(editColor);
 	mdiconnectTools->addSeparator();
@@ -1458,7 +1418,7 @@ void QTermFrame::addMainMenu()
 	m_pasteAction = edit->addAction( QPixmap(pathLib+"pic/paste.png"),
 					tr("&Paste"), this, SLOT(paste()), Qt::SHIFT+Qt::Key_Insert );
 	edit->addSeparator();
-	m_colorAction = edit->addAction( QPixmap(pathLib+"pic/color-copy.png"),
+	m_colorCopyAction = edit->addAction( QPixmap(pathLib+"pic/color-copy.png"),
 					tr("C&opy with color"), this, SLOT(copyColor()) );
 	m_rectAction = edit->addAction( QPixmap(pathLib+"pic/rect.png"),
 					tr("&Rectangle select"), this, SLOT(copyRect()) );
@@ -1590,7 +1550,7 @@ void QTermFrame::updateMenuToolBar()
 // 	mainMenu->setItemChecked( ID_EDIT_AUTO,	window->m_bAutoCopy );
 // 	mainMenu->setItemChecked( ID_EDIT_WW,	window->m_bWordWrap );
 	
-	m_colorAction->setChecked(window->m_bCopyColor);
+	m_colorCopyAction->setChecked(window->m_bCopyColor);
 	m_rectAction->setChecked(window->m_bCopyRect);
 	m_autoCopyAction->setChecked(window->m_bAutoCopy);
 	m_wwrapAction->setChecked(window->m_bWordWrap);
@@ -1639,7 +1599,7 @@ void QTermFrame::enableMenuToolBar( bool enable )
 	
 	m_copyAction->setEnabled(enable);
 	m_pasteAction->setEnabled(enable);
-	m_colorAction->setEnabled(enable);
+	m_colorCopyAction->setEnabled(enable);
 	m_rectAction->setEnabled(enable);
 	m_autoCopyAction->setEnabled(enable);
 	m_wwrapAction->setEnabled(enable);
@@ -1764,17 +1724,20 @@ void QTermFrame::setUseDock(bool use)
 		return;
 	}
 
-	if(tray)
+	if(tray || !QSystemTrayIcon::isSystemTrayAvailable ())
 		return;
 
 	trayMenu = new QMenu;
 	connect(trayMenu, SIGNAL(aboutToShow()), SLOT(buildTrayMenu()));
 
 	
-	tray = new MTray( pathLib+"pic/qterm_tray.png", "QTerm", trayMenu, this);
-	connect(tray, SIGNAL(clicked(const QPoint &, int)), SLOT(trayClicked(const QPoint &, int)));
-	connect(tray, SIGNAL(doubleClicked(const QPoint &)), SLOT(trayDoubleClicked()));
-	connect(tray, SIGNAL(closed()), this, SLOT(exitQTerm()));
+	tray = new QSystemTrayIcon( this ); //pathLib+"pic/qterm_tray.png", "QTerm", trayMenu, this);
+	tray->setIcon(QPixmap(pathPic+"pic/qterm_tray.png"));
+	tray->setContextMenu(trayMenu);
+	connect(tray, SIGNAL(activated(int)), SLOT(trayActived(int)));
+// 	connect(tray, SIGNAL(clicked(const QPoint &, int)), SLOT(trayClicked(const QPoint &, int)));
+// 	connect(tray, SIGNAL(doubleClicked(const QPoint &)), SLOT(trayDoubleClicked()));
+// 	connect(tray, SIGNAL(closed()), this, SLOT(exitQTerm()));
 
 	tray->show();
 }
@@ -1793,7 +1756,16 @@ void QTermFrame::buildTrayMenu()
 	trayMenu->addAction(tr("About"), this, SLOT(aboutQTerm()));
 	trayMenu->addAction(tr("Exit"), this, SLOT(exitQTerm()));
 }
-
+void QTermFrame::trayActived(int reason)
+{
+	if (reason == QSystemTrayIcon::Context)
+		return;
+	if(!isVisible())
+		trayShow();
+	else
+		trayHide();
+}
+/*
 void QTermFrame::trayClicked(const QPoint &, int)
 {
 	if(isHidden())
@@ -1809,7 +1781,7 @@ void QTermFrame::trayDoubleClicked()
 	else
 		trayHide();
 }
-
+*/
 void QTermFrame::trayShow()
 {
 	show();
@@ -1864,101 +1836,101 @@ void QTermFrame::buzz()
 //----------------------------------------------------------------------------
 // MTray
 //----------------------------------------------------------------------------
-MTray::MTray(const QString &icon, const QString &tip, QMenu *popup, QObject *parent)
-:QObject(parent)
-{
-	ti = new TrayIcon(QPixmap(icon), tip, popup);
-	connect(ti, SIGNAL(clicked(const QPoint &, int)), SIGNAL(clicked(const QPoint &, int)));
-	connect(ti, SIGNAL(doubleClicked(const QPoint &)), SIGNAL(doubleClicked(const QPoint &)));
-	connect(ti, SIGNAL(closed()), SIGNAL(closed()));
-	ti->show();
-}
-
-MTray::~MTray()
-{
-	delete ti;
-}
-
-void MTray::setToolTip(const QString &str)
-{
-	ti->setToolTip(str);
-}
-
-void MTray::setImage(const QImage &i)
-{
-	ti->setIcon(makeIcon(i));
-}
-
-void MTray::show()
-{
-	ti->show();
-}
-
-void MTray::hide()
-{
-	ti->hide();
-}
-
-QPixmap MTray::makeIcon(const QImage &_in)
-{
-#ifdef Q_WS_X11
-		// on X11, the KDE dock is 22x22.  let's make our icon "seem" bigger.
-		QImage real(22,22,QImage::Format_ARGB32);
-		//QImage in = _in.convertToImage();
-		QImage in = _in;
-		in.detach();
-		real.fill(0);
-// 		real.setAlphaBuffer(true);
-
-		// make sure it is no bigger than 16x16
-		if(in.width() > 16 || in.height() > 16)
-			in = in.scaled(16,16,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
-
-		int xo = (real.width() - in.width()) / 2;
-		int yo = (real.height() - in.height()) / 2;
-
-		int n, n2;
-
-		// draw a dropshadow
-		for(n2 = 0; n2 < in.height(); ++n2) {
-			for(n = 0; n < in.width(); ++n) {
-				if(qAlpha(in.pixel(n,n2))) {
-					int x = n + xo + 2;
-					int y = n2 + yo + 2;
-					real.setPixel(x, y, qRgba(0x80,0x80,0x80,0xff));
-				}
-			}
-		}
-		// draw the image
-		for(n2 = 0; n2 < in.height(); ++n2) {
-			for(n = 0; n < in.width(); ++n) {
-				if(qAlpha(in.pixel(n,n2))) {
-					QRgb c = in.pixel(n, n2);
-					real.setPixel(n + xo, n2 + yo, qRgba(qRed(c), qGreen(c), qBlue(c), 0xff));
-				}
-			}
-		}
-		// create the alpha layer
-		for(n2 = real.height()-2; n2 >= 0; --n2) {
-			for(n = 0; n < real.width(); ++n) {
-				uint c = real.pixel(n, n2);
-				if(c > 0) {
-					QRgb old = real.pixel(n, n2);
-					real.setPixel(n, n2, qRgba(qRed(old), qGreen(old), qBlue(old), 0xff));
-				}
-			}
-		}
-
-		QPixmap icon;
-		icon = QPixmap::fromImage(real);
-		return icon;
-	//}
-#else
-	QPixmap icon;
-	icon.convertFromImage(_in);
-	return icon;
-#endif
-}
+// MTray::MTray(const QString &icon, const QString &tip, QMenu *popup, QObject *parent)
+// :QObject(parent)
+// {
+// 	ti = new TrayIcon(QPixmap(icon), tip, popup);
+// 	connect(ti, SIGNAL(clicked(const QPoint &, int)), SIGNAL(clicked(const QPoint &, int)));
+// 	connect(ti, SIGNAL(doubleClicked(const QPoint &)), SIGNAL(doubleClicked(const QPoint &)));
+// 	connect(ti, SIGNAL(closed()), SIGNAL(closed()));
+// 	ti->show();
+// }
+// 
+// MTray::~MTray()
+// {
+// 	delete ti;
+// }
+// 
+// void MTray::setToolTip(const QString &str)
+// {
+// 	ti->setToolTip(str);
+// }
+// 
+// void MTray::setImage(const QImage &i)
+// {
+// 	ti->setIcon(makeIcon(i));
+// }
+// 
+// void MTray::show()
+// {
+// 	ti->show();
+// }
+// 
+// void MTray::hide()
+// {
+// 	ti->hide();
+// }
+// 
+// QPixmap MTray::makeIcon(const QImage &_in)
+// {
+// #ifdef Q_WS_X11
+// 		// on X11, the KDE dock is 22x22.  let's make our icon "seem" bigger.
+// 		QImage real(22,22,QImage::Format_ARGB32);
+// 		//QImage in = _in.convertToImage();
+// 		QImage in = _in;
+// 		in.detach();
+// 		real.fill(0);
+// // 		real.setAlphaBuffer(true);
+// 
+// 		// make sure it is no bigger than 16x16
+// 		if(in.width() > 16 || in.height() > 16)
+// 			in = in.scaled(16,16,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+// 
+// 		int xo = (real.width() - in.width()) / 2;
+// 		int yo = (real.height() - in.height()) / 2;
+// 
+// 		int n, n2;
+// 
+// 		// draw a dropshadow
+// 		for(n2 = 0; n2 < in.height(); ++n2) {
+// 			for(n = 0; n < in.width(); ++n) {
+// 				if(qAlpha(in.pixel(n,n2))) {
+// 					int x = n + xo + 2;
+// 					int y = n2 + yo + 2;
+// 					real.setPixel(x, y, qRgba(0x80,0x80,0x80,0xff));
+// 				}
+// 			}
+// 		}
+// 		// draw the image
+// 		for(n2 = 0; n2 < in.height(); ++n2) {
+// 			for(n = 0; n < in.width(); ++n) {
+// 				if(qAlpha(in.pixel(n,n2))) {
+// 					QRgb c = in.pixel(n, n2);
+// 					real.setPixel(n + xo, n2 + yo, qRgba(qRed(c), qGreen(c), qBlue(c), 0xff));
+// 				}
+// 			}
+// 		}
+// 		// create the alpha layer
+// 		for(n2 = real.height()-2; n2 >= 0; --n2) {
+// 			for(n = 0; n < real.width(); ++n) {
+// 				uint c = real.pixel(n, n2);
+// 				if(c > 0) {
+// 					QRgb old = real.pixel(n, n2);
+// 					real.setPixel(n, n2, qRgba(qRed(old), qGreen(old), qBlue(old), 0xff));
+// 				}
+// 			}
+// 		}
+// 
+// 		QPixmap icon;
+// 		icon = QPixmap::fromImage(real);
+// 		return icon;
+// 	//}
+// #else
+// 	QPixmap icon;
+// 	icon.convertFromImage(_in);
+// 	return icon;
+// #endif
+// }
 
 
 #include <qtermframe.moc>
