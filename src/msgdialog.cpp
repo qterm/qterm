@@ -12,6 +12,7 @@
 msgDialog::msgDialog( QWidget* parent,  Qt::WFlags fl )
     : QDialog( parent, fl )
 {
+	ui.setupUi(this);
     // signals and slots connections
     //connect( okButton, SIGNAL( clicked() ), this, SLOT( accept() ) );
 }
