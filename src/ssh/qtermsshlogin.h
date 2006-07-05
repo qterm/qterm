@@ -1,6 +1,6 @@
 #ifndef FSSHLOGIN_H
 #define FSSHLOGIN_H
-#include "ui/ui_sshlogin.h"
+#include "ui_sshlogin.h"
 
 class SSHLogin : public QDialog
 {
