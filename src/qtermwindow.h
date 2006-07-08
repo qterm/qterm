@@ -53,6 +53,7 @@ class QProgressBar;
 // thread copy article
 class QTermDAThread : public QThread
 {
+	Q_OBJECT
 public:
 	QTermDAThread(QTermWindow*);
 	~QTermDAThread();
@@ -60,6 +61,8 @@ public:
 	virtual void run();
 	QString strArticle;
 	QMutex mutex;
+signals:
+	void done(int);
 private:
 	QTermWindow *pWin;
 };
@@ -123,6 +126,7 @@ protected slots:
 
 	// decode
 	void setMouseMode(bool);
+	void jobDone(int);
 
 protected:
 	void mouseDoubleClickEvent( QMouseEvent * );

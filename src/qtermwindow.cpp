@@ -105,7 +105,7 @@ extern QString pathCfg;
 extern void saveAddress(QTermConfig*,int,const QTermParam&);
 extern void runProgram(const QString &);
 extern QString getOpenFileName(const QString&, QWidget*);
-/*
+
 // script thread
 QTermDAThread::QTermDAThread(QTermWindow *win)
 {
@@ -129,10 +129,13 @@ void QTermDAThread::run()
 		QString strTemp = pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
 		int i=0;
 		int start=0;
-		for(QStringList::Iterator it=strList.fromLast();
-			it!=strList.begin(), i < pWin->m_pBuffer->line()-1; // not exceeeding the last screen
-			--it, i++)
+		QStringList::Iterator it = strList.end();
+		while ( it != strList.begin() && i < pWin->m_pBuffer->line()-1)
 		{
+// 		for(QStringList::Iterator it=strList.end();
+// 			it!=strList.begin(), i < pWin->m_pBuffer->line()-1; // not exceeeding the last screen
+// 			--it, i++)
+			--it;
 			if(*it!=strTemp)
 				continue;
 			QStringList::Iterator it2 = it;
@@ -162,16 +165,17 @@ void QTermDAThread::run()
 
 		// the end of article
 		if( pWin->m_pBuffer->screen(
-		pWin->m_pBuffer->line()-1)->getText().find("%") == -1 )
+		pWin->m_pBuffer->line()-1)->getText().indexOf("%") == -1 )
 			break;
 		// continue
 		pWin->m_pTelnet->write(" ", 1);
-		
 		if(!pWin->m_wcWaiting.wait(&mutex, 10000))	// timeout
 		{
 			//qApp->postEvent(pWin, new QCustomEvent(DAE_TIMEOUT));
+			emit done(DAE_TIMEOUT);
 			break;
 		}
+		i++;
 	}
 	#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 	strArticle = strList.join("\r\n");
@@ -179,8 +183,9 @@ void QTermDAThread::run()
 	strArticle = strList.join("\n");
 	#endif
 	//qApp->postEvent(pWin, new QCustomEvent(DAE_FINISH));
+	emit done(DAE_FINISH);
 	mutex.unlock();
-}*/
+}
 
 /*
 void QTermDAThread::run()
@@ -257,7 +262,7 @@ char QTermWindow::direction[][5]=
 
 //constructor
 QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidget * parent, const char * name, Qt::WFlags wflags )
-    : QMainWindow( parent, wflags ),location()
+    : QMainWindow( parent, wflags ),location(),m_strMessage()
 {
 
 	m_pFrame = frame;
@@ -1454,13 +1459,14 @@ void QTermWindow::pasteHelper( bool clip )
 }
 void QTermWindow::copyArticle( )
 {
-	return;
-/*
+	//return;
+
 	if(!m_bConnected)
 		return;
 	
 	m_pDAThread = new QTermDAThread(this);
-	m_pDAThread->start();*/
+	connect( m_pDAThread, SIGNAL(done(int)), this, SLOT(jobDone(int)));
+	m_pDAThread->start();
 		
 }
 void QTermWindow::font()
@@ -1553,7 +1559,6 @@ void QTermWindow::stopScript()
 void QTermWindow::viewMessages( )
 {
 	msgDialog msg(this);
-
 	QTermConfig conf(fileCfg);
 	const char * size = conf.getItemValue("global","msgdialog").toLatin1();
 	if(size!=NULL)
@@ -1564,11 +1569,10 @@ void QTermWindow::viewMessages( )
 		msg.move(QPoint(x,y));	
 	}
 
-	if( m_param.m_nBBSCode==0 )
+	if( m_param.m_nBBSCode==0 ) 
 		msg.ui.msgBrowser->setPlainText(G2U(m_strMessage.toLatin1()));
 	else
 		msg.ui.msgBrowser->setPlainText(B2U(m_strMessage.toLatin1()));
-	
 	msg.exec();
 
 	QString strSize=QString("%1 %2 %3 %4").arg(msg.x()).arg(msg.y()).arg(msg.width()).arg(msg.height());
@@ -1694,15 +1698,14 @@ void QTermWindow::reconnectProcess()
 /* 	                         Events                                         */
 /*                                                                          */
 /* ------------------------------------------------------------------------ */
-/*
-void QTermWindow::customEvent(QCustomEvent*e)
-{
 
-	if( e->type() == DAE_FINISH )
+void QTermWindow::jobDone(int e)
+{
+	if( e == DAE_FINISH )
 	{
 		articleDialog article(this);
 		QTermConfig conf(fileCfg);
-		const char * size = conf.getItemValue("global","articledialog");
+		const char * size = conf.getItemValue("global","articledialog").toLatin1().data();
 		if(size!=NULL)
 		{
 			int x,y,cx,cy;
@@ -1715,27 +1718,27 @@ void QTermWindow::customEvent(QCustomEvent*e)
 			article.strArticle = G2U(m_pDAThread->strArticle.toLatin1());
 		else
 			article.strArticle = B2U(m_pDAThread->strArticle.toLatin1());
-		article.ui.textBrowser->setText(article.strArticle);
+		article.ui.textBrowser->setPlainText(article.strArticle);
 		article.exec();
 		QString strSize = QString("%1 %2 %3 %4").arg(article.x()).arg(article.y()).arg(article.width()).arg(article.height());
 		conf.setItemValue("global","articledialog",strSize);
 		conf.save(fileCfg);
 	}
-	else if(e->type() == DAE_TIMEOUT)
+	else if(e == DAE_TIMEOUT)
 	{
 		QMessageBox::warning(this,"timeout","download article timeout, aborted");
 	}	
-	else if(e->type() == PYE_ERROR)
+	else if(e == PYE_ERROR)
 	{
 		QMessageBox::warning(this,"Python script error", m_strPythonError);
 	}
-	else if(e->type() == PYE_FINISH)
+	else if(e == PYE_FINISH)
 	{
 		QMessageBox::information(this,"Python script finished", "Python script file executed successfully");
 	}
 
 }
-*/
+
 /* ------------------------------------------------------------------------ */
 /*	                                                                        */
 /* 	                         Aux Func                                       */
