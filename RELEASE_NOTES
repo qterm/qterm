@@ -1,24 +1,13 @@
-QTerm 0.4.0pre4
+QTerm 0.4.0
 ===============
 
 这个版本添加/修正了下面一些功能:
 
-1. 新的图片浏览工具
-2. 改进了 OSD 提示
-3. 下载进程管理工具
-4. 提高了编译速度
-5. 各种 bug 的 fix，详细内容参见 ChangeLog。
+1. 修正了 Python 脚本无法运行的 bug。
 
-欢迎访问 QTerm 的新主页:
+经过近两年的 pre release，QTerm 0.4.0终于发布了，开发重点将会转移到基于 Qt 4 的
+0.5 系列上，当然对于 0.4 系列的 bug 我们也会发布后继版本进行修复。
 
-现在的主页基于 wiki，地址仍然是 http://qterm.sourceforge.net。目前尚在建设中，如果有苦力
-愿意帮我们维护(备份数据库之类的)，欢迎联系。由于最近页面经常被篡改，改成了必须注册登录才能编辑。
-多有不便，请原谅。
-
-关于 Qt 4 的支持:
-
-Qt4 的 port 进行中，可以从我们的 CVS 中下载代码测试。如果匿名访问不可以，也可以在这里浏览，
-http://cvs.sourceforge.net/viewcvs.py/qterm/qterm-qt4/
 
                                    	The QTerm Team
                               http://qterm.sourceforge.net
