@@ -1975,7 +1975,7 @@ bool QTermWindow::pythonCallback(const QString & func, PyObject* pArgs)
 	return done;
 }
 #endif //HAVE_PYTHON
-#if 0
+
 int QTermWindow::runPythonFile( const char * filename )
 {
 #ifdef HAVE_PYTHON
@@ -2048,7 +2048,8 @@ int QTermWindow::runPythonFile( const char * filename )
 
 	return 0;
 }
-#endif
+
+#if 0
 
 int QTermWindow::runPythonFile( const char * filename )
 {
@@ -2123,6 +2124,7 @@ int QTermWindow::runPythonFile( const char * filename )
 	return 0;
 }
 
+#endif
 
 void QTermWindow::pythonMouseEvent(int type, ButtonState btnstate, ButtonState keystate, 
 				const QPoint& pt, int delta  )
