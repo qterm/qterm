@@ -915,7 +915,7 @@ void QTermWindow::keyPressEvent( QKeyEvent * e )
 	if(m_replyTimer->isActive())
 		m_replyTimer->stop();
 
-	if( e->modifiers() )
+	if( e->modifiers() & Qt::MetaModifier )
 	{
 		if( e->key()>=Qt::Key_A && e->key()<=Qt::Key_Z )
 		{	
