@@ -257,4 +257,6 @@ void TrayIcon::gotCloseEvent()
 {
 	emit closed();
 }
-#include <trayicon.moc>
+#ifdef HAVE_CONFIG_H
+#include "trayicon.moc"
+#endif

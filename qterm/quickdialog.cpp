@@ -263,5 +263,6 @@ void quickDialog::close()
 	done(0);
 }
 
-
-#include <quickdialog.moc>
+#ifdef HAVE_CONFIG_H
+#include "quickdialog.moc"
+#endif

@@ -164,4 +164,6 @@ void QTermSSH1Kex::makeSessionId()
 	delete md5;
 	delete [] p;
 }
-#include <qtermsshkex.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermsshkex.moc"
+#endif

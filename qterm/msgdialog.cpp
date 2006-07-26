@@ -27,5 +27,6 @@ msgDialog::~msgDialog()
 {
     // no need to delete child widgets, Qt does it all for us
 }
-
-#include <msgdialog.moc>
+#ifdef HAVE_CONFIG_H
+#include "msgdialog.moc"
+#endif

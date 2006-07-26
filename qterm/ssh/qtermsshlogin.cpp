@@ -35,4 +35,6 @@ void fSSHLogin::accept()
 	*strPassword  = lePassword->text();
 	fSSHLoginUI::accept();
 }
-#include <qtermsshlogin.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermsshlogin.moc"
+#endif

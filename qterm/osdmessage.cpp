@@ -151,5 +151,6 @@ void PageViewMessage::mousePressEvent( QMouseEvent * /*e*/ )
         m_timer->stop();
     hide();
 }
-
-#include <osdmessage.moc>
+#ifdef HAVE_CONFIG_H
+#include "osdmessage.moc"
+#endif

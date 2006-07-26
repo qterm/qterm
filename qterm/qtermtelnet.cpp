@@ -914,5 +914,6 @@ int QTermTelnet::tnabort(int)
 //	exit(-1);
 	return -1;
 }
-
-#include <qtermtelnet.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermtelnet.moc"
+#endif

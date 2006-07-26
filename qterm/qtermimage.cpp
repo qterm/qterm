@@ -298,4 +298,6 @@ int main(int argc, char **argv)
 
 }
 */
-#include <qtermimage.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermimage.moc"
+#endif

@@ -651,4 +651,6 @@ QRect QTermBuffer::getSelectRect( int index, bool rect )
 				else
 					return QRect( 0, index, m_col, 1);
 }
-#include <qtermbuffer.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermbuffer.moc"
+#endif

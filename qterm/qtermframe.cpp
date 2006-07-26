@@ -1857,5 +1857,6 @@ QPixmap MTray::makeIcon(const QImage &_in)
 #endif
 }
 
-
-#include <qtermframe.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermframe.moc"
+#endif

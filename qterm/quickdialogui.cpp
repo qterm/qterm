@@ -110,5 +110,6 @@ void quickDialogUI::languageChange()
     TextLabel5->setText( tr( "Address" ) );
     addPushButton->setText( QString::null );
 }
-
-#include <quickdialogui.moc>
+#ifdef HAVE_CONFIG_H
+#include "quickdialogui.moc"
+#endif

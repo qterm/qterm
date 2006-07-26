@@ -181,4 +181,6 @@ void ImageViewer::buildList()
 	}
 
 }
-#include <imageviewer.moc>
+#ifdef HAVE_CONFIG_H
+#include "imageviewer.moc"
+#endif

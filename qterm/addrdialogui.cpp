@@ -535,5 +535,6 @@ void addrDialogUI::languageChange()
     menuLabel->setText( tr( "Menu Label" ) );
     tabWidget->changeTab( tab_4, tr( "Mouse" ) );
 }
-
-#include <addrdialogui.moc>
+#ifdef HAVE_CONFIG_H
+#include "addrdialogui.moc"
+#endif

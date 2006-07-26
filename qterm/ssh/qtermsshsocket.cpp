@@ -244,4 +244,6 @@ void QTermSSHSocket::setProxy( int nProxyType, bool bAuth,
 			strProxyHost, uProxyPort,
 			strProxyUsr, strProxyPwd);
 }
-#include <qtermsshsocket.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermsshsocket.moc"
+#endif

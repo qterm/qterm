@@ -63,5 +63,6 @@ void msgDialogUI::languageChange()
     setCaption( tr( "Messages Viewer" ) );
     okButton->setText( tr( "OK" ) );
 }
-
-#include <msgdialogui.moc>
+#ifdef HAVE_CONFIG_H
+#include "msgdialogui.moc"
+#endif

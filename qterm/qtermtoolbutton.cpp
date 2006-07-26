@@ -26,5 +26,6 @@ void QTermToolButton::slotClicked()
 {
 	emit(buttonClicked(id));
 }
-
-#include <qtermtoolbutton.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermtoolbutton.moc"
+#endif

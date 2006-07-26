@@ -91,5 +91,6 @@ void QTermSSH1Session::handlePacket(int type)
 		}
 	}
 }
-
-#include <qtermsshsession.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermsshsession.moc"
+#endif

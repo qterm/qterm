@@ -33,4 +33,6 @@ void QTermTimeLabel::timerEvent(QTimerEvent*)
 {
 	setText(currentTime->currentTime().toString());	
 }
-#include <qtermtimelabel.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermtimelabel.moc"
+#endif

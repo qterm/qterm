@@ -107,5 +107,6 @@ void articleDialog::onClose()
 	done(0);
 }
 
-
-#include <articledialog.moc>
+#ifdef HAVE_CONFIG_H
+#include "articledialog.moc"
+#endif

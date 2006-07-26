@@ -263,5 +263,6 @@ void prefDialog::onPool()
 		poolLineEdit->setText(pool);
 	}
 }
-
-#include <prefdialog.moc>
+#ifdef HAVE_CONFIG_H
+#include "prefdialog.moc"
+#endif

@@ -1363,4 +1363,6 @@ void QTermInput::paintEvent(QPaintEvent * e)
 #endif
 	inputPainter.end();
 }
-#include <qtermscreen.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermscreen.moc"
+#endif

@@ -199,5 +199,7 @@ bool QTermWndMgr::afterRemove()
 	}
 	else
 		return false;
-}	
-#include <qtermwndmgr.moc>
+}
+#ifdef HAVE_CONFIG_H
+#include "qtermwndmgr.moc"
+#endif

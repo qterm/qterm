@@ -217,5 +217,6 @@ void schemaDialogUI::Frame4_destroyed(QObject*)
 {
     qWarning( "schemaDialogUI::Frame4_destroyed(QObject*): Not implemented yet" );
 }
-
-#include <schemadialogui.moc>
+#ifdef HAVE_CONFIG_H
+#include "schemadialogui.moc"
+#endif

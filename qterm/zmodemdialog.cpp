@@ -57,4 +57,6 @@ void zmodemDialog::slotCancel()
 		hide();
 	}
 }
-#include <zmodemdialog.moc>
+#ifdef HAVE_CONFIG_H
+#include "zmodemdialog.moc"
+#endif

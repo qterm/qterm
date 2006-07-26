@@ -593,4 +593,6 @@ void addrDialog::updateData(bool save)
 		onMenuType(param.m_nMenuType);
 	}
 }
-#include <addrdialog.moc>
+#ifdef HAVE_CONFIG_H
+#include "addrdialog.moc"
+#endif

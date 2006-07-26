@@ -88,5 +88,6 @@ void QTermImageUI::languageChange()
     d_next->setText( tr( "&Next" ) );
     d_next->setAccel( QKeySequence( tr( "Alt+N" ) ) );
 }
-
-#include <imageviewerui.moc>
+#ifdef HAVE_CONFIG_H
+#include "imageviewerui.moc"
+#endif

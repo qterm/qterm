@@ -280,5 +280,6 @@ void keyDialog::loadKey(int n)
 		onSelect(6);
 	}
 }
-
-#include <keydialog.moc>
+#ifdef HAVE_CONFIG_H
+#include "keydialog.moc"
+#endif

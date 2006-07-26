@@ -268,4 +268,6 @@ int QTermSSH1PacketReceiver::packetLen()
 {
 	return d_realLen;
 }
-#include <qtermsshpacket.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermsshpacket.moc"
+#endif

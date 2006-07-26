@@ -324,5 +324,6 @@ void PopupMessage::slideMask()
 }
 
 }
-
-#include <popupMessage.moc>
+#ifdef HAVE_CONFIG_H
+#include "popupMessage.moc"
+#endif

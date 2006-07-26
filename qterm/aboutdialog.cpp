@@ -50,5 +50,6 @@ aboutDialog::~aboutDialog()
 {
     // no need to delete child widgets, Qt does it all for us
 }
-
-#include <aboutdialog.moc>
+#ifdef HAVE_CONFIG_H
+#include "aboutdialog.moc"
+#endif

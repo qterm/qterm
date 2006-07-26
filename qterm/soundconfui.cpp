@@ -122,5 +122,6 @@ void fSoundConfUI::languageChange()
     bpTest->setText( tr( "Test" ) );
     bCancel->setText( tr( "Cancel" ) );
 }
-
-#include <soundconfui.moc>
+#ifdef HAVE_CONFIG_H
+#include "soundconfui.moc"
+#endif

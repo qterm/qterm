@@ -189,4 +189,6 @@ void fSoundConf::accept()
 	saveSetting();
 	fSoundConfUI::accept();
 }
-#include <soundconf.moc>
+#ifdef HAVE_CONFIG_H
+#include "soundconf.moc"
+#endif

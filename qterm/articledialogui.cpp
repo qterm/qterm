@@ -85,5 +85,6 @@ void articleDialogUI::languageChange()
     closeButton->setText( tr( "Close" ) );
     textBrowser2->setText( QString::null );
 }
-
-#include <articledialogui.moc>
+#ifdef HAVE_CONFIG_H
+#include "articledialogui.moc"
+#endif

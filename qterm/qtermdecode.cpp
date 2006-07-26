@@ -576,4 +576,6 @@ void QTermDecode::restoreMode()
 void QTermDecode::test()
 {
 }
-#include <qtermdecode.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermdecode.moc"
+#endif

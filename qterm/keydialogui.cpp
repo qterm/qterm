@@ -159,5 +159,6 @@ void keyDialogUI::languageChange()
     updateButton->setText( tr( "Update" ) );
     closeButton->setText( tr( "Close" ) );
 }
-
-#include <keydialogui.moc>
+#ifdef HAVE_CONFIG_H
+#include "keydialogui.moc"
+#endif

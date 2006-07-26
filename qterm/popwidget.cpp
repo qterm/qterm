@@ -130,5 +130,6 @@ void popWidget::showTimer()
 	}
 	move(ptPos);
 }
-
-#include <popwidget.moc>
+#ifdef HAVE_CONFIG_H
+#include "popwidget.moc"
+#endif

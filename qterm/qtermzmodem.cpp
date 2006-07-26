@@ -2881,4 +2881,6 @@ void QTermZmodem::zmodemCancel()
 {
 	ZmodemAbort(&info);
 }
-#include <qtermzmodem.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermzmodem.moc"
+#endif

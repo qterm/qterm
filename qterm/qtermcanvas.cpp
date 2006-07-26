@@ -322,5 +322,6 @@ void QTermCanvas::adjustSize(const QSize& szView)
 	label->setPixmap(scaleImage(szImage));
 
 }
-
-#include <qtermcanvas.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermcanvas.moc"
+#endif

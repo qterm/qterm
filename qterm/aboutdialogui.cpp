@@ -115,5 +115,6 @@ void aboutDialogUI::languageChange()
     mainTabWidget->changeTab( tab_3, tr( "Credits" ) );
     closeButton->setText( tr( "Close" ) );
 }
-
-#include <aboutdialogui.moc>
+#ifdef HAVE_CONFIG_H
+#include "aboutdialogui.moc"
+#endif

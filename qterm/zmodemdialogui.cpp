@@ -82,5 +82,6 @@ void zmodemDialogUI::languageChange()
     buttonCancel->setText( tr( "Cancel" ) );
     labelFileName->setText( tr( "textLabel1" ) );
 }
-
-#include <zmodemdialogui.moc>
+#ifdef HAVE_CONFIG_H
+#include "zmodemdialogui.moc"
+#endif

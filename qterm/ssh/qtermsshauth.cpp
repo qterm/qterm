@@ -71,4 +71,6 @@ void QTermSSH1PasswdAuth::handlePacket(int type)
 		return;
 	}
 }
-#include <qtermsshauth.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermsshauth.moc"
+#endif

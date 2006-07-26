@@ -579,4 +579,6 @@ Q_ULONG QTermTelnetSocket::bytesAvailable()
 {
 	return d_socket->bytesAvailable();
 }
-#include <qtermsocket.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermsocket.moc"
+#endif

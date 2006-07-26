@@ -233,5 +233,6 @@ void QTermHttp::previewImage(const QString& filename)
 		runProgram(cstrCmd);
 	}
 }
-
-#include <qtermhttp.moc>
+#ifdef HAVE_CONFIG_H
+#include "qtermhttp.moc"
+#endif
