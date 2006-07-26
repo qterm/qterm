@@ -46,7 +46,7 @@ protected slots:
 	void hoverOnItem(QListBoxItem *);
 
 private:
-	static const int thumbSize = 100;
+	static const int thumbSize;
 	static const QString thumbDir;
 	QString d_path;
 	QListBoxItem *lastOne;

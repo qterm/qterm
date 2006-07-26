@@ -93,7 +93,9 @@ StatusBar::polish()
     int h = 0;
     QObjectList *list = queryList( "QWidget", 0, false, false );
 
-    for( QObject * o = list->first(); o; o = list->next() ) {
+	QObject * o;
+
+    for( o = list->first(); o; o = list->next() ) {
         int _h = static_cast<QWidget*>( o ) ->minimumSizeHint().height();
         if ( _h > h )
             h = _h;
@@ -106,7 +108,7 @@ StatusBar::polish()
 
     h -= 4; // it's too big usually
 
-    for ( QObject * o = list->first(); o; o = list->next() )
+    for ( o = list->first(); o; o = list->next() )
         static_cast<QWidget*>(o)->setFixedHeight( h );
 
     delete list;

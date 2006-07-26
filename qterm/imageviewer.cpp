@@ -15,6 +15,7 @@
 #include <qfileinfo.h>
 
 const QString ImageViewer::thumbDir = "shadow-cache/";
+const int ImageViewer::thumbSize = 100;
 extern QString pathPic;
 ImageViewer::ImageViewer(const QString & path, QWidget * parent)
 	:QListBox(parent)
