@@ -9,8 +9,8 @@ TRANSLATIONS = po/qterm_chs.ts po/qterm_cht.ts
 # specially for Win32
 win32:RC_FILE	= qterm.rc
 win32:DEFINES += HAVE_PYTHON _NO_ARTS_COMPILED _NO_ESD_COMPILED
-win32:INCLUDEPATH += c:/python23/include c:/openssl/include
-win32:LIBS += c:/python23/libs/python23.lib c:/openssl/lib/vc/libeay32.lib
+win32:INCLUDEPATH += c:/python24/include c:/openssl/include
+win32:LIBS += c:/python24/libs/python24.lib c:/openssl/lib/vc/libeay32MD.lib
 
 # specially for MacOSX 
 mac {
@@ -40,53 +40,58 @@ unix:!mac{
 	LIBS += -lpython2.3 -lssl
 }
 
-HEADERS		= qtermframe.h \
-		qtermwindow.h \
+HEADERS		=aboutdialog.h \
+		aboutdialogui.h \
+		addrdialog.h \
+		addrdialogui.h \
+		articledialog.h \
+		articledialogui.h \
+		imageviewer.h \
+		imageviewerui.h \
+		keydialog.h \
+		keydialogui.h \
+		msgdialog.h \
+		msgdialogui.h \
+		osdmessage.h \
+		overlayWidget.h \
+		popupMessage.h \
+		popwidget.h \
+		prefdialog.h \
+		prefdialogui.h \
+		progressBar.h \
+		qtermbbs.h \
+		qtermbuffer.h \
+		qtermcanvas.h \
+		qtermconfig.h \
+		qtermconvert.h \
+		qtermdecode.h \
+		qtermframe.h \
+		qterm.h \
+		qtermhttp.h \
+		qtermimage.h \
+		qtermiplocation.h \
+		qtermparam.h \
+		qtermpython.h \
+		qtermscreen.h \
+		qtermsocket.h \
+		qtermsound.h \
+		qtermtelnet.h \
+		qtermtextline.h \
 		qtermtimelabel.h \
-		qtermtoolbutton.h	\
-		qtermwndmgr.h	\
-		qtermscreen.h	\
-		qtermtelnet.h	\
-		qtermconfig.h	\
-		qtermtextline.h	\
-		qtermconvert.h	\
-		qtermbuffer.h	\
-		qtermdecode.h	\
-		qtermbbs.h	\
-		qtermparam.h	\
-		qtermsound.h	\
-		qtermsocket.h	\
-		qtermzmodem.h	\
-		qtermhttp.h		\
-		qtermpython.h	\
-		qtermiplocation.h	\
-		qterm.h		\
-		aboutdialogui.h	\
-		aboutdialog.h	\
-		addrdialogui.h	\
-		addrdialog.h	\
-		quickdialogui.h	\
-		quickdialog.h	\
-		prefdialogui.h	\
-		prefdialog.h	\
-		keydialogui.h		\
-		keydialog.h		\
-		msgdialogui.h	\
-		msgdialog.h		\
-		articledialogui.h	\
-		articledialog.h	\
-		schemadialogui.h	\
-		schemadialog.h	\
-		soundconfui.h	\
-		soundconf.h	\
-		zmodemdialogui.h	\
-		zmodemdialog.h	\
-		imageviewer.h	\
-		imageviewerui.h	\
-		osdmessage.h	\
-		qtermcanvas.h	\
-		trayicon.h	\
-		popwidget.h	\
+		qtermtoolbutton.h \
+		qtermwindow.h \
+		qtermwndmgr.h \
+		qtermzmodem.h \
+		quickdialog.h \
+		quickdialogui.h \
+		schemadialog.h \
+		schemadialogui.h \
+		soundconf.h \
+		soundconfui.h \
+		statusBar.h \
+		trayicon.h \
+		zmodemdialog.h \
+		zmodemdialogui.h \
 		ssh/crc32.h	\
 		ssh/types.h	\
 		ssh/getput.h	\
@@ -106,53 +111,58 @@ HEADERS		= qtermframe.h \
 		ssh/qtermsshsocket.h
 
 		
-SOURCES		= qtermframe.cpp \
-		qtermwindow.cpp \
+SOURCES		= aboutdialog.cpp \
+		aboutdialogui.cpp \
+		addrdialog.cpp \
+		addrdialogui.cpp \
+		articledialog.cpp \
+		articledialogui.cpp \
+		imageviewer.cpp \
+		imageviewerui.cpp \
+		keydialog.cpp \
+		keydialogui.cpp \
+		main.cpp \
+		msgdialog.cpp \
+		msgdialogui.cpp \
+		osdmessage.cpp \
+		overlayWidget.cpp \
+		popupMessage.cpp \
+		popwidget.cpp \
+		prefdialog.cpp \
+		prefdialogui.cpp \
+		progressBar.cpp \
+		qtermbbs.cpp \
+		qtermbuffer.cpp \
+		qtermcanvas.cpp \
+		qtermconfig.cpp \
+		qtermconvert.cpp \
+		qtermdecode.cpp \
+		qtermframe.cpp \
+		qtermhttp.cpp \
+		qtermimage.cpp \
+		qtermiplocation.cpp \
+		qtermparam.cpp \
+		qtermpython.cpp \
+		qtermscreen.cpp \
+		qtermsocket.cpp \
+		qtermsound.cpp \
+		qtermtelnet.cpp \
+		qtermtextline.cpp \
 		qtermtimelabel.cpp \
-		qtermtoolbutton.cpp	\
+		qtermtoolbutton.cpp \
+		qtermwindow.cpp \
 		qtermwndmgr.cpp \
-		qtermscreen.cpp	\
-		qtermtelnet.cpp	\
-		qtermconfig.cpp	\
-		qtermtextline.cpp	\
-		qtermconvert.cpp	\
-		qtermbuffer.cpp	\
-		qtermdecode.cpp	\
-		qtermbbs.cpp	\
-		qtermparam.cpp	\
-		qtermsound.cpp	\
-		qtermsocket.cpp	\
-		qtermzmodem.cpp	\
-		qtermhttp.cpp	\
-		qtermpython.cpp	\
-		qtermiplocation.cpp	\
-		aboutdialogui.cpp	\
-		aboutdialog.cpp	\
-		addrdialogui.cpp	\
-		addrdialog.cpp	\
-		quickdialogui.cpp	\
-		quickdialog.cpp	\
-		prefdialogui.cpp	\
-		prefdialog.cpp	\
-		keydialogui.cpp	\
-		keydialog.cpp	\
-		msgdialogui.cpp	\
-		msgdialog.cpp	\
-		articledialogui.cpp	\
-		articledialog.cpp	\
-		schemadialogui.cpp	\
-		schemadialog.cpp	\
-		soundconfui.cpp	\
-		soundconf.cpp	\
-		zmodemdialogui.cpp	\
-		zmodemdialog.cpp	\
-		popwidget.cpp	\
-		imageviewer.cpp	\
-		imageviewerui.cpp	\
-		osdmessage.cpp	\	
-		trayicon.cpp	\
-		qtermcanvas.cpp	\
-		main.cpp		\
+		qtermzmodem.cpp \
+		quickdialog.cpp \
+		quickdialogui.cpp \
+		schemadialog.cpp \
+		schemadialogui.cpp \
+		soundconf.cpp \
+		soundconfui.cpp \
+		statusBar.cpp \
+		trayicon.cpp \
+		zmodemdialog.cpp \
+		zmodemdialogui.cpp \
 		ssh/crc32.cpp	\
 		ssh/qtermsshauth.cpp	\
 		ssh/qtermsshbuffer.cpp	\
