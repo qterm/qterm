@@ -1,0 +1,33 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file>pic/addressbook.png</file>
+        <file>pic/anti-idle.png</file>
+        <file>pic/autoreply.png</file>
+        <file>pic/beep.png</file>
+        <file>pic/color.png</file>
+        <file>pic/connect.png</file>
+        <file>pic/copy.png</file>
+        <file>pic/copyarticle.png</file>
+        <file>pic/copywcolor.png</file>
+        <file>pic/disconnect.png</file>
+        <file>pic/fonts.png</file>
+        <file>pic/keys.png</file>
+        <file>pic/message.png</file>
+        <file>pic/messagebox_critical.png</file>
+        <file>pic/messagebox_info.png</file>
+        <file>pic/messagebox_warning.png</file>
+        <file>pic/mouse.png</file>
+        <file>pic/paste.png</file>
+        <file>pic/popwidget.png</file>
+        <file>pic/preference.png</file>
+        <file>pic/qterm_32x32.png</file>
+        <file>pic/qterm_48x48.png</file>
+        <file>pic/qterm_tray.png</file>
+        <file>pic/quicklogin.png</file>
+        <file>pic/reconnect.png</file>
+        <file>pic/rectselect.png</file>
+        <file>pic/refresh.png</file>
+        <file>pic/shadow.png</file>
+        <file>pic/tabpad.png</file>
+    </qresource>
+</RCC>
