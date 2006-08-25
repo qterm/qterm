@@ -24,16 +24,6 @@
      <height>25</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuHelp" >
-    <property name="title" >
-     <string>Help</string>
-    </property>
-    <addaction name="actionContents" />
-    <addaction name="actionWhat_s_this" />
-    <addaction name="separator" />
-    <addaction name="actionAbout_QTerm" />
-    <addaction name="actionAbout_Qt" />
-   </widget>
    <widget class="QMenu" name="menuFile" >
     <property name="title" >
      <string>&amp;Terminal</string>
@@ -125,18 +115,20 @@
     <addaction name="actionStop" />
     <addaction name="actionDebug_Console" />
    </widget>
-   <widget class="QMenu" name="menuWindows" >
+   <widget class="QMenu" name="menuHelp" >
     <property name="title" >
-     <string>Windows</string>
+     <string>Help</string>
     </property>
-    <addaction name="actionClose" />
-    <addaction name="actionClose_Others" />
-    <addaction name="actionClose_All" />
+    <addaction name="actionContents" />
+    <addaction name="actionWhat_s_this" />
     <addaction name="separator" />
-    <addaction name="actionCascade" />
-    <addaction name="actionTile_Vertically" />
-    <addaction name="actionTile_Horizontally" />
-    <addaction name="separator" />
+    <addaction name="actionAbout_QTerm" />
+    <addaction name="actionAbout_Qt" />
+   </widget>
+   <widget class="QMenu" name="menuWindow" >
+    <property name="title" >
+     <string>&amp;Window</string>
+    </property>
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuANSI" />
@@ -146,7 +138,6 @@
    <addaction name="menuFavatite" />
    <addaction name="menuOptions" />
    <addaction name="menuScript" />
-   <addaction name="menuWindows" />
    <addaction name="menuHelp" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
@@ -423,7 +414,7 @@
   </action>
   <action name="actionDebug_Console" >
    <property name="text" >
-    <string>Log</string>
+    <string>Debug Console</string>
    </property>
   </action>
   <action name="actionWhat_s_this" >
@@ -481,37 +472,6 @@
    </property>
    <property name="whatsThis" >
     <string>Show/Hide Statusbar</string>
-   </property>
-  </action>
-  <action name="actionClose_All" >
-   <property name="text" >
-    <string>Close All</string>
-   </property>
-  </action>
-  <action name="actionCascade" >
-   <property name="text" >
-    <string>Cascade</string>
-   </property>
-  </action>
-  <action name="actionTile_Vertically" >
-   <property name="text" >
-    <string>Tile Vertically</string>
-   </property>
-  </action>
-  <action name="actionTile_Horizontally" >
-   <property name="text" >
-    <string>Tile Horizontally</string>
-   </property>
-   <property name="iconText" >
-    <string>Tile Horizontally</string>
-   </property>
-   <property name="toolTip" >
-    <string>Tile Horizontally</string>
-   </property>
-  </action>
-  <action name="actionClose_Others" >
-   <property name="text" >
-    <string>Close Others</string>
    </property>
   </action>
   <action name="actionArticle_Manager" >

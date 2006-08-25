@@ -9,6 +9,9 @@
 
 QTermFrame :: QTermFrame()
 {
+	setWindowTitle( "QTerm "+QString(VERSION) );
+	setWindowIcon(QIcon(":/pic/qterm_32x32.png"));
+
 	workspace=new QWorkspace();
 	setCentralWidget(workspace);
     connect(workspace, SIGNAL(windowActivated(QWidget*)),
@@ -16,15 +19,13 @@ QTermFrame :: QTermFrame()
     
     setupUi(this);
     createMenus();    
-	setWindowTitle( "QTerm "+QString(VERSION) );
-	setWindowIcon(QIcon(":/pic/qterm_32x32.png"));
+    groupActions();
     
     tabBar = new QTabBar();
     PagerBar->addWidget(tabBar);
     connect(tabBar, SIGNAL(currentChanged(int)),
             this, SLOT(tabActivated(int)));
 
-    groupActions();
 	loadSettings();
 }
 
@@ -40,7 +41,6 @@ QTermFrame :: ~QTermFrame()
 void QTermFrame :: closeEvent(QCloseEvent *ce)
 {
     saveSettings();
-    on_actionQuit_triggered();
 }
 
 /********************
@@ -85,7 +85,7 @@ void QTermFrame :: winActivated(QWidget * w)
 void QTermFrame :: tabActivated(int index)
 {
 	QTermWindowBase * w = listWindow.at(index);
-    w->setFocus();
+    workspace->setActiveWindow(w);
 }
 
 void QTermFrame :: on_actionStatusbar_toggled(bool checked)
@@ -113,28 +113,31 @@ void QTermFrame :: on_actionWhat_s_this_triggered()
 {
     QWhatsThis:: enterWhatsThisMode();
 }
+
+void QTermFrame :: on_actionAbout_QTerm_triggered()
+{
+    QApplication::aboutQt();
+}
+
 void QTermFrame :: on_actionAbout_Qt_triggered()
 {
     QApplication::aboutQt();
 }
 
-void QTermFrame :: menuToolbars_aboutToShow()
+void QTermFrame :: actionsDispatcher(QAction* action)
 {
-    foreach(QAction* action, menuToolbars->actions())
+    QTermWindowBase * wb=qobject_cast<QTermWindowBase*>(workspace->activeWindow());
+    if(wb==0)
+        return;
+    QString nameSlot="on_"+action->objectName()+"_triggered";
+    if(wb->hasAction(action->objectName()))
     {
-        QVariant data=action->data();
-        QToolBar* toolbar = qobject_cast<QToolBar*>(data.value<QObject*>());
-        if(toolbar!=0)
-            action->setChecked(toolbar->isVisible());
+        bool ret=QMetaObject::invokeMethod(wb, 
+                nameSlot.toLatin1().constData());
+        if(!ret)
+            qWarning("Failed to execute %s",
+            nameSlot.toLatin1().constData());
     }
-}
-
-void QTermFrame :: menuToolbars_triggered(QAction* action)
-{
-    QVariant data=action->data();
-    QToolBar* toolbar = qobject_cast<QToolBar*>(data.value<QObject*>());
-    if(toolbar!=0)
-        toolbar->setVisible(action->isChecked());
 }
 
 /********************
@@ -233,22 +236,14 @@ remind me this is a good test. Maybe I will come back to this later.
 
 void QTermFrame :: createMenus()
 {
+    // Menu: View->Toolbars
     menuToolbars = new QMenu("Toolbars");
     QList<QToolBar*> toolbars = findChildren<QToolBar*>();
     QToolBar * toolbar;
     foreach (toolbar, toolbars)
-    {
-        QAction* act=new QAction(toolbar->windowTitle(),this);
-        act->setData(QVariant::fromValue((QObject*)toolbar));
-        act->setCheckable(true);
-        menuToolbars->addAction(act);
-    }
+        menuToolbars->addAction(toolbar->toggleViewAction());
     
     menuView->insertMenu(actionStatusbar,menuToolbars);
-    connect(menuToolbars, SIGNAL(aboutToShow()),
-            this, SLOT(menuToolbars_aboutToShow()));
-    connect(menuToolbars, SIGNAL(triggered(QAction*)),
-            this, SLOT(menuToolbars_triggered(QAction*)));
 }
 
 void QTermFrame :: loadSettings()
@@ -302,13 +297,22 @@ void QTermFrame :: groupActions()
                     << "actionConfigure_Toolbars"
                     << "actionConfigure_Shortcuts"
                     << "actionRun"  << "actionStop" << "actionDebug_Console"
-                    << "actionClose" << "actionClose_Others" << "actionClose_All"
-                    << "actionCasade"<< "actionTile_Horizontally" << "actionTile_Vertically"
                     << "actionContents" <<"actionWhat_s_this"
                     << "actionAbout_QTerm" << "actionAbout_Qt";
 
-    // show only basic actions
+    // show only basic actions and add others to actionGroup
     QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
+
+    actionGroup = new QActionGroup(this);
+    connect(actionGroup, SIGNAL(triggered(QAction*)),
+    this, SLOT(actionsDispatcher(QAction*)));
+
     foreach(QAction* action, actions)
-    action->setVisible(listBasicActions.contains(action->objectName()));
+        if(listBasicActions.contains(action->objectName()))
+            action->setVisible(true);
+        else
+        {
+            action->setVisible(false);
+            actionGroup->addAction(action);
+        }
 }

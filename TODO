@@ -1,5 +1,12 @@
-! configure shortcuts
 
-# when switch between different windows, visible/invisible
-improper actions based on window type. 
+! Add a tabBar menu, put items like "close", "close  others"
+! Configure shortcuts
+! Consider how to deal with checkable actions, e.g. actionAuto_Copy. Their
+  states need to be recorded and shared among child windows. Either make
+  it global accessible, or pass its signal to all proper childs(i.e. 
+  localized to child) 
+
+# Frame passes actions to desired child window
+# When switch between different windows, visible/invisible
+  proper/improper actions based on window type. 
 

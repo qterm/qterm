@@ -1,10 +1,14 @@
 #ifndef QTERMFRAME_H
 #define QTERMFRAME_H
 
-#include <QtGui>
+#include <QMainWindow>
+
 #include "ui_frame.h"
 
 class QTermWindowBase;
+class QWorkspace;
+class QTabBar;
+class QActionGroup;
 
 class QTermFrame : public QMainWindow, public Ui::Frame
 {
@@ -44,16 +48,14 @@ protected slots:
     void on_actionAbout_Qt_triggered();
     void on_actionWhat_s_this_triggered();
 
-    void menuToolbars_aboutToShow();
-    void menuToolbars_triggered(QAction*);
-
 	void tabActivated(int index);
     void winActivated(QWidget*);
     void winClosed(QTermWindowBase*);
+    void actionsDispatcher(QAction*);
 
 private:
+    QActionGroup* actionGroup;
 	QWorkspace* workspace;
-    QMenu* menuToolbars;
     QTabBar* tabBar;
 	QList<QTermWindowBase*> listWindow;
 	QStringList listBasicActions;
