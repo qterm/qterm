@@ -97,10 +97,10 @@ int iniWorkingDir()
 	pathSys=QApplication::applicationDirPath()+"/";
 	pathUsr=pathSys;
 #else // Other *NIX system
-	pathUSr=QDir::homePath()+"/.qterm/";
+	pathUsr=QDir::homePath()+"/.qterm/";
 	if(checkPath(pathUsr)==-1)
 		return -1;
-	pathSys=QTERM_DATADIR"/";
+//	pathSys=QTERM_DATADIR"/";
 #endif
 
 	// directories

@@ -9,6 +9,7 @@ class QTermWindowBase;
 class QWorkspace;
 class QTabBar;
 class QActionGroup;
+class QShortcut;
 
 class QTermFrame : public QMainWindow, public Ui::Frame
 {

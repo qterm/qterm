@@ -2,7 +2,7 @@
 #define SHORTCUTSDIALOG_H
 
 #include "ui_shortcutsdialog.h"
-#include <QSet>
+#include <QShortcut>
 class shortcutsDialog : public QDialog, public Ui_shortcutsDialog
 {
 	Q_OBJECT
