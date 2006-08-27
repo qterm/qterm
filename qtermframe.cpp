@@ -4,29 +4,31 @@
 #include "qtermeditor.h"
 
 #include "toolbardialog.h"
+#include "shortcutsdialog.h"
 
 #include <QtGui>
 
 QTermFrame :: QTermFrame()
 {
-	setWindowTitle( "QTerm "+QString(VERSION) );
+    setupUi(this);
+
+	setWindowTitle( QString("QTerm %1").arg(VERSION) );
 	setWindowIcon(QIcon(":/pic/qterm_32x32.png"));
 
 	workspace=new QWorkspace();
 	setCentralWidget(workspace);
     connect(workspace, SIGNAL(windowActivated(QWidget*)),
             this, SLOT(winActivated(QWidget*)));
-    
-    setupUi(this);
-    createMenus();    
-    groupActions();
-    
+
     tabBar = new QTabBar();
     PagerBar->addWidget(tabBar);
     connect(tabBar, SIGNAL(currentChanged(int)),
             this, SLOT(tabActivated(int)));
+    
+    createMenus();    
+    groupActions();
 
-	loadSettings();
+	loadSettings();	
 }
 
 QTermFrame :: ~QTermFrame()
@@ -37,7 +39,6 @@ QTermFrame :: ~QTermFrame()
 /********************
 ******** EVENTS *****
 *********************/
-
 void QTermFrame :: closeEvent(QCloseEvent *ce)
 {
     saveSettings();
@@ -104,10 +105,21 @@ void QTermFrame :: on_actionQuit_triggered()
 {
     close();
 }
+
+void QTermFrame :: on_actionConfigure_Shortcuts_triggered()
+{
+    QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));    
+    shortcutsDialog sd(this,actions,listShortcuts);
+    sd.exec();
+    
+    saveShortcuts();
+}
 void QTermFrame :: on_actionConfigure_Toolbars_triggered()
 {
     toolbarDialog td(this);
     td.exec();
+
+    saveToolbars();
 }
 void QTermFrame :: on_actionWhat_s_this_triggered()
 {
@@ -122,6 +134,28 @@ void QTermFrame :: on_actionAbout_QTerm_triggered()
 void QTermFrame :: on_actionAbout_Qt_triggered()
 {
     QApplication::aboutQt();
+}
+
+void QTermFrame :: windowSwitcher()
+{
+    QShortcut* shortcut=qobject_cast<QShortcut*>(sender());
+    int id=listShortcuts.indexOf(shortcut);
+    
+    switch(id)
+    {
+        case 10:
+            workspace->activatePreviousWindow();
+            break;
+        case 11:
+            workspace->activateNextWindow();
+            break;
+    }
+	
+	if(id>=listWindow.count())
+	   return;
+    QTermWindowBase * wb = listWindow.at(id);
+    if(wb!=0)
+        workspace->setActiveWindow(wb);
 }
 
 void QTermFrame :: actionsDispatcher(QAction* action)
@@ -246,9 +280,35 @@ void QTermFrame :: createMenus()
     menuView->insertMenu(actionStatusbar,menuToolbars);
 }
 
+void QTermFrame :: loadShortcuts()
+{
+    QSettings setting("qterm.cfg", QSettings::IniFormat);
+    setting.beginGroup("Shortcuts");
+    QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
+    foreach(QAction* action, actions)
+    {
+        QString shortcut=setting.value(action->objectName()).toString();
+        action->setShortcut(QKeySequence(shortcut));
+    }
+    setting.endGroup();
+}
+
+void QTermFrame :: saveShortcuts()
+{
+    QSettings setting("qterm.cfg", QSettings::IniFormat);
+    setting.beginGroup("Shortcuts");
+    QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
+    foreach(QAction* action, actions)
+        setting.setValue(action->objectName(), action->shortcut());
+    foreach(QShortcut* shortcut, listShortcuts)
+        setting.setValue(shortcut->objectName(), shortcut->key());
+    setting.endGroup();
+}
+
 void QTermFrame :: loadSettings()
 {
     popToolbars();
+    loadShortcuts();
     QSettings setting("qterm.cfg", QSettings::IniFormat);
     setting.beginGroup("MainWindow");
 
@@ -260,17 +320,18 @@ void QTermFrame :: loadSettings()
     setWindowState(Qt::WindowState(ws));
     if((ws & Qt::WindowMaximized) == 0x0)
     {
-        resize(setting.value("Size").toSize());
+        QSize sz=setting.value("Size").toSize();
+        if(sz.isValid())
+            resize(sz);
         move(setting.value("Position").toPoint());
     }
-    actionStatusbar->setChecked(true);
-    statusBar()->setVisible(setting.value("StatusBar").toBool());
+    bool showStatusbar = setting.value("StatusBar").toBool();
+    actionStatusbar->setChecked(showStatusbar);
     setting.endGroup();
 
 }
 void QTermFrame :: saveSettings()
 {
-    saveToolbars();
     QSettings setting("qterm.cfg",QSettings::IniFormat);
     setting.beginGroup("MainWindow");
     setting.setValue("ToolBars", saveState());
@@ -280,7 +341,7 @@ void QTermFrame :: saveSettings()
         setting.setValue("Size", size());
     }
     setting.setValue("State", uint(windowState()));
-    setting.setValue("StatusBar", statusBar()->isVisible());
+    setting.setValue("StatusBar", actionStatusbar->isChecked());
     setting.endGroup();
 }
 
@@ -303,8 +364,8 @@ void QTermFrame :: groupActions()
     // show only basic actions and add others to actionGroup
     QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
 
-    actionGroup = new QActionGroup(this);
-    connect(actionGroup, SIGNAL(triggered(QAction*)),
+    actionsExtra = new QActionGroup(this);
+    connect(actionsExtra, SIGNAL(triggered(QAction*)),
     this, SLOT(actionsDispatcher(QAction*)));
 
     foreach(QAction* action, actions)
@@ -313,6 +374,30 @@ void QTermFrame :: groupActions()
         else
         {
             action->setVisible(false);
-            actionGroup->addAction(action);
+            actionsExtra->addAction(action);
         }
+    // create switch_to_window_ actions group
+    // load shortcuts
+    QSettings setting("qterm.cfg", QSettings::IniFormat);
+    setting.beginGroup("Shortcuts");
+    for(int i=1;i<=10;i++)
+    {
+        QString name=QString("Switch to window %1").arg(i);
+        QString key = setting.value(name).toString();
+        QShortcut* shortcut = new QShortcut(QKeySequence(key),
+                this,SLOT(windowSwitcher()));
+        shortcut->setObjectName(name);
+        listShortcuts << shortcut;
+    }
+    QStringList list;
+    list << "Prev Window" << "Next Window";
+    foreach(QString name, list)
+    {
+        QString key = setting.value(name).toString();
+        QShortcut* shortcut = new QShortcut(QKeySequence(key),
+                this, SLOT(windowSwitcher()));
+        shortcut->setObjectName(name);
+        listShortcuts << shortcut;
+    }
+    setting.endGroup();
 }
