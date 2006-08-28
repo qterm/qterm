@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>Frame</class>
  <widget class="QMainWindow" name="Frame" >
   <property name="geometry" >
@@ -21,7 +18,7 @@
      <x>0</x>
      <y>0</y>
      <width>674</width>
-     <height>25</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile" >
@@ -124,11 +121,6 @@
     <addaction name="separator" />
     <addaction name="actionAbout_QTerm" />
     <addaction name="actionAbout_Qt" />
-   </widget>
-   <widget class="QMenu" name="menuWindow" >
-    <property name="title" >
-     <string>&amp;Window</string>
-    </property>
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuANSI" />
@@ -480,26 +472,8 @@
    </property>
   </action>
  </widget>
- <pixmapfunction></pixmapfunction>
  <resources>
   <include location="../frame.qrc" />
  </resources>
- <connections>
-  <connection>
-   <sender>actionAbout_Qt</sender>
-   <signal>activated()</signal>
-   <receiver>_layout</receiver>
-   <slot></slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

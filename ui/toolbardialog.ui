@@ -217,25 +217,7 @@
      </item>
      <item>
       <widget class="QListWidget" name="listAllActions" >
-       <property name="dragEnabled" >
-        <bool>true</bool>
-       </property>
-       <property name="selectionBehavior" >
-        <enum>QAbstractItemView::SelectRows</enum>
-       </property>
-       <property name="movement" >
-        <enum>QListView::Snap</enum>
-       </property>
-       <property name="gridSize" >
-        <size>
-         <width>16777215</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="viewMode" >
-        <enum>QListView::ListMode</enum>
-       </property>
-      </widget>
+     </widget>
      </item>
     </layout>
    </item>
@@ -316,37 +298,7 @@
      </item>
      <item>
       <widget class="QListWidget" name="listUsedActions" >
-       <property name="acceptDrops" >
-        <bool>false</bool>
-       </property>
-       <property name="showDropIndicator" stdset="0" >
-        <bool>false</bool>
-       </property>
-       <property name="dragEnabled" >
-        <bool>false</bool>
-       </property>
-       <property name="selectionBehavior" >
-        <enum>QAbstractItemView::SelectRows</enum>
-       </property>
-       <property name="movement" >
-        <enum>QListView::Snap</enum>
-       </property>
-       <property name="gridSize" >
-        <size>
-         <width>16777215</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="viewMode" >
-        <enum>QListView::ListMode</enum>
-       </property>
-       <property name="modelColumn" >
-        <number>0</number>
-       </property>
-       <property name="currentRow" >
-        <number>-1</number>
-       </property>
-      </widget>
+     </widget>
      </item>
     </layout>
    </item>
