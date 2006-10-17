@@ -469,7 +469,7 @@ void saveAddress(QTermConfig *pConf, int n, const QTermParam& param)
 	else
 		strSection.sprintf("bbs %d", n);
 
-	pConf->setItemValue(strSection, "name", param.m_strName.toLocal8Bit());
+	pConf->setItemValue(strSection, "name", param.m_strName);
 	pConf->setItemValue(strSection, "addr", param.m_strAddr);
 	strTmp.setNum(param.m_uPort);
 	pConf->setItemValue(strSection, "port", strTmp);
