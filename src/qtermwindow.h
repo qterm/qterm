@@ -136,6 +136,7 @@ protected:
 	void wheelEvent( QWheelEvent * );
 	void enterEvent( QEvent * );
 	void leaveEvent( QEvent * );
+	bool event(QEvent * );
 //  	void customEvent( QCustomEvent * );
 	/*
 	void imStartEvent (QIMEvent *);

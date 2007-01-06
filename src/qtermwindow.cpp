@@ -605,6 +605,20 @@ void QTermWindow::enterEvent( QEvent * )
 void QTermWindow::leaveEvent( QEvent * )
 {
 }
+
+bool QTermWindow::event( QEvent *e )
+{
+    if (e->type() == QEvent::ShortcutOverride) {
+        QKeyEvent * ke = static_cast<QKeyEvent *>(e);
+        if (ke->key() == Qt::Key_W && ke->modifiers() == Qt::ControlModifier) {
+            keyPressEvent(ke);
+            ke->accept();
+            //qDebug("override the event");
+        }
+    }
+    QWidget::event(e);
+}
+
 void QTermWindow::mouseDoubleClickEvent( QMouseEvent * me)
 {
 	//pythonMouseEvent(3, me->button(), me->state(), me->pos(),0);
