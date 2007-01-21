@@ -219,8 +219,10 @@ void QTermScreen::updateCursor()
 					painter.fillRect(pt.x(), pt.y(), m_nCharWidth, m_nCharHeight, m_color[7]);
 				}
 				else{
-					painter.eraseRect(pt.x(), pt.y(), m_nCharWidth, m_nCharHeight);
-					drawLine(painter,m_pBuffer->caretY(),m_pBuffer->caretX(),m_pBuffer->caretX()+1);
+					int startx = testChar(m_pBuffer->caretX(),m_pBuffer->caretY());
+					int endx = testChar(m_pBuffer->caretX()+2, m_pBuffer->caretY());
+					painter.fillRect(mapToRect(startx, m_pBuffer->caretY(), endx-startx, 1),m_color[0]);
+					drawLine(painter,m_pBuffer->caretY(),startx,endx, m_pBuffer->caretY());
 				}
 				break;
 			case 1:	// underline
@@ -811,10 +813,7 @@ void QTermScreen::refreshScreen()
   Finally get around this for pku & ytht, don't know why some weird things
   happened when only erase and draw the changed part. 
 */
-		if (startx == -1)
-			startx = 0;
-		else
-			startx = testChar(startx, index);
+		startx = testChar(startx, index);
 		
 		int len = -1;
 		if (endx != -1)
@@ -851,6 +850,8 @@ int QTermScreen::testChar(int startx, int index)
 	QByteArray cstrDisplay;
 	QByteArray cstrTest;
 	
+	if ( startx <= 0 )
+		return 0;
 	if ( index >= m_pBuffer->lines())
 	{
 		printf("QTermScreen::drawLine wrong index %d\n", index);
