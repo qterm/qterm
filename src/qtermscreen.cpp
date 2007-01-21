@@ -245,8 +245,8 @@ void QTermScreen::updateCursor()
 					painter.fillRect(pt.x(), pt.y(), m_nCharWidth, m_nCharHeight, m_color[7]);
 				}
 				else{
-					painter.fillRect(pt.x(), pt.y(), m_nCharWidth, m_nCharHeight, m_color[0]);
-// 					drawLine(painter,m_pBuffer->caretY(),m_pBuffer->caretX(),m_pBuffer->caretX()+1);
+					painter.eraseRect(pt.x(), pt.y(), m_nCharWidth, m_nCharHeight);
+					drawLine(painter,m_pBuffer->caretY(),m_pBuffer->caretX(),m_pBuffer->caretX()+1);
 				}
 				break;
 			case 1:	// underline
