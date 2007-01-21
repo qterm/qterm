@@ -86,7 +86,7 @@ void QTermHttp::getLink(const QString& url, bool preview)
 	}
 	m_strHttpFile = QFileInfo(u.path()).fileName();
 	m_httpDown.setHost(u.host(),u.port(80));
-	m_httpDown.get(u.path()+u.encodedQuery());
+	m_httpDown.get(u.path()+"?"+u.encodedQuery());
 }
 
 void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
