@@ -40,7 +40,7 @@ qtermsocket.cpp
 qtermsound.cpp
 qtermtelnet.cpp
 qtermtextline.cpp
-qtermtimelabel.cpp
+#qtermtimelabel.cpp
 qtermtoolbutton.cpp
 qtermwindow.cpp
 qtermwndmgr.cpp
@@ -49,10 +49,10 @@ quickdialog.cpp
 schemadialog.cpp
 soundconf.cpp
 statusBar.cpp
-trayicon.cpp
-trayicon_mac.cpp
-trayicon_win.cpp
-trayicon_x11.cpp
+#trayicon.cpp
+#trayicon_mac.cpp
+#trayicon_win.cpp
+#trayicon_x11.cpp
 zmodemdialog.cpp
 ssh/crc32.cpp
 ssh/qtermsshauth.cpp
