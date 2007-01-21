@@ -475,8 +475,10 @@ void QTermFrame::newWindow( const QTermParam&  param, int index )
 	//add window-tab-icon to window manager
 	wndmgr->addWindow(window,qtab,icon);
 	
-	if( ws->windowList().isEmpty() )
+	if( ws->windowList().isEmpty() ){
+		window->setFocus();
 		window->showMaximized();
+	}
 	else
 	{
 		ws->setFocus();
