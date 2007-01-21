@@ -444,18 +444,15 @@ bool QTermBBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 			}
 		}
 	}
-	
-	if (strText.at(index-1) == '.')
+	if (index > 0 && strText.at(index-1) == '.')
 		return false;
 
-	if(i<1)
+	if(i<1 || ip_end <= ip_begin || end <= url)
 		return false;
-	if (checkIP) {
+	if (checkIP) 
 		m_strIP = strText.mid(ip_begin,ip_end-ip_begin);//get the pure ip address
-	}
-	else
+	else 
 		m_strUrl = strText.mid(url, end-url);
-	
 	if(nNoType==0)
 		m_strUrl = "mailto:"+m_strUrl;
 	else if(nNoType==1)
@@ -468,7 +465,7 @@ bool QTermBBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 	rcUrl = QRect(url, m_ptCursor.y(), end-url, 1);
 	if (!checkIP) // don't update when we only need ip
 		m_rcUrl = rcUrl;
-	return true;;
+	return true;
 }
 
 QString QTermBBS::getUrl()
