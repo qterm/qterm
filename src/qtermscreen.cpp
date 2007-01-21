@@ -22,19 +22,6 @@ AUTHOR:        kingson fiasco
 #include "qtermtelnet.h"
 #include "qtermconfig.h"
 
-// #include <q3accel.h>
-// #include <qapplication.h>
-// #include <qpainter.h>
-// #include <qpixmap.h>
-// #include <qimage.h>
-// #include <qtextcodec.h>
-// #include <qfontmetrics.h>
-// #include <qtimer.h>
-// #include <qevent.h>
-// #include <qpoint.h>
-// #include <qclipboard.h>
-// #include <qfile.h>
-//Added by qt3to4:
 #include <QApplication>
 #include <QPainter>
 #include <QPixmap>
@@ -54,10 +41,10 @@ AUTHOR:        kingson fiasco
 #include <QWheelEvent>
 #include <QInputMethodEvent>
 #include <QShortcut>
+
 #include <stdio.h>
 #include <stdlib.h>
 
-// #include <QRubberBand>
 #include <QtDebug>
 /* ------------------------------------------------------------------------ */
 /*                                                                          */
@@ -79,17 +66,9 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 	setAttribute(Qt::WA_InputMethodEnabled, true);
 	setMouseTracking(true);
 
-// 	#if (QT_VERSION>=0x030200)
-// 	setInputMethodEnabled(true);
-// 	#endif
-
 	setSchema();
 
 	initFontMetrics();
-
-// 	#if (QT_VERSION>=200 && QT_VERSION<=300)
-// 	setMicroFocusHint(650,350,0,0,true);
-// 	#endif
 
 	m_pBuffer = buffer;
 	connect( m_pBuffer, SIGNAL(bufferSizeChanged()), 
@@ -100,8 +79,6 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 
 	m_cursorTimer = new QTimer(this);
 	connect(m_cursorTimer, SIGNAL(timeout()), this, SLOT(cursorEvent()));
-
-	//m_inputContent = NULL;
 
 	// the scrollbar
 	m_scrollBar = new QScrollBar(this);
@@ -128,9 +105,6 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 	m_scPrevLine = new QShortcut(Qt::Key_Up+Qt::SHIFT, this, "prevLine");
 	m_scNextLine = new QShortcut(Qt::Key_Down+Qt::SHIFT, this, "nextLine");
 	
-	// to avoid flickering
-	//FIXME: port this to Qt 4.
- 	//setBackgroundMode( Qt::NoBackground );
 	setAttribute(Qt::WA_NoSystemBackground, true);
 
 // init variable
@@ -308,7 +282,7 @@ void QTermScreen::resizeEvent( QResizeEvent *  )
 	
 	if( m_pParam->m_bAutoFont )
 	{
-		updateFont2();
+		updateFont();
 	}
 	else 
 	{
@@ -424,69 +398,6 @@ QFont QTermScreen::getDispFont( )
 
 
 void QTermScreen::updateFont()
-{
-	QString strFamily = m_pFont->family();
-	delete m_pFont;
-
-	int nPixelSize;
-
-	int nIniSize = qMax(8,qMin(m_rcClient.height()/m_pBuffer->line(),
-						m_rcClient.width()*2/m_pBuffer->columns()));
-
-	for( nPixelSize=nIniSize-3; nPixelSize<=nIniSize+3; nPixelSize++)
-	{
-		m_pFont = new QFont(strFamily);
-		m_pFont->setPixelSize( nPixelSize );
-		
-		QFontMetrics fm( *m_pFont );
-/* 
-   Use the width of char 'W' or the width of Chinese charactor to calculate
-   the display. use nPixelSize as a reference size. 0x4e00 stand for Chinese
-   one ;)
-*/
-		if (abs(nPixelSize - fm.width(QChar(0x4e00))) < abs(nPixelSize - fm.width('W') * 2))
-			m_nCharWidth  = (fm.width(QChar(0x4e00)) + 1)/2;
-		else
-			m_nCharWidth  = fm.width('W');
-		m_nCharHeight = fm.height();
-		m_nCharAscent = fm.ascent();
-		m_nCharDescent = fm.descent();
-
-		if( (m_pBuffer->line()*m_nCharHeight)>m_rcClient.height()
-			|| (m_pBuffer->columns()*m_nCharWidth)>m_rcClient.width()  )
-		{
-			delete m_pFont;
-			break;
-		}
-		delete m_pFont;
-	}
-
-	m_pFont = new QFont(strFamily);
-	m_pFont->setPixelSize( nPixelSize-1 );
-// 	#if (QT_VERSION >= 300 )
-// 	m_pFont->setStyleHint(QFont::System, 
-// 									m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
-// 	#endif
-	QFontMetrics fm( *m_pFont );
-	if (abs(nPixelSize - 1 - fm.width(QChar(0x4e00))) < abs(nPixelSize - 1 - fm.width('W') * 2))
-		m_nCharWidth  = (fm.width(QChar(0x4e00)) + 1)/2;
-	else
-		m_nCharWidth  = fm.width('W');
-/*
-   Don't trust the font width if it's nonsense, we just guess it from the 
-   pixelsize, mostly because some system(redhat and some debian) return the 
-   wrong width of Chinese charactors, for using of variable fonts, we can
-   only use nPixelsize
-*/
-	if (abs(nPixelSize - m_nCharWidth * 2) > (nPixelSize > 16 ? 3 : 2))
-		m_nCharWidth = (nPixelSize + 1)/2;
-	m_nCharHeight = fm.height();
-	m_nCharAscent = fm.ascent();
-	m_nCharDescent = fm.descent();
-
-}
-
-void QTermScreen::updateFont2()
 {
 	int nPixelSize;
 	int nIniSize = qMax(8,qMin(m_rcClient.height()/m_pBuffer->line(),
@@ -844,8 +755,6 @@ void QTermScreen::blinkScreen()
 	for (int index=m_nStart; index<=m_nEnd; index++) {
 		if (m_pBlinkLine[index - m_nStart]) {
 			QTermTextLine *pTextLine = m_pBuffer->at(index);
-			//erase(mapToRect(0, index, pTextLine->getLength(), 1));
-		        //drawLine(painter, index);
 			uint linelength = pTextLine->getLength();
 			QByteArray attr = pTextLine->getAttr();
 			for (uint i = 0; i < linelength; ++i) {

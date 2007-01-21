@@ -28,7 +28,6 @@ class QTermBuffer;
 class QTermBBS;
 class QTermParam;
 // class Q3Accel;
-class QRubberBand;
 class QInputMethodEvent;
 /*
 class QTermInput : public QWidget
@@ -121,7 +120,6 @@ protected:
 	QRect mapToRect( const QRect& );
 	
 	void updateFont();
-	void updateFont2();
 	void getFontMetrics(QFontMetrics *);
 
 	QImage& fade( QImage&, float, const QColor&);
