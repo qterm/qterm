@@ -134,6 +134,7 @@ void QTermCanvas::loadImage(QString name)
 		if(szView.width()<img.width())
 		{
 			szImage = szView;
+			label->resize(szImage);
 			label->setPixmap(scaleImage(szImage));
 			if (!bEmbed)
 				resize(szView*1.1);
@@ -141,6 +142,7 @@ void QTermCanvas::loadImage(QString name)
 		else
 		{
 			szImage = img.size();
+			label->resize(szImage);
 			label->setPixmap(QPixmap::fromImage(img));
 			if (!bEmbed)
 				resize(szImage+QSize(5,5));
@@ -285,7 +287,7 @@ void QTermCanvas::viewportResizeEvent(QResizeEvent *re)
 	adjustSize(re->size());
 }
 
-void QTermCanvas::contentsMousePressEvent(QMouseEvent *me)
+void QTermCanvas::mousePressEvent(QMouseEvent *me)
 {
 /* remove this to avoid click by mistake
 	if(me->button()&LeftButton)

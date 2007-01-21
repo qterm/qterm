@@ -42,7 +42,7 @@ protected:
 	void rotateImage(float);
 	
 	void closeEvent(QCloseEvent *);
-	void contentsMousePressEvent(QMouseEvent*);
+	void mousePressEvent(QMouseEvent*);
 	void keyPressEvent(QKeyEvent *ke);
 	void viewportResizeEvent(QResizeEvent *re);
 	void adjustSize(const QSize&);
