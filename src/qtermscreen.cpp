@@ -1220,7 +1220,7 @@ QPoint QTermScreen::mapToChar( const QPoint& point )
 
 	QPoint chPoint;
 	
-	chPoint.setX( (point.x()-pt.x())/m_nCharWidth  );
+	chPoint.setX( qMin( qMax(0,(point.x()-pt.x())/m_nCharWidth), m_pBuffer->columns()-1));
 	chPoint.setY( qMin( qMax(0,(point.y()-pt.y())/m_nCharHeight+m_nStart), m_nEnd) );
 
 	//FIXME add bound check
