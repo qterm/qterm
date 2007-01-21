@@ -91,15 +91,15 @@ QTermFrame::QTermFrame()
 	s_instance = this;
 	setAttribute(Qt::WA_DeleteOnClose);
 //set the layout
-	QFrame * vb = new QFrame(this);
-	QVBoxLayout * vbLayout = new QVBoxLayout(vb);
-	vbLayout->setMargin(0);
+	//QFrame * vb = new QFrame(this);
+	//QVBoxLayout * vbLayout = new QVBoxLayout(this);
+	//vbLayout->setMargin(0);
 // 	Q3VBox *vb = new Q3VBox( this );
 // 	FIXME:QFrame?
-	vb->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
-	setCentralWidget( vb );
-	ws = new QWorkspace( vb );
-	vbLayout->addWidget(ws);
+	//vb->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
+	ws = new QWorkspace( this );
+	setCentralWidget( ws );
+	//vbLayout->addWidget(ws);
 
 	tray = 0;
 	trayMenu = 0;
