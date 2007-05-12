@@ -1,17 +1,17 @@
 #ifndef QTERMBUFFER_H
 #define QTERMBUFFER_H
 
-#include <QList>
+#include "qterm.h"
+
 #include <QObject>
-
+#include <QList>
 #include <QPoint>
+#include <QSize>
 
-#include "../frame/qterm.h"
 
 #define INSERT_MODE	0
 #define	NEWLINE_MODE	1
 
-enum QTerm_Mode {BBS, EDITOR, VIEWER};
 
 class QTermTextLine;
 class QString;
@@ -23,27 +23,27 @@ class QTermBuffer : public QObject
 	Q_OBJECT
 	
 public:
-	QTermBuffer( int, int, int, QTerm_Mode=BBS );
+	QTermBuffer( QSize, int limit=10240, QTerm::Mode mod=QTerm::BBS );
 	~QTermBuffer();
 
-	QTermTextLine * at( int );
-	QTermTextLine * screen( int );
+	QTermTextLine * absAt( int );
+	QTermTextLine * scrAt( int );
 
-	void setSize( int, int );
-
-	int column(); 
-	int row();
-	int lines();
+	void setSize( QSize );
+    QSize size();
+    
+   	int lines();
 
 	QPoint absCaret();
 	QPoint scrCaret();
 
 	// string
-	void setBuffer( const QByteArray&, int n );
+	void setBuffer( const QByteArray& );
 	
 	// attribute
-	void setCurAttr( short );
-	
+	void setCurrentAttr( short );
+    void setAttr(short);
+    	
 	// string functions
 	void deleteStr( int );
 	void insertStr( int );
@@ -52,6 +52,9 @@ public:
 	void deleteLine( int );
 	void insertLine( int );
 
+    void splitLine();
+    void mergeLine();
+    
 	void eraseToBeginLine();
 	void eraseToEndLine();
 	void eraseEntireLine();
@@ -61,40 +64,40 @@ public:
 	void eraseEntireScreen();
 
 
-	// cursor functions
-	void moveCursorOffset( int, int );
-	void moveCursor( int, int );
-	void saveCursor();
-	void restoreCursor();
+	// caret functions
+	void moveCaret( int, int );
+	void setCaret( int, int );
+	void saveCaret();
+	void restoreCaret();
 	void cr();
 	
 	// non-printing characters
-	void newLine();
+	void lf();
 	void tab();
 	void setMargins( int, int );
 
 	// mode set
 	void setMode( int );
 	void resetMode( int );
-
+    bool getMode(int);
+    
 	// for test
 	void startDecode();
 	void endDecode();
 
 	// selecting function
-	void setSelect( const QPoint&, const QPoint&, bool );
-	void clearSelect();
+	void setSelection( const QPoint&, const QPoint&, bool );
+	void clearSelection();
 	bool isSelected( const QPoint&, bool );
 	bool isSelected( int );
-	QByteArray getSelectText( bool, bool, const QByteArray& );
-	QRect getSelectRect( int, bool );
+	QByteArray getSelection( bool, bool, const QByteArray& );
+	QRect getSelectionRect( int, bool );
 
 signals:
 	void bufferSizeChanged();
 	void windowSizeChanged(int,int);
 
 protected:	
-	void shiftStr( int, int, int, int );
 	void scrollLines( int, int );
 	void clearArea( int, int, int, int, short );
 	void addHistoryLine( int );
@@ -118,35 +121,36 @@ protected:
  */
 	
 	// buffer size
-	int m_col, m_row;
+	int column, row;
 	// absolute position of the first screen line 
-	int m_screenY;
+	int screenY;
 	// the maximum lines holding (BBS and CONSOLE)
-	int m_limit;
+	int maxLines;
 	// page margins, which define the active area
-	int m_top, m_bottom;
+	int topMargin, bottomMargin;
 
 
 	// the actual data
-	QList<QTermTextLine*>  m_lineList;
-	QTermTextLine * m_pCurrentLine;
+	QList<QTermTextLine*>  listLines;
 
 	// caret indicator
-	int m_caretX, m_caretY, m_saveX, m_saveY;
+	int caretX, caretY, caretSavedX, caretSavedY;
 	// attribute
-	short m_curAttr;
+	short currentAttr;
 
 	// ANSI modes
 	bool Insert_Mode, NewLine_Mode;
+
 	// data type: bbs, editor, etc
-	QTerm_Mode mode;
+	QTerm::Mode mode;
 	
 	// selection support
-	QPoint m_ptSelStart;
-	QPoint m_ptSelEnd;
-
+	QPoint ptSelStart;
+	QPoint ptSelEnd;
+    bool bRect
+    
 	// for test
-	int m_oldCaretX, m_oldCaretY;
+	int oldCaretX, oldCaretY;
 
 };
 #endif	// QTERMBUFFER_H

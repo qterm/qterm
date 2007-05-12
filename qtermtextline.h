@@ -2,6 +2,7 @@
 #define QTERMTEXTLINE_H
 
 #include <QByteArray>
+#include <QPoint>
 
 class QTermTextLine
 {
@@ -12,41 +13,38 @@ public:
 
 	void reset();
 
-	void setChanged(int start, int end); 
+	void setChanged(int start, int end);
+	QPoint getChanged() {return QPoint(m_start,m_end);}
+	void clearChange() { m_start=-1; m_end=-1; }
 	
-	void clearChange() { m_bChanged = false; m_start=-1; m_end=-1; }
+	QByteArray getColor(int index=0, int len=-1) { return m_color.mid( index, len ); }
+	QByteArray getAttr(int index=0, int len=-1) { return m_attr.mid( index, len );; }
 
-	bool isChanged( int &start, int &end );
-	
-	QByteArray getColor() { return m_color; }
+	int length()	{ return m_length; }
 
-	QByteArray getAttr() { return m_attr; }
+	QByteArray getAttrText( int index = 0, int len = -1, const QByteArray & escape="\x1b\x1b" );
+	QByteArray getPlainText( int index = 0, int len = -1 );
 
-	int getLength()	{ return m_length; }
+    void insertText( int index, const QByteArray& text,  const QByteArray& color,  const QByteArray& attr);
+	void insertText( int index, const QByteArray& str, short attr = -1);
 
-	QByteArray getAttrText( int index = -1, int len = -1, const QByteArray & escape="\x1b\x1b" );
+    void replaceText( int index, const QByteArray& text,  const QByteArray& color,  const QByteArray& attr);
+	void replaceText( int index, const QByteArray& str, short attr = -1);
 
-	QByteArray getText( int index = -1, int len = -1 );
-
-	void insertText( const QByteArray& str, short attr = -1, int index = -1 );
-
-	void deleteText( int index = -1, int len = -1 );
-	
-	void replaceText( const QByteArray& str, short attr = -1, int index = -1, int len = -1 );
+	void deleteText( int, int );	
 
 	bool hasBlink();
 
 protected:
-
-
-	// we use QString to store any character after decode
+    void leftJustify(int index);
+    void appendText( int index, const QByteArray& str, short attribute = -1 );
+    
 	int m_length;
 	QByteArray m_text;
 	QByteArray m_color;
 	QByteArray m_attr;
 	char m_curColor;
 	char m_curAttr;
-	bool m_bChanged;
 	bool m_bBlink;
 
 	int m_start, m_end;

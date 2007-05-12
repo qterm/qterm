@@ -1,7 +1,7 @@
 /*******************************************************************************
 FILENAME:      qtermdecode.cpp
 REVISION:      2001.8.12 first created.
-         
+
 AUTHOR:        kingson fiasco
 *******************************************************************************/
 /*******************************************************************************
@@ -22,7 +22,7 @@ AUTHOR:        kingson fiasco
 /************************************************************************/
 // state for FSM
 // please read ANSI decoding
-StateOption QTermDecode::normalState[] =
+QTermDecode::StateOption QTermDecode::normalState[] =
 {
     { CHAR_CR, 		&QTermDecode::cr,			normalState },
     { CHAR_LF, 		&QTermDecode::lf,			normalState },
@@ -36,7 +36,7 @@ StateOption QTermDecode::normalState[] =
 
 // state after a ESC_CHAR
 // only for BBS, so I reduce a lots
-StateOption QTermDecode::escState[] =
+QTermDecode::StateOption QTermDecode::escState[] =
 {
     { '[', 		&QTermDecode::clearParam,  		bracketState},// VT52
     { 'A', 		&QTermDecode::cursorUp,			normalState },
@@ -52,7 +52,7 @@ StateOption QTermDecode::escState[] =
 };
 
 // state after ESC [
-StateOption QTermDecode::bracketState[] =
+QTermDecode::StateOption QTermDecode::bracketState[] =
 {
     { '0', 		&QTermDecode::paramDigit,		bracketState },
     { '1', 		&QTermDecode::paramDigit,		bracketState },
@@ -67,7 +67,8 @@ StateOption QTermDecode::bracketState[] =
     { ';', 		&QTermDecode::nextParam,		bracketState },
 
     { '?',		&QTermDecode::clearParam,		privateState},
-	
+
+    { '@', 		&QTermDecode::insertStr,		normalState },
     { 'A', 		&QTermDecode::cursorUp,			normalState },
     { 'B', 		&QTermDecode::cursorDown,		normalState },
     { 'C', 		&QTermDecode::cursorRight,		normalState },
@@ -86,7 +87,6 @@ StateOption QTermDecode::bracketState[] =
     { 'r',		&QTermDecode::setMargins,		normalState },
     { 's', 		&QTermDecode::saveCursor,		normalState },
     { 'u', 		&QTermDecode::restoreCursor,		normalState },
-    { '@', 		&QTermDecode::insertStr,		normalState },
 
     { CHAR_CR, 		&QTermDecode::cr,			bracketState },
     { CHAR_LF, 		&QTermDecode::lf,			bracketState },
@@ -99,7 +99,7 @@ StateOption QTermDecode::bracketState[] =
 
 // state after ESC [ ?
 
-StateOption QTermDecode::privateState[] =
+QTermDecode::StateOption QTermDecode::privateState[] =
 {
     { '0', 		&QTermDecode::paramDigit,			privateState },
     { '1', 		&QTermDecode::paramDigit,			privateState },
@@ -124,14 +124,14 @@ StateOption QTermDecode::privateState[] =
 QTermDecode::QTermDecode( QTermBuffer * buffer )
 {
 	m_pBuffer = buffer;
-	
+
 	currentState = normalState;
-	
+
 	m_defAttr = SETCOLOR( NO_COLOR ) | SETATTR( NO_ATTR );
 
 	m_curAttr = m_defAttr;
 
-	m_pBuffer->setCurAttr( m_curAttr );
+	m_pBuffer->setCurrentAttr( m_curAttr );
 
 	bCurMode[MODE_MouseX11]=bSaveMode[MODE_MouseX11]=false;
 }
@@ -148,16 +148,15 @@ void QTermDecode::decode( const char *cstr, int length )
 	m_nIndex = 0;
 
 	m_bBell = false;
-	
 	int i;
-	StateOption *lastState;
+	QTermDecode::StateOption *lastState;
 
 	m_pBuffer->startDecode();
 
-	while ( m_nIndex < m_nLength )	
+	while ( m_nIndex < m_nLength )
 	{
 		i = 0;
-		while ( currentState[i].byte != CHAR_NORMAL 
+		while ( currentState[i].byte != CHAR_NORMAL
 			&& currentState[i].byte != m_pData[m_nIndex] )
 			   i++;
 
@@ -165,13 +164,12 @@ void QTermDecode::decode( const char *cstr, int length )
 
 		if ( lastState->action != 0 )
 			( this->*( lastState->action ) )();
-	
-		// reinit current state	
+
+		// reinit current state
 		currentState = lastState->nextState;
 
 		m_nIndex++;
 	}
-
 	m_pBuffer->endDecode();
 }
 
@@ -182,15 +180,15 @@ void QTermDecode::normalInput()
 	if ( m_pData[m_nIndex] < 0x20 && m_pData[m_nIndex] >= 0x00 )      // not print char
 		return;
 	int n = 0;
-	
+
 	while ( ( m_pData[m_nIndex + n] >= 0x20 || m_pData[m_nIndex + n] < 0x00 )
 		&& ( m_nIndex + n ) < m_nLength )
 		n++;
-			       
-	m_pBuffer->setBuffer( QByteArray(m_pData+m_nIndex,n+1) );
-	
-	n--;
-	m_nIndex += n;
+    
+	m_pBuffer->setBuffer( QByteArray(m_pData+m_nIndex,n) );
+
+    // excuse me for this weird "n-1", m_nIndex is increased by one in decode()
+	m_nIndex += n-1;
 }
 
 
@@ -203,14 +201,14 @@ void QTermDecode::cr()
 
 void QTermDecode::lf()
 {
-	m_pBuffer->newLine();
+	m_pBuffer->lf();
 }
 
 void QTermDecode::ff()
 {
 	m_pBuffer->eraseEntireScreen();
-	
-	m_pBuffer->moveCursor( 0, 0 );
+
+	m_pBuffer->setCaret( 0, 0 );
 }
 
 void QTermDecode::tab()
@@ -220,7 +218,7 @@ void QTermDecode::tab()
 
 void QTermDecode::bs()
 {
-	m_pBuffer->moveCursorOffset( - 1, 0 );
+	m_pBuffer->moveCaret( - 1, 0 );
 }
 
 void QTermDecode::bell()
@@ -262,12 +260,12 @@ void QTermDecode::nextParam()
 
 void QTermDecode::saveCursor()
 {
-	m_pBuffer->saveCursor();
+	m_pBuffer->saveCaret();
 }
 
 void QTermDecode::restoreCursor()
 {
-	m_pBuffer->restoreCursor();
+	m_pBuffer->restoreCaret();
 }
 
 void QTermDecode::cursorLeft()
@@ -277,7 +275,7 @@ void QTermDecode::cursorLeft()
 	if ( n < 1 )
 		n = 1;
 
-	m_pBuffer->moveCursorOffset( -n, 0 );
+	m_pBuffer->moveCaret( -n, 0 );
 }
 
 void QTermDecode::cursorRight()
@@ -287,7 +285,7 @@ void QTermDecode::cursorRight()
 	if ( n < 1 )
 		n = 1;
 
-	m_pBuffer->moveCursorOffset( n, 0 );
+	m_pBuffer->moveCaret( n, 0 );
 }
 
 void QTermDecode::cursorUp()
@@ -297,7 +295,7 @@ void QTermDecode::cursorUp()
 	if ( n < 1 )
 		n = 1;
 
-	m_pBuffer->moveCursorOffset( 0, -n );
+	m_pBuffer->moveCaret( 0, -n );
 }
 
 void QTermDecode::cursorDown()
@@ -307,18 +305,18 @@ void QTermDecode::cursorDown()
 	if ( n < 1)
 		n = 1;
 
-	m_pBuffer->moveCursorOffset( 0, n );
+	m_pBuffer->moveCaret( 0, n );
 }
 
 void QTermDecode::cursorPosition()
 {
-	int x = param[1];	
-	int y = param[0];	
-	
+	int x = param[1];
+	int y = param[0];
+
 	if(x == 0) x = 1;
 	if(y == 0) y = 1;
 
-	m_pBuffer->moveCursor( x - 1, y - 1 );
+	m_pBuffer->setCaret( x - 1, y - 1 );
 }
 
 // erase functions
@@ -328,7 +326,7 @@ void QTermDecode::eraseStr()
 
 	if ( n < 1 )
 		n = 1;
-		
+
 	m_pBuffer->eraseStr( n );
 }
 
@@ -379,7 +377,7 @@ void QTermDecode::insertLine()
 
 	if ( n < 1 )
 		n = 1;
-		
+
 	m_pBuffer->insertLine( n );
 }
 
@@ -389,7 +387,7 @@ void QTermDecode::deleteLine()
 
 	if ( n < 1 )
 		n = 1;
-		
+
 	m_pBuffer->deleteLine( n );
 }
 
@@ -415,11 +413,11 @@ void QTermDecode::eraseScreen()
 void QTermDecode::getAttr()
 {
 	// get all attributes of character
-	
+
 	if ( !nParam && param[0] == 0 )
 	{
 		m_curAttr = m_defAttr ;
-		m_pBuffer->setCurAttr(m_curAttr);
+		m_pBuffer->setCurrentAttr(m_curAttr);
 		return;
 	}
 
@@ -471,7 +469,7 @@ void QTermDecode::getAttr()
 
 	m_curAttr = SETCOLOR( cp ) | SETATTR( ea );
 
-	m_pBuffer->setCurAttr( m_curAttr );
+	m_pBuffer->setCurrentAttr( m_curAttr );
 }
 
 void QTermDecode::setMode()
@@ -485,7 +483,7 @@ void QTermDecode::setMode()
 				m_pBuffer->setMode( INSERT_MODE );
 				break;
 			case 20:
-				m_pBuffer->setMode( INSERT_MODE );
+				m_pBuffer->setMode( NEWLINE_MODE );
 				break;
 			case 1000:
 			case 1001:

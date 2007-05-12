@@ -12,17 +12,17 @@ AUTHOR:        kingson
 
 #include "qtermbuffer.h"
 
-QTermDecode::QTermDecode( QTermBuffer * buffer )
+QTermEncode::QTermEncode( QTermBuffer * buffer )
 {
 	m_pBuffer = buffer;
 	
 }
 
-QTermDecode::~QTermDecode()
+QTermEncode::~QTermEncode()
 {
 }
 
-QByteArray QTermDecode::encode( const QByteArray& escape )
+QByteArray QTermEncode::encode( const QByteArray& escape )
 {
 	QByteArray text;
 

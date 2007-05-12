@@ -1,7 +1,14 @@
 #ifndef QTERM_H
 #define QTERM_H
 
-enum QTermMode {BBS, Text};
+namespace QTerm
+{
+    enum Mode {BBS, EDITOR, VIEWER};
+    enum ImagePosition {Center, Tile, Stretch};
+    enum DisplayOrientation {DisplayHorizontal, DisplayVertical};
+    enum CharFlag {Latin1,Cn_First,Cn_Second};
+    enum PaintReason {NewData, UpdateCaret,Refresh};
+};
 
 #define VERSION "0.4.99"
 
@@ -41,11 +48,11 @@ extern QString pathUsr;
 // color 8-bit
 // x x x x x x x x
 //   ````` * ^^^^^
-//     |   |  |______background // 0 black,  1 red,  2 green,  3 yellow
+//     |   |  |______foreground // 0 black,  1 red,  2 green,  3 yellow
 //     |   |                    // 4 blue,  5 magenta,  6 cyan,  7 white
 //     |   |___highlight 0 no, 1 highlight
 //     |
-//     |_____foreground // 0 black,  1 red,  2 green,  3 yellow
+//     |_____background // 0 black,  1 red,  2 green,  3 yellow
 //                      // 4 blue,  5 magenta,  6 cyan,  7 white
   
 #define FGMASK 0x0f
