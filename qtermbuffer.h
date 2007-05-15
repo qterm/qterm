@@ -147,7 +147,7 @@ protected:
 	// selection support
 	QPoint ptSelStart;
 	QPoint ptSelEnd;
-    bool bRect
+    bool bRect;
     
 	// for test
 	int oldCaretX, oldCaretY;

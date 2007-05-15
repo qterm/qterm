@@ -597,6 +597,7 @@ void QTermBuffer::resetMode( int mode )
 	}
 }
 
+/*
 // Rectangle selection mode
 void QTermBuffer::setSelectionMode(bool rect)
 {
@@ -611,7 +612,7 @@ void QTermBuffer::setSelectionEnd( const QPoint& pt )
 {
     
 }
-
+*/
 
 void QTermBuffer::clearSelection()
 {
