@@ -78,6 +78,7 @@ struct fsm_trans QTermTelnet::substab[] = {
  *------------------------------------------------------------------------
  */
 QTermTelnet::QTermTelnet( const QString & strTermType, int rows, int columns, bool isSSH, const char * sshuser, const char * sshpasswd )
+	:from_socket(),to_ansi(),from_ansi(),to_socket()
 {
 	term = new char[21];
 	int i;
@@ -98,12 +99,6 @@ QTermTelnet::QTermTelnet( const QString & strTermType, int rows, int columns, bo
 
 	raw_size = 0;	
 
-	// init buffers
-	from_socket = new QByteArray();
-	to_ansi     = new QByteArray();
-	from_ansi   = new QByteArray();
-	to_socket   = new QByteArray();
-	
 	// create socket
 	d_isSSH = isSSH;
 #ifndef _NO_SSH_COMPILED
@@ -141,10 +136,6 @@ QTermTelnet::~QTermTelnet()
 	// delete objects
 	delete [] term;
     	delete socket;
-	delete from_socket;
-	delete to_ansi;
-	delete from_ansi;
-	delete to_socket;
 }
 
 
@@ -231,7 +222,7 @@ void QTermTelnet::windowSizeChanged(int x, int y)
 	{
 		naws = 0;
 
-		char cmd[10];
+		QByteArray cmd(10,0);
 		cmd[0] = (char)TCIAC;
 		cmd[1] = (char)TCSB;
 		cmd[2] = (char)TONAWS;
@@ -241,7 +232,7 @@ void QTermTelnet::windowSizeChanged(int x, int y)
 		cmd[6] = (char)(short(wy)&0xff);
 		cmd[7] = (char)TCIAC;
 		cmd[8] = (char)TCSE;
-		socket->writeBlock(cmd,9);
+		socket->writeBlock(cmd);
 
 	}
 }
@@ -353,10 +344,11 @@ void QTermTelnet::socketReadyRead()
         raw_size=nbytes;
 
 	//resize input buffer
-	from_socket->resize(nbytes);
+	from_socket.resize(0);
 		
 	//read data from socket to from_socket
-	nread=socket->readBlock( from_socket->data(), nbytes);
+	from_socket = socket->readBlock(nbytes);
+	nread = from_socket.size();
 	//do some checks
 	if ( nread <= 0 ) {
 		qWarning("Reading from socket:nread<=0");
@@ -368,8 +360,8 @@ void QTermTelnet::socketReadyRead()
 	}
 	
 	//resize output buffer
-	to_ansi->resize(2*nread);
-	to_socket->resize(4*nread);
+	to_ansi.resize(2*nread);
+	to_socket.resize(4*nread);
 
 	rsize=0;
 	wsize=0;
@@ -380,7 +372,7 @@ void QTermTelnet::socketReadyRead()
 
 	u_char c;
 	for (i=0; i<nread; ++i) {
-		c = (u_char)(from_socket->at(i));
+		c = (u_char)(from_socket[i]);
 		ti = ttfsm[ttstate][c];
 		pt = &ttstab[ti];
 		(this->*( pt->ft_action ))((int)c);
@@ -389,7 +381,7 @@ void QTermTelnet::socketReadyRead()
 	
 	// flush the to_socket buffer, it contain response to server
 	if ( wsize > 0 ){
-		socket->writeBlock(to_socket->data(), wsize);
+		socket->writeBlock(to_socket.left(wsize));
 		socket->flush();	
 	}
 										
@@ -422,7 +414,7 @@ int QTermTelnet::read_raw(char * data, uint maxlen)
     }
 
     //do it, memcpy( destination, source, size)
-    memcpy(data, from_socket->data(), raw_size);
+    memcpy(data, from_socket.data(), raw_size);
     return raw_size;
 }
 
@@ -445,7 +437,7 @@ int QTermTelnet::read(char * data, uint maxlen)
 	}
 	
 	//do it, memcpy( destination, source, size)
-	memcpy(data, to_ansi->data(), rsize);
+	memcpy(data, to_ansi.data(), rsize);
 	return rsize;
 }
 
@@ -463,11 +455,11 @@ int QTermTelnet::read(char * data, uint maxlen)
 int QTermTelnet::write(const char * data, uint len)
 {
 	// accept data, (This seems can be removed????)
-	from_ansi->resize(len);
-	memcpy(from_ansi->data(), data, len);
+	from_ansi.resize(len);
+	memcpy(from_ansi.data(), data, len);
 	
 	// resize output buffer
-	to_socket->resize(2*len);
+	to_socket.resize(2*len);
 	wsize=0;
 
 	// process keyboard input
@@ -478,12 +470,12 @@ int QTermTelnet::write(const char * data, uint len)
 	
 	u_char c;	// for gcc's happy :)
 	for (i=0; i<len; ++i) {
-		c = (u_char)(from_ansi->at(i));
+		c = (u_char)(from_ansi[i]);
 		soputc((int)c);
 	}
 	
 	//flush socket
-	socket->writeBlock(to_socket->data(), wsize);
+	socket->writeBlock(to_socket.left(wsize));
 	socket->flush();	
 
 	emit TelnetState(TSWRITED);
@@ -574,13 +566,13 @@ int QTermTelnet::do_echo(int c)
 void QTermTelnet::putc_down(u_char c)
 {
 	// check overflow
-	if ( (wsize+1) > to_socket->size() ) {
+	if ( (wsize+1) > to_socket.size() ) {
 		qWarning("putc_down : to_socket buffer overflow");
 		return;
 	}
 	// put it in the buffer
 	//to_socket->replace(wsize, 1, (const char *)&c);
-	(*to_socket)[wsize] = c;
+	to_socket[wsize] = c;
 	
 	wsize++;	
 	return;
@@ -856,12 +848,12 @@ int QTermTelnet::xputc_up(char ch)
 	/*if (scrfp)
 		(void) putc(ch, scrfp);*/
 	
-	if( (rsize+1) > to_ansi->size() ) {
+	if( (rsize+1) > to_ansi.size() ) {
 		qWarning("xputc_up : Buffer to_ansi overflow");
 		return -1;
 	}
 	//to_ansi->replace(wsize, 1, &ch);
-	(*to_ansi)[rsize] = u_char(ch);
+	to_ansi[rsize] = u_char(ch);
 	rsize++;
 		
 	return 0;

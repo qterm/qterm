@@ -36,8 +36,8 @@ public:
 			const QString& strProxyUsr, const QString& strProxyPwd);
 	void connectToHost(const QString & hostname, quint16 portnumber);
 	void close();
-	long readBlock(char * data, unsigned long maxlen);
-	long writeBlock(const char * data, unsigned long len);
+	QByteArray readBlock(unsigned long maxlen);
+	long writeBlock(const QByteArray & data);
 	unsigned long bytesAvailable();
 
 signals:
@@ -93,8 +93,8 @@ public:
 			const QString& strProxyUsr, const QString& strProxyPwd) = 0;
 	virtual void connectToHost(const QString & host, quint16 port) = 0;
 	virtual void close() = 0;
-	virtual long readBlock(char * data, unsigned long maxlen) = 0;
-	virtual long writeBlock(const char * data, unsigned long len) = 0;
+	virtual QByteArray readBlock(unsigned long maxlen) = 0;
+	virtual long writeBlock(const QByteArray & data) = 0;
 	virtual unsigned long bytesAvailable() = 0;
 signals:
 	void connected();
@@ -119,8 +119,8 @@ public:
 			const QString& strProxyUsr, const QString& strProxyPwd);
 	void connectToHost(const QString & host, quint16 port);
 	void close();
-	long readBlock(char * data, unsigned long maxlen);
-	long writeBlock(const char * data, unsigned long len);
+	QByteArray readBlock(unsigned long maxlen);
+	long writeBlock(const QByteArray & data);
 	unsigned long bytesAvailable();
 };
 

@@ -52,8 +52,8 @@ public:
 		const QString& strProxyHost,quint16 uProxyPort,
 		const QString& strProxyUsr,const QString& strProxyPwd);	
 	void connectToHost(const QString & host_name, quint16 port);
-	long readBlock(char * data, unsigned long size);
-	long writeBlock(const char * data, unsigned long size);
+	QByteArray readBlock(unsigned long size);
+	long writeBlock(const QByteArray & data);
 	unsigned long bytesAvailable();
 	void flush();
 	void close();

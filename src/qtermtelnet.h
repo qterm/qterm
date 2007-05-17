@@ -203,7 +203,7 @@ private:
 	//  socket<--->                                      <---> ansi decode
 	//             |<---to_socket<--process<--from_ansi--|
 	//
-	QByteArray *from_socket, *to_ansi, *from_ansi, *to_socket;
+	QByteArray from_socket, to_ansi, from_ansi, to_socket;
 	uint rsize;	// size of to_ansi buffer
 	uint wsize;	// size of to_socket buffer
 	

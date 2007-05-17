@@ -69,8 +69,7 @@ void QTermSocketPrivate::setProxy(int nProxyType, bool bAuth,
 void QTermSocketPrivate::socketConnected()
 {
 	QByteArray strPort;
-	char command[9];
-	memset(command,0,9);
+	QByteArray command(9,0);
 
 	char *proxyauth;
 	char *request;
@@ -83,36 +82,39 @@ void QTermSocketPrivate::socketConnected()
 		return;
 	case WINGATE:		// Wingate Proxy
 		strPort.setNum( port );
-		writeBlock( host.toLocal8Bit(), host.length() );
-		writeBlock( " ",1 );
-		writeBlock( strPort, strPort.length() );
-		writeBlock( &wingate_enter,1 );// CTRL+J
+		writeBlock( host.toLocal8Bit() );
+		writeBlock( " " );
+		writeBlock( strPort );
+		writeBlock( &wingate_enter );// CTRL+J
 		emit SocketState( TSHOSTCONNECTED );
 		return;
 	case SOCKS4:		// Socks4 Proxy
+		command.resize(9);
 		command[0]='\x04';
 		command[1]='\x01';
-		memcpy(&command[2],&addr_host.sin_port,2);
-		memcpy(&command[4],&addr_host.sin_addr,4);
-		writeBlock(command,9);
+		memcpy(command.data()+2,&addr_host.sin_port,2);
+		memcpy(command.data()+4,&addr_host.sin_addr,4);
+		writeBlock(command);
 		proxy_state = 1;
 		emit SocketState( TSPROXYCONNECTED );
 		return;
 	case SOCKS5:		// Socks5 Proxy
 		if( bauth )
 		{
+			command.resize(4);
 			command[0]='\x05';
 			command[1]='\x02';
 			command[2]='\x02';
 			command[3]='\x00';
-			writeBlock(command,4);
+			writeBlock(command);
 		}
 		else
 		{
+			command.resize(3);
 			command[0]='\x05';
 			command[1]='\x01';
 			command[2]='\x00';
-			writeBlock(command,3);
+			writeBlock(command);
 		}
 		proxy_state=1;
 		emit SocketState( TSPROXYCONNECTED );
@@ -134,7 +136,7 @@ void QTermSocketPrivate::socketConnected()
 					proxyauth!=NULL?proxyauth:"");
 
 
-		writeBlock(request, strlen(request));
+		writeBlock(request);
 		delete [] request;
 		free(proxyauth);
 		proxy_state=1;
@@ -158,10 +160,11 @@ void QTermSocketPrivate::socketReadyRead()
 	if (nbytes <= 0)   return;
 		
 	//resize input buffer
-	from_socket.resize(nbytes);
+	from_socket.resize(0);
 		
 	//read data from socket to from_socket
-	nread=readBlock( from_socket.data(), nbytes);
+	from_socket = readBlock(nbytes);
+	nread = from_socket.size();
 	//do some checks
 	if ( nread <= 0 ) {
 		qWarning("Reading from socket:nread<=0");
@@ -265,14 +268,14 @@ void QTermSocketPrivate::close()
 	m_socket->close();
 }
 
-long QTermSocketPrivate::readBlock(char * data, unsigned long maxlen)
+QByteArray QTermSocketPrivate::readBlock(unsigned long maxlen)
 {
-	return m_socket->read(data, maxlen);
+	return m_socket->read(maxlen);
 }
 
-long QTermSocketPrivate::writeBlock(const char * data, unsigned long len)
+long QTermSocketPrivate::writeBlock(const QByteArray & data)
 {
-	return m_socket->write(data, len);
+	return m_socket->write(data);
 }
 
 unsigned long QTermSocketPrivate::bytesAvailable()
@@ -286,16 +289,14 @@ unsigned long QTermSocketPrivate::bytesAvailable()
  */
 void QTermSocketPrivate::socks5_connect()
 {
-	char * command = new char[10];
-	memset(command,0,10);
+	QByteArray command (10,0);
 	command[0]='\x05';
 	command[1]='\x01';
 	command[2]='\x00';
 	command[3]='\x01';
-	memcpy( command+4, &addr_host.sin_addr,4 );
-	memcpy( command+8, &addr_host.sin_port,2 ); 
-	writeBlock( command, 10 );
-	delete []command;
+	memcpy( command.data()+4, &addr_host.sin_addr,4 );
+	memcpy( command.data()+8, &addr_host.sin_port,2 ); 
+	writeBlock( command );
 }
 /*------------------------------------------------------------------------
  * authentation command for socks5
@@ -305,14 +306,13 @@ void QTermSocketPrivate::socks5_auth()
 {
 	int ulen = proxy_usr.length();
 	int plen = proxy_pwd.length();
-	char * command = new char[3+ulen+plen];
-	sprintf((char *)command,"  %s %s",proxy_usr.toLocal8Bit().data(),
+	QByteArray command(3+ulen+plen,0);
+	sprintf((char *)command.data(),"  %s %s",proxy_usr.toLocal8Bit().data(),
 					proxy_pwd.toLocal8Bit().data());
 	command[0]='\x01';
 	command[1]=ulen;
 	command[2+ulen] = plen;
-	writeBlock( command,3+ulen+plen );
-	delete []command;	
+	writeBlock( command );
 }
 /*------------------------------------------------------------------------
  * reply  from socks5
@@ -569,14 +569,14 @@ void QTermTelnetSocket::close()
 	d_socket->close();
 }
 
-long QTermTelnetSocket::readBlock(char * data, unsigned long maxlen)
+QByteArray QTermTelnetSocket::readBlock(unsigned long maxlen)
 {
-	return d_socket->readBlock(data, maxlen);
+	return d_socket->readBlock(maxlen);
 }
 
-long QTermTelnetSocket::writeBlock(const char * data, unsigned long len)
+long QTermTelnetSocket::writeBlock(const QByteArray & data)
 {
-	return d_socket->writeBlock(data, len);
+	return d_socket->writeBlock(data);
 }
 
 unsigned long QTermTelnetSocket::bytesAvailable()

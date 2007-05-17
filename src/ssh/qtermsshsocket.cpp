@@ -99,7 +99,8 @@ void QTermSSHSocket::sessionReadyRead()
 
 unsigned long QTermSSHSocket::socketWriteBlock(const char * data, unsigned long len)
 {
-	return d_socket->writeBlock(data, len);
+	QByteArray to_write(data, len);
+	return d_socket->writeBlock(to_write);
 }
 
 void QTermSSHSocket::socketReadyRead()
@@ -108,16 +109,13 @@ void QTermSSHSocket::socketReadyRead()
 
 	switch (d_state) {
 	case BeforeSession:
-		char * str;
+		{
+		QByteArray str;
 		int version;
 		size = d_socket->bytesAvailable();
-		str = new char[size];
-		if (d_socket->readBlock(str, size) == -1){
-			qDebug("Read error");
-			return;
-		}
+		str = d_socket->readBlock(size);
 		//qDebug("Server message: %s", str);
-		version = chooseVersion(str);
+		version = chooseVersion(str.data());
 		//qDebug("SSH server version: %d", version);
 		if (version == 1)
 			socketWriteBlock(V1STR, 17);
@@ -130,8 +128,8 @@ void QTermSSHSocket::socketReadyRead()
 		}
 		d_state = SockSession;
 		d_socket->flush();
-		delete [] str;
 		break;
+		}
 	case SockSession:
 		parsePacket();
 	}
@@ -140,19 +138,12 @@ void QTermSSHSocket::socketReadyRead()
 void QTermSSHSocket::parsePacket()
 {
 	unsigned long size;
-	char * data;
+	QByteArray data;
 	size = d_socket->bytesAvailable();
-	data = new char[size];
+	data = d_socket->readBlock(size);
 
-	if (d_socket->readBlock(data, size) == -1) {
-		qDebug("read error");
-		delete [] data;
-		return;
-	}
-	d_socketBuffer->putBuffer(data, size);
+	d_socketBuffer->putBuffer(data.data(), size);
 	d_incomingPacket->parseData(d_socketBuffer);
-
-	delete [] data;
 }
 
 int QTermSSHSocket::chooseVersion(const QString & ver)
@@ -199,19 +190,18 @@ unsigned long QTermSSHSocket::bytesAvailable()
 	return d_inBuffer->len();
 }
 
-long QTermSSHSocket::readBlock(char * data, unsigned long size)
+QByteArray QTermSSHSocket::readBlock(unsigned long size)
 {
-	if (data == NULL)
-		return -1;
-	d_inBuffer->getBuffer(data, size);
-	return size;
+	qDebug("read Block");
+	QByteArray data(size, 0);
+	d_inBuffer->getBuffer(data.data(), size);
+	return data;
 }
 
-long QTermSSHSocket::writeBlock(const char * data, unsigned long size)
+long QTermSSHSocket::writeBlock(const QByteArray & data)
 {
-	if (data == NULL)
-		return -1;
-	d_outBuffer->putBuffer(data, size);
+	unsigned long size = data.size();
+	d_outBuffer->putBuffer(data.data(), size);
 	return size;
 }
 
