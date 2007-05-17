@@ -105,7 +105,7 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 	m_scPrevLine = new QShortcut(Qt::Key_Up+Qt::SHIFT, this, "prevLine");
 	m_scNextLine = new QShortcut(Qt::Key_Down+Qt::SHIFT, this, "nextLine");
 	
-	setAttribute(Qt::WA_NoSystemBackground, true);
+	setAttribute(Qt::WA_OpaquePaintEvent, true);
 
 // init variable
 	m_blinkScreen = false;
