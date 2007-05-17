@@ -54,17 +54,13 @@ statusBar.cpp
 #trayicon_win.cpp
 #trayicon_x11.cpp
 zmodemdialog.cpp
+ssh/auth.cpp
+ssh/channel.cpp
 ssh/crc32.cpp
-ssh/qtermsshauth.cpp
-ssh/qtermsshbuffer.cpp
-ssh/qtermsshdes.cpp
-ssh/qtermsshkex.cpp
-ssh/qtermsshlogin.cpp
-ssh/qtermsshmd5.cpp
-ssh/qtermsshpacket.cpp
-ssh/qtermsshrsa.cpp
-ssh/qtermsshsession.cpp
-ssh/qtermsshsocket.cpp )
+ssh/kex.cpp
+ssh/packet.cpp
+ssh/socket.cpp
+ssh/transport.cpp )
 set( qterm_UIS
 ui/aboutdialog.ui
 ui/addrdialog.ui
