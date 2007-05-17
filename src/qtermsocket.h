@@ -27,7 +27,7 @@ class QTermSocketPrivate : public QObject
 {
 	Q_OBJECT
 public:
-	QTermSocketPrivate();
+	QTermSocketPrivate(QObject * parent = 0);
 	~QTermSocketPrivate();
 
 	void flush();
@@ -81,7 +81,8 @@ class QTermSocket : public QObject
 {
 	Q_OBJECT
 public:
-	QTermSocket()
+	QTermSocket(QObject * parent = 0)
+		:QObject(parent)
 	{
 	}
 	virtual ~QTermSocket()

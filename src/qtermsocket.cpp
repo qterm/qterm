@@ -31,7 +31,8 @@ const char wingate_enter = 'J'&0x1f;
 //==============================================================================
 //QTermSocketPrivate
 //==============================================================================
-QTermSocketPrivate::QTermSocketPrivate()
+QTermSocketPrivate::QTermSocketPrivate(QObject * parent)
+	:QObject(parent)
 {
 	m_socket = new QTcpSocket(this);
     
