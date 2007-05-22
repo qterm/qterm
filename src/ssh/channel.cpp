@@ -50,6 +50,19 @@ void SSH2Channel::channelPacketReceived(int flag)
     case SSH2_MSG_CHANNEL_DATA:
         receiveData();
         break;
+    case SSH2_MSG_CHANNEL_EOF:
+        qDebug() << "channel eof";
+        break;
+    case SSH2_MSG_CHANNEL_CLOSE:
+        qDebug() << "channel closed";
+        break;
+    case SSH2_MSG_CHANNEL_REQUEST:
+        qDebug() << "channel request";
+        m_in->getUInt8();
+        qDebug() << "recipient channel " << m_in->getUInt32();
+        qDebug() << "request string " << m_in->getString();
+        qDebug() << "want reply " << m_in->getUInt8();
+        break;
     default:
         qDebug() << "unknown packet: " << flag;
         break;
@@ -68,7 +81,7 @@ void SSH2Channel::receiveData()
     else
         target->localWindow -= data.size();
     qDebug() << "local window size" << target->localWindow;
-    qDebug() << data;
+    // qDebug() << data;
     target->data += data;
     if (target->localWindow < 2*target->localPacketSize) {
         adjustWindow(target->localID, 2*target->localPacketSize);
