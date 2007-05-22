@@ -13,7 +13,6 @@
 #define SSH_SOCKET_H
 
 #include <QObject>
-#include <QBuffer>
 #include "qtermsocket.h"
 
 namespace QTerm
@@ -133,7 +132,6 @@ private:
     QTermSocketPrivate * m_socket;
     SSHSocketPriv * m_priv;
     QByteArray m_data;
-    QBuffer m_buffer;
 };
 
 

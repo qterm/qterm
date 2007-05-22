@@ -18,8 +18,6 @@
 #include "ssh2.h"
 #include "qtermsocket.h"
 #include <QtDebug>
-#include <QDataStream>
-#include <QBuffer>
 
 #include <openssl/bn.h>
 // FIXME: smth have some problem with \r\n
@@ -137,7 +135,7 @@ unsigned long SSH1SocketPriv::bytesAvailable()
 }
 
 SSHSocket::SSHSocket(QObject * parent)
-        : QTermSocket(parent), m_data(), m_buffer(&m_data)
+        : QTermSocket(parent), m_data()
 {
     m_socket = new QTermSocketPrivate(this);
     m_version = SSHUnknown;
