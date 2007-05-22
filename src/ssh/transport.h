@@ -27,9 +27,12 @@ namespace QTerm
 class SSH2Encryption
 {
 public:
-    SSH2Encryption();
+    SSH2Encryption(const QString & algorithm);
     ~SSH2Encryption();
-    enum Method { Encryption, Decryption };
+    enum Method
+    {
+        Encryption, Decryption
+    };
     void init(const QByteArray & iv, const QByteArray & key, Method method);
     QByteArray crypt(const QByteArray & src);
 
@@ -53,13 +56,13 @@ private:
     uint m_secretLen;
     uint m_blockSize;
     uint m_ivLen;
-
+    const EVP_CIPHER * m_evptype;
 };
 
 class SSH2MAC
 {
 public:
-    SSH2MAC();
+    SSH2MAC(const QString & algorithm);
     ~SSH2MAC();
     QByteArray mac(const QByteArray & data);
 
@@ -85,6 +88,7 @@ private:
     QByteArray m_key;
     uint m_keyLen;
     uint m_macLen;
+    const EVP_MD * m_evptype;
 };
 /*
  class SSHCompression
@@ -98,7 +102,7 @@ private:
 class SSH2Transport
 {
 public:
-    SSH2Transport(const QByteArray & enc, const QByteArray & mac, const QByteArray & comp);
+    SSH2Transport(const QString & enc, const QString & mac, const QString & comp);
     ~SSH2Transport();
 
     /*!

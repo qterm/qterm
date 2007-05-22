@@ -16,15 +16,15 @@ extern void dumpData(const QByteArray & data);
 namespace QTerm
 {
 
-SSH2Transport::SSH2Transport(const QByteArray & enc, const QByteArray & mac, const QByteArray & comp)
+SSH2Transport::SSH2Transport(const QString & enc, const QString & mac, const QString & comp)
 {
 //  if ( enc == "3des-cbc" )
-    m_enc = new SSH2Encryption;
+    m_enc = new SSH2Encryption(enc);
 //  else
 //   m_enc = NULL;
 
 //  if ( mac == "hmac-sha1" )
-    m_mac = new SSH2MAC;
+    m_mac = new SSH2MAC(mac);
 //  else
 //   m_enc = NULL;
 
@@ -67,12 +67,21 @@ QByteArray SSH2Transport::crypt(const QByteArray & src)
     return m_enc->crypt(src);
 }
 
-SSH2Encryption::SSH2Encryption()
+SSH2Encryption::SSH2Encryption(const QString & algorithm)
 {
     m_ctx = EVP_CIPHER_CTX_new();
-    m_ivLen = 16;
-    m_blockSize = 16;
-    m_secretLen = 16;
+    if (algorithm == "aes128-cbc") {
+        m_ivLen = 16;
+        m_blockSize = 16;
+        m_secretLen = 16;
+        m_evptype = EVP_aes_128_cbc();
+    } else if (algorithm == "3des-cbc") {
+        m_ivLen = 8;
+        m_blockSize = 8;
+        m_secretLen = 24;
+        m_evptype = EVP_des_ede3_cbc();
+    }
+
 }
 
 SSH2Encryption::~SSH2Encryption()
@@ -82,7 +91,7 @@ SSH2Encryption::~SSH2Encryption()
 
 void SSH2Encryption::init(const QByteArray & key, const QByteArray & iv, Method method)
 {
-    if (EVP_CipherInit(m_ctx, EVP_aes_128_cbc(), (const u_char*) key.data(), (const u_char*) iv.data(), method == Encryption) == 0)
+    if (EVP_CipherInit(m_ctx, m_evptype, (const u_char*) key.data(), (const u_char*) iv.data(), method == Encryption) == 0)
         qDebug() << "Cipher init failed";
 }
 
@@ -101,12 +110,19 @@ QByteArray SSH2Encryption::crypt(const QByteArray & src)
     return dest;
 }
 
-SSH2MAC::SSH2MAC()
+SSH2MAC::SSH2MAC(const QString & algorithm)
 {
     m_ctx = (HMAC_CTX*) malloc(sizeof(HMAC_CTX));
     HMAC_CTX_init(m_ctx);
-    m_keyLen = 20;
-    m_macLen = 20;
+    if (algorithm == "hmac-sha1") {
+        m_keyLen = 20;
+        m_macLen = 20;
+        m_evptype = EVP_sha1();
+    } else if (algorithm == "hmac-md5") {
+        m_keyLen = 16;
+        m_macLen = 16;
+        m_evptype = EVP_md5();
+    }
 }
 
 SSH2MAC::~SSH2MAC()
@@ -117,7 +133,7 @@ SSH2MAC::~SSH2MAC()
 QByteArray SSH2MAC::mac(const QByteArray & data)
 {
     QByteArray hmac(m_macLen, 0);
-    HMAC_Init(m_ctx, (const u_char*) m_key.data(), m_keyLen, EVP_sha1());
+    HMAC_Init(m_ctx, (const u_char*) m_key.data(), m_keyLen, m_evptype);
     HMAC_Update(m_ctx, (const u_char *) data.data(), data.size());
     HMAC_Final(m_ctx, (u_char *) hmac.data(), NULL);
     return hmac;
