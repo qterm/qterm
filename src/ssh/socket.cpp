@@ -193,12 +193,12 @@ void SSHSocket::checkVersion(const QByteArray & banner)
 {
     qDebug() << banner;
     QString server(banner);
-    QStringList list = server.split("-",QString::SkipEmptyParts);
+    QStringList list = server.split("-", QString::SkipEmptyParts);
     if (list[0] != "SSH") {
-        qDebug()<<"It is not a SSH protocol: " << server;
+        qDebug() << "It is not a SSH protocol: " << server;
         return;
     }
-    float version=list[1].toFloat();
+    float version = list[1].toFloat();
     if (version >= 1.99) {
         m_version = SSHV2;
     } else {
