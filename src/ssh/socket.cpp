@@ -18,6 +18,7 @@
 #include "ssh2.h"
 #include "qtermsocket.h"
 #include <QtDebug>
+#include <QStringList>
 
 #include <openssl/bn.h>
 // FIXME: smth have some problem with \r\n
@@ -192,9 +193,17 @@ void SSHSocket::checkVersion(const QByteArray & banner)
 {
     qDebug() << banner;
     QString server(banner);
-    if (!server.startsWith("SSH-"))
+    QStringList list = server.split("-",QString::SkipEmptyParts);
+    if (list[0] != "SSH") {
+        qDebug()<<"It is not a SSH protocol: " << server;
         return;
-    m_version = SSHV1;
+    }
+    float version=list[1].toFloat();
+    if (version >= 1.99) {
+        m_version = SSHV2;
+    } else {
+        m_version = SSHV1;
+    }
     switch (m_version) {
     case SSHV1:
         m_socket->writeBlock(QTERM_SSHV1_BANNER);
