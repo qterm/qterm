@@ -12,7 +12,6 @@
 
 #include <QCryptographicHash>
 #include <QtDebug>
-
 #include "kex.h"
 #include "packet.h"
 #include "transport.h"
@@ -30,9 +29,14 @@ namespace QTerm
 {
 
 SSH2Kex::SSH2Kex(QByteArray * sessionID , SSH2InBuffer * in, SSH2OutBuffer * out, const QByteArray & server, const QByteArray & client, QObject * parent)
-        : QObject(parent), V_S(server), V_C(client), I_S(), I_C(), m_status(Init)
+        : QObject(parent), V_S(server), V_C(client), I_S(), I_C(), m_status(Init),
+        m_kexList(), m_hostKeyList(), m_encList(), m_macList(), m_compList()
 {
-
+    m_kexList << "diffie-hellman-group14-sha1" << "diffie-hellman-group1-sha1";
+    m_hostKeyList << "ssh-dss";
+    m_encList << "aes128-cbc" << "3des-cbc";
+    m_macList << "hmac-sha1" << "hmac-md5";
+    m_compList << "none";
     m_sessionID = sessionID;
     m_in = in;
     m_out = out;
@@ -61,6 +65,18 @@ SSH2Kex::~SSH2Kex()
     BN_CTX_free(ctx);
 }
 
+QString SSH2Kex::chooseAlgorithm(const QStringList & target, const QStringList & available)
+{
+    QString algorithm;
+    foreach(algorithm, available) {
+        if (target.contains(algorithm)) {
+            return algorithm;
+        }
+    }
+    qDebug() << "no algorithm available!";
+    return "no algorithm available!";
+}
+
 void SSH2Kex::sendKex()
 {
 //  I_S = in->buffer();
@@ -75,14 +91,14 @@ void SSH2Kex::sendKex()
     RAND_bytes((unsigned char *) cookie.data(), 16);
 
     m_out->putData(cookie);
-    m_out->putString("diffie-hellman-group14-sha1,diffie-hellman-group1-sha1");
-    m_out->putString("ssh-dss");
-    m_out->putString("aes128-cbc");
-    m_out->putString("aes128-cbc");
-    m_out->putString("hmac-sha1");
-    m_out->putString("hmac-sha1");
-    m_out->putString("none");
-    m_out->putString("none");
+    m_out->putString(m_kexList.join(",").toUtf8());
+    m_out->putString(m_hostKeyList.join(",").toUtf8());
+    m_out->putString(m_encList.join(",").toUtf8());
+    m_out->putString(m_encList.join(",").toUtf8());
+    m_out->putString(m_macList.join(",").toUtf8());
+    m_out->putString(m_macList.join(",").toUtf8());
+    m_out->putString(m_compList.join(",").toUtf8());
+    m_out->putString(m_compList.join(",").toUtf8());
     m_out->putString("");
     m_out->putString("");
     m_out->putUInt8(0);
@@ -177,14 +193,35 @@ void SSH2Kex::DHGroup14()
 }
 void SSH2Kex::readKexInit()
 {
-    // TODO: select proper algorithm
-    m_inTrans = new SSH2Transport("aes128-cbc", "hmac-sha1", "none");
-    m_outTrans = new SSH2Transport("aes128-cbc", "hmac-sha1", "none");
+    m_in->getUInt8();
+    m_in->getData(16);
+    QStringList nameList;
+    // TODO: recover from error?
+    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    QString kexType = chooseAlgorithm(nameList, m_kexList);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    QString hostKeyType = chooseAlgorithm(nameList, m_hostKeyList);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    QString encTypeCS = chooseAlgorithm(nameList, m_encList);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    QString encTypeSC = chooseAlgorithm(nameList, m_encList);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    QString macTypeCS = chooseAlgorithm(nameList, m_macList);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    QString macTypeSC = chooseAlgorithm(nameList, m_macList);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    QString compTypeCS = chooseAlgorithm(nameList, m_compList);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    QString compTypeSC = chooseAlgorithm(nameList, m_compList);
+    //TODO: language?
+
+    m_inTrans = new SSH2Transport(encTypeSC, macTypeSC, compTypeSC);
+    m_outTrans = new SSH2Transport(encTypeCS, macTypeCS, compTypeCS);
 
     I_S = m_in->buffer();
     if (m_status == Init)
         sendKex();
-    sendKexDH("diffie-hellman-group14-sha1");
+    sendKexDH(kexType);
 }
 
 void SSH2Kex::kexPacketReceived(int flag)

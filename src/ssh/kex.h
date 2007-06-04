@@ -13,6 +13,7 @@
 #define SSH_KEX_H
 
 #include <QObject>
+#include <QStringList>
 
 #include <openssl/bn.h>
 
@@ -49,11 +50,17 @@ private:
     void readKexReply();
     void DHGroup1();
     void DHGroup14();
+    QString chooseAlgorithm(const QStringList & target, const QStringList & available);
     void initTransport(const QByteArray & hash);
     enum Status
     {
         Init, KexSent, NewKeysReceived, NewKeysSent
     };
+    QStringList m_kexList;
+    QStringList m_hostKeyList;
+    QStringList m_encList;
+    QStringList m_macList;
+    QStringList m_compList;
     BN_CTX *ctx;
     BIGNUM *g;
     BIGNUM *p;
