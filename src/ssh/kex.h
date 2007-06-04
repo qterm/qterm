@@ -44,9 +44,11 @@ public slots:
 private:
     bool verifySignature(const QByteArray & hash, const QByteArray & hostKey, const QByteArray & signature);
     QByteArray deriveKey(const QByteArray & hash, const QByteArray * sessionID, char id, uint needed);
-    void sendKexDH();
+    void sendKexDH(const QString & dhtype);
     void readKexInit();
     void readKexReply();
+    void DHGroup1();
+    void DHGroup14();
     void initTransport(const QByteArray & hash);
     enum Status
     {
