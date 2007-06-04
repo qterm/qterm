@@ -48,6 +48,7 @@ public:
 
 signals:
     void packetReady(int flag);
+    void error(const QString & message);
 
 private slots:
     void parseData();

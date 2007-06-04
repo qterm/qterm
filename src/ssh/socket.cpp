@@ -37,6 +37,9 @@ SSH2SocketPriv::SSH2SocketPriv(QTermSocketPrivate * plainSocket, QByteArray & ba
     m_kex = new SSH2Kex(m_sessionID, m_inPacket, m_outPacket, m_banner, QTERM_SSHV2_BANNER, this);
     m_kex->sendKex();
     connect(m_kex, SIGNAL(kexFinished()), this, SLOT(slotKexFinished()));
+    connect(m_kex, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString&)));
+    connect(m_inPacket, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString&)));
+    // connect(m_outPacket, SIGNAL(error( const QString& )),this, SIGNAL(error( const QString& )));
     // connect ( m_inPacket, SIGNAL ( packetReady ( int ) ), this, SLOT ( newPacket ( int ) ) );
 }
 
@@ -49,6 +52,7 @@ void SSH2SocketPriv::slotKexFinished()
     qDebug() << "kex finished";
     m_auth = new SSH2Auth(m_inPacket, m_outPacket);
     connect(m_auth, SIGNAL(authFinished()), this, SLOT(slotAuthFinished()));
+    connect(m_auth, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString &)));
     m_auth->requestAuthService();
 }
 
@@ -230,15 +234,24 @@ void SSHSocket::readData()
     checkVersion(from_socket);
     if (m_version == SSHV2) {
         m_priv = new SSH2SocketPriv(m_socket, from_socket, this);
-        disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(readData()));
-        connect(m_priv, SIGNAL(readyRead()), this, SIGNAL(readyRead()));
 //   m_socket->write ( QTERM_SSHV2_BANNER );
     } else if (m_version == SSHV1) {
         m_priv = new SSH1SocketPriv(m_socket, from_socket, this);
-        disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(readData()));
-        connect(m_priv, SIGNAL(readyRead()), this, SIGNAL(readyRead()));
 //   m_socket->write ( QTERM_SSHV1_BANNER );
     }
+    disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(readData()));
+    connect(m_priv, SIGNAL(readyRead()), this, SIGNAL(readyRead()));
+    connect(m_priv, SIGNAL(error(const QString &)), this, SLOT(onError(const QString &)));
+}
+
+void SSHSocket::onError(const QString & message)
+{
+    // TODO: notify the user
+    qDebug() << "We get an error message: " << message;
+    if (m_priv != NULL) {
+        m_priv->deleteLater();
+    }
+    m_socket->close();
 }
 
 }

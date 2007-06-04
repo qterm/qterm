@@ -34,6 +34,7 @@ public:
     void requestAuthService();
 signals:
     void authFinished();
+    void error(const QString & message);
 private slots:
     void authPacketReceived(int flag);
 private:

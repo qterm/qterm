@@ -74,7 +74,8 @@ QString SSH2Kex::chooseAlgorithm(const QStringList & target, const QStringList &
         }
     }
     qDebug() << "no algorithm available!";
-    return "no algorithm available!";
+    emit error("No proper algorithm available!");
+    return QString();
 }
 
 void SSH2Kex::sendKex()
@@ -196,7 +197,7 @@ void SSH2Kex::readKexInit()
     m_in->getUInt8();
     m_in->getData(16);
     QStringList nameList;
-    // TODO: recover from error?
+
     nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
     QString kexType = chooseAlgorithm(nameList, m_kexList);
     nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
@@ -215,6 +216,12 @@ void SSH2Kex::readKexInit()
     QString compTypeSC = chooseAlgorithm(nameList, m_compList);
     //TODO: language?
 
+    if (encTypeCS.isEmpty() || macTypeCS.isEmpty() || compTypeCS.isEmpty()) {
+        return;
+    }
+    if (encTypeSC.isEmpty() || macTypeSC.isEmpty() || compTypeSC.isEmpty()) {
+        return;
+    }
     m_inTrans = new SSH2Transport(encTypeSC, macTypeSC, compTypeSC);
     m_outTrans = new SSH2Transport(encTypeCS, macTypeCS, compTypeCS);
 
@@ -268,10 +275,11 @@ void SSH2Kex::readKexReply()
 
     QByteArray key = QCryptographicHash::hash(tmp.buffer(), QCryptographicHash::Sha1);
 
-    // TODO: error handling
-    if (!verifySignature(key, K_S, sign))
+    if (!verifySignature(key, K_S, sign)) {
         qDebug() << "Signature check error";
-
+        emit error("Signature check error!");
+        return;
+    }
     m_out->startPacket(SSH2_MSG_NEWKEYS);
     m_out->sendPacket();
 

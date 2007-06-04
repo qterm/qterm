@@ -46,6 +46,7 @@ public:
     virtual unsigned long bytesAvailable() = 0;
 signals:
     void readyRead();
+    void error(const QString & message);
 };
 
 class SSH2SocketPriv : public SSHSocketPriv
@@ -122,6 +123,7 @@ signals:
     void readyRead();
 private slots:
     void readData();
+    void onError(const QString & message);
 private:
     void checkVersion(const QByteArray & banner);
     enum SSHVersion

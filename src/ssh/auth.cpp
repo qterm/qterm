@@ -59,9 +59,12 @@ void SSH2Auth::failureHandler()
     QByteArray method = m_in->getString();
     int partialSuccess = m_in->getUInt8();
     qDebug() << "method: " << method << "flag " << partialSuccess;
-    if (method.contains("keyboard-interactive"))
+    if (method.contains("keyboard-interactive")) {
         keyboardAuth();
-    // TODO: die gracefuly
+    } else {
+        emit error("Server does not support keyboard interactive authtication method.");
+        return;
+    }
 }
 
 void SSH2Auth::requestAuthService()
@@ -73,7 +76,13 @@ void SSH2Auth::requestAuthService()
 
 void SSH2Auth::noneAuth()
 {
-    m_username = QInputDialog::getText(0, "QTerm", "Username: ", QLineEdit::Normal);
+    bool ok;
+    m_username = QInputDialog::getText(0, "QTerm", "Username: ", QLineEdit::Normal, "", &ok);
+    if (!ok) {
+        qDebug() << "User canceled!";
+        emit error("User canceled");
+        return;
+    }
     m_out->startPacket(SSH2_MSG_USERAUTH_REQUEST);
     m_out->putString(m_username.toUtf8());
     m_out->putString("ssh-connection");
@@ -105,13 +114,19 @@ void SSH2Auth::requestInput()
     uint numPrompts = m_in->getUInt32();
     qDebug() << "number of prompts: " << numPrompts;
     QList<QString> answerList;
+    bool ok;
     for (int i = 0; i < numPrompts; i++) {
         QString prompt = QString::fromUtf8(m_in->getString());
         QString answer;
         if (m_in->getUInt8() == 1)
-            answer = QInputDialog::getText(0, name, prompt, QLineEdit::Normal);
+            answer = QInputDialog::getText(0, name, prompt, QLineEdit::Normal, "", &ok);
         else
-            answer = QInputDialog::getText(0, name, prompt, QLineEdit::Password);
+            answer = QInputDialog::getText(0, name, prompt, QLineEdit::Password, "", &ok);
+        if (!ok) {
+            qDebug() << "User canceled!";
+            emit error("User canceled!");
+            return;
+        }
         answerList << answer;
     }
 
