@@ -28,7 +28,7 @@ class SSH2Auth : public QObject
 {
     Q_OBJECT
 public:
-    SSH2Auth(SSH2InBuffer * in, SSH2OutBuffer * out, QObject *parent = 0);
+    SSH2Auth(QByteArray & sessionID, SSH2InBuffer * in, SSH2OutBuffer * out, QObject *parent = 0);
 
     ~SSH2Auth();
     void requestAuthService();
@@ -38,13 +38,29 @@ signals:
 private slots:
     void authPacketReceived(int flag);
 private:
+    enum AuthMethod
+    {
+        None,
+        PublicKey,
+        Keyboard,
+        Password
+    };
     void noneAuth();
+    void publicKeyAuth();
     void keyboardAuth();
+    void passwordAuth();
     void requestInput();
+    void generateSign();
     void failureHandler();
     QString m_username;
+    AuthMethod m_authMethod;
+    AuthMethod m_lastTried;
     SSH2InBuffer * m_in;
     SSH2OutBuffer * m_out;
+    QByteArray m_sessionID;
+    QByteArray m_publicKey;
+    // Give keyboardAuth and passwordAuth 3 tries.
+    int m_tries;
 };
 
 class SSH1Auth : public QObject
@@ -64,6 +80,7 @@ private:
     void passwordAuth();
 //  void keyboardAuth();
     void requestInput();
+    void generateSign();
     void failureHandler();
     SSH1InBuffer * m_in;
     SSH1OutBuffer * m_out;
