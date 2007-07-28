@@ -28,16 +28,16 @@ extern void dumpData(const QByteArray & data);
 namespace QTerm
 {
 
-SSH2Kex::SSH2Kex(QByteArray * sessionID , SSH2InBuffer * in, SSH2OutBuffer * out, const QByteArray & server, const QByteArray & client, QObject * parent)
+SSH2Kex::SSH2Kex(SSH2InBuffer * in, SSH2OutBuffer * out, const QByteArray & server, const QByteArray & client, QObject * parent)
         : QObject(parent), V_S(server), V_C(client), I_S(), I_C(), m_status(Init),
-        m_kexList(), m_hostKeyList(), m_encList(), m_macList(), m_compList()
+        m_kexList(), m_hostKeyList(), m_encList(), m_macList(), m_compList(), m_sessionID()
 {
     m_kexList << "diffie-hellman-group14-sha1" << "diffie-hellman-group1-sha1";
     m_hostKeyList << "ssh-dss";
     m_encList << "aes128-cbc" << "3des-cbc";
     m_macList << "hmac-sha1" << "hmac-md5";
     m_compList << "none";
-    m_sessionID = sessionID;
+
     m_in = in;
     m_out = out;
     m_inTrans = NULL;
@@ -244,7 +244,7 @@ void SSH2Kex::kexPacketReceived(int flag)
         if (m_status == NewKeysSent) {
             m_in->setTransport(m_inTrans);
             m_out->setTransport(m_outTrans);
-            emit kexFinished();
+            emit kexFinished(m_sessionID);
         } else
             m_status = NewKeysReceived;
         break;
@@ -283,14 +283,14 @@ void SSH2Kex::readKexReply()
     m_out->startPacket(SSH2_MSG_NEWKEYS);
     m_out->sendPacket();
 
-    if (m_sessionID == NULL)
-        m_sessionID = new QByteArray(key);
+    if (m_sessionID.isEmpty())
+        m_sessionID = key;
     initTransport(key);
 
     if (m_status == NewKeysReceived) {
         m_in->setTransport(m_inTrans);
         m_out->setTransport(m_outTrans);
-        emit kexFinished();
+        emit kexFinished(m_sessionID);
     } else
         m_status = NewKeysSent;
 }
@@ -372,7 +372,7 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
     return false;
 }
 
-QByteArray SSH2Kex::deriveKey(const QByteArray & hash, const QByteArray * sessionID, char id, uint need)
+QByteArray SSH2Kex::deriveKey(const QByteArray & hash, const QByteArray & sessionID, char id, uint need)
 {
     SSH2OutBuffer tmp(0);
     tmp.startPacket();
@@ -381,7 +381,7 @@ QByteArray SSH2Kex::deriveKey(const QByteArray & hash, const QByteArray * sessio
     sha1Hash.addData(tmp.buffer());
     sha1Hash.addData(hash);
     sha1Hash.addData(&id, 1);
-    sha1Hash.addData(sessionID->data(), sessionID->size());
+    sha1Hash.addData(sessionID);
     QByteArray digest = sha1Hash.result();
     for (uint have = 20; need > have; have += need) {
         sha1Hash.reset();

@@ -34,9 +34,9 @@ SSH2SocketPriv::SSH2SocketPriv(QTermSocketPrivate * plainSocket, QByteArray & ba
     m_auth = NULL;
     m_inPacket = new SSH2InBuffer(plainSocket, this);
     m_outPacket = new SSH2OutBuffer(plainSocket, this);
-    m_kex = new SSH2Kex(m_sessionID, m_inPacket, m_outPacket, m_banner, QTERM_SSHV2_BANNER, this);
+    m_kex = new SSH2Kex(m_inPacket, m_outPacket, m_banner, QTERM_SSHV2_BANNER, this);
     m_kex->sendKex();
-    connect(m_kex, SIGNAL(kexFinished()), this, SLOT(slotKexFinished()));
+    connect(m_kex, SIGNAL(kexFinished(const QByteArray &)), this, SLOT(slotKexFinished(const QByteArray &)));
     connect(m_kex, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString&)));
     connect(m_inPacket, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString&)));
     // connect(m_outPacket, SIGNAL(error( const QString& )),this, SIGNAL(error( const QString& )));
@@ -46,11 +46,12 @@ SSH2SocketPriv::SSH2SocketPriv(QTermSocketPrivate * plainSocket, QByteArray & ba
 SSH2SocketPriv::~SSH2SocketPriv()
 {}
 
-void SSH2SocketPriv::slotKexFinished()
+void SSH2SocketPriv::slotKexFinished(const QByteArray & sessionID)
 {
+    m_sessionID = sessionID;
     m_kex->deleteLater();
     qDebug() << "kex finished";
-    m_auth = new SSH2Auth(m_inPacket, m_outPacket);
+    m_auth = new SSH2Auth(m_sessionID, m_inPacket, m_outPacket);
     connect(m_auth, SIGNAL(authFinished()), this, SLOT(slotAuthFinished()));
     connect(m_auth, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString &)));
     m_auth->requestAuthService();

@@ -59,7 +59,7 @@ public:
     void writeData(const QByteArray & data);
     unsigned long bytesAvailable();
 private slots:
-    void slotKexFinished();
+    void slotKexFinished(const QByteArray & sessionID);
     void slotAuthFinished();
     void slotNewChannel(int id);
     void slotChannelData(int id);
@@ -75,7 +75,7 @@ private:
     SSH2Channel * m_channel;
     QByteArray m_banner;
     SSHStatus m_status;
-    QByteArray * m_sessionID;
+    QByteArray m_sessionID;
     QList<uint> m_channelList;
 };
 

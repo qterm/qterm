@@ -33,19 +33,19 @@ class SSH2Kex : public QObject
 {
     Q_OBJECT
 public:
-    SSH2Kex(QByteArray * sessionID , SSH2InBuffer * in, SSH2OutBuffer * out, const QByteArray & server, const QByteArray & client, QObject * parent = 0);
+    SSH2Kex(SSH2InBuffer * in, SSH2OutBuffer * out, const QByteArray & server, const QByteArray & client, QObject * parent = 0);
     ~SSH2Kex();
     void sendKex();
     void startBinary();
 
 signals:
-    void kexFinished();
+    void kexFinished(const QByteArray & sessionID);
     void error(const QString & message);
 public slots:
     void kexPacketReceived(int flag);
 private:
     bool verifySignature(const QByteArray & hash, const QByteArray & hostKey, const QByteArray & signature);
-    QByteArray deriveKey(const QByteArray & hash, const QByteArray * sessionID, char id, uint needed);
+    QByteArray deriveKey(const QByteArray & hash, const QByteArray & sessionID, char id, uint needed);
     void sendKexDH(const QString & dhtype);
     void readKexInit();
     void readKexReply();
@@ -75,7 +75,7 @@ private:
     QByteArray I_C;
     QByteArray K_S;
     Status m_status;
-    QByteArray * m_sessionID;
+    QByteArray m_sessionID;
     SSH2InBuffer * m_in;
     SSH2OutBuffer * m_out;
     SSH2Transport * m_inTrans;
