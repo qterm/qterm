@@ -34,7 +34,7 @@ qtermframe.cpp
 qtermhttp.cpp
 qtermiplocation.cpp
 qtermparam.cpp
-qtermpython.cpp
+qtermscript.cpp
 qtermscreen.cpp
 qtermsocket.cpp
 qtermsound.cpp
@@ -85,6 +85,7 @@ ${QT_INCLUDE_DIR}
 ${QT_QTCORE_INCLUDE_DIR}
 ${QT_QTGUI_INCLUDE_DIR}
 ${QT_QTNETWORK_INCLUDE_DIR}
+${QT_QTSCRIPT_INCLUDE_DIR}
 ${OPENSSL_INCLUDE_DIR}
 ${CMAKE_SOURCE_DIR}
 ${CMAKE_CURRENT_BINARY_DIR}
@@ -95,6 +96,7 @@ ${QT_LIBRARIES}
 ${QT_QTCORE_LIBRARY}
 ${QT_QTGUI_LIBRARY}
 ${QT_QTNETWORK_LIBRARY}
+${QT_QTSCRIPT_LIBRARY}
 ${OPENSSL_LIBRARIES}
 )
 install(TARGETS qterm DESTINATION bin)
