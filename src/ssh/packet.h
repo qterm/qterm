@@ -97,6 +97,7 @@ private:
 
 class SSH2OutBuffer : public QObject
 {
+    Q_OBJECT
 public:
     SSH2OutBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH2OutBuffer();
@@ -127,6 +128,7 @@ private:
 
 class SSH1OutBuffer : public QObject
 {
+    Q_OBJECT
 public:
     SSH1OutBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH1OutBuffer();
