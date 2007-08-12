@@ -53,6 +53,7 @@ private:
     void generateSign();
     void failureHandler();
     QString m_username;
+    QByteArray m_method;
     AuthMethod m_authMethod;
     AuthMethod m_lastTried;
     SSH2InBuffer * m_in;

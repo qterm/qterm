@@ -26,7 +26,7 @@ namespace QTerm
 {
 
 SSH2Auth::SSH2Auth(QByteArray & sessionID, SSH2InBuffer * in, SSH2OutBuffer * out, QObject *parent)
-        : QObject(parent), m_username(), m_publicKey(), m_sessionID(sessionID), m_authMethod(None), m_lastTried(None), m_tries(0)
+        : QObject(parent), m_username(), m_publicKey(), m_sessionID(sessionID), m_authMethod(None), m_lastTried(None), m_tries(0), m_method()
 {
     m_in = in;
     m_out = out;
@@ -47,6 +47,9 @@ void SSH2Auth::authPacketReceived(int flag)
         noneAuth();
         break;
     case SSH2_MSG_USERAUTH_FAILURE:
+        m_in->getUInt8();//flag
+        m_method = m_in->getString();
+        qDebug() << "method: " << m_method << "flag " << m_in->getUInt8();
         failureHandler();
         break;
         // TODO: handle the conflict:
@@ -83,21 +86,17 @@ void SSH2Auth::authPacketReceived(int flag)
 
 void SSH2Auth::failureHandler()
 {
-    m_in->getUInt8();//flag
-    QByteArray method = m_in->getString();
-    int partialSuccess = m_in->getUInt8();
-    qDebug() << "method: " << method << "flag " << partialSuccess;
-    if (method.contains("publickey") && m_lastTried == None) {
+    if (m_method.contains("publickey") && m_lastTried == None) {
         m_lastTried = PublicKey;
         publicKeyAuth();
-    } else if (method.contains("keyboard-interactive") && m_lastTried <= PublicKey) {
+    } else if (m_method.contains("keyboard-interactive") && m_lastTried <= PublicKey) {
         if (m_tries > 1) {
             m_lastTried = Keyboard;
             m_tries = 0;
         }
         keyboardAuth();
         m_tries++;
-    } else if (method.contains("password") && m_lastTried <= Keyboard) {
+    } else if (m_method.contains("password") && m_lastTried <= Keyboard) {
         if (m_tries > 1) {
             m_lastTried = Password;
             m_tries = 0;
@@ -184,6 +183,8 @@ void SSH2Auth::publicKeyAuth()
     // TODO: Die
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "Cannot open the public key file";
+        failureHandler();
+        return;
     }
     QList<QByteArray> pubKeyLine = file.readLine().split(' ');
     if (pubKeyLine[0] == "ssh-dss") {
@@ -206,11 +207,16 @@ void SSH2Auth::generateSign()
     uint rlen, slen;
     QString passphrase = "";
     QString privateKeyFile = QDir::homePath() + "/.ssh/id_dsa";
-    if (!QFile::exists(privateKeyFile))
+    if (!QFile::exists(privateKeyFile)) {
         qDebug() << "Cannot find the private key file";
+        failureHandler();
+        return;
+    }
     fp = fopen(privateKeyFile.toUtf8().data(), "r");
     if (!fp) {
         qDebug() << "Cannot open the private key file";
+        failureHandler();
+        return;
     }
     // Copy from libssh
     if (!EVP_get_cipherbyname("des")) {
@@ -220,6 +226,8 @@ void SSH2Auth::generateSign()
     if (!dsa) {
         fclose(fp);
         qDebug() << "Cannot read the private key file";
+        failureHandler();
+        return;
     }
     fclose(fp);
     qDebug() << "Private key read ok";
