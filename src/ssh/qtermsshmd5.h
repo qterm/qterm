@@ -5,6 +5,8 @@
 #include <openssl/md5.h>
 #include "qtermsshhash.h"
 
+namespace QTerm
+{
 class QTermSSHMD5 : public QTermSSHHash
 {
 protected:
@@ -19,5 +21,7 @@ public:
 	void update(u_char * data, int len);
 	void final(u_char * digest);
 };
+
+} // namespace QTerm
 
 #endif		//QTERMSSHMD5_H

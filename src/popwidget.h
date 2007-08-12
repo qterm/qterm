@@ -8,6 +8,9 @@
 
 class QTimer;
 class QLabel;
+
+namespace QTerm
+{
 class QTermWindow;
 
 class popWidget : public QWidget
@@ -42,5 +45,6 @@ protected:
 	void mousePressEvent( QMouseEvent * );
 };
 
+} // namespace QTerm
 
 #endif // POPWIDGET_H

@@ -5,6 +5,8 @@
 #include <QString>
 #include <QLineEdit>
 
+namespace QTerm
+{
 /* 
  *  Constructs a fSSHLogin which is a child of 'parent', with the 
  *  name 'name' and widget flags set to 'f' 
@@ -38,4 +40,7 @@ void SSHLogin::accept()
 	*strPassword  = ui.lePassword->text();
 	QDialog::accept();
 }
+
+} // namespace QTerm
+
 #include <qtermsshlogin.moc>

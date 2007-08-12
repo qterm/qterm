@@ -2,6 +2,8 @@
 #include "qtermsshconst.h"
 #include "qtermsshpacket.h"
 
+namespace QTerm
+{
 //==============================================================================
 //QTermSSH1Session
 //==============================================================================
@@ -91,5 +93,7 @@ void QTermSSH1Session::handlePacket(int type)
 		}
 	}
 }
+
+} // namespace QTerm
 
 #include <qtermsshsession.moc>

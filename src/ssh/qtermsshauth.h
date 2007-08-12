@@ -3,9 +3,12 @@
 
 #include <qobject.h>
 
+class QString;
+
+namespace QTerm
+{
 class QTermSSHPacketReceiver;
 class QTermSSHPacketSender;
-class QString;
 
 class QTermSSHAuth : public QObject
 {
@@ -56,5 +59,7 @@ public slots:
 	void handlePacket(int type);
 	void initAuth(QTermSSHPacketReceiver * packet, QTermSSHPacketSender * output);
 };
+
+} // namespace QTerm
 
 #endif		//QTERMSSHAUTH_H

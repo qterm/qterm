@@ -3,6 +3,8 @@
 
 #include "qtermsshrsa.h"
 
+namespace QTerm
+{
 QTermSSHRSA::QTermSSHRSA()
 {
 	d_rsa = RSA_new();
@@ -88,3 +90,6 @@ QTermSSHRSA::generate_additional_parameters()
 	BN_CTX_free(ctx);
 }
 */
+
+} // namespace QTerm
+

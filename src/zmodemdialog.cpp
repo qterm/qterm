@@ -1,7 +1,8 @@
 
 #include "zmodemdialog.h"
 #include <QMessageBox>
-
+namespace QTerm
+{
 zmodemDialog::zmodemDialog(QWidget *parent, Qt::WFlags fl)
 		: QDialog(parent, fl)
 {
@@ -54,4 +55,8 @@ void zmodemDialog::slotCancel()
 		hide();
 	}
 }
+
+} // namespace QTerm
+
 #include <zmodemdialog.moc>
+

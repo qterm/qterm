@@ -17,7 +17,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <qregexp.h>
-
+namespace QTerm
+{
 QTermBBS::QTermBBS( QTermBuffer * buffer )
 {
 	m_pBuffer=buffer;
@@ -483,3 +484,6 @@ bool QTermBBS::isPageComplete()
 	return m_pBuffer->caret().y()==(m_pBuffer->line()-1) 
 			&& m_pBuffer->caret().x()==(m_pBuffer->columns()-1);
 }
+
+} // namespace QTerm
+

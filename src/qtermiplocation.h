@@ -10,7 +10,8 @@
 
 class QString;
 typedef unsigned long uint32;
-
+namespace QTerm
+{
 struct _ip_finder {
         uint32     offset_first_start_ip;      // first abs offset of start ip
         uint32     offset_last_start_ip;       // last abs offset of start ip
@@ -37,4 +38,7 @@ protected:
         void getCountryCity( FILE *fp, uint32 offset, QString& country, QString& city );
 	void setIpRange( int rec_no, _ip_finder *f );
 };
+
+} // namespace QTerm
+
 #endif		//QTERMIPLOOKER_H

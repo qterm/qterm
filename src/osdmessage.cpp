@@ -28,6 +28,8 @@
 // local includes
 #include "osdmessage.h"
 
+namespace QTerm
+{
 extern QString pathPic;
 
 PageViewMessage::PageViewMessage( QWidget * parent )
@@ -166,6 +168,8 @@ void PageViewMessage::mousePressEvent( QMouseEvent * /*e*/ )
         m_timer->stop();
     hide();
 }
+
+} // namespace QTerm
 
 //#include "osdmessage.moc"
 #include <osdmessage.moc>

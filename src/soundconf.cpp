@@ -5,7 +5,8 @@
 
 #include <QMessageBox>
 #include <QFileDialog>
-
+namespace QTerm
+{
 extern QString fileCfg;
 //extern QString getOpenFileName(const QString&, QWidget*);
 
@@ -187,4 +188,7 @@ void soundConf::accept()
 	saveSetting();
 	QDialog::accept();
 }
+
+} // namespace QTerm
+
 #include <soundconf.moc>

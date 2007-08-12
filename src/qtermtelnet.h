@@ -80,6 +80,8 @@
 
 #define	CTRL(c) ((c)&0x1f)
 
+namespace QTerm
+{
 //  decleration 		
 class QTermTelnet;           
 // actionFunc is a pointer, point to a QTermTelnet's func
@@ -215,6 +217,8 @@ private:
 	bool bConnected;
 	int raw_size;
 };
+
+} // namespace QTerm
 
 #endif	// QTERMTELNET_H
 

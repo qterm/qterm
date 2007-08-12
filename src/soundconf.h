@@ -2,6 +2,8 @@
 #define SOUNDCONF_H
 
 #include "ui_soundconf.h"
+namespace QTerm
+{
 class QTermSound;
 
 class soundConf : public QDialog
@@ -27,5 +29,7 @@ private:
 	Ui::soundConf ui;
 	QButtonGroup bgMethod;
 };
+
+} // namespace QTerm
 
 #endif // SOUNDCONF_H

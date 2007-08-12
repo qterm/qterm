@@ -11,7 +11,8 @@
 #define KEYDIALOG_H
 
 #include "ui_keydialog.h"
-
+namespace QTerm
+{
 class QTermConfig;
 
 class keyDialog : public QDialog
@@ -46,5 +47,7 @@ private:
 	Ui::keyDialog ui;
 	QButtonGroup bgKey;
 };
+
+} // namespace QTerm
 
 #endif // KEYDIALOG_H

@@ -13,6 +13,8 @@
 #define V1STR	"SSH-1.5-QTermSSH\n"
 #define V2STR	"SSH-2.0-QTermSSH\n"
 
+namespace QTerm
+{
 QTermSSHSocket::QTermSSHSocket(const char * sshuser, const char * sshpasswd)
 {
 	d_socket = new QTermSocketPrivate();
@@ -236,4 +238,8 @@ void QTermSSHSocket::setProxy( int nProxyType, bool bAuth,
 			strProxyHost, uProxyPort,
 			strProxyUsr, strProxyPwd);
 }
+
+} // namespace QTerm
+
 #include <qtermsshsocket.moc>
+

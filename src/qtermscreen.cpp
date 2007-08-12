@@ -46,6 +46,8 @@ AUTHOR:        kingson fiasco
 #include <stdlib.h>
 
 #include <QtDebug>
+namespace QTerm
+{
 /* ------------------------------------------------------------------------ */
 /*                                                                          */
 /*                            Constructor/Destructor                        */
@@ -1460,4 +1462,7 @@ void QTermInput::paintEvent(QPaintEvent * e)
 #endif
 	inputPainter.end();
 }*/
+
+} // namespace QTerm
+
 #include <qtermscreen.moc>

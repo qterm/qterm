@@ -9,6 +9,8 @@
 #include "qtermsshpacket.h"
 #include "qtermsshconst.h"
 
+namespace QTerm
+{
 class QTermSSHPacketReceiver;
 class QTermSSHPacketSender;
 
@@ -59,5 +61,7 @@ public:
 public slots:
 	void handlePacket(int type);
 };
+
+} // namespace QTerm
 
 #endif		//QTERMSSHKEX_H

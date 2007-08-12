@@ -11,6 +11,8 @@
 #endif
 
 //class QTermSSHBuffer;
+namespace QTerm
+{
 class QTermSSHCipher;
 
 
@@ -108,4 +110,7 @@ public slots:
 	void resetEncryption();
 };
 
+} // namespace QTerm
+
 #endif		//qtermsshpacket.h
+

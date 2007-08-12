@@ -12,7 +12,8 @@
 #include "qtermparam.h"
 #include "ui_addrdialog.h"
 #include <QButtonGroup>
-
+namespace QTerm
+{
 class QTermConfig;
 
 class addrDialog : public QDialog
@@ -61,5 +62,7 @@ protected:
 public:
 	Ui::addrDialog ui;	
 };
+
+} // namespace QTerm
 
 #endif // ADDRDIALOG_H

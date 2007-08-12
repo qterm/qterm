@@ -5,6 +5,8 @@
 //Added by qt3to4:
 #include <QByteArray>
 // #include <QString>
+namespace QTerm
+{
 class QTermTextLine
 {
 
@@ -53,5 +55,7 @@ protected:
 
 	int m_start, m_end;
 };
+
+} // namespace QTerm
 
 #endif	//QTERMTEXTLINE_H

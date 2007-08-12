@@ -21,10 +21,13 @@
 #define	NEWLINE_MODE	1
 
 
-class QTermTextLine;
 class QString;
 class QByteArray;
 class QRect;
+
+namespace QTerm
+{
+class QTermTextLine;
 
 class QTermBuffer : public QObject
 {
@@ -138,4 +141,7 @@ protected:
 
 	bool m_bPage;
 };
+
+} // namespace QTerm
+
 #endif	// QTERMBUFFER_H

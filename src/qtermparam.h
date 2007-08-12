@@ -5,7 +5,8 @@
 // #include <qcolor.h>
 #include <QString>
 #include <QColor>
-
+namespace QTerm
+{
 class QTermParam;
 
 class QTermParam
@@ -112,5 +113,7 @@ public:
 	bool m_bLoadScript;
 	QString m_strScriptFile;
 };
+
+} // namespace QTerm
 
 #endif // QTERMPARAM_H

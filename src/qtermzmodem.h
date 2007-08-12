@@ -24,7 +24,8 @@
 #include <QFile>
 #include <QStringList>
 
-
+namespace QTerm
+{
 
 	/* PARAMETERS
 	 *
@@ -639,5 +640,7 @@ public slots:
 	int	ZmodemTimeout() ;
 	
 };
+
+} // namespace QTerm
 
 #endif

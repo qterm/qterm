@@ -13,11 +13,13 @@
 #include <QObject>
 #include <QList>
 
-class QTermWindow;
 //class QTab;
 class QIcon;
 
+namespace QTerm
+{
 class QTermFrame;
+class QTermWindow;
 
 class QTermWndMgr: public QObject
 {
@@ -49,7 +51,7 @@ protected:
 	bool removed;
 };
 
+} // namespace QTerm
+
 #endif	//QTERMWNDMGR_H
-
-
 

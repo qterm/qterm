@@ -18,7 +18,8 @@
 #include <QPixmap>
 #include <QWidget>
 
-
+namespace QTerm
+{
 /**
  * A widget that displays messages in the top-left corner.
  */
@@ -42,5 +43,7 @@ class PageViewMessage : public QWidget
 		QTimer * m_timer;
 		QString m_message;
 };
+
+} // namespace QTerm
 
 #endif

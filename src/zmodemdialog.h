@@ -3,6 +3,8 @@
 
 #include "ui_zmodemdialog.h"
 
+namespace QTerm
+{
 class zmodemDialog : public QDialog
 {
 	Q_OBJECT
@@ -25,5 +27,7 @@ signals:
 private:
 	Ui::zmodemDialog ui;
 };
+
+} // namespace QTerm
 
 #endif

@@ -1,6 +1,8 @@
 #include "qtermsshkex.h"
 #include "qtermsshmd5.h"
 
+namespace QTerm
+{
 //==============================================================================
 //QTermSSH1Kex
 //==============================================================================
@@ -164,4 +166,8 @@ void QTermSSH1Kex::makeSessionId()
 	delete md5;
 	delete [] p;
 }
+
+} // namespace QTerm
+
 #include <qtermsshkex.moc>
+

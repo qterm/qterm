@@ -5,6 +5,8 @@
 #include "getput.h"
 #include "crc32.h"
 
+namespace QTerm
+{
 //==============================================================================
 //QTermSSHPacketSender
 //==============================================================================
@@ -275,4 +277,6 @@ int QTermSSH1PacketReceiver::packetLen()
 {
 	return d_realLen;
 }
+
+} // namespace QTerm
 #include <qtermsshpacket.moc>

@@ -7,6 +7,8 @@
 #define DES_ENCRYPT 1
 #define DES_DECRYPT 0
 
+namespace QTerm
+{
 //==============================================================================
 //QTermSSH1DES3
 //==============================================================================
@@ -59,3 +61,6 @@ void QTermSSH1DES3::setKey(const u_char * data)
 	memcpy(key, data, sizeof(key));
 	DES_set_key(&key, &d_key3);
 }
+
+} // namespace QTerm
+

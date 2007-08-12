@@ -32,7 +32,8 @@ AUTHOR:        kingson fiasco
 // #include <qglobal.h>
 
 #include <stdio.h>
-
+namespace QTerm
+{
 extern QString pathLib;
 
 
@@ -206,4 +207,7 @@ bool QTermWndMgr::afterRemove()
 	else
 		return false;
 }	
+
+} // namespace QTerm
+
 #include <qtermwndmgr.moc>

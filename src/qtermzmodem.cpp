@@ -13,7 +13,8 @@
 // #include <q3filedialog.h>
 // #include <qfileinfo.h>
 
-
+namespace QTerm
+{
 extern QString fileCfg;
 extern QString getOpenFileName(const QString&, QWidget*);
 
@@ -2884,4 +2885,7 @@ void QTermZmodem::zmodemCancel()
 {
 	ZmodemAbort(&info);
 }
+
+} // namespace QTerm
+
 #include <qtermzmodem.moc>

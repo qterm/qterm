@@ -19,15 +19,18 @@ class QLineEdit;
 class QToolButton;
 class QWorkspace;
 class QTabBar;
+class QSystemTrayIcon;
+class QFontDialog;
+
+namespace QTerm
+{
 class QTermWndMgr;
 class QTermWindow;
 class QTermTimeLabel;
 // class Q3VBox;
-class QFontDialog;
 class QTermParam;
 class QTermConfig;
 //class TrayIcon;
-class QSystemTrayIcon;
 // class QTerm::statusBar;
 
 struct QTermPref
@@ -281,6 +284,8 @@ protected:
 private:
 	static QTermFrame * s_instance;
 };
+
+} // namespace QTerm
 
 #endif	//QTERMFRAME_H
 

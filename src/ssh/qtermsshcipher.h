@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include "qtermsshconst.h"
 
+namespace QTerm
+{
 class QTermSSHCipher
 {
 protected:
@@ -34,5 +36,7 @@ public:
 	virtual void encrypt(const u_char * source, u_char * dest, int len) = 0;
 	virtual void decrypt(const u_char * source, u_char * dest, int len) = 0;
 };
+
+} // namespace QTerm
 
 #endif		// QTERMSSHCIPHER_H

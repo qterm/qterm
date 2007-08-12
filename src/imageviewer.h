@@ -9,10 +9,13 @@
 #include <QTreeWidget>
 
 class QString;
-class QTermCanvas;
 class QPushButton;
 class QVBoxLayout;
 class QHBoxLayout;
+
+namespace QTerm
+{
+class QTermCanvas;
 
 class ImageViewer : public QTreeWidget
 {
@@ -60,4 +63,7 @@ private:
 	int d_index;
 	bool d_extensionShown;
 };
+
+} // namespace QTerm
+
 #endif

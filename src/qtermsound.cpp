@@ -17,6 +17,8 @@
 #include <soundserver.h>
 using namespace Arts;
 #endif*/
+namespace QTerm
+{
 extern void runProgram(const QString&);
 
 QTermSound::~QTermSound()
@@ -75,3 +77,5 @@ QTermExternalSound::play()
 		runProgram(command);
 	}
 }
+
+} // namespace QTerm

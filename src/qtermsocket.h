@@ -23,6 +23,8 @@
 
 class QTcpSocket;
 
+namespace QTerm
+{
 class QTermSocketPrivate : public QObject
 {
 	Q_OBJECT
@@ -124,5 +126,7 @@ public:
 	long writeBlock(const QByteArray & data);
 	unsigned long bytesAvailable();
 };
+
+} // namespace QTerm
 
 #endif		//QTERMSOCKET_H

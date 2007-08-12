@@ -28,7 +28,8 @@ AUTHOR:        kingson fiasco
 #include<X11/Xlib.h>
 #include<X11/Xutil.h>
 #include<X11/Xatom.h>
-
+namespace QTerm
+{
 extern QString pathLib;
 
 popWidget::popWidget( QTermWindow *win, QWidget *parent, const char *name, Qt::WFlags f )
@@ -173,6 +174,8 @@ void popWidget::showTimer()
 		break;
 	}
 	move(ptPos);
+}
+
 }
 
 #include <popwidget.moc>

@@ -22,6 +22,8 @@
 #include <QLabel>
 #include <QMatrix>
 
+namespace QTerm
+{
 // extern QString getSaveFileName(const QString&, QWidget*);
 extern QString fileCfg;
 
@@ -365,5 +367,7 @@ void QTermCanvas::adjustSize(const QSize& szView)
 	label->setPixmap(scaleImage(szImage));
 
 }
+
+} // namespace QTerm
 
 #include <qtermcanvas.moc>

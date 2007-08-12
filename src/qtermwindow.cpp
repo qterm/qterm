@@ -95,7 +95,8 @@ AUTHOR:        kingson fiasco
 // #include <q3progressbar.h>
 // #include <q3hbox.h>
 #include "progressBar.h"
-
+namespace QTerm
+{
 extern QString fileCfg;
 extern QString addrCfg;
 extern QString pathLib;
@@ -2296,5 +2297,6 @@ void QTermWindow::getHttpHelper(const QString& strUrl, bool bPreview)
 void QTermWindow::httpDone(QObject *pHttp)
 {
 	pHttp->deleteLater();
+}
 }
 #include <qtermwindow.moc>

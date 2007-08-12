@@ -10,7 +10,8 @@
 #include "keydialog.h"
 #include "qtermconfig.h"
 #include <QFileDialog>
-
+namespace QTerm
+{
 extern QString fileCfg;
 //extern QString getOpenFileName(const QString&, QWidget*);
 
@@ -273,4 +274,7 @@ void keyDialog::loadKey(int n)
 		//onSelect(6);
 	}
 }
+
+} // namespace QTerm
+
 #include <keydialog.moc>

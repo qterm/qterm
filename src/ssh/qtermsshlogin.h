@@ -2,6 +2,8 @@
 #define FSSHLOGIN_H
 #include "ui_sshlogin.h"
 
+namespace QTerm
+{
 class SSHLogin : public QDialog
 {
     Q_OBJECT
@@ -16,5 +18,7 @@ private:
 private slots:
     void accept();
 };
+
+} // namespace QTerm
 
 #endif // FSSHLOGIN_H

@@ -6,9 +6,12 @@
 //Added by qt3to4:
 #include <QString>
 
-class QTermBuffer;
 class QRect;
+
+namespace QTerm
+{
 class QTermTextLine;
+class QTermBuffer;
 
 class QTermBBS
 {
@@ -54,6 +57,8 @@ protected:
 	QPoint m_ptCursor;
 	int m_nScreenStart;
 };
+
+} // namespace QTerm
 
 
 #endif // QTERMBBS_H

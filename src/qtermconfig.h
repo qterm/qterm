@@ -6,6 +6,8 @@
 #include <QTextStream>
 #include <QMap>
 
+namespace QTerm
+{
 typedef QMap<QString, QString> Section;
 typedef QMap<QString, Section> StrSecMap;
 
@@ -33,5 +35,7 @@ public:
 	bool renameSection(const QString & szSection, const QString & szNewName);
 	bool hasSection(const QString & szSection);
 };
+
+} // namespace QTerm
 
 #endif	//QTERMCONFIG_H

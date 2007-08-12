@@ -21,7 +21,8 @@ AUTHOR:		smartfish kafa
 #include <ctype.h>
 // #include <q3socket.h>
 #include <QAbstractSocket>
-
+namespace QTerm
+{
 struct fsm_trans QTermTelnet::ttstab[] = {
 	/* State	Input		Next State	Action	*/
 	/* ------	------		-----------	-------	*/
@@ -907,5 +908,7 @@ int QTermTelnet::tnabort(int)
 //	exit(-1);
 	return -1;
 }
+
+} // namespace QTerm
 
 #include <qtermtelnet.moc>

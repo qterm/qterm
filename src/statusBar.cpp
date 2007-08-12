@@ -35,11 +35,11 @@
 #include "popupMessage.h"
 #include "progressBar.h"
 
-extern QString pathPic;
-
 namespace QTerm
 {
 	
+extern QString pathPic;
+
 //TODO allow for uncertain progress periods
 
 StatusBar* StatusBar::s_instance = 0;

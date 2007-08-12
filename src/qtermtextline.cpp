@@ -17,7 +17,8 @@ AUTHOR:        kingson fiasco
 #include <QRegExp>
 #include <QString>
 #include <stdio.h>
-
+namespace QTerm
+{
 QTermTextLine::QTermTextLine()
 		:m_text(),m_color(),m_attr()
 {
@@ -353,4 +354,6 @@ void QTermTextLine::setChanged( int start, int end )
 
 	m_bChanged = true;
 }
+
+} // namespace QTerm
 

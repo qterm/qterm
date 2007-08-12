@@ -13,7 +13,8 @@
 //Added by qt3to4:
 //#include <QCloseEvent>
 class QCloseEvnt;
-
+namespace QTerm
+{
 class prefDialog : public QDialog
 { 
     Q_OBJECT
@@ -42,5 +43,7 @@ private:
 	Ui::prefDialog ui;
 	QButtonGroup bgSound;
 };
+
+} // namespace QTerm
 
 #endif // PREFDIALOG_H

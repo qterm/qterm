@@ -19,6 +19,8 @@ REVISION:      2001.10.10 first created.
 #include <QString>
 #include <QTextCodec>
 
+namespace QTerm
+{
 QTermConfig::QTermConfig(const QString & szFileName)
 {
 	QFile file( szFileName );
@@ -176,4 +178,6 @@ bool QTermConfig::deleteItem( const QString & szSection, const QString & szItemN
 		}
 	return false;
 }
+
+} // namespace QTerm
 

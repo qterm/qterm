@@ -20,7 +20,8 @@
 #include <QPainter>
 #include <QFileDialog>
 #include <QPalette>
-
+namespace QTerm
+{
 extern QString addrCfg;
 extern QString pathLib;
 extern QString pathCfg;
@@ -546,4 +547,8 @@ void addrDialog::updateData(bool save)
 // 		ui.menuLabel->setBackgroundColor(param.m_clrMenu);
 	}
 }
+
+} // namespace QTerm
+
 #include <addrdialog.moc>
+

@@ -10,7 +10,8 @@
 #define MSGDIALOG_H
 
 #include "ui_msgdialog.h"
-
+namespace QTerm
+{
 class msgDialog : public QDialog
 { 
     Q_OBJECT
@@ -21,5 +22,7 @@ public:
 	Ui::msgDialog ui;
 
 };
+
+} // namespace QTerm
 
 #endif // MSGDIALOG_H

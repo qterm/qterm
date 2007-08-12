@@ -2,7 +2,8 @@
 #define QTERMSSHHASH_H
 
 #include "types.h"
-
+namespace QTerm
+{
 class QTermSSHHash
 {
 protected:
@@ -15,5 +16,7 @@ public:
 	virtual void update(u_char * data, int len) = 0;
 	virtual void final(u_char * data) = 0;
 };
+
+} // namespace QTerm
 
 #endif		//QTERMSSHHASH_H

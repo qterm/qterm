@@ -15,6 +15,8 @@ class QKeyEvent;
 class QResizeEvent;
 class QImage;
 
+namespace QTerm
+{
 class QTermCanvas : public QScrollArea
 {
 	Q_OBJECT
@@ -58,5 +60,7 @@ protected:
 //Very dirty trick, I hate it
 	bool bEmbed;
 };
+
+} // namespace QTerm
 
 #endif

@@ -5,6 +5,8 @@
 #include <openssl/des.h>
 #include "types.h"
 
+namespace QTerm
+{
 /*
 class QTermSSHDES : public QTermSSHCipher
 {
@@ -36,5 +38,7 @@ public:
 	void encrypt(const u_char * source, u_char * dest, int len);
 	void decrypt(const u_char * source, u_char * dest, int len);
 };
+
+} // namespace QTerm
 
 #endif		//QTERMSSHDES_H

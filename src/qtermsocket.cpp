@@ -16,6 +16,8 @@
 
 /* hack from wget/http.c */
 #define BASE64_LENGTH(len) (4 * (((len) + 2) / 3))
+namespace QTerm
+{
 static void
 base64_encode (const char *s, char *store, int length);
 static char *
@@ -26,7 +28,6 @@ parse_http_status_line (const char *line, const char **reason_phrase_ptr);
 
 
 const char wingate_enter = 'J'&0x1f;
-
 
 //==============================================================================
 //QTermSocketPrivate
@@ -584,4 +585,8 @@ unsigned long QTermTelnetSocket::bytesAvailable()
 {
 	return d_socket->bytesAvailable();
 }
+
+} // namespace QTerm
+
 #include <qtermsocket.moc>
+

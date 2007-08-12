@@ -3,7 +3,8 @@
 
 // #include <qobject.h>
 #include <QObject>
-
+namespace QTerm
+{
 class QTermDecode;
 
 class QTermBuffer;
@@ -106,5 +107,7 @@ private:
 
 	bool m_test;
 };
+
+} // namespace QTerm
 	
 #endif

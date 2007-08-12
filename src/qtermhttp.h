@@ -7,7 +7,8 @@
 #include <QObject>
 #include <QHttp>
 // #include <QProgressDialog>
-
+namespace QTerm
+{
 class QTermHttp : public QObject
 {
 	Q_OBJECT
@@ -37,5 +38,7 @@ protected:
 	bool m_bExist;
 	QWidget *parent;
 };
+
+} // namespace QTerm
 
 #endif

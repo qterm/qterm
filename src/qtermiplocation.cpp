@@ -22,7 +22,8 @@
 // #include <qdir.h>
 // #include <qstringlist.h>
 
-
+namespace QTerm
+{
 
 extern QString pathCfg;
 
@@ -218,4 +219,5 @@ bool QTermIPLocation::getLocation( QString& url, QString& country, QString& city
 		country = "unkown"; city = "";
 	}// if ip_start<=ip<=ip_end
 	return TRUE;
+}
 }

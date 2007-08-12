@@ -20,6 +20,8 @@
 #define HIGHBYTE(word) (word)>>8 & 0x00ff
 #define LOWBYTE(word) (word) & 0x00ff
 #define MAKEWORD(c1,c2) ( (c1)<<8 & 0xff00 ) | c2
+namespace QTerm
+{
 QTermConvert::QTermConvert( ){}
 
 QTermConvert::~QTermConvert( ){}
@@ -3252,4 +3254,6 @@ unsigned char QTermConvert::BtoG[] = {
 0xa1,0xf5, 0xa1,0xf5, 0xa1,0xf5, 0xa1,0xf5, 0xa1,0xf5, 0xa1,0xf5, 0xa1,0xf5,
 0xa1,0xf5, 
 };
+
+} // namespace QTerm
 

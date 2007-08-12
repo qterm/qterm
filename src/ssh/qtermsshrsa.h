@@ -4,6 +4,8 @@
 #include <openssl/bn.h>
 #include <openssl/rsa.h>
 
+namespace QTerm
+{
 class QTermSSHRSA
 {
 public:
@@ -14,5 +16,7 @@ public:
 //	int private_decrypt(BIGNUM *, BIGNUM *);
 //	void generate_additional_parameters();
 };
+
+} // namespace QTerm
 	
 #endif		// QTERMSSHRSA_H

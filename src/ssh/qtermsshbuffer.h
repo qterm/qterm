@@ -7,7 +7,8 @@
 #include <string.h>
 
 #define SSH_BUFFER_MAX 10000000
-
+namespace QTerm
+{
 class QTermSSHBuffer
 {
 private:
@@ -47,5 +48,7 @@ public:
 
 	void dump();
 };
+
+} // namespace QTerm
 
 #endif		//qtermsshbuffer.h

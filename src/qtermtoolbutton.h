@@ -3,6 +3,8 @@
 
 #include <qtoolbutton.h>
 
+namespace QTerm
+{
 class QTermToolButton: public QToolButton
 {
 	Q_OBJECT
@@ -20,7 +22,7 @@ protected:
 	int id;
 };
 
+} // namespace QTerm
+
 #endif // QTERMTOOLBUTTON_H
-
-
 

@@ -4,6 +4,8 @@
 #include "qtermsshbuffer.h"
 #include "getput.h"
 
+namespace QTerm
+{
 //==============================================================================
 // QTermSSHBuffer
 //==============================================================================
@@ -255,4 +257,6 @@ void QTermSSHBuffer::dump()
 	}
 	fprintf(stderr, "\r\n");
 }
+
+} // namespace QTerm
 

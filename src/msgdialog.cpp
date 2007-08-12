@@ -8,7 +8,8 @@
 ****************************************************************************/
 #include "msgdialog.h"
 #include <stdio.h>
-
+namespace QTerm
+{
 msgDialog::msgDialog( QWidget* parent,  Qt::WFlags fl )
     : QDialog( parent, fl )
 {
@@ -24,5 +25,7 @@ msgDialog::~msgDialog()
 {
     // no need to delete child widgets, Qt does it all for us
 }
+
+} // namespace QTerm
 
 #include <msgdialog.moc>

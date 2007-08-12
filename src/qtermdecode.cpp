@@ -22,7 +22,8 @@ AUTHOR:        kingson fiasco
 // #include <Q3CString>
 
 #define MODE_MouseX11	0
-
+namespace QTerm
+{
 /************************************************************************/
 // state for FSM
 // please read ANSI decoding
@@ -578,4 +579,7 @@ void QTermDecode::restoreMode()
 void QTermDecode::test()
 {
 }
+
+} // namespace QTerm
+
 #include <qtermdecode.moc>

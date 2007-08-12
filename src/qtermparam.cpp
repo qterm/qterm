@@ -9,7 +9,8 @@
  * This file may be used, distributed and modified without limitation.
  *******************************************************************/
 #include "qtermparam.h"
-
+namespace QTerm
+{
 QTermParam::QTermParam()
 {
 	m_strName = "SMTH";
@@ -183,3 +184,5 @@ QTermParam& QTermParam::operator=(const QTermParam& param)
 
 	return *this;
 }
+
+} // namespace QTerm

@@ -30,10 +30,9 @@
 #include <qlabel.h>
 #include <QProgressBar>
 
-extern QString pathPic;
-
 namespace QTerm {
 
+extern QString pathPic;
 
 ProgressBar::ProgressBar( QWidget *parent, QLabel *label )
         : QProgressBar( parent )

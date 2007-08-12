@@ -25,6 +25,8 @@
 #include <qmessagebox.h>
 #include <stdio.h>
 
+namespace QTerm
+{
 extern QString pathLib;
 extern QString fileCfg;
 extern QString addrCfg;
@@ -262,6 +264,8 @@ void quickDialog::close()
 	pConf->save(fileCfg);
 	done(0);
 }
+
+} // namespace QTerm
 
 
 #include <quickdialog.moc>

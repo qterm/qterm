@@ -11,7 +11,8 @@
 #define ARTICLEDIALOG_H
 
 #include "ui_articledialog.h"
-
+namespace QTerm
+{
 class articleDialog : public QDialog
 {
 	Q_OBJECT
@@ -30,5 +31,7 @@ protected slots:
 	void onSelect();
 	void onCopy();
 };
+
+} // namespace QTerm
 
 #endif // ARTICLEDIALOG_H

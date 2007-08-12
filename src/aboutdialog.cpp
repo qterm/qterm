@@ -10,8 +10,6 @@
 //Added by qt3to4:
 #include <QPixmap>
 
-extern QString pathLib;
-
 #include "qterm.h"
 
 #include <QFile>
@@ -24,6 +22,10 @@ extern QString pathLib;
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
+namespace QTerm
+{
+extern QString pathLib;
+
 aboutDialog::aboutDialog( QWidget* parent, Qt::WFlags fl )
     : QDialog( parent, fl )
 {
@@ -52,5 +54,7 @@ aboutDialog::~aboutDialog()
 {
     // no need to delete child widgets, Qt does it all for us
 }
+
+} // namespace QTerm
 
 #include <aboutdialog.moc>

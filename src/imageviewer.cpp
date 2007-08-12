@@ -16,7 +16,8 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QDir>
-
+namespace QTerm
+{
 const QString ImageViewer::thumbDir = "shadow-cache/";
 
 ImageViewer::ImageViewer(const QString & image, const QString & path, QWidget * parent)
@@ -217,5 +218,7 @@ void QTermImage::onChange(const QString & filename)
 	
 	ui.d_canvas->loadImage(d_path+filename);
 }
+
+} // namespace QTerm
 
 #include <imageviewer.moc>

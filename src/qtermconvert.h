@@ -1,6 +1,7 @@
 #ifndef QTERMCONVERT_H
 #define QTERMCONVERT_H
-
+namespace QTerm
+{
 class QTermConvert
 {
 public:
@@ -18,5 +19,6 @@ private:
 	static unsigned char BtoG[];
 };
 
+} // namespace QTErm
 
 #endif //QTERMCONVERT_H

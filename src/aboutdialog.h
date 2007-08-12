@@ -12,7 +12,8 @@
 //#include <qwidget.h>
 //#include "ui/ui_aboutdialog.h"
 #include "ui_aboutdialog.h"
-
+namespace QTerm
+{
 class aboutDialog : public QDialog
 { 
     Q_OBJECT
@@ -23,5 +24,7 @@ public:
 private:
 	Ui::aboutDialog ui;
 };
+
+} // namespace QTerm
 
 #endif // ABOUTDIALOG_H

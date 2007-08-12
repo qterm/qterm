@@ -2,7 +2,8 @@
 #define SCHEMADIALOG_H
 
 #include "ui_schemadialog.h"
-
+namespace QTerm
+{
 class schemaDialog : public QDialog
 { 
 	Q_OBJECT
@@ -74,5 +75,7 @@ protected slots:
 	void onCancel();
 	void textChanged(const QString&);
 };
+
+} // namespace QTerm
 
 #endif // SCHEMADIALOG_H

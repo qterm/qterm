@@ -10,7 +10,8 @@ AUTHOR:        kingson fiasco
  *******************************************************************************/
 
 #include "qtermtoolbutton.h"
-
+namespace QTerm
+{
 QTermToolButton::QTermToolButton( QWidget *parent, int id, QString name )
 		:QToolButton(parent)
 {
@@ -27,5 +28,7 @@ void QTermToolButton::slotClicked()
 {
 	emit(buttonClicked(id));
 }
+
+} // namespace QTerm
 
 #include <qtermtoolbutton.moc>

@@ -41,7 +41,8 @@ AUTHOR:        kingson fiasco
 // 
 // #include <qobject.h>
 // #include <qwidget.h>
-
+namespace QTerm
+{
 QString fileCfg="./qterm.cfg";
 QString addrCfg="./address.cfg";
 
@@ -546,6 +547,8 @@ void saveAddress(QTermConfig *pConf, int n, const QTermParam& param)
 PyThreadState * mainThreadState;
 #endif //HAVE_PYTHON
 
+}
+
 int main( int argc, char ** argv ) 
 {
 
@@ -553,12 +556,12 @@ int main( int argc, char ** argv )
 
 	//qApp=&a;
 
-    if( iniWorkingDir( argv[0] )<0 )
+    if( QTerm::iniWorkingDir( argv[0] )<0 )
     {
 	    return -1;
     }
     //set font
-    if( iniSettings()<0 )
+    if( QTerm::iniSettings()<0 )
 	{
 		return -1;
 	}
@@ -578,7 +581,7 @@ int main( int argc, char ** argv )
 	QString pathCmd;
 	// pathLib/script
 	pathCmd = "sys.path.insert(0,'";
-	pathCmd += pathLib+"script')";
+	pathCmd += QTerm::pathLib+"script')";
 	PyRun_SimpleString(strdup(pathCmd));
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
@@ -592,9 +595,9 @@ int main( int argc, char ** argv )
 #endif // HAVE_PYTHON
 
   
-    QTermFrame * mw = new QTermFrame();
+    QTerm::QTermFrame * mw = new QTerm::QTermFrame();
     mw->setWindowTitle( "QTerm "+QString(VERSION) );
-	mw->setWindowIcon( QPixmap(pathLib+"pic/qterm.png") );
+	mw->setWindowIcon( QPixmap(QTerm::pathLib+"pic/qterm.png") );
 	//a.setMainWidget(mw);
     mw->show();
     a.connect( &a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()) );

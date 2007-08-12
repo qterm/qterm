@@ -21,7 +21,8 @@
 // #include <qdatastream.h>
 // #include <q3url.h>
 // #include <qregexp.h>
-
+namespace QTerm
+{
 extern QString pathCfg;
 extern QString fileCfg;
 extern QString pathPic;
@@ -237,5 +238,7 @@ void QTermHttp::previewImage(const QString& filename)
 		runProgram(strCmd);
 	}
 }
+
+} // namespace QTerm
 
 #include <qtermhttp.moc>

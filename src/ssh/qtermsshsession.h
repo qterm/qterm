@@ -4,6 +4,8 @@
 #include "types.h"
 #include <qobject.h>
 
+namespace QTerm
+{
 class QTermSSHPacketReceiver;
 class QTermSSHPacketSender;
 
@@ -54,5 +56,7 @@ public:
 public slots:
 	void handlePacket(int type);
 };
+
+} // namespace QTerm
 
 #endif		//QTERMSSHSESSION_H

@@ -3,7 +3,8 @@
 // #include <qobject.h>
 #include <QObject>
 #include <QString>
-
+namespace QTerm
+{
 class QTermSound : public QObject
 {
 protected:
@@ -68,3 +69,6 @@ public:
 	void play();
 	void setPlayer(const QString & playername);
 };
+
+} // namespace QTerm
+

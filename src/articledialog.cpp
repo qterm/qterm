@@ -10,7 +10,8 @@
 #include "articledialog.h"
 #include <QFileDialog>
 #include <QMessageBox>
-
+namespace QTerm
+{
 /* 
  *  Constructs a articleDialog as a child of 'parent', with the 
  *  name 'name' and widget flags set to 'f'.
@@ -93,5 +94,6 @@ void articleDialog::onClose()
 	done(0);
 }
 
+} // namespace QTerm
 
 #include <articledialog.moc>

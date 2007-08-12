@@ -23,12 +23,15 @@ class QTextCodec;
 // class QShortcut;
 class QColor;
 class QPainter;
+class QInputMethodEvent;
+
+namespace QTerm
+{
 class QTermWindow;
 class QTermBuffer;
 class QTermBBS;
 class QTermParam;
 // class Q3Accel;
-class QInputMethodEvent;
 /*
 class QTermInput : public QWidget
 {
@@ -196,6 +199,8 @@ protected:
 
 	// for test only
 };
+
+} // namespace QTerm
 
 #endif	//QTERMSCREEN_H
 

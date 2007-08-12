@@ -70,6 +70,8 @@ AUTHOR:        kingson fiasco
 #include <QInputDialog>
 #include <QStatusBar>
 
+namespace QTerm
+{
 extern QString fileCfg;
 extern QString addrCfg;
 
@@ -1933,6 +1935,6 @@ void QTermFrame::buzz()
 // 	return icon;
 // #endif
 // }
-
+}
 
 #include <qtermframe.moc>

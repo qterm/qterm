@@ -6,6 +6,8 @@
 #include <QColorDialog>
 #include <QComboBox>
 #include <QMessageBox>
+namespace QTerm
+{
 extern QString pathLib;
 extern QString pathCfg;
 
@@ -866,5 +868,7 @@ QImage& schemaDialog::fadeColor( QImage& img, float val, const QColor& color)
 
     return img;
 }
+
+} // namespace QTerm
 
 #include <schemadialog.moc>

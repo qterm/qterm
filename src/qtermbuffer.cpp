@@ -21,7 +21,8 @@ AUTHOR:		kingson
 // #include <stdlib.h>
 // #include <stdio.h>
 // #include <math.h>
-
+namespace QTerm
+{
 
 QTermBuffer::QTermBuffer( int line, int column, int limit )
 {
@@ -649,4 +650,7 @@ QRect QTermBuffer::getSelectRect( int index, bool rect )
 				else
 					return QRect( 0, index, m_col, 1);
 }
+
+} // namespace QTerm
+
 #include <qtermbuffer.moc>

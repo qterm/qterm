@@ -3,7 +3,8 @@
 #include "qtermsshconst.h"
 #include "qtermsshlogin.h"
 #include <qstring.h>
-
+namespace QTerm
+{
 //==============================================================================
 //QTermSSH1PasswdAuth
 //==============================================================================
@@ -71,5 +72,7 @@ void QTermSSH1PasswdAuth::handlePacket(int type)
 		return;
 	}
 }
+
+} // namespace QTerm
 
 #include <qtermsshauth.moc>

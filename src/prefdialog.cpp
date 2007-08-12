@@ -15,7 +15,8 @@
 #include <QCloseEvent>
 #include <QComboBox>
 #include <QFileDialog>
-
+namespace QTerm
+{
 extern QString fileCfg;
 extern QString pathCfg;
 //extern QString getOpenFileName(const QString&, QWidget*);
@@ -261,5 +262,7 @@ void prefDialog::onPool()
 		ui.poolLineEdit->setText(pool);
 	}
 }
+
+} // namespace QTerm
 
 #include <prefdialog.moc>

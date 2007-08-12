@@ -32,7 +32,11 @@
 #include <QCloseEvent>
 #include <QWaitCondition>
 #include <QMutex>
+class QProgressDialog;
+class QScriptEngine;
 
+namespace QTerm
+{
 class QTermTextLine;
 class QTermScreen;
 class QTermTelnet;
@@ -44,12 +48,10 @@ class popWidget;
 class QTermZmodem;
 class QTermWindow;
 class zmodemDialog;
-class QProgressDialog;
 class QTermHttp;
 class QTermIPLocation;
 class PageViewMessage;
-class QProgressBar;
-
+class Script;
 // thread copy article
 class QTermDAThread : public QThread
 {
@@ -249,6 +251,8 @@ public:
 	QWaitCondition m_wcWaiting;
 
 };
+
+} // namespace QTerm
 
 #endif	//QTERMWINDOW_H
 

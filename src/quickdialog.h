@@ -14,8 +14,11 @@
 //Added by qt3to4:
 //#include <QCloseEvent>
 
-class QTermConfig;
 class QCloseEvent;
+
+namespace QTerm
+{
+class QTermConfig;
 
 class quickDialog : public QDialog
 { 
@@ -45,5 +48,7 @@ protected:
 private:
 	Ui::quickDialog ui;
 };
+
+} // namespace QTerm
 
 #endif // QUICKDIALOG_H

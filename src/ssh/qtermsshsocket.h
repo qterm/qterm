@@ -4,6 +4,8 @@
 
 #include "../qtermsocket.h"
 
+namespace QTerm
+{
 class QTermSocketPrivate;
 class QTermSSHPacketReceiver;
 class QTermSSHPacketSender;
@@ -58,5 +60,7 @@ public:
 	void flush();
 	void close();
 };
+
+} // namespace QTerm
 
 #endif		//QTERMSSHSOCKET_H
