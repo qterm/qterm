@@ -105,6 +105,8 @@ public:
 	void externInput(const QByteArray&);
 	QByteArray stripWhitespace(const QByteArray& cstr);
 	void getHttpHelper(const QString&, bool);
+	QByteArray unicode2bbs(const QString&);
+	QString fromBBSCodec(const QByteArray& cstr);
 
 protected slots:
 	// from Telnet
@@ -152,10 +154,8 @@ protected:
 	void replyMessage();
 	
 	void pasteHelper(bool);
-	QByteArray unicode2bbs(const QString&);
 
 	QByteArray parseString( const QByteArray&, int *len=0);
-	QString fromBBSCodec(const QByteArray& cstr);
 
 	#ifdef HAVE_PYTHON
 	bool pythonCallback(const QString &, PyObject*);
@@ -214,6 +214,9 @@ protected:
 	// play sound
 	Sound * m_pSound;
 	Zmodem *m_pZmodem;
+	QScriptEngine *m_engine;
+	Script *m_script;
+
 
 	zmodemDialog *m_pZmDialog;
 
