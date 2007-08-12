@@ -10,10 +10,12 @@
 #include "qtermbbs.h"
 #include "qtermscript.h"
 #include <QByteArray>
+namespace QTerm
+{
 
 Script::Script(QObject * parent)
 {
-    m_window = qobject_cast<QTermWindow*>(parent);
+    m_window = qobject_cast<Window*>(parent);
 }
 
 Script::~Script()
@@ -288,4 +290,8 @@ static PyObject *qterm_toUTF8(PyObject *, PyObject *args)
 	return py_str;
 }
 */
+
+} // namespace QTerm
+
 #include <qtermscript.moc>
+

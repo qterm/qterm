@@ -2,10 +2,10 @@
 #define SCRIPT_H
 #include <QObject>
 
-//namespace QTerm
-//{
+namespace QTerm
+{
 
-class QTermWindow;
+class Window;
 
 class Script : public QObject
 {
@@ -32,9 +32,9 @@ public:
     Q_INVOKABLE const QString getUrl();
     Q_INVOKABLE void previewImage(const QString & url);
 private:
-    QTermWindow * m_window;
+    Window * m_window;
 };
 
-//} // namespace QTerm
+} // namespace QTerm
 #endif // SCRIPT_H
 
