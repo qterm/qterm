@@ -30,7 +30,7 @@ class SSH2InBuffer : public QObject
 {
     Q_OBJECT
 public:
-    SSH2InBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
+    explicit SSH2InBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH2InBuffer();
     u_int32_t getUInt32();
     u_char getUInt8();
@@ -66,7 +66,7 @@ class SSH1InBuffer : public QObject
 {
     Q_OBJECT
 public:
-    SSH1InBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
+    explicit SSH1InBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH1InBuffer();
     u_int32_t getUInt32();
     u_char getUInt8();
@@ -99,7 +99,7 @@ class SSH2OutBuffer : public QObject
 {
     Q_OBJECT
 public:
-    SSH2OutBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
+    explicit SSH2OutBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH2OutBuffer();
     void startPacket();
     void startPacket(u_char flag);
@@ -130,7 +130,7 @@ class SSH1OutBuffer : public QObject
 {
     Q_OBJECT
 public:
-    SSH1OutBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
+    explicit SSH1OutBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH1OutBuffer();
     void startPacket();
     void startPacket(u_char flag);
