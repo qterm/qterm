@@ -30,6 +30,8 @@ AUTHOR:        kingson fiasco
 #include <QWheelEvent>
 #include <QCloseEvent>
 #include <QPixmap>
+#include <QtScript>
+//#include <QScriptEngine>
 #include "addrdialog.h"
 #include "qtermconfig.h"
 #include "qtermbbs.h"
@@ -39,7 +41,7 @@ AUTHOR:        kingson fiasco
 #include "popwidget.h"
 #include "qtermzmodem.h"
 #include "zmodemdialog.h"
-#include "qtermpython.h"
+#include "qtermscript.h"
 #include "qtermhttp.h"
 #include "qtermiplocation.h"
 #include "osdmessage.h"
@@ -462,7 +464,15 @@ Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const ch
     PyThreadState_Delete(myThreadState);
     PyEval_ReleaseLock();
 #endif //HAVE_PYTHON
-	
+    m_script = new Script(this);
+	m_engine = new QScriptEngine(this);
+	QScriptValue objectValue = m_engine->newQObject(m_script);
+	m_engine->globalObject().setProperty("qterm", objectValue);
+	QFile scriptFile("system.js");
+	scriptFile.open(QIODevice::ReadOnly);
+	QString script = QString::fromUtf8(scriptFile.readAll());
+	m_engine->evaluate(script);
+	scriptFile.close();
 	connectHost();
 }
 
@@ -488,6 +498,7 @@ Window::~Window()
 	delete m_pIPLocation;
 	delete m_pMessage;
 	delete m_pSound;
+	delete m_engine;
 
 #ifdef HAVE_PYTHON
 	// get the global python thread lock
@@ -912,6 +923,9 @@ void Window::keyPressEvent( QKeyEvent * e )
 	pythonCallback("keyEvent",
 					Py_BuildValue("liii", this, 0, state, e->key()));
 #endif
+	qDebug("call script");
+	//qDebug() << QString::fromUtf8(m_engine->evaluate("keyPress()").toString().toLatin1());
+    qDebug() << m_engine->evaluate("keyPress()").toString();
     if ( !m_bConnected )
 	{
 		if(e->key() == Qt::Key_Return)
