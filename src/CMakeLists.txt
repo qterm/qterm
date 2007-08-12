@@ -97,3 +97,7 @@ ${QT_QTGUI_LIBRARY}
 ${QT_QTNETWORK_LIBRARY}
 ${OPENSSL_LIBRARIES}
 )
+install(TARGETS qterm DESTINATION bin)
+add_subdirectory(pic)
+add_subdirectory(cursor)
+add_subdirectory(schema)
