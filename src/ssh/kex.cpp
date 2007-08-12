@@ -10,9 +10,9 @@
 //
 //
 
+#include "kex.h"
 #include <QCryptographicHash>
 #include <QtDebug>
-#include "kex.h"
 #include "packet.h"
 #include "transport.h"
 #include "ssh2.h"
