@@ -5,12 +5,12 @@
 #include <QObject>
 namespace QTerm
 {
-class QTermDecode;
+class Decode;
 
-class QTermBuffer;
+class Buffer;
 
 // this for FSM
-typedef void ( QTermDecode::*StateFunc )();
+typedef void ( Decode::*StateFunc )();
 
 struct StateOption
 {
@@ -19,13 +19,13 @@ struct StateOption
 	StateOption *nextState;
 };
 
-class QTermDecode : public QObject
+class Decode : public QObject
 {
 	Q_OBJECT
 	
 public:
-	QTermDecode( QTermBuffer * );
-	~QTermDecode();
+	Decode( Buffer * );
+	~Decode();
 
 	// translate data from telnet socket to our own buffer
 	void decode( const char *cstr, int length );
@@ -37,7 +37,7 @@ public:
 		
 private:		
 // escape sequence actions
-// you'd better see FSM structure array in QTermDecode.cpp
+// you'd better see FSM structure array in Decode.cpp
 
 	void nextLine();
 	void getAttr();	
@@ -103,7 +103,7 @@ private:
 	bool bSaveMode[30];
 	bool bCurMode[30];
 
-	QTermBuffer * m_pBuffer;
+	Buffer * m_pBuffer;
 
 	bool m_test;
 };

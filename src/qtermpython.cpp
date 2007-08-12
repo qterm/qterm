@@ -81,7 +81,7 @@ QString getException()
 	return str;
 }
 
-QString getErrOutputFile(QTermWindow* lp)
+QString getErrOutputFile(Window* lp)
 {
 	// file name
 	QString str2;
@@ -99,7 +99,7 @@ static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
 	if (!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
 
-	QTermWindow *pWin=(QTermWindow*)lp;
+	Window *pWin=(Window*)lp;
 
 	QStringList strList;
 	QString strArticle;
@@ -174,7 +174,7 @@ static PyObject *qterm_getArticle(PyObject *, PyObject *args)
 	if (!PyArg_ParseTuple(args, "li", &lp, &timeout))
 		return NULL;
 
-	QTermWindow *pWin=(QTermWindow*)lp;
+	Window *pWin=(Window*)lp;
 
 	QStringList strList;
 	QString strArticle;
@@ -253,7 +253,7 @@ static PyObject *qterm_formatError(PyObject *, PyObject *args)
 		return NULL;
 
 	QString strErr;
-	QString filename = getErrOutputFile((QTermWindow*)lp);
+	QString filename = getErrOutputFile((Window*)lp);
 
 	QDir d;
 	if(d.exists(filename))
@@ -272,11 +272,11 @@ static PyObject *qterm_formatError(PyObject *, PyObject *args)
 
 	if( !strErr.isEmpty() )
 	{
-		((QTermWindow*)lp)->m_strPythonError = strErr;
-		qApp->postEvent( (QTermWindow*)lp, new QCustomEvent(PYE_ERROR));
+		((Window*)lp)->m_strPythonError = strErr;
+		qApp->postEvent( (Window*)lp, new QCustomEvent(PYE_ERROR));
 	}
 	else
-		qApp->postEvent( (QTermWindow*)lp, new QCustomEvent(PYE_FINISH));
+		qApp->postEvent( (Window*)lp, new QCustomEvent(PYE_FINISH));
 
 
 	Py_INCREF(Py_None);
@@ -289,7 +289,7 @@ static PyObject *qterm_caretX(PyObject *, PyObject *args)
 	long lp;
 	if (!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
-	int x = ((QTermWindow*)lp)->m_pBuffer->caret().x();
+	int x = ((Window*)lp)->m_pBuffer->caret().x();
 	PyObject * py_x =Py_BuildValue("i",x);
 	Py_INCREF(py_x);
 	return py_x;
@@ -301,7 +301,7 @@ static PyObject *qterm_caretY(PyObject *, PyObject *args)
 	long lp;
 	if (!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
-	int y = ((QTermWindow*)lp)->m_pBuffer->caret().y();
+	int y = ((Window*)lp)->m_pBuffer->caret().y();
 	PyObject * py_y =Py_BuildValue("i",y);
 	Py_INCREF(py_y);
 	return py_y;
@@ -315,7 +315,7 @@ static PyObject *qterm_columns(PyObject *, PyObject *args)
 	if (!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
 
-	int columns = ((QTermWindow*)lp)->m_pBuffer->columns();
+	int columns = ((Window*)lp)->m_pBuffer->columns();
 	PyObject * py_columns = Py_BuildValue("i",columns);
 	
 	Py_INCREF(py_columns);
@@ -330,7 +330,7 @@ static PyObject *qterm_rows(PyObject *, PyObject *args)
 	if (!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
 	
-	int rows = ((QTermWindow*)lp)->m_pBuffer->line();
+	int rows = ((Window*)lp)->m_pBuffer->line();
 	PyObject *py_rows = Py_BuildValue("i",rows);
 
 	Py_INCREF(py_rows);
@@ -349,7 +349,7 @@ static PyObject *qterm_sendString(PyObject *, PyObject *args)
 	
 	len = strlen(pstr);
 
-	((QTermWindow*)lp)->m_pTelnet->write(pstr,len);
+	((Window*)lp)->m_pTelnet->write(pstr,len);
 
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -366,7 +366,7 @@ static PyObject *qterm_sendParsedString(PyObject *, PyObject *args)
 		return NULL;
 	len = strlen(pstr);
 	
-	((QTermWindow*)lp)->sendParsedString(pstr);
+	((Window*)lp)->sendParsedString(pstr);
 
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -379,7 +379,7 @@ static PyObject *qterm_getText(PyObject *, PyObject *args)
 	int line;
 	if (!PyArg_ParseTuple(args, "li", &lp, &line))
 		return NULL;
-	QByteArray cstr = ((QTermWindow*)lp)->m_pBuffer->screen(line)->getText();
+	QByteArray cstr = ((Window*)lp)->m_pBuffer->screen(line)->getText();
 
 	PyObject *py_text = PyString_FromString(cstr);
 
@@ -395,7 +395,7 @@ static PyObject *qterm_getAttrText(PyObject *, PyObject *args)
 	if (!PyArg_ParseTuple(args, "li", &lp, &line))
 		return NULL;
 
-	QByteArray cstr = ((QTermWindow*)lp)->m_pBuffer->screen(line)->getAttrText();
+	QByteArray cstr = ((Window*)lp)->m_pBuffer->screen(line)->getAttrText();
 
 	PyObject *py_text = PyString_FromString(cstr);
 
@@ -410,7 +410,7 @@ static PyObject *qterm_isConnected(PyObject *, PyObject *args)
 	if (!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
 	
-	bool connected = ((QTermWindow*)lp)->isConnected();
+	bool connected = ((Window*)lp)->isConnected();
 	PyObject * py_connected =Py_BuildValue("i",connected?1:0);
 
 	Py_INCREF(py_connected);
@@ -424,7 +424,7 @@ static PyObject *qterm_disconnect(PyObject *, PyObject *args)
 	if (!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
 	
-	((QTermWindow*)lp)->disconnect();
+	((Window*)lp)->disconnect();
 	
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -437,7 +437,7 @@ static PyObject *qterm_reconnect(PyObject *, PyObject *args)
 	if (!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
 	
-	((QTermWindow*)lp)->reconnect();
+	((Window*)lp)->reconnect();
 	
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -451,7 +451,7 @@ static PyObject *qterm_getBBSCodec(PyObject *, PyObject *args)
 		return NULL;
 	
 	PyObject *py_codec = PyString_FromString(
-					((QTermWindow*)lp)->m_param.m_nBBSCode==0?"GBK":"Big5");
+					((Window*)lp)->m_param.m_nBBSCode==0?"GBK":"Big5");
 	Py_INCREF(py_codec);
 
 	return py_codec;
@@ -465,7 +465,7 @@ static PyObject *qterm_getAddress(PyObject *, PyObject *args)
 		return NULL;
 	
 	PyObject *py_addr = PyString_FromString(
-					((QTermWindow*)lp)->m_param.m_strAddr.toLocal8Bit());
+					((Window*)lp)->m_param.m_strAddr.toLocal8Bit());
 	Py_INCREF(py_addr);
 	return py_addr;
 }
@@ -477,7 +477,7 @@ static PyObject *qterm_getPort(PyObject *, PyObject *args)
 	if (!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
 
-	PyObject *py_port = Py_BuildValue("i", ((QTermWindow*)lp)->m_param.m_uPort);
+	PyObject *py_port = Py_BuildValue("i", ((Window*)lp)->m_param.m_uPort);
 	Py_INCREF(py_port);
 	return py_port;
 }
@@ -489,7 +489,7 @@ static PyObject *qterm_getProtocol(PyObject *, PyObject *args)
 	if (!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
 
-	PyObject *py_port = Py_BuildValue("i", ((QTermWindow*)lp)->m_param.m_nProtocolType);
+	PyObject *py_port = Py_BuildValue("i", ((Window*)lp)->m_param.m_nProtocolType);
 	Py_INCREF(py_port);
 	return py_port;
 }
@@ -501,7 +501,7 @@ static PyObject *qterm_getReplyKey(PyObject *, PyObject *args)
 	if(!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
 
-	PyObject *py_key = PyString_FromString(((QTermWindow*)lp)->m_param.m_strReplyKey.toLocal8Bit());
+	PyObject *py_key = PyString_FromString(((Window*)lp)->m_param.m_strReplyKey.toLocal8Bit());
 	Py_INCREF(py_key);
 	return py_key;
 }
@@ -513,7 +513,7 @@ static PyObject *qterm_getURL(PyObject *, PyObject *args)
 	if(!PyArg_ParseTuple(args, "l", &lp))
 		return NULL;
 
-	PyObject *py_url = PyString_FromString( ((QTermWindow*)lp)->m_pBBS->getUrl());
+	PyObject *py_url = PyString_FromString( ((Window*)lp)->m_pBBS->getUrl());
 	Py_INCREF(py_url);
 	return py_url;
 }
@@ -526,7 +526,7 @@ static PyObject *qterm_previewImage(PyObject *, PyObject *args)
 	if (!PyArg_ParseTuple(args, "ls", &lp, &url))
 		return NULL;
 	
-	((QTermWindow*)lp)->getHttpHelper(url,true);
+	((Window*)lp)->getHttpHelper(url,true);
 	
 	Py_INCREF(Py_None);
 	return Py_None;

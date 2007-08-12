@@ -8,17 +8,17 @@
 namespace QTerm
 {
 //==============================================================================
-//QTermSSHPacketSender
+//SSHPacketSender
 //==============================================================================
 
-QTermSSHPacketSender::QTermSSHPacketSender()
+SSHPacketSender::SSHPacketSender()
 {
-	d_buffer = new QTermSSHBuffer(1024);
-	d_output = new QTermSSHBuffer(1024);
+	d_buffer = new SSHBuffer(1024);
+	d_output = new SSHBuffer(1024);
 	d_isEncrypt = false;
 }
 
-QTermSSHPacketSender::~QTermSSHPacketSender()
+SSHPacketSender::~SSHPacketSender()
 {
 	delete d_buffer;
 	delete d_output;
@@ -26,58 +26,58 @@ QTermSSHPacketSender::~QTermSSHPacketSender()
 		delete d_cscipher;
 }
 
-void QTermSSHPacketSender::putBuffer(const char * data, int len)
+void SSHPacketSender::putBuffer(const char * data, int len)
 {
 	d_buffer->putBuffer(data, len);
 }
 
-void QTermSSHPacketSender::putByte(int data)
+void SSHPacketSender::putByte(int data)
 {
 	d_buffer->putByte(data);
 }
 
-void QTermSSHPacketSender::putInt(u_int data)
+void SSHPacketSender::putInt(u_int data)
 {
 	d_buffer->putInt(data);
 }
 
-void QTermSSHPacketSender::putString(const char * string)
+void SSHPacketSender::putString(const char * string)
 {
 	d_buffer->putString(string);
 }
 
-void QTermSSHPacketSender::startPacket(int pkt_type)
+void SSHPacketSender::startPacket(int pkt_type)
 {
 	d_buffer->clear();
 	d_buffer->putByte(pkt_type);
 }
 
-void QTermSSHPacketSender::write()
+void SSHPacketSender::write()
 {
 	makePacket();
 	emit dataToWrite();
 }
 
 //==============================================================================
-//QTermSSH1PacketSender
+//SSH1PacketSender
 //==============================================================================
 
-void QTermSSH1PacketSender::putBN(BIGNUM * bn)
+void SSH1PacketSender::putBN(BIGNUM * bn)
 {
 	d_buffer->putSSH1BN(bn);
 }
 
-void QTermSSH1PacketSender::makePacket()
+void SSH1PacketSender::makePacket()
 {
 	int len, padding, i;
 	u_int32_t rand_val = 0;
-	//QTermSSHBuffer * output;
+	//SSHBuffer * output;
 	delete d_output;
 
 	len = d_buffer->len() + 4; //CRC32
 	padding = 8 - (len % 8);
 	// qDebug("length: %d, padding: %d", len, padding);
-	d_output = new QTermSSHBuffer(len + padding + 4); //pktlen and crc32
+	d_output = new SSHBuffer(len + padding + 4); //pktlen and crc32
 	d_output->putInt(len);
 	
 	for (i = 0; i < padding; i++) {
@@ -99,15 +99,15 @@ void QTermSSH1PacketSender::makePacket()
 
 }
 
-void QTermSSH1PacketSender::startEncryption(const u_char * sessionkey)
+void SSH1PacketSender::startEncryption(const u_char * sessionkey)
 {
-	d_cscipher = new QTermSSH1DES3;
+	d_cscipher = new SSH1DES3;
 	d_cscipher->setIV(NULL);
 	d_cscipher->setKey(sessionkey);
 	d_isEncrypt = true;
 }
 
-void QTermSSH1PacketSender::resetEncryption()
+void SSH1PacketSender::resetEncryption()
 {
 	if (d_isEncrypt) {
 		delete d_cscipher;
@@ -116,48 +116,48 @@ void QTermSSH1PacketSender::resetEncryption()
 }
 
 //==============================================================================
-//QTermSSHPacketReceiver
+//SSHPacketReceiver
 //==============================================================================
 
-QTermSSHPacketReceiver::QTermSSHPacketReceiver()
+SSHPacketReceiver::SSHPacketReceiver()
 {
-	d_buffer = new QTermSSHBuffer(1024);
+	d_buffer = new SSHBuffer(1024);
 	d_isDecrypt = false;
 	d_nextPacket = 0;
 	debug = 0;
 }
 
-QTermSSHPacketReceiver::~QTermSSHPacketReceiver()
+SSHPacketReceiver::~SSHPacketReceiver()
 {
 	delete d_buffer;
 	if (d_isDecrypt)
 		delete d_sccipher;
 }
 
-void QTermSSHPacketReceiver::getBuffer(char * data, int length)
+void SSHPacketReceiver::getBuffer(char * data, int length)
 {
 	d_buffer->getBuffer(data, length);
 }
 
-u_char QTermSSHPacketReceiver::getByte()
+u_char SSHPacketReceiver::getByte()
 {
 	return d_buffer->getByte();
 }
 
-u_int QTermSSHPacketReceiver::getInt()
+u_int SSHPacketReceiver::getInt()
 {
 	return d_buffer->getInt();
 }
 
-void * QTermSSHPacketReceiver::getString(int * length)
+void * SSHPacketReceiver::getString(int * length)
 {
 	return d_buffer->getString(length);
 }
 //==============================================================================
-//QTermSSH1PacketReceiver
+//SSH1PacketReceiver
 //==============================================================================
 
-void QTermSSH1PacketReceiver::getBN(BIGNUM * bignum)
+void SSH1PacketReceiver::getBN(BIGNUM * bignum)
 {
 	d_buffer->getSSH1BN(bignum);
 }
@@ -175,7 +175,7 @@ void QTermSSH1PacketReceiver::getBN(BIGNUM * bignum)
 //
 //==============================================================================
 
-void QTermSSH1PacketReceiver::parseData(QTermSSHBuffer * input)
+void SSH1PacketReceiver::parseData(SSHBuffer * input)
 {
 	u_int mycrc, gotcrc;
 	u_char * buf = NULL;
@@ -252,28 +252,28 @@ void QTermSSH1PacketReceiver::parseData(QTermSSHBuffer * input)
 	}
 }
 
-void QTermSSH1PacketReceiver::onPacket()
+void SSH1PacketReceiver::onPacket()
 {
 	emit packetAvaliable(d_packetType);
 }
 
-void QTermSSH1PacketReceiver::startEncryption(const u_char * sessionkey)
+void SSH1PacketReceiver::startEncryption(const u_char * sessionkey)
 {
 	//qDebug("We start encrypt communication\n");
-	d_sccipher = new QTermSSH1DES3;
+	d_sccipher = new SSH1DES3;
 	d_sccipher->setIV(NULL);
 	d_sccipher->setKey(sessionkey);
 	d_isDecrypt = true;
 }
 
-void QTermSSH1PacketReceiver::resetEncryption()
+void SSH1PacketReceiver::resetEncryption()
 {
 	if (d_isDecrypt) {
 		delete d_sccipher;
 		d_isDecrypt = false;
 	}
 }
-int QTermSSH1PacketReceiver::packetLen()
+int SSH1PacketReceiver::packetLen()
 {
 	return d_realLen;
 }

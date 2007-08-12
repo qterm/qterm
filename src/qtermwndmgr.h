@@ -18,34 +18,34 @@ class QIcon;
 
 namespace QTerm
 {
-class QTermFrame;
-class QTermWindow;
+class Frame;
+class Window;
 
-class QTermWndMgr: public QObject
+class WndMgr: public QObject
 {
 	Q_OBJECT
 
 public:
-	QTermWndMgr( QObject * parent=0, const char * name=0 );
-	~QTermWndMgr();
+	WndMgr( QObject * parent=0, const char * name=0 );
+	~WndMgr();
 	
-	int  addWindow(QTermWindow *mw, const QString & qtab, QIcon *icon);
-	void removeWindow(QTermWindow *mw);
-	void activateTheTab(QTermWindow *mw);
+	int  addWindow(Window *mw, const QString & qtab, QIcon *icon);
+	void removeWindow(Window *mw);
+	void activateTheTab(Window *mw);
 	void activateTheWindow(const QString & qtab);
-	void blinkTheTab(QTermWindow *mw,bool bVisible);
+	void blinkTheTab(Window *mw,bool bVisible);
 	int  count();
 	
 	bool afterRemove();
 	
-	QTermWindow * activeWindow();
+	Window * activeWindow();
 	void activeNextPrev(bool);
 
 protected:
 	QList<QString>  pTab;
 	QList<QIcon*> pIcon;
-	QList<QTermWindow*>  pWin;
-	QTermFrame * pFrame;
+	QList<Window*>  pWin;
+	Frame * pFrame;
 	int nActive;
 
 	bool removed;

@@ -38,11 +38,11 @@ extern QString pathLib;
 
 
 //constructor
-QTermWndMgr::QTermWndMgr( QObject * parent, const char * name )
+WndMgr::WndMgr( QObject * parent, const char * name )
 	:QObject(parent)
 {
 	setObjectName(name);
-	pFrame = (QTermFrame *) parent;
+	pFrame = (Frame *) parent;
 	
 	nActive = -1;
 	
@@ -54,12 +54,12 @@ QTermWndMgr::QTermWndMgr( QObject * parent, const char * name )
 }
 
 //destructor
-QTermWndMgr::~QTermWndMgr()
+WndMgr::~WndMgr()
 {
 }
 
 //add window-tab-iconset 
-int   QTermWndMgr::addWindow(QTermWindow * mw,const QString& qtab, QIcon * icon)
+int   WndMgr::addWindow(Window * mw,const QString& qtab, QIcon * icon)
 {
   
 	Q_ASSERT(mw!=NULL);
@@ -75,7 +75,7 @@ int   QTermWndMgr::addWindow(QTermWindow * mw,const QString& qtab, QIcon * icon)
 }
 
 //remove window-tab-iconset
-void QTermWndMgr::removeWindow(QTermWindow * mw)
+void WndMgr::removeWindow(Window * mw)
 {
 	//find where it is
 	int n=pWin.indexOf(mw);
@@ -97,7 +97,7 @@ void QTermWndMgr::removeWindow(QTermWindow * mw)
 	pFrame->tabBar->removeTab(n);	
 }
 //avtive the tab when switch the window
-void QTermWndMgr::activateTheTab(QTermWindow * mw)
+void WndMgr::activateTheTab(Window * mw)
 {
 	//find where it is
 	int n=pWin.indexOf(mw);
@@ -118,7 +118,7 @@ void QTermWndMgr::activateTheTab(QTermWindow * mw)
 	pFrame->updateMenuToolBar();
 }
 //active the window when switch the tab
-void QTermWndMgr::activateTheWindow(const QString& qtab)
+void WndMgr::activateTheWindow(const QString& qtab)
 {
 
 	//find where it is
@@ -129,7 +129,7 @@ void QTermWndMgr::activateTheWindow(const QString& qtab)
 
 	nActive = n;
 
-	QTermWindow * mw=pWin.at(n);
+	Window * mw=pWin.at(n);
 	//set focus to it
 //	#if (QT_VERSION>=0x030300)
 	((QWidget*)pFrame->ws)->setFocus();
@@ -141,7 +141,7 @@ void QTermWndMgr::activateTheWindow(const QString& qtab)
 	pFrame->updateMenuToolBar();
 }
 //blink the tab when message come in
-void QTermWndMgr::blinkTheTab(QTermWindow * mw,bool bVisible)
+void WndMgr::blinkTheTab(Window * mw,bool bVisible)
 {
 	//find where it is
 	int n=pWin.indexOf(mw);
@@ -155,12 +155,12 @@ void QTermWndMgr::blinkTheTab(QTermWindow * mw,bool bVisible)
 	pFrame->tabBar->update();		
 }
 //return the number of connected window
-int QTermWndMgr::count()
+int WndMgr::count()
 {
 	return pWin.count();
 }
 
-QTermWindow * QTermWndMgr::activeWindow()
+Window * WndMgr::activeWindow()
 {
 	if( nActive == -1 )
 		return NULL;
@@ -168,7 +168,7 @@ QTermWindow * QTermWndMgr::activeWindow()
 		return pWin.at( nActive );
 }
 
-void QTermWndMgr::activeNextPrev(bool next)
+void WndMgr::activeNextPrev(bool next)
 {
 	int n = nActive;
 	
@@ -181,7 +181,7 @@ void QTermWndMgr::activeNextPrev(bool next)
 	
 	nActive = n;
 
-	QTermWindow * mw=pWin.at(n);
+	Window * mw=pWin.at(n);
 	//set focus to it
 //	#if (QT_VERSION>=0x030300)
 	((QWidget*)pFrame->ws)->setFocus();
@@ -197,7 +197,7 @@ void QTermWndMgr::activeNextPrev(bool next)
 
 }
 
-bool QTermWndMgr::afterRemove()
+bool WndMgr::afterRemove()
 {
 	if(removed) 
 	{

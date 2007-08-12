@@ -27,18 +27,18 @@ class QRect;
 
 namespace QTerm
 {
-class QTermTextLine;
+class TextLine;
 
-class QTermBuffer : public QObject
+class Buffer : public QObject
 {
 	Q_OBJECT
 	
 public:
-	QTermBuffer( int, int, int );
-	~QTermBuffer();
+	Buffer( int, int, int );
+	~Buffer();
 
-	QTermTextLine * at( int );
-	QTermTextLine * screen( int );
+	TextLine * at( int );
+	TextLine * screen( int );
 
 	void setSize( int, int );
 
@@ -118,9 +118,9 @@ protected:
 	//
 	int m_col, m_lin, m_lines, m_limit;
 
-	QTermTextLine * m_pCurrentLine;
+	TextLine * m_pCurrentLine;
 
-	QList<QTermTextLine*>  m_lineList;
+	QList<TextLine*>  m_lineList;
 
 	
 	// caret

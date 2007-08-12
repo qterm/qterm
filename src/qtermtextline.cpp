@@ -19,7 +19,7 @@ AUTHOR:        kingson fiasco
 #include <stdio.h>
 namespace QTerm
 {
-QTermTextLine::QTermTextLine()
+TextLine::TextLine()
 		:m_text(),m_color(),m_attr()
 {
 	m_bChanged=true;
@@ -28,7 +28,7 @@ QTermTextLine::QTermTextLine()
 	reset();
 }
 
-QTermTextLine::~QTermTextLine()
+TextLine::~TextLine()
 {
 
 }
@@ -37,7 +37,7 @@ QTermTextLine::~QTermTextLine()
 // insert cstr at position index of line, 
 // if attrib == -1, use current attr,
 // if index == -1, append line
-void QTermTextLine::insertText( const QByteArray& str, short attribute, int index )
+void TextLine::insertText( const QByteArray& str, short attribute, int index )
 {
 	// set attribute
 	if ( attribute != -1 )	
@@ -108,7 +108,7 @@ void QTermTextLine::insertText( const QByteArray& str, short attribute, int inde
 // if attr == -1, use the current attr,
 // if index == -1, reset line and insert str.
 // if len == -1, replace str's length chars.
-void QTermTextLine::replaceText( const QByteArray& str, short attribute, int index, int len )
+void TextLine::replaceText( const QByteArray& str, short attribute, int index, int len )
 {
 	// set attribute
 	if ( attribute != -1 )
@@ -183,7 +183,7 @@ void QTermTextLine::replaceText( const QByteArray& str, short attribute, int ind
 // it will delete len chars,  
 // if index == -1, delete the whole line
 // if len ==-1, delete the rest from index
-void QTermTextLine::deleteText( int index, int len )
+void TextLine::deleteText( int index, int len )
 {
 	if ( index == -1 )	// delete the line
 	{	
@@ -209,7 +209,7 @@ void QTermTextLine::deleteText( int index, int len )
 // return str in text for show
 // if index == -1, get the whole line
 // if len == -1, get the rest from index
-QByteArray QTermTextLine::getText( int index, int len )
+QByteArray TextLine::getText( int index, int len )
 {
 	QByteArray str;
 
@@ -222,7 +222,7 @@ QByteArray QTermTextLine::getText( int index, int len )
 	return str;
 }
 
-QByteArray QTermTextLine::getAttrText( int index, int len, const QByteArray& escape )
+QByteArray TextLine::getAttrText( int index, int len, const QByteArray& escape )
 {
 	QByteArray str;
 	int startx;
@@ -288,7 +288,7 @@ QByteArray QTermTextLine::getAttrText( int index, int len, const QByteArray& esc
 }
 
 // reset line
-inline void QTermTextLine::reset()
+inline void TextLine::reset()
 {
 	m_length = 0;
 	
@@ -301,7 +301,7 @@ inline void QTermTextLine::reset()
 
 
 }
-bool QTermTextLine::hasBlink()
+bool TextLine::hasBlink()
 {
 	bool blink = false;
 	
@@ -320,7 +320,7 @@ bool QTermTextLine::hasBlink()
 }
 
 
-bool QTermTextLine::isChanged(int &start, int &end)
+bool TextLine::isChanged(int &start, int &end)
 {
 	start=m_start;
 	end=m_end;
@@ -328,7 +328,7 @@ bool QTermTextLine::isChanged(int &start, int &end)
 	return m_bChanged;
 }
 
-void QTermTextLine::setChanged( int start, int end )
+void TextLine::setChanged( int start, int end )
 {
 	if(start==-1 && end==-1) 
 	{

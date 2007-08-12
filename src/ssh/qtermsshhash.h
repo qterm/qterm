@@ -4,13 +4,13 @@
 #include "types.h"
 namespace QTerm
 {
-class QTermSSHHash
+class SSHHash
 {
 protected:
 	int d_digestLength;
 	int digestLength() const { return d_digestLength; }
 public:
-	QTermSSHHash()	{
+	SSHHash()	{
 		d_digestLength = 0;
 	}
 	virtual void update(u_char * data, int len) = 0;

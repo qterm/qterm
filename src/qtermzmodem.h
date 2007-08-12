@@ -340,10 +340,10 @@ typedef	struct {
 	 *
 	 * Extra ZRINIT headers are the receiver trying to resync.
 	 */
-class QTermZmodem;
-class QTermTelnet;
+class Zmodem;
+class Telnet;
 
-typedef int (QTermZmodem::*ActionFunc)(ZModem *);
+typedef int (Zmodem::*ActionFunc)(ZModem *);
 
 
 typedef	struct {
@@ -366,15 +366,15 @@ static	uchar	NakStr[1] = {NAK} ;
 static	uchar	CanStr[2] = {CAN,CAN} ;
 static	uchar	eotstr[1] = {EOT} ;
 
-class QTermZmodem:public QObject
+class Zmodem:public QObject
 {
 	Q_OBJECT
 
 		
 public:
 
-		QTermZmodem(QObject *netinterface, int type);
-		~QTermZmodem();
+		Zmodem(QObject *netinterface, int type);
+		~Zmodem();
 
 //Member Function
 	
@@ -603,7 +603,7 @@ public:
 	// the network connection interface, e.g. telnet or ssh
 //	QObject *netif;
 
-	QTermTelnet *m_pTelnet;
+	Telnet *m_pTelnet;
 
 //  Dialog
 //	QDialog *zmodemDialog, uploadListDialog;

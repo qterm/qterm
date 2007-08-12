@@ -2,11 +2,11 @@
 #define QTERMCONVERT_H
 namespace QTerm
 {
-class QTermConvert
+class Convert
 {
 public:
-	QTermConvert();
-	~QTermConvert();
+	Convert();
+	~Convert();
 
 	char * G2B( const char * string, int length );
 	char * B2G( const char * string, int length );

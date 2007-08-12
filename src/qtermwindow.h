@@ -37,28 +37,28 @@ class QScriptEngine;
 
 namespace QTerm
 {
-class QTermTextLine;
-class QTermScreen;
-class QTermTelnet;
-class QTermDecode;
-class QTermBuffer;
-class QTermFrame;
-class QTermBBS;
+class TextLine;
+class Screen;
+class Telnet;
+class Decode;
+class Buffer;
+class Frame;
+class BBS;
 class popWidget;
-class QTermZmodem;
-class QTermWindow;
+class Zmodem;
+class Window;
 class zmodemDialog;
-class QTermHttp;
-class QTermIPLocation;
+class Http;
+class IPLocation;
 class PageViewMessage;
 class Script;
 // thread copy article
-class QTermDAThread : public QThread
+class DAThread : public QThread
 {
 	Q_OBJECT
 public:
-	QTermDAThread(QTermWindow*);
-	~QTermDAThread();
+	DAThread(Window*);
+	~DAThread();
 
 	virtual void run();
 	QString strArticle;
@@ -66,16 +66,16 @@ public:
 signals:
 	void done(int);
 private:
-	QTermWindow *pWin;
+	Window *pWin;
 };
 
-class QTermWindow: public QMainWindow
+class Window: public QMainWindow
 {
 	Q_OBJECT
 public:
-	QTermWindow( QTermFrame * frame,QTermParam param, int addr=-1, QWidget* parent = 0, 
+	Window( Frame * frame,Param param, int addr=-1, QWidget* parent = 0, 
 					const char* name = 0, Qt::WFlags wflags = Qt::Window );
-	~QTermWindow();
+	~Window();
 	
 	void connectHost();
 	bool isConnected() { return m_bConnected; }
@@ -107,7 +107,7 @@ public:
 	void getHttpHelper(const QString&, bool);
 
 protected slots:
-	// from QTermTelnet
+	// from Telnet
 	void readReady(int);
 	void TelnetState(int);
 	void ZmodemState(int,int,const QString&);
@@ -168,15 +168,15 @@ protected:
 	
 	void sendMouseState(int, Qt::KeyboardModifier, Qt::KeyboardModifier, const QPoint&);
 		
-	QTermScreen * m_pScreen;
-	QTermDecode * m_pDecode;
+	Screen * m_pScreen;
+	Decode * m_pDecode;
 	QMenu *  m_pMenu;
 	QMenu *  m_pUrl;
 	static char direction[][5];
     QCursor cursor[9];
 	bool m_bConnected;
 
-	QTermConvert m_converter;
+	Convert m_converter;
 	
 	bool m_bMessage;
 	QString m_strMessage;
@@ -203,7 +203,7 @@ protected:
 	popWidget *m_popWin;
 
 	// download article thread
-	QTermDAThread *m_pDAThread;
+	DAThread *m_pDAThread;
 
 	// python 
 #ifdef HAVE_PYTHON
@@ -212,8 +212,8 @@ protected:
 	bool m_bPythonScriptLoaded;
 	
 	// play sound
-	QTermSound * m_pSound;
-	QTermZmodem *m_pZmodem;
+	Sound * m_pSound;
+	Zmodem *m_pZmodem;
 
 	zmodemDialog *m_pZmDialog;
 
@@ -222,18 +222,18 @@ protected:
 
 	//IP location
 	QString location;
-	QTermIPLocation * m_pIPLocation;
+	IPLocation * m_pIPLocation;
 
 	//osd
 	PageViewMessage * m_pMessage;
 
 	bool m_bMouseClicked;
 public:
-	QTermFrame * m_pFrame;
-	QTermBuffer * m_pBuffer;
-	QTermTelnet * m_pTelnet;
-	QTermParam m_param;
-	QTermBBS	* m_pBBS;
+	Frame * m_pFrame;
+	Buffer * m_pBuffer;
+	Telnet * m_pTelnet;
+	Param m_param;
+	BBS	* m_pBBS;
 	// menu and toolbar state
 	bool m_bCopyColor;
 	bool m_bCopyRect;
@@ -244,7 +244,7 @@ public:
 	bool m_bBeep;
 	bool m_bMouse;
 	bool m_bReconnect;
-	friend class QTermScreen;
+	friend class Screen;
 	
 	QString m_strPythonError;
 

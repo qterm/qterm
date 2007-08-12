@@ -159,7 +159,7 @@
     </layout>
    </item>
    <item row="0" column="0" >
-    <widget class="QTerm::QTermCanvas" name="d_canvas" >
+    <widget class="QTerm::Canvas" name="d_canvas" >
      <property name="frameShape" >
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -174,7 +174,7 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>QTerm::QTermCanvas</class>
+   <class>QTerm::Canvas</class>
    <extends>QFrame</extends>
    <header>qtermcanvas.h</header>
    <container>0</container>

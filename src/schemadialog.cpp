@@ -103,7 +103,7 @@ void schemaDialog::loadList()
 	//if( lstFile.count()!=0 )
 	{
 		foreach (QFileInfo fi, lstFile) {
-			QTermConfig *pConf = new QTermConfig(fi.absoluteFilePath());
+			Config *pConf = new Config(fi.absoluteFilePath());
 			ui.nameListWidget->addItem(pConf->getItemValue("schema","title"));
 			delete pConf;
 			fileList.append(fi.absoluteFilePath());
@@ -116,7 +116,7 @@ void schemaDialog::loadList()
 	//if(lstFile != NULL)
 	{
 		foreach (QFileInfo fi, lstFile) {
-			QTermConfig *pConf = new QTermConfig(fi.absoluteFilePath());
+			Config *pConf = new Config(fi.absoluteFilePath());
 			ui.nameListWidget->addItem(pConf->getItemValue("schema","title"));
 			delete pConf;
 			fileList.append(fi.absoluteFilePath());
@@ -126,7 +126,7 @@ void schemaDialog::loadList()
 
 void schemaDialog::loadSchema(const QString& strSchemaFile)
 {
-	QTermConfig *pConf = new QTermConfig(strSchemaFile);
+	Config *pConf = new Config(strSchemaFile);
 
 	strCurrentSchema = strSchemaFile;
 
@@ -187,7 +187,7 @@ void schemaDialog::saveNumSchema(int n)
 		fileList.append(strSchemaFile);
 	}
 
-	QTermConfig *pConf = new QTermConfig(strCurrentSchema);
+	Config *pConf = new Config(strCurrentSchema);
 	
 	strCurrentSchema = strSchemaFile;
 	

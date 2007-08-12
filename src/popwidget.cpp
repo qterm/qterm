@@ -32,7 +32,7 @@ namespace QTerm
 {
 extern QString pathLib;
 
-popWidget::popWidget( QTermWindow *win, QWidget *parent, const char *name, Qt::WFlags f )
+popWidget::popWidget( Window *win, QWidget *parent, const char *name, Qt::WFlags f )
 		: QWidget(parent,f)
 {
 	QPixmap pxm(QPixmap(pathLib+"pic/popwidget.png") );
@@ -85,7 +85,7 @@ popWidget::popWidget( QTermWindow *win, QWidget *parent, const char *name, Qt::W
 	
 	Display *dsp = QX11Info::display();
 	int screen = DefaultScreen(dsp);
-	Window root = RootWindow(dsp, screen);
+	::Window root = RootWindow(dsp, screen);
 	
 	WId winid = this->winId();
 	
@@ -115,7 +115,7 @@ void popWidget::mousePressEvent(QMouseEvent * me)
 {
 	QWidgetList list = QApplication::topLevelWidgets();
 
-	//((QTermFrame *)qApp->mainWidget())->popupFocusIn(window);
+	//((Frame *)qApp->mainWidget())->popupFocusIn(window);
 
 	if(nState==1)
 	{

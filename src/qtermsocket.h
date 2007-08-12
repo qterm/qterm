@@ -25,12 +25,12 @@ class QTcpSocket;
 
 namespace QTerm
 {
-class QTermSocketPrivate : public QObject
+class SocketPrivate : public QObject
 {
 	Q_OBJECT
 public:
-	QTermSocketPrivate(QObject * parent = 0);
-	~QTermSocketPrivate();
+	SocketPrivate(QObject * parent = 0);
+	~SocketPrivate();
 
 	void flush();
 	void setProxy(int nProxyType, bool bAuth,
@@ -78,16 +78,16 @@ private:
 	QTcpSocket *m_socket;
 };
 
-// virtual base class for QTermTelnetSocket and QTermSSHSocket
-class QTermSocket : public QObject
+// virtual base class for TelnetSocket and SSHSocket
+class Socket : public QObject
 {
 	Q_OBJECT
 public:
-	QTermSocket(QObject * parent = 0)
+	Socket(QObject * parent = 0)
 		:QObject(parent)
 	{
 	}
-	virtual ~QTermSocket()
+	virtual ~Socket()
 	{
 	}
 	virtual void flush() = 0;
@@ -109,13 +109,13 @@ signals:
 	void SocketState(int);
 };
 
-class QTermTelnetSocket : public QTermSocket
+class TelnetSocket : public Socket
 {
 private:
-	QTermSocketPrivate * d_socket;
+	SocketPrivate * d_socket;
 public:
-	QTermTelnetSocket();
-	~QTermTelnetSocket();
+	TelnetSocket();
+	~TelnetSocket();
 	void flush();
 	void setProxy(int nProxyType, bool bAuth,
 			const QString& strProxyHost, quint16 uProxyPort,

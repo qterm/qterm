@@ -61,7 +61,7 @@ void runProgram(const QString & cmd)
 
 QString getOpenFileName(const QString& filter, QWidget * widget)
 {
-	QTermConfig conf(fileCfg);
+	Config conf(fileCfg);
 	QString path = conf.getItemValue("global","openfiledialog");
 
 	QString strOpen = QFileDialog::getOpenFileName(widget, "choose a file", path, filter);
@@ -81,7 +81,7 @@ QString getOpenFileName(const QString& filter, QWidget * widget)
 QString getSaveFileName(const QString& filename, QWidget* widget)
 {
 	// get the previous dir
-	QTermConfig conf(fileCfg);
+	Config conf(fileCfg);
 	QString path = conf.getItemValue("global","savefiledialog");
 
 	QString strSave = QFileDialog::getSaveFileName(widget, "Choose a file to save under", path+"/"+filename, "*");
@@ -277,7 +277,7 @@ int iniWorkingDir( QString param )
 int iniSettings()
 {
    //read settings from qterm.cfg
-	QTermConfig * conf= new QTermConfig(fileCfg);
+	Config * conf= new Config(fileCfg);
 
 #if 0
 	// get the version info first
@@ -348,7 +348,7 @@ int iniSettings()
 	return 0;
 }
 
-QStringList loadNameList( QTermConfig * pConf )
+QStringList loadNameList( Config * pConf )
 {
 	QStringList listName;
 	
@@ -364,7 +364,7 @@ QStringList loadNameList( QTermConfig * pConf )
 	return listName;
 }
 
-bool loadAddress( QTermConfig *pConf, int n, QTermParam& param )
+bool loadAddress( Config *pConf, int n, Param& param )
 {
 	QString strTmp, strSection;
 	if(n<0)
@@ -462,7 +462,7 @@ bool loadAddress( QTermConfig *pConf, int n, QTermParam& param )
 	return true;
 }
 
-void saveAddress(QTermConfig *pConf, int n, const QTermParam& param)
+void saveAddress(Config *pConf, int n, const Param& param)
 {
 	QString strTmp, strSection;
 	if(n<0)
@@ -595,7 +595,7 @@ int main( int argc, char ** argv )
 #endif // HAVE_PYTHON
 
   
-    QTerm::QTermFrame * mw = new QTerm::QTermFrame();
+    QTerm::Frame * mw = new QTerm::Frame();
     mw->setWindowTitle( "QTerm "+QString(VERSION) );
 	mw->setWindowIcon( QPixmap(QTerm::pathLib+"pic/qterm.png") );
 	//a.setMainWidget(mw);

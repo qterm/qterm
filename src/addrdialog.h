@@ -14,7 +14,7 @@
 #include <QButtonGroup>
 namespace QTerm
 {
-class QTermConfig;
+class Config;
 
 class addrDialog : public QDialog
 { 
@@ -24,8 +24,8 @@ public:
     addrDialog( QWidget* parent = 0, bool partial = false, Qt::WFlags fl = 0 );
     ~addrDialog();
 	
-	QTermParam param;
-	QTermConfig * pConf;
+	Param param;
+	Config * pConf;
 	void updateData(bool save);
 
 protected slots:

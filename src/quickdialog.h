@@ -18,7 +18,7 @@ class QCloseEvent;
 
 namespace QTerm
 {
-class QTermConfig;
+class Config;
 
 class quickDialog : public QDialog
 { 
@@ -28,7 +28,7 @@ public:
     quickDialog( QWidget* parent = 0, Qt::WFlags fl = 0 );
     ~quickDialog();
 
-	QTermParam param;
+	Param param;
 
 protected slots:
 	void listChanged( int );
@@ -43,7 +43,7 @@ protected:
 	void connectSlots();
 	void loadHistory();
 	
-	QTermConfig * pConf;
+	Config * pConf;
 	
 private:
 	Ui::quickDialog ui;

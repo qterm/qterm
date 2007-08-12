@@ -21,7 +21,7 @@ REVISION:      2001.10.10 first created.
 
 namespace QTerm
 {
-QTermConfig::QTermConfig(const QString & szFileName)
+Config::Config(const QString & szFileName)
 {
 	QFile file( szFileName );
     if ( !file.open( QIODevice::ReadOnly ) ) 
@@ -37,12 +37,12 @@ QTermConfig::QTermConfig(const QString & szFileName)
 }
 
 
-QTermConfig::~QTermConfig ()
+Config::~Config ()
 {
 
 }
 
-bool QTermConfig::save (const QString & szFileName)
+bool Config::save (const QString & szFileName)
 {
     QFile file( szFileName );
     if ( !file.open( QIODevice::WriteOnly ) ) 
@@ -59,7 +59,7 @@ bool QTermConfig::save (const QString & szFileName)
 	return true;
 }
 
-bool QTermConfig::loadFromStream(QTextStream& is)
+bool Config::loadFromStream(QTextStream& is)
 {
 	QString strLine, strSection;
 
@@ -88,7 +88,7 @@ bool QTermConfig::loadFromStream(QTextStream& is)
     return true;
 }
 
-bool QTermConfig::saveToStream(QTextStream& os)
+bool Config::saveToStream(QTextStream& os)
 {
     QString strLine, strSection;
     Section::iterator iStr;
@@ -110,7 +110,7 @@ bool QTermConfig::saveToStream(QTextStream& os)
 }
 
 
-bool QTermConfig::addSection (const QString & szSection)
+bool Config::addSection (const QString & szSection)
 {
     if(hasSection(szSection))
         return false;
@@ -119,12 +119,12 @@ bool QTermConfig::addSection (const QString & szSection)
     return true;	
 }
 
-bool QTermConfig::hasSection (const QString & szSection)
+bool Config::hasSection (const QString & szSection)
 {
     return data.find(szSection) != data.end();
 }
 
-bool QTermConfig::setItemValue (const QString & szSection, 
+bool Config::setItemValue (const QString & szSection, 
 			const QString & szItemName, const QString & szItemValue)
 {
 	if(!hasSection(szSection))
@@ -135,7 +135,7 @@ bool QTermConfig::setItemValue (const QString & szSection,
 	return true;
 }
 
-QString QTermConfig::getItemValue (const QString & szSection, const QString & szItemName)
+QString Config::getItemValue (const QString & szSection, const QString & szItemName)
 {
 	if(hasSection(szSection))
 		if(data[szSection].find(szItemName) != data[szSection].end());
@@ -144,7 +144,7 @@ QString QTermConfig::getItemValue (const QString & szSection, const QString & sz
 	return "";
 }
 
-bool QTermConfig::renameSection (const QString & szSection, const QString & szNewName)
+bool Config::renameSection (const QString & szSection, const QString & szNewName)
 {
     if(hasSection(szNewName) || !hasSection(szSection))
     {
@@ -158,7 +158,7 @@ bool QTermConfig::renameSection (const QString & szSection, const QString & szNe
 	return deleteSection(szSection);
 }
 
-bool QTermConfig::deleteSection (const QString & szSection)
+bool Config::deleteSection (const QString & szSection)
 {
 	if(hasSection(szSection))
     {
@@ -168,7 +168,7 @@ bool QTermConfig::deleteSection (const QString & szSection)
     return false;
 }
 
-bool QTermConfig::deleteItem( const QString & szSection, const QString & szItemName)
+bool Config::deleteItem( const QString & szSection, const QString & szItemName)
 {
 	if(hasSection(szSection))
 		if(data[szSection].find(szItemName) != data[szSection].end());

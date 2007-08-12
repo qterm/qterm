@@ -54,10 +54,10 @@ namespace QTerm
 /*                                                                          */
 /* ------------------------------------------------------------------------ */
 
-QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *param, QTermBBS *bbs )
+Screen::Screen( QWidget *parent, Buffer *buffer, Param *param, BBS *bbs )
 	: QWidget( parent ),Scrollbar_Width(15)
 {	
-	m_pWindow = (QTermWindow *)parent;
+	m_pWindow = (Window *)parent;
 	m_pBBS = bbs;
 	m_pParam = param;
 	//m_pCanvas = NULL;
@@ -132,7 +132,7 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 // 	setAttribute(Qt::WA_InputMethodEnabled);
 }
 
-QTermScreen::~QTermScreen()
+Screen::~Screen()
 {
 	delete [] m_pBlinkLine;
 	delete m_blinkTimer;
@@ -142,7 +142,7 @@ QTermScreen::~QTermScreen()
 }
 
 // focus event received
-void QTermScreen::focusInEvent( QFocusEvent * )
+void Screen::focusInEvent( QFocusEvent * )
 {
 
 //	#if (QT_VERSION>0x030300) // windows get minimized when closing
@@ -174,7 +174,7 @@ void QTermScreen::focusInEvent( QFocusEvent * )
 }
 
 // focus out
-void QTermScreen::focusOutEvent( QFocusEvent * )
+void Screen::focusOutEvent( QFocusEvent * )
 {
 	m_scPrevPage->setEnabled(false);
 	m_scNextPage->setEnabled(false);
@@ -189,7 +189,7 @@ void QTermScreen::focusOutEvent( QFocusEvent * )
 }
 
 
-void QTermScreen::cursorEvent()
+void Screen::cursorEvent()
 {
 	if(m_blinkCursor) {
 		m_ePaintState = Cursor;
@@ -198,7 +198,7 @@ void QTermScreen::cursorEvent()
 	}
 }
 //FIXME better solution?
-void QTermScreen::updateCursor()
+void Screen::updateCursor()
 {
 // 	qDebug()<<"update cursor:"<<m_pBuffer->caretY()<<m_nEnd<<m_nStart;
 
@@ -259,7 +259,7 @@ void QTermScreen::updateCursor()
 // 			delete tempPxm;
 	}
 }
-void QTermScreen::blinkEvent()
+void Screen::blinkEvent()
 {
 	if(m_hasBlink)
 	{
@@ -269,11 +269,11 @@ void QTermScreen::blinkEvent()
 	}
 }
 
-void QTermScreen::moveEvent( QMoveEvent * )
+void Screen::moveEvent( QMoveEvent * )
 {
 //	setBgPxm( m_pxmBg, m_nPxmType );
 }
-void QTermScreen::resizeEvent( QResizeEvent *  )
+void Screen::resizeEvent( QResizeEvent *  )
 {
 	updateScrollBar();
 	setBgPxm( m_pxmBg, m_nPxmType );
@@ -304,17 +304,17 @@ void QTermScreen::resizeEvent( QResizeEvent *  )
 /* 	                         Mouse                                          */
 /*                                                                          */
 /* ------------------------------------------------------------------------ */
-void QTermScreen::enterEvent( QEvent * e )
+void Screen::enterEvent( QEvent * e )
 {
 	QApplication::sendEvent(m_pWindow, e);
 }
 
-void QTermScreen::leaveEvent( QEvent * e )
+void Screen::leaveEvent( QEvent * e )
 {
 	QApplication::sendEvent(m_pWindow, e);
 }
 
-void QTermScreen::mousePressEvent( QMouseEvent * me )
+void Screen::mousePressEvent( QMouseEvent * me )
 {
 	setFocus();
 
@@ -322,7 +322,7 @@ void QTermScreen::mousePressEvent( QMouseEvent * me )
 	//QApplication::sendEvent(m_pWindow, me);
 
 }
-void QTermScreen::mouseMoveEvent( QMouseEvent * me)
+void Screen::mouseMoveEvent( QMouseEvent * me)
 {
 #ifdef Q_OS_MACX
 	m_pWindow->mouseMoveEvent(me);
@@ -332,13 +332,13 @@ void QTermScreen::mouseMoveEvent( QMouseEvent * me)
 #endif
 }
 
-void QTermScreen::mouseReleaseEvent( QMouseEvent * me )
+void Screen::mouseReleaseEvent( QMouseEvent * me )
 {
 	m_pWindow->mouseReleaseEvent(me);
 	//QApplication::sendEvent(m_pWindow, me);
 }
 
-void QTermScreen::wheelEvent( QWheelEvent * we )
+void Screen::wheelEvent( QWheelEvent * we )
 {
 	if(m_pWindow->m_pFrame->m_pref.bWheel)
 		QApplication::sendEvent(m_pWindow, we);
@@ -353,7 +353,7 @@ void QTermScreen::wheelEvent( QWheelEvent * we )
 /*                                                                          */
 /* ------------------------------------------------------------------------ */
 
-void QTermScreen::initFontMetrics()
+void Screen::initFontMetrics()
 {
 	if(m_pParam->m_bAutoFont)
 		m_pFont = new QFont(m_pParam->m_strFontName); 
@@ -373,7 +373,7 @@ void QTermScreen::initFontMetrics()
 	
 }
 
-void QTermScreen::setDispFont( const QFont& font)
+void Screen::setDispFont( const QFont& font)
 {
 	delete m_pFont;
 	if(m_pParam->m_bAutoFont)
@@ -395,13 +395,13 @@ void QTermScreen::setDispFont( const QFont& font)
 
 }
 
-QFont QTermScreen::getDispFont( )
+QFont Screen::getDispFont( )
 {
 	return *m_pFont;
 }
 
 
-void QTermScreen::updateFont()
+void Screen::updateFont()
 {
 	int nPixelSize;
 	int nIniSize = qMax(8,qMin(m_rcClient.height()/m_pBuffer->line(),
@@ -438,7 +438,7 @@ void QTermScreen::updateFont()
 
 }
 
-void QTermScreen::getFontMetrics(QFontMetrics *fm)
+void Screen::getFontMetrics(QFontMetrics *fm)
 {
 	float cn=fm->width(QChar(0x4e00));
 	float en=fm->width('W');
@@ -457,7 +457,7 @@ void QTermScreen::getFontMetrics(QFontMetrics *fm)
 /* 	                               Colors                                   */
 /*	                                                                        */
 /* ------------------------------------------------------------------------ */
-void QTermScreen::setSchema()
+void Screen::setSchema()
 {
 // the default color table
 	m_color[0]  = Qt::black;
@@ -486,7 +486,7 @@ void QTermScreen::setSchema()
 	{
 
 //		printf("schema %s loaded sucessfully\n", m_pParam->m_strSchemaFile);
-		QTermConfig *pConf = new QTermConfig(m_pParam->m_strSchemaFile);
+		Config *pConf = new Config(m_pParam->m_strSchemaFile);
 
 		m_color[0].setNamedColor(pConf->getItemValue("color","color0"));
 		m_color[1].setNamedColor(pConf->getItemValue("color","color1"));
@@ -538,35 +538,35 @@ void QTermScreen::setSchema()
 /*                  	Scrollbar                                           */
 /*                                                                          */
 /* ------------------------------------------------------------------------ */
-void QTermScreen::prevPage()
+void Screen::prevPage()
 {
 	scrollLine(-m_pBuffer->line());
 	m_ePaintState = NewData;
 	update();
 }
 
-void QTermScreen::nextPage()
+void Screen::nextPage()
 {
 	scrollLine(m_pBuffer->line());
 	m_ePaintState = NewData;
 	update();
 }
 
-void QTermScreen::prevLine()
+void Screen::prevLine()
 {
 	scrollLine(-1);
 	m_ePaintState = NewData;
 	update();
 }
 
-void QTermScreen::nextLine()
+void Screen::nextLine()
 {
 	scrollLine(1);
 	m_ePaintState = NewData;
 	update();
 }
 
-void QTermScreen::scrollLine( int delta )
+void Screen::scrollLine( int delta )
 {
 	m_nStart += delta;
 
@@ -591,7 +591,7 @@ void QTermScreen::scrollLine( int delta )
 		m_pBuffer->at(i)->setChanged(-1,-1);
 
 }
-void QTermScreen::scrollChanged( int value )
+void Screen::scrollChanged( int value )
 {
 	if(m_nStart == value) return;
 
@@ -614,7 +614,7 @@ void QTermScreen::scrollChanged( int value )
 	
 }
 
-void QTermScreen::updateScrollBar()
+void Screen::updateScrollBar()
 {
 	switch(m_pWindow->m_pFrame->m_nScrollPos)
 	{
@@ -647,7 +647,7 @@ void QTermScreen::updateScrollBar()
 	update();
 }
 
-void QTermScreen::bufferSizeChanged()
+void Screen::bufferSizeChanged()
 {
 	disconnect(m_scrollBar, SIGNAL(valueChanged(int)), 
 			this, SLOT(scrollChanged(int)));
@@ -680,7 +680,7 @@ void QTermScreen::bufferSizeChanged()
 
 //set pixmap background
 
-void QTermScreen::setBgPxm( const QPixmap& pixmap, int nType)
+void Screen::setBgPxm( const QPixmap& pixmap, int nType)
 {
 	m_hasBg = false;
 	m_pxmBg = pixmap;
@@ -750,7 +750,7 @@ void QTermScreen::setBgPxm( const QPixmap& pixmap, int nType)
 	}
 }
 
-void QTermScreen::blinkScreen()
+void Screen::blinkScreen()
 {
 	QPainter painter;
 	painter.begin(this);
@@ -758,7 +758,7 @@ void QTermScreen::blinkScreen()
 	int startx;
 	for (int index=m_nStart; index<=m_nEnd; index++) {
 		if (m_pBlinkLine[index - m_nStart]) {
-			QTermTextLine *pTextLine = m_pBuffer->at(index);
+			TextLine *pTextLine = m_pBuffer->at(index);
 			uint linelength = pTextLine->getLength();
 			QByteArray attr = pTextLine->getAttr();
 			for (uint i = 0; i < linelength; ++i) {
@@ -776,7 +776,7 @@ void QTermScreen::blinkScreen()
 // refresh the screen when 
 //	1. received new contents form server
 //	2. scrolled by user
-void QTermScreen::refreshScreen()
+void Screen::refreshScreen()
 {
 	if( m_cursorTimer->isActive() ) m_cursorTimer->stop();
 
@@ -797,11 +797,11 @@ void QTermScreen::refreshScreen()
 	{
 		if ( index>=m_pBuffer->lines() )
 		{
-			printf("QTermScreen::drawLine wrong index %d\n", index);
+			printf("Screen::drawLine wrong index %d\n", index);
 			painter.end();
 			return;
 		}
-		QTermTextLine *pTextLine = m_pBuffer->at(index);
+		TextLine *pTextLine = m_pBuffer->at(index);
 		if(pTextLine->hasBlink()){
 			m_hasBlink = true;
 			m_pBlinkLine[index - m_nStart] = true;
@@ -844,9 +844,9 @@ void QTermScreen::refreshScreen()
 // 	update();
 }
 
-int QTermScreen::testChar(int startx, int index)
+int Screen::testChar(int startx, int index)
 {
-	QTermTextLine *pTextLine = m_pBuffer->at(index);
+	TextLine *pTextLine = m_pBuffer->at(index);
 	QString strDisplay;
 	QString strTest;
 	QByteArray cstrDisplay;
@@ -856,7 +856,7 @@ int QTermScreen::testChar(int startx, int index)
 		return 0;
 	if ( index >= m_pBuffer->lines())
 	{
-		printf("QTermScreen::drawLine wrong index %d\n", index);
+		printf("Screen::drawLine wrong index %d\n", index);
 		return startx; 
 	}
 
@@ -895,7 +895,7 @@ int QTermScreen::testChar(int startx, int index)
 }
 
 		
-void QTermScreen::paintEvent( QPaintEvent * pe )
+void Screen::paintEvent( QPaintEvent * pe )
 {
 // 	qDebug()<<"Event:"<<m_ePaintState;
 	switch(m_ePaintState)
@@ -918,7 +918,7 @@ void QTermScreen::paintEvent( QPaintEvent * pe )
 	}
 }
 
-void QTermScreen::repaintScreen(QPaintEvent * pe)
+void Screen::repaintScreen(QPaintEvent * pe)
 {
 	QPainter painter;
 	painter.begin( this );
@@ -951,15 +951,15 @@ void QTermScreen::repaintScreen(QPaintEvent * pe)
 // draw a line with the specialAtter if given.
 // modified by hooey to draw part of the line.
 // I know I should not use starx, but I'm lazy ;)
-void QTermScreen::drawLine( QPainter& painter, int index, int starx, int endx, bool complete)
+void Screen::drawLine( QPainter& painter, int index, int starx, int endx, bool complete)
 {
 	if ( index >= m_pBuffer->lines())
 	{
-		printf("QTermScreen::drawLine wrong index %d\n", index);
+		printf("Screen::drawLine wrong index %d\n", index);
 		return;
 	}
 
-	QTermTextLine *pTextLine = m_pBuffer->at(index);
+	TextLine *pTextLine = m_pBuffer->at(index);
 	QByteArray color = pTextLine->getColor();
 	QByteArray attr = pTextLine->getAttr();
 	uint linelength = pTextLine->getLength();
@@ -1039,7 +1039,7 @@ void QTermScreen::drawLine( QPainter& painter, int index, int starx, int endx, b
 }
 
 // draw functions
-void QTermScreen::drawStr( QPainter& painter, const QString& str, int x, int y, int length, 
+void Screen::drawStr( QPainter& painter, const QString& str, int x, int y, int length, 
 								short attribute, bool transparent )
 {
 	char cp = GETCOLOR( attribute );
@@ -1122,12 +1122,12 @@ void QTermScreen::drawStr( QPainter& painter, const QString& str, int x, int y, 
 }
 
 
-void QTermScreen::eraseRect( QPainter&, int, int, int, int, short )
+void Screen::eraseRect( QPainter&, int, int, int, int, short )
 {
 
 }
 
-void QTermScreen::bossColor()
+void Screen::bossColor()
 {
 	setBgPxm(m_pxmBg, m_nPxmType);
 		
@@ -1135,7 +1135,7 @@ void QTermScreen::bossColor()
 	update();
 }	
 
-void QTermScreen::drawMenuSelect( QPainter& painter, int index )
+void Screen::drawMenuSelect( QPainter& painter, int index )
 {
 	QRect rcSelect, rcMenu, rcInter;
 // 	FIXME: what is this for
@@ -1203,7 +1203,7 @@ void QTermScreen::drawMenuSelect( QPainter& painter, int index )
 /* 	                            Auxilluary	                                */
 /*                                                                          */
 /* ------------------------------------------------------------------------ */
-QPoint QTermScreen::mapToPixel( const QPoint& point )
+QPoint Screen::mapToPixel( const QPoint& point )
 {
 	QPoint pt = m_rcClient.topLeft();
 
@@ -1216,7 +1216,7 @@ QPoint QTermScreen::mapToPixel( const QPoint& point )
 	return pxlPoint;
 }
 
-QPoint QTermScreen::mapToChar( const QPoint& point )
+QPoint Screen::mapToChar( const QPoint& point )
 {
 	QPoint pt = m_rcClient.topLeft();
 
@@ -1230,7 +1230,7 @@ QPoint QTermScreen::mapToChar( const QPoint& point )
 	return chPoint;
 }
 
-QRect QTermScreen::mapToRect( int x, int y, int width, int height )
+QRect Screen::mapToRect( int x, int y, int width, int height )
 {
 	QPoint pt = mapToPixel( QPoint(x,y) );
 	
@@ -1240,13 +1240,13 @@ QRect QTermScreen::mapToRect( int x, int y, int width, int height )
 		return QRect(pt.x(), pt.y(), width*m_nCharWidth, m_nCharHeight*height );
 }
 
-QRect QTermScreen::mapToRect( const QRect& rect )
+QRect Screen::mapToRect( const QRect& rect )
 {
 	return mapToRect( rect.x(), rect.y(), rect.width(), rect.height() );
 }
 
 // from KImageEffect::fade
-QImage& QTermScreen::fade( QImage& img, float val, const QColor& color)
+QImage& Screen::fade( QImage& img, float val, const QColor& color)
 {
     if (img.width() == 0 || img.height() == 0)
       return img;
@@ -1313,13 +1313,13 @@ QImage& QTermScreen::fade( QImage& img, float val, const QColor& color)
     return img;
 }
 
-void QTermScreen::inputMethodEvent(QInputMethodEvent * e)
+void Screen::inputMethodEvent(QInputMethodEvent * e)
 {
 	QString text = e->commitString();
 	emit inputEvent(&text);
 }
 
-QVariant QTermScreen::inputMethodQuery(Qt::InputMethodQuery property) const
+QVariant Screen::inputMethodQuery(Qt::InputMethodQuery property) const
 {
 // 	qDebug()<<"inputMethodQuery";
 	switch(property)
@@ -1336,7 +1336,7 @@ QVariant QTermScreen::inputMethodQuery(Qt::InputMethodQuery property) const
 	}
 }
 /*
-void QTermScreen::imStartEvent(QIMEvent * e)
+void Screen::imStartEvent(QIMEvent * e)
 {
 	//m_inputContent = new QTermInput(this, m_nCharWidth, m_nCharHeight, m_nCharAscent);
 	//m_inputContent->setFont(*m_pFont);
@@ -1345,7 +1345,7 @@ void QTermScreen::imStartEvent(QIMEvent * e)
 	//m_inputContent->show();
 }
 
-void QTermScreen::imComposeEvent(QIMEvent * e)
+void Screen::imComposeEvent(QIMEvent * e)
 {
 	if (m_inputContent == NULL){
 		m_inputContent = new QTermInput(this, m_nCharWidth, m_nCharHeight, m_nCharAscent);
@@ -1393,7 +1393,7 @@ return;
 	m_inputContent->move(cursor);
 }
 
-void QTermScreen::imEndEvent(QIMEvent * e)
+void Screen::imEndEvent(QIMEvent * e)
 {
 	QString text = QString::null;
 	text += e->text();

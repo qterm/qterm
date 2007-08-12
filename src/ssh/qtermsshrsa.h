@@ -6,12 +6,12 @@
 
 namespace QTerm
 {
-class QTermSSHRSA
+class SSHRSA
 {
 public:
 	RSA * d_rsa;
-	QTermSSHRSA();
-	~QTermSSHRSA();
+	SSHRSA();
+	~SSHRSA();
 	void publicEncrypt(BIGNUM *, BIGNUM *);
 //	int private_decrypt(BIGNUM *, BIGNUM *);
 //	void generate_additional_parameters();

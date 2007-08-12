@@ -83,9 +83,9 @@
 namespace QTerm
 {
 //  decleration 		
-class QTermTelnet;           
-// actionFunc is a pointer, point to a QTermTelnet's func
-typedef int (QTermTelnet::*ptrActionFunc)(int c);	
+class Telnet;           
+// actionFunc is a pointer, point to a Telnet's func
+typedef int (Telnet::*ptrActionFunc)(int c);	
 
 //fsm struct
 struct fsm_trans {
@@ -97,19 +97,19 @@ struct fsm_trans {
 
 
 /*------------------------------------------------------------------------------
-*	QTermTelnet class definition
+*	Telnet class definition
 *-------------------------------------------------------------------------------
 */
 
-class QTermSocket;
+class Socket;
 
-class QTermTelnet : public QObject
+class Telnet : public QObject
 {
     Q_OBJECT
 
 public:
-	QTermTelnet( const QString & termtype, int rows, int columns, bool isSSH, const char * sshuser = NULL, const char * sshpasswd = NULL ) ;
-	~QTermTelnet();
+	Telnet( const QString & termtype, int rows, int columns, bool isSSH, const char * sshuser = NULL, const char * sshpasswd = NULL ) ;
+	~Telnet();
 	
 	void setProxy( int nProxyType,//0-no proxy; 1-wingate; 2-sock4; 3-socks5
 		bool bAuth,	// if authentation needed
@@ -197,7 +197,7 @@ private:
 	u_char	subfsm[NSSTATES][NCHRS];
 
 	// socket stuffs
-	QTermSocket *socket;
+	Socket *socket;
 	
 	//Pointers to internal buffers
 	//

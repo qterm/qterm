@@ -27,7 +27,7 @@ namespace QTerm
 // extern QString getSaveFileName(const QString&, QWidget*);
 extern QString fileCfg;
 
-QTermCanvas::QTermCanvas(QWidget *parent, Qt::WFlags f)
+Canvas::Canvas(QWidget *parent, Qt::WFlags f)
   :QScrollArea(parent)
 {
 
@@ -70,48 +70,48 @@ QTermCanvas::QTermCanvas(QWidget *parent, Qt::WFlags f)
 	resize(200,100);
 
 }
-QTermCanvas::~QTermCanvas()
+Canvas::~Canvas()
 {
 	//delete label;
 	//delete m_pMenu;
 }
 
-void QTermCanvas::oriSize()
+void Canvas::oriSize()
 {
 	bFitWin=false;
 	szImage = img.size();
 	adjustSize(QSize(width(),height()));
 }
 
-void QTermCanvas::zoomIn()
+void Canvas::zoomIn()
 {
 	bFitWin=false;
 	resizeImage(0.05);
 }
 
-void QTermCanvas::zoomOut()
+void Canvas::zoomOut()
 {
 	bFitWin=false;
 	resizeImage(-0.05);
 }
 
-void QTermCanvas::fitWin()
+void Canvas::fitWin()
 {
 	bFitWin=true;
 	adjustSize(QSize(width(),height()));
 }
 
-void QTermCanvas::cwRotate()
+void Canvas::cwRotate()
 {
 	rotateImage(90);
 }
 
-void QTermCanvas::ccwRotate()
+void Canvas::ccwRotate()
 {
 	rotateImage(-90);
 }
 
-void QTermCanvas::fullScreen()
+void Canvas::fullScreen()
 {
 	if(!isFullScreen())
 		showFullScreen();
@@ -119,7 +119,7 @@ void QTermCanvas::fullScreen()
 		showNormal();
 }
 
-void QTermCanvas::loadImage(QString name)
+void Canvas::loadImage(QString name)
 {
 	img.load(name);
 	if(!img.isNull())
@@ -157,7 +157,7 @@ void QTermCanvas::loadImage(QString name)
 		qWarning("cant load image");
 }
 
-void QTermCanvas::resizeImage(float ratio)
+void Canvas::resizeImage(float ratio)
 {
 	if(label->pixmap()==NULL)
 		return;
@@ -175,7 +175,7 @@ void QTermCanvas::resizeImage(float ratio)
 		adjustSize(QSize(width(), height()));
 }
 
-void QTermCanvas::rotateImage(float ang)
+void Canvas::rotateImage(float ang)
 {
 	QMatrix wm;
 	
@@ -188,7 +188,7 @@ void QTermCanvas::rotateImage(float ang)
 	adjustSize(QSize(width(), height()));
 }
 
-void QTermCanvas::copyImage()
+void Canvas::copyImage()
 {
 	QFileInfo fi(strFileName);
 	QString strSave = QFileDialog::getSaveFileName(this,"Choose a filename to save under", QDir::currentPath()+fi.fileName());
@@ -210,10 +210,10 @@ void QTermCanvas::copyImage()
 	}
 }
 
-void QTermCanvas::silentCopy()
+void Canvas::silentCopy()
 {
 	// save it to $savefiledialog
-	QTermConfig conf(fileCfg);
+	Config conf(fileCfg);
 	QString strPath = conf.getItemValue("global","savefiledialog");
 	
 	QFileInfo fi(strFileName);
@@ -250,17 +250,17 @@ void QTermCanvas::silentCopy()
 }
 
 
-QPixmap QTermCanvas::scaleImage(const QSize& sz)
+QPixmap Canvas::scaleImage(const QSize& sz)
 {
 	return QPixmap::fromImage(img.scaled(sz));
 }
 
-void QTermCanvas::moveImage(float dx, float dy)
+void Canvas::moveImage(float dx, float dy)
 {
 	scrollContentsBy(widget()->width()*dx, widget()->height()*dy);
 }
 
-void QTermCanvas::saveImage()
+void Canvas::saveImage()
 {
 	QFileInfo fi(strFileName);
 	QString strSave = QFileDialog::getSaveFileName(this,"Choose a filename to save under", QDir::currentPath()+fi.fileName());
@@ -272,24 +272,24 @@ void QTermCanvas::saveImage()
 		QMessageBox::warning(this, "Failed to save file", "Cant save file, maybe format not supported");
 }
 
-void QTermCanvas::deleteImage()
+void Canvas::deleteImage()
 {
 	QFile::remove(strFileName);
 	close();
 }
 
-void QTermCanvas::closeEvent(QCloseEvent *ce)
+void Canvas::closeEvent(QCloseEvent *ce)
 {
 	if (!bEmbed)
 		delete this;
 }
 
-void QTermCanvas::viewportResizeEvent(QResizeEvent *re)
+void Canvas::viewportResizeEvent(QResizeEvent *re)
 {
 	adjustSize(re->size());
 }
 
-void QTermCanvas::mousePressEvent(QMouseEvent *me)
+void Canvas::mousePressEvent(QMouseEvent *me)
 {
 /* remove this to avoid click by mistake
 	if(me->button()&LeftButton)
@@ -304,7 +304,7 @@ void QTermCanvas::mousePressEvent(QMouseEvent *me)
 	}
 }
 
-void QTermCanvas::keyPressEvent(QKeyEvent *ke)
+void Canvas::keyPressEvent(QKeyEvent *ke)
 {
 	switch(ke->key())
 	{
@@ -330,7 +330,7 @@ void QTermCanvas::keyPressEvent(QKeyEvent *ke)
 	}
 }
 
-void QTermCanvas::adjustSize(const QSize& szView)
+void Canvas::adjustSize(const QSize& szView)
 {
 	if(label->pixmap()==NULL)
 	{

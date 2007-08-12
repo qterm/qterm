@@ -11,7 +11,7 @@ namespace QTerm
 typedef QMap<QString, QString> Section;
 typedef QMap<QString, Section> StrSecMap;
 
-class QTermConfig
+class Config
 {
 private:
 	StrSecMap data;
@@ -20,8 +20,8 @@ private:
 	
 	bool addSection(const QString & szSection);
 public:
-	QTermConfig (const QString & szFileName );
-	~QTermConfig ();
+	Config (const QString & szFileName );
+	~Config ();
 
 	bool save (const QString & szFileName);
 

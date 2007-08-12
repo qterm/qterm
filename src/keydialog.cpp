@@ -34,7 +34,7 @@ keyDialog::keyDialog( QWidget* parent, Qt::WFlags fl )
 	
 	connectSlots();
 	
-	pConf = new QTermConfig(fileCfg);
+	pConf = new Config(fileCfg);
 	
 	loadName();
 }

@@ -105,7 +105,7 @@ void soundConf::onTestPlay()
 	
 	switch (bgMethod.checkedId()) {
 		case 0:
-			m_pSound = new QTermInternalSound(ui.leFile->text());
+			m_pSound = new InternalSound(ui.leFile->text());
 			break;
 		case 1:
 	/*
@@ -124,7 +124,7 @@ void soundConf::onTestPlay()
 									  tr("You have to specify an external player"),
 									  tr("&Ok"));
 			else
-				m_pSound = new QTermExternalSound(ui.leProg->text(), ui.leFile->text());
+				m_pSound = new ExternalSound(ui.leProg->text(), ui.leFile->text());
 			break;
 		default:
 			m_pSound = NULL;
@@ -137,7 +137,7 @@ void soundConf::onTestPlay()
 
 void soundConf::loadSetting()
 {
-	QTermConfig conf(fileCfg);
+	Config conf(fileCfg);
 
 	QString strTmp;
 
@@ -166,7 +166,7 @@ void soundConf::loadSetting()
 
 void soundConf::saveSetting()
 {
-	QTermConfig conf(fileCfg);
+	Config conf(fileCfg);
 	
 	QString strTmp;
 

@@ -6,26 +6,26 @@
 
 namespace QTerm
 {
-class QTermSSHPacketReceiver;
-class QTermSSHPacketSender;
+class SSHPacketReceiver;
+class SSHPacketSender;
 
-class QTermSSHSession : public QObject
+class SSHSession : public QObject
 {
 	Q_OBJECT
 protected:
 	bool d_closed;
 	
-	QTermSSHPacketReceiver * d_incomingPacket;
-	QTermSSHPacketSender * d_outcomingPacket;
+	SSHPacketReceiver * d_incomingPacket;
+	SSHPacketSender * d_outcomingPacket;
 	
 public:
-	QTermSSHSession()
+	SSHSession()
 	{
 	}
-	virtual ~QTermSSHSession()
+	virtual ~SSHSession()
 	{
 	}
-	virtual void initSession(QTermSSHPacketReceiver * packet, QTermSSHPacketSender * output) = 0;
+	virtual void initSession(SSHPacketReceiver * packet, SSHPacketSender * output) = 0;
 	virtual void closeConnection(char * reason) = 0;
 	// virtual void handleDisconntion(int reason);
 	virtual void changeWindowSize(int col, int row) = 0;
@@ -37,11 +37,11 @@ signals:
 	void readyRead();
 };
 
-class QTermSSH1Session : public QTermSSHSession
+class SSH1Session : public SSHSession
 {
 	Q_OBJECT
 private:
-	enum QTermSSH1SessionState {
+	enum SSH1SessionState {
 		BEGIN_SERVICE,
 		REQPTY_SENT,
 		//REQCMD_SENT,
@@ -49,8 +49,8 @@ private:
 	} d_serviceState;
 	
 public:
-	QTermSSH1Session();
-	void initSession(QTermSSHPacketReceiver * packet, QTermSSHPacketSender * output);
+	SSH1Session();
+	void initSession(SSHPacketReceiver * packet, SSHPacketSender * output);
 	void closeConnection(char * reason);
 	void changeWindowSize(int col, int row);
 public slots:

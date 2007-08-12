@@ -11,7 +11,7 @@ class QLabel;
 
 namespace QTerm
 {
-class QTermWindow;
+class Window;
 
 class popWidget : public QWidget
 {
@@ -19,9 +19,9 @@ class popWidget : public QWidget
 
 public:
 //	#if (QT_VERSION>=310)
-//	popWidget(QTermWindow * win, QWidget *parent = 0, const char *name=0, WFlags f=WStyle_Splash);
+//	popWidget(Window * win, QWidget *parent = 0, const char *name=0, WFlags f=WStyle_Splash);
 //	#else
-	popWidget(QTermWindow * win, QWidget *parent = 0, const char *name=0, 
+	popWidget(Window * win, QWidget *parent = 0, const char *name=0, 
 					Qt::WFlags f= Qt::WindowStaysOnTopHint|Qt::X11BypassWindowManagerHint|Qt::Tool);
 //	#endif
 	~popWidget();
@@ -40,7 +40,7 @@ protected:
 	int nStep;
 	int nInterval;
 	QLabel *label;
-	QTermWindow *window;
+	Window *window;
 	
 	void mousePressEvent( QMouseEvent * );
 };

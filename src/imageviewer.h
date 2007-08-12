@@ -15,7 +15,7 @@ class QHBoxLayout;
 
 namespace QTerm
 {
-class QTermCanvas;
+class Canvas;
 
 class ImageViewer : public QTreeWidget
 {
@@ -40,12 +40,12 @@ private:
 	QString d_path;
 };
 
-class QTermImage : public QDialog
+class Image : public QDialog
 {
 	Q_OBJECT
 public:
-	QTermImage(const QString &, const QString &, QWidget * parent=0);
-	~QTermImage();
+	Image(const QString &, const QString &, QWidget * parent=0);
+	~Image();
 	
 public slots:
 	void next();

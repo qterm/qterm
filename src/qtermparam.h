@@ -7,17 +7,17 @@
 #include <QColor>
 namespace QTerm
 {
-class QTermParam;
+class Param;
 
-class QTermParam
+class Param
 {
 
 public:
-	QTermParam();
-	QTermParam( const QTermParam& );
-	~QTermParam();
+	Param();
+	Param( const Param& );
+	~Param();
 
-	QTermParam& operator=(const QTermParam&);
+	Param& operator=(const Param&);
 // General
 	// Name
 	QString m_strName;

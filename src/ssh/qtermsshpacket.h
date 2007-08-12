@@ -10,24 +10,24 @@
 #include <qobject.h>
 #endif
 
-//class QTermSSHBuffer;
+//class SSHBuffer;
 namespace QTerm
 {
-class QTermSSHCipher;
+class SSHCipher;
 
 
-class QTermSSHPacketSender : public QObject
+class SSHPacketSender : public QObject
 {
 	Q_OBJECT
 protected:
 	bool d_isEncrypt;
-	QTermSSHCipher * d_cscipher;
-	QTermSSHBuffer * d_buffer;
+	SSHCipher * d_cscipher;
+	SSHBuffer * d_buffer;
 	virtual void makePacket() = 0;
 public:
-	QTermSSHBuffer * d_output;
-	QTermSSHPacketSender();
-	virtual ~QTermSSHPacketSender();
+	SSHBuffer * d_output;
+	SSHPacketSender();
+	virtual ~SSHPacketSender();
 
 	void startPacket(int pkt_type);
 	void putByte(int data);
@@ -43,14 +43,14 @@ signals:
 	void dataToWrite();
 };
 
-class QTermSSH1PacketSender : public QTermSSHPacketSender
+class SSH1PacketSender : public SSHPacketSender
 {
 	Q_OBJECT
 protected:
 	void makePacket();
 public:
-	QTermSSH1PacketSender()
-		:QTermSSHPacketSender()
+	SSH1PacketSender()
+		:SSHPacketSender()
 	{
 	}
 	void putBN(BIGNUM * bn);
@@ -59,7 +59,7 @@ public slots:
 	void resetEncryption();
 };
 
-class QTermSSHPacketReceiver : public QObject
+class SSHPacketReceiver : public QObject
 {
 	Q_OBJECT
 protected:
@@ -68,13 +68,13 @@ protected:
 	int d_nextPacket;
 	u_int d_totalLen;
 	u_int d_padding;
-	QTermSSHBuffer * d_buffer;
-	QTermSSHCipher * d_sccipher;
+	SSHBuffer * d_buffer;
+	SSHCipher * d_sccipher;
 	int debug;
 	
 public:
-	QTermSSHPacketReceiver();
-	virtual ~QTermSSHPacketReceiver();
+	SSHPacketReceiver();
+	virtual ~SSHPacketReceiver();
 	int packetType() const { return d_packetType; }
 	virtual int packetLen() = 0;
 	u_char getByte();
@@ -82,7 +82,7 @@ public:
 	virtual void getBN(BIGNUM * bignum) = 0;
 	void * getString(int * length = NULL);
 	void getBuffer(char * data, int length);
-	virtual void parseData(QTermSSHBuffer * input) = 0;
+	virtual void parseData(SSHBuffer * input) = 0;
 public slots:
 	virtual void startEncryption(const u_char * sessionkey) = 0;
 	virtual void resetEncryption() = 0;
@@ -91,19 +91,19 @@ signals:
 	void packetError(const char * reason);
 };
 
-class QTermSSH1PacketReceiver : public QTermSSHPacketReceiver
+class SSH1PacketReceiver : public SSHPacketReceiver
 {
 	Q_OBJECT
 private:
 	u_int d_realLen;
 public:
-	QTermSSH1PacketReceiver()
-		:QTermSSHPacketReceiver()
+	SSH1PacketReceiver()
+		:SSHPacketReceiver()
 	{
 	}
 	int packetLen();
 	void getBN(BIGNUM * bignum);
-	void parseData(QTermSSHBuffer * input);
+	void parseData(SSHBuffer * input);
 	void onPacket();
 public slots:
 	void startEncryption(const u_char * sessionkey);

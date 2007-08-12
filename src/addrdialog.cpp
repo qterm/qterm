@@ -26,9 +26,9 @@ extern QString addrCfg;
 extern QString pathLib;
 extern QString pathCfg;
 
-extern QStringList loadNameList(QTermConfig*);
-extern bool loadAddress(QTermConfig*,int,QTermParam&);
-extern void saveAddress(QTermConfig*,int,const QTermParam&);
+extern QStringList loadNameList(Config*);
+extern bool loadAddress(Config*,int,Param&);
+extern void saveAddress(Config*,int,const Param&);
 
 /*
  *  Constructs a addrDialog which is a child of 'parent', with the
@@ -64,7 +64,7 @@ addrDialog::addrDialog( QWidget* parent, bool partial, Qt::WFlags fl )
 	    setMinimumSize( QSize( 650, 360 ) );
 	    setMaximumSize( QSize( 650, 360 ) );
 		setWindowTitle( tr( "AddressBook" ) );
-		pConf = new QTermConfig(addrCfg.toLocal8Bit());
+		pConf = new Config(addrCfg.toLocal8Bit());
 		ui.nameListWidget->addItems(loadNameList(pConf));
 		if(ui.nameListWidget->count()>0)
 		{

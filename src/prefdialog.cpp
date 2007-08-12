@@ -63,7 +63,7 @@ void prefDialog::connectSlots()
 
 void prefDialog::loadSetting()
 {
-	QTermConfig conf(fileCfg);
+	Config conf(fileCfg);
 	
 	QString strTmp;
 	
@@ -131,7 +131,7 @@ void prefDialog::loadSetting()
 }
 void prefDialog::saveSetting()
 {
-	QTermConfig conf(fileCfg);
+	Config conf(fileCfg);
 
 	QString strTmp;
 

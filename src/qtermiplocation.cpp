@@ -27,7 +27,7 @@ namespace QTerm
 
 extern QString pathCfg;
 
-QTermIPLocation::QTermIPLocation(QString & pathLib)
+IPLocation::IPLocation(QString & pathLib)
 {
 	f = new _ip_finder;
 	f->ipfp = NULL;
@@ -54,18 +54,18 @@ QTermIPLocation::QTermIPLocation(QString & pathLib)
 
 }
 
-QTermIPLocation::~QTermIPLocation()
+IPLocation::~IPLocation()
 {
 	if( f->ipfp != NULL )
 		fclose( f->ipfp );
 }
 
-bool QTermIPLocation::haveFile()
+bool IPLocation::haveFile()
 {
 	return fileExist;
 }
 
-uint32 QTermIPLocation::byteArrayToInt( char *ip, int count )
+uint32 IPLocation::byteArrayToInt( char *ip, int count )
 {
 	uint32 tmp, ret = 0L; 
 	if( count <1 || count >4 )
@@ -82,7 +82,7 @@ uint32 QTermIPLocation::byteArrayToInt( char *ip, int count )
 }// _byte_array_to_int
 
 
-void QTermIPLocation::readFrom( FILE *fp, uint32 offset, char *buf, int len )
+void IPLocation::readFrom( FILE *fp, uint32 offset, char *buf, int len )
 {
 	if( fseek( fp, (long)offset, SEEK_SET ) ==-1 )
 	{
@@ -99,7 +99,7 @@ void QTermIPLocation::readFrom( FILE *fp, uint32 offset, char *buf, int len )
 	return;
 }
 
-int QTermIPLocation::readLineFrom( FILE *fp, uint32 offset, QString& ret_str )
+int IPLocation::readLineFrom( FILE *fp, uint32 offset, QString& ret_str )
 {
 	char str[512];
 	if( fseek( fp, (long)offset, SEEK_SET ) ==-1 )
@@ -118,7 +118,7 @@ int QTermIPLocation::readLineFrom( FILE *fp, uint32 offset, QString& ret_str )
 	return(  ret_str.length() );
 }
 
-uint32 QTermIPLocation::getString( FILE *fp, uint32 offset, uint32 lastoffset, QString& ret, unsigned int flag )
+uint32 IPLocation::getString( FILE *fp, uint32 offset, uint32 lastoffset, QString& ret, unsigned int flag )
 {
     char *buf;
     unsigned int fg;
@@ -143,7 +143,7 @@ uint32 QTermIPLocation::getString( FILE *fp, uint32 offset, uint32 lastoffset, Q
 }
 
 
-void QTermIPLocation::getCountryCity( FILE *fp, uint32 offset, QString& country, QString& city )
+void IPLocation::getCountryCity( FILE *fp, uint32 offset, QString& country, QString& city )
 {
 	uint32 next_offset;
 	if( fp == NULL ) return ;
@@ -153,7 +153,7 @@ void QTermIPLocation::getCountryCity( FILE *fp, uint32 offset, QString& country,
 	return;
 }
 
-void QTermIPLocation::setIpRange( int rec_no, _ip_finder *f )
+void IPLocation::setIpRange( int rec_no, _ip_finder *f )
 {
 	char *buf;
 	uint32 offset;
@@ -170,7 +170,7 @@ void QTermIPLocation::setIpRange( int rec_no, _ip_finder *f )
 
 }// _set_ip_range
 
-bool QTermIPLocation::getLocation( QString& url, QString& country, QString& city )
+bool IPLocation::getLocation( QString& url, QString& country, QString& city )
 {
 	int rec, record_count, B, E;
 	char *buf;

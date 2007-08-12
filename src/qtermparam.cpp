@@ -11,7 +11,7 @@
 #include "qtermparam.h"
 namespace QTerm
 {
-QTermParam::QTermParam()
+Param::Param()
 {
 	m_strName = "SMTH";
 	m_strAddr = "smth.org";
@@ -67,7 +67,7 @@ QTermParam::QTermParam()
 	m_clrMenu = QColor(0,65,132);
 }
 
-QTermParam::QTermParam( const QTermParam & param )
+Param::Param( const Param & param )
 {
 	m_strName = param.m_strName;
 	m_strAddr = param.m_strAddr;
@@ -123,11 +123,11 @@ QTermParam::QTermParam( const QTermParam & param )
 	m_clrMenu = param.m_clrMenu;
 }
 
-QTermParam::~QTermParam()
+Param::~Param()
 {
 }
 
-QTermParam& QTermParam::operator=(const QTermParam& param)
+Param& Param::operator=(const Param& param)
 {
 	m_strName = param.m_strName;
 	m_strAddr = param.m_strAddr;

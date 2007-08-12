@@ -7,10 +7,10 @@
 namespace QTerm
 {
 //==============================================================================
-// QTermSSHBuffer
+// SSHBuffer
 //==============================================================================
 
-QTermSSHBuffer::QTermSSHBuffer(int size)
+SSHBuffer::SSHBuffer(int size)
 {
 	d_allocSize = size;
 	d_bufferSize = 0;
@@ -18,7 +18,7 @@ QTermSSHBuffer::QTermSSHBuffer(int size)
 	d_buffer = new u_char[d_allocSize];
 }
 
-QTermSSHBuffer::~QTermSSHBuffer()
+SSHBuffer::~SSHBuffer()
 {
 	delete [] d_buffer;
 	d_offset = 0;
@@ -26,7 +26,7 @@ QTermSSHBuffer::~QTermSSHBuffer()
 	d_allocSize = 0;
 }
 
-void QTermSSHBuffer::ensure(int len)
+void SSHBuffer::ensure(int len)
 {
 	if (len <= (d_allocSize - (d_offset + d_bufferSize)))
 		return;
@@ -36,7 +36,7 @@ void QTermSSHBuffer::ensure(int len)
 	}
 }
 
-void QTermSSHBuffer::rebuffer()
+void SSHBuffer::rebuffer()
 {
 	u_char * newBuffer;
 	newBuffer = new u_char[d_allocSize];
@@ -47,14 +47,14 @@ void QTermSSHBuffer::rebuffer()
 	d_offset = 0;
 }
 
-void QTermSSHBuffer::clear()
+void SSHBuffer::clear()
 {
 	memset(d_buffer, 0, d_allocSize);
 	d_offset = 0;
 	d_bufferSize = 0;
 }
 
-void QTermSSHBuffer::consume(int len)
+void SSHBuffer::consume(int len)
 {
 	if (len > d_bufferSize)
 		len = d_bufferSize;
@@ -62,7 +62,7 @@ void QTermSSHBuffer::consume(int len)
 	d_bufferSize -= len;
 }
 
-void QTermSSHBuffer::putBuffer(const char * data, int len)
+void SSHBuffer::putBuffer(const char * data, int len)
 {
 	if (len < 0){
 		fprintf(stderr, "putBuffer: write data error: %d\n", len);
@@ -72,7 +72,7 @@ void QTermSSHBuffer::putBuffer(const char * data, int len)
 	d_bufferSize += len;
 }
 
-void QTermSSHBuffer::getBuffer(char * data, int len)
+void SSHBuffer::getBuffer(char * data, int len)
 {
 	if (len <= d_bufferSize && len >= 0) {
 		memcpy(data, d_buffer + d_offset, len);
@@ -87,7 +87,7 @@ void QTermSSHBuffer::getBuffer(char * data, int len)
 // (bits+7)/8 bytes of binary data, msb first.
 //==============================================================================
 
-void QTermSSHBuffer::putSSH1BN(BIGNUM * bignum)
+void SSHBuffer::putSSH1BN(BIGNUM * bignum)
 {
 	int bits = BN_num_bits(bignum);
 	int bin_size = (bits + 7) / 8;
@@ -114,7 +114,7 @@ void QTermSSHBuffer::putSSH1BN(BIGNUM * bignum)
 // Retrieves a BIGNUM from the buffer.
 //==============================================================================
 
-void QTermSSHBuffer::getSSH1BN(BIGNUM * bignum)
+void SSHBuffer::getSSH1BN(BIGNUM * bignum)
 {
 	int bits, bytes;
 	u_char buf[2];
@@ -138,7 +138,7 @@ void QTermSSHBuffer::getSSH1BN(BIGNUM * bignum)
 	consume(bytes);
 }
 
-u_short QTermSSHBuffer::getWord()
+u_short SSHBuffer::getWord()
 {
 	u_char buf[2];
 	u_short data;
@@ -148,7 +148,7 @@ u_short QTermSSHBuffer::getWord()
 	return data;
 }
 
-void QTermSSHBuffer::putWord(u_short data)
+void SSHBuffer::putWord(u_short data)
 {
 	u_char buf[2];
 
@@ -156,7 +156,7 @@ void QTermSSHBuffer::putWord(u_short data)
 	putBuffer((char *)buf, 2);
 }
 
-u_int QTermSSHBuffer::getInt()
+u_int SSHBuffer::getInt()
 {
 	u_char buf[4];
 	u_int data;
@@ -165,7 +165,7 @@ u_int QTermSSHBuffer::getInt()
 	return data;
 }
 
-void QTermSSHBuffer::putInt(u_int data)
+void SSHBuffer::putInt(u_int data)
 {
 	u_char buf[4];
 
@@ -177,7 +177,7 @@ void QTermSSHBuffer::putInt(u_int data)
 // Return a character from the buffer (0-255).
 //==============================================================================
 
-u_char QTermSSHBuffer::getByte()
+u_char SSHBuffer::getByte()
 {
 	u_char ch;
 	
@@ -189,7 +189,7 @@ u_char QTermSSHBuffer::getByte()
 // Stores a character in the buffer.
 //==============================================================================
 
-void QTermSSHBuffer::putByte(int data)
+void SSHBuffer::putByte(int data)
 {
 	u_char ch = data;
 	
@@ -200,7 +200,7 @@ void QTermSSHBuffer::putByte(int data)
 // Stores an arbitrary binary string in the buffer.
 //==============================================================================
 
-void QTermSSHBuffer::putString(const char * string)
+void SSHBuffer::putString(const char * string)
 {
 	if (string == NULL){
 		fprintf(stderr,"putString: s == NULL\n");
@@ -216,7 +216,7 @@ void QTermSSHBuffer::putString(const char * string)
 // It is the responsibility of the calling function to free the data. 
 //==============================================================================
 
-void * QTermSSHBuffer::getString(int * length)
+void * SSHBuffer::getString(int * length)
 {
 	u_char * data;
 	u_int len;
@@ -241,7 +241,7 @@ void * QTermSSHBuffer::getString(int * length)
 
 // Dumps the contents of the buffer to stderr. */
 
-void QTermSSHBuffer::dump()
+void SSHBuffer::dump()
 {
 	int i;
 	u_char * ucp = data();

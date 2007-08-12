@@ -13,7 +13,7 @@
 #include "ui_keydialog.h"
 namespace QTerm
 {
-class QTermConfig;
+class Config;
 
 class keyDialog : public QDialog
 {
@@ -27,7 +27,7 @@ protected:
 	void connectSlots();
 	void loadKey(int);
 	void loadName();
-	QTermConfig *pConf;
+	Config *pConf;
 
 protected slots:
 	void onNamechange(int);

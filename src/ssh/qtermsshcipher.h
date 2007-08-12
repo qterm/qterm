@@ -7,7 +7,7 @@
 
 namespace QTerm
 {
-class QTermSSHCipher
+class SSHCipher
 {
 protected:
 	int d_blockSize;
@@ -15,14 +15,14 @@ protected:
 	int d_code;
 	int d_keyBits;
 public:
-	QTermSSHCipher() {
+	SSHCipher() {
 		d_blockSize = 0;
 		d_name = NULL;
 		d_code = 0;
 		d_keyBits = 0;
 	}
 
-	virtual ~QTermSSHCipher()
+	virtual ~SSHCipher()
 	{
 	}
 	

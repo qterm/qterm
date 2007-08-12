@@ -4,51 +4,51 @@
 namespace QTerm
 {
 //==============================================================================
-//QTermSSH1Kex
+//SSH1Kex
 //==============================================================================
 
-QTermSSH1Kex::QTermSSH1Kex()
+SSH1Kex::SSH1Kex()
 {
 	d_first_kex = true;
-	d_state = QTermSSH1Kex::BEFORE_PUBLICKEY;
+	d_state = SSH1Kex::BEFORE_PUBLICKEY;
 }
 
-QTermSSH1Kex::~QTermSSH1Kex()
+SSH1Kex::~SSH1Kex()
 {
 }
 
-void QTermSSH1Kex::initKex(QTermSSHPacketReceiver * packet, QTermSSHPacketSender * output)
+void SSH1Kex::initKex(SSHPacketReceiver * packet, SSHPacketSender * output)
 {
 	d_incomingPacket = packet;
 	d_outcomingPacket = output;
 	d_incomingPacket->disconnect(this);
 	connect(d_incomingPacket, SIGNAL(packetAvaliable(int)), this, SLOT(handlePacket(int)));
-	d_state = QTermSSH1Kex::BEFORE_PUBLICKEY;
+	d_state = SSH1Kex::BEFORE_PUBLICKEY;
 	emit reKex();
 }
-void QTermSSH1Kex::handlePacket(int type)
+void SSH1Kex::handlePacket(int type)
 {
 	switch (d_state) {
-		case QTermSSH1Kex::BEFORE_PUBLICKEY:
+		case SSH1Kex::BEFORE_PUBLICKEY:
 			makeSessionKey();
-			d_state = QTermSSH1Kex::SESSIONKEY_SENT;
+			d_state = SSH1Kex::SESSIONKEY_SENT;
 			break;
-		case QTermSSH1Kex::SESSIONKEY_SENT:
+		case SSH1Kex::SESSIONKEY_SENT:
 			if (type != SSH1_SMSG_SUCCESS) {
 				emit kexError("Kex exchange failed!");
 				break;
 			}
 			emit kexOK();
-			d_state = QTermSSH1Kex::KEYEX_OK;
+			d_state = SSH1Kex::KEYEX_OK;
 			break;
-		case QTermSSH1Kex::KEYEX_OK:
+		case SSH1Kex::KEYEX_OK:
 			break;
 		default:
 			return;
 	}
 }
 			
-void QTermSSH1Kex::makeSessionKey()
+void SSH1Kex::makeSessionKey()
 {
 	int i;
 	BIGNUM * key;
@@ -63,7 +63,7 @@ void QTermSSH1Kex::makeSessionKey()
 	d_incomingPacket->getBuffer((char *) d_cookie, 8);
 
 	// Get the public key.
-	d_servKey = new QTermSSHRSA;
+	d_servKey = new SSHRSA;
 	bits = d_incomingPacket->getInt();
 	d_incomingPacket->getBN(d_servKey->d_rsa->e);
 	d_incomingPacket->getBN(d_servKey->d_rsa->n);
@@ -75,7 +75,7 @@ void QTermSSH1Kex::makeSessionKey()
 	}
 
 	// Get the host key.
-	d_hostKey = new QTermSSHRSA;
+	d_hostKey = new SSHRSA;
 	bits = d_incomingPacket->getInt();
 	d_incomingPacket->getBN(d_hostKey->d_rsa->e);
 	d_incomingPacket->getBN(d_hostKey->d_rsa->n);
@@ -146,13 +146,13 @@ void QTermSSH1Kex::makeSessionKey()
 	emit startEncryption(d_sessionkey);
 }
 
-void QTermSSH1Kex::makeSessionId()
+void SSH1Kex::makeSessionId()
 {
 	u_char * p;
-	QTermSSHMD5 * md5;
+	SSHMD5 * md5;
 	int servlen, hostlen;
 
-	md5 = new QTermSSHMD5;
+	md5 = new SSHMD5;
 	servlen = BN_num_bytes(d_servKey->d_rsa->n);
 	hostlen = BN_num_bytes(d_hostKey->d_rsa->n);
 	

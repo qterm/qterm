@@ -103,22 +103,22 @@ extern QString pathLib;
 extern QString pathPic;
 extern QString pathCfg;
 
-extern void saveAddress(QTermConfig*,int,const QTermParam&);
+extern void saveAddress(Config*,int,const Param&);
 extern void runProgram(const QString &);
 extern QString getOpenFileName(const QString&, QWidget*);
 
 // script thread
-QTermDAThread::QTermDAThread(QTermWindow *win)
+DAThread::DAThread(Window *win)
 {
 	pWin = win;
 }
 
-QTermDAThread::~QTermDAThread()
+DAThread::~DAThread()
 {
 
 }
 
-void QTermDAThread::run()
+void DAThread::run()
 {
 	mutex.lock();
 	QStringList strList;
@@ -189,7 +189,7 @@ void QTermDAThread::run()
 }
 
 /*
-void QTermDAThread::run()
+void DAThread::run()
 {
     QCString cstrCurrent0,cstrCurrent1;
     QCString cstrTemp;
@@ -247,7 +247,7 @@ void QTermDAThread::run()
 }
 */
 
-char QTermWindow::direction[][5]=
+char Window::direction[][5]=
 {
 	// 4
 	"\x1b[1~",	// 0 HOME
@@ -262,7 +262,7 @@ char QTermWindow::direction[][5]=
 };
 
 //constructor
-QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidget * parent, const char * name, Qt::WFlags wflags )
+Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const char * name, Qt::WFlags wflags )
     : QMainWindow( parent, wflags ),location(),m_strMessage()
 {
 
@@ -274,18 +274,18 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 
 //init the textline list
 
-	m_pBuffer = new QTermBuffer( m_param.m_nRow, m_param.m_nCol, m_param.m_nScrollLines );
+	m_pBuffer = new Buffer( m_param.m_nRow, m_param.m_nCol, m_param.m_nScrollLines );
 	if (param.m_nProtocolType == 0)
-		m_pTelnet = new QTermTelnet( m_param.m_strTerm.toLatin1(), 
+		m_pTelnet = new Telnet( m_param.m_strTerm.toLatin1(), 
 						m_param.m_nRow, m_param.m_nCol, false );
 	else {
 		#if defined(_NO_SSH_COMPILED)
 		QMessageBox::warning(this, "sorry", 
 						"SSH support is not compiled, QTerm can only use Telnet!");
-		m_pTelnet = new QTermTelnet( m_param.m_strTerm.toUtf8(), 
+		m_pTelnet = new Telnet( m_param.m_strTerm.toUtf8(), 
 						m_param.m_nRow, m_param.m_nCol,false );
 		#else
-		m_pTelnet = new QTermTelnet( m_param.m_strTerm.toUtf8(), 
+		m_pTelnet = new Telnet( m_param.m_strTerm.toUtf8(), 
 						m_param.m_nRow, m_param.m_nCol,true, 
 						m_param.m_strSSHUser.toUtf8(), 
 						m_param.m_strSSHPasswd.toUtf8() );
@@ -294,12 +294,12 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 	connect( m_pBuffer, SIGNAL(windowSizeChanged(int,int)), 
 					m_pTelnet, SLOT(windowSizeChanged(int,int)) );
 	m_pZmDialog = new zmodemDialog(this);
-	m_pZmodem = new QTermZmodem( m_pTelnet, param.m_nProtocolType);
-	m_pDecode = new QTermDecode( m_pBuffer );
-	m_pBBS	  = new QTermBBS( m_pBuffer );
-	m_pScreen = new QTermScreen( this, m_pBuffer, &m_param, m_pBBS );
+	m_pZmodem = new Zmodem( m_pTelnet, param.m_nProtocolType);
+	m_pDecode = new Decode( m_pBuffer );
+	m_pBBS	  = new BBS( m_pBuffer );
+	m_pScreen = new Screen( this, m_pBuffer, &m_param, m_pBBS );
 
-	m_pIPLocation = new QTermIPLocation(pathLib);
+	m_pIPLocation = new IPLocation(pathLib);
 	m_pMessage = new PageViewMessage(this);
 	m_bCheckIP = m_pIPLocation->haveFile();
 	m_pSound = NULL;
@@ -467,7 +467,7 @@ QTermWindow::QTermWindow( QTermFrame * frame, QTermParam param, int addr, QWidge
 }
 
 //destructor
-QTermWindow::~QTermWindow()
+Window::~Window()
 {
 	delete m_pTelnet;
 	delete m_pBBS;
@@ -514,7 +514,7 @@ QTermWindow::~QTermWindow()
 }
 
 //close event received
-void QTermWindow::closeEvent ( QCloseEvent * clse)
+void Window::closeEvent ( QCloseEvent * clse)
 {
 	if( m_bConnected && m_pFrame->m_pref.bWarn )
 	{
@@ -546,7 +546,7 @@ void QTermWindow::closeEvent ( QCloseEvent * clse)
 /* 	                         Timer                                          */
 /*                                                                          */
 /* ------------------------------------------------------------------------ */
-void QTermWindow::idleProcess()
+void Window::idleProcess()
 {
 	// do as autoreply when it is enabled
 	if(m_replyTimer->isActive() && m_bAutoReply)
@@ -572,7 +572,7 @@ void QTermWindow::idleProcess()
 	m_pTelnet->write( cstr, length );
 }
 
-void QTermWindow::replyProcess()
+void Window::replyProcess()
 {
 	// if AutoReply still enabled, then autoreply
 	if(m_bAutoReply)
@@ -587,7 +587,7 @@ void QTermWindow::replyProcess()
     }
 }
 
-void QTermWindow::blinkTab()
+void Window::blinkTab()
 {
 	static bool bVisible=TRUE;
 	m_pFrame->wndmgr->blinkTheTab(this,bVisible);
@@ -599,15 +599,15 @@ void QTermWindow::blinkTab()
 /* 	                         Mouse & Key                                    */
 /*                                                                          */
 /* ------------------------------------------------------------------------ */
-void QTermWindow::enterEvent( QEvent * )
+void Window::enterEvent( QEvent * )
 {
 }
 
-void QTermWindow::leaveEvent( QEvent * )
+void Window::leaveEvent( QEvent * )
 {
 }
 
-bool QTermWindow::event( QEvent *e )
+bool Window::event( QEvent *e )
 {
     if (e->type() == QEvent::ShortcutOverride) {
         QKeyEvent * ke = static_cast<QKeyEvent *>(e);
@@ -620,12 +620,12 @@ bool QTermWindow::event( QEvent *e )
     QWidget::event(e);
 }
 
-void QTermWindow::mouseDoubleClickEvent( QMouseEvent * me)
+void Window::mouseDoubleClickEvent( QMouseEvent * me)
 {
 	//pythonMouseEvent(3, me->button(), me->state(), me->pos(),0);
 }
 
-void QTermWindow::mousePressEvent( QMouseEvent * me )
+void Window::mousePressEvent( QMouseEvent * me )
 {
 	// stop  the tab blinking
     if(m_tabTimer->isActive())
@@ -639,7 +639,7 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 	{
 		// clear the selected before
 		m_pBuffer->clearSelect();
-		m_pScreen->m_ePaintState=QTermScreen::NewData;
+		m_pScreen->m_ePaintState=Screen::NewData;
 		m_pScreen->update();
 	
 		// set the selecting flag
@@ -689,7 +689,7 @@ void QTermWindow::mousePressEvent( QMouseEvent * me )
 }
 
 
-void QTermWindow::mouseMoveEvent( QMouseEvent * me)
+void Window::mouseMoveEvent( QMouseEvent * me)
 {
 	// selecting by leftbutton
 	if( (me->buttons()&Qt::LeftButton) && m_bSelecting )
@@ -703,7 +703,7 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 		if( m_ptSelEnd!=m_ptSelStart )
 		{
 			m_pBuffer->setSelect( m_ptSelStart, m_ptSelEnd, m_bCopyRect );
-			m_pScreen->m_ePaintState=QTermScreen::NewData;
+			m_pScreen->m_ePaintState=Screen::NewData;
 			m_pScreen->update();
 		}
 	}
@@ -770,7 +770,7 @@ void QTermWindow::mouseMoveEvent( QMouseEvent * me)
 	//pythonMouseEvent(2, me->button(), me->state(), me->pos(),0);
 }
 
-void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
+void Window::mouseReleaseEvent( QMouseEvent * me )
 {	
 	if (!m_bMouseClicked)
 		return;
@@ -789,7 +789,7 @@ void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 	if( m_ptSelEnd != m_ptSelStart && m_bSelecting )
 	{
 		m_pBuffer->setSelect( m_ptSelStart, m_ptSelEnd, m_bCopyRect );
-		m_pScreen->m_ePaintState=QTermScreen::NewData;
+		m_pScreen->m_ePaintState=Screen::NewData;
 		m_pScreen->update();
 		if( m_bAutoCopy )
 			copy();
@@ -883,7 +883,7 @@ void QTermWindow::mouseReleaseEvent( QMouseEvent * me )
 	}
 }
 
-void QTermWindow::wheelEvent( QWheelEvent *we)
+void Window::wheelEvent( QWheelEvent *we)
 {
 	int j = we->delta()>0 ? 4 : 5;
 	if(!(we->modifiers()))
@@ -899,7 +899,7 @@ void QTermWindow::wheelEvent( QWheelEvent *we)
 }
 
 //keyboard input event
-void QTermWindow::keyPressEvent( QKeyEvent * e )
+void Window::keyPressEvent( QKeyEvent * e )
 {
 #ifdef HAVE_PYTHON
 	int state=0;
@@ -987,23 +987,23 @@ void QTermWindow::keyPressEvent( QKeyEvent * e )
 	}
 }
 /*
-void QTermWindow::imStartEvent(QIMEvent * e)
+void Window::imStartEvent(QIMEvent * e)
 {
 	m_pScreen->imStartEvent(e);
 }
 
-void QTermWindow::imComposeEvent(QIMEvent * e)
+void Window::imComposeEvent(QIMEvent * e)
 {
 	m_pScreen->imComposeEvent(e);
 }
 
-void QTermWindow::imEndEvent(QIMEvent * e)
+void Window::imEndEvent(QIMEvent * e)
 {
 	m_pScreen->imEndEvent(e);
 }
 */
 //connect slot
-void QTermWindow::connectHost()
+void Window::connectHost()
 {
 
 	m_pTelnet->setProxy( m_param.m_nProxyType, m_param.m_bAuth,
@@ -1018,7 +1018,7 @@ void QTermWindow::connectHost()
 /*                                                                          */
 /* ------------------------------------------------------------------------ */
 //read slot
-void QTermWindow::readReady( int size )
+void Window::readReady( int size )
 {
 // 	qDebug("readReady");
 	//read it
@@ -1044,7 +1044,7 @@ if(m_pZmodem->transferstate == notransfer)
 		for(int y=n-5;y<n+5;y++ )
 		{
 			y=qMax(0,y);
-			QTermTextLine *pTextLine=m_pBuffer->screen(y);
+			TextLine *pTextLine=m_pBuffer->screen(y);
 			if(pTextLine==NULL)
 				continue;
 			QString str=pTextLine->getText();
@@ -1057,7 +1057,7 @@ if(m_pZmodem->transferstate == notransfer)
 	}
 	// page complete when caret at the right corner
 	// this works for most but not for all
-	QTermTextLine * pTextLine = m_pBuffer->screen(m_pBuffer->line()-1);
+	TextLine * pTextLine = m_pBuffer->screen(m_pBuffer->line()-1);
 	
 	QString strText = stripWhitespace(pTextLine->getText());
 	if( m_pBuffer->caret().y()==m_pBuffer->line()-1 &&
@@ -1078,7 +1078,7 @@ if(m_pZmodem->transferstate == notransfer)
 				//QSound::play(m_pFrame->m_pref.strWave);
 				switch (m_pFrame->m_pref.nMethod){
 				case 0:
-					m_pSound = new QTermInternalSound(m_pFrame->m_pref.strWave);
+					m_pSound = new InternalSound(m_pFrame->m_pref.strWave);
 					break;
 				/*
 				#ifndef _NO_ARTS_COMPILED
@@ -1093,7 +1093,7 @@ if(m_pZmodem->transferstate == notransfer)
 				#endif
 				*/
 				case 3:
-					m_pSound = new QTermExternalSound(m_pFrame->m_pref.strPlayer,
+					m_pSound = new ExternalSound(m_pFrame->m_pref.strPlayer,
 									m_pFrame->m_pref.strWave);
 					break;
 				default:
@@ -1140,7 +1140,7 @@ if(m_pZmodem->transferstate == notransfer)
 	// set page state
 	m_pBBS->setPageState();
 	//refresh screen
-	m_pScreen->m_ePaintState=QTermScreen::NewData;
+	m_pScreen->m_ePaintState=Screen::NewData;
 	m_pScreen->update();
 	
 	#ifdef HAVE_PYTHON
@@ -1157,7 +1157,7 @@ if(m_pZmodem->transferstate == notransfer)
         m_pZmodem->transferstate = notransfer;
 }
 
-void QTermWindow::ZmodemState(int type, int value, const QString& status)
+void Window::ZmodemState(int type, int value, const QString& status)
 {
 	QString strMsg;
     //to be completed
@@ -1230,7 +1230,7 @@ void QTermWindow::ZmodemState(int type, int value, const QString& status)
 }
 
 // telnet state slot
-void QTermWindow::TelnetState(int state)
+void Window::TelnetState(int state)
 {
 	switch( state )
 	{
@@ -1338,7 +1338,7 @@ void QTermWindow::TelnetState(int state)
 /* ------------------------------------------------------------------------ */
 
 
-void QTermWindow::copy( )
+void Window::copy( )
 {
 	QClipboard *clipboard = QApplication::clipboard();
 	
@@ -1373,12 +1373,12 @@ void QTermWindow::copy( )
 	#endif
 }
 
-void QTermWindow::paste()
+void Window::paste()
 {
 	pasteHelper(true);
 }
 
-void QTermWindow::pasteHelper( bool clip )
+void Window::pasteHelper( bool clip )
 {
 	if( !m_bConnected )
 		return;
@@ -1472,19 +1472,19 @@ void QTermWindow::pasteHelper( bool clip )
 	
 	m_pTelnet->write(cstrText, cstrText.length());
 }
-void QTermWindow::copyArticle( )
+void Window::copyArticle( )
 {
 	//return;
 
 	if(!m_bConnected)
 		return;
 	
-	m_pDAThread = new QTermDAThread(this);
+	m_pDAThread = new DAThread(this);
 	connect( m_pDAThread, SIGNAL(done(int)), this, SLOT(jobDone(int)));
 	m_pDAThread->start();
 		
 }
-void QTermWindow::font()
+void Window::font()
 {		
 	bool ok;
 
@@ -1499,7 +1499,7 @@ void QTermWindow::font()
 }
 
 
-void QTermWindow::color()
+void Window::color()
 {
 	addrDialog set(this, true);
 	
@@ -1519,21 +1519,21 @@ void QTermWindow::color()
 
 }
 
-void QTermWindow::disconnect()
+void Window::disconnect()
 {
 	m_pTelnet->close();
 
 	connectionClosed();
 }
 
-void QTermWindow::reconnect()
+void Window::reconnect()
 {
 	if(!m_bConnected)
 		m_pTelnet->connectHost( m_param.m_strAddr , m_param.m_uPort );
 
 }
 
-void QTermWindow::showIP()
+void Window::showIP()
 {
 	QString country,city;
 	QString url = m_pBBS->getIP();
@@ -1542,13 +1542,13 @@ void QTermWindow::showIP()
 	}
 }
 
-void QTermWindow::refresh( )
+void Window::refresh( )
 {
 	//m_pScreen->repaint(true);
 	m_pScreen->update();
 }
 
-void QTermWindow::showStatusBar(bool bShow)
+void Window::showStatusBar(bool bShow)
 {
 	if(bShow)
 		statusBar()->show();
@@ -1556,7 +1556,7 @@ void QTermWindow::showStatusBar(bool bShow)
 		statusBar()->hide();
 }
 
-void QTermWindow::runScript()
+void Window::runScript()
 {
 	// get the previous dir
 	QString file = getOpenFileName("Python File (*.py *.txt)", this);
@@ -1567,14 +1567,14 @@ void QTermWindow::runScript()
 	runScriptFile(file.toLocal8Bit());
 }
 
-void QTermWindow::stopScript()
+void Window::stopScript()
 {
 }
 
-void QTermWindow::viewMessages( )
+void Window::viewMessages( )
 {
 	msgDialog msg(this);
-	QTermConfig conf(fileCfg);
+	Config conf(fileCfg);
 	const char * size = conf.getItemValue("global","msgdialog").toLatin1();
 	if(size!=NULL)
 	{
@@ -1596,7 +1596,7 @@ void QTermWindow::viewMessages( )
 
 }
 
-void QTermWindow::setting( )
+void Window::setting( )
 {
 	addrDialog set(this, true);
 	
@@ -1611,7 +1611,7 @@ void QTermWindow::setting( )
 	}
 }
 
-void QTermWindow::antiIdle()
+void Window::antiIdle()
 {
 	m_bAntiIdle = !m_bAntiIdle;
 	// disabled
@@ -1622,7 +1622,7 @@ void QTermWindow::antiIdle()
 		m_idleTimer->start(m_param.m_nMaxIdle*1000);
 }
 
-void QTermWindow::autoReply()
+void Window::autoReply()
 {
 	m_bAutoReply = !m_bAutoReply;
 	// disabled
@@ -1635,7 +1635,7 @@ void QTermWindow::autoReply()
 	*/
 }
 
-void QTermWindow::connectionClosed()
+void Window::connectionClosed()
 {
 	m_bConnected = false;
 
@@ -1656,11 +1656,11 @@ void QTermWindow::connectionClosed()
 	strMsg += "\x1b[17C===========================================\n"; 
 
 	m_pDecode->decode( strMsg.toLatin1(), strMsg.length() );
-	m_pScreen->m_ePaintState=QTermScreen::NewData;
+	m_pScreen->m_ePaintState=Screen::NewData;
 	m_pScreen->update();
 }
 
-void QTermWindow::doAutoLogin()
+void Window::doAutoLogin()
 {
 	if( !m_param.m_strPreLogin.isEmpty() ) 
 	{
@@ -1696,7 +1696,7 @@ void QTermWindow::doAutoLogin()
 	m_bDoingLogin = false;
 }
 
-void QTermWindow::reconnectProcess()
+void Window::reconnectProcess()
 {
 	static int retry = 0;
 	if( retry<m_param.m_nRetry || m_param.m_nRetry==-1 )
@@ -1714,12 +1714,12 @@ void QTermWindow::reconnectProcess()
 /*                                                                          */
 /* ------------------------------------------------------------------------ */
 
-void QTermWindow::jobDone(int e)
+void Window::jobDone(int e)
 {
 	if( e == DAE_FINISH )
 	{
 		articleDialog article(this);
-		QTermConfig conf(fileCfg);
+		Config conf(fileCfg);
 		const char * size = conf.getItemValue("global","articledialog").toLatin1().data();
 		if(size!=NULL)
 		{
@@ -1760,7 +1760,7 @@ void QTermWindow::jobDone(int e)
 /*                                                                          */
 /* ------------------------------------------------------------------------ */
 
-QByteArray  QTermWindow::parseString(const QByteArray& cstr, int *len)
+QByteArray  Window::parseString(const QByteArray& cstr, int *len)
 {
 	QByteArray parsed="";
 
@@ -1805,7 +1805,7 @@ QByteArray  QTermWindow::parseString(const QByteArray& cstr, int *len)
 	return parsed;
 }
 
-void QTermWindow::replyMessage()
+void Window::replyMessage()
 {
 	if(m_replyTimer->isActive())
 		m_replyTimer->stop();
@@ -1823,7 +1823,7 @@ void QTermWindow::replyMessage()
 	m_pMessage->display("You have messages", PageViewMessage::Info, 0);
 }
 
-void QTermWindow::saveSetting()
+void Window::saveSetting()
 {
 	if(m_nAddrIndex == -1 || !m_bSetChanged)
 		return;
@@ -1836,21 +1836,21 @@ void QTermWindow::saveSetting()
 			0,this);
 	if ( mb.exec() == QMessageBox::Yes )
 	{
-		QTermConfig *pConf = new QTermConfig(addrCfg);
+		Config *pConf = new Config(addrCfg);
 		saveAddress(pConf, m_nAddrIndex, m_param);
 		pConf->save(addrCfg);
 		delete pConf;
 	}
 }
 
-void QTermWindow::externInput( const QByteArray& cstrText )
+void Window::externInput( const QByteArray& cstrText )
 {
 	QByteArray cstrParsed = parseString( cstrText );
 	m_pTelnet->write( cstrParsed, cstrParsed.length() );
 
 }
 
-QByteArray QTermWindow::unicode2bbs(const QString& text)
+QByteArray Window::unicode2bbs(const QString& text)
 {
 	QByteArray strTmp;
 
@@ -1878,7 +1878,7 @@ QByteArray QTermWindow::unicode2bbs(const QString& text)
 	return strTmp;
 }
 
-QString QTermWindow::fromBBSCodec( const QByteArray& cstr )
+QString Window::fromBBSCodec( const QByteArray& cstr )
 {
 	if(m_param.m_nBBSCode==0)
 		return G2U(cstr);
@@ -1886,7 +1886,7 @@ QString QTermWindow::fromBBSCodec( const QByteArray& cstr )
 		return B2U(cstr);
 }
 
-QByteArray QTermWindow::stripWhitespace( const QByteArray& cstr )
+QByteArray Window::stripWhitespace( const QByteArray& cstr )
 {
 	QString cstrText=QString::fromLatin1(cstr);
 	
@@ -1903,14 +1903,14 @@ QByteArray QTermWindow::stripWhitespace( const QByteArray& cstr )
 	return cstrText.toLatin1();
 }
 
-void QTermWindow::sendParsedString( const char * str)
+void Window::sendParsedString( const char * str)
 {
     int length;
 	QByteArray cstr = parseString( str, &length );
 	m_pTelnet->write( cstr, length );
 }
 
-void QTermWindow::setMouseMode(bool on)
+void Window::setMouseMode(bool on)
 {
 	m_bMouseX11 = on;
 }
@@ -1918,9 +1918,9 @@ void QTermWindow::setMouseMode(bool on)
 /* 0-left 1-middle 2-right 3-relsase 4/5-wheel
  *
  */
-//void QTermWindow::sendMouseState( int num, 
+//void Window::sendMouseState( int num, 
 //				Qt::ButtonState btnstate, Qt::ButtonState keystate, const QPoint& pt )
-void QTermWindow::sendMouseState( int num, Qt::KeyboardModifier btnstate, Qt::KeyboardModifier keystate, const QPoint& pt)
+void Window::sendMouseState( int num, Qt::KeyboardModifier btnstate, Qt::KeyboardModifier keystate, const QPoint& pt)
 {
 	/*
 	if(!m_bMouseX11)
@@ -1963,7 +1963,7 @@ void QTermWindow::sendMouseState( int num, Qt::KeyboardModifier btnstate, Qt::Ke
 /* ------------------------------------------------------------------------ */
 
 
-void QTermWindow::runScriptFile( const QString & cstr )
+void Window::runScriptFile( const QString & cstr )
 {
 	char str[32];
 	sprintf(str,"%ld",this);
@@ -1996,7 +1996,7 @@ void QTermWindow::runScriptFile( const QString & cstr )
 }
 
 #ifdef HAVE_PYTHON
-bool QTermWindow::pythonCallback(const QString & func, PyObject* pArgs)
+bool Window::pythonCallback(const QString & func, PyObject* pArgs)
 {
 	if(!m_bPythonScriptLoaded) {
 		Py_DECREF(pArgs);
@@ -2056,7 +2056,7 @@ bool QTermWindow::pythonCallback(const QString & func, PyObject* pArgs)
 }
 #endif //HAVE_PYTHON
 #if 0
-int QTermWindow::runPythonFile( const char * filename )
+int Window::runPythonFile( const char * filename )
 {
 #ifdef HAVE_PYTHON
     static char buffer[1024];
@@ -2130,7 +2130,7 @@ int QTermWindow::runPythonFile( const char * filename )
 }
 #endif
 
-int QTermWindow::runPythonFile( const char * filename )
+int Window::runPythonFile( const char * filename )
 {
 #ifdef HAVE_PYTHON
     static char buffer[1024];
@@ -2203,9 +2203,9 @@ int QTermWindow::runPythonFile( const char * filename )
 }
 
 
-//void QTermWindow::pythonMouseEvent(int type, Qt::ButtonState btnstate, Qt::ButtonState keystate, 
+//void Window::pythonMouseEvent(int type, Qt::ButtonState btnstate, Qt::ButtonState keystate, 
 //				const QPoint& pt, int delta  )
-void QTermWindow::pythonMouseEvent(int type, Qt::KeyboardModifier, Qt::KeyboardModifier, const QPoint & pt, int delta)
+void Window::pythonMouseEvent(int type, Qt::KeyboardModifier, Qt::KeyboardModifier, const QPoint & pt, int delta)
 {
 	/*
 	int state=0;
@@ -2233,7 +2233,7 @@ void QTermWindow::pythonMouseEvent(int type, Qt::KeyboardModifier, Qt::KeyboardM
 */
 }
 
-void QTermWindow::inputHandle(QString * text)
+void Window::inputHandle(QString * text)
 {
 	if (text->length() > 0) {
 		QByteArray cstrTmp = unicode2bbs(*text);
@@ -2247,7 +2247,7 @@ void QTermWindow::inputHandle(QString * text)
 /*                                                                          */
 /* ------------------------------------------------------------------------ */
 
-void QTermWindow::openLink()
+void Window::openLink()
 {
 	QString strCmd=m_pFrame->m_pref.strHttp;
 	if(strCmd.indexOf("%L")==-1) // no replace
@@ -2258,12 +2258,12 @@ void QTermWindow::openLink()
 	runProgram(strCmd);
 }
 
-void QTermWindow::previewLink()
+void Window::previewLink()
 {	
 	getHttpHelper(m_pBBS->getUrl(), true);
 }
 
-void QTermWindow::copyLink()
+void Window::copyLink()
 {
 	QString strUrl;
 	if( m_param.m_nBBSCode==0 )
@@ -2281,20 +2281,20 @@ void QTermWindow::copyLink()
 	#endif
 }
 
-void QTermWindow::saveLink()
+void Window::saveLink()
 {
 	getHttpHelper(m_pBBS->getUrl(), false);
 }
 
-void QTermWindow::getHttpHelper(const QString& strUrl, bool bPreview)
+void Window::getHttpHelper(const QString& strUrl, bool bPreview)
 {
-	QTermHttp *pHttp = new QTermHttp(this);
+	Http *pHttp = new Http(this);
 	connect(pHttp, SIGNAL(done(QObject*)), this, SLOT(httpDone(QObject*)));
 	connect(pHttp, SIGNAL(message(const QString &)), m_pMessage, SLOT(showText(const QString &)));
 	pHttp->getLink(strUrl, bPreview);
 }
 
-void QTermWindow::httpDone(QObject *pHttp)
+void Window::httpDone(QObject *pHttp)
 {
 	pHttp->deleteLater();
 }

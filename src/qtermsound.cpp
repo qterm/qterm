@@ -21,12 +21,12 @@ namespace QTerm
 {
 extern void runProgram(const QString&);
 
-QTermSound::~QTermSound()
+Sound::~Sound()
 {
 }
 
 void
-QTermInternalSound::play()
+InternalSound::play()
 {
 	if(QFile::exists(_soundfile))
 		QSound::play(_soundfile);
@@ -64,13 +64,13 @@ QTermEsdSound::play()
 #endif
 */
 void
-QTermExternalSound::setPlayer(const QString & playername)
+ExternalSound::setPlayer(const QString & playername)
 {
 	_player = playername;
 }
 
 void
-QTermExternalSound::play()
+ExternalSound::play()
 {
 	if(QFile::exists(_soundfile)) {
 		QString command = _player + ' ' + _soundfile;

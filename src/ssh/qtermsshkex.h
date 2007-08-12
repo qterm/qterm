@@ -11,20 +11,20 @@
 
 namespace QTerm
 {
-class QTermSSHPacketReceiver;
-class QTermSSHPacketSender;
+class SSHPacketReceiver;
+class SSHPacketSender;
 
-class QTermSSHKex : public QObject
+class SSHKex : public QObject
 {
 	Q_OBJECT
 protected:
-	QTermSSHPacketReceiver * d_incomingPacket;
-	QTermSSHPacketSender * d_outcomingPacket;
+	SSHPacketReceiver * d_incomingPacket;
+	SSHPacketSender * d_outcomingPacket;
 public:
-	QTermSSHKex()
+	SSHKex()
 	{
 	}
-	virtual void initKex(QTermSSHPacketReceiver * packet, QTermSSHPacketSender * output) = 0;
+	virtual void initKex(SSHPacketReceiver * packet, SSHPacketSender * output) = 0;
 	
 public slots:
 	virtual void handlePacket(int type) = 0;
@@ -35,18 +35,18 @@ signals:
 	void kexError(const char * reason);
 };
 
-class QTermSSH1Kex : public QTermSSHKex
+class SSH1Kex : public SSHKex
 {
 	Q_OBJECT
 private:
-	enum QTermSSH1KexState {
+	enum SSH1KexState {
 		BEFORE_PUBLICKEY,
 		SESSIONKEY_SENT,
 		KEYEX_OK
 	} d_state;
 	bool d_first_kex;
-	QTermSSHRSA * d_hostKey;
-	QTermSSHRSA * d_servKey;
+	SSHRSA * d_hostKey;
+	SSHRSA * d_servKey;
 	u_char d_cookie[8];
 	int d_servFlag, d_sciphers, d_sauth;
 	u_char d_sessionid[16];
@@ -55,9 +55,9 @@ private:
 	void makeSessionId();
 	void makeSessionKey();
 public:
-	QTermSSH1Kex();
-	~QTermSSH1Kex();
-	void initKex(QTermSSHPacketReceiver * packet, QTermSSHPacketSender * output);
+	SSH1Kex();
+	~SSH1Kex();
+	void initKex(SSHPacketReceiver * packet, SSHPacketSender * output);
 public slots:
 	void handlePacket(int type);
 };

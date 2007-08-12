@@ -113,7 +113,7 @@ void ImageViewer::viewImage(int n)
 // 	emit selectionChanged(filename);
 }
 
-QTermImage::QTermImage(const QString & image, const QString & path, QWidget * parent)
+Image::Image(const QString & image, const QString & path, QWidget * parent)
 	:QDialog(parent), d_index(0)
 {
 	ui.setupUi(this);
@@ -163,14 +163,14 @@ QTermImage::QTermImage(const QString & image, const QString & path, QWidget * pa
 		
 }
 
-QTermImage::~QTermImage()
+Image::~Image()
 {
 	delete d_list;
 	delete d_viewer;
 // 	delete d_canvas;
 }
 
-void QTermImage::next()
+void Image::next()
 {
 	if (d_list->isEmpty())
 		return;
@@ -180,7 +180,7 @@ void QTermImage::next()
 	}
 }
 
-void QTermImage::previous()
+void Image::previous()
 {
 	if (d_list->isEmpty())
 		return;
@@ -190,7 +190,7 @@ void QTermImage::previous()
 	emit changeImage(d_list->at(d_index));
 }
 
-void QTermImage::browser()
+void Image::browser()
 {
 	if (d_list->isEmpty())
 		return;
@@ -202,7 +202,7 @@ void QTermImage::browser()
 		ui.d_browser->setText(tr("Show &Browser"));
 }
 
-void QTermImage::onChange(const QString & filename)
+void Image::onChange(const QString & filename)
 {
 	int position = d_list->indexOf(filename);
 	if (position != -1)

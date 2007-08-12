@@ -21,11 +21,11 @@ struct _ip_finder {
         FILE *ipfp;                        // IO Channel to read file
 };// struct _ip_finder
 
-class QTermIPLocation
+class IPLocation
 {
 public:
-        QTermIPLocation(QString& pathLib);
-        ~QTermIPLocation();
+        IPLocation(QString& pathLib);
+        ~IPLocation();
         _ip_finder *f;
         bool getLocation( QString& url, QString& country, QString& city );
 	bool haveFile();

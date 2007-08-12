@@ -165,239 +165,239 @@ unsigned long cr3tab[] = { /* CRC polynomial 0xedb88320 */
 
 
 #if 1
-StateTable	QTermZmodem::RStartOps[] =  {
-	  {ZSINIT,&QTermZmodem::GotSinit,0,1,RSinitWait},	/* SINIT, wait for attn str */
-	  {ZFILE,&QTermZmodem::GotFile,0,0,RFileName},	/* FILE, wait for filename */
-	  {ZRQINIT,&QTermZmodem::SendRinit,0,1,RStart},	/* sender confused, resend */
-	  {ZFIN,&QTermZmodem::GotFin,1,0,RFinish},		/* sender shutting down */
-	  {ZNAK,&QTermZmodem::SendRinit,1,0,RStart},		/* RINIT was bad, resend */
-	  {ZFREECNT,&QTermZmodem::GotFreecnt,0,0,RStart},	/* sender wants free space */
-	  {ZCOMMAND,&QTermZmodem::GotCommand,0,0,CommandData}, /* sender wants command */
-	  {ZSTDERR,&QTermZmodem::GotStderr,0,0,StderrData},	/* sender wants to send msg */
-	  {ZRINIT, &QTermZmodem::ZmodemTInit,1,1,TStart},
-	  {99,&QTermZmodem::ZPF,0,0,RStart},			/* anything else is an error */
+StateTable	Zmodem::RStartOps[] =  {
+	  {ZSINIT,&Zmodem::GotSinit,0,1,RSinitWait},	/* SINIT, wait for attn str */
+	  {ZFILE,&Zmodem::GotFile,0,0,RFileName},	/* FILE, wait for filename */
+	  {ZRQINIT,&Zmodem::SendRinit,0,1,RStart},	/* sender confused, resend */
+	  {ZFIN,&Zmodem::GotFin,1,0,RFinish},		/* sender shutting down */
+	  {ZNAK,&Zmodem::SendRinit,1,0,RStart},		/* RINIT was bad, resend */
+	  {ZFREECNT,&Zmodem::GotFreecnt,0,0,RStart},	/* sender wants free space */
+	  {ZCOMMAND,&Zmodem::GotCommand,0,0,CommandData}, /* sender wants command */
+	  {ZSTDERR,&Zmodem::GotStderr,0,0,StderrData},	/* sender wants to send msg */
+	  {ZRINIT, &Zmodem::ZmodemTInit,1,1,TStart},
+	  {99,&Zmodem::ZPF,0,0,RStart},			/* anything else is an error */
 	} ;
 
-StateTable	QTermZmodem::RSinitWaitOps[] = {	/* waiting for data */
-	  {99,&QTermZmodem::ZPF,0,0,RSinitWait},
+StateTable	Zmodem::RSinitWaitOps[] = {	/* waiting for data */
+	  {99,&Zmodem::ZPF,0,0,RSinitWait},
 	} ;
 
-StateTable	QTermZmodem::RFileNameOps[] = {	/* waiting for file name */
-	  {99,&QTermZmodem::ZPF,0,0,RFileName},
+StateTable	Zmodem::RFileNameOps[] = {	/* waiting for file name */
+	  {99,&Zmodem::ZPF,0,0,RFileName},
 	} ;
 
-StateTable	QTermZmodem::RCrcOps[] = {		/* waiting for CRC */
-	  {ZCRC,&QTermZmodem::GotFileCrc,0,0,RFile},		  /* sender sent it */
-	  {ZNAK,&QTermZmodem::ResendCrcReq,0,0,RCrc},		  /* ZCRC was bad, resend */
-	  {ZRQINIT,&QTermZmodem::SendRinit,1,1,RStart},	  /* sender confused, restart */
-	  {ZFIN,&QTermZmodem::GotFin,1,1,RFinish},		  /* sender signing off */
-	  {99,&QTermZmodem::ZPF,0,0,RCrc},
+StateTable	Zmodem::RCrcOps[] = {		/* waiting for CRC */
+	  {ZCRC,&Zmodem::GotFileCrc,0,0,RFile},		  /* sender sent it */
+	  {ZNAK,&Zmodem::ResendCrcReq,0,0,RCrc},		  /* ZCRC was bad, resend */
+	  {ZRQINIT,&Zmodem::SendRinit,1,1,RStart},	  /* sender confused, restart */
+	  {ZFIN,&Zmodem::GotFin,1,1,RFinish},		  /* sender signing off */
+	  {99,&Zmodem::ZPF,0,0,RCrc},
 	} ;
 
 
-StateTable	QTermZmodem::RFileOps[] = {		/* waiting for ZDATA */
-	  {ZDATA,&QTermZmodem::GotData,0,0,RData},		  /* got it */
-	  {ZNAK,&QTermZmodem::ResendRpos,0,0,RFile},		  /* ZRPOS was bad, resend */
-	  {ZEOF,&QTermZmodem::GotEof,0,0,RStart},		  /* end of file */
-	  {ZRQINIT,&QTermZmodem::SendRinit,1,1,RStart},	  /* sender confused, restart */
-	  {ZFILE,&QTermZmodem::ResendRpos,0,0,RFile},		  /* ZRPOS was bad, resend */
-	  {ZFIN,&QTermZmodem::GotFin,1,1,RFinish},		  /* sender signing off */
-	  {99,&QTermZmodem::ZPF,0,0,RFile},
+StateTable	Zmodem::RFileOps[] = {		/* waiting for ZDATA */
+	  {ZDATA,&Zmodem::GotData,0,0,RData},		  /* got it */
+	  {ZNAK,&Zmodem::ResendRpos,0,0,RFile},		  /* ZRPOS was bad, resend */
+	  {ZEOF,&Zmodem::GotEof,0,0,RStart},		  /* end of file */
+	  {ZRQINIT,&Zmodem::SendRinit,1,1,RStart},	  /* sender confused, restart */
+	  {ZFILE,&Zmodem::ResendRpos,0,0,RFile},		  /* ZRPOS was bad, resend */
+	  {ZFIN,&Zmodem::GotFin,1,1,RFinish},		  /* sender signing off */
+	  {99,&Zmodem::ZPF,0,0,RFile},
 	} ;
 
 
 /* waiting for data, but a packet could possibly arrive due
 	 * to error recovery or something
 	 */
-StateTable	QTermZmodem::RDataOps[] = {
-	  {ZRQINIT,&QTermZmodem::SendRinit,1,1,RStart},	/* sender confused, restart */
-	  {ZFILE,&QTermZmodem::GotFile,0,1,RFileName},	/* start a new file (??) */
-	  {ZNAK,&QTermZmodem::ResendRpos,1,1,RFile},		/* ZRPOS was bad, resend */
-	  {ZFIN,&QTermZmodem::GotFin,1,1,RFinish},		/* sender signing off */
-	  {ZDATA,&QTermZmodem::GotData,0,1,RData},		/* file data follows */
-	  {ZEOF,&QTermZmodem::GotEof,1,1,RStart},		/* end of file */
-	  {99,&QTermZmodem::ZPF,0,0,RData},
+StateTable	Zmodem::RDataOps[] = {
+	  {ZRQINIT,&Zmodem::SendRinit,1,1,RStart},	/* sender confused, restart */
+	  {ZFILE,&Zmodem::GotFile,0,1,RFileName},	/* start a new file (??) */
+	  {ZNAK,&Zmodem::ResendRpos,1,1,RFile},		/* ZRPOS was bad, resend */
+	  {ZFIN,&Zmodem::GotFin,1,1,RFinish},		/* sender signing off */
+	  {ZDATA,&Zmodem::GotData,0,1,RData},		/* file data follows */
+	  {ZEOF,&Zmodem::GotEof,1,1,RStart},		/* end of file */
+	  {99,&Zmodem::ZPF,0,0,RData},
 	} ;
 
 	/* here if we've sent ZFERR or ZABORT.  Waiting for ZFIN */
 
-StateTable	QTermZmodem::RFinishOps[] = {
-	  {ZRQINIT,&QTermZmodem::SendRinit,1,1,RStart},	/* sender confused, restart */
-	  {ZFILE,&QTermZmodem::GotFile,1,1,RFileName},	/* start a new file */
-	  {ZNAK,&QTermZmodem::GotFin,1,1,RFinish},		/* resend ZFIN */
-	  {ZFIN,&QTermZmodem::GotFin,1,1,RFinish},		/* sender signing off */
-	  {99,&QTermZmodem::ZPF,0,0,RFinish},
+StateTable	Zmodem::RFinishOps[] = {
+	  {ZRQINIT,&Zmodem::SendRinit,1,1,RStart},	/* sender confused, restart */
+	  {ZFILE,&Zmodem::GotFile,1,1,RFileName},	/* start a new file */
+	  {ZNAK,&Zmodem::GotFin,1,1,RFinish},		/* resend ZFIN */
+	  {ZFIN,&Zmodem::GotFin,1,1,RFinish},		/* sender signing off */
+	  {99,&Zmodem::ZPF,0,0,RFinish},
 	} ;
 
 
 		/* sent ZRQINIT, waiting for response */
-StateTable	QTermZmodem::TStartOps[] = {	
-	  {ZRINIT,&QTermZmodem::GotRinit,1,1,TStart},
-	  {ZCHALLENGE,&QTermZmodem::AnswerChallenge,1,0,TStart},
-	  {ZABORT,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {ZFERR,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {ZNAK,&QTermZmodem::Ignore,0,0,TStart},
-	  {ZCOMMAND,&QTermZmodem::GotCommand,0,0,CommandData},
-	  {ZSTDERR,&QTermZmodem::GotStderr,0,0,StderrData},
-	  {99,&QTermZmodem::ZPF,0,0,TStart},
+StateTable	Zmodem::TStartOps[] = {	
+	  {ZRINIT,&Zmodem::GotRinit,1,1,TStart},
+	  {ZCHALLENGE,&Zmodem::AnswerChallenge,1,0,TStart},
+	  {ZABORT,&Zmodem::GotAbort,1,1,TFinish},
+	  {ZFERR,&Zmodem::GotAbort,1,1,TFinish},
+	  {ZNAK,&Zmodem::Ignore,0,0,TStart},
+	  {ZCOMMAND,&Zmodem::GotCommand,0,0,CommandData},
+	  {ZSTDERR,&Zmodem::GotStderr,0,0,StderrData},
+	  {99,&Zmodem::ZPF,0,0,TStart},
 	} ;
 
 
 
 
 		/* sent ZSINIT, waiting for response */
-StateTable	QTermZmodem::TInitOps[] = {
-	  {ZACK,&QTermZmodem::RetDone,1,0,TInit},
-	  {ZNAK,&QTermZmodem::SendZSInit,1,0,TInit},
-	  {ZRINIT,&QTermZmodem::GotRinit,1,1,TInit},	/* redundant, but who cares */
-	  {ZCHALLENGE,&QTermZmodem::AnswerChallenge,1,0,TInit},
-	  {ZABORT,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {ZFERR,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {ZCOMMAND,&QTermZmodem::GotCommand,0,0,CommandData},
-	  {ZSTDERR,&QTermZmodem::GotStderr,0,0,StderrData},
-	  {99,&QTermZmodem::ZPF,0,0,TInit},
+StateTable	Zmodem::TInitOps[] = {
+	  {ZACK,&Zmodem::RetDone,1,0,TInit},
+	  {ZNAK,&Zmodem::SendZSInit,1,0,TInit},
+	  {ZRINIT,&Zmodem::GotRinit,1,1,TInit},	/* redundant, but who cares */
+	  {ZCHALLENGE,&Zmodem::AnswerChallenge,1,0,TInit},
+	  {ZABORT,&Zmodem::GotAbort,1,1,TFinish},
+	  {ZFERR,&Zmodem::GotAbort,1,1,TFinish},
+	  {ZCOMMAND,&Zmodem::GotCommand,0,0,CommandData},
+	  {ZSTDERR,&Zmodem::GotStderr,0,0,StderrData},
+	  {99,&Zmodem::ZPF,0,0,TInit},
 	} ;
 
 
 
 		/* sent ZFILE, waiting for response */
-StateTable	QTermZmodem::FileWaitOps[] = {
-	  {ZRPOS,&QTermZmodem::SendFileData,1,1,Sending},
-	  {ZSKIP,&QTermZmodem::SkipFile,1,0,TStart},
-	  {ZCRC,&QTermZmodem::SendFileCrc,1,0,FileWait},
-	  {ZNAK,&QTermZmodem::sendFilename,1,0,FileWait},
-	  {ZRINIT,&QTermZmodem::sendFilename,1,1,FileWait},	/* rcvr confused, retry file */
-	  {ZABORT,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {ZFERR,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {ZCHALLENGE,&QTermZmodem::AnswerChallenge,1,0,FileWait},
-	  {ZCOMMAND,&QTermZmodem::GotCommand,0,0,CommandData},
-	  {ZSTDERR,&QTermZmodem::GotStderr,0,0,StderrData},
-	  {ZACK,&QTermZmodem::SendFileData,1,0,Sending}, // receiver always sends ZACK back
-	  {99,&QTermZmodem::ZPF,0,0,FileWait},
+StateTable	Zmodem::FileWaitOps[] = {
+	  {ZRPOS,&Zmodem::SendFileData,1,1,Sending},
+	  {ZSKIP,&Zmodem::SkipFile,1,0,TStart},
+	  {ZCRC,&Zmodem::SendFileCrc,1,0,FileWait},
+	  {ZNAK,&Zmodem::sendFilename,1,0,FileWait},
+	  {ZRINIT,&Zmodem::sendFilename,1,1,FileWait},	/* rcvr confused, retry file */
+	  {ZABORT,&Zmodem::GotAbort,1,1,TFinish},
+	  {ZFERR,&Zmodem::GotAbort,1,1,TFinish},
+	  {ZCHALLENGE,&Zmodem::AnswerChallenge,1,0,FileWait},
+	  {ZCOMMAND,&Zmodem::GotCommand,0,0,CommandData},
+	  {ZSTDERR,&Zmodem::GotStderr,0,0,StderrData},
+	  {ZACK,&Zmodem::SendFileData,1,0,Sending}, // receiver always sends ZACK back
+	  {99,&Zmodem::ZPF,0,0,FileWait},
 	} ;
 
 
 		/* sent file CRC, waiting for response */
-StateTable	QTermZmodem::CrcWaitOps[] = {
-	  {ZRPOS,&QTermZmodem::SendFileData,1,0,Sending},
-	  {ZSKIP,&QTermZmodem::SkipFile,1,0,FileWait},
-	  {ZNAK,&QTermZmodem::SendFileCrc,1,0,CrcWait},
-	  {ZRINIT,&QTermZmodem::sendFilename,1,1,FileWait},	/* rcvr confused, retry file */
-	  {ZABORT,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {ZFERR,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {ZCRC,&QTermZmodem::SendFileCrc,0,0,CrcWait},
-	  {ZCHALLENGE,&QTermZmodem::AnswerChallenge,0,0,CrcWait},
-	  {ZCOMMAND,&QTermZmodem::GotCommand,0,0,CommandData},
-	  {ZSTDERR,&QTermZmodem::GotStderr,0,0,StderrData},
-	  {99,&QTermZmodem::ZPF,0,0,CrcWait},
+StateTable	Zmodem::CrcWaitOps[] = {
+	  {ZRPOS,&Zmodem::SendFileData,1,0,Sending},
+	  {ZSKIP,&Zmodem::SkipFile,1,0,FileWait},
+	  {ZNAK,&Zmodem::SendFileCrc,1,0,CrcWait},
+	  {ZRINIT,&Zmodem::sendFilename,1,1,FileWait},	/* rcvr confused, retry file */
+	  {ZABORT,&Zmodem::GotAbort,1,1,TFinish},
+	  {ZFERR,&Zmodem::GotAbort,1,1,TFinish},
+	  {ZCRC,&Zmodem::SendFileCrc,0,0,CrcWait},
+	  {ZCHALLENGE,&Zmodem::AnswerChallenge,0,0,CrcWait},
+	  {ZCOMMAND,&Zmodem::GotCommand,0,0,CommandData},
+	  {ZSTDERR,&Zmodem::GotStderr,0,0,StderrData},
+	  {99,&Zmodem::ZPF,0,0,CrcWait},
 	} ;
 
 
 		/* sending data, interruptable */
-StateTable	QTermZmodem::SendingOps[] = {
-	  {ZACK,&QTermZmodem::GotSendAck,0,0,Sending},
-	  {ZRPOS,&QTermZmodem::GotSendPos,1,1,Sending},
-	  {ZSKIP,&QTermZmodem::SkipFile,1,1,FileWait},
-	  {ZNAK,&QTermZmodem::GotSendNak,1,1,Sending},
-	  {ZRINIT,&QTermZmodem::sendFilename,1,1,FileWait},	/* rcvr confused, retry file */
-	  {ZABORT,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {ZFERR,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {99,&QTermZmodem::ZPF,0,0,SendWait},
+StateTable	Zmodem::SendingOps[] = {
+	  {ZACK,&Zmodem::GotSendAck,0,0,Sending},
+	  {ZRPOS,&Zmodem::GotSendPos,1,1,Sending},
+	  {ZSKIP,&Zmodem::SkipFile,1,1,FileWait},
+	  {ZNAK,&Zmodem::GotSendNak,1,1,Sending},
+	  {ZRINIT,&Zmodem::sendFilename,1,1,FileWait},	/* rcvr confused, retry file */
+	  {ZABORT,&Zmodem::GotAbort,1,1,TFinish},
+	  {ZFERR,&Zmodem::GotAbort,1,1,TFinish},
+	  {99,&Zmodem::ZPF,0,0,SendWait},
 	} ;
 
 		/* sent data, need to send EOF */
-StateTable	QTermZmodem::SendDoneOps[] = {
-	  {ZACK,&QTermZmodem::GotSendDoneAck,0,0,SendWait},
-	  {ZRPOS,&QTermZmodem::GotSendPos,1,1,Sending},
-	  {ZSKIP,&QTermZmodem::SkipFile,1,1,FileWait},
-	  {ZNAK,&QTermZmodem::GotSendNak,1,1,Sending},
-	  {ZRINIT,&QTermZmodem::sendFilename,1,1,FileWait},	/* rcvr confused, retry file */
-	  {ZABORT,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {ZFERR,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {99,&QTermZmodem::ZPF,0,0,SendWait},
+StateTable	Zmodem::SendDoneOps[] = {
+	  {ZACK,&Zmodem::GotSendDoneAck,0,0,SendWait},
+	  {ZRPOS,&Zmodem::GotSendPos,1,1,Sending},
+	  {ZSKIP,&Zmodem::SkipFile,1,1,FileWait},
+	  {ZNAK,&Zmodem::GotSendNak,1,1,Sending},
+	  {ZRINIT,&Zmodem::sendFilename,1,1,FileWait},	/* rcvr confused, retry file */
+	  {ZABORT,&Zmodem::GotAbort,1,1,TFinish},
+	  {ZFERR,&Zmodem::GotAbort,1,1,TFinish},
+	  {99,&Zmodem::ZPF,0,0,SendWait},
 	} ;
 
 
 		/* sending data, waiting for ACK */
-StateTable	QTermZmodem::SendWaitOps[] = {
-	  {ZACK,&QTermZmodem::GotSendWaitAck,0,0,Sending},
-	  {ZRPOS,&QTermZmodem::GotSendPos,0,0,SendWait},
-	  {ZSKIP,&QTermZmodem::SkipFile,1,1,FileWait},
-	  {ZNAK,&QTermZmodem::GotSendNak,0,0,Sending},
-	  {ZRINIT,&QTermZmodem::sendFilename,1,1,FileWait},	/* rcvr confused, retry file */
-	  {ZABORT,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {ZFERR,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {99,&QTermZmodem::ZPF,0,0,SendWait},
+StateTable	Zmodem::SendWaitOps[] = {
+	  {ZACK,&Zmodem::GotSendWaitAck,0,0,Sending},
+	  {ZRPOS,&Zmodem::GotSendPos,0,0,SendWait},
+	  {ZSKIP,&Zmodem::SkipFile,1,1,FileWait},
+	  {ZNAK,&Zmodem::GotSendNak,0,0,Sending},
+	  {ZRINIT,&Zmodem::sendFilename,1,1,FileWait},	/* rcvr confused, retry file */
+	  {ZABORT,&Zmodem::GotAbort,1,1,TFinish},
+	  {ZFERR,&Zmodem::GotAbort,1,1,TFinish},
+	  {99,&Zmodem::ZPF,0,0,SendWait},
 	} ;
 
 
 		/* sent ZEOF, waiting for new RINIT */
-StateTable	QTermZmodem::SendEofOps[] = {
-	  {ZRINIT,&QTermZmodem::SkipFile,1,0,TFinish},	/* successful completion */
-	  {ZACK,&QTermZmodem::Ignore,0,0,SendEof},	/* probably ACK from last packet */
-	  {ZRPOS,&QTermZmodem::GotSendPos,1,1,SendWait},
-	  {ZSKIP,&QTermZmodem::SkipFile,1,1,TStart},
-	  {ZNAK,&QTermZmodem::ResendEof,1,0,SendEof},
-	  {ZRINIT,&QTermZmodem::sendFilename,1,1,FileWait},	/* rcvr confused, retry file */
-	  {ZABORT,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {ZFERR,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {99,&QTermZmodem::ZPF,0,0,SendEof},
+StateTable	Zmodem::SendEofOps[] = {
+	  {ZRINIT,&Zmodem::SkipFile,1,0,TFinish},	/* successful completion */
+	  {ZACK,&Zmodem::Ignore,0,0,SendEof},	/* probably ACK from last packet */
+	  {ZRPOS,&Zmodem::GotSendPos,1,1,SendWait},
+	  {ZSKIP,&Zmodem::SkipFile,1,1,TStart},
+	  {ZNAK,&Zmodem::ResendEof,1,0,SendEof},
+	  {ZRINIT,&Zmodem::sendFilename,1,1,FileWait},	/* rcvr confused, retry file */
+	  {ZABORT,&Zmodem::GotAbort,1,1,TFinish},
+	  {ZFERR,&Zmodem::GotAbort,1,1,TFinish},
+	  {99,&Zmodem::ZPF,0,0,SendEof},
 	} ;
 
-StateTable	QTermZmodem::TFinishOps[] = {
-	  {ZFIN,&QTermZmodem::OverAndOut,1,1,Done},
-	  {ZNAK,&QTermZmodem::ZmodemTFinish,1,1,TFinish},
-	  {ZRINIT,&QTermZmodem::ZmodemTFinish,1,1,TFinish},
-	  {ZABORT,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {ZFERR,&QTermZmodem::GotAbort,1,1,TFinish},
-	  {99,&QTermZmodem::ZPF,0,0,TFinish},
+StateTable	Zmodem::TFinishOps[] = {
+	  {ZFIN,&Zmodem::OverAndOut,1,1,Done},
+	  {ZNAK,&Zmodem::ZmodemTFinish,1,1,TFinish},
+	  {ZRINIT,&Zmodem::ZmodemTFinish,1,1,TFinish},
+	  {ZABORT,&Zmodem::GotAbort,1,1,TFinish},
+	  {ZFERR,&Zmodem::GotAbort,1,1,TFinish},
+	  {99,&Zmodem::ZPF,0,0,TFinish},
 	} ;
 
 
 
-StateTable	QTermZmodem::CommandDataOps[] = {
-	  {99,&QTermZmodem::ZPF,0,0,CommandData},
+StateTable	Zmodem::CommandDataOps[] = {
+	  {99,&Zmodem::ZPF,0,0,CommandData},
 	} ;
 
-StateTable	QTermZmodem::CommandWaitOps[] = {
-	  {99,&QTermZmodem::ZPF,0,0,CommandWait},
+StateTable	Zmodem::CommandWaitOps[] = {
+	  {99,&Zmodem::ZPF,0,0,CommandWait},
 	} ;
 
-StateTable	QTermZmodem::StderrDataOps[] = {
-	  {99,&QTermZmodem::ZPF,0,0,StderrData},
+StateTable	Zmodem::StderrDataOps[] = {
+	  {99,&Zmodem::ZPF,0,0,StderrData},
 	} ;
 
-StateTable	QTermZmodem::DoneOps[] = {
-	  {99,&QTermZmodem::ZPF,0,0,Done},
+StateTable	Zmodem::DoneOps[] = {
+	  {99,&Zmodem::ZPF,0,0,Done},
 	} ;
 
-StateTable	* QTermZmodem::tables[] = {
-	  QTermZmodem::RStartOps,
-	  QTermZmodem::RSinitWaitOps,
-	  QTermZmodem::RFileNameOps,
-	  QTermZmodem::RCrcOps,
-	  QTermZmodem::RFileOps,
-	  QTermZmodem::RDataOps,
-	  QTermZmodem::RDataOps,	/* RDataErr is the same as RData */
-	  QTermZmodem::RFinishOps,
+StateTable	* Zmodem::tables[] = {
+	  Zmodem::RStartOps,
+	  Zmodem::RSinitWaitOps,
+	  Zmodem::RFileNameOps,
+	  Zmodem::RCrcOps,
+	  Zmodem::RFileOps,
+	  Zmodem::RDataOps,
+	  Zmodem::RDataOps,	/* RDataErr is the same as RData */
+	  Zmodem::RFinishOps,
 
-	  QTermZmodem::TStartOps,
-	  QTermZmodem::TInitOps,
-	  QTermZmodem::FileWaitOps,
-	  QTermZmodem::CrcWaitOps,
-	  QTermZmodem::SendingOps,
-	  QTermZmodem::SendWaitOps,
-	  QTermZmodem::SendDoneOps,
-	  QTermZmodem::SendEofOps,
-	  QTermZmodem::TFinishOps,
+	  Zmodem::TStartOps,
+	  Zmodem::TInitOps,
+	  Zmodem::FileWaitOps,
+	  Zmodem::CrcWaitOps,
+	  Zmodem::SendingOps,
+	  Zmodem::SendWaitOps,
+	  Zmodem::SendDoneOps,
+	  Zmodem::SendEofOps,
+	  Zmodem::TFinishOps,
 
-	  QTermZmodem::CommandDataOps,
-	  QTermZmodem::CommandWaitOps,
-	  QTermZmodem::StderrDataOps,
-	  QTermZmodem::DoneOps,
+	  Zmodem::CommandDataOps,
+	  Zmodem::CommandWaitOps,
+	  Zmodem::StderrDataOps,
+	  Zmodem::DoneOps,
 	} ;
 
-const char *	QTermZmodem::hdrnames[] = {
+const char *	Zmodem::hdrnames[] = {
 	  "ZRQINIT",
 	  "ZRINIT",
 	  "ZSINIT",
@@ -428,7 +428,7 @@ const char *	QTermZmodem::hdrnames[] = {
 
 
 
-QTermZmodem::QTermZmodem(QObject *netinterface, int type)
+Zmodem::Zmodem(QObject *netinterface, int type)
 {
 
 //now set network interface Telnet
@@ -439,12 +439,12 @@ QTermZmodem::QTermZmodem(QObject *netinterface, int type)
 	if(connectionType == 0)
 	{
 		// telnet
-		m_pTelnet= (QTermTelnet *)netinterface;
+		m_pTelnet= (Telnet *)netinterface;
 	}
 	else if(connectionType ==1)
 	{
 		//ssh
-		m_pTelnet= (QTermTelnet *)netinterface;
+		m_pTelnet= (Telnet *)netinterface;
 
 	}
 
@@ -478,11 +478,11 @@ QTermZmodem::QTermZmodem(QObject *netinterface, int type)
 
 }
 
-QTermZmodem::~QTermZmodem()
+Zmodem::~Zmodem()
 {
 }
 
-int QTermZmodem::ZmodemTInit(ZModem *info)
+int Zmodem::ZmodemTInit(ZModem *info)
 {
 	int	err ;
 	int	i ;
@@ -531,7 +531,7 @@ int QTermZmodem::ZmodemTInit(ZModem *info)
 
 	info->timeout = 60 ;
     
-	QTermConfig conf(fileCfg);
+	Config conf(fileCfg);
 	QString path = conf.getItemValue("global","openfiledialog");
 	strFileList = QFileDialog::getOpenFileNames(0, "Choose the files", path, "All files(*)");
 	if(strFileList.count()!=0)
@@ -548,7 +548,7 @@ int QTermZmodem::ZmodemTInit(ZModem *info)
 }
 
 
-int QTermZmodem::ZmodemTFile(char *file, char *rfile,	uint f0, uint f1, uint f2, uint f3,	
+int Zmodem::ZmodemTFile(char *file, char *rfile,	uint f0, uint f1, uint f2, uint f3,	
 									int filesRem, int bytesRem, ZModem *info) 
 {
 	if( file == NULL || (info->file = fopen(file, "rb")) == NULL )
@@ -593,7 +593,7 @@ int QTermZmodem::ZmodemTFile(char *file, char *rfile,	uint f0, uint f1, uint f2,
 }
 
 
-int QTermZmodem::ZmodemTFinish(ZModem *info)
+int Zmodem::ZmodemTFinish(ZModem *info)
 {
 	int i;
 	if( info->Protocol == XMODEM )
@@ -615,7 +615,7 @@ int QTermZmodem::ZmodemTFinish(ZModem *info)
 
 
 
-int QTermZmodem::ZmodemAbort(ZModem *info)
+int Zmodem::ZmodemAbort(ZModem *info)
 {
 	uchar	canistr[] = {
 	  CAN,CAN,CAN,CAN,CAN,CAN,CAN,CAN,8,8,8,8,8,8,8,8,8,8
@@ -632,7 +632,7 @@ int QTermZmodem::ZmodemAbort(ZModem *info)
 }
 
 
-int QTermZmodem::ZmodemRInit(ZModem *info)
+int Zmodem::ZmodemRInit(ZModem *info)
 {
 	info->packetCount = 0 ;
 	info->offset = 0 ;
@@ -674,7 +674,7 @@ int QTermZmodem::ZmodemRInit(ZModem *info)
 
 
 
-int QTermZmodem::ZmodemRcv(uchar *str, int len, ZModem *info)
+int Zmodem::ZmodemRcv(uchar *str, int len, ZModem *info)
 {
 	register uchar	c ;
 	int	err ;
@@ -743,7 +743,7 @@ int QTermZmodem::ZmodemRcv(uchar *str, int len, ZModem *info)
 
 
 
-int QTermZmodem::ZmodemTimeout(/*ZModem *info*/)
+int Zmodem::ZmodemTimeout(/*ZModem *info*/)
 {
 		/* timed out while waiting for input */
 
@@ -822,7 +822,7 @@ int QTermZmodem::ZmodemTimeout(/*ZModem *info*/)
 
 
 
-int QTermZmodem::ZmodemAttention(ZModem *info)
+int Zmodem::ZmodemAttention(ZModem *info)
 {
 		/* attention received from remote end */
 	if( info->state == Sending ) {
@@ -832,7 +832,7 @@ int QTermZmodem::ZmodemAttention(ZModem *info)
 	return 0 ;
 }
 
-int QTermZmodem::YmodemTInit(ZModem *info)
+int Zmodem::YmodemTInit(ZModem *info)
 {
 	info->state = YTStart ;
 	info->Protocol = YMODEM ;
@@ -856,7 +856,7 @@ int QTermZmodem::YmodemTInit(ZModem *info)
 }
 
 
-int QTermZmodem::XmodemTInit(ZModem *info)
+int Zmodem::XmodemTInit(ZModem *info)
 {
 	(void) YmodemTInit(info) ;
 	info->Protocol = XMODEM ;
@@ -864,7 +864,7 @@ int QTermZmodem::XmodemTInit(ZModem *info)
 }
 
 
-int QTermZmodem::YmodemRInit(ZModem *info)
+int Zmodem::YmodemRInit(ZModem *info)
 {
 	info->errCount = 0 ;
 	info->InputState = Yrcv ;
@@ -888,7 +888,7 @@ int QTermZmodem::YmodemRInit(ZModem *info)
 }
 
 
-int QTermZmodem::XmodemRInit(ZModem *info)
+int Zmodem::XmodemRInit(ZModem *info)
 {
 #if 0
 	int	err ;
@@ -917,7 +917,7 @@ int QTermZmodem::XmodemRInit(ZModem *info)
 }
 
 
-ulong QTermZmodem::FileCrc(char *name)
+ulong Zmodem::FileCrc(char *name)
 {
 	ulong	crc ;
 	FILE	*ifile = fopen(name, "rb") ;
@@ -937,12 +937,12 @@ ulong QTermZmodem::FileCrc(char *name)
 
 
 
-const char * QTermZmodem::sname(ZModem *info)
+const char * Zmodem::sname(ZModem *info)
 {
 		return sname2(info->state) ;
 }
 
-const char * QTermZmodem::sname2(ZMState state)
+const char * Zmodem::sname2(ZMState state)
 {
 	const char *names[] = {
 	  "RStart", "RSinitWait", "RFileName", "RCrc", "RFile", "RData",
@@ -957,36 +957,36 @@ const char * QTermZmodem::sname2(ZMState state)
 }
 
 
-int QTermZmodem::ZXmitChr(uchar c, ZModem *info)
+int Zmodem::ZXmitChr(uchar c, ZModem *info)
 {
 	// to be completed
 	return 0;
 }
 
-int QTermZmodem::ZXmitStr(uchar *str, int len, ZModem *info)
+int Zmodem::ZXmitStr(uchar *str, int len, ZModem *info)
 {
 	//to be completed
 	m_pTelnet->write((const char*)str,(uint)len);
 	return 0;
 }
 
-void QTermZmodem::ZIFlush(ZModem *info)
+void Zmodem::ZIFlush(ZModem *info)
 {
 	//to be completed
 }
 
-void QTermZmodem::ZOFlush(ZModem *info)
+void Zmodem::ZOFlush(ZModem *info)
 {
 	//to be completed
 }
 
-int QTermZmodem::ZAttn(ZModem *info)
+int Zmodem::ZAttn(ZModem *info)
 {
 	//to be completed
 	return 0;
 }
 
-void QTermZmodem::ZStatus(int type, int value, const char * status)
+void Zmodem::ZStatus(int type, int value, const char * status)
 {
 	emit ZmodemState(type, value, status);
 	switch(type)
@@ -1040,12 +1040,12 @@ void QTermZmodem::ZStatus(int type, int value, const char * status)
 	}
 }
 
-FILE * QTermZmodem::ZOpenFile(char *name, ulong crc, ZModem *info)
+FILE * Zmodem::ZOpenFile(char *name, ulong crc, ZModem *info)
 {
 	//to be complete
 	FILE *rval;
 	int apnd=0;
-	QString str = QTermFrame::instance()->m_pref.strZmPath+G2U(name); // lazy, should use bbs2unicode
+	QString str = Frame::instance()->m_pref.strZmPath+G2U(name); // lazy, should use bbs2unicode
 	rval = fopen(str.toLocal8Bit(), apnd ? "ab" : "wb") ;
 
 	if( rval == NULL )
@@ -1054,7 +1054,7 @@ FILE * QTermZmodem::ZOpenFile(char *name, ulong crc, ZModem *info)
 	return rval ;
 }
 
-int QTermZmodem::ZXmitHdr(int type, int format, uchar data[4], ZModem *info)
+int Zmodem::ZXmitHdr(int type, int format, uchar data[4], ZModem *info)
 {
 	if( format == ZBIN && info->crc32 )
 	  format = ZBIN32 ;
@@ -1075,7 +1075,7 @@ int QTermZmodem::ZXmitHdr(int type, int format, uchar data[4], ZModem *info)
 }
 
 
-int QTermZmodem::ZXmitHdrHex(int type, uchar data[4], ZModem *info)
+int Zmodem::ZXmitHdrHex(int type, uchar data[4], ZModem *info)
 {
 	uchar	buffer[128] ;
 	uchar	*ptr = buffer ;
@@ -1108,7 +1108,7 @@ int QTermZmodem::ZXmitHdrHex(int type, uchar data[4], ZModem *info)
 }
 
 
-int QTermZmodem::ZXmitHdrBin(int type, uchar data[4], ZModem *info)
+int Zmodem::ZXmitHdrBin(int type, uchar data[4], ZModem *info)
 {
 	uchar	buffer[128] ;
 	uchar	*ptr = buffer ;
@@ -1136,7 +1136,7 @@ int QTermZmodem::ZXmitHdrBin(int type, uchar data[4], ZModem *info)
 	return ZXmitStr(buffer, len, info) ;
 }
 
-int QTermZmodem::ZXmitHdrBin32(int type, uchar data[4], ZModem *info)
+int Zmodem::ZXmitHdrBin32(int type, uchar data[4], ZModem *info)
 {
 	uchar	buffer[128] ;
 	uchar	*ptr = buffer ;
@@ -1164,7 +1164,7 @@ int QTermZmodem::ZXmitHdrBin32(int type, uchar data[4], ZModem *info)
 }
 
 
-uchar * QTermZmodem::putZdle( uchar *ptr, uchar c, ZModem *info )
+uchar * Zmodem::putZdle( uchar *ptr, uchar c, ZModem *info )
 {
 	uchar	c2 = c & 0177 ;
 
@@ -1194,7 +1194,7 @@ uchar * QTermZmodem::putZdle( uchar *ptr, uchar c, ZModem *info )
 }
 
 
-uchar * QTermZmodem::ZEnc4(ulong n)
+uchar * Zmodem::ZEnc4(ulong n)
 {
 	static	uchar	buf[4] ;
 	buf[0] = n&0xff ; n >>= 8 ;
@@ -1204,7 +1204,7 @@ uchar * QTermZmodem::ZEnc4(ulong n)
 	return buf ;
 }
 
-ulong QTermZmodem::ZDec4(uchar buf[4])
+ulong Zmodem::ZDec4(uchar buf[4])
 {
 	return buf[0] | (buf[1]<<8) | (buf[2]<<16) | (buf[3]<<24) ;
 }
@@ -1212,7 +1212,7 @@ ulong QTermZmodem::ZDec4(uchar buf[4])
 
 
 
-int QTermZmodem::YrcvChar( char c, register ZModem *info )
+int Zmodem::YrcvChar( char c, register ZModem *info )
 {
 		int	err ;
 
@@ -1275,7 +1275,7 @@ int QTermZmodem::YrcvChar( char c, register ZModem *info )
 	return 0 ;
 }
 
-int QTermZmodem::YrcvTimeout(  ZModem *info )
+int Zmodem::YrcvTimeout(  ZModem *info )
 {
 		switch( info->state )
 	{
@@ -1299,13 +1299,13 @@ int QTermZmodem::YrcvTimeout(  ZModem *info )
 }
 
 
-void QTermZmodem::ZIdleStr(uchar *buffer, int len, ZModem *info)
+void Zmodem::ZIdleStr(uchar *buffer, int len, ZModem *info)
 {
 	//to be completed
 }
 
 
-int QTermZmodem::FinishChar( char c, register ZModem *info )
+int Zmodem::FinishChar( char c, register ZModem *info )
 {
 	if( c == 'O' ) {
 	  if( ++info->chrCount >= 2 )
@@ -1318,7 +1318,7 @@ int QTermZmodem::FinishChar( char c, register ZModem *info )
 
 
 
-int QTermZmodem::DataChar( uchar c, register ZModem *info )
+int Zmodem::DataChar( uchar c, register ZModem *info )
 {
 	if( c == ZDLE ) {
 	  info->escape = 1 ;
@@ -1385,7 +1385,7 @@ if(connectionType==0)
 }
 
 
-int QTermZmodem::HdrChar( uchar c, register ZModem *info )
+int Zmodem::HdrChar( uchar c, register ZModem *info )
 {
 	int	i ;
 	int	crc=0 ;
@@ -1488,7 +1488,7 @@ int QTermZmodem::HdrChar( uchar c, register ZModem *info )
 
 
 
-int QTermZmodem::IdleChar(uchar c, register ZModem *info)
+int Zmodem::IdleChar(uchar c, register ZModem *info)
 {
 	if( info->chrCount == 0 )
 	{
@@ -1530,7 +1530,7 @@ int QTermZmodem::IdleChar(uchar c, register ZModem *info)
 
 
 
-int QTermZmodem::YsendChar( char c,  ZModem *info )
+int Zmodem::YsendChar( char c,  ZModem *info )
 {
 	int	err ;
 
@@ -1634,7 +1634,7 @@ int QTermZmodem::YsendChar( char c,  ZModem *info )
 
 
 
-int QTermZmodem::ZProtocol( register ZModem *info )
+int Zmodem::ZProtocol( register ZModem *info )
 {
     register StateTable *table ;
 
@@ -1666,7 +1666,7 @@ int QTermZmodem::ZProtocol( register ZModem *info )
 }
 
 
-int QTermZmodem::ZDataReceived( register ZModem *info, int crcGood )
+int Zmodem::ZDataReceived( register ZModem *info, int crcGood )
 {
 	switch( info->state ) {
 	  case RSinitWait: return GotSinitData(info, crcGood) ;
@@ -1679,7 +1679,7 @@ int QTermZmodem::ZDataReceived( register ZModem *info, int crcGood )
 }
 
 
-int QTermZmodem::ZPF( ZModem *info )
+int Zmodem::ZPF( ZModem *info )
 {
 	info->waitflag = 1 ;	/* pause any in-progress transmission */
 	ZStatus(ProtocolErr, info->hdrData[0], sname(info)) ;
@@ -1687,32 +1687,32 @@ int QTermZmodem::ZPF( ZModem *info )
 }
 
 
-int QTermZmodem::Ignore( ZModem *info )
+int Zmodem::Ignore( ZModem *info )
 {
 	return 0 ;
 }
 
 
-int QTermZmodem::AnswerChallenge( register ZModem *info )
+int Zmodem::AnswerChallenge( register ZModem *info )
 {
 	return ZXmitHdrHex(ZACK, info->hdrData+1, info) ;
 }
 
 
-int QTermZmodem::GotAbort( register ZModem *info )
+int Zmodem::GotAbort( register ZModem *info )
 {
 	ZStatus(RmtCancel, 0, NULL) ;
 	return ZXmitHdrHex(ZFIN, zeros, info) ;
 }
 
 
-int QTermZmodem::GotCancel( ZModem *info )
+int Zmodem::GotCancel( ZModem *info )
 {
 	return ZmErrCancel ;
 }
 
 
-int QTermZmodem::GotCommand( ZModem *info )
+int Zmodem::GotCommand( ZModem *info )
 {
 	uchar	rbuf[4] ;
 	/* TODO: add command capability */
@@ -1725,7 +1725,7 @@ int QTermZmodem::GotCommand( ZModem *info )
 	return ZXmitHdrHex(ZCOMPL, rbuf, info) ;
 }
 
-int QTermZmodem::GotStderr( register ZModem *info )
+int Zmodem::GotStderr( register ZModem *info )
 {
 	info->InputState = Indata ;
 	info->chrCount = 0 ;
@@ -1733,7 +1733,7 @@ int QTermZmodem::GotStderr( register ZModem *info )
 }
 
 
-int QTermZmodem::RetDone( ZModem *info )
+int Zmodem::RetDone( ZModem *info )
 {
 
 
@@ -1741,14 +1741,14 @@ int QTermZmodem::RetDone( ZModem *info )
 }
 
 
-int QTermZmodem::GotCommandData( register ZModem *info , int crcGood)
+int Zmodem::GotCommandData( register ZModem *info , int crcGood)
 {
 	/* TODO */
 	return 0 ;
 }
 
 
-int QTermZmodem::GotStderrData( register ZModem *info, int crcGood )
+int Zmodem::GotStderrData( register ZModem *info, int crcGood )
 {
 	info->buffer[info->chrCount] = '\0' ;
 	ZStatus(RemoteMessage, info->chrCount, (char *)info->buffer) ;
@@ -1756,7 +1756,7 @@ int QTermZmodem::GotStderrData( register ZModem *info, int crcGood )
 }
 
 
-int QTermZmodem::GotFileName(  ZModem *info, int crcGood )
+int Zmodem::GotFileName(  ZModem *info, int crcGood )
 {
 	info->InputState = Idle ;
 	info->chrCount=0 ;
@@ -1781,14 +1781,14 @@ int QTermZmodem::GotFileName(  ZModem *info, int crcGood )
 }
 
 
-int QTermZmodem::ResendCrcReq(ZModem *info)
+int Zmodem::ResendCrcReq(ZModem *info)
 {
 	zmodemlog("ResendCrcReq[%s]: send ZCRC\n", sname(info)) ;
 	return ZXmitHdrHex(ZCRC, zeros, info) ;
 }
 
 
-int QTermZmodem::GotSinitData(  ZModem *info, int crcGood )
+int Zmodem::GotSinitData(  ZModem *info, int crcGood )
 {
 	info->InputState = Idle ;
 	info->chrCount=0 ;
@@ -1808,7 +1808,7 @@ int QTermZmodem::GotSinitData(  ZModem *info, int crcGood )
 }
 
 
-int QTermZmodem::ResendRpos(  ZModem *info )
+int Zmodem::ResendRpos(  ZModem *info )
 {
 	zmodemlog("ResendRpos[%s]: send ZRPOS(%ld)\n",
 	  sname(info), info->offset) ;
@@ -1816,7 +1816,7 @@ int QTermZmodem::ResendRpos(  ZModem *info )
 }
 
 
-int QTermZmodem::GotFileData(  ZModem *info, int crcGood )
+int Zmodem::GotFileData(  ZModem *info, int crcGood )
 {
 	/* OK, now what?  Fushing the buffers and executing the
 	 * attn sequence has likely chopped off the input stream
@@ -1879,7 +1879,7 @@ int QTermZmodem::GotFileData(  ZModem *info, int crcGood )
 	return 0 ;
 }
 
-int QTermZmodem::SendRinit(  ZModem *info )
+int Zmodem::SendRinit(  ZModem *info )
 {
 	uchar	dbuf[4] ;
 
@@ -1902,7 +1902,7 @@ int QTermZmodem::SendRinit(  ZModem *info )
 }
 
 
-int QTermZmodem::SendMoreFileData(  ZModem *info )
+int Zmodem::SendMoreFileData(  ZModem *info )
 {
 	int	type ;
 	int	qfull = 0 ;
@@ -2113,7 +2113,7 @@ int QTermZmodem::SendMoreFileData(  ZModem *info )
 }
 
 
-uint QTermZmodem::rcvHex( uint i, char c )
+uint Zmodem::rcvHex( uint i, char c )
 {
 	if( c <= '9' )
 	  c -= '0' ;
@@ -2125,7 +2125,7 @@ uint QTermZmodem::rcvHex( uint i, char c )
 }
 
 
-int QTermZmodem::dataSetup( register ZModem *info )
+int Zmodem::dataSetup( register ZModem *info )
 {
 	info->InputState = Indata ;
 	info->chrCount = 0 ;
@@ -2134,25 +2134,25 @@ int QTermZmodem::dataSetup( register ZModem *info )
 	return 0 ;
 }
 
-int QTermZmodem::ZWriteFile(uchar *buffer, int len, FILE *file, ZModem *)
+int Zmodem::ZWriteFile(uchar *buffer, int len, FILE *file, ZModem *)
 {
 	
 	return fwrite(buffer, 1, len, file) == len ? 0 : ZmErrSys ;;
 }
 
-int QTermZmodem::ZCloseFile(ZModem *info)
+int Zmodem::ZCloseFile(ZModem *info)
 {
 	//to be completed
 	fclose(info->file) ;	
 	return 0;
 }
 
-void QTermZmodem::ZFlowControl(int onoff, ZModem *info)
+void Zmodem::ZFlowControl(int onoff, ZModem *info)
 {
 	//to be completed
 }
 
-int QTermZmodem::GotSinit(  ZModem *info )
+int Zmodem::GotSinit(  ZModem *info )
 {
 	zmodemlog("GotSinit[%s]: call dataSetup\n", sname(info)) ;
 
@@ -2163,7 +2163,7 @@ int QTermZmodem::GotSinit(  ZModem *info )
 	return dataSetup(info) ;
 }
 
-int QTermZmodem::GotFile(  ZModem *info )
+int Zmodem::GotFile(  ZModem *info )
 {
 	zmodemlog("GotFile[%s]: call dataSetup\n", sname(info)) ;
 
@@ -2175,7 +2175,7 @@ int QTermZmodem::GotFile(  ZModem *info )
 	return dataSetup(info) ;
 }
 
-int QTermZmodem::GotFin(  ZModem *info )
+int Zmodem::GotFin(  ZModem *info )
 {
 	int i;
 	zmodemlog("GotFin[%s]: send ZFIN\n", sname(info)) ;
@@ -2190,7 +2190,7 @@ int QTermZmodem::GotFin(  ZModem *info )
 }
 
 
-int QTermZmodem::GotData(  ZModem *info )
+int Zmodem::GotData(  ZModem *info )
 {
 	int	err ;
 
@@ -2208,7 +2208,7 @@ int QTermZmodem::GotData(  ZModem *info )
 	return dataSetup(info) ;
 }
 
-int QTermZmodem::GotEof(  ZModem *info )
+int Zmodem::GotEof(  ZModem *info )
 {
 	zmodemlog("GotEof[%s]: offset=%ld\n", sname(info), info->offset) ;
 	if( ZDec4(info->hdrData+1) != info->offset ) {
@@ -2229,20 +2229,20 @@ int QTermZmodem::GotEof(  ZModem *info )
 	return SendRinit(info) ;
 }
 
-int QTermZmodem::GotFreecnt(  ZModem *info )
+int Zmodem::GotFreecnt(  ZModem *info )
 {
 	/* TODO: how do we find free space on system? */
 	return ZXmitHdrHex(ZACK, ZEnc4(0xffffffff), info) ;
 }
 
 
-int QTermZmodem::GotFileCrc(  ZModem *info )
+int Zmodem::GotFileCrc(  ZModem *info )
 {
 	zmodemlog("GotFileCrc[%s]: call requestFile\n", sname(info)) ;
 	return requestFile(info, ZDec4(info->hdrData+1)) ;
 }
 
-int QTermZmodem::requestFile(  ZModem *info, ulong crc )
+int Zmodem::requestFile(  ZModem *info, ulong crc )
 {
 	info->file = ZOpenFile((char *)info->buffer, crc, info) ;
 
@@ -2263,7 +2263,7 @@ int QTermZmodem::requestFile(  ZModem *info, ulong crc )
 	}
 }
 
-void QTermZmodem::parseFileName(  ZModem *info, char *fileinfo )
+void Zmodem::parseFileName(  ZModem *info, char *fileinfo )
 {
 	char	*ptr ;
 	int	serial=0 ;
@@ -2281,7 +2281,7 @@ void QTermZmodem::parseFileName(  ZModem *info, char *fileinfo )
 
 
 
-int QTermZmodem::fileError(  ZModem *info, int type, int data )
+int Zmodem::fileError(  ZModem *info, int type, int data )
 {
 	int	err ;
 
@@ -2294,7 +2294,7 @@ int QTermZmodem::fileError(  ZModem *info, int type, int data )
 }
 
 
-int QTermZmodem::ProcessPacket(  ZModem *info )
+int Zmodem::ProcessPacket(  ZModem *info )
 {
 	int	idx = (uchar) info->buffer[0] ;
 	int	idxc = (uchar) info->buffer[1] ;
@@ -2357,14 +2357,14 @@ int QTermZmodem::ProcessPacket(  ZModem *info )
 	return 0 ;
 }
 
-int QTermZmodem::rejectPacket(  ZModem *info )
+int Zmodem::rejectPacket(  ZModem *info )
 {
 	info->timeout = 10 ;
 	return ZXmitStr(NakStr, 1, info) ;
 }
 
 
-int QTermZmodem::acceptPacket(  ZModem *info )
+int Zmodem::acceptPacket(  ZModem *info )
 {
 	info->state = YRDataWait ;
 	info->timeout = 10 ;
@@ -2372,7 +2372,7 @@ int QTermZmodem::acceptPacket(  ZModem *info )
 }
 
 
-int QTermZmodem::calcCrc( uchar *str, int len )
+int Zmodem::calcCrc( uchar *str, int len )
 {
 	int	crc = 0 ;
 	while( --len >= 0 )
@@ -2382,7 +2382,7 @@ int QTermZmodem::calcCrc( uchar *str, int len )
 }
 
 
-char * QTermZmodem::strdup( const char *str )
+char * Zmodem::strdup( const char *str )
 {
 	char	*rval ;
 	int	len = strlen(str) + 1 ;
@@ -2392,7 +2392,7 @@ char * QTermZmodem::strdup( const char *str )
 }
 
 
-int QTermZmodem::ZXmitData( int format, int len, uchar term, uchar *data, ZModem *info)
+int Zmodem::ZXmitData( int format, int len, uchar term, uchar *data, ZModem *info)
 {
 	uchar	*ptr = info->buffer ;
 	uint	crc ;
@@ -2434,7 +2434,7 @@ int QTermZmodem::ZXmitData( int format, int len, uchar term, uchar *data, ZModem
 
 
 
-int QTermZmodem::YXmitData( uchar *buffer, int len, ZModem *info )
+int Zmodem::YXmitData( uchar *buffer, int len, ZModem *info )
 {
 	uchar	hdr[3] ;
 	uchar	trail[2] ;
@@ -2465,7 +2465,7 @@ int QTermZmodem::YXmitData( uchar *buffer, int len, ZModem *info )
 }
 
 
-int QTermZmodem::YSendFilename( ZModem *info )
+int Zmodem::YSendFilename( ZModem *info )
 {
 	int	i,len ;
 	uchar	obuf[1024] ;
@@ -2489,7 +2489,7 @@ int QTermZmodem::YSendFilename( ZModem *info )
 	return YXmitData(obuf, len, info) ;
 }
 
-int QTermZmodem::YSendData( ZModem *info )
+int Zmodem::YSendData( ZModem *info )
 {
 	int	i ;
 
@@ -2523,7 +2523,7 @@ int QTermZmodem::YSendData( ZModem *info )
 }
 
 
-int QTermZmodem::YSendFin( ZModem *info )
+int Zmodem::YSendFin( ZModem *info )
 {
 	uchar	obuf[128] ;
 
@@ -2535,7 +2535,7 @@ int QTermZmodem::YSendFin( ZModem *info )
 	return YXmitData(obuf, 128, info) ;
 }
 
-int QTermZmodem::sendFilename( ZModem *info )
+int Zmodem::sendFilename( ZModem *info )
 {
 	int	err ;
 	int	i ;
@@ -2557,7 +2557,7 @@ int QTermZmodem::sendFilename( ZModem *info )
 	return ZXmitData(ZBIN, ptr-obuf, ZCRCW, obuf, info) ;
 }
 
-int QTermZmodem::GotRinit(  ZModem *info )
+int Zmodem::GotRinit(  ZModem *info )
 {
 	if(strFileList.count()==0)
 		return ZmodemTFinish(info);
@@ -2658,7 +2658,7 @@ int QTermZmodem::GotRinit(  ZModem *info )
 }
 
 
-int QTermZmodem::SendZSInit( ZModem *info )
+int Zmodem::SendZSInit( ZModem *info )
 {
 	int	err ;
 	//char	*at = (info->attn != NULL) ? info->attn : "" ;
@@ -2689,7 +2689,7 @@ int QTermZmodem::SendZSInit( ZModem *info )
 }
 
 
-int QTermZmodem::SendFileCrc(  ZModem *info )
+int Zmodem::SendFileCrc(  ZModem *info )
 {
 	ulong	crc ;
 
@@ -2700,7 +2700,7 @@ int QTermZmodem::SendFileCrc(  ZModem *info )
 	return ZXmitHdrHex(ZCRC, ZEnc4(crc), info) ;
 }
 
-int QTermZmodem::GotSendAck(  ZModem *info )
+int Zmodem::GotSendAck(  ZModem *info )
 {
 	ulong offset ;
 
@@ -2715,7 +2715,7 @@ int QTermZmodem::GotSendAck(  ZModem *info )
 				 * later anyway */
 }
 
-int QTermZmodem::GotSendDoneAck(  ZModem *info )
+int Zmodem::GotSendDoneAck(  ZModem *info )
 {
 	ulong offset ;
 
@@ -2731,7 +2731,7 @@ int QTermZmodem::GotSendDoneAck(  ZModem *info )
 	return ZXmitHdrHex(ZEOF, ZEnc4(info->offset), info) ;
 }
 
-int QTermZmodem::GotSendNak(  ZModem *info )
+int Zmodem::GotSendNak(  ZModem *info )
 {
 	info->offset = info->zrposOffset ;
 
@@ -2744,7 +2744,7 @@ int QTermZmodem::GotSendNak(  ZModem *info )
 	return SendMoreFileData(info) ;
 }
 
-int QTermZmodem::GotSendWaitAck(  ZModem *info )
+int Zmodem::GotSendWaitAck(  ZModem *info )
 {
 
 	ulong	offset ;
@@ -2767,7 +2767,7 @@ int QTermZmodem::GotSendWaitAck(  ZModem *info )
 	return SendMoreFileData(info) ;
 }
 
-int QTermZmodem::SkipFile(  ZModem *info )
+int Zmodem::SkipFile(  ZModem *info )
 {
 	zmodemlog("SkipFile[%s]\n", sname(info)) ;
 	ZStatus(FileEnd, 0, info->rfilename);
@@ -2779,7 +2779,7 @@ int QTermZmodem::SkipFile(  ZModem *info )
 	return GotRinit(info);
 }
 
-int QTermZmodem::GotSendPos(  ZModem *info )
+int Zmodem::GotSendPos(  ZModem *info )
 {
 	ZStatus(DataErr, ++info->errCount, NULL) ;
 	info->waitflag = 1 ;		/* next pkt should wait, to resync */
@@ -2788,18 +2788,18 @@ int QTermZmodem::GotSendPos(  ZModem *info )
 	return startFileData(info) ;
 }
 
-int QTermZmodem::SendFileData(  ZModem *info )
+int Zmodem::SendFileData(  ZModem *info )
 {
 	info->waitflag = 0 ;
 	return startFileData(info) ;
 }
 
-int QTermZmodem::ResendEof(  ZModem *info )
+int Zmodem::ResendEof(  ZModem *info )
 {
 	return ZXmitHdrHex(ZEOF, ZEnc4(info->offset), info) ;
 }
 
-int QTermZmodem::OverAndOut( ZModem *info )
+int Zmodem::OverAndOut( ZModem *info )
 {
 	zmodemlog("OverAndOut[%s]\n", sname(info)) ;
 
@@ -2812,7 +2812,7 @@ int QTermZmodem::OverAndOut( ZModem *info )
 	return ZmDone ;
 }
 
-int QTermZmodem::startFileData(  ZModem *info )
+int Zmodem::startFileData(  ZModem *info )
 {
 	int	err ;
 
@@ -2831,7 +2831,7 @@ int QTermZmodem::startFileData(  ZModem *info )
 	return SendMoreFileData(info) ;
 }
 
-uchar * QTermZmodem::putHex( uchar *ptr, uchar c )
+uchar * Zmodem::putHex( uchar *ptr, uchar c )
 {
 	*ptr++ = hexChars[(c>>4)&0xf] ;
 	*ptr++ = hexChars[c&0xf] ;
@@ -2839,7 +2839,7 @@ uchar * QTermZmodem::putHex( uchar *ptr, uchar c )
 }
 
 
-int QTermZmodem::ZmodemReset(ZModem * info)
+int Zmodem::ZmodemReset(ZModem * info)
 {
 	zmodemlog( "\nZmodemReset\n");
 
@@ -2849,7 +2849,7 @@ int QTermZmodem::ZmodemReset(ZModem * info)
 }
 
 
-void QTermZmodem::zmodemlog(const char *fmt, ... )
+void Zmodem::zmodemlog(const char *fmt, ... )
 {
 // only for debug
 #ifdef QTERM_DEBUG
@@ -2881,7 +2881,7 @@ void QTermZmodem::zmodemlog(const char *fmt, ... )
 
 }
 
-void QTermZmodem::zmodemCancel()
+void Zmodem::zmodemCancel()
 {
 	ZmodemAbort(&info);
 }

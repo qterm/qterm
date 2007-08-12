@@ -9,13 +9,13 @@
 // #include <QProgressDialog>
 namespace QTerm
 {
-class QTermHttp : public QObject
+class Http : public QObject
 {
 	Q_OBJECT
 
 public:
-	QTermHttp(QWidget*);
-	~QTermHttp();
+	Http(QWidget*);
+	~Http();
 
 	void getLink(const QString&, bool);
 protected slots:

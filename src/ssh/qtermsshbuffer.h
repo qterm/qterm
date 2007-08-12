@@ -9,7 +9,7 @@
 #define SSH_BUFFER_MAX 10000000
 namespace QTerm
 {
-class QTermSSHBuffer
+class SSHBuffer
 {
 private:
 	u_char	* d_buffer;
@@ -19,8 +19,8 @@ private:
 	void	ensure(int len);
 	void	rebuffer();
 public:
-	QTermSSHBuffer(int size);
-	~QTermSSHBuffer();
+	SSHBuffer(int size);
+	~SSHBuffer();
 	
 	u_char * data() { return d_buffer + d_offset; }
 	int len() const { return d_bufferSize; }

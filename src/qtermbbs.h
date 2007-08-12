@@ -10,14 +10,14 @@ class QRect;
 
 namespace QTerm
 {
-class QTermTextLine;
-class QTermBuffer;
+class TextLine;
+class Buffer;
 
-class QTermBBS
+class BBS
 {
 public:
-	QTermBBS( QTermBuffer * );
-	~QTermBBS();
+	BBS( Buffer * );
+	~BBS();
 
 	/* -1 -- undefined
 	 *  0 -- menu
@@ -45,9 +45,9 @@ public:
 	QString getMessage();
 	
 protected:
-	bool isUnicolor( QTermTextLine * );
+	bool isUnicolor( TextLine * );
 	bool isIllChar(char);
-	QTermBuffer *m_pBuffer;
+	Buffer *m_pBuffer;
 
 	QRect m_rcUrl;
 	QString m_strUrl;

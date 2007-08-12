@@ -6,17 +6,17 @@
 namespace QTerm
 {
 //==============================================================================
-//QTermSSH1PasswdAuth
+//SSH1PasswdAuth
 //==============================================================================
 
-QTermSSH1PasswdAuth::QTermSSH1PasswdAuth(const char * sshuser, const char * sshpasswd)
-	: QTermSSHPasswdAuth(sshuser, sshpasswd)
+SSH1PasswdAuth::SSH1PasswdAuth(const char * sshuser, const char * sshpasswd)
+	: SSHPasswdAuth(sshuser, sshpasswd)
 {
 	d_isTried = false;
-	d_state = QTermSSH1PasswdAuth::BEFORE_AUTH;
+	d_state = SSH1PasswdAuth::BEFORE_AUTH;
 }
 
-void QTermSSH1PasswdAuth::initAuth(QTermSSHPacketReceiver * packet, QTermSSHPacketSender * output)
+void SSH1PasswdAuth::initAuth(SSHPacketReceiver * packet, SSHPacketSender * output)
 {
 	d_incomingPacket = packet;
 	d_outcomingPacket = output;
@@ -37,7 +37,7 @@ void QTermSSH1PasswdAuth::initAuth(QTermSSHPacketReceiver * packet, QTermSSHPack
 	d_isTried = false;
 }
 
-void QTermSSH1PasswdAuth::handlePacket(int type)
+void SSH1PasswdAuth::handlePacket(int type)
 {
 	switch (d_state) {
 	case BEFORE_AUTH:

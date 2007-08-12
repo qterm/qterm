@@ -19,21 +19,21 @@
 #include <qregexp.h>
 namespace QTerm
 {
-QTermBBS::QTermBBS( QTermBuffer * buffer )
+BBS::BBS( Buffer * buffer )
 {
 	m_pBuffer=buffer;
 }
 
-QTermBBS::~QTermBBS()
+BBS::~BBS()
 {
 }
 
-void QTermBBS::setScreenStart(int nStart )
+void BBS::setScreenStart(int nStart )
 {
 	m_nScreenStart = nStart;
 }
 
-bool QTermBBS::setCursorPos(const QPoint& pt, QRect& rc)
+bool BBS::setCursorPos(const QPoint& pt, QRect& rc)
 {
 	QRect rectOld = getSelectRect();
 	
@@ -46,9 +46,9 @@ bool QTermBBS::setCursorPos(const QPoint& pt, QRect& rc)
 	return rectOld!=rectNew;
 }
 
-QString QTermBBS::getMessage()
+QString BBS::getMessage()
 {
-	QTermTextLine * line;
+	TextLine * line;
 	QString message;
 
 	if(!isUnicolor(m_pBuffer->screen(0)))
@@ -67,11 +67,11 @@ QString QTermBBS::getMessage()
 }	
 						
 
-void QTermBBS::setPageState()
+void BBS::setPageState()
 {
 	m_nPageState = -1;
 	
-	QTermTextLine * line;
+	TextLine * line;
 // 	Q3CString color;
 
 	line = m_pBuffer->screen(0);    // first line
@@ -92,7 +92,7 @@ void QTermBBS::setPageState()
 
 }
 
-int QTermBBS::getCursorType(const QPoint& pt)
+int BBS::getCursorType(const QPoint& pt)
 {
 	if( m_nScreenStart != (m_pBuffer->lines()-m_pBuffer->line()) )
 		return 8;
@@ -152,7 +152,7 @@ int QTermBBS::getCursorType(const QPoint& pt)
 	return nCursorType;
 }
 
-bool QTermBBS::isSelected( int index )
+bool BBS::isSelected( int index )
 {
 	QRect rect = getSelectRect();
 	// nothing selected
@@ -163,7 +163,7 @@ bool QTermBBS::isSelected( int index )
 
 }
 
-bool QTermBBS::isSelected( const QPoint& pt )
+bool BBS::isSelected( const QPoint& pt )
 {
 	QRect rect = getSelectRect();
 	
@@ -176,17 +176,17 @@ bool QTermBBS::isSelected( const QPoint& pt )
 		pt.x()<=rect.right() );
 }
 
-int QTermBBS::getPageState()
+int BBS::getPageState()
 {
 	return m_nPageState;
 }
 
-char QTermBBS::getMenuChar()
+char BBS::getMenuChar()
 {
 	return m_cMenuChar;
 }
 
-QRect QTermBBS::getSelectRect()
+QRect BBS::getSelectRect()
 {
 	QRect rect(0,0,0,0);
 
@@ -196,7 +196,7 @@ QRect QTermBBS::getSelectRect()
 		return rect;
 	}
 
-	QTermTextLine * line;
+	TextLine * line;
 	
 	switch( m_nPageState )
     {
@@ -265,7 +265,7 @@ QRect QTermBBS::getSelectRect()
 
 }
 
-bool QTermBBS::isUnicolor( QTermTextLine *line )
+bool BBS::isUnicolor( TextLine *line )
 {
 	QByteArray color = line->getColor();
 	bool bSame=true;
@@ -283,22 +283,22 @@ bool QTermBBS::isUnicolor( QTermTextLine *line )
 	return bSame;
 }
 
-bool QTermBBS::isIllChar(char ch)
+bool BBS::isIllChar(char ch)
 {
 	static char illChars[] = ",;'\"()[]<>^";	
 	return ch>'~' || ch<'#' || strchr(illChars, ch) !=NULL;
 }
 
-bool QTermBBS::isUrl(QRect& rcUrl, QRect& rcOld)
+bool BBS::isUrl(QRect& rcUrl, QRect& rcOld)
 {
 	return checkUrl(rcUrl, rcOld, false);
 }
-bool QTermBBS::isIP(QRect& rcUrl, QRect& rcOld)
+bool BBS::isIP(QRect& rcUrl, QRect& rcOld)
 {
 	return checkUrl(rcUrl, rcOld, true);
 }
 
-bool QTermBBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
+bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 {
 	static const char http[] = "http://";
 	static const char https[] = "https://";
@@ -469,17 +469,17 @@ bool QTermBBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 	return true;
 }
 
-QString QTermBBS::getUrl()
+QString BBS::getUrl()
 {
 	return m_strUrl;
 }
 
-QString QTermBBS::getIP()
+QString BBS::getIP()
 {
 	return m_strIP;
 }
 
-bool QTermBBS::isPageComplete()
+bool BBS::isPageComplete()
 {
 	return m_pBuffer->caret().y()==(m_pBuffer->line()-1) 
 			&& m_pBuffer->caret().x()==(m_pBuffer->columns()-1);

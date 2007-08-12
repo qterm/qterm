@@ -22,11 +22,11 @@
 #define MAKEWORD(c1,c2) ( (c1)<<8 & 0xff00 ) | c2
 namespace QTerm
 {
-QTermConvert::QTermConvert( ){}
+Convert::Convert( ){}
 
-QTermConvert::~QTermConvert( ){}
+Convert::~Convert( ){}
 
-char * QTermConvert::G2B( const char * string, int length )
+char * Convert::G2B( const char * string, int length )
 {
 	static char save='\0';
 	if( length ==0 )
@@ -72,7 +72,7 @@ char * QTermConvert::G2B( const char * string, int length )
 	s[len]='\0';
 	return s;
 }
-void  QTermConvert::g2b( unsigned char c1, unsigned char c2, char * s)
+void  Convert::g2b( unsigned char c1, unsigned char c2, char * s)
 {
 	unsigned int i;
 	if( (c2 >= 0xa1) && (c2 <= 0xfe) )
@@ -95,7 +95,7 @@ void  QTermConvert::g2b( unsigned char c1, unsigned char c2, char * s)
 	s[0] = GtoB_bad1;
 	s[1] = GtoB_bad2;
 }
-char * QTermConvert::B2G( const char * string, int length )
+char * Convert::B2G( const char * string, int length )
 {
 	static char save='\0';
 	if( length ==0 )
@@ -141,7 +141,7 @@ char * QTermConvert::B2G( const char * string, int length )
 	s[len]='\0';
 	return s;
 }
-void  QTermConvert::b2g( unsigned char c1, unsigned char c2, char * s)
+void  Convert::b2g( unsigned char c1, unsigned char c2, char * s)
 {
 	unsigned int i;
 	if( (c1 >= 0xa1) && (c1 <= 0xf9) )
@@ -164,7 +164,7 @@ void  QTermConvert::b2g( unsigned char c1, unsigned char c2, char * s)
 	s[0] = BtoG_bad1;
 	s[1] = BtoG_bad2;
 }
-unsigned char QTermConvert::GtoB[] = {
+unsigned char Convert::GtoB[] = {
 0xa1,0x40, 0xa1,0x42, 0xa1,0x43, 0xa1,0x4f, 0xa1,0xc2, 0xa1,0xbc, 0xa1,0x4c,
 0xa1,0xb2, 0xa1,0xbc, 0xa2,0x77, 0xa1,0xe3, 0xa1,0xfc, 0xa1,0x4b, 0xa1,0xa5,
 0xa1,0xa6, 0xa1,0xa7, 0xa1,0xa8, 0xa1,0x65, 0xa1,0x66, 0xa1,0x71, 0xa1,0x72,
@@ -1255,7 +1255,7 @@ unsigned char QTermConvert::GtoB[] = {
 0xc5,0xc4, 0xf8,0x7b, 0xec,0xb8, 0xc2,0x4d, 0xa1,0xbc, 
 };
 
-unsigned char QTermConvert::BtoG[] = {
+unsigned char Convert::BtoG[] = {
 0xa1,0xa1, 0xa3,0xac, 0xa1,0xa2, 0xa1,0xa3, 0xa3,0xae, 0xa3,0xae, 0xa3,0xbb,
 0xa3,0xba, 0xa3,0xbf, 0xa3,0xa1, 0xa1,0xc3, 0xa1,0xad, 0xa1,0xa7, 0xa3,0xac,
 0xa1,0xa2, 0xa1,0xa4, 0xa1,0xa4, 0xa3,0xbb, 0xa3,0xba, 0xa3,0xbf, 0xa3,0xa1,

@@ -24,16 +24,16 @@ class QFontDialog;
 
 namespace QTerm
 {
-class QTermWndMgr;
-class QTermWindow;
+class WndMgr;
+class Window;
 class QTermTimeLabel;
 // class Q3VBox;
-class QTermParam;
-class QTermConfig;
+class Param;
+class Config;
 //class TrayIcon;
 // class QTerm::statusBar;
 
-struct QTermPref
+struct Pref
 {
 	int 	nXIM;	//	0--GBK	1--BIG5
 	int 	nWordWrap;
@@ -84,18 +84,18 @@ private:
 };
 */
 
-class QTermFrame : public QMainWindow
+class Frame : public QMainWindow
 {
 	Q_OBJECT
 public:
-	QTermFrame();
-	~QTermFrame();
-	static QTermFrame * instance(){return s_instance;}
+	Frame();
+	~Frame();
+	static Frame * instance(){return s_instance;}
 
 	void updateMenuToolBar();
 	void enableMenuToolBar( bool );
 
-	void popupFocusIn( QTermWindow * );
+	void popupFocusIn( Window * );
 	void buzz();
 signals:
 	void bossColor();
@@ -178,9 +178,9 @@ protected slots:
 	void paintEvent( QPaintEvent * );
 public:
 	QTabBar *tabBar;
-	QTermWndMgr * wndmgr;
+	WndMgr * wndmgr;
 
-	QTermPref	m_pref;
+	Pref	m_pref;
 	bool m_bBossColor;
 	
 	QString m_strEscape;
@@ -263,12 +263,12 @@ protected:
 	QMenu *trayMenu;
 
 	//function
-	//QTermWindow * newWindow( const QTermParam& param, int index=-1 );
-	void newWindow( const QTermParam& param, int index=-1 );
+	//Window * newWindow( const Param& param, int index=-1 );
+	void newWindow( const Param& param, int index=-1 );
 	void closeEvent(QCloseEvent * );
 	void selectStyleMenu(int ,int );
 	void iniSetting();
-	void loadPref(QTermConfig *);
+	void loadPref(Config *);
 	void saveSetting();
 	
 	void addMainMenu();
@@ -282,7 +282,7 @@ protected:
 	void insertThemeItem(QString);
 	void setUseDock(bool);
 private:
-	static QTermFrame * s_instance;
+	static Frame * s_instance;
 };
 
 } // namespace QTerm

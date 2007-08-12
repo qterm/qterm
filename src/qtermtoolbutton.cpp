@@ -12,7 +12,7 @@ AUTHOR:        kingson fiasco
 #include "qtermtoolbutton.h"
 namespace QTerm
 {
-QTermToolButton::QTermToolButton( QWidget *parent, int id, QString name )
+ToolButton::ToolButton( QWidget *parent, int id, QString name )
 		:QToolButton(parent)
 {
 	setObjectName(name);
@@ -20,11 +20,11 @@ QTermToolButton::QTermToolButton( QWidget *parent, int id, QString name )
 	connect(this, SIGNAL(clicked()), this, SLOT(slotClicked()));
 }
 
-QTermToolButton::~QTermToolButton()
+ToolButton::~ToolButton()
 {
 }
 
-void QTermToolButton::slotClicked()
+void ToolButton::slotClicked()
 {
 	emit(buttonClicked(id));
 }

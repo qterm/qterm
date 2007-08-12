@@ -7,12 +7,12 @@
 // #include <QString>
 namespace QTerm
 {
-class QTermTextLine
+class TextLine
 {
 
 public:
-	QTermTextLine();
-	~QTermTextLine();
+	TextLine();
+	~TextLine();
 
 	void reset();
 

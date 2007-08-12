@@ -15,18 +15,18 @@
 
 namespace QTerm
 {
-QTermSSHSocket::QTermSSHSocket(const char * sshuser, const char * sshpasswd)
+SSHSocket::SSHSocket(const char * sshuser, const char * sshpasswd)
 {
-	d_socket = new QTermSocketPrivate();
-	d_inBuffer = new QTermSSHBuffer(1024);
-	d_outBuffer = new QTermSSHBuffer(1024);
-	d_socketBuffer = new QTermSSHBuffer(1024);
+	d_socket = new SocketPrivate();
+	d_inBuffer = new SSHBuffer(1024);
+	d_outBuffer = new SSHBuffer(1024);
+	d_socketBuffer = new SSHBuffer(1024);
 	d_state = BeforeSession;
-	d_incomingPacket = new QTermSSH1PacketReceiver;
-	d_outcomingPacket = new QTermSSH1PacketSender;
-	d_kex = new QTermSSH1Kex;
-	d_auth = new QTermSSH1PasswdAuth(sshuser, sshpasswd);
-	d_session = new QTermSSH1Session;
+	d_incomingPacket = new SSH1PacketReceiver;
+	d_outcomingPacket = new SSH1PacketSender;
+	d_kex = new SSH1Kex;
+	d_auth = new SSH1PasswdAuth(sshuser, sshpasswd);
+	d_session = new SSH1Session;
 
 	connect(d_socket, SIGNAL(hostFound()), this, SIGNAL(hostFound()));
 	connect(d_socket, SIGNAL(connected()), this, SIGNAL(connected()));
@@ -50,7 +50,7 @@ QTermSSHSocket::QTermSSHSocket(const char * sshuser, const char * sshpasswd)
 	connect(d_session, SIGNAL(readyRead()), this, SLOT(sessionReadyRead()));
 }
 
-QTermSSHSocket::~QTermSSHSocket()
+SSHSocket::~SSHSocket()
 {
 	delete d_socket;
 	delete d_inBuffer;
@@ -63,24 +63,24 @@ QTermSSHSocket::~QTermSSHSocket()
 	delete d_session;
 }
 
-void QTermSSHSocket::kexOK()
+void SSHSocket::kexOK()
 {
 	//qDebug("Key exchange completed!");
 	d_auth->initAuth(d_incomingPacket, d_outcomingPacket);
 }
 
-void QTermSSHSocket::authOK()
+void SSHSocket::authOK()
 {
 	//qDebug("Auth completed!");
 	d_session->initSession(d_incomingPacket, d_outcomingPacket);
 }
 
-void QTermSSHSocket::sessionOK()
+void SSHSocket::sessionOK()
 {
 	//qDebug("Session Started!");
 }
 
-void QTermSSHSocket::sessionReadyRead()
+void SSHSocket::sessionReadyRead()
 {
 	u_char * data;
 	int size;
@@ -99,13 +99,13 @@ void QTermSSHSocket::sessionReadyRead()
 	emit readyRead();
 }
 
-unsigned long QTermSSHSocket::socketWriteBlock(const char * data, unsigned long len)
+unsigned long SSHSocket::socketWriteBlock(const char * data, unsigned long len)
 {
 	QByteArray to_write(data, len);
 	return d_socket->writeBlock(to_write);
 }
 
-void QTermSSHSocket::socketReadyRead()
+void SSHSocket::socketReadyRead()
 {
 	unsigned long size;
 
@@ -137,7 +137,7 @@ void QTermSSHSocket::socketReadyRead()
 	}
 }
 
-void QTermSSHSocket::parsePacket()
+void SSHSocket::parsePacket()
 {
 	unsigned long size;
 	QByteArray data;
@@ -148,7 +148,7 @@ void QTermSSHSocket::parsePacket()
 	d_incomingPacket->parseData(d_socketBuffer);
 }
 
-int QTermSSHSocket::chooseVersion(const QString & ver)
+int SSHSocket::chooseVersion(const QString & ver)
 {
 	if (ver.indexOf("SSH-") != 0)
 		return -1;
@@ -160,20 +160,20 @@ int QTermSSHSocket::chooseVersion(const QString & ver)
 		return -1;
 }
 	
-void QTermSSHSocket::connectToHost(const QString & host_name, quint16 port)
+void SSHSocket::connectToHost(const QString & host_name, quint16 port)
 {
 	d_state = BeforeSession;
 	d_socket->connectToHost(host_name, port);
 	d_kex->initKex(d_incomingPacket, d_outcomingPacket);
 }
 
-void QTermSSHSocket::writeData()
+void SSHSocket::writeData()
 {
 	socketWriteBlock((const char *)d_outcomingPacket->d_output->data(), d_outcomingPacket->d_output->len());
 	d_socket->flush();
 }
 
-void QTermSSHSocket::handlePacket(int type)
+void SSHSocket::handlePacket(int type)
 {
 	switch (type) {
 	case SSH1_MSG_DISCONNECT:
@@ -187,12 +187,12 @@ void QTermSSHSocket::handlePacket(int type)
 	}
 }
 
-unsigned long QTermSSHSocket::bytesAvailable()
+unsigned long SSHSocket::bytesAvailable()
 {
 	return d_inBuffer->len();
 }
 
-QByteArray QTermSSHSocket::readBlock(unsigned long size)
+QByteArray SSHSocket::readBlock(unsigned long size)
 {
 	qDebug("read Block");
 	QByteArray data(size, 0);
@@ -200,14 +200,14 @@ QByteArray QTermSSHSocket::readBlock(unsigned long size)
 	return data;
 }
 
-long QTermSSHSocket::writeBlock(const QByteArray & data)
+long SSHSocket::writeBlock(const QByteArray & data)
 {
 	unsigned long size = data.size();
 	d_outBuffer->putBuffer(data.data(), size);
 	return size;
 }
 
-void QTermSSHSocket::flush()
+void SSHSocket::flush()
 {
 	int size;
 	size = d_outBuffer->len();
@@ -218,19 +218,19 @@ void QTermSSHSocket::flush()
 	d_outBuffer->consume(size);
 }
 
-void QTermSSHSocket::close()
+void SSHSocket::close()
 {
 	d_socket->close();
 }
 
-void QTermSSHSocket::handleError(const char * reason)
+void SSHSocket::handleError(const char * reason)
 {
 	close();
 	QMessageBox::critical(0, "QTerm SSH Error", QString("Connection closed because:\n")+reason);
 	emit connectionClosed();
 }
 
-void QTermSSHSocket::setProxy( int nProxyType, bool bAuth,
+void SSHSocket::setProxy( int nProxyType, bool bAuth,
 			const QString& strProxyHost, quint16 uProxyPort,
 			const QString& strProxyUsr, const QString& strProxyPwd)
 {

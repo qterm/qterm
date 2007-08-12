@@ -27,111 +27,111 @@ namespace QTerm
 /************************************************************************/
 // state for FSM
 // please read ANSI decoding
-StateOption QTermDecode::normalState[] =
+StateOption Decode::normalState[] =
 {
-    { CHAR_CR, 		&QTermDecode::cr,			normalState },
-    { CHAR_LF, 		&QTermDecode::lf,			normalState },
-    { CHAR_FF, 		&QTermDecode::ff,			normalState },
-    { CHAR_TAB, 	&QTermDecode::tab,			normalState },
-    { CHAR_BS,  	&QTermDecode::bs,			normalState },
-    { CHAR_BELL,  	&QTermDecode::bell,			normalState },
+    { CHAR_CR, 		&Decode::cr,			normalState },
+    { CHAR_LF, 		&Decode::lf,			normalState },
+    { CHAR_FF, 		&Decode::ff,			normalState },
+    { CHAR_TAB, 	&Decode::tab,			normalState },
+    { CHAR_BS,  	&Decode::bs,			normalState },
+    { CHAR_BELL,  	&Decode::bell,			normalState },
     { CHAR_ESC, 	0,							escState    },
-    { CHAR_NORMAL, 	&QTermDecode::normalInput, 	normalState }
+    { CHAR_NORMAL, 	&Decode::normalInput, 	normalState }
 };
 
 // state after a ESC_CHAR
 // only for BBS, so I reduce a lots
-StateOption QTermDecode::escState[] =
+StateOption Decode::escState[] =
 {
-    { '[', 		&QTermDecode::clearParam,  		bracketState },
+    { '[', 		&Decode::clearParam,  		bracketState },
 	// VT52
-	{ 'A', 		&QTermDecode::cursorUp,			normalState	},
-    { 'B',		&QTermDecode::cursorDown,		normalState	},
-    { 'C', 		&QTermDecode::cursorRight,		normalState },
-    { 'D', 		&QTermDecode::cursorLeft,		normalState },
-    { 'J', 		&QTermDecode::eraseScreen,		normalState },
-    { 'K', 		&QTermDecode::eraseLine,		normalState },
-	{ 'Z',		&QTermDecode::test,				normalState	},
-	{ '>',		&QTermDecode::test,				normalState	},
-	{ '<',		&QTermDecode::test,				normalState	},
+	{ 'A', 		&Decode::cursorUp,			normalState	},
+    { 'B',		&Decode::cursorDown,		normalState	},
+    { 'C', 		&Decode::cursorRight,		normalState },
+    { 'D', 		&Decode::cursorLeft,		normalState },
+    { 'J', 		&Decode::eraseScreen,		normalState },
+    { 'K', 		&Decode::eraseLine,		normalState },
+	{ 'Z',		&Decode::test,				normalState	},
+	{ '>',		&Decode::test,				normalState	},
+	{ '<',		&Decode::test,				normalState	},
     { CHAR_NORMAL, 	0,							normalState	}
 };
 
 // state after ESC [
-StateOption QTermDecode::bracketState[] =
+StateOption Decode::bracketState[] =
 {
-    { '0', 		&QTermDecode::paramDigit,		bracketState },
-    { '1', 		&QTermDecode::paramDigit,		bracketState },
-    { '2', 		&QTermDecode::paramDigit,		bracketState },
-    { '3', 		&QTermDecode::paramDigit,		bracketState },
-    { '4', 		&QTermDecode::paramDigit,		bracketState },
-    { '5',		&QTermDecode::paramDigit,		bracketState },
-    { '6', 		&QTermDecode::paramDigit,		bracketState },
-    { '7', 		&QTermDecode::paramDigit,		bracketState },
-    { '8', 		&QTermDecode::paramDigit,		bracketState },
-    { '9', 		&QTermDecode::paramDigit,		bracketState },
-    { ';', 		&QTermDecode::nextParam,		bracketState },
+    { '0', 		&Decode::paramDigit,		bracketState },
+    { '1', 		&Decode::paramDigit,		bracketState },
+    { '2', 		&Decode::paramDigit,		bracketState },
+    { '3', 		&Decode::paramDigit,		bracketState },
+    { '4', 		&Decode::paramDigit,		bracketState },
+    { '5',		&Decode::paramDigit,		bracketState },
+    { '6', 		&Decode::paramDigit,		bracketState },
+    { '7', 		&Decode::paramDigit,		bracketState },
+    { '8', 		&Decode::paramDigit,		bracketState },
+    { '9', 		&Decode::paramDigit,		bracketState },
+    { ';', 		&Decode::nextParam,		bracketState },
 
-	{ '?',		&QTermDecode::clearParam,		privateState},
+	{ '?',		&Decode::clearParam,		privateState},
 	
-    { 'A', 		&QTermDecode::cursorUp,			normalState },
-    { 'B', 		&QTermDecode::cursorDown,		normalState },
-    { 'C', 		&QTermDecode::cursorRight,		normalState },
-    { 'D', 		&QTermDecode::cursorLeft,		normalState },
-    { 'H', 		&QTermDecode::cursorPosition,  	normalState },
-    { 'J', 		&QTermDecode::eraseScreen,		normalState },
-    { 'K', 		&QTermDecode::eraseLine,		normalState },
-    { 'L', 		&QTermDecode::insertLine,		normalState },
-    { 'M', 		&QTermDecode::deleteLine,		normalState },
-    { 'P', 		&QTermDecode::deleteStr,		normalState },
-    { 'X', 		&QTermDecode::eraseStr,			normalState },
-    { 'f', 		&QTermDecode::cursorPosition,  	normalState },
-    { 'h',		&QTermDecode::setMode,			normalState },
-    { 'l',		&QTermDecode::resetMode,		normalState },
-    { 'm', 		&QTermDecode::getAttr,			normalState },
-    { 'r',		&QTermDecode::setMargins,		normalState },
-    { 's', 		&QTermDecode::saveCursor,		normalState },
-    { 'u', 		&QTermDecode::restoreCursor,	normalState },
-    { '@', 		&QTermDecode::insertStr,		normalState },
+    { 'A', 		&Decode::cursorUp,			normalState },
+    { 'B', 		&Decode::cursorDown,		normalState },
+    { 'C', 		&Decode::cursorRight,		normalState },
+    { 'D', 		&Decode::cursorLeft,		normalState },
+    { 'H', 		&Decode::cursorPosition,  	normalState },
+    { 'J', 		&Decode::eraseScreen,		normalState },
+    { 'K', 		&Decode::eraseLine,		normalState },
+    { 'L', 		&Decode::insertLine,		normalState },
+    { 'M', 		&Decode::deleteLine,		normalState },
+    { 'P', 		&Decode::deleteStr,		normalState },
+    { 'X', 		&Decode::eraseStr,			normalState },
+    { 'f', 		&Decode::cursorPosition,  	normalState },
+    { 'h',		&Decode::setMode,			normalState },
+    { 'l',		&Decode::resetMode,		normalState },
+    { 'm', 		&Decode::getAttr,			normalState },
+    { 'r',		&Decode::setMargins,		normalState },
+    { 's', 		&Decode::saveCursor,		normalState },
+    { 'u', 		&Decode::restoreCursor,	normalState },
+    { '@', 		&Decode::insertStr,		normalState },
 
-    { CHAR_CR, 		&QTermDecode::cr,			bracketState },
-    { CHAR_LF, 		&QTermDecode::lf,			bracketState },
-    { CHAR_FF, 		&QTermDecode::ff,			bracketState },
-    { CHAR_TAB,  	&QTermDecode::tab,			bracketState },
-    { CHAR_BS, 	 	&QTermDecode::bs,			bracketState },
-    { CHAR_BELL, 	&QTermDecode::bell,			bracketState },
+    { CHAR_CR, 		&Decode::cr,			bracketState },
+    { CHAR_LF, 		&Decode::lf,			bracketState },
+    { CHAR_FF, 		&Decode::ff,			bracketState },
+    { CHAR_TAB,  	&Decode::tab,			bracketState },
+    { CHAR_BS, 	 	&Decode::bs,			bracketState },
+    { CHAR_BELL, 	&Decode::bell,			bracketState },
     { CHAR_NORMAL, 	0,							normalState }
 };
 
 // state after ESC [ ?
 
-StateOption QTermDecode::privateState[] =
+StateOption Decode::privateState[] =
 {
-	{ '0', 		&QTermDecode::paramDigit,			privateState },
-    { '1', 		&QTermDecode::paramDigit,			privateState },
-    { '2', 		&QTermDecode::paramDigit,			privateState },
-    { '3', 		&QTermDecode::paramDigit,			privateState },
-    { '4', 		&QTermDecode::paramDigit,			privateState },
-    { '5',		&QTermDecode::paramDigit,			privateState },
-    { '6', 		&QTermDecode::paramDigit,			privateState },
-    { '7', 		&QTermDecode::paramDigit,			privateState },
-    { '8', 		&QTermDecode::paramDigit,			privateState },
-    { '9', 		&QTermDecode::paramDigit,			privateState },
-    { ';', 		&QTermDecode::nextParam,			privateState },
+	{ '0', 		&Decode::paramDigit,			privateState },
+    { '1', 		&Decode::paramDigit,			privateState },
+    { '2', 		&Decode::paramDigit,			privateState },
+    { '3', 		&Decode::paramDigit,			privateState },
+    { '4', 		&Decode::paramDigit,			privateState },
+    { '5',		&Decode::paramDigit,			privateState },
+    { '6', 		&Decode::paramDigit,			privateState },
+    { '7', 		&Decode::paramDigit,			privateState },
+    { '8', 		&Decode::paramDigit,			privateState },
+    { '9', 		&Decode::paramDigit,			privateState },
+    { ';', 		&Decode::nextParam,			privateState },
 
-	{ 'h',		&QTermDecode::setMode,				normalState	 },
-	{ 'l',		&QTermDecode::resetMode,			normalState	 },
-	{ 's',		&QTermDecode::saveMode,				normalState	 },
-	{ 'r',		&QTermDecode::restoreMode,			normalState	 },
+	{ 'h',		&Decode::setMode,				normalState	 },
+	{ 'l',		&Decode::resetMode,			normalState	 },
+	{ 's',		&Decode::saveMode,				normalState	 },
+	{ 'r',		&Decode::restoreMode,			normalState	 },
 
 	{ CHAR_NORMAL, 	0,								normalState  }
 };
 
-QTermDecode::QTermDecode( QTermBuffer * buffer )
+Decode::Decode( Buffer * buffer )
 {
 	m_pBuffer = buffer;
 	
-	currentState = /*QTermDecode::*/normalState;
+	currentState = /*Decode::*/normalState;
 	
 	m_defAttr = SETCOLOR( /*0x4b*/NO_COLOR ) | SETATTR( NO_ATTR );
 
@@ -142,13 +142,13 @@ QTermDecode::QTermDecode( QTermBuffer * buffer )
 	bCurMode[MODE_MouseX11]=bSaveMode[MODE_MouseX11]=false;
 }
 
-QTermDecode::~QTermDecode()
+Decode::~Decode()
 {
 }
 
 // precess input string from telnet socket
-//void QTermDecode::ansiDecode( const QCString &cstr, int length )
-void QTermDecode::decode( const char *cstr, int length )
+//void Decode::ansiDecode( const QCString &cstr, int length )
+void Decode::decode( const char *cstr, int length )
 {	
 	inputData = cstr;
 	inputLength = length;//inputData.length();
@@ -190,7 +190,7 @@ void QTermDecode::decode( const char *cstr, int length )
 }
 	
 // fill letters into char buffer
-void QTermDecode::normalInput()
+void Decode::normalInput()
 {
 	if ( inputData[dataIndex] < 0x20 && inputData[dataIndex] >= 0x00 )	// not print char
 		return;
@@ -210,52 +210,52 @@ void QTermDecode::normalInput()
 }
 
 // non-printing characters functions
-void QTermDecode::cr()
+void Decode::cr()
 {
 	// FIXME: dirty
 	m_pBuffer->cr();
 }
 
-void QTermDecode::lf()
+void Decode::lf()
 {
 	m_pBuffer->newLine();
 }
 
-void QTermDecode::ff()
+void Decode::ff()
 {
 	m_pBuffer->eraseEntireScreen();
 	
 	m_pBuffer->moveCursor( 0, 0 );
 }
 
-void QTermDecode::tab()
+void Decode::tab()
 {
 	m_pBuffer->tab();
 }
 
-void QTermDecode::bs()
+void Decode::bs()
 {
 	m_pBuffer->moveCursorOffset( - 1, 0 );
 }
 
-void QTermDecode::bell()
+void Decode::bell()
 {
 	m_bBell = true;
 }
 
-void QTermDecode::setMargins()
+void Decode::setMargins()
 {
 	m_pBuffer->setMargins( param[0], param[1] );
 }
 
-void QTermDecode::nextLine()
+void Decode::nextLine()
 {
 	cr();
 	lf();
 }
 
 // parameters functions
-void QTermDecode::clearParam()
+void Decode::clearParam()
 {
 	nParam = 0;
 	memset( param, 0, sizeof(param) );
@@ -263,7 +263,7 @@ void QTermDecode::clearParam()
 }
 
 // for performance, this grabs all digits
-void QTermDecode::paramDigit()
+void Decode::paramDigit()
 {
 	bParam = true;
 	
@@ -273,22 +273,22 @@ void QTermDecode::paramDigit()
 	param[nParam] = param[nParam]*10 + inputData[dataIndex] - '0';
 }
 
-void QTermDecode::nextParam()
+void Decode::nextParam()
 {
 	nParam++;
 }
 
-void QTermDecode::saveCursor()
+void Decode::saveCursor()
 {
 	m_pBuffer->saveCursor();
 }
 
-void QTermDecode::restoreCursor()
+void Decode::restoreCursor()
 {
 	m_pBuffer->restoreCursor();
 }
 
-void QTermDecode::cursorLeft()
+void Decode::cursorLeft()
 {
 	int n = param[0];
 
@@ -298,7 +298,7 @@ void QTermDecode::cursorLeft()
 	m_pBuffer->moveCursorOffset( -n, 0 );
 }
 
-void QTermDecode::cursorRight()
+void Decode::cursorRight()
 {
 	int n = param[0];
 
@@ -308,7 +308,7 @@ void QTermDecode::cursorRight()
 	m_pBuffer->moveCursorOffset( n, 0 );
 }
 
-void QTermDecode::cursorUp()
+void Decode::cursorUp()
 {
 	int n = param[0];
 
@@ -318,7 +318,7 @@ void QTermDecode::cursorUp()
 	m_pBuffer->moveCursorOffset( 0, -n );
 }
 
-void QTermDecode::cursorDown()
+void Decode::cursorDown()
 {
 	int n = param[0];
 
@@ -328,7 +328,7 @@ void QTermDecode::cursorDown()
 	m_pBuffer->moveCursorOffset( 0, n );
 }
 
-void QTermDecode::cursorPosition()
+void Decode::cursorPosition()
 {
 	int x = param[1];	
 	int y = param[0];	
@@ -340,7 +340,7 @@ void QTermDecode::cursorPosition()
 }
 
 // erase functions
-void QTermDecode::eraseStr()
+void Decode::eraseStr()
 {
 	int n = param[0];
 
@@ -351,7 +351,7 @@ void QTermDecode::eraseStr()
 }
 
 // insert functions
-void QTermDecode::insertStr()
+void Decode::insertStr()
 {
 	int n = param[0];
 
@@ -361,7 +361,7 @@ void QTermDecode::insertStr()
 	m_pBuffer->insertStr( n );
 }
 // delete functions
-void QTermDecode::deleteStr()
+void Decode::deleteStr()
 {
 	int n = param[0];
 
@@ -372,7 +372,7 @@ void QTermDecode::deleteStr()
 }
 
 
-void QTermDecode::eraseLine()
+void Decode::eraseLine()
 {
 	switch ( param[0] )
 	{
@@ -390,7 +390,7 @@ void QTermDecode::eraseLine()
 	}
 }
 
-void QTermDecode::insertLine()
+void Decode::insertLine()
 {
 
 	int n = param[0];
@@ -401,7 +401,7 @@ void QTermDecode::insertLine()
 	m_pBuffer->insertLine( n );
 }
 
-void QTermDecode::deleteLine()
+void Decode::deleteLine()
 {
 	int n = param[0];
 
@@ -411,7 +411,7 @@ void QTermDecode::deleteLine()
 	m_pBuffer->deleteLine( n );
 }
 
-void QTermDecode::eraseScreen()
+void Decode::eraseScreen()
 {
 	switch ( param[0] )
 	{
@@ -430,7 +430,7 @@ void QTermDecode::eraseScreen()
 }
 
 
-void QTermDecode::getAttr()
+void Decode::getAttr()
 {
 	// get all attributes of character
 	
@@ -492,7 +492,7 @@ void QTermDecode::getAttr()
 	m_pBuffer->setCurAttr( m_curAttr );
 }
 
-void QTermDecode::setMode()
+void Decode::setMode()
 {
 	for( int i=0; i<=nParam; i++)
 	{
@@ -516,7 +516,7 @@ void QTermDecode::setMode()
 	}
 }
 
-void QTermDecode::resetMode()
+void Decode::resetMode()
 {
 	for( int i=0; i<=nParam; i++)
 	{
@@ -540,7 +540,7 @@ void QTermDecode::resetMode()
 	}
 }
 
-void QTermDecode::saveMode()
+void Decode::saveMode()
 {
 	for( int i=0; i<=nParam; i++)
 	{
@@ -557,7 +557,7 @@ void QTermDecode::saveMode()
 	}
 }
 
-void QTermDecode::restoreMode()
+void Decode::restoreMode()
 {
 	for( int i=0; i<=nParam; i++)
 	{
@@ -576,7 +576,7 @@ void QTermDecode::restoreMode()
 }
 
 
-void QTermDecode::test()
+void Decode::test()
 {
 }
 

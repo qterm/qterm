@@ -27,10 +27,10 @@ class QInputMethodEvent;
 
 namespace QTerm
 {
-class QTermWindow;
-class QTermBuffer;
-class QTermBBS;
-class QTermParam;
+class Window;
+class Buffer;
+class BBS;
+class Param;
 // class Q3Accel;
 /*
 class QTermInput : public QWidget
@@ -53,14 +53,14 @@ private:
 	int d_height, d_width, d_ascent;
 };
 */
-class QTermScreen : public QWidget
+class Screen : public QWidget
 {
 	Q_OBJECT
 public:
 	enum PaintState {NewData, Blink, Cursor, Repaint};
 	enum MouseState {Enter, Press, Move, Release, Leave};
-	QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *param, QTermBBS *bbs );
- 	~QTermScreen();
+	Screen( QWidget *parent, Buffer *buffer, Param *param, BBS *bbs );
+ 	~Screen();
 
 	void setSchema();
 
@@ -160,10 +160,10 @@ protected:
 	bool m_blinkCursor;
 	bool m_hasBlink;
 
-	QTermWindow * m_pWindow;
-	QTermBBS * m_pBBS;
-	QTermBuffer * m_pBuffer;
-	QTermParam * m_pParam;
+	Window * m_pWindow;
+	BBS * m_pBBS;
+	Buffer * m_pBuffer;
+	Param * m_pParam;
 // 	QRubberBand * m_pBand;
 
 	QColor m_color[16];
@@ -191,11 +191,11 @@ protected:
 	QShortcut * m_scPrevLine;
 	QShortcut * m_scNextLine;
 
-	QTermConvert m_converter;
+	Convert m_converter;
 
 	QTextCodec *m_pCodec;
 	
-	friend class QTermWindow;
+	friend class Window;
 
 	// for test only
 };

@@ -80,14 +80,14 @@ extern QString pathPic;
 extern QString pathCfg;
 
 extern void clearDir(const QString& );
-extern QStringList loadNameList(QTermConfig *);
-extern bool loadAddress(QTermConfig *, int, QTermParam &);
-extern void saveAddress(QTermConfig *, int, const QTermParam &);
+extern QStringList loadNameList(Config *);
+extern bool loadAddress(Config *, int, Param &);
+extern void saveAddress(Config *, int, const Param &);
 
-QTermFrame* QTermFrame::s_instance = 0;
+Frame* Frame::s_instance = 0;
 
 //constructor
-QTermFrame::QTermFrame()
+Frame::Frame()
     : QMainWindow( 0 )
 {
 	s_instance = this;
@@ -142,7 +142,7 @@ QTermFrame::QTermFrame()
 	statusBar()->addWidget(m_pStatusBar, 0);
 
 //create the window manager to deal with the window-tab-icon pairs
-	wndmgr=new QTermWndMgr(this);
+	wndmgr=new WndMgr(this);
 
 // expressly connect sites in addressbook
 // 	Q3Accel *accel2 = new Q3Accel(this);
@@ -185,14 +185,14 @@ QTermFrame::QTermFrame()
 }
 
 //destructor
-QTermFrame::~QTermFrame()
+Frame::~Frame()
 {
    delete wndmgr; 
 }
 //initialize setting from qterm.cfg
-void QTermFrame::iniSetting()
+void Frame::iniSetting()
 {
-	QTermConfig * conf= new QTermConfig(fileCfg);
+	Config * conf= new Config(fileCfg);
 
 	QString strTmp;
 	
@@ -294,7 +294,7 @@ void QTermFrame::iniSetting()
 	delete conf;
 }
 
-void QTermFrame::loadPref( QTermConfig * conf )
+void Frame::loadPref( Config * conf )
 {
 	QString strTmp;
 	strTmp = conf->getItemValue("preference","xim");
@@ -342,9 +342,9 @@ void QTermFrame::loadPref( QTermConfig * conf )
 }
 
 //save current setting to qterm.cfg
-void QTermFrame::saveSetting()
+void Frame::saveSetting()
 {
-	QTermConfig * conf= new QTermConfig(fileCfg);
+	Config * conf= new Config(fileCfg);
 
 	QString strTmp;
 	//save font
@@ -407,7 +407,7 @@ void QTermFrame::saveSetting()
 }
 
 //addressbook
-void QTermFrame::addressBook()
+void Frame::addressBook()
 {
 	addrDialog addr(this,false);
 	
@@ -417,11 +417,11 @@ void QTermFrame::addressBook()
 	}
 }
 //quicklogin
-void QTermFrame::quickLogin()
+void Frame::quickLogin()
 {
 	quickDialog quick(this);
 	
-	QTermConfig *pConf = new QTermConfig(addrCfg);
+	Config *pConf = new Config(addrCfg);
 	loadAddress(pConf, -1, quick.param);
 	delete pConf;
 
@@ -431,7 +431,7 @@ void QTermFrame::quickLogin()
 	}
 }
 
-void QTermFrame::exitQTerm()
+void Frame::exitQTerm()
 {
 	while( wndmgr->count()>0 ) 
 	{
@@ -456,10 +456,10 @@ void QTermFrame::exitQTerm()
 }
 
 //create a new display window
-//QTermWindow * QTermFrame::newWindow( const QTermParam&  param, int index )
-void QTermFrame::newWindow( const QTermParam&  param, int index )
+//Window * Frame::newWindow( const Param&  param, int index )
+void Frame::newWindow( const Param&  param, int index )
 {
-	QTermWindow * window=new QTermWindow( this, param, index, ws,
+	Window * window=new Window( this, param, index, ws,
 					0 );
 	ws->addWindow(window);
 	window->setWindowTitle( param.m_strName );
@@ -495,13 +495,13 @@ void QTermFrame::newWindow( const QTermParam&  param, int index )
 }
 
 //the tabbar selection changed
-void QTermFrame::selectionChanged(int n)
+void Frame::selectionChanged(int n)
 {
 	QString qtab=tabBar->tabText(n);
 	wndmgr->activateTheWindow(qtab);	
 }
 //slot Help->About QTerm
-void QTermFrame::aboutQTerm()
+void Frame::aboutQTerm()
 {
 	aboutDialog about(this);
 	
@@ -509,7 +509,7 @@ void QTermFrame::aboutQTerm()
 }
 
 //slot Help->Homepage
-void QTermFrame::homepage()
+void Frame::homepage()
 {
     QString strCmd = m_pref.strHttp;
 	QString strUrl = "http://qterm.sourceforge.net";
@@ -525,7 +525,7 @@ void QTermFrame::homepage()
 	system(strCmd.toLocal8Bit());
 }
 //slot Windows menu aboutToShow
-void QTermFrame::windowsMenuAboutToShow()
+void Frame::windowsMenuAboutToShow()
 {
 	windowsMenu->clear();
 	QAction * cascadeAction = windowsMenu->addAction(tr("Cascade"), ws, SLOT(cascade() ) );
@@ -554,24 +554,24 @@ void QTermFrame::windowsMenuAboutToShow()
 	
 }
 //slot activate the window correspond with the menu id 
-void QTermFrame::windowsMenuActivated( int id )
+void Frame::windowsMenuActivated( int id )
 {
 	QWidget* w = ws->windowList().at( id );
 	if ( w ) 
 	{
 		w->showNormal();
-//		wndmgr->activateTheTab((QTermWindow*)w);
+//		wndmgr->activateTheTab((Window*)w);
 	} 
 }
 
-void QTermFrame::popupConnectMenu()
+void Frame::popupConnectMenu()
 {
 	connectMenu->clear();
 
 	connectMenu->addAction("Quick Login", this, SLOT(quickLogin()) );
 	connectMenu->addSeparator();
 	
-	QTermConfig conf(addrCfg);
+	Config conf(addrCfg);
 	QStringList listName = loadNameList( &conf );
 
 	for ( int i=0; i<listName.count(); i++ )
@@ -583,25 +583,25 @@ void QTermFrame::popupConnectMenu()
 	
 	//connectMenu->exec( connectButton->mapToGlobal( connectButton->rect().bottomLeft() ));
 }
-void QTermFrame::connectMenuAboutToHide()
+void Frame::connectMenuAboutToHide()
 {
 // 	QMouseEvent me( QEvent::MouseButtonRelease, QPoint(0,0), QPoint(0,0), 
 // 			Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
 // 	QApplication::sendEvent( connectButton, &me );
 
 }
-void QTermFrame::connectMenuActivated()
+void Frame::connectMenuActivated()
 {
-	QTermConfig *pConf = new QTermConfig(addrCfg);
+	Config *pConf = new Config(addrCfg);
 	int id = static_cast<QAction *>(sender())->data().toInt();
-	QTermParam param;
+	Param param;
 	// FIXME: don't know the relation with id and param setted by setItemParameter
 	if(loadAddress(pConf, id, param))
 		newWindow(param, id);
 	delete pConf;
 }
 
-void QTermFrame::switchWin(int id)
+void Frame::switchWin(int id)
 {
 	QWidgetList windows = ws->windowList();
 	if(windows.count()==0)
@@ -626,14 +626,14 @@ void QTermFrame::switchWin(int id)
 		w->showNormal();
 }
 
-bool QTermFrame::eventFilter(QObject *o, QEvent *e)
+bool Frame::eventFilter(QObject *o, QEvent *e)
 {
 /*
 	if( o==this && m_pref.bTray)
 	{
 		if( e->type()==QEvent::ShowMinimized && m_pref.bTray )
 		{
-			printf("QTermFrame::eventFilter\n");
+			printf("Frame::eventFilter\n");
 			trayHide();
 			return true;
 		}
@@ -645,18 +645,18 @@ bool QTermFrame::eventFilter(QObject *o, QEvent *e)
 
 //slot draw something e.g. logo in the background
 //TODO : draw a pixmap in the background
-void QTermFrame::paintEvent( QPaintEvent * )
+void Frame::paintEvent( QPaintEvent * )
 {
 
 }
 
-void QTermFrame::closeEvent(QCloseEvent * clse)
+void Frame::closeEvent(QCloseEvent * clse)
 {
         QWidgetList windows = ws->windowList();
         for ( int i = 0; i < int(windows.count()); ++i )
         {
 
-                if( ( (QTermWindow *)windows.at(i) )->isConnected() )
+                if( ( (Window *)windows.at(i) )->isConnected() )
                 {
                         if (m_pref.bTray) {
                                 trayHide();
@@ -689,42 +689,42 @@ void QTermFrame::closeEvent(QCloseEvent * clse)
 
 }
 
-void QTermFrame::langEnglish()
+void Frame::langEnglish()
 {
 	QMessageBox::information( this, "QTerm",
 			tr("This will take effect after restart,\nplease close all windows and restart."));
-	QTermConfig * conf= new QTermConfig(fileCfg);
+	Config * conf= new Config(fileCfg);
 	conf->setItemValue("global","language","eng");
 	conf->save(fileCfg);
 	delete conf;
 }
 
-void QTermFrame::langSimplified()
+void Frame::langSimplified()
 {
 	QMessageBox::information( this, "QTerm",
 			tr("This will take effect after restart,\nplease close all windows and restart."));
-	QTermConfig * conf= new QTermConfig(fileCfg);
+	Config * conf= new Config(fileCfg);
 	conf->setItemValue("global","language","chs");
 	conf->save(fileCfg);
 	delete conf;
 }
 
-void QTermFrame::langTraditional()
+void Frame::langTraditional()
 {
 	QMessageBox::information( this, "QTerm",
 			tr("This will take effect after restart,\nplease close all windows and restart."));	
-	QTermConfig * conf= new QTermConfig(fileCfg);
+	Config * conf= new Config(fileCfg);
 	conf->setItemValue("global","language","cht");
 	conf->save(fileCfg);
 	delete conf;
 }
 
-void QTermFrame::connectIt()
+void Frame::connectIt()
 {
 	if( wndmgr->activeWindow()== NULL )
 	{
-		QTermParam param;
-		QTermConfig *pConf = new QTermConfig(addrCfg);
+		Param param;
+		Config *pConf = new Config(addrCfg);
 		loadAddress(pConf, -1, param);
 		delete pConf;
 		newWindow( param );
@@ -733,20 +733,20 @@ void QTermFrame::connectIt()
 		if(!wndmgr->activeWindow()->isConnected())
 			wndmgr->activeWindow()->reconnect();
 }
-void QTermFrame::disconnect()
+void Frame::disconnect()
 {
 	wndmgr->activeWindow()->disconnect();
 }
 
-void QTermFrame::copy( )
+void Frame::copy( )
 {
 	wndmgr->activeWindow()->copy();
 }
-void QTermFrame::paste( )
+void Frame::paste( )
 {
 	wndmgr->activeWindow()->paste();
 }
-void QTermFrame::copyRect()
+void Frame::copyRect()
 {
 	wndmgr->activeWindow()->m_bCopyRect = !wndmgr->activeWindow()->m_bCopyRect;
 
@@ -757,7 +757,7 @@ void QTermFrame::copyRect()
 
 	
 }
-void QTermFrame::copyColor()
+void Frame::copyColor()
 {
 	wndmgr->activeWindow()->m_bCopyColor = !wndmgr->activeWindow()->m_bCopyColor;
 	
@@ -767,12 +767,12 @@ void QTermFrame::copyColor()
 // 	editColor->setChecked( wndmgr->activeWindow()->m_bCopyColor );
 // 	qDebug("after crash");
 }
-void QTermFrame::copyArticle( )
+void Frame::copyArticle( )
 {
 	wndmgr->activeWindow()->copyArticle();
 }
 
-void QTermFrame::autoCopy()
+void Frame::autoCopy()
 {
 	wndmgr->activeWindow()->m_bAutoCopy = !wndmgr->activeWindow()->m_bAutoCopy;
 
@@ -780,7 +780,7 @@ void QTermFrame::autoCopy()
 	//menuBar()->setItemChecked( ID_EDIT_AUTO, wndmgr->activeWindow()->m_bAutoCopy );
 
 }
-void QTermFrame::wordWrap()
+void Frame::wordWrap()
 {
 	wndmgr->activeWindow()->m_bWordWrap = !wndmgr->activeWindow()->m_bWordWrap;
 
@@ -789,7 +789,7 @@ void QTermFrame::wordWrap()
 
 }
 
-void QTermFrame::noEsc()
+void Frame::noEsc()
 {
 // 	menuBar()->setItemChecked(ID_EDIT_ESC_NO,false);
 // 	menuBar()->setItemChecked(ID_EDIT_ESC_ESC,false);
@@ -800,7 +800,7 @@ void QTermFrame::noEsc()
 	m_noescAction->setChecked(true);
 // 	menuBar()->setItemChecked(ID_EDIT_ESC_NO,true); 
 }
-void QTermFrame::escEsc()
+void Frame::escEsc()
 {
 // 	menuBar()->setItemChecked(ID_EDIT_ESC_NO,false);
 // 	menuBar()->setItemChecked(ID_EDIT_ESC_ESC,false);
@@ -811,7 +811,7 @@ void QTermFrame::escEsc()
 	m_escescAction->setChecked(true);
 // 	menuBar()->setItemChecked(ID_EDIT_ESC_ESC,true);
 }
-void QTermFrame::uEsc()
+void Frame::uEsc()
 {
 // 	menuBar()->setItemChecked(ID_EDIT_ESC_NO,false);
 // 	menuBar()->setItemChecked(ID_EDIT_ESC_ESC,false);
@@ -822,7 +822,7 @@ void QTermFrame::uEsc()
 	m_uescAction->setChecked(true);
 // 	menuBar()->setItemChecked(ID_EDIT_ESC_U,true);
 }
-void QTermFrame::customEsc()
+void Frame::customEsc()
 {
 	bool ok;
 	QString strEsc = QInputDialog::getText(this, "define escape", "scape string *[",
@@ -841,7 +841,7 @@ void QTermFrame::customEsc()
 	}
 }
 
-void QTermFrame::gbkCodec()
+void Frame::gbkCodec()
 {
 // 	menuBar()->setItemChecked(ID_EDIT_CODEC_GBK,false);
 // 	menuBar()->setItemChecked(ID_EDIT_CODEC_BIG5,false);
@@ -851,7 +851,7 @@ void QTermFrame::gbkCodec()
 // 	menuBar()->setItemChecked(ID_EDIT_CODEC_GBK,true);
 }
 
-void QTermFrame::big5Codec()
+void Frame::big5Codec()
 {
 // 	menuBar()->setItemChecked(ID_EDIT_CODEC_GBK,false);
 // 	menuBar()->setItemChecked(ID_EDIT_CODEC_BIG5,false);
@@ -861,22 +861,22 @@ void QTermFrame::big5Codec()
 // 	menuBar()->setItemChecked(ID_EDIT_CODEC_BIG5,true);
 }
 
-void QTermFrame::font( )
+void Frame::font( )
 {
 	wndmgr->activeWindow()->font();
 }
 
-void QTermFrame::color( )
+void Frame::color( )
 {
 	wndmgr->activeWindow()->color();
 
 }
-void QTermFrame::refresh( )
+void Frame::refresh( )
 {
 	wndmgr->activeWindow()->refresh();
 }
 
-void QTermFrame::uiFont()
+void Frame::uiFont()
 {
 	bool ok;
 	QFont font = QFontDialog::getFont(&ok,qApp->font());
@@ -890,7 +890,7 @@ void QTermFrame::uiFont()
 	}
 }
 
-void QTermFrame::fullscreen()
+void Frame::fullscreen()
 {
 	m_bFullScreen = ! m_bFullScreen;
 	
@@ -922,7 +922,7 @@ void QTermFrame::fullscreen()
 
 }
 
-void QTermFrame::bosscolor()
+void Frame::bosscolor()
 {
 	m_bBossColor = !m_bBossColor;
 
@@ -932,7 +932,7 @@ void QTermFrame::bosscolor()
 // 	menuBar()->setItemChecked( ID_VIEW_BOSS, m_bBossColor );
 }
 
-void QTermFrame::themesMenuAboutToShow()
+void Frame::themesMenuAboutToShow()
 {
 	themesMenu->clear();
 // #if QT_VERSION < 300
@@ -962,7 +962,7 @@ void QTermFrame::themesMenuAboutToShow()
 // #endif
 }
 
-void QTermFrame::themesMenuActivated()
+void Frame::themesMenuActivated()
 {
 
 	theme = ((QAction*)QObject::sender())->text();
@@ -1016,7 +1016,7 @@ void QTermFrame::themesMenuActivated()
 	
 }
 
-void QTermFrame::hideScroll()
+void Frame::hideScroll()
 {
 // 	menuBar()->setItemChecked( ID_VIEW_SCROLL_RIGHT, false );
 // 	menuBar()->setItemChecked( ID_VIEW_SCROLL_LEFT, false );
@@ -1026,7 +1026,7 @@ void QTermFrame::hideScroll()
 
 	emit updateScroll();
 }
-void QTermFrame::leftScroll()
+void Frame::leftScroll()
 {
 // 	menuBar()->setItemChecked( ID_VIEW_SCROLL_HIDE, false );
 // 	menuBar()->setItemChecked( ID_VIEW_SCROLL_RIGHT, false );
@@ -1038,7 +1038,7 @@ void QTermFrame::leftScroll()
 
 	emit updateScroll();
 }
-void QTermFrame::rightScroll()
+void Frame::rightScroll()
 {
 // 	menuBar()->setItemChecked( ID_VIEW_SCROLL_HIDE, false );
 // 	menuBar()->setItemChecked( ID_VIEW_SCROLL_LEFT, false );
@@ -1051,7 +1051,7 @@ void QTermFrame::rightScroll()
 	emit updateScroll();
 }
 
-void QTermFrame::showSwitchBar()
+void Frame::showSwitchBar()
 {
 
 	m_bSwitchBar = !m_bSwitchBar; 
@@ -1065,7 +1065,7 @@ void QTermFrame::showSwitchBar()
 		statusBar()->hide();
 }
 
-void QTermFrame::showStatusBar()
+void Frame::showStatusBar()
 {
 	m_bStatusBar = !m_bStatusBar;
 // 	menuBar()->setItemChecked(ID_VIEW_STATUS,m_bStatusBar );
@@ -1075,15 +1075,15 @@ void QTermFrame::showStatusBar()
 	emit updateStatusBar(m_bStatusBar);
 }
 
-void QTermFrame::setting( )
+void Frame::setting( )
 {
 	wndmgr->activeWindow()->setting();
 }
-void QTermFrame::defaultSetting()
+void Frame::defaultSetting()
 {
 	addrDialog set(this, true);
 	
-	QTermConfig *pConf = new QTermConfig(addrCfg);
+	Config *pConf = new Config(addrCfg);
 
 	if( pConf->hasSection("default") )
 		loadAddress(pConf,-1,set.param);
@@ -1099,20 +1099,20 @@ void QTermFrame::defaultSetting()
 	delete pConf;
 }
 
-void QTermFrame::preference()
+void Frame::preference()
 {
 	prefDialog pref(this);
 
 	if(pref.exec()==1)
 	{
-		QTermConfig *pConf = new QTermConfig(fileCfg);
+		Config *pConf = new Config(fileCfg);
 		loadPref(pConf);
 		delete pConf;
 		setUseDock(m_pref.bTray);
 	}
 }
 
-void QTermFrame::keySetup()
+void Frame::keySetup()
 {
 	keyDialog keyDlg(this);
 	if(keyDlg.exec()==1)
@@ -1122,7 +1122,7 @@ void QTermFrame::keySetup()
 }
 
 
-void QTermFrame::antiIdle( )
+void Frame::antiIdle( )
 {
 	wndmgr->activeWindow()->antiIdle();
 
@@ -1133,7 +1133,7 @@ void QTermFrame::antiIdle( )
 // 	specAnti->setChecked( wndmgr->activeWindow()->m_bAntiIdle );
 }
 
-void QTermFrame::autoReply( )
+void Frame::autoReply( )
 {
 	wndmgr->activeWindow()->autoReply();
 
@@ -1144,11 +1144,11 @@ void QTermFrame::autoReply( )
 // 	specAuto->setChecked( wndmgr->activeWindow()->m_bAutoReply );
 
 }
-void QTermFrame::viewMessages( )
+void Frame::viewMessages( )
 {
 	wndmgr->activeWindow()->viewMessages();
 }
-void QTermFrame::enableMouse( )
+void Frame::enableMouse( )
 {
 	wndmgr->activeWindow()->m_bMouse = !wndmgr->activeWindow()->m_bMouse;
 
@@ -1160,13 +1160,13 @@ void QTermFrame::enableMouse( )
 
 }
 
-void QTermFrame::viewImages()
+void Frame::viewImages()
 {
-	QTermImage viewer(pathPic+"pic/shadow.png", m_pref.strPoolPath, this);
+	Image viewer(pathPic+"pic/shadow.png", m_pref.strPoolPath, this);
 	viewer.exec();
 }
 
-void QTermFrame::beep()
+void Frame::beep()
 {
 	wndmgr->activeWindow()->m_bBeep = !wndmgr->activeWindow()->m_bBeep;
 
@@ -1177,28 +1177,28 @@ void QTermFrame::beep()
 
 }
 
-void QTermFrame::reconnect()
+void Frame::reconnect()
 {
 	wndmgr->activeWindow()->m_bReconnect = !wndmgr->activeWindow()->m_bReconnect;
 
 // 	specReconnect->setChecked( wndmgr->activeWindow()->m_bReconnect );
 }
 
-void QTermFrame::runScript()
+void Frame::runScript()
 {
 	wndmgr->activeWindow()->runScript();
 }
-void QTermFrame::stopScript()
+void Frame::stopScript()
 {
 	wndmgr->activeWindow()->stopScript();
 }
 
-void QTermFrame::keyClicked(int id)
+void Frame::keyClicked(int id)
 {
 	if(wndmgr->activeWindow()==NULL)
 		return;
 
-	QTermConfig conf(fileCfg);
+	Config conf(fileCfg);
 
 	QString strItem = QString("key%1").arg(id);
 // 	strItem.sprintf("key%d",id);
@@ -1217,9 +1217,9 @@ void QTermFrame::keyClicked(int id)
 	}
 }
 
-void QTermFrame::toolBarPosChanged(QToolBar*)
+void Frame::toolBarPosChanged(QToolBar*)
 {
-	QTermConfig conf(fileCfg);
+	Config conf(fileCfg);
 	
 // 	Qt::ToolBarDock dock;
 	int index;
@@ -1245,7 +1245,7 @@ void QTermFrame::toolBarPosChanged(QToolBar*)
 	conf.save(fileCfg);
 }
 
-void QTermFrame::addMainTool()
+void Frame::addMainTool()
 {
 	
 	// hte main toolbar	
@@ -1253,7 +1253,7 @@ void QTermFrame::addMainTool()
 // 	mdiTools->setLabel("Main ToolBar");
 	mdiTools->setIconSize(QSize(22,22));
 
-	QTermConfig conf(fileCfg);
+	Config conf(fileCfg);
 	int hide,dock,index,nl,extra;
 
 	QString strTmp = conf.getItemValue("global","mainbar");
@@ -1392,7 +1392,7 @@ void QTermFrame::addMainTool()
 }
 
 
-void QTermFrame::addMainMenu()
+void Frame::addMainMenu()
 {
 	mainMenu = menuBar();//new QMenuBar(this);
 	
@@ -1538,9 +1538,9 @@ void QTermFrame::addMainMenu()
 
 }
 
-void QTermFrame::updateMenuToolBar()
+void Frame::updateMenuToolBar()
 {
-	QTermWindow * window = wndmgr->activeWindow();
+	Window * window = wndmgr->activeWindow();
 
 	if(window==NULL)
 		return;
@@ -1588,7 +1588,7 @@ void QTermFrame::updateMenuToolBar()
 // 	specReconnect->setOn( window->m_bReconnect );
 }
 
-void QTermFrame::enableMenuToolBar( bool enable )
+void Frame::enableMenuToolBar( bool enable )
 {
 // 	mainMenu->setItemEnabled( ID_FILE_DISCONNECT,	enable );
 	
@@ -1649,12 +1649,12 @@ void QTermFrame::enableMenuToolBar( bool enable )
 	return;
 }
 
-void QTermFrame::updateKeyToolBar()
+void Frame::updateKeyToolBar()
 {
 	key->clear();
 	key->addAction( QPixmap(pathPic+"pic/keys.png"), tr("Key Setup"), this, SLOT(keySetup()) );
 
-	QTermConfig * conf= new QTermConfig(fileCfg);
+	Config * conf= new Config(fileCfg);
 	QString strItem, strTmp;
 	strTmp = conf->getItemValue("key", "num");
 	int num = strTmp.toInt();
@@ -1663,7 +1663,7 @@ void QTermFrame::updateKeyToolBar()
 	{
 		strItem = QString("name%1").arg(i);
 		strTmp = conf->getItemValue("key", strItem);
-		QTermToolButton *button = new QTermToolButton(key, i, strTmp);
+		ToolButton *button = new ToolButton(key, i, strTmp);
 // 		button->setUsesTextLabel(true);
  		button->setText(strTmp);
 // 		button->setTextPosition(QToolButton::BesideIcon);
@@ -1678,7 +1678,7 @@ void QTermFrame::updateKeyToolBar()
 	delete conf;
 }
 
-QString QTermFrame::valueToString(bool shown, int dock, int index, bool nl, int extra )
+QString Frame::valueToString(bool shown, int dock, int index, bool nl, int extra )
 {
 	QString str="";
 
@@ -1687,7 +1687,7 @@ QString QTermFrame::valueToString(bool shown, int dock, int index, bool nl, int 
 	return str;
 }
 
-void QTermFrame::popupFocusIn(QTermWindow *)
+void Frame::popupFocusIn(Window *)
 {
 	// bring to font
 	if(isHidden()) {
@@ -1703,7 +1703,7 @@ void QTermFrame::popupFocusIn(QTermWindow *)
 	activateWindow();
 }
 
-void QTermFrame::insertThemeItem(QString themeitem)
+void Frame::insertThemeItem(QString themeitem)
 {
 	//const char *style[]={"Default", "CDE", "Motif", 
 			//"Motif Plus", "Platinum", "SGI", "Windows"};
@@ -1716,7 +1716,7 @@ void QTermFrame::insertThemeItem(QString themeitem)
 // 	themesMenu->setItemChecked( id, themeitem==theme );
 }
 
-void QTermFrame::setUseDock(bool use)
+void Frame::setUseDock(bool use)
 {
 	if(use == false) {
 		if(tray) {
@@ -1746,7 +1746,7 @@ void QTermFrame::setUseDock(bool use)
 	tray->show();
 }
 
-void QTermFrame::buildTrayMenu()
+void Frame::buildTrayMenu()
 {
 	if(!trayMenu)
 		return;
@@ -1760,7 +1760,7 @@ void QTermFrame::buildTrayMenu()
 	trayMenu->addAction(tr("About"), this, SLOT(aboutQTerm()));
 	trayMenu->addAction(tr("Exit"), this, SLOT(exitQTerm()));
 }
-void QTermFrame::trayActived(int reason)
+void Frame::trayActived(int reason)
 {
 	if (reason == QSystemTrayIcon::Context)
 		return;
@@ -1770,7 +1770,7 @@ void QTermFrame::trayActived(int reason)
 		trayHide();
 }
 /*
-void QTermFrame::trayClicked(const QPoint &, int)
+void Frame::trayClicked(const QPoint &, int)
 {
 	if(isHidden())
 		trayShow();
@@ -1778,7 +1778,7 @@ void QTermFrame::trayClicked(const QPoint &, int)
 		trayHide();
 }
 
-void QTermFrame::trayDoubleClicked()
+void Frame::trayDoubleClicked()
 {
 	if(isHidden())
 		trayShow();
@@ -1786,7 +1786,7 @@ void QTermFrame::trayDoubleClicked()
 		trayHide();
 }
 */
-void QTermFrame::trayShow()
+void Frame::trayShow()
 {
 	show();
 	// bring to font
@@ -1807,12 +1807,12 @@ void QTermFrame::trayShow()
 	activateWindow();
 }
 
-void QTermFrame::trayHide()
+void Frame::trayHide()
 {
 	hide();
 }
 
-void QTermFrame::buzz()
+void Frame::buzz()
 {
 	int xp = x();
 	int yp = y();

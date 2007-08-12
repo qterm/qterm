@@ -17,12 +17,12 @@ class QImage;
 
 namespace QTerm
 {
-class QTermCanvas : public QScrollArea
+class Canvas : public QScrollArea
 {
 	Q_OBJECT
 public: 
-	QTermCanvas(QWidget *parent=NULL, Qt::WFlags f=Qt::Window);
-	~QTermCanvas();
+	Canvas(QWidget *parent=NULL, Qt::WFlags f=Qt::Window);
+	~Canvas();
 
 	void loadImage(QString);
 

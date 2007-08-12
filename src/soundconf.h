@@ -4,7 +4,7 @@
 #include "ui_soundconf.h"
 namespace QTerm
 {
-class QTermSound;
+class Sound;
 
 class soundConf : public QDialog
 {
@@ -25,7 +25,7 @@ protected slots:
 	void accept();
 
 private:
-	QTermSound * m_pSound;
+	Sound * m_pSound;
 	Ui::soundConf ui;
 	QButtonGroup bgMethod;
 };

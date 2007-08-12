@@ -24,7 +24,7 @@ AUTHOR:		kingson
 namespace QTerm
 {
 
-QTermBuffer::QTermBuffer( int line, int column, int limit )
+Buffer::Buffer( int line, int column, int limit )
 {
 	m_lin = line;
 	m_col = column;
@@ -33,7 +33,7 @@ QTermBuffer::QTermBuffer( int line, int column, int limit )
 	m_lines = 0;
 
 	while(  m_lineList.count()< m_lin )
-		 m_lineList.append( new QTermTextLine );
+		 m_lineList.append( new TextLine );
 
 // 	m_lineList.setAutoDelete(true);
 
@@ -59,19 +59,19 @@ QTermBuffer::QTermBuffer( int line, int column, int limit )
 }
 
 
-QTermBuffer::~QTermBuffer()
+Buffer::~Buffer()
 {
 
 }
 
-void QTermBuffer::setSize(int col, int lin)
+void Buffer::setSize(int col, int lin)
 {
 	if(m_col==col && m_lin==lin)
 		return;
 
 	if(m_lin<lin)
 		for(int i=0; i<lin-m_lin; i++ )
-			m_lineList.append( new QTermTextLine );
+			m_lineList.append( new TextLine );
 	else if(m_lin>lin)
 		for(int i=0; i<m_lin-lin; i++ )
 			delete m_lineList.takeAt(m_lines+m_top);
@@ -92,39 +92,39 @@ void QTermBuffer::setSize(int col, int lin)
 	emit bufferSizeChanged();
 }
 
-int QTermBuffer::columns()
+int Buffer::columns()
 {
 	return m_col;
 }
 
-int QTermBuffer::lines()
+int Buffer::lines()
 {
 	return m_lin+m_lines;
 }
-int QTermBuffer::line()
+int Buffer::line()
 {
 	return m_lin;
 }
 
-QTermTextLine * QTermBuffer::at( int y )
+TextLine * Buffer::at( int y )
 {
 	return m_lineList.value( y , NULL);
 }
 
-QTermTextLine * QTermBuffer::screen( int y )
+TextLine * Buffer::screen( int y )
 {
 	return m_lineList.value( y+m_lines , NULL);
 }
 
-void QTermBuffer::setCurAttr( short attr )
+void Buffer::setCurAttr( short attr )
 {
 	m_curAttr = attr;
 }
 
-void QTermBuffer::setBuffer( const QByteArray& cstr, int n )
+void Buffer::setBuffer( const QByteArray& cstr, int n )
 {
 	
-	QTermTextLine * line =  m_lineList.value( m_lines + m_caretY, NULL );
+	TextLine * line =  m_lineList.value( m_lines + m_caretY, NULL );
 	
 	if(line==NULL)
 	{	
@@ -140,7 +140,7 @@ void QTermBuffer::setBuffer( const QByteArray& cstr, int n )
 	moveCursorOffset( n, 0 );
 }
 //nextline
-void QTermBuffer::newLine()
+void Buffer::newLine()
 {
 	if( NewLine_Mode )
 	{
@@ -162,7 +162,7 @@ void QTermBuffer::newLine()
 }
 
 //table
-void QTermBuffer::tab()
+void Buffer::tab()
 {
 	int x = ( m_caretX + 8 ) & -8;	// or ( caretX/8 + 1 ) * 8 
 	moveCursor( x, m_caretY );
@@ -172,14 +172,14 @@ void QTermBuffer::tab()
 	setBuffer(cstr,x-m_caretX);
 }
 
-void QTermBuffer::setMargins( int top, int bottom )
+void Buffer::setMargins( int top, int bottom )
 {
 	m_top = qMax(top-1,0);
 	m_bottom = qMin(qMax(bottom - 1,0), m_lin-1);
 }
 
 // cursor functions
-void QTermBuffer::moveCursor( int x, int y )
+void Buffer::moveCursor( int x, int y )
 {
 	// detect index boundary	
 	if ( x >= m_col )
@@ -202,56 +202,56 @@ void QTermBuffer::moveCursor( int x, int y )
 }
 
 // 
-void QTermBuffer::restoreCursor()
+void Buffer::restoreCursor()
 {
 	moveCursor( m_saveX, m_saveY );
 }
 
-void QTermBuffer::moveCursorOffset( int x, int y )
+void Buffer::moveCursorOffset( int x, int y )
 {
 	moveCursor( m_caretX+x, m_caretY+y );
 }
 
-void QTermBuffer::saveCursor()
+void Buffer::saveCursor()
 {
 	m_saveX = m_caretX; 
 	m_saveY = m_caretY;
 }
 
-void QTermBuffer::cr()
+void Buffer::cr()
 {
 	m_caretX = 0;
 }
 
 // the screen oriented caret
-QPoint QTermBuffer::caret()
+QPoint Buffer::caret()
 {
 	return QPoint( m_caretX, m_caretY );
 }
 
 // the buffer oriented caret
-int QTermBuffer::caretX()
+int Buffer::caretX()
 {
 	return m_caretX;
 }
-int QTermBuffer::caretY()
+int Buffer::caretY()
 {
 	return m_caretY + m_lines;
 }
 
 // erase functions
-void QTermBuffer::eraseStr( int n )
+void Buffer::eraseStr( int n )
 {
-	QTermTextLine * line = m_lineList.at( m_caretY+m_lines );
+	TextLine * line = m_lineList.at( m_caretY+m_lines );
 
 	int x = line->getLength() - m_caretX;
 	
 	clearArea( m_caretX, m_caretY, qMin(n, x), 1, m_curAttr );
 }
 // delete functions
-void QTermBuffer::deleteStr( int n )
+void Buffer::deleteStr( int n )
 {
-	QTermTextLine * line = m_lineList.at( m_caretY+m_lines );
+	TextLine * line = m_lineList.at( m_caretY+m_lines );
 
 	int x = line->getLength() - m_caretX;
 
@@ -261,9 +261,9 @@ void QTermBuffer::deleteStr( int n )
 		shiftStr( m_caretY, m_caretX, x, -n );
 }
 // insert functions
-void QTermBuffer::insertStr( int n )
+void Buffer::insertStr( int n )
 {
-	QTermTextLine * line = m_lineList.at( m_caretY+m_lines );
+	TextLine * line = m_lineList.at( m_caretY+m_lines );
 
 	int x = line->getLength() - m_caretX;
 
@@ -275,7 +275,7 @@ void QTermBuffer::insertStr( int n )
 
 // shift str in one line
 // num > 0 shift right
-void QTermBuffer::shiftStr( int index, int startX, int len, int num )
+void Buffer::shiftStr( int index, int startX, int len, int num )
 {
 	if ( !num )
 		return;
@@ -283,7 +283,7 @@ void QTermBuffer::shiftStr( int index, int startX, int len, int num )
 	QByteArray cstr;
 	cstr.fill( ' ', abs( num ) );
 	
-	QTermTextLine * line = m_lineList.at( index+m_lines );
+	TextLine * line = m_lineList.at( index+m_lines );
 
 	if ( num > 0 )	// insert
 	{
@@ -303,7 +303,7 @@ void QTermBuffer::shiftStr( int index, int startX, int len, int num )
 }
 
 
-void QTermBuffer::deleteLine( int n )
+void Buffer::deleteLine( int n )
 {
 	int y = m_bottom - m_caretY;
 
@@ -313,7 +313,7 @@ void QTermBuffer::deleteLine( int n )
 		scrollLines( m_caretY, n );
 }
 
-void QTermBuffer::insertLine( int n )
+void Buffer::insertLine( int n )
 {
 	int y = m_bottom - m_caretY;
 	
@@ -323,23 +323,23 @@ void QTermBuffer::insertLine( int n )
 		scrollLines( m_caretY, -n );
 }
 
-void QTermBuffer::eraseToEndLine()
+void Buffer::eraseToEndLine()
 {
 	clearArea( m_caretX, m_caretY, -1, 1, m_curAttr );
 }
 
-void QTermBuffer::eraseToBeginLine()
+void Buffer::eraseToBeginLine()
 {
 	clearArea( 0, m_caretY, m_caretX, 1, m_curAttr );
 }
 
-void QTermBuffer::eraseEntireLine()
+void Buffer::eraseEntireLine()
 {
 	clearArea( 0, m_caretY, -1, 1, m_curAttr );
 }
 //scroll line
 //num > 0 scroll up
-void QTermBuffer::scrollLines( int startY, int num )
+void Buffer::scrollLines( int startY, int num )
 {
 	if ( !num )
 		return;
@@ -349,7 +349,7 @@ void QTermBuffer::scrollLines( int startY, int num )
 		while ( num )
 		{
 			delete m_lineList.takeAt( m_lines+startY );
-			m_lineList.insert( m_lines+m_bottom, new QTermTextLine );
+			m_lineList.insert( m_lines+m_bottom, new TextLine );
 			num--;
 		}
 	}
@@ -359,7 +359,7 @@ void QTermBuffer::scrollLines( int startY, int num )
 		while ( num )
 		{
 			delete m_lineList.takeAt( m_lines+m_bottom );
-			m_lineList.insert( m_lines+startY, new QTermTextLine );
+			m_lineList.insert( m_lines+startY, new TextLine );
 			num++;
 		}
 	}
@@ -369,7 +369,7 @@ void QTermBuffer::scrollLines( int startY, int num )
 	
 }
 
-void QTermBuffer::eraseToEndScreen()
+void Buffer::eraseToEndScreen()
 {
 	if( m_caretX==0 && m_caretY ==0 )
 	{
@@ -383,7 +383,7 @@ void QTermBuffer::eraseToEndScreen()
 		clearArea( 0, m_caretY + 1, -1, m_bottom - m_caretY - 1, m_curAttr );
 
 }
-void QTermBuffer::eraseToBeginScreen()
+void Buffer::eraseToBeginScreen()
 {
 	if( m_caretX==m_col-1 && m_caretY ==m_lin-1 )
 	{
@@ -396,18 +396,18 @@ void QTermBuffer::eraseToBeginScreen()
 		clearArea( 0, 0, -1, m_caretY - 1, m_curAttr );
 
 }
-void QTermBuffer::eraseEntireScreen()
+void Buffer::eraseEntireScreen()
 {
 	addHistoryLine( m_lin );
 
 	clearArea( 0, 0, m_col, m_bottom, m_curAttr );
 }
 // width = -1 : clear to end
-void QTermBuffer::clearArea(int startX, int startY, int width, int height, short attr )
+void Buffer::clearArea(int startX, int startY, int width, int height, short attr )
 {
 	QByteArray cstr;
 
-	QTermTextLine * line;
+	TextLine * line;
 	
 	if ( startY < m_top )
 		startY = m_top;
@@ -430,7 +430,7 @@ void QTermBuffer::clearArea(int startX, int startY, int width, int height, short
 
 }
 
-void QTermBuffer::addHistoryLine( int n )
+void Buffer::addHistoryLine( int n )
 {
 	while( n )
 	{
@@ -443,7 +443,7 @@ void QTermBuffer::addHistoryLine( int n )
 			//	m_ptSelStart=m_ptSelEnd=QPoint(-1,-1);
 		}
 		
-		m_lineList.append( new QTermTextLine );
+		m_lineList.append( new TextLine );
 		m_lines = qMin(m_lines+1,m_limit);
 		n--;
 	}
@@ -454,16 +454,16 @@ void QTermBuffer::addHistoryLine( int n )
 	emit bufferSizeChanged();
 }
 
-void QTermBuffer::startDecode()
+void Buffer::startDecode()
 {
 	m_oldCaretX = m_caretX;
 	m_oldCaretY = m_caretY;
 	
 }
 
-void QTermBuffer::endDecode()
+void Buffer::endDecode()
 {
-	QTermTextLine * line = m_lineList.at( m_oldCaretY+m_lines );
+	TextLine * line = m_lineList.at( m_oldCaretY+m_lines );
 
 	line->setChanged( m_oldCaretX, m_oldCaretX+1 );
 
@@ -475,7 +475,7 @@ void QTermBuffer::endDecode()
 	
 }
 
-void QTermBuffer::setMode( int mode )
+void Buffer::setMode( int mode )
 {
 	switch( mode )
 	{
@@ -490,7 +490,7 @@ void QTermBuffer::setMode( int mode )
 	}
 
 }
-void QTermBuffer::resetMode( int mode )
+void Buffer::resetMode( int mode )
 {
 	switch( mode )
 	{
@@ -505,7 +505,7 @@ void QTermBuffer::resetMode( int mode )
 	}
 }
 
-void QTermBuffer::setSelect( const QPoint& pt1, const QPoint& pt2, bool rect )
+void Buffer::setSelect( const QPoint& pt1, const QPoint& pt2, bool rect )
 {
 	QPoint ptSelStart, ptSelEnd;
 	
@@ -552,7 +552,7 @@ void QTermBuffer::setSelect( const QPoint& pt1, const QPoint& pt2, bool rect )
 	m_ptSelEnd = ptSelEnd;
 }
 
-void QTermBuffer::clearSelect()
+void Buffer::clearSelect()
 {
 	if( m_ptSelStart == m_ptSelEnd )
 		return;
@@ -563,7 +563,7 @@ void QTermBuffer::clearSelect()
 	m_ptSelStart=m_ptSelEnd=QPoint(-1,-1);
 }
 
-bool QTermBuffer::isSelected( int index )
+bool Buffer::isSelected( int index )
 {
 	if( m_ptSelStart == m_ptSelEnd )
 		return false;
@@ -571,7 +571,7 @@ bool QTermBuffer::isSelected( int index )
 		return index>=m_ptSelStart.y() && index<=m_ptSelEnd.y();
 }
 
-bool QTermBuffer::isSelected( const QPoint& pt, bool rect )
+bool Buffer::isSelected( const QPoint& pt, bool rect )
 {
 	if( m_ptSelStart == m_ptSelEnd )
 		return false;
@@ -597,7 +597,7 @@ bool QTermBuffer::isSelected( const QPoint& pt, bool rect )
 	
 }
 
-QByteArray QTermBuffer::getSelectText( bool rect, bool color, const QByteArray& escape )
+QByteArray Buffer::getSelectText( bool rect, bool color, const QByteArray& escape )
 {
 	QByteArray cstrSelect="";
 	
@@ -634,7 +634,7 @@ QByteArray QTermBuffer::getSelectText( bool rect, bool color, const QByteArray& 
 	return cstrSelect;
 }
 
-QRect QTermBuffer::getSelectRect( int index, bool rect )
+QRect Buffer::getSelectRect( int index, bool rect )
 {
 	if(rect)
 		return QRect( qMin(m_ptSelStart.x(),m_ptSelEnd.x()), index, abs(m_ptSelEnd.x()-m_ptSelStart.x())+1, 1);

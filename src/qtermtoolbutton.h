@@ -5,12 +5,12 @@
 
 namespace QTerm
 {
-class QTermToolButton: public QToolButton
+class ToolButton: public QToolButton
 {
 	Q_OBJECT
 public:
-	 QTermToolButton( QWidget *parent, int id, QString name="" );
-	~QTermToolButton();
+	 ToolButton( QWidget *parent, int id, QString name="" );
+	~ToolButton();
 
 signals:
 	void buttonClicked(int);

@@ -23,53 +23,53 @@ AUTHOR:		smartfish kafa
 #include <QAbstractSocket>
 namespace QTerm
 {
-struct fsm_trans QTermTelnet::ttstab[] = {
+struct fsm_trans Telnet::ttstab[] = {
 	/* State	Input		Next State	Action	*/
 	/* ------	------		-----------	-------	*/
-	{ TSDATA,	TCIAC,		TSIAC,		&QTermTelnet::no_op		},
-	{ TSDATA,	TCANY,		TSDATA,		&QTermTelnet::ttputc 		},
-	{ TSIAC,	TCIAC,		TSDATA,		&QTermTelnet::ttputc		},
-	{ TSIAC,	TCSB,		TSSUBNEG,	&QTermTelnet::no_op		},
+	{ TSDATA,	TCIAC,		TSIAC,		&Telnet::no_op		},
+	{ TSDATA,	TCANY,		TSDATA,		&Telnet::ttputc 		},
+	{ TSIAC,	TCIAC,		TSDATA,		&Telnet::ttputc		},
+	{ TSIAC,	TCSB,		TSSUBNEG,	&Telnet::no_op		},
 /* Telnet Commands */
-	{ TSIAC,	TCNOP,		TSDATA,		&QTermTelnet::no_op		},
-	{ TSIAC,	TCDM,		TSDATA,		&QTermTelnet::tcdm		},
+	{ TSIAC,	TCNOP,		TSDATA,		&Telnet::no_op		},
+	{ TSIAC,	TCDM,		TSDATA,		&Telnet::tcdm		},
 /* Option Negotiation */
-	{ TSIAC,	TCWILL,		TSWOPT,		&QTermTelnet::recopt		},
-	{ TSIAC,	TCWONT,		TSWOPT,		&QTermTelnet::recopt		},
-	{ TSIAC,	TCDO,		TSDOPT,		&QTermTelnet::recopt		},
-	{ TSIAC,	TCDONT,		TSDOPT,		&QTermTelnet::recopt		},
-	{ TSIAC,	TCANY,		TSDATA,		&QTermTelnet::no_op		},
+	{ TSIAC,	TCWILL,		TSWOPT,		&Telnet::recopt		},
+	{ TSIAC,	TCWONT,		TSWOPT,		&Telnet::recopt		},
+	{ TSIAC,	TCDO,		TSDOPT,		&Telnet::recopt		},
+	{ TSIAC,	TCDONT,		TSDOPT,		&Telnet::recopt		},
+	{ TSIAC,	TCANY,		TSDATA,		&Telnet::no_op		},
 /* Option Subnegotion */
-	{ TSSUBNEG,	TCIAC,		TSSUBIAC,	&QTermTelnet::no_op		},
-	{ TSSUBNEG,	TCANY,		TSSUBNEG,	&QTermTelnet::subopt		},
-	{ TSSUBIAC,	TCSE,		TSDATA,		&QTermTelnet::subend		},
-	{ TSSUBIAC,	TCANY,		TSSUBNEG,	&QTermTelnet::subopt		},
+	{ TSSUBNEG,	TCIAC,		TSSUBIAC,	&Telnet::no_op		},
+	{ TSSUBNEG,	TCANY,		TSSUBNEG,	&Telnet::subopt		},
+	{ TSSUBIAC,	TCSE,		TSDATA,		&Telnet::subend		},
+	{ TSSUBIAC,	TCANY,		TSSUBNEG,	&Telnet::subopt		},
 
-	{ TSWOPT,	TOECHO,		TSDATA,		&QTermTelnet::do_echo		},
-	{ TSWOPT,	TONOGA,		TSDATA,		&QTermTelnet::do_noga		},
-	{ TSWOPT,	TOTXBINARY,	TSDATA,		&QTermTelnet::do_txbinary	},
-	{ TSWOPT,	TCANY,		TSDATA,		&QTermTelnet::do_notsup		},
+	{ TSWOPT,	TOECHO,		TSDATA,		&Telnet::do_echo		},
+	{ TSWOPT,	TONOGA,		TSDATA,		&Telnet::do_noga		},
+	{ TSWOPT,	TOTXBINARY,	TSDATA,		&Telnet::do_txbinary	},
+	{ TSWOPT,	TCANY,		TSDATA,		&Telnet::do_notsup		},
 
-	{ TSDOPT,	TONAWS,		TSDATA,		&QTermTelnet::will_naws		},
-	{ TSDOPT,	TOTERMTYPE,	TSDATA,		&QTermTelnet::will_termtype	},
-	{ TSDOPT,	TOTXBINARY,	TSDATA,		&QTermTelnet::will_txbinary	},
-	{ TSDOPT,	TCANY,		TSDATA,		&QTermTelnet::will_notsup	},
+	{ TSDOPT,	TONAWS,		TSDATA,		&Telnet::will_naws		},
+	{ TSDOPT,	TOTERMTYPE,	TSDATA,		&Telnet::will_termtype	},
+	{ TSDOPT,	TOTXBINARY,	TSDATA,		&Telnet::will_txbinary	},
+	{ TSDOPT,	TCANY,		TSDATA,		&Telnet::will_notsup	},
 
-	{ FSINVALID,	TCANY,		FSINVALID,	&QTermTelnet::tnabort		},
+	{ FSINVALID,	TCANY,		FSINVALID,	&Telnet::tnabort		},
 };
 
 
-struct fsm_trans QTermTelnet::substab[] = {
+struct fsm_trans Telnet::substab[] = {
         /* State        Input           Next State      Action  */
         /* ------       ------          -----------     ------- */
-	{ SS_START,		TOTERMTYPE,	SS_TERMTYPE,	&QTermTelnet::no_op		},
-	{ SS_START,		TCANY,		SS_END,			&QTermTelnet::no_op		},
+	{ SS_START,		TOTERMTYPE,	SS_TERMTYPE,	&Telnet::no_op		},
+	{ SS_START,		TCANY,		SS_END,			&Telnet::no_op		},
 
-	{ SS_TERMTYPE,	TT_SEND,	SS_END,			&QTermTelnet::subtermtype	},
-	{ SS_TERMTYPE,	TCANY,		SS_END,			&QTermTelnet::no_op		},
+	{ SS_TERMTYPE,	TT_SEND,	SS_END,			&Telnet::subtermtype	},
+	{ SS_TERMTYPE,	TCANY,		SS_END,			&Telnet::no_op		},
 	
-	{ SS_END,		TCANY,		SS_END,			&QTermTelnet::no_op		},
-	{ FSINVALID,	TCANY,		FSINVALID,		&QTermTelnet::tnabort	},
+	{ SS_END,		TCANY,		SS_END,			&Telnet::no_op		},
+	{ FSINVALID,	TCANY,		FSINVALID,		&Telnet::tnabort	},
 };
 
 
@@ -78,7 +78,7 @@ struct fsm_trans QTermTelnet::substab[] = {
  * Constructor
  *------------------------------------------------------------------------
  */
-QTermTelnet::QTermTelnet( const QString & strTermType, int rows, int columns, bool isSSH, const char * sshuser, const char * sshpasswd )
+Telnet::Telnet( const QString & strTermType, int rows, int columns, bool isSSH, const char * sshuser, const char * sshpasswd )
 	:from_socket(),to_ansi(),from_ansi(),to_socket()
 {
 	term = new char[21];
@@ -104,10 +104,10 @@ QTermTelnet::QTermTelnet( const QString & strTermType, int rows, int columns, bo
 	d_isSSH = isSSH;
 #ifndef _NO_SSH_COMPILED
 	if (d_isSSH)
-		socket = new QTermSSHSocket(sshuser, sshpasswd);
+		socket = new SSHSocket(sshuser, sshpasswd);
 	else
 #endif
-		socket = new QTermTelnetSocket();
+		socket = new TelnetSocket();
 	
 	// connect signal and slots
 	connect ( socket, SIGNAL( connected() ),
@@ -132,7 +132,7 @@ QTermTelnet::QTermTelnet( const QString & strTermType, int rows, int columns, bo
  * destructor
  *------------------------------------------------------------------------
  */
-QTermTelnet::~QTermTelnet()
+Telnet::~Telnet()
 {
 	// delete objects
 	delete [] term;
@@ -145,7 +145,7 @@ QTermTelnet::~QTermTelnet()
  * init_telnet
  *------------------------------------------------------------------------
  */
-void QTermTelnet::init_telnet()
+void Telnet::init_telnet()
 {
 	fsmbuild();	/* setup FSMs */
 }
@@ -155,7 +155,7 @@ void QTermTelnet::init_telnet()
  * fsmbuild - build the Finite State Machine data structures
  *------------------------------------------------------------------------
  */
-void QTermTelnet::fsmbuild()
+void Telnet::fsmbuild()
 {
 	fsminit(ttfsm, ttstab, NTSTATES);
 	ttstate = TSDATA;
@@ -169,7 +169,7 @@ void QTermTelnet::fsmbuild()
  * fsminit - Finite State Machine initializer
  *------------------------------------------------------------------------
  */
-void QTermTelnet::fsminit(u_char fsm[][NCHRS], struct fsm_trans ttab[], int nstates)
+void Telnet::fsminit(u_char fsm[][NCHRS], struct fsm_trans ttab[], int nstates)
 {
 	struct fsm_trans	*pt;
 	int			sn, ti, cn;
@@ -199,7 +199,7 @@ void QTermTelnet::fsminit(u_char fsm[][NCHRS], struct fsm_trans ttab[], int nsta
  * connect to host
  *------------------------------------------------------------------------
  */
-void QTermTelnet::connectHost(const QString& hostname, quint16 portnumber)
+void Telnet::connectHost(const QString& hostname, quint16 portnumber)
 {
 	done_naws=0;
 	synching = 0;
@@ -215,7 +215,7 @@ void QTermTelnet::connectHost(const QString& hostname, quint16 portnumber)
 	emit TelnetState( TSRESOLVING );
 }
 
-void QTermTelnet::windowSizeChanged(int x, int y)
+void Telnet::windowSizeChanged(int x, int y)
 {
 	wx=x;
 	wy=y;
@@ -242,7 +242,7 @@ void QTermTelnet::windowSizeChanged(int x, int y)
  * set proxy
  *-----------------------------------------------------------------------
  */
-void QTermTelnet::setProxy( int nProxyType, bool bAuth,
+void Telnet::setProxy( int nProxyType, bool bAuth,
 			const QString& strProxyHost, quint16 uProxyPort,
 			const QString& strProxyUsr, const QString& strProxyPwd)
 {
@@ -255,7 +255,7 @@ void QTermTelnet::setProxy( int nProxyType, bool bAuth,
  *-----------------------------------------------------------------------
  */
 
-void QTermTelnet::close()
+void Telnet::close()
 {
 	socket->close();
 }
@@ -266,7 +266,7 @@ void QTermTelnet::close()
  * SLOT connected
  *------------------------------------------------------------------------
  */
-void QTermTelnet::connected()
+void Telnet::connected()
 {
 	bConnected = true;
 	emit TelnetState( TSHOSTCONNECTED );
@@ -276,7 +276,7 @@ void QTermTelnet::connected()
  *------------------------------------------------------------------------
  */
 
-void QTermTelnet::closed()
+void Telnet::closed()
 {
 	bConnected = false;
 
@@ -288,7 +288,7 @@ void QTermTelnet::closed()
  *------------------------------------------------------------------------
  */
 
-void QTermTelnet::delayCloseFinished()
+void Telnet::delayCloseFinished()
 {
 	bConnected = false;
 	emit TelnetState( TSCLOSEFINISH );
@@ -297,7 +297,7 @@ void QTermTelnet::delayCloseFinished()
  * SLOT hostFound
  *------------------------------------------------------------------------
  */
-void QTermTelnet::hostFound()
+void Telnet::hostFound()
 {
 	emit TelnetState( TSHOSTFOUND );
 }
@@ -305,7 +305,7 @@ void QTermTelnet::hostFound()
  * SLOT error
  *------------------------------------------------------------------------
  */
-void QTermTelnet::showError( int index )
+void Telnet::showError( int index )
 {
 
 	switch ( index )
@@ -334,7 +334,7 @@ void QTermTelnet::showError( int index )
  * 	readyRead() SIGNAL to upper layer
  *------------------------------------------------------------------------
  */
-void QTermTelnet::socketReadyRead()
+void Telnet::socketReadyRead()
 {
 	int nbytes,nread;
 
@@ -392,7 +392,7 @@ void QTermTelnet::socketReadyRead()
 			
 }
 
-int QTermTelnet::raw_len()
+int Telnet::raw_len()
 {
     return raw_size;
 }
@@ -401,7 +401,7 @@ int QTermTelnet::raw_len()
  * actions
  *------------------------------------------------------------------------
  */
-int QTermTelnet::read_raw(char * data, uint maxlen)
+int Telnet::read_raw(char * data, uint maxlen)
 {
     //do some checks
     if(data==0) {
@@ -424,7 +424,7 @@ int QTermTelnet::read_raw(char * data, uint maxlen)
  * actions
  *------------------------------------------------------------------------
  */
-int QTermTelnet::read(char * data, uint maxlen)
+int Telnet::read(char * data, uint maxlen)
 {
 	//do some checks
 	if(data==0) {
@@ -453,7 +453,7 @@ int QTermTelnet::read(char * data, uint maxlen)
  * 	write data from data-> to socket, the length of data is len
  *------------------------------------------------------------------------
  */
-int QTermTelnet::write(const char * data, uint len)
+int Telnet::write(const char * data, uint len)
 {
 	// accept data, (This seems can be removed????)
 	from_ansi.resize(len);
@@ -496,7 +496,7 @@ int QTermTelnet::write(const char * data, uint len)
  * tcdm - handle the telnet "DATA MARK" command (marks end of SYNCH)
  *------------------------------------------------------------------------
  */
-int QTermTelnet::tcdm(int)
+int Telnet::tcdm(int)
 {
 	if (synching > 0)
 		synching--;
@@ -508,7 +508,7 @@ int QTermTelnet::tcdm(int)
  *------------------------------------------------------------------------
  */
 /*
-int QTermTelnet::rcvurg(int sig)
+int Telnet::rcvurg(int sig)
 {
 	synching++;
 }
@@ -519,7 +519,7 @@ int QTermTelnet::rcvurg(int sig)
  *------------------------------------------------------------------------
  */
 
-int QTermTelnet::recopt(int c)
+int Telnet::recopt(int c)
 {
 	option_cmd = c;
 	return 0;
@@ -530,7 +530,7 @@ int QTermTelnet::recopt(int c)
  *------------------------------------------------------------------------
  */
 
-int QTermTelnet::no_op(int)
+int Telnet::no_op(int)
 {
 	return 0;
 }
@@ -539,7 +539,7 @@ int QTermTelnet::no_op(int)
  * do_echo - handle TELNET WILL/WON'T ECHO option
  *------------------------------------------------------------------------
  */
-int QTermTelnet::do_echo(int c)
+int Telnet::do_echo(int c)
 {
 	if (doecho) {
 		if (option_cmd == TCWILL)
@@ -564,7 +564,7 @@ int QTermTelnet::do_echo(int c)
  * is addressed from 0, NOT 1.
  *------------------------------------------------------------------------
  */
-void QTermTelnet::putc_down(u_char c)
+void Telnet::putc_down(u_char c)
 {
 	// check overflow
 	if ( (wsize+1) > to_socket.size() ) {
@@ -584,7 +584,7 @@ void QTermTelnet::putc_down(u_char c)
  *------------------------------------------------------------------------
  */
 
-int QTermTelnet::do_notsup(int c)
+int Telnet::do_notsup(int c)
 {
 	putc_down(TCIAC);
 	putc_down(TCDONT);
@@ -597,7 +597,7 @@ int QTermTelnet::do_notsup(int c)
  *------------------------------------------------------------------------
  */
 
-int QTermTelnet::do_noga(int c)
+int Telnet::do_noga(int c)
 {
 	if (noga) {
 		if (option_cmd == TCWILL)
@@ -621,7 +621,7 @@ int QTermTelnet::do_noga(int c)
  *------------------------------------------------------------------------
  */
 
-int QTermTelnet::do_txbinary(int c)
+int Telnet::do_txbinary(int c)
 {
 	if (rcvbinary) {
 		if (option_cmd == TCWILL)
@@ -645,7 +645,7 @@ int QTermTelnet::do_txbinary(int c)
  *------------------------------------------------------------------------
  */
 
-int QTermTelnet::will_notsup(int c)
+int Telnet::will_notsup(int c)
 {
 	putc_down(TCIAC);
 	putc_down(TCWONT);
@@ -658,7 +658,7 @@ int QTermTelnet::will_notsup(int c)
  *------------------------------------------------------------------------
  */
 
-int QTermTelnet::will_txbinary(int c)
+int Telnet::will_txbinary(int c)
 {
 	if (sndbinary) {
 		if (option_cmd == TCDO)
@@ -681,7 +681,7 @@ int QTermTelnet::will_txbinary(int c)
  * will_termtype - handle telnet "do/don't" TERMINAL-TYPE option
  *------------------------------------------------------------------------
  */
-int QTermTelnet::will_termtype(int c)
+int Telnet::will_termtype(int c)
 {
 	if (termtype) {
 		if (option_cmd == TCDO)
@@ -716,7 +716,7 @@ int QTermTelnet::will_termtype(int c)
 	return 0;
 }
 
-int QTermTelnet::will_naws(int c)
+int Telnet::will_naws(int c)
 {
 	if (naws) {
 		if (option_cmd == TCDO)
@@ -751,7 +751,7 @@ int QTermTelnet::will_naws(int c)
  * subopt - do option subnegotiation FSM transitions
  *------------------------------------------------------------------------
  */
-int QTermTelnet::subopt(int c)
+int Telnet::subopt(int c)
 {
 	struct	fsm_trans	*pt;
 	int			ti;
@@ -768,7 +768,7 @@ int QTermTelnet::subopt(int c)
  *------------------------------------------------------------------------
  */
 
-int QTermTelnet::subtermtype(int)
+int Telnet::subtermtype(int)
 {
 	char *i;
 	/* have received IAC.SB.TERMTYPE.SEND */
@@ -793,7 +793,7 @@ int QTermTelnet::subtermtype(int)
  *------------------------------------------------------------------------
  */
 
-int QTermTelnet::subend(int)
+int Telnet::subend(int)
 {
 	substate = SS_START;
 	return 0;
@@ -806,7 +806,7 @@ int QTermTelnet::subend(int)
  *------------------------------------------------------------------------
  */
 
-int QTermTelnet::soputc(int c)
+int Telnet::soputc(int c)
 {
 	if (sndbinary) {
 		if (c == TCIAC)
@@ -844,7 +844,7 @@ int QTermTelnet::soputc(int c)
  * xputc - putc to upper layer with optional file scripting
  *------------------------------------------------------------------------
  */
-int QTermTelnet::xputc_up(char ch)
+int Telnet::xputc_up(char ch)
 {
 	/*if (scrfp)
 		(void) putc(ch, scrfp);*/
@@ -864,7 +864,7 @@ int QTermTelnet::xputc_up(char ch)
  * xfputs - fputs with optional file scripting
  *------------------------------------------------------------------------
  */
-int QTermTelnet::xputs_up(char *str)
+int Telnet::xputs_up(char *str)
 {
 	/*if (scrfp)
 		fputs(str, scrfp);*/
@@ -879,7 +879,7 @@ int QTermTelnet::xputs_up(char *str)
  * ttputc - print a single character on a Network Virtual Terminal
  *------------------------------------------------------------------------
  */
-int QTermTelnet::ttputc(int c)
+int Telnet::ttputc(int c)
 {
 	if (rcvbinary) {
 		xputc_up((char)c);	/* print uninterpretted	*/
@@ -890,7 +890,7 @@ int QTermTelnet::ttputc(int c)
 	if (synching)		
 		return 0;
 */	
-	/* QTermTelnet doesnot interpret NVT code, provide datas to upper
+	/* Telnet doesnot interpret NVT code, provide datas to upper
 	   layer directly. So, <cr><lf>	will not be replaced with <lf>
 	*/
 	xputc_up((char)c);
@@ -902,7 +902,7 @@ int QTermTelnet::ttputc(int c)
  * invalid state reached, aborted
  *------------------------------------------------------------------------
  */
-int QTermTelnet::tnabort(int)
+int Telnet::tnabort(int)
 {
 	qWarning("invalid state reached, aborted");
 //	exit(-1);

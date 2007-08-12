@@ -8,7 +8,7 @@
 namespace QTerm
 {
 /*
-class QTermSSHDES : public QTermSSHCipher
+class QTermSSHDES : public SSHCipher
 {
 private:
 	u_char d_IV[8];
@@ -21,7 +21,7 @@ public:
 	void decrypt(const u_char * source, u_char * dest, int len);
 };
 */
-class QTermSSH1DES3 : public QTermSSHCipher
+class SSH1DES3 : public SSHCipher
 {
 private:
 	DES_cblock d_IV1;
@@ -32,7 +32,7 @@ private:
 	DES_key_schedule d_key2;
 	DES_key_schedule d_key3;
 public:
-	QTermSSH1DES3();
+	SSH1DES3();
 	void setIV(const u_char * data);
 	void setKey(const u_char * data);
 	void encrypt(const u_char * source, u_char * dest, int len);

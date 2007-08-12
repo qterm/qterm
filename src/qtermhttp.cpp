@@ -29,7 +29,7 @@ extern QString pathPic;
 extern void runProgram(const QString&);
 extern QString getSaveFileName(const QString&, QWidget*);
 
-QTermHttp::QTermHttp(QWidget *p)
+Http::Http(QWidget *p)
 {
 // 	m_pDialog = NULL;
 	parent = p;
@@ -40,13 +40,13 @@ QTermHttp::QTermHttp(QWidget *p)
 				this, SLOT(httpResponse(const QHttpResponseHeader&)));
 }
 
-QTermHttp::~QTermHttp()
+Http::~Http()
 {
 // 	if(m_pDialog!=NULL)
 // 		delete m_pDialog;
 }
 
-void QTermHttp::cancel()
+void Http::cancel()
 {
 	m_httpDown.abort();
 
@@ -57,7 +57,7 @@ void QTermHttp::cancel()
 	emit done(this);
 }
 
-void QTermHttp::getLink(const QString& url, bool preview)
+void Http::getLink(const QString& url, bool preview)
 {
 	m_bExist = false;
 	m_bPreview = preview;
@@ -76,7 +76,7 @@ void QTermHttp::getLink(const QString& url, bool preview)
 
 	if(QFile::exists(pathCfg+"hosts.cfg"))
 	{
-		QTermConfig conf(pathCfg+"hosts.cfg");
+		Config conf(pathCfg+"hosts.cfg");
 		QString strTmp = conf.getItemValue("hosts",u.host().toLocal8Bit());
 		if(!strTmp.isEmpty())
 		{
@@ -90,7 +90,7 @@ void QTermHttp::getLink(const QString& url, bool preview)
 	m_httpDown.get(u.path()+"?"+u.encodedQuery());
 }
 
-void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
+void Http::httpResponse( const QHttpResponseHeader& hrh)
 {
 	QString ValueString;
 	QString filename;
@@ -113,7 +113,7 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 
 	if(m_bPreview)
 	{
-		QString strPool = QTermFrame::instance()->m_pref.strPoolPath;
+		QString strPool = Frame::instance()->m_pref.strPoolPath;
 		
 		m_strHttpFile = strPool + m_strHttpFile;
 
@@ -172,7 +172,7 @@ void QTermHttp::httpResponse( const QHttpResponseHeader& hrh)
 }
 
 
-void QTermHttp::httpRead(int done, int total)
+void Http::httpRead(int done, int total)
 {
 	QByteArray ba = m_httpDown.readAll();
 	QFile file(m_strHttpFile);
@@ -187,7 +187,7 @@ void QTermHttp::httpRead(int done, int total)
 		emit percent(done*100/total);
 }
 
-void QTermHttp::httpDone(bool err)
+void Http::httpDone(bool err)
 {
 	if(err)
 	{
@@ -210,7 +210,7 @@ void QTermHttp::httpDone(bool err)
 	}
 
 	if(m_bPreview) {
-		QString strPool = QTermFrame::instance()->m_pref.strPoolPath;
+		QString strPool = Frame::instance()->m_pref.strPoolPath;
 		previewImage(m_strHttpFile);
 		QFileInfo fi = QFileInfo(m_strHttpFile);
 		ImageViewer::genThumb(pathPic+"pic/shadow.png", strPool, fi.fileName());
@@ -221,14 +221,14 @@ void QTermHttp::httpDone(bool err)
 	emit done(this);
 }
 
-void QTermHttp::previewImage(const QString& filename)
+void Http::previewImage(const QString& filename)
 {
-	QTermConfig conf(fileCfg);
+	Config conf(fileCfg);
 	QString strViewer = conf.getItemValue("preference","image");
 
 	if(strViewer.isEmpty())
 	{
-		QTermCanvas *pCanvas = new QTermCanvas();
+		Canvas *pCanvas = new Canvas();
 		pCanvas->loadImage(filename);
 		pCanvas->show();
 	}

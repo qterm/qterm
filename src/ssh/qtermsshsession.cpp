@@ -5,16 +5,16 @@
 namespace QTerm
 {
 //==============================================================================
-//QTermSSH1Session
+//SSH1Session
 //==============================================================================
 
-QTermSSH1Session::QTermSSH1Session()
-	: QTermSSHSession()
+SSH1Session::SSH1Session()
+	: SSHSession()
 {
-	d_serviceState = QTermSSH1Session::BEGIN_SERVICE;
+	d_serviceState = SSH1Session::BEGIN_SERVICE;
 }
 
-void QTermSSH1Session::initSession(QTermSSHPacketReceiver * packet, QTermSSHPacketSender * output)
+void SSH1Session::initSession(SSHPacketReceiver * packet, SSHPacketSender * output)
 {
 	d_incomingPacket = packet;
 	d_outcomingPacket = output;
@@ -29,10 +29,10 @@ void QTermSSH1Session::initSession(QTermSSHPacketReceiver * packet, QTermSSHPack
 	d_outcomingPacket->putInt(0);
 	d_outcomingPacket->putByte(0);
 	d_outcomingPacket->write();
-	d_serviceState = QTermSSH1Session::REQPTY_SENT;
+	d_serviceState = SSH1Session::REQPTY_SENT;
 }
 
-void QTermSSH1Session::changeWindowSize(int col, int row)
+void SSH1Session::changeWindowSize(int col, int row)
 {
 	d_outcomingPacket->startPacket(SSH1_CMSG_WINDOW_SIZE);
 	d_outcomingPacket->putInt(row);
@@ -42,7 +42,7 @@ void QTermSSH1Session::changeWindowSize(int col, int row)
 	d_outcomingPacket->write();
 }
 
-void QTermSSH1Session::closeConnection(char * reason)
+void SSH1Session::closeConnection(char * reason)
 {
 	d_outcomingPacket->startPacket(SSH1_MSG_DISCONNECT);
 	d_outcomingPacket->putString(reason);
@@ -50,7 +50,7 @@ void QTermSSH1Session::closeConnection(char * reason)
 	d_closed = true;
 }
 
-void QTermSSH1Session::handlePacket(int type)
+void SSH1Session::handlePacket(int type)
 {
 	int i;
 	switch (d_serviceState) {
@@ -63,7 +63,7 @@ void QTermSSH1Session::handlePacket(int type)
 		d_outcomingPacket->startPacket(SSH1_CMSG_EXEC_SHELL);
 		d_outcomingPacket->write();
 		emit sessionOK();
-		d_serviceState = QTermSSH1Session::SERVICE_OK;
+		d_serviceState = SSH1Session::SERVICE_OK;
 		break;
 	case SERVICE_OK:
 		switch (type) {

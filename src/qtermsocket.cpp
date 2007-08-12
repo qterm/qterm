@@ -30,9 +30,9 @@ parse_http_status_line (const char *line, const char **reason_phrase_ptr);
 const char wingate_enter = 'J'&0x1f;
 
 //==============================================================================
-//QTermSocketPrivate
+//SocketPrivate
 //==============================================================================
-QTermSocketPrivate::QTermSocketPrivate(QObject * parent)
+SocketPrivate::SocketPrivate(QObject * parent)
 	:QObject(parent)
 {
 	m_socket = new QTcpSocket(this);
@@ -50,12 +50,12 @@ QTermSocketPrivate::QTermSocketPrivate(QObject * parent)
 	connect(m_socket, SIGNAL(error(int)), this, SIGNAL(error(int)));
 }
 
-QTermSocketPrivate::~QTermSocketPrivate()
+SocketPrivate::~SocketPrivate()
 {
 	delete m_socket;
 }
 
-void QTermSocketPrivate::setProxy(int nProxyType, bool bAuth,
+void SocketPrivate::setProxy(int nProxyType, bool bAuth,
 			const QString& strProxyHost, quint16 uProxyPort,
 			const QString& strProxyUsr, const QString& strProxyPwd)
 {
@@ -68,7 +68,7 @@ void QTermSocketPrivate::setProxy(int nProxyType, bool bAuth,
 	proxy_usr	= strProxyUsr;
 	proxy_pwd	= strProxyPwd;
 }
-void QTermSocketPrivate::socketConnected()
+void SocketPrivate::socketConnected()
 {
 	QByteArray strPort;
 	QByteArray command(9,0);
@@ -150,7 +150,7 @@ void QTermSocketPrivate::socketConnected()
 	}		
 }
 
-void QTermSocketPrivate::socketReadyRead()
+void SocketPrivate::socketReadyRead()
 {
 	if(proxy_type==NOPROXY || proxy_state==0)
 		emit readyRead();
@@ -215,12 +215,12 @@ void QTermSocketPrivate::socketReadyRead()
 	}
 }
 
-void QTermSocketPrivate::flush()
+void SocketPrivate::flush()
 {
 	m_socket->flush();
 }
 
-void QTermSocketPrivate::connectToHost(const QString & hostname, quint16 portnumber)
+void SocketPrivate::connectToHost(const QString & hostname, quint16 portnumber)
 {
     host=hostname;
     port=portnumber;
@@ -265,22 +265,22 @@ void QTermSocketPrivate::connectToHost(const QString & hostname, quint16 portnum
 
 }
 
-void QTermSocketPrivate::close()
+void SocketPrivate::close()
 {
 	m_socket->close();
 }
 
-QByteArray QTermSocketPrivate::readBlock(unsigned long maxlen)
+QByteArray SocketPrivate::readBlock(unsigned long maxlen)
 {
 	return m_socket->read(maxlen);
 }
 
-long QTermSocketPrivate::writeBlock(const QByteArray & data)
+long SocketPrivate::writeBlock(const QByteArray & data)
 {
 	return m_socket->write(data);
 }
 
-unsigned long QTermSocketPrivate::bytesAvailable()
+unsigned long SocketPrivate::bytesAvailable()
 {
 	return m_socket->bytesAvailable();
 }
@@ -289,7 +289,7 @@ unsigned long QTermSocketPrivate::bytesAvailable()
  * connect command for socks5
  *------------------------------------------------------------------------
  */
-void QTermSocketPrivate::socks5_connect()
+void SocketPrivate::socks5_connect()
 {
 	QByteArray command (10,0);
 	command[0]='\x05';
@@ -304,7 +304,7 @@ void QTermSocketPrivate::socks5_connect()
  * authentation command for socks5
  *------------------------------------------------------------------------
  */
-void QTermSocketPrivate::socks5_auth()
+void SocketPrivate::socks5_auth()
 {
 	int ulen = proxy_usr.length();
 	int plen = proxy_pwd.length();
@@ -320,7 +320,7 @@ void QTermSocketPrivate::socks5_auth()
  * reply  from socks5
  *------------------------------------------------------------------------
  */
-void QTermSocketPrivate::socks5_reply( const QByteArray& from_socket, int nread )
+void SocketPrivate::socks5_reply( const QByteArray& from_socket, int nread )
 {
 	if( proxy_state==1 )	// Socks5 Proxy Replay 1
 	{
@@ -526,13 +526,13 @@ parse_http_status_line (const char *line, const char **reason_phrase_ptr)
 
 
 //==============================================================================
-//QTermTelnetSocket
+//TelnetSocket
 //==============================================================================
 
-QTermTelnetSocket::QTermTelnetSocket()
-	: QTermSocket()
+TelnetSocket::TelnetSocket()
+	: Socket()
 {
-	d_socket = new QTermSocketPrivate();
+	d_socket = new SocketPrivate();
 	connect(d_socket, SIGNAL(connected()), this, SIGNAL(connected()));
 	connect(d_socket, SIGNAL(hostFound()), this, SIGNAL(hostFound()));
 	connect(d_socket, SIGNAL(connectionClosed()), this, SIGNAL(connectionClosed()));
@@ -542,17 +542,17 @@ QTermTelnetSocket::QTermTelnetSocket()
 	connect(d_socket, SIGNAL(SocketState(int)), this, SIGNAL(SocketState(int)));
 }
 
-QTermTelnetSocket::~QTermTelnetSocket()
+TelnetSocket::~TelnetSocket()
 {
 	delete d_socket;
 }
 
-void QTermTelnetSocket::flush()
+void TelnetSocket::flush()
 {
 	d_socket->flush();
 }
 
-void QTermTelnetSocket::setProxy( int nProxyType, bool bAuth,
+void TelnetSocket::setProxy( int nProxyType, bool bAuth,
 			const QString& strProxyHost, quint16 uProxyPort,
 			const QString& strProxyUsr, const QString& strProxyPwd)
 {
@@ -561,27 +561,27 @@ void QTermTelnetSocket::setProxy( int nProxyType, bool bAuth,
 			strProxyUsr, strProxyPwd);
 }
 
-void QTermTelnetSocket::connectToHost(const QString & host, quint16 port)
+void TelnetSocket::connectToHost(const QString & host, quint16 port)
 {
 	d_socket->connectToHost(host, port);
 }
 
-void QTermTelnetSocket::close()
+void TelnetSocket::close()
 {
 	d_socket->close();
 }
 
-QByteArray QTermTelnetSocket::readBlock(unsigned long maxlen)
+QByteArray TelnetSocket::readBlock(unsigned long maxlen)
 {
 	return d_socket->readBlock(maxlen);
 }
 
-long QTermTelnetSocket::writeBlock(const QByteArray & data)
+long TelnetSocket::writeBlock(const QByteArray & data)
 {
 	return d_socket->writeBlock(data);
 }
 
-unsigned long QTermTelnetSocket::bytesAvailable()
+unsigned long TelnetSocket::bytesAvailable()
 {
 	return d_socket->bytesAvailable();
 }

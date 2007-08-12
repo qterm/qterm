@@ -5,20 +5,20 @@
 
 namespace QTerm
 {
-QTermSSHRSA::QTermSSHRSA()
+SSHRSA::SSHRSA()
 {
 	d_rsa = RSA_new();
 	d_rsa->n = BN_new();
 	d_rsa->e = BN_new();
 }
 
-QTermSSHRSA::~QTermSSHRSA()
+SSHRSA::~SSHRSA()
 {
 	if (d_rsa != NULL)
 		RSA_free(d_rsa);
 }
 
-void QTermSSHRSA::publicEncrypt(BIGNUM * out, BIGNUM * in)
+void SSHRSA::publicEncrypt(BIGNUM * out, BIGNUM * in)
 {
 	u_char *inbuf, *outbuf;
 	int len, ilen, olen;
@@ -43,7 +43,7 @@ void QTermSSHRSA::publicEncrypt(BIGNUM * out, BIGNUM * in)
 	delete [] inbuf;
 }
 /*
-int QTermSSHRSA::private_decrypt(BIGNUM * out, BIGNUM * in)
+int SSHRSA::private_decrypt(BIGNUM * out, BIGNUM * in)
 {
 	u_char *inbuf, *outbuf;
 	int len, ilen, olen;
@@ -70,7 +70,7 @@ int QTermSSHRSA::private_decrypt(BIGNUM * out, BIGNUM * in)
 // calculate p-1 and q-1 
 
 void
-QTermSSHRSA::generate_additional_parameters()
+SSHRSA::generate_additional_parameters()
 {
 	BIGNUM *aux;
 	BN_CTX *ctx;

@@ -6,31 +6,31 @@
 
 namespace QTerm
 {
-class QTermSocketPrivate;
-class QTermSSHPacketReceiver;
-class QTermSSHPacketSender;
-class QTermSSHBuffer;
-class QTermSSHKex;
-class QTermSSHAuth;
-class QTermSSHSession;
+class SocketPrivate;
+class SSHPacketReceiver;
+class SSHPacketSender;
+class SSHBuffer;
+class SSHKex;
+class SSHAuth;
+class SSHSession;
 
-class QTermSSHSocket : public QTermSocket
+class SSHSocket : public Socket
 {
 	Q_OBJECT
 private:
-	enum QTermSSHSocketState{
+	enum SSHSocketState{
 		BeforeSession,
 		SockSession
 	} d_state;
-	QTermSocketPrivate * d_socket;
-	QTermSSHBuffer * d_inBuffer;
-	QTermSSHBuffer * d_outBuffer;
-	QTermSSHBuffer * d_socketBuffer;
-	QTermSSHPacketReceiver * d_incomingPacket;
-	QTermSSHPacketSender * d_outcomingPacket;
-	QTermSSHKex * d_kex;
-	QTermSSHAuth * d_auth;
-	QTermSSHSession * d_session;
+	SocketPrivate * d_socket;
+	SSHBuffer * d_inBuffer;
+	SSHBuffer * d_outBuffer;
+	SSHBuffer * d_socketBuffer;
+	SSHPacketReceiver * d_incomingPacket;
+	SSHPacketSender * d_outcomingPacket;
+	SSHKex * d_kex;
+	SSHAuth * d_auth;
+	SSHSession * d_session;
 
 	int chooseVersion(const QString & ver);
 	unsigned long socketWriteBlock(const char * data, unsigned long len);
@@ -47,8 +47,8 @@ private slots:
 	void handleError(const char * reason);
 
 public:
-	QTermSSHSocket(const char * sshuser = NULL, const char * sshpasswd = NULL);
-	~QTermSSHSocket();
+	SSHSocket(const char * sshuser = NULL, const char * sshpasswd = NULL);
+	~SSHSocket();
 	void setProxy( int nProxyType,//0-no proxy; 1-wingate; 2-sock4; 3-socks5
 		bool bAuth,	// if authentation needed
 		const QString& strProxyHost,quint16 uProxyPort,

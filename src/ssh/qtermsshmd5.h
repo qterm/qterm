@@ -7,13 +7,13 @@
 
 namespace QTerm
 {
-class QTermSSHMD5 : public QTermSSHHash
+class SSHMD5 : public SSHHash
 {
 protected:
 	MD5_CTX d_md5;
 public:
-	QTermSSHMD5()
-		:QTermSSHHash()
+	SSHMD5()
+		:SSHHash()
 	{
 		d_digestLength = 16;
 		MD5_Init(&d_md5);

@@ -30,7 +30,7 @@ namespace QTerm
 extern QString pathLib;
 extern QString fileCfg;
 extern QString addrCfg;
-extern void saveAddress(QTermConfig*,int,const QTermParam&);
+extern void saveAddress(Config*,int,const Param&);
 
 /* 
  *  Constructs a quickDialog which is a child of 'parent', with the 
@@ -52,7 +52,7 @@ quickDialog::quickDialog( QWidget* parent, Qt::WFlags fl )
 	
 	connectSlots();
 	
-	pConf = new QTermConfig(fileCfg);
+	pConf = new Config(fileCfg);
 	
 	loadHistory();
 }
@@ -116,7 +116,7 @@ void quickDialog::listChanged( int index )
 }
 void quickDialog::addAddr()
 {
-	QTermConfig *pAddrConf = new QTermConfig(addrCfg);
+	Config *pAddrConf = new Config(addrCfg);
 	QString strTmp;
 	strTmp = pAddrConf->getItemValue("bbs list", "num");
 	int num = strTmp.toInt();
