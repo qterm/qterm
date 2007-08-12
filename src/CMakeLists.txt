@@ -87,6 +87,7 @@ ${QT_QTGUI_INCLUDE_DIR}
 ${QT_QTNETWORK_INCLUDE_DIR}
 ${OPENSSL_INCLUDE_DIR}
 ${CMAKE_SOURCE_DIR}
+${CMAKE_CURRENT_BINARY_DIR}
 ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(qterm ${qterm_SRCS})
 target_link_libraries(qterm 
