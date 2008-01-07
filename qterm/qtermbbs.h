@@ -41,7 +41,7 @@ public:
 	
 protected:
 	bool isUnicolor( QTermTextLine * );
-	bool isIllChar(char);
+	bool isIllURLChar(char);
 	QTermBuffer *m_pBuffer;
 
 	QRect m_rcUrl;

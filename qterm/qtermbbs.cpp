@@ -281,10 +281,10 @@ bool QTermBBS::isUnicolor( QTermTextLine *line )
 	return bSame;
 }
 
-bool QTermBBS::isIllChar(char ch)
+bool QTermBBS::isIllURLChar(char ch)
 {
 	static char illChars[] = ",;'\"()[]<>^";	
-	return ch>'~' || ch<'#' || strchr(illChars, ch) !=NULL;
+	return ch>'~' || ch<'#' || strchr(illChars, ch) !=NULL || isspace(ch);
 }
 
 bool QTermBBS::isUrl(QRect& rcUrl, QRect& rcOld)
@@ -332,9 +332,9 @@ bool QTermBBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 	int ip_begin = 0;
 	int ip_end = 0;
 
-	for (i=at; i>=0 && !isIllChar(cstrText.at(i)); i--);
+	for (i=at; i>=0 && !isIllURLChar(cstrText.at(i)); i--);
 	url = i+1;
-	for (i=at; i<cstrText.length() && !isIllChar(cstrText.at(i)); i++);
+	for (i=at; i<cstrText.length() && !isIllURLChar(cstrText.at(i)); i++);
 	end = i;
 
 	int nNoType = -1;
