@@ -14,6 +14,7 @@
 #define V2STR	"SSH-2.0-QTermSSH\n"
 
 QTermSSHSocket::QTermSSHSocket(const char * sshuser, const char * sshpasswd)
+	:d_allowInput(false)
 {
 	d_socket = new QTermSocketPrivate();
 	d_inBuffer = new QTermSSHBuffer(1024);
@@ -76,6 +77,7 @@ void QTermSSHSocket::authOK()
 void QTermSSHSocket::sessionOK()
 {
 	//qDebug("Session Started!");
+	d_allowInput = true;
 }
 
 void QTermSSHSocket::sessionReadyRead()
@@ -244,6 +246,12 @@ void QTermSSHSocket::setProxy( int nProxyType, bool bAuth,
 			strProxyHost, uProxyPort,
 			strProxyUsr, strProxyPwd);
 }
+
+bool QTermSSHSocket::allowInput()
+{
+	return d_allowInput;
+}
+
 #ifdef HAVE_CONFIG_H
 #include "qtermsshsocket.moc"
 #endif

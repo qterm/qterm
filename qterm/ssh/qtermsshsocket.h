@@ -29,6 +29,7 @@ private:
 	QTermSSHKex * d_kex;
 	QTermSSHAuth * d_auth;
 	QTermSSHSession * d_session;
+	bool d_allowInput;
 
 	int chooseVersion(const QString & ver);
 	Q_ULONG socketWriteBlock(const char * data, Q_ULONG len);
@@ -57,6 +58,7 @@ public:
 	Q_ULONG bytesAvailable();
 	void flush();
 	void close();
+	bool allowInput();
 };
 
 #endif		//QTERMSSHSOCKET_H

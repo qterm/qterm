@@ -462,6 +462,9 @@ int QTermTelnet::read(char * data, uint maxlen)
  */
 int QTermTelnet::write(const char * data, uint len)
 {
+	if (!socket->allowInput())
+		return 0;
+
 	// accept data, (This seems can be removed????)
 	from_ansi->resize(len);
 	memcpy(from_ansi->data(), data, len);

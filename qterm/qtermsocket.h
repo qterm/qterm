@@ -96,6 +96,7 @@ public:
 	virtual Q_LONG readBlock(char * data, Q_ULONG maxlen) = 0;
 	virtual Q_LONG writeBlock(const char * data, Q_ULONG len) = 0;
 	virtual Q_ULONG bytesAvailable() = 0;
+	virtual bool allowInput() = 0;
 signals:
 	void connected();
 	void hostFound();
@@ -122,6 +123,7 @@ public:
 	Q_LONG readBlock(char * data, Q_ULONG maxlen);
 	Q_LONG writeBlock(const char * data, Q_ULONG len);
 	Q_ULONG bytesAvailable();
+	bool allowInput();
 };
 
 #endif		//QTERMSOCKET_H
