@@ -99,7 +99,7 @@ void aboutDialogUI::languageChange()
     TextLabel->setText( tr( "QTerm 0.3.2 (QT 2.3.2 and 3.1.x based)" ) );
     TextLabel3->setText( tr( "QTerm --- BBS Client for X Window\n"
 "\n"
-"2001-2005, The QTerm Developers\n"
+"2001-2008, The QTerm Developers\n"
 "\n"
 "http://qterm.sourceforge.net" ) );
     mainTabWidget->changeTab( tab, tr( "About" ) );
