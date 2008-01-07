@@ -1,13 +1,12 @@
-QTerm 0.4.0
+QTerm 0.4.1
 ===============
 
 这个版本添加/修正了下面一些功能:
 
-1. 修正了 Python 脚本无法运行的 bug。
-
-经过近两年的 pre release，QTerm 0.4.0终于发布了，开发重点将会转移到基于 Qt 4 的
-0.5 系列上，当然对于 0.4 系列的 bug 我们也会发布后继版本进行修复。
-
+1. 替换了会导致 qterm 失去相应的 qm 文件.
+2. 替换了有 license 问题的代码.
+3. 减少重绘时候的闪烁.
+4. merge 了各种针对 0.4.0 的 patch.
 
                                    	The QTerm Team
                               http://qterm.sourceforge.net
