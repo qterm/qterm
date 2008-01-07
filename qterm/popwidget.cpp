@@ -103,6 +103,8 @@ void popWidget::showTimer()
 	switch(nState)
 	{
 	case 0:		// popup
+		if(!isVisible())
+			show();
 		if(ptPos.y()+height()+5>rcDesktop.height())
 			ptPos.setY( ptPos.y()- nStep );
 		else
@@ -122,6 +124,7 @@ void popWidget::showTimer()
 		{
 			nState = -1;
 			pTimer->stop();
+			hide();
 		}
 		break;
 	default:
