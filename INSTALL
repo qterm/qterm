@@ -8,7 +8,7 @@ Steps to Install QTerm
 		python-dev
 		libssl-dev
 	-Commands: 
-		cd qterm-0.4.0
+		cd qterm-0.4.1
 		./configure
 		make && make install
 
@@ -19,7 +19,7 @@ Windowz
 		OpenSSL/Windows		http://www.openssl.org/related/binaries.html
 		Python/Windows		http://www.python.org/download/
 	-Commands:
-		cd qterm-0.4.0/qterm
+		cd qterm-0.4.1/qterm
 		qmake qterm.prj
 		nmake (for MSVC)
 		or make (for BC)
@@ -35,7 +35,7 @@ MacOS X
 			Source
 				http://www.trolltech.com/download/qt/mac.html
 	-Commands:
-		cd qterm-0.4.0/qterm
+		cd qterm-0.4.1/qterm
 		qmake qterm.prj
 		make && make install
 
