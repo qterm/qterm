@@ -322,8 +322,10 @@ bool QTermBBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 	if (!checkIP) //don't update when we only need ip
 		m_rcUrl = QRect(0,0,0,0);
 
-	QCString cstrText = m_pBuffer->at(m_ptCursor.y())->getText();
-
+	QTermTextLine* textLine = m_pBuffer->at(m_ptCursor.y());
+	if (NULL == textLine)
+		return false;
+	QCString cstrText = textLine->getText();
 
 	if(at>=cstrText.length())
 		return false;
@@ -464,6 +466,29 @@ bool QTermBBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 		}else
 			m_cstrUrl = "http://"+m_cstrUrl;
 	
+	// fix up m_cstrUrl for URL spans over many rows.
+	// NOTE: I don't fix up m_rcUrl, so the URL is only distinguished
+	// when the cursor lies on the first line of this URL.
+	if (end == cstrText.length()) {
+		int row = m_ptCursor.y();
+		do {
+			textLine = m_pBuffer->at(++row);
+			if (NULL == textLine)
+				break;
+
+			cstrText = textLine->getText();
+
+			for (i = 0; i < cstrText.length() &&
+					!isIllURLChar(cstrText.at(i)); i++)
+				;
+			if (i > 0)
+				m_cstrUrl += cstrText.mid(0, i);
+			// we reach the end of this long URL
+			if (i < cstrText.length())
+				break;
+		} while (1);
+	}
+
 	rcUrl = QRect(url, m_ptCursor.y(), end-url, 1);
 	if (!checkIP) // don't update when we only need ip
 		m_rcUrl = rcUrl;
