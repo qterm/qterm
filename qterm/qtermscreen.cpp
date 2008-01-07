@@ -110,7 +110,6 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 		m_pCodec = QTextCodec::codecForName("GBK");
 	else
 		m_pCodec = QTextCodec::codecForName("Big5");
-	m_pxmBuffer = new QPixmap(this->size());
 }
 
 QTermScreen::~QTermScreen()
@@ -211,8 +210,6 @@ void QTermScreen::moveEvent( QMoveEvent * )
 }
 void QTermScreen::resizeEvent( QResizeEvent *  )
 {
-	delete m_pxmBuffer;
-	m_pxmBuffer = new QPixmap(this->size());
 	updateScrollBar();
 	setBgPxm( m_pxmBg, m_nPxmType );
 	
@@ -721,7 +718,7 @@ void QTermScreen::setBgPxm( const QPixmap& pixmap, int nType)
 void QTermScreen::blinkScreen()
 {
 	QPainter painter;
-	painter.begin(m_pxmBuffer);
+	painter.begin(this);
 	int startx;
 	for (int index=m_nStart; index<=m_nEnd; index++)
 		if (m_pBlinkLine[index - m_nStart]) {
@@ -738,7 +735,6 @@ void QTermScreen::blinkScreen()
 					drawLine(painter, index, startx, i, false);
 				}
 		}
-	bitBlt(this, 0, 0, m_pxmBuffer, 0, 0, m_pxmBuffer->width(), m_pxmBuffer->height(), Qt::CopyROP);
 }
 
 // refresh the screen when 
@@ -757,7 +753,9 @@ void QTermScreen::refreshScreen( )
 	int startx, endx;
 
 	QPainter painter;
-	painter.begin(m_pxmBuffer);
+	painter.begin(this);
+	
+	
 	for(int index=m_nStart; index<=m_nEnd; index++ )
 	{
 		if ( index>=m_pBuffer->lines() )
@@ -784,7 +782,8 @@ void QTermScreen::refreshScreen( )
 */
 		startx = testChar(startx, index);
 
-		painter.fillRect(mapToRect(startx, index, -1, 1), m_color[0]);
+		erase(mapToRect(startx, index, -1, 1));
+
 		drawLine( painter, index, startx);
 
 		pTextLine->clearChange();
@@ -803,7 +802,6 @@ void QTermScreen::refreshScreen( )
 
 	if(m_hasBlink)	m_blinkTimer->start(1000);
 
-	bitBlt(this, 0, 0, m_pxmBuffer, 0, 0, m_pxmBuffer->width(), m_pxmBuffer->height(), Qt::CopyROP);
 }
 
 int QTermScreen::testChar(int startx, int index)
@@ -857,11 +855,12 @@ int QTermScreen::testChar(int startx, int index)
 		
 void QTermScreen::paintEvent( QPaintEvent * pe )
 {
+	
 	QPainter painter;
 
 	setUpdatesEnabled( false );
 	
-	painter.begin( m_pxmBuffer );
+	painter.begin( this );
 	
 	QRect rect = pe->rect().intersect(m_rcClient);
 
@@ -871,7 +870,6 @@ void QTermScreen::paintEvent( QPaintEvent * pe )
 
 	for( int y=tlPoint.y(); y<=brPoint.y(); y++ )
 	{
-		painter.fillRect(mapToRect(0, y, -1, 1), m_color[0]);
 		drawLine(painter,y);
 		if( m_pBBS->isSelected(y)&&m_pParam->m_nMenuType==1 )
 		{
@@ -881,10 +879,8 @@ void QTermScreen::paintEvent( QPaintEvent * pe )
 					rcMenu.width(), rcMenu.height(), Qt::NotROP );
 		}
 	}
-
+	
 	painter.end();
-
-	bitBlt(this, 0, 0, m_pxmBuffer, 0, 0, m_pxmBuffer->width(), m_pxmBuffer->height(), Qt::CopyROP);
 
 	setUpdatesEnabled( true );
 
@@ -924,6 +920,7 @@ void QTermScreen::drawLine( QPainter& painter, int index, int starx, int endx, b
 			starx = 0;
 			endx = linelength;
 		}
+
 	for( uint i=starx; i < endx;i++)
 	{
 		int offset = 0;
