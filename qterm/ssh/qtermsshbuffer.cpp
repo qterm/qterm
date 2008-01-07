@@ -87,7 +87,7 @@ void QTermSSHBuffer::getBuffer(char * data, int len)
 
 void QTermSSHBuffer::putSSH1BN(BIGNUM * bignum)
 {
-	int bits = BN_num_bits(bignum);
+	u_short bits = BN_num_bits(bignum);
 	int bin_size = (bits + 7) / 8;
 	u_char * buf = new u_char[bin_size];
 	int oi;
@@ -99,7 +99,7 @@ void QTermSSHBuffer::putSSH1BN(BIGNUM * bignum)
 		fprintf(stderr, "putSSH1BN: BN_bn2bin() failed: oi %d != bin_size %d\n", oi, bin_size);
 
 	// Store the number of bits in the buffer in two bytes, msb first
-	PUT_16BIT(msg, bits);
+	put_u16(msg, bits);
 	putBuffer((char *)msg, 2);
 	// Store the binary data.
 	putBuffer((char *)buf, oi);
@@ -120,7 +120,7 @@ void QTermSSHBuffer::getSSH1BN(BIGNUM * bignum)
 
 	// Get the number for bits.
 	getBuffer((char *)buf, 2);
-	bits = GET_16BIT(buf);
+	bits = get_u16(buf);
 	// Compute the number of binary bytes that follow.
 	bytes = (bits + 7) /8;
 	if (bytes > 8 *1024) {
@@ -142,7 +142,7 @@ u_short QTermSSHBuffer::getWord()
 	u_short data;
 	
 	getBuffer((char *)buf, 2);
-	data = GET_16BIT(buf);
+	data = get_u16(buf);
 	return data;
 }
 
@@ -150,7 +150,7 @@ void QTermSSHBuffer::putWord(u_short data)
 {
 	u_char buf[2];
 
-	PUT_16BIT(buf, data);
+	put_u16(buf, data);
 	putBuffer((char *)buf, 2);
 }
 
@@ -159,7 +159,7 @@ u_int QTermSSHBuffer::getInt()
 	u_char buf[4];
 	u_int data;
 	getBuffer((char *)buf, 4);
-	data = GET_32BIT(buf);
+	data = get_u32(buf);
 	return data;
 }
 
@@ -167,7 +167,7 @@ void QTermSSHBuffer::putInt(u_int data)
 {
 	u_char buf[4];
 
-	PUT_32BIT(buf, data);
+	put_u32(buf, data);
 	putBuffer((char *)buf, 4);
 }
 

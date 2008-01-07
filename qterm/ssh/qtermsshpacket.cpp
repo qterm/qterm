@@ -189,7 +189,7 @@ void QTermSSH1PacketReceiver::parseData(QTermSSHBuffer * input)
 			return;
 		}
 		buf = input->data();
-		d_realLen = GET_32BIT(buf);
+		d_realLen = get_u32(buf);
 		// d_realLen = input->getInt();
 		// qDebug("incoming packet length: %d", (d_realLen + 8) & ~7);
 		if (d_realLen > SSH_BUFFER_MAX) {
@@ -226,7 +226,7 @@ void QTermSSH1PacketReceiver::parseData(QTermSSHBuffer * input)
 	 
 		// Check the crc32.
 		buf = d_buffer->data() + d_totalLen - 4;
-		mycrc = GET_32BIT(buf);
+		mycrc = get_u32(buf);
 		gotcrc = ssh_crc32(d_buffer->data(), d_totalLen - 4);
 		if (mycrc != gotcrc) {
 			emit packetError("parseData: bad CRC32");
