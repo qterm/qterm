@@ -150,7 +150,6 @@ protected:
 	// background
 	bool m_hasBg;
 	QPixmap m_pxmBg;
-	QPixmap * m_pxmBuffer;
 	int m_nPxmType;
 	
 	// the range of the buffer to be displayed
