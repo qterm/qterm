@@ -9,8 +9,8 @@ Methods
 		download the current article in given timeout seconds,
 		return success=0 when timeout, otherwise 1
 	
-	string copyArticle(long lp) (obsolete)
-		download the current article
+	string copyArticle(long lp, bool colorful = false) (obsolete)
+		download the current article, you can use it without setting colorful, and by default it is false(in order to back compatible ),if colorful is true ,the article is colorful.else ,the article is not colorful
 
 	string getText(long lp, int line) 		
 		get text at line

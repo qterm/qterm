@@ -86,13 +86,16 @@ QString getErrOutputFile(QTermWindow* lp)
 
 // copy current artcle for back compatible use only
 // for new coder please use getArticle
+// you can use it without setting colorful, and by default it is false(in order to back compatible ),if colorful is true ,the article is colorful.else ,the article is not colorful
 static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
 {
 	long lp;
-	if (!PyArg_ParseTuple(args, "l", &lp))
+	bool colorful = false;
+	if (!PyArg_ParseTuple(args, "l|b", &lp, &colorful))
 		return NULL;
 
 	QTermWindow *pWin=(QTermWindow*)lp;
+	QCString escape = pWin->getParsedEscape();
 
 	QStringList strList;
 	QCString cstrArticle;
@@ -133,8 +136,12 @@ static PyObject *qterm_copyArticle(PyObject *, PyObject *args)
 		}
 		// add new lines
 		for(i=start;i<pWin->m_pBuffer->line()-1;i++)
-			strList+=pWin->stripWhitespace(
-			pWin->m_pBuffer->screen(i)->getText());
+			if(!colorful)
+				strList+=pWin->stripWhitespace(
+				pWin->m_pBuffer->screen(i)->getText());
+			else
+				strList+=pWin->stripWhitespace(
+				pWin->m_pBuffer->screen(i)->getAttrText(-1, -1, escape));
 
 		// the end of article
 		if( pWin->m_pBuffer->screen(
@@ -388,7 +395,7 @@ static PyObject *qterm_getAttrText(PyObject *, PyObject *args)
 	if (!PyArg_ParseTuple(args, "li", &lp, &line))
 		return NULL;
 
-	QCString cstr = ((QTermWindow*)lp)->m_pBuffer->screen(line)->getAttrText();
+	QCString cstr = ((QTermWindow*)lp)->m_pBuffer->screen(line)->getAttrText(-1, -1, ((QTermWindow*)lp)->getParsedEscape());
 
 	PyObject *py_text = PyString_FromString(cstr);
 

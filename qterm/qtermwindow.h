@@ -85,6 +85,7 @@ public:
 	void externInput(const QCString&);
 	QCString stripWhitespace(const QCString& cstr);
 	void getHttpHelper(const QString&, bool);
+	QCString getParsedEscape();
 
 protected slots:
 	// from QTermTelnet

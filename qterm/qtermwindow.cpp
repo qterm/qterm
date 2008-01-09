@@ -91,6 +91,7 @@ QTermDAThread::~QTermDAThread()
 void QTermDAThread::run()
 {
 	QStringList strList;
+	QCString escape = pWin->getParsedEscape();
 	while(1)
 	{
 		// check it there is duplicated string
@@ -127,8 +128,12 @@ void QTermDAThread::run()
 		}
 		// add new lines
 		for(i=start;i<pWin->m_pBuffer->line()-1;i++)
-			strList+=pWin->stripWhitespace(
-			pWin->m_pBuffer->screen(i)->getText());
+			if(!pWin->m_bCopyColor)
+				strList+=pWin->stripWhitespace(
+				pWin->m_pBuffer->screen(i)->getText());
+			else
+				strList+=pWin->stripWhitespace(
+				pWin->m_pBuffer->screen(i)->getAttrText(-1, -1, escape));
 
 		// the end of article
 		if( pWin->m_pBuffer->screen(
@@ -2217,6 +2222,12 @@ void QTermWindow::httpDone(QObject *pHttp)
 {
 	pHttp->deleteLater();
 }
+
+QCString QTermWindow::getParsedEscape()
+{
+	return parseString((const char *)m_param.m_strEscape);
+}
+
 #ifdef HAVE_CONFIG_H
 #include "qtermwindow.moc"
 #endif
