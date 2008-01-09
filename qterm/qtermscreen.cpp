@@ -111,6 +111,7 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 	else
 		m_pCodec = QTextCodec::codecForName("Big5");
 	m_pxmBuffer = new QPixmap(this->size());
+	m_pxmBuffer->fill(m_color[0]);
 }
 
 QTermScreen::~QTermScreen()
@@ -229,6 +230,7 @@ void QTermScreen::resizeEvent( QResizeEvent *  )
 	}
 	delete m_pxmBuffer;
 	m_pxmBuffer = new QPixmap(this->size());
+	m_pxmBuffer->fill(m_color[0]);
 	update();
 }
 
