@@ -233,12 +233,11 @@ QCString QTermTextLine::getAttrText( int index, int len, const QCString& escape 
 	else if ( len == -1 )
 		len = m_length-index;
 
-	
+
 	if(index>=m_length)
 		return (char *)NULL;
-		
-	printf("index=%d len=%d m_length=%d\n", index, len, m_length);
-	
+
+
 	for( int i=index; i<index+len && i<m_length; i++)
 	{
 		startx = i;
