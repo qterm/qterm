@@ -1048,12 +1048,7 @@ void QTermScreen::drawStr( QPainter& painter, const QString& str, int x, int y, 
 
 
 	if( m_blinkScreen && GETBLINK(GETATTR(attribute)))
-	{
-		if(GETBG(cp)!=0)
-			painter.fillRect( mapToRect(x,y,length,1), QBrush(m_color[GETBG(cp)]) );
-		else
-			erase( mapToRect(x, y, length, 1) );
-	}
+		painter.fillRect( mapToRect(x,y,length,1), QBrush(m_color[GETBG(cp)]) );
 	else {
 		if(GETBG(cp)!=0)
 			painter.fillRect( mapToRect(x,y,length,1), QBrush(m_color[GETBG(cp)]) );
