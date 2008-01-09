@@ -211,8 +211,6 @@ void QTermScreen::moveEvent( QMoveEvent * )
 }
 void QTermScreen::resizeEvent( QResizeEvent *  )
 {
-	delete m_pxmBuffer;
-	m_pxmBuffer = new QPixmap(this->size());
 	updateScrollBar();
 	setBgPxm( m_pxmBg, m_nPxmType );
 	
@@ -229,6 +227,9 @@ void QTermScreen::resizeEvent( QResizeEvent *  )
 			m_pBuffer->setSize( cx, cy );
 		}
 	}
+	delete m_pxmBuffer;
+	m_pxmBuffer = new QPixmap(this->size());
+	update();
 }
 
 /* ------------------------------------------------------------------------ */
