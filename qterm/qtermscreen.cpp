@@ -738,6 +738,7 @@ void QTermScreen::blinkScreen()
 					drawLine(painter, index, startx, i, false);
 				}
 		}
+	painter.end();
 	bitBlt(this, 0, 0, m_pxmBuffer, 0, 0, m_pxmBuffer->width(), m_pxmBuffer->height(), Qt::CopyROP);
 }
 
