@@ -877,6 +877,14 @@ void QTermScreen::paintEvent( QPaintEvent * pe )
 	{
 		painter.fillRect(mapToRect(0, y, -1, 1), m_color[0]);
 		drawLine(painter,y);
+	}
+
+	painter.end();
+
+	bitBlt(this, 0, 0, m_pxmBuffer, 0, 0, m_pxmBuffer->width(), m_pxmBuffer->height(), Qt::CopyROP);
+
+	for( int y=tlPoint.y(); y<=brPoint.y(); y++ )
+	{
 		if( m_pBBS->isSelected(y)&&m_pParam->m_nMenuType==1 )
 		{
 			QRect rcMenu = mapToRect(m_pBBS->getSelectRect());
@@ -885,10 +893,6 @@ void QTermScreen::paintEvent( QPaintEvent * pe )
 					rcMenu.width(), rcMenu.height(), Qt::NotROP );
 		}
 	}
-
-	painter.end();
-
-	bitBlt(this, 0, 0, m_pxmBuffer, 0, 0, m_pxmBuffer->width(), m_pxmBuffer->height(), Qt::CopyROP);
 
 	setUpdatesEnabled( true );
 
