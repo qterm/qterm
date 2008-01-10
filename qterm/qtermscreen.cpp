@@ -795,6 +795,8 @@ void QTermScreen::refreshScreen( )
 	}
 	painter.end();
 
+	bitBlt(this, 0, 0, m_pxmBuffer, 0, 0, m_pxmBuffer->width(), m_pxmBuffer->height(), Qt::CopyROP);
+
 	setUpdatesEnabled(TRUE);
 
 	setMicroFocusHint((m_pBuffer->caret().x()+2)*m_nCharWidth,(m_pBuffer->caret().y()+1)*m_nCharHeight, 
@@ -807,7 +809,6 @@ void QTermScreen::refreshScreen( )
 
 	if(m_hasBlink)	m_blinkTimer->start(1000);
 
-	bitBlt(this, 0, 0, m_pxmBuffer, 0, 0, m_pxmBuffer->width(), m_pxmBuffer->height(), Qt::CopyROP);
 }
 
 int QTermScreen::testChar(int startx, int index)
