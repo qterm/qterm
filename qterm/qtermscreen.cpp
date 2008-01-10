@@ -74,6 +74,9 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 	m_cursorTimer = new QTimer(this);
 	connect(m_cursorTimer, SIGNAL(timeout()), this, SLOT(cursorEvent()));
 
+	m_resizeTimer = new QTimer(this);
+	connect(m_resizeTimer, SIGNAL(timeout()), this, SLOT(resizeWindow()));
+
 	m_inputContent = NULL;
 
 	// the scrollbar
@@ -112,6 +115,7 @@ QTermScreen::QTermScreen( QWidget *parent, QTermBuffer *buffer, QTermParam *para
 		m_pCodec = QTextCodec::codecForName("Big5");
 	m_pxmBuffer = new QPixmap(this->size());
 	m_pxmBuffer->fill(m_color[0]);
+	resizeWindow();
 }
 
 QTermScreen::~QTermScreen()
@@ -210,7 +214,8 @@ void QTermScreen::moveEvent( QMoveEvent * )
 {
 //	setBgPxm( m_pxmBg, m_nPxmType );
 }
-void QTermScreen::resizeEvent( QResizeEvent *  )
+
+void QTermScreen::resizeWindow()
 {
 	updateScrollBar();
 	setBgPxm( m_pxmBg, m_nPxmType );
@@ -232,6 +237,11 @@ void QTermScreen::resizeEvent( QResizeEvent *  )
 	m_pxmBuffer = new QPixmap(this->size());
 	m_pxmBuffer->fill(m_color[0]);
 	update();
+}
+
+void QTermScreen::resizeEvent( QResizeEvent *  )
+{
+	m_resizeTimer->start(50,true);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -862,6 +872,11 @@ int QTermScreen::testChar(int startx, int index)
 		
 void QTermScreen::paintEvent( QPaintEvent * pe )
 {
+	if (m_resizeTimer->isActive()){
+		bitBlt(this, 0, 0, m_pxmBuffer, 0, 0, m_pxmBuffer->width(), m_pxmBuffer->height(), Qt::CopyROP);
+		return;
+	}
+
 	QPainter painter;
 
 	setUpdatesEnabled( false );

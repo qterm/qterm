@@ -118,6 +118,7 @@ protected slots:
 	void prevLine();
 	void nextLine();
 	void scrollLine(int);
+	void resizeWindow();
 protected:
 
 	QRect  m_rcClient;	// the display area
@@ -128,6 +129,7 @@ protected:
 	
 	QTimer * m_blinkTimer;
 	QTimer * m_cursorTimer;
+	QTimer * m_resizeTimer;
 	QTermInput * m_inputContent;
 
 	bool m_blinkScreen;
