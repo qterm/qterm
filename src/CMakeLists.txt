@@ -78,6 +78,10 @@ ui/schemadialog.ui
 ui/soundconf.ui
 ui/sshlogin.ui
 ui/zmodemdialog.ui )
+set( qterm_MISC
+address.cfg
+credits
+qterm.cfg )
 qt4_wrap_ui( qterm_UIS_H ${qterm_UIS} )
 qt4_automoc(${qterm_SRCS})
 ADD_DEFINITIONS( -Wall -DHAVE_CONFIG_H )
@@ -100,6 +104,7 @@ ${QT_QTNETWORK_LIBRARY}
 ${OPENSSL_LIBRARIES}
 )
 install(TARGETS qterm DESTINATION bin)
+install(FILES ${qterm_MISC} DESTINATION share/qterm)
 add_subdirectory(pic)
 add_subdirectory(cursor)
 add_subdirectory(schema)
