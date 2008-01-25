@@ -297,6 +297,8 @@ void Screen::resizeEvent( QResizeEvent *  )
 			m_pBuffer->setSize( cx, cy );
 		}
 	}
+	m_ePaintState = Show;
+	update();
 }
 
 /* ------------------------------------------------------------------------ */
@@ -792,6 +794,8 @@ void Screen::refreshScreen()
 	QPainter painter;
 	painter.begin(this);
 	//qDebug("size: %d, %d", width(),height());
+	if(m_ePaintState == Show)
+		painter.fillRect(m_rcClient,m_color[0]);
 	
 	for(int index=m_nStart; index<=m_nEnd; index++ )
 	{
@@ -801,6 +805,12 @@ void Screen::refreshScreen()
 			painter.end();
 			return;
 		}
+
+		if(m_ePaintState == Show) {
+			drawLine(painter, index, 0, -1);
+			continue;
+		}
+
 		TextLine *pTextLine = m_pBuffer->at(index);
 		if(pTextLine->hasBlink()){
 			m_hasBlink = true;
@@ -901,6 +911,7 @@ void Screen::paintEvent( QPaintEvent * pe )
 	switch(m_ePaintState)
 	{
 		case NewData:
+		case Show:
 			refreshScreen();
 			m_ePaintState = Repaint;
 			break;

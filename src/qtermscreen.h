@@ -57,7 +57,7 @@ class Screen : public QWidget
 {
 	Q_OBJECT
 public:
-	enum PaintState {NewData, Blink, Cursor, Repaint};
+	enum PaintState {NewData, Blink, Cursor, Repaint, Show};
 	enum MouseState {Enter, Press, Move, Release, Leave};
 	Screen( QWidget *parent, Buffer *buffer, Param *param, BBS *bbs );
  	~Screen();

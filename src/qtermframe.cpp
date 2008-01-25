@@ -466,15 +466,8 @@ void Frame::newWindow( const Param&  param, int index )
 	//add window-tab-icon to window manager
 	wndmgr->addWindow(window,qtab,icon);
 	
-	if( m_MdiArea->subWindowList().isEmpty() ){
-		window->setFocus();
-		window->showMaximized();
-	}
-	else
-	{
-		m_MdiArea->setFocus();
-		window->show();
-	}
+	window->setFocus();
+	window->showMaximized();
 
 	//activte the window-tab
 //	window->setFocus();

@@ -1545,6 +1545,7 @@ void Window::showIP()
 void Window::refresh( )
 {
 	//m_pScreen->repaint(true);
+	m_pScreen->m_ePaintState=Screen::Show;
 	m_pScreen->update();
 }
 

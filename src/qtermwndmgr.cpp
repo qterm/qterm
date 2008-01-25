@@ -105,8 +105,9 @@ void WndMgr::activateTheTab(Window * mw)
 	if( n==nCurrentIndex )
 		return;
 	
-	mw->showNormal();
-	mw->showMaximized();
+	mw->setFocus();
+	mw->show();
+	mw->refresh();
 	
 	nCurrentIndex = n;
 
@@ -130,13 +131,11 @@ void WndMgr::activateTheWindow(const QString& qtab)
 	nCurrentIndex = n;
 
 	Window * mw=pWin.at(n);
+
 	//set focus to it
-//	#if (QT_VERSION>=0x030300)
-	((QWidget*)pFrame->m_MdiArea)->setFocus();
-	mw->showNormal();
-//	#else
-//	mw->setFocus();
-//	#endif
+	mw->setFocus();
+	mw->show();
+	mw->refresh();
 	
 	pFrame->updateMenuToolBar();
 }
@@ -182,13 +181,7 @@ void WndMgr::activeNextPrev(bool next)
 	nCurrentIndex = n;
 
 	Window * mw=pWin.at(n);
-	//set focus to it
-//	#if (QT_VERSION>=0x030300)
-	((QWidget*)pFrame->m_MdiArea)->setFocus();
-	mw->showNormal();
-//	#else
-//	mw->setFocus();
-//	#endif
+	mw->setFocus();
 
 	QString qtab=pTab.at(n);
 	//set it seleted
