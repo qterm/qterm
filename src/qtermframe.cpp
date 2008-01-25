@@ -457,6 +457,7 @@ void Frame::newWindow( const Param&  param, int index )
 	m_MdiArea->addSubWindow(window);
 	window->setWindowTitle( param.m_strName );
 	window->setWindowIcon( QPixmap(pathLib+"pic/tabpad.png") );
+	window->setAttribute(Qt::WA_DeleteOnClose);
 
 	QIcon* icon = new QIcon(QPixmap(pathLib+"pic/tabpad.png"));
 	//QTab *qtab=new QTab(*icon,window->caption());
