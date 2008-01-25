@@ -80,6 +80,7 @@ ui/sshlogin.ui
 ui/zmodemdialog.ui )
 qt4_wrap_ui( qterm_UIS_H ${qterm_UIS} )
 qt4_automoc(${qterm_SRCS})
+ADD_DEFINITIONS( -Wall -DHAVE_CONFIG_H )
 include_directories(
 ${QT_INCLUDE_DIR}
 ${QT_QTCORE_INCLUDE_DIR}
@@ -87,6 +88,7 @@ ${QT_QTGUI_INCLUDE_DIR}
 ${QT_QTNETWORK_INCLUDE_DIR}
 ${OPENSSL_INCLUDE_DIR}
 ${CMAKE_SOURCE_DIR}
+${CMAKE_BINARY_DIR}
 ${CMAKE_CURRENT_BINARY_DIR}
 ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(qterm ${qterm_SRCS})

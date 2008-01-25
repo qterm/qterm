@@ -14,13 +14,13 @@ AUTHOR:		smartfish kafa
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-//#ifdef HAVE_CONFIG_H
-//#include <config.h>
-//#else 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#else
 #define VERSION	"0.4.0pre3"
 #define QTERM_DATADIR "/usr/share/qterm"
 #define QTERM_BINDIR  "/usr/bin"
-//#endif
+#endif
 
 #ifndef BUFSIZE
 #define BUFSIZE (1024)
