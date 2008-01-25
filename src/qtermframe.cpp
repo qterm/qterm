@@ -462,10 +462,6 @@ void Frame::newWindow( const Param&  param, int index )
 	QString qtab = window->windowTitle();
 	tabBar->addTab( *icon, qtab );
 
-	//if no this call, the tab wont display untill you resize the window
-	tabBar->updateGeometry();
-	tabBar->update();
-	
 	//add window-tab-icon to window manager
 	wndmgr->addWindow(window,qtab,icon);
 	
