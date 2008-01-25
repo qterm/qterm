@@ -643,6 +643,7 @@ void Frame::closeEvent(QCloseEvent * clse)
                 {
                         if (m_pref.bTray) {
                                 trayHide();
+                                clse->ignore();
                                 return;
                         }
                 }
@@ -652,6 +653,7 @@ void Frame::closeEvent(QCloseEvent * clse)
                 bool closed = m_MdiArea->activeSubWindow()->close();
                 if(!closed)
                 {
+                        clse->ignore();
                         return;
                 }
         }
