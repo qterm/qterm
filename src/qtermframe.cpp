@@ -45,7 +45,8 @@ AUTHOR:        kingson fiasco
 
 #include <QTextCodec>
 #include <QApplication>
-#include <QWorkspace>
+#include <QMdiArea>
+#include <QMdiSubWindow>
 #include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
@@ -99,8 +100,8 @@ Frame::Frame()
 // 	Q3VBox *vb = new Q3VBox( this );
 // 	FIXME:QFrame?
 	//vb->setFrameStyle( QFrame::StyledPanel | QFrame::Sunken );
-	ws = new QWorkspace( this );
-	setCentralWidget( ws );
+	m_MdiArea = new QMdiArea( this );
+	setCentralWidget( m_MdiArea );
 	//vbLayout->addWidget(ws);
 
 	tray = 0;
@@ -427,7 +428,7 @@ void Frame::exitQTerm()
 {
 	while( wndmgr->count()>0 ) 
 	{
-		bool closed = ws->activeWindow()->close();
+		bool closed = m_MdiArea->activeSubWindow()->close();
 		if(!closed)
 		{
 			return;
@@ -451,13 +452,13 @@ void Frame::exitQTerm()
 //Window * Frame::newWindow( const Param&  param, int index )
 void Frame::newWindow( const Param&  param, int index )
 {
-	Window * window=new Window( this, param, index, ws,
+	Window * window=new Window( this, param, index, m_MdiArea,
 					0 );
-	ws->addWindow(window);
+	m_MdiArea->addSubWindow(window);
 	window->setWindowTitle( param.m_strName );
 	window->setWindowIcon( QPixmap(pathLib+"pic/tabpad.png") );
 
-	QIcon* icon=new QIcon(QPixmap(pathLib+"pic/tabpad.png"));
+	QIcon* icon = new QIcon(QPixmap(pathLib+"pic/tabpad.png"));
 	//QTab *qtab=new QTab(*icon,window->caption());
 	QString qtab = window->windowTitle();
 	tabBar->addTab( *icon, qtab );
@@ -465,13 +466,13 @@ void Frame::newWindow( const Param&  param, int index )
 	//add window-tab-icon to window manager
 	wndmgr->addWindow(window,qtab,icon);
 	
-	if( ws->windowList().isEmpty() ){
+	if( m_MdiArea->subWindowList().isEmpty() ){
 		window->setFocus();
 		window->showMaximized();
 	}
 	else
 	{
-		ws->setFocus();
+		m_MdiArea->setFocus();
 		window->show();
 	}
 
@@ -516,9 +517,9 @@ void Frame::homepage()
 void Frame::windowsMenuAboutToShow()
 {
 	windowsMenu->clear();
-	QAction * cascadeAction = windowsMenu->addAction(tr("Cascade"), ws, SLOT(cascade() ) );
-	QAction * tileAction = windowsMenu->addAction(tr("Tile"), ws, SLOT(tile() ) );
-	if ( ws->windowList().isEmpty() ) 
+	QAction * cascadeAction = windowsMenu->addAction(tr("Cascade"), m_MdiArea, SLOT(cascadeSubWindows() ) );
+	QAction * tileAction = windowsMenu->addAction(tr("Tile"), m_MdiArea, SLOT(tileSubWindows() ) );
+	if ( m_MdiArea->subWindowList().isEmpty() )
 	{
 		cascadeAction->setEnabled(false);
 		tileAction->setEnabled(false);
@@ -531,20 +532,20 @@ void Frame::windowsMenuAboutToShow()
 		windowsMenu->addAction(tr("Main Window"), this, SLOT(trayShow()));
 #endif
 
-	QWidgetList windows = ws->windowList();
+	QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
 	for ( int i = 0; i < int(windows.count()); ++i ) 
 	{
 		QAction * idAction = windowsMenu->addAction(windows.at(i)->windowTitle(),
 				this, SLOT( windowsMenuActivated( int ) ) );
 		idAction->setData(i);
-		idAction->setChecked(ws->activeWindow() == windows.at(i));
+		idAction->setChecked(m_MdiArea->activeSubWindow() == windows.at(i));
 	}
 	
 }
 //slot activate the window correspond with the menu id 
 void Frame::windowsMenuActivated( int id )
 {
-	QWidget* w = ws->windowList().at( id );
+	QWidget* w = m_MdiArea->subWindowList().at( id );
 	if ( w ) 
 	{
 		w->showNormal();
@@ -591,7 +592,7 @@ void Frame::connectMenuActivated()
 
 void Frame::switchWin(int id)
 {
-	QWidgetList windows = ws->windowList();
+	QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
 	if(windows.count()==0)
 		return;
 
@@ -607,7 +608,7 @@ void Frame::switchWin(int id)
 	}
 
 	QWidget *w = windows.at(id-1);
-	if(w == ws->activeWindow() )
+	if(w == m_MdiArea->activeSubWindow() )
 		return;
 
 	if(w!=NULL)
@@ -640,7 +641,7 @@ void Frame::paintEvent( QPaintEvent * )
 
 void Frame::closeEvent(QCloseEvent * clse)
 {
-        QWidgetList windows = ws->windowList();
+        QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
         for ( int i = 0; i < int(windows.count()); ++i )
         {
 
@@ -654,7 +655,7 @@ void Frame::closeEvent(QCloseEvent * clse)
         }
         while( wndmgr->count()>0 )
         {
-                bool closed = ws->activeWindow()->close();
+                bool closed = m_MdiArea->activeSubWindow()->close();
                 if(!closed)
                 {
                         return;

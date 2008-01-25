@@ -132,7 +132,7 @@ void WndMgr::activateTheWindow(const QString& qtab)
 	Window * mw=pWin.at(n);
 	//set focus to it
 //	#if (QT_VERSION>=0x030300)
-	((QWidget*)pFrame->ws)->setFocus();
+	((QWidget*)pFrame->m_MdiArea)->setFocus();
 	mw->showNormal();
 //	#else
 //	mw->setFocus();
@@ -184,7 +184,7 @@ void WndMgr::activeNextPrev(bool next)
 	Window * mw=pWin.at(n);
 	//set focus to it
 //	#if (QT_VERSION>=0x030300)
-	((QWidget*)pFrame->ws)->setFocus();
+	((QWidget*)pFrame->m_MdiArea)->setFocus();
 	mw->showNormal();
 //	#else
 //	mw->setFocus();

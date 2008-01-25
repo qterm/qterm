@@ -17,7 +17,7 @@
 class QLineEdit;
 // class Q3ToolBar;
 class QToolButton;
-class QWorkspace;
+class QMdiArea;
 class QTabBar;
 class QSystemTrayIcon;
 class QFontDialog;
@@ -191,7 +191,7 @@ public:
 	
 	int m_nScrollPos;	// 0--hide 1--LEFT 2--RIGHT
 
-	QWorkspace* ws;
+	QMdiArea * m_MdiArea;
 protected:   
 	//variables
 	QTermTimeLabel *labelTime;
