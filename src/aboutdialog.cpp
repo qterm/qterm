@@ -43,7 +43,7 @@ aboutDialog::aboutDialog( QWidget* parent, Qt::WFlags fl )
 	}
 
 	ui.pixmapLabel->setPixmap( QPixmap(pathLib+"pic/qterm_32x32.png") );
-	ui.TextLabel->setText("QTerm "+QString(VERSION)+" (Qt 4.1 based)");
+	ui.TextLabel->setText("QTerm "+QString(QTERM_VERSION)+" (Qt 4.1 based)");
 	//connect(ui.closeButton, SIGNAL(clicked()), this, SLOT(accept()));
 }
 

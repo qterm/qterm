@@ -596,7 +596,7 @@ int main( int argc, char ** argv )
 
   
     QTerm::Frame * mw = new QTerm::Frame();
-    mw->setWindowTitle( "QTerm "+QString(VERSION) );
+    mw->setWindowTitle( "QTerm "+QString(QTERM_VERSION) );
 	mw->setWindowIcon( QPixmap(QTerm::pathLib+"pic/qterm.png") );
 	//a.setMainWidget(mw);
     mw->show();
