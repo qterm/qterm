@@ -46,7 +46,7 @@ protected:
 	QList<QIcon*> pIcon;
 	QList<Window*>  pWin;
 	Frame * pFrame;
-	int nActive;
+	int nCurrentIndex;
 
 	bool removed;
 };

@@ -44,7 +44,7 @@ WndMgr::WndMgr( QObject * parent, const char * name )
 	setObjectName(name);
 	pFrame = (Frame *) parent;
 	
-	nActive = -1;
+	nCurrentIndex = -1;
 	
 	removed = false;
 
@@ -88,7 +88,7 @@ void WndMgr::removeWindow(Window * mw)
 
 	if( pWin.count()==0 )
 	{
-		nActive = -1;
+		nCurrentIndex = -1;
 		pFrame->enableMenuToolBar( false );
 	}
 	
@@ -102,13 +102,13 @@ void WndMgr::activateTheTab(Window * mw)
 	//find where it is
 	int n=pWin.indexOf(mw);
 
-	if( n==nActive )
+	if( n==nCurrentIndex )
 		return;
 	
 	mw->showNormal();
 	mw->showMaximized();
 	
-	nActive = n;
+	nCurrentIndex = n;
 
 	QString qtab=pTab.at(n);
 	//set it seleted
@@ -124,10 +124,10 @@ void WndMgr::activateTheWindow(const QString& qtab)
 	//find where it is
 	int n=pTab.indexOf(qtab);
 
-	if( n==nActive )
+	if( n==nCurrentIndex )
 		return;
 
-	nActive = n;
+	nCurrentIndex = n;
 
 	Window * mw=pWin.at(n);
 	//set focus to it
@@ -162,15 +162,15 @@ int WndMgr::count()
 
 Window * WndMgr::activeWindow()
 {
-	if( nActive == -1 )
+	if( nCurrentIndex == -1 )
 		return NULL;
 	else
-		return pWin.at( nActive );
+		return pWin.at( nCurrentIndex );
 }
 
 void WndMgr::activeNextPrev(bool next)
 {
-	int n = nActive;
+	int n = nCurrentIndex;
 	
 	if(n==-1)
 		return;
@@ -179,7 +179,7 @@ void WndMgr::activeNextPrev(bool next)
 	else
 		n = (n==0)?pWin.count()-1:n-1;
 	
-	nActive = n;
+	nCurrentIndex = n;
 
 	Window * mw=pWin.at(n);
 	//set focus to it
