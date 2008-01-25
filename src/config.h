@@ -1,2 +1,0 @@
-/* defines are added below */
-
