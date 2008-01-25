@@ -118,24 +118,16 @@ Frame::Frame()
 // diaable some menu & toolbar
 	enableMenuToolBar( false );
 
-// 
 	connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), 
 			this, SLOT(toolBarPosChanged(QToolBar*)));
-//!!!create a horizonal layout to hold the tabbar,the reason of why not put
-//the tabbar directly on the status bar is when no tab in the tabbar,the
-//statusbar display a horizonal line,ugly.
-//perhaps there is some function in statusbar to solve this.
-	QWidget * hb = new QWidget(statusBar());
-	QHBoxLayout * hbLayout = new QHBoxLayout(hb);
-	hbLayout->setMargin(0);
-// 	Q3HBox * hb=new Q3HBox(statusBar());
-	statusBar()->addWidget(hb,90);
+
 //create a tabbar in the hbox
-	tabBar=new QTabBar(hb);
-	hbLayout->addWidget(tabBar);
+	tabBar=new QTabBar(statusBar());
+	statusBar()->addWidget(tabBar,0);
 	connect(tabBar,SIGNAL(selected(int)),this,SLOT(selectionChanged(int)));
 	//tabBar->setShape(QTabBar::TriangularBelow);
 	tabBar->setShape(QTabBar:: RoundedSouth);
+	tabBar->setDrawBase(false);
 
 //create a progress bar to notify the download process
 	m_pStatusBar = new QTerm::StatusBar(statusBar(), "mainStatusBar");
