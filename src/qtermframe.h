@@ -146,7 +146,7 @@ protected slots:
 	void viewMessages();
 	void updateMouse(bool);
 	void updateBeep(bool);
-	void reconnect();
+	void reconnect(bool);
 	void keySetup();
 
 	void viewImages();

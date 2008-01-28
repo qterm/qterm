@@ -967,11 +967,9 @@ void Frame::updateBeep(bool isEnabled)
 	m_beepAction->setChecked(wndmgr->activeWindow()->m_bBeep);
 }
 
-void Frame::reconnect()
+void Frame::reconnect(bool isEnabled)
 {
-	wndmgr->activeWindow()->m_bReconnect = !wndmgr->activeWindow()->m_bReconnect;
-
-// 	specReconnect->setChecked( wndmgr->activeWindow()->m_bReconnect );
+	wndmgr->activeWindow()->m_bReconnect = isEnabled;
 }
 
 void Frame::runScript()
@@ -1277,6 +1275,8 @@ void Frame::initActions()
 
 	connect(m_aboutAction, SIGNAL(triggered()), this, SLOT(aboutQTerm()));
 	connect(m_homepageAction, SIGNAL(triggered()), this, SLOT(homepage()));
+
+	connect(m_reconnectAction, SIGNAL(toggled(bool)), this, SLOT(reconnect(bool)));
 }
 
 void Frame::addMainMenu()
