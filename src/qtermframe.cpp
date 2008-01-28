@@ -1236,7 +1236,6 @@ void Frame::addMainTool()
 	// hte main toolbar	
 	mdiTools = addToolBar( "Main ToolBar" );
 // 	mdiTools->setLabel("Main ToolBar");
-	mdiTools->setIconSize(QSize(22,22));
 
 	Config conf(fileCfg);
 	int hide,dock,index,nl,extra;
