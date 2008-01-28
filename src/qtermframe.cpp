@@ -435,10 +435,10 @@ void Frame::newWindow( const Param&  param, int index )
 	QIcon* icon = new QIcon(QPixmap(pathLib+"pic/tabpad.png"));
 	//QTab *qtab=new QTab(*icon,window->caption());
 	QString qtab = window->windowTitle();
-	tabBar->addTab( *icon, qtab );
 
 	//add window-tab-icon to window manager
-	wndmgr->addWindow(window,qtab,icon);
+	wndmgr->addWindow(window);
+	tabBar->addTab( *icon, qtab );
 	
 	window->setFocus();
 	window->showMaximized();
@@ -453,8 +453,7 @@ void Frame::newWindow( const Param&  param, int index )
 //the tabbar selection changed
 void Frame::selectionChanged(int n)
 {
-	QString qtab=tabBar->tabText(n);
-	wndmgr->activateTheWindow(qtab);	
+	wndmgr->activateTheWindow(n);
 }
 //slot Help->About QTerm
 void Frame::aboutQTerm()

@@ -59,19 +59,15 @@ WndMgr::~WndMgr()
 }
 
 //add window-tab-iconset 
-int   WndMgr::addWindow(Window * mw,const QString& qtab, QIcon * icon)
+int WndMgr::addWindow(Window * mw)
 {
-  
 	Q_ASSERT(mw!=NULL);
 	pWin.append(mw);
-	Q_ASSERT(qtab!=QString::QString());
-	pTab.append(qtab);
-	pIcon.append(icon);
 
 	if( pWin.count()==1 )
 		pFrame->enableMenuToolBar( true );
 
-	return pTab.count();
+	return pWin.count();
 }
 
 //remove window-tab-iconset
@@ -79,12 +75,8 @@ void WndMgr::removeWindow(Window * mw)
 {
 	//find where it is
 	int n=pWin.indexOf(mw);
-	QString qtab=pTab.at(n);
-	QIcon * qicon=pIcon.at(n);
 	//remove them from list
-	pTab.removeAll(qtab);
 	pWin.removeAll(mw);
-	pIcon.removeAll(qicon);
 
 	if( pWin.count()==0 )
 	{
@@ -96,6 +88,7 @@ void WndMgr::removeWindow(Window * mw)
 	//remove from the Tabbar
 	pFrame->tabBar->removeTab(n);	
 }
+
 //avtive the tab when switch the window
 void WndMgr::activateTheTab(Window * mw)
 {
@@ -111,20 +104,16 @@ void WndMgr::activateTheTab(Window * mw)
 	
 	nCurrentIndex = n;
 
-	QString qtab=pTab.at(n);
 	//set it seleted
 	
 	pFrame->tabBar->setCurrentIndex(n);
 
 	pFrame->updateMenuToolBar();
 }
+
 //active the window when switch the tab
-void WndMgr::activateTheWindow(const QString& qtab)
+void WndMgr::activateTheWindow(int n)
 {
-
-	//find where it is
-	int n=pTab.indexOf(qtab);
-
 	if( n==nCurrentIndex )
 		return;
 
@@ -136,23 +125,26 @@ void WndMgr::activateTheWindow(const QString& qtab)
 	mw->setFocus();
 	mw->show();
 	mw->refresh();
-	
+
 	pFrame->updateMenuToolBar();
 }
+
+//FIXME: how does this suppose to work?
 //blink the tab when message come in
 void WndMgr::blinkTheTab(Window * mw,bool bVisible)
 {
-	//find where it is
-	int n=pWin.indexOf(mw);
-	QIcon* icon=pIcon.at(n);
-	//FIXME: QIcon::Automatic
-	if(bVisible)
-		icon->addFile(pathLib+"pic/tabpad.png");//,QIcon::Automatic);
-	else
-		icon->addFile(pathLib+"pic/transp.png");//,QIcon::Automatic);
-
-	pFrame->tabBar->update();		
+//	//find where it is
+//	int n=pWin.indexOf(mw);
+//	QIcon* icon=pIcon.at(n);
+//	//FIXME: QIcon::Automatic
+//	if(bVisible)
+//		icon->addFile(pathLib+"pic/tabpad.png");//,QIcon::Automatic);
+//	else
+//		icon->addFile(pathLib+"pic/transp.png");//,QIcon::Automatic);
+//
+//	pFrame->tabBar->update();
 }
+
 //return the number of connected window
 int WndMgr::count()
 {
@@ -183,7 +175,6 @@ void WndMgr::activeNextPrev(bool next)
 	Window * mw=pWin.at(n);
 	mw->setFocus();
 
-	QString qtab=pTab.at(n);
 	//set it seleted
 	pFrame->tabBar->setCurrentIndex(n);
 	pFrame->updateMenuToolBar();

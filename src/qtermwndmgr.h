@@ -29,10 +29,10 @@ public:
 	WndMgr( QObject * parent=0, const char * name=0 );
 	~WndMgr();
 	
-	int  addWindow(Window *mw, const QString & qtab, QIcon *icon);
+	int  addWindow(Window *mw);
 	void removeWindow(Window *mw);
 	void activateTheTab(Window *mw);
-	void activateTheWindow(const QString & qtab);
+	void activateTheWindow(int n);
 	void blinkTheTab(Window *mw,bool bVisible);
 	int  count();
 	
@@ -42,8 +42,6 @@ public:
 	void activeNextPrev(bool);
 
 protected:
-	QList<QString>  pTab;
-	QList<QIcon*> pIcon;
 	QList<Window*>  pWin;
 	Frame * pFrame;
 	int nCurrentIndex;
