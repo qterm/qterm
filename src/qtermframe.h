@@ -206,52 +206,64 @@ protected:
 	QMenu * langMenu;	
 	QMenu * connectMenu;
 // 	File
+	QAction * m_connectAction;
 	QAction * m_disconnectAction;
+	QAction * m_addressAction;
 	QAction * m_quickConnectAction;
+	QAction * m_exitAction;
+
 // 	Edit
 	QAction * m_copyAction;
 	QAction * m_pasteAction;
-	QAction * m_colorCopyAction;//used
-	QAction * m_rectAction;//used
-	QAction * m_autoCopyAction;//used
-	QAction * m_wwrapAction;//used
-	QAction * m_noescAction;//used
-	QAction * m_escescAction;//used
-	QAction * m_uescAction;//used
-	QAction * m_customescAction;//used
-	QAction * m_GBKAction;//used
-	QAction * m_BIG5Action;//used
-	QAction * m_scrollHideAction;//used
-	QAction * m_scrollLeftAction;//used
-	QAction * m_scrollRightAction;//used
-	QAction * m_engAction;
-	QAction * m_chsAction;
-	QAction * m_chtAction;
-	QAction * m_statusAction;
-	QAction * m_switchAction;//used
-// 	View
-	QAction * m_fullAction;
-	QAction * m_bossAction;
-	QAction * m_antiIdleAction;
-	QAction * m_autoReplyAction;
-	QAction * m_mouseAction;
-	QAction * m_beepAction;
-	QAction * m_reconnectAction;
+	QAction * m_colorCopyAction;
+	QAction * m_rectAction;
+	QAction * m_autoCopyAction;
+	QAction * m_wwrapAction;
+	QAction * m_noescAction;
+	QAction * m_escescAction;
+	QAction * m_uescAction;
+	QAction * m_customescAction;
+	QAction * m_GBKAction;
+	QAction * m_BIG5Action;
+
 	QAction * m_fontAction;
 	QAction * m_colorAction;
 	QAction * m_refreshAction;
-	
+	QAction * m_engAction;
+	QAction * m_chsAction;
+	QAction * m_chtAction;
+	QAction * m_uiFontAction;
+	QAction * m_fullAction;
+	QAction * m_bossAction;
+	QAction * m_scrollHideAction;
+	QAction * m_scrollLeftAction;
+	QAction * m_scrollRightAction;
+	QAction * m_statusAction;
+	QAction * m_switchAction;
+
+// 	View
 	QAction * m_currentSessionAction;
+	QAction * m_defaultAction;
+	QAction * m_prefAction;
 	QAction * m_copyArticleAction;
+	QAction * m_antiIdleAction;
+	QAction * m_autoReplyAction;
+	QAction * m_viewMessageAction;
+	QAction * m_beepAction;
+	QAction * m_mouseAction;
+	QAction * m_viewImageAction;
+
 	QAction * m_scriptRunAction;
 	QAction * m_scriptStopAction;
-	QAction * m_viewMessageAction;
-	
-	QTerm::StatusBar * m_pStatusBar;
 
-	QToolButton *connectButton;// *disconnectButton,
-// 				*editRect, *editColor,
-// 				*specAnti, *specAuto, *specMouse, *specBeep, *specReconnect;
+	QAction * m_aboutAction;
+	QAction * m_homepageAction;
+
+	QAction * m_reconnectAction;
+
+	StatusBar * m_pStatusBar;
+
+	QToolButton *connectButton;
 
 	QMenuBar * mainMenu;
 	QToolBar *mdiconnectTools, *mdiTools;
@@ -268,6 +280,7 @@ protected:
 	void closeEvent(QCloseEvent * );
 	void selectStyleMenu(int ,int );
 	void iniSetting();
+	void initActions();
 	void loadPref(Config *);
 	void saveSetting();
 	

@@ -108,6 +108,8 @@ Frame::Frame()
 	trayMenu = 0;
 	
 //set menubar
+	initActions();
+
 	addMainMenu();
 
 //setup toolbar
@@ -1232,10 +1234,7 @@ void Frame::toolBarPosChanged(QToolBar*)
 
 void Frame::addMainTool()
 {
-	
-	// hte main toolbar	
 	mdiTools = addToolBar( "Main ToolBar" );
-// 	mdiTools->setLabel("Main ToolBar");
 
 	Config conf(fileCfg);
 	int hide,dock,index,nl,extra;
@@ -1244,36 +1243,26 @@ void Frame::addMainTool()
 	if(!strTmp.isEmpty())
 	{
 		sscanf(strTmp.toLatin1(),"%d %d %d %d %d",&hide,&dock,&index,&nl,&extra);
-// 		moveToolBar( mdiTools, Qt::ToolBarDock(dock), nl==1, index, extra );
 		if(hide==0)
 			mdiTools->hide();
 	}
 	connectButton = new QToolButton( mdiTools );
 	connectButton->setIcon(QPixmap(pathPic+"pic/connect.png"));
 
-// 	connectButton = new QToolButton( QPixmap(pathPic+"pic/connect.png"), tr("Connect"), 
-// 			QString::null, NULL, NULL, mdiTools, "Connect" );
  	mdiTools->addWidget(connectButton);
 	connectMenu = new QMenu(this);
-	//FIXME: autoupdate menu
+
 	connect( connectMenu, SIGNAL(aboutToShow()), this, SLOT(popupConnectMenu()) );
 	connectButton->setMenu(connectMenu);
 	connectButton->setPopupMode(QToolButton::InstantPopup);
-// 	connect( connectMenu, SIGNAL(aboutToHide()), this, SLOT(connectMenuAboutToHide()) );
-// 	connect( connectButton, SIGNAL(pressed()), this, SLOT(popupConnectMenu()) );
 	
-// 	mdiTools->addAction( QPixmap(pathPic+"pic/quick.png"), tr("Quick Login"), 
-// 						this, SLOT(quickLogin()));
 	mdiTools->addAction( m_quickConnectAction );
-	m_quickConnectAction->setIcon(QPixmap(pathPic+"pic/quick.png"));
 	// custom define
 	key = addToolBar("Custom Key");
-// 	key->setLabel(tr("Custom Key"));
 	strTmp = conf.getItemValue("global","keybar");
 	if(!strTmp.isEmpty())
 	{
 		sscanf(strTmp.toLatin1(),"%d %d %d %d %d",&hide,&dock,&index,&nl,&extra);
-// 		moveToolBar( key, Qt::ToolBarDock(dock), nl==1, index, extra );
 		if(hide==0)
 			key->hide();
 	}
@@ -1284,227 +1273,281 @@ void Frame::addMainTool()
 	if(!strTmp.isEmpty())
 	{
 		sscanf(strTmp.toLatin1(),"%d %d %d %d %d",&hide,&dock,&index,&nl,&extra);
-// 		moveToolBar( mdiconnectTools, Qt::ToolBarDock(dock), nl==1, index, extra );
 	}
 
-// 	disconnectButton =
-// 		new QToolButton( QPixmap(pathPic+"pic/disconnect.png"), tr("Disconnect"), QString::null,
-// 			this, SLOT(disconnect()), mdiconnectTools, "Disconnect" );
-// 	m_disconnectAction = new QAction(QPixmap(pathPic+"pic/disconnect.png"), tr("Disconnect"), mdiconnectTools);
-// 	connect(m_disconnectAction, SIGNAL(triggered()), this, SLOT(disconnect()));
-// 	mdiconnectTools->addAction(m_disconnectAction);
-	m_disconnectAction = mdiconnectTools->addAction(QPixmap(pathPic+"pic/disconnect.png"), tr("Disconnect"),this, SLOT(disconnect()));
-	m_disconnectAction->setEnabled(false);
+	mdiconnectTools->addAction(m_disconnectAction);
 	mdiconnectTools->addSeparator();
 
-	// Edit (5)
-// 	mdiconnectTools->addAction(QPixmap(pathPic+"pic/copy.png"), tr("Copy"), this, SLOT(copy()));
-// 	mdiconnectTools->addAction( QPixmap(pathPic+"pic/paste.png"), tr("Paste"), this, SLOT(paste()));
-// 	m_rectAction = mdiconnectTools->addAction(QPixmap(pathPic+"pic/rect.png"), tr("Rectangle Select"),this, SLOT(copyRect()));
 	mdiconnectTools->addAction(m_copyAction);
-	m_copyAction->setIcon(QPixmap(pathPic+"pic/copy.png"));
 	mdiconnectTools->addAction(m_pasteAction);
-	m_pasteAction->setIcon(QPixmap(pathPic+"pic/paste.png"));
 	mdiconnectTools->addAction(m_rectAction);
-	m_rectAction->setIcon(QPixmap(pathPic+"pic/rect.png"));
-// 	editRect	=
-// 		new QToolButton( QPixmap(pathPic+"pic/rect.png"), tr("Rectangle Select"), QString::null,
-// 			this, SLOT(copyRect()), mdiconnectTools, "Rectangle Select" );
-// 	editRect->setToggleButton(TRUE);
-	m_rectAction->setCheckable(true);
-// 	mdiconnectTools->addWidget(editRect);
-// 	editColor	=
-// 		new QToolButton( QPixmap(pathPic+"pic/color-copy.png"), tr("Copy With Color"), QString::null,
-// 			this, SLOT(copyColor()), mdiconnectTools, "Copy With Color" );
-// 	m_colorAction = mdiconnectTools->addAction(QPixmap(pathPic+"pic/color-copy.png"), tr("Copy With Color"),this, SLOT(copyColor()));
 	mdiconnectTools->addAction(m_colorCopyAction);
-	m_colorCopyAction->setIcon(QPixmap(pathPic+"pic/color-copy.png"));
-	m_colorCopyAction->setCheckable(true);
-// 	editColor->setToggleButton(TRUE);
-// 	mdiconnectTools->addWidget(editColor);
 	mdiconnectTools->addSeparator();
 
-	//View (3)
-// 	mdiconnectTools->addAction( QPixmap(pathPic+"pic/fonts.png"), tr("Font"),this, SLOT(font()));
-// 	mdiconnectTools->addAction( QPixmap(pathPic+"pic/color.png"), tr("Color"), this, SLOT(color()));
-// 	mdiconnectTools->addAction( QPixmap(pathPic+"pic/refresh.png"), tr("Refresh Screen"), this, SLOT(refresh()));
 	mdiconnectTools->addAction(m_fontAction);
-	m_fontAction->setIcon(QPixmap(pathPic+"pic/fonts.png"));
 	mdiconnectTools->addAction(m_colorAction);
-	m_colorAction->setIcon(QPixmap(pathPic+"pic/color.png"));
 	mdiconnectTools->addAction(m_refreshAction);
-	m_refreshAction->setIcon(QPixmap(pathPic+"pic/refresh.png"));
 	mdiconnectTools->addSeparator();
 	
-	// Option 
-// 	mdiconnectTools->addAction( QPixmap(pathPic+"pic/pref.png"), tr("Advanced Option"), this, SLOT(setting()) );
 	mdiconnectTools->addAction(m_currentSessionAction);
-	m_currentSessionAction->setIcon(QPixmap(pathPic+"pic/pref.png"));
 	mdiconnectTools->addSeparator();
 
-	// Spec (5)
-// 	mdiconnectTools->addAction( QPixmap(pathPic+"pic/article.png"), tr("Copy Article"), this, SLOT(copyArticle()));
 	mdiconnectTools->addAction(m_copyArticleAction);
-	m_copyArticleAction->setIcon(QPixmap(pathPic+"pic/article.png"));
-// 	m_antiIdleAction = mdiconnectTools->addAction( QPixmap(pathPic+"pic/anti-idle.png"), tr("Anti-Idle"), this, SLOT(antiIdle()));
 	mdiconnectTools->addAction(m_antiIdleAction);
-	m_antiIdleAction->setIcon(QPixmap(pathPic+"pic/anti-idle.png"));
-	m_antiIdleAction->setCheckable(true);
-// 	mdiconnectTools->addWidget(specAnti);
-	mdiconnectTools->addAction( m_autoReplyAction );
-	m_autoReplyAction->setIcon(QPixmap(pathPic+"pic/auto-reply.png"));
-// 	specAuto->setCheckable(true);
-	m_autoReplyAction->setCheckable(true);
-// 	mdiconnectTools->addWidget(specAuto);
-// 	mdiconnectTools->addAction( QPixmap(pathPic+"pic/message.png"), tr("View Message"), this, SLOT(viewMessages()) );
+	mdiconnectTools->addAction(m_autoReplyAction);
 	mdiconnectTools->addAction(m_viewMessageAction);
-	m_viewMessageAction->setIcon(QPixmap(pathPic+"pic/message.png"));
-// 	m_mouseAction	= mdiconnectTools->addAction( QPixmap(pathPic+"pic/mouse.png"), tr("Enable Mouse Support"), this, SLOT(enableMouse()) );
 	mdiconnectTools->addAction(m_mouseAction);
-	m_mouseAction->setIcon(QPixmap(pathPic+"pic/mouse.png"));
-	m_mouseAction->setCheckable(true);
-// 	mdiconnectTools->addWidget(specMouse);
-// 	m_beepAction = mdiconnectTools->addAction( QPixmap(pathPic+"pic/sound.png"), tr("Beep When Message Coming"), this, SLOT(beep()) );
 	mdiconnectTools->addAction(m_beepAction);
-	m_beepAction->setIcon(QPixmap(pathPic+"pic/sound.png"));
-// 	specBeep->setCheckable(true);
-	m_beepAction->setCheckable(true);
-// 	mdiconnectTools->addWidget(specBeep);
-	m_reconnectAction = mdiconnectTools->addAction( QPixmap(pathPic+"pic/reconnect.png"), tr("Reconnect When Disconnected By Host"), this, SLOT(reconnect()) );
-	m_reconnectAction->setCheckable(true);
-// 	mdiconnectTools->addWidget(specReconnect);
+	mdiconnectTools->addAction(m_reconnectAction);
 }
 
-
-void Frame::addMainMenu()
+void Frame::initActions()
 {
-	mainMenu = menuBar();//new QMenuBar(this);
-	
-	QMenu * file = mainMenu->addMenu( tr("&File") );
-// 	mainMenu->addAction( tr("&File"), file );
-	file->addAction( QPixmap(pathLib+"pic/connect.png"), 
-					tr("&Connect"), this, SLOT(connectIt()) );
-	file->addAction( QPixmap(pathLib+"pic/disconnect.png"),
-					 tr("&Disconnect"), this, SLOT(disconnect()));//, 0, ID_FILE_DISCONNECT );
+	m_connectAction = new QAction(QPixmap(pathLib+"pic/connect.png"), tr("&Connect"),this);
+	m_disconnectAction = new QAction(QPixmap(pathLib+"pic/disconnect.png"), tr("&Disconnect"), this);
+	m_addressAction = new QAction(QPixmap(pathLib+"pic/addr.png"), tr("&Address book"), this);
+	m_addressAction->setShortcut(Qt::Key_F2);
+	m_quickConnectAction = new QAction(QPixmap(pathLib+"pic/quick.png"), tr("&Quick login"),this);
+	m_quickConnectAction->setShortcut(Qt::Key_F3);
+	m_exitAction = new QAction(tr("&Exit"), this);
 
-	file->addSeparator();
-	file->addAction( QPixmap(pathLib+"pic/addr.png"), 
-					tr("&Address book"), this, SLOT(addressBook()), Qt::Key_F2 );
-	m_quickConnectAction = file->addAction( QPixmap(pathLib+"pic/quick.png"), 
-					tr("&Quick login"),this, SLOT(quickLogin()), Qt::Key_F3 );
-	file->addSeparator();
-	file->addAction( tr("&Exit"), this, SLOT(exitQTerm()) );
-	
-	//Edit Menu
-	QMenu * edit = new QMenu( tr("&Edit"), this );
-// 	mainMenu->addMenu( tr("&Edit"), edit );
-	mainMenu->addMenu( edit );
+	m_copyAction = new QAction(QPixmap(pathLib+"pic/copy.png"), tr("&Copy"), this);
+	m_copyAction->setShortcut(Qt::CTRL+Qt::Key_Insert);
+	m_pasteAction = new QAction(QPixmap(pathLib+"pic/paste.png"),tr("&Paste"), this);
+	m_pasteAction->setShortcut(Qt::SHIFT+Qt::Key_Insert);
+	m_colorCopyAction = new QAction(QPixmap(pathLib+"pic/color-copy.png"), tr("C&opy with color"), this);
+	m_colorCopyAction->setCheckable(true);
+	m_rectAction = new QAction(QPixmap(pathLib+"pic/rect.png"), tr("&Rectangle select"), this);
+	m_rectAction->setCheckable(true);
+	m_autoCopyAction = new QAction(tr("Auto copy &select"), this);
+	m_autoCopyAction->setCheckable(true);
+	m_wwrapAction = new QAction(tr("P&aste with wordwrap"), this);
+	m_wwrapAction->setCheckable(true);
 
-// 	edit->setCheckable( true );
-	m_copyAction = edit->addAction( QPixmap(pathLib+"pic/copy.png"),
-					tr("&Copy"), this, SLOT(copy()), Qt::CTRL+Qt::Key_Insert );
-	m_pasteAction = edit->addAction( QPixmap(pathLib+"pic/paste.png"),
-					tr("&Paste"), this, SLOT(paste()), Qt::SHIFT+Qt::Key_Insert );
-	edit->addSeparator();
-	m_colorCopyAction = edit->addAction( QPixmap(pathLib+"pic/color-copy.png"),
-					tr("C&opy with color"), this, SLOT(copyColor()) );
-	m_rectAction = edit->addAction( QPixmap(pathLib+"pic/rect.png"),
-					tr("&Rectangle select"), this, SLOT(copyRect()) );
-	m_autoCopyAction = edit->addAction( tr("Auto copy &select"), this, SLOT(autoCopy()) );
-	m_wwrapAction = edit->addAction( tr("P&aste with wordwrap"), this, SLOT(wordWrap()) );
-	
-	QMenu * escapeMenu = new QMenu(tr("Paste &with color"), this);
 	QActionGroup * escapeGroup = new QActionGroup(this);
-	m_noescAction = escapeMenu->addAction( tr("&None"), this, SLOT(noEsc()) );
-	m_escescAction = escapeMenu->addAction( tr("&ESC ESC ["), this, SLOT(escEsc()) );
-	m_uescAction = escapeMenu->addAction( tr("Ctrl+&U ["), this, SLOT(uEsc()) );
-	m_customescAction = escapeMenu->addAction( tr("&Custom..."), this, SLOT(customEsc()) );
+	m_noescAction = new QAction(tr("&None"), this);
+	m_noescAction->setCheckable(true);
+	m_escescAction = new QAction(tr("&ESC ESC ["), this);
+	m_escescAction->setCheckable(true);
+	m_uescAction = new QAction(tr("Ctrl+&U ["), this);
+	m_uescAction->setCheckable(true);
+	m_customescAction = new QAction(tr("&Custom..."), this);
+	m_customescAction->setCheckable(true);
 	escapeGroup->addAction(m_noescAction);
 	escapeGroup->addAction(m_escescAction);
 	escapeGroup->addAction(m_uescAction);
 	escapeGroup->addAction(m_customescAction);
+
+	QActionGroup * codecGroup = new QActionGroup(this);
+	m_GBKAction = new QAction(tr("&GBK"), this);
+	m_GBKAction->setCheckable(true);
+	m_BIG5Action = new QAction(tr("&Big5"), this);
+	m_BIG5Action->setCheckable(true);
+	codecGroup->addAction(m_GBKAction);
+	codecGroup->addAction(m_BIG5Action);
+
+	m_fontAction = new QAction(QPixmap(pathLib+"pic/fonts.png"), tr("&Font"), this);
+	m_colorAction = new QAction(QPixmap(pathLib+"pic/color.png"), tr("&Color"), this);
+	m_refreshAction = new QAction(QPixmap(pathLib+"pic/refresh.png"), tr("&Refresh"), this);
+	m_refreshAction->setShortcut(Qt::Key_F5);
+
+	QActionGroup * langGroup = new QActionGroup(this);
+	m_engAction = new QAction(tr("&English"),this);
+	m_engAction->setCheckable(true);
+	m_chsAction = new QAction(tr("&Simplified Chinese"),this);
+	m_chsAction->setCheckable(true);
+	m_chtAction = new QAction(tr("&Traditional Chinese"),this);
+	m_chtAction->setCheckable(true);
+	langGroup->addAction(m_engAction);
+	langGroup->addAction(m_chsAction);
+	langGroup->addAction(m_chtAction);
+
+	m_uiFontAction = new QAction(tr("&UI font"), this);
+	m_fullAction = new QAction(tr("&Fullscreen"), this);
+	m_fullAction->setShortcut(Qt::Key_F6);
+	m_bossAction = new QAction(tr("Boss &Color"), this);
+	m_bossAction->setShortcut(Qt::Key_F12);
+
+	QActionGroup * scrollGroup = new QActionGroup(this);
+	m_scrollHideAction = new QAction(tr("&Hide"), this);
+	m_scrollHideAction->setCheckable(true);
+	m_scrollLeftAction = new QAction(tr("&Left"), this);
+	m_scrollLeftAction->setCheckable(true);
+	m_scrollRightAction = new QAction(tr("&Right"), this);
+	m_scrollRightAction->setCheckable(true);
+	scrollGroup->addAction(m_scrollHideAction);
+	scrollGroup->addAction(m_scrollLeftAction);
+	scrollGroup->addAction(m_scrollRightAction);
+
+	m_statusAction = new QAction(tr("Status &Bar"), this);
+	m_statusAction->setCheckable(true);
+	m_switchAction = new QAction(tr("S&witch Bar"), this);
+	m_switchAction->setCheckable(true);
+
+	m_currentSessionAction = new QAction(QPixmap(pathLib+"pic/pref.png"), tr("&Setting for currrent session"), this);
+	m_defaultAction = new QAction(tr("&Default setting"), this);
+	m_prefAction = new QAction(tr("&Preference"), this);
+
+	m_copyArticleAction = new QAction(QPixmap(pathLib+"pic/article.png"), tr("&Copy article"), this);
+	m_copyArticleAction->setShortcut(Qt::Key_F9);
+	m_antiIdleAction = new QAction(QPixmap(pathLib+"pic/anti-idle.png"), tr("Anti &idle"), this);
+	m_antiIdleAction->setCheckable(true);
+	m_autoReplyAction = new QAction(QPixmap(pathLib+"pic/auto-reply.png"), tr("Auto &reply"), this);
+	m_autoReplyAction->setCheckable(true);
+	m_viewMessageAction = new QAction(QPixmap(pathLib+"pic/message.png"), tr("&View messages"), this);
+	m_viewMessageAction->setShortcut(Qt::Key_F10);
+	m_beepAction = new QAction(QPixmap(pathLib+"pic/sound.png"), tr("&Beep "), this);
+	m_beepAction->setCheckable(true);
+	m_mouseAction = new QAction(QPixmap(pathLib+"pic/mouse.png"), tr("&Mouse support"), this);
+	m_mouseAction->setCheckable(true);
+	m_viewImageAction = new QAction(tr("&Image viewer"), this);
+
+	m_scriptRunAction = new QAction(tr("&Run..."), this);
+	m_scriptRunAction->setShortcut(Qt::Key_F7);
+	m_scriptStopAction = new QAction(tr("&Stop"), this);
+	m_scriptStopAction->setShortcut(Qt::Key_F8);
+
+	m_aboutAction = new QAction(tr("About &QTerm"), this);
+	m_aboutAction->setShortcut(Qt::Key_F1);
+	m_homepageAction = new QAction(tr("QTerm's &Homepage"),this);
+
+	m_reconnectAction = new QAction(QPixmap(pathPic+"pic/reconnect.png"),tr("Reconnect When Disconnected By Host"), this);
+	m_reconnectAction->setCheckable(true);
+
+	connect(m_connectAction, SIGNAL(triggered()), this, SLOT(connectIt()));
+	connect(m_disconnectAction, SIGNAL(triggered()), this, SLOT(disconnect()));
+	connect(m_addressAction, SIGNAL(triggered()), this, SLOT(addressBook()));
+	connect(m_quickConnectAction, SIGNAL(triggered()), this, SLOT(quickLogin()));
+	connect(m_exitAction, SIGNAL(triggered()), this, SLOT(exitQTerm()));
+
+	connect(m_copyAction, SIGNAL(triggered()), this, SLOT(copy()));
+	connect(m_pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
+	connect(m_colorCopyAction, SIGNAL(toggled()), this, SLOT(copyColor()));
+	connect(m_rectAction, SIGNAL(toggled()), this, SLOT(copyRect()));
+	connect(m_autoCopyAction, SIGNAL(toggled()), this, SLOT(autoCopy()));
+	connect(m_wwrapAction, SIGNAL(toggled()), this, SLOT(wordwrap()));
+
+	connect(m_fontAction, SIGNAL(triggered()), this, SLOT(font()));
+	connect(m_colorAction, SIGNAL(triggered()), this, SLOT(color()));
+	connect(m_refreshAction, SIGNAL(triggered()), this, SLOT(refresh()));
+	connect(m_uiFontAction, SIGNAL(triggered()), this, SLOT(uiFont()));
+	connect(m_fullAction, SIGNAL(triggered()), this, SLOT(fullscreen()));
+	connect(m_bossAction, SIGNAL(triggered()), this, SLOT(bosscolor()));
+
+	connect(m_currentSessionAction, SIGNAL(triggered()), this, SLOT(setting()));
+	connect(m_defaultAction, SIGNAL(triggered()), this, SLOT(defaultSetting()));
+	connect(m_prefAction, SIGNAL(triggered()), this, SLOT(preference()));
+
+	connect(m_copyArticleAction, SIGNAL(triggered()), this, SLOT(copyArticle()));
+	connect(m_viewMessageAction, SIGNAL(triggered()), this, SLOT(viewMessages()));
+	connect(m_viewImageAction, SIGNAL(triggered()), this, SLOT(viewImages()));
+
+	connect(m_scriptRunAction, SIGNAL(triggered()), this, SLOT(runScript()));
+	connect(m_scriptStopAction, SIGNAL(triggered()), this, SLOT(stopScript()));
+
+	connect(m_aboutAction, SIGNAL(triggered()), this, SLOT(aboutQTerm()));
+	connect(m_homepageAction, SIGNAL(triggered()), this, SLOT(homepage()));
+}
+
+void Frame::addMainMenu()
+{
+	mainMenu = menuBar();
+	
+	QMenu * file = mainMenu->addMenu( tr("&File") );
+	file->addAction( m_connectAction );
+	file->addAction( m_disconnectAction );
+
+	file->addSeparator();
+	file->addAction( m_addressAction );
+	file->addAction( m_quickConnectAction );
+	file->addSeparator();
+	file->addAction( m_exitAction );
+	
+	//Edit Menu
+	QMenu * edit = new QMenu( tr("&Edit"), this );
+	mainMenu->addMenu( edit );
+
+	edit->addAction( m_copyAction );
+	edit->addAction( m_pasteAction );
+	edit->addSeparator();
+	edit->addAction( m_colorCopyAction );
+	edit->addAction( m_rectAction );
+	edit->addAction( m_autoCopyAction );
+	edit->addAction( m_wwrapAction );
+	
+	QMenu * escapeMenu = new QMenu(tr("Paste &with color"), this);
+	escapeMenu->addAction( m_noescAction);
+	escapeMenu->addAction( m_escescAction );
+	escapeMenu->addAction( m_uescAction );
+	escapeMenu->addAction( m_customescAction );
 	edit->addMenu(escapeMenu);
 
 	QMenu * codecMenu = new QMenu(tr("Clipboard &encoding"),this);
-	QActionGroup * codecGroup = new QActionGroup(this);
-	m_GBKAction = codecMenu->addAction( tr("&GBK"), this, SLOT(gbkCodec()) );
-	m_BIG5Action = codecMenu->addAction( tr("&Big5"), this, SLOT(big5Codec()) );
-	codecGroup->addAction(m_GBKAction);
-	codecGroup->addAction(m_BIG5Action);
+	codecMenu->addAction( m_GBKAction );
+	codecMenu->addAction( m_BIG5Action );
 	edit->addMenu(codecMenu);
 
 	//View menu
 	QMenu * view = new QMenu( tr("&View"), this );
 	mainMenu->addMenu( view );
 	
-	m_fontAction = view->addAction( QPixmap(pathLib+"pic/fonts.png"),
-					tr("&Font"), this, SLOT(font()) );
-	m_colorAction = view->addAction( QPixmap(pathLib+"pic/color.png"),
-					tr("&Color"), this, SLOT(color()) );
-	m_refreshAction = view->addAction( QPixmap(pathLib+"pic/refresh.png"),
-					tr("&Refresh"), this, SLOT(refresh()), Qt::Key_F5 );
+	view->addAction( m_fontAction );
+	view->addAction( m_colorAction );
+	view->addAction( m_refreshAction );
 	view->addSeparator();
+
 	//language menu
 	langMenu = new QMenu( tr("&Language"), this );
-	m_engAction = langMenu->addAction( tr("&English"),this,SLOT(langEnglish()));
-	m_chsAction = langMenu->addAction( tr("&Simplified Chinese"),this,SLOT(langSimplified()));
-	m_chtAction = langMenu->addAction( tr("&Traditional Chinese"),this,SLOT(langTraditional()));
+	langMenu->addAction( m_engAction );
+	langMenu->addAction( m_chsAction );
+	langMenu->addAction( m_chtAction );
 	view->addMenu( langMenu );
-	view->addAction( tr("&UI font"), this, SLOT(uiFont()) );
+	view->addAction( m_uiFontAction );
 
 	themesMenu = new QMenu( tr("&Themes"), this );
 	connect( themesMenu, SIGNAL( aboutToShow() ),
 	     this, SLOT( themesMenuAboutToShow() ) );
 	view->addMenu( themesMenu );
 
-// 	Q3Accel *a = new Q3Accel(this);
-// 	a->connectItem(a->addAction(Qt::Key_F6), this, SLOT(fullscreen()) );
-	m_fullAction = view->addAction( tr("&Fullscreen"), this, SLOT(fullscreen()), Qt::Key_F6 );
-
-	m_bossAction = view->addAction( tr("Boss &Color"), this, SLOT(bosscolor()), Qt::Key_F12 );
+	view->addAction( m_fullAction );
+	view->addAction( m_bossAction );
 
 	view->addSeparator();
 	QMenu *scrollMenu = new QMenu(tr("&ScrollBar"),this);
-	m_scrollHideAction = scrollMenu->addAction( tr("&Hide"), this, SLOT(hideScroll()) );
-	m_scrollLeftAction = scrollMenu->addAction( tr("&Left"), this, SLOT(leftScroll()) );
-	m_scrollRightAction = scrollMenu->addAction( tr("&Right"), this, SLOT(rightScroll()) );
+	scrollMenu->addAction( m_scrollHideAction );
+	scrollMenu->addAction( m_scrollLeftAction );
+	scrollMenu->addAction( m_scrollRightAction );
 	view->addMenu( scrollMenu );
-	m_statusAction = view->addAction( tr("Status &Bar"), this, SLOT(showStatusBar()) );
-	m_switchAction = view->addAction( tr("S&witch Bar"), this, SLOT(showSwitchBar()) );
+	view->addAction( m_statusAction );
+	view->addAction( m_switchAction );
 
 	
 	// Option Menu	
 	QMenu * option = new QMenu( tr("&Option"), this );
 	mainMenu->addMenu( option );
 
-	m_currentSessionAction = option->addAction( QPixmap(pathLib+"pic/pref.png"), tr("&Setting for currrent session"), this, SLOT(setting()) );
+	option->addAction( m_currentSessionAction );
 	option->addSeparator();
-	option->addAction( tr("&Default setting"), this, SLOT(defaultSetting()) );
-	option->addAction( tr("&Preference"), this, SLOT(preference()) );
+	option->addAction( m_defaultAction );
+	option->addAction( m_prefAction );
 	
 	// Special
 	QMenu * spec = new QMenu( tr("&Special"), this );
 	mainMenu->addMenu( spec );
-	m_copyArticleAction = spec->addAction( QPixmap(pathLib+"pic/article.png"),
-					tr("&Copy article"), this, SLOT(copyArticle()), Qt::Key_F9 );
-	m_antiIdleAction = spec->addAction( QPixmap(pathLib+"pic/anti-idle.png"),
-					tr("Anti &idle"), this, SLOT(antiIdle()) );
-	m_autoReplyAction =  spec->addAction(QPixmap(pathLib+"pic/auto-reply.png"), 
-					tr("Auto &reply"), this, SLOT(autoReply()) );
-	m_viewMessageAction = spec->addAction( QPixmap(pathLib+"pic/message.png"),
-					tr("&View messages"), this, SLOT(viewMessages()), Qt::Key_F10 );
-	m_beepAction = spec->addAction( QPixmap(pathLib+"pic/sound.png"),
-					tr("&Beep "), this, SLOT(beep()) );
-	m_mouseAction = spec->addAction( QPixmap(pathLib+"pic/mouse.png"),
-					tr("&Mouse support"), this, SLOT(enableMouse()) );
-	spec->addAction(tr("&Image viewer"), this, SLOT(viewImages()));
+	spec->addAction( m_copyArticleAction );
+	spec->addAction( m_antiIdleAction );
+	spec->addAction( m_autoReplyAction );
+	spec->addAction( m_viewMessageAction );
+	spec->addAction( m_beepAction );
+	spec->addAction( m_mouseAction );
+	spec->addAction( m_viewImageAction );
 
 	
 	//Script
 	QMenu * script = new QMenu( tr("Scrip&t"), this );
 	mainMenu->addMenu( script );
-	m_scriptRunAction = script->addAction( tr("&Run..."), this, SLOT(runScript()), Qt::Key_F7 );
-	m_scriptStopAction = script->addAction( tr("&Stop"), this, SLOT(stopScript()), Qt::Key_F8 );
+	script->addAction( m_scriptRunAction );
+	script->addAction( m_scriptStopAction );
 
 	//Window menu
 	windowsMenu = new QMenu( tr("&Windows"), this );
@@ -1517,8 +1560,8 @@ void Frame::addMainMenu()
 	//Help menu
 	QMenu * help = new QMenu( tr("&Help"), this );
 	mainMenu->addMenu( help );
-	help->addAction( tr("About &QTerm"), this, SLOT(aboutQTerm()), Qt::Key_F1 );
-	help->addAction( tr("QTerm's &Homepage"),this,SLOT(homepage()));
+	help->addAction( m_aboutAction );
+	help->addAction( m_homepageAction );
 
 }
 
