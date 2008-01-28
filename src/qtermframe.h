@@ -99,8 +99,8 @@ public:
 	void buzz();
 signals:
 	void bossColor();
-	void updateScroll();
-	void updateStatusBar(bool);
+	void scrollChanged();
+	void statusBarChanged(bool);
 
 protected slots:
 	void keyClicked(int);
@@ -113,9 +113,7 @@ protected slots:
 	void selectionChanged(int);
 	void aboutQTerm();
 	void homepage();
-	void langSimplified();
-	void langTraditional();
-	void langEnglish();
+	void updateLang(QAction* );
 	void defaultSetting();
 	void preference();
 	void runScript();
@@ -126,34 +124,28 @@ protected slots:
     void disconnect();
 	void copy();
     void paste();
-	void copyRect();
-	void copyColor();
+	void copyRect(bool);
+	void copyColor(bool);
 	void copyArticle();
- 	void autoCopy();
-	void wordWrap();
-	void noEsc();
-	void escEsc();
-	void uEsc();
-	void customEsc();
-	void gbkCodec();
-	void big5Codec();
-	void hideScroll();
-	void leftScroll();
-	void rightScroll();
-	void showSwitchBar();
-	void showStatusBar();
+	void autoCopy(bool);
+	void wordWrap(bool);
+	void updateESC(QAction* );
+	void updateCodec(QAction* );
+	void updateScroll(QAction* );
+	void updateSwitchBar(bool);
+	void updateStatusBar(bool);
 	void font();
     void color();
     void refresh();
 	void fullscreen();
 	void bosscolor();
 	void uiFont();
-    void antiIdle();
-    void autoReply();
+    void antiIdle(bool);
+    void autoReply(bool);
     void setting();
 	void viewMessages();
-    void enableMouse();
-    void beep();
+    void updateMouse(bool);
+    void updateBeep(bool);
 	void reconnect();
 	void keySetup();
 

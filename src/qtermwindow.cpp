@@ -307,7 +307,7 @@ Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const ch
 	setFocusProxy( m_pScreen);
 	setCentralWidget( m_pScreen);
 	connect(m_pFrame, SIGNAL(bossColor()), m_pScreen, SLOT(bossColor()));
-	connect(m_pFrame, SIGNAL(updateScroll()), m_pScreen, SLOT(updateScrollBar()));
+	connect(m_pFrame, SIGNAL(scrollChanged()), m_pScreen, SLOT(updateScrollBar()));
 	connect(m_pScreen, SIGNAL(inputEvent(QString *)), this, SLOT(inputHandle(QString *)));
 	connect(m_pZmodem, SIGNAL(ZmodemState(int,int,const QByteArray&)), 
 					this, SLOT(ZmodemState(int,int,const QByteArray&)));
@@ -363,7 +363,7 @@ Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const ch
 		this,SLOT( readReady(int) ) );
 	connect(m_pTelnet,SIGNAL( TelnetState(int) ),
 		this,SLOT( TelnetState(int) ) );
-	connect(m_pFrame, SIGNAL(updateStatusBar(bool)),
+	connect(m_pFrame, SIGNAL(statusBarChanged(bool)),
 		this, SLOT(showStatusBar(bool)) );
 // timers 
 	m_idleTimer = new QTimer;
@@ -1612,9 +1612,9 @@ void Window::setting( )
 	}
 }
 
-void Window::antiIdle()
+void Window::antiIdle(bool isEnabled)
 {
-	m_bAntiIdle = !m_bAntiIdle;
+	m_bAntiIdle = isEnabled;
 	// disabled
 	if( !m_bAntiIdle && m_idleTimer->isActive() )
 		m_idleTimer->stop();
@@ -1623,17 +1623,15 @@ void Window::antiIdle()
 		m_idleTimer->start(m_param.m_nMaxIdle*1000);
 }
 
-void Window::autoReply()
+void Window::autoReply(bool isEnabled)
 {
-	m_bAutoReply = !m_bAutoReply;
+	m_bAutoReply = isEnabled;
 	// disabled
 	if( !m_bAutoReply && m_replyTimer->isActive() )
 		m_replyTimer->stop();
 	// enabled
-	/*
 	if( m_bAutoReply && !m_replyTimer->isActive() )
 		m_replyTimer->start(m_param.m_nMaxIdle*1000/2);
-	*/
 }
 
 void Window::connectionClosed()

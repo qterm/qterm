@@ -98,8 +98,8 @@ public:
 	void disconnect();
 	void refresh();
 	void viewMessages();
-	void autoReply();
-	void antiIdle();
+	void autoReply(bool);
+	void antiIdle(bool);
 
 	void runScriptFile(const QString&);
 	void externInput(const QByteArray&);

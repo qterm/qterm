@@ -676,32 +676,12 @@ void Frame::closeEvent(QCloseEvent * clse)
 
 }
 
-void Frame::langEnglish()
+void Frame::updateLang(QAction * action)
 {
 	QMessageBox::information( this, "QTerm",
 			tr("This will take effect after restart,\nplease close all windows and restart."));
 	Config * conf= new Config(fileCfg);
-	conf->setItemValue("global","language","eng");
-	conf->save(fileCfg);
-	delete conf;
-}
-
-void Frame::langSimplified()
-{
-	QMessageBox::information( this, "QTerm",
-			tr("This will take effect after restart,\nplease close all windows and restart."));
-	Config * conf= new Config(fileCfg);
-	conf->setItemValue("global","language","chs");
-	conf->save(fileCfg);
-	delete conf;
-}
-
-void Frame::langTraditional()
-{
-	QMessageBox::information( this, "QTerm",
-			tr("This will take effect after restart,\nplease close all windows and restart."));	
-	Config * conf= new Config(fileCfg);
-	conf->setItemValue("global","language","cht");
+	conf->setItemValue("global","language",action->objectName());
 	conf->save(fileCfg);
 	delete conf;
 }
@@ -733,119 +713,58 @@ void Frame::paste( )
 {
 	wndmgr->activeWindow()->paste();
 }
-void Frame::copyRect()
+void Frame::copyRect(bool isEnabled)
 {
-	wndmgr->activeWindow()->m_bCopyRect = !wndmgr->activeWindow()->m_bCopyRect;
-
-	m_rectAction->setChecked(wndmgr->activeWindow()->m_bCopyRect);
-	//menuBar()->setItemChecked( ID_EDIT_RECT, wndmgr->activeWindow()->m_bCopyRect );
-
-// 	editRect->setChecked( wndmgr->activeWindow()->m_bCopyRect );
-
-	
+	wndmgr->activeWindow()->m_bCopyRect = isEnabled;
 }
-void Frame::copyColor()
+
+void Frame::copyColor(bool isEnabled)
 {
-	wndmgr->activeWindow()->m_bCopyColor = !wndmgr->activeWindow()->m_bCopyColor;
-	
-	m_colorCopyAction->setChecked(wndmgr->activeWindow()->m_bCopyColor);
-	//menuBar()->setItemChecked( ID_EDIT_COLOR, wndmgr->activeWindow()->m_bCopyColor );
-// 	qDebug("before crash");
-// 	editColor->setChecked( wndmgr->activeWindow()->m_bCopyColor );
-// 	qDebug("after crash");
+	wndmgr->activeWindow()->m_bCopyColor = isEnabled;
 }
+
 void Frame::copyArticle( )
 {
 	wndmgr->activeWindow()->copyArticle();
 }
 
-void Frame::autoCopy()
+void Frame::autoCopy(bool isEnabled)
 {
-	wndmgr->activeWindow()->m_bAutoCopy = !wndmgr->activeWindow()->m_bAutoCopy;
-
-	m_autoCopyAction->setChecked( wndmgr->activeWindow()->m_bAutoCopy );
-	//menuBar()->setItemChecked( ID_EDIT_AUTO, wndmgr->activeWindow()->m_bAutoCopy );
-
-}
-void Frame::wordWrap()
-{
-	wndmgr->activeWindow()->m_bWordWrap = !wndmgr->activeWindow()->m_bWordWrap;
-
-	m_wwrapAction->setChecked(wndmgr->activeWindow()->m_bWordWrap);
-// 	menuBar()->setItemChecked( ID_EDIT_WW, wndmgr->activeWindow()->m_bWordWrap );
-
+	wndmgr->activeWindow()->m_bAutoCopy = isEnabled;
 }
 
-void Frame::noEsc()
+void Frame::wordWrap(bool isEnabled)
 {
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_NO,false);
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_ESC,false);
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_U,false);
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_CUS,false);
-
-	m_strEscape = "";
-	m_noescAction->setChecked(true);
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_NO,true); 
+	wndmgr->activeWindow()->m_bWordWrap = isEnabled;
 }
-void Frame::escEsc()
-{
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_NO,false);
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_ESC,false);
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_U,false);
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_CUS,false);
 
-	m_strEscape = "^[^[[";
-	m_escescAction->setChecked(true);
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_ESC,true);
-}
-void Frame::uEsc()
+void Frame::updateESC(QAction * action)
 {
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_NO,false);
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_ESC,false);
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_U,false);
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_CUS,false);
-
-	m_strEscape = "^u[";
-	m_uescAction->setChecked(true);
-// 	menuBar()->setItemChecked(ID_EDIT_ESC_U,true);
-}
-void Frame::customEsc()
-{
-	bool ok;
-	QString strEsc = QInputDialog::getText(this, "define escape", "scape string *[",
-					QLineEdit::Normal, m_strEscape , &ok);
-	if(ok)
-	{
+	if (action->objectName() == "noesc") {
 		m_strEscape = "";
-// 		menuBar()->setItemChecked(ID_EDIT_ESC_NO,false);
-// 		menuBar()->setItemChecked(ID_EDIT_ESC_ESC,false);
-// 		menuBar()->setItemChecked(ID_EDIT_ESC_U,false);
-// 		menuBar()->setItemChecked(ID_EDIT_ESC_CUS,false);
-
-		m_strEscape = strEsc;
-		m_customescAction->setChecked(true);
-// 		menuBar()->setItemChecked(ID_EDIT_ESC_CUS,true);
+	} else if (action->objectName() == "escesc") {
+		m_strEscape = "^[^[[";
+	} else if (action->objectName() == "uesc") {
+		m_strEscape = "^u[";
+	} else if (action->objectName() == "custom") {
+		bool ok;
+		QString strEsc = QInputDialog::getText(this, "define escape", "scape string *[", QLineEdit::Normal, m_strEscape , &ok);
+		if(ok)
+			m_strEscape = strEsc;
+	} else {
+		qDebug("updateESC: should not be here");
 	}
 }
 
-void Frame::gbkCodec()
+void Frame::updateCodec(QAction * action)
 {
-// 	menuBar()->setItemChecked(ID_EDIT_CODEC_GBK,false);
-// 	menuBar()->setItemChecked(ID_EDIT_CODEC_BIG5,false);
-
-	m_nClipCodec=0;
-	m_GBKAction->setChecked(true);
-// 	menuBar()->setItemChecked(ID_EDIT_CODEC_GBK,true);
-}
-
-void Frame::big5Codec()
-{
-// 	menuBar()->setItemChecked(ID_EDIT_CODEC_GBK,false);
-// 	menuBar()->setItemChecked(ID_EDIT_CODEC_BIG5,false);
-
-	m_nClipCodec=1;
-	m_BIG5Action->setChecked(true);
-// 	menuBar()->setItemChecked(ID_EDIT_CODEC_BIG5,true);
+	if (action->objectName() == "GBK") {
+		m_nClipCodec=0;
+	} else if (action->objectName() == "Big5") {
+		m_nClipCodec=1;
+	} else {
+		qDebug("updateCodec: should not be here");
+	}
 }
 
 void Frame::font( )
@@ -887,9 +806,8 @@ void Frame::fullscreen()
 		mdiTools->hide();
 		mdiconnectTools->hide();
 		key->hide();
-		hideScroll();
-		showStatusBar();
-		showSwitchBar();
+		//showStatusBar();
+		//showSwitchBar();
 		showFullScreen();
 	}
 	else
@@ -898,9 +816,9 @@ void Frame::fullscreen()
 		mdiTools->show();
 		mdiconnectTools->show();
 		key->show();
-		emit updateScroll();
-		showStatusBar();
-		showSwitchBar();
+		emit scrollChanged();
+		//showStatusBar();
+		//showSwitchBar();
 		showNormal();
 	}
 
@@ -1003,48 +921,23 @@ void Frame::themesMenuActivated()
 	
 }
 
-void Frame::hideScroll()
+void Frame::updateScroll(QAction * action)
 {
-// 	menuBar()->setItemChecked( ID_VIEW_SCROLL_RIGHT, false );
-// 	menuBar()->setItemChecked( ID_VIEW_SCROLL_LEFT, false );
-// 	menuBar()->setItemChecked( ID_VIEW_SCROLL_HIDE, true );
-	m_scrollHideAction->setChecked(true);
-	m_nScrollPos = 0;
-
-	emit updateScroll();
-}
-void Frame::leftScroll()
-{
-// 	menuBar()->setItemChecked( ID_VIEW_SCROLL_HIDE, false );
-// 	menuBar()->setItemChecked( ID_VIEW_SCROLL_RIGHT, false );
-// 	menuBar()->setItemChecked( ID_VIEW_SCROLL_LEFT, true );
-	
-	m_scrollLeftAction->setChecked(true);
-	
-	m_nScrollPos = 1;
-
-	emit updateScroll();
-}
-void Frame::rightScroll()
-{
-// 	menuBar()->setItemChecked( ID_VIEW_SCROLL_HIDE, false );
-// 	menuBar()->setItemChecked( ID_VIEW_SCROLL_LEFT, false );
-// 	menuBar()->setItemChecked( ID_VIEW_SCROLL_RIGHT, true );
-	
-	m_scrollRightAction->setChecked(true);
-	
-	m_nScrollPos = 2;
-
-	emit updateScroll();
+	if (action->objectName() == "Hide") {
+		m_nScrollPos = 0;
+	} else if (action->objectName() == "Left") {
+		m_nScrollPos = 1;
+	} else if (action->objectName() == "Right") {
+		m_nScrollPos = 2;
+	} else {
+		qDebug("updateScroll: should not be here");
+	}
+	emit scrollChanged();
 }
 
-void Frame::showSwitchBar()
+void Frame::updateSwitchBar(bool isEnabled)
 {
-
-	m_bSwitchBar = !m_bSwitchBar; 
-// 	menuBar()->setItemChecked(ID_VIEW_SWITCH,m_bSwitchBar );
-	
-	m_switchAction->setChecked(m_bSwitchBar);
+	m_bSwitchBar = isEnabled;
 	
 	if(m_bSwitchBar)
 		statusBar()->show();
@@ -1052,14 +945,11 @@ void Frame::showSwitchBar()
 		statusBar()->hide();
 }
 
-void Frame::showStatusBar()
+void Frame::updateStatusBar(bool isEnabled)
 {
-	m_bStatusBar = !m_bStatusBar;
-// 	menuBar()->setItemChecked(ID_VIEW_STATUS,m_bStatusBar );
+	m_bStatusBar = isEnabled;
 	
-	m_statusAction->setChecked(m_bStatusBar);
-
-	emit updateStatusBar(m_bStatusBar);
+	emit statusBarChanged(m_bStatusBar);
 }
 
 void Frame::setting( )
@@ -1109,42 +999,24 @@ void Frame::keySetup()
 }
 
 
-void Frame::antiIdle( )
+void Frame::antiIdle(bool isEnabled)
 {
-	wndmgr->activeWindow()->antiIdle();
-
-// 	menuBar()->setItemChecked( ID_SPEC_ANTI, wndmgr->activeWindow()->m_bAntiIdle );
-	
-	m_antiIdleAction->setChecked(wndmgr->activeWindow()->m_bAntiIdle);
-
-// 	specAnti->setChecked( wndmgr->activeWindow()->m_bAntiIdle );
+	wndmgr->activeWindow()->antiIdle(isEnabled);
 }
 
-void Frame::autoReply( )
+void Frame::autoReply(bool isEnabled)
 {
-	wndmgr->activeWindow()->autoReply();
-
-// 	menuBar()->setItemChecked( ID_SPEC_AUTO, wndmgr->activeWindow()->m_bAutoReply );
-	
-	m_autoReplyAction->setChecked(wndmgr->activeWindow()->m_bAutoReply);
-
-// 	specAuto->setChecked( wndmgr->activeWindow()->m_bAutoReply );
-
+	wndmgr->activeWindow()->autoReply(isEnabled);
 }
+
 void Frame::viewMessages( )
 {
 	wndmgr->activeWindow()->viewMessages();
 }
-void Frame::enableMouse( )
+void Frame::updateMouse(bool isEnabled)
 {
-	wndmgr->activeWindow()->m_bMouse = !wndmgr->activeWindow()->m_bMouse;
-
-// 	menuBar()->setItemChecked( ID_SPEC_MOUSE, wndmgr->activeWindow()->m_bMouse );
-	
+	wndmgr->activeWindow()->m_bMouse = isEnabled;
 	m_mouseAction->setChecked(wndmgr->activeWindow()->m_bMouse);
-
-// 	specMouse->setChecked( wndmgr->activeWindow()->m_bMouse );
-
 }
 
 void Frame::viewImages()
@@ -1153,15 +1025,10 @@ void Frame::viewImages()
 	viewer.exec();
 }
 
-void Frame::beep()
+void Frame::updateBeep(bool isEnabled)
 {
-	wndmgr->activeWindow()->m_bBeep = !wndmgr->activeWindow()->m_bBeep;
-
-// 	menuBar()->setItemChecked( ID_SPEC_BEEP, wndmgr->activeWindow()->m_bBeep );
+	wndmgr->activeWindow()->m_bBeep = isEnabled;
 	m_beepAction->setChecked(wndmgr->activeWindow()->m_bBeep);
-
-// 	specBeep->setChecked( wndmgr->activeWindow()->m_bBeep );
-
 }
 
 void Frame::reconnect()
@@ -1326,12 +1193,16 @@ void Frame::initActions()
 
 	QActionGroup * escapeGroup = new QActionGroup(this);
 	m_noescAction = new QAction(tr("&None"), this);
+	m_noescAction->setObjectName("noesc");
 	m_noescAction->setCheckable(true);
 	m_escescAction = new QAction(tr("&ESC ESC ["), this);
+	m_escescAction->setObjectName("escesc");
 	m_escescAction->setCheckable(true);
 	m_uescAction = new QAction(tr("Ctrl+&U ["), this);
+	m_uescAction->setObjectName("uesc");
 	m_uescAction->setCheckable(true);
 	m_customescAction = new QAction(tr("&Custom..."), this);
+	m_customescAction->setObjectName("custom");
 	m_customescAction->setCheckable(true);
 	escapeGroup->addAction(m_noescAction);
 	escapeGroup->addAction(m_escescAction);
@@ -1340,8 +1211,10 @@ void Frame::initActions()
 
 	QActionGroup * codecGroup = new QActionGroup(this);
 	m_GBKAction = new QAction(tr("&GBK"), this);
+	m_GBKAction->setObjectName("GBK");
 	m_GBKAction->setCheckable(true);
 	m_BIG5Action = new QAction(tr("&Big5"), this);
+	m_BIG5Action->setObjectName("Big5");
 	m_BIG5Action->setCheckable(true);
 	codecGroup->addAction(m_GBKAction);
 	codecGroup->addAction(m_BIG5Action);
@@ -1353,10 +1226,13 @@ void Frame::initActions()
 
 	QActionGroup * langGroup = new QActionGroup(this);
 	m_engAction = new QAction(tr("&English"),this);
+	m_engAction->setObjectName("eng");
 	m_engAction->setCheckable(true);
 	m_chsAction = new QAction(tr("&Simplified Chinese"),this);
+	m_chsAction->setObjectName("chs");
 	m_chsAction->setCheckable(true);
 	m_chtAction = new QAction(tr("&Traditional Chinese"),this);
+	m_chtAction->setObjectName("cht");
 	m_chtAction->setCheckable(true);
 	langGroup->addAction(m_engAction);
 	langGroup->addAction(m_chsAction);
@@ -1370,10 +1246,13 @@ void Frame::initActions()
 
 	QActionGroup * scrollGroup = new QActionGroup(this);
 	m_scrollHideAction = new QAction(tr("&Hide"), this);
+	m_scrollHideAction->setObjectName("Hide");
 	m_scrollHideAction->setCheckable(true);
 	m_scrollLeftAction = new QAction(tr("&Left"), this);
+	m_scrollLeftAction->setObjectName("Left");
 	m_scrollLeftAction->setCheckable(true);
 	m_scrollRightAction = new QAction(tr("&Right"), this);
+	m_scrollRightAction->setObjectName("Right");
 	m_scrollRightAction->setCheckable(true);
 	scrollGroup->addAction(m_scrollHideAction);
 	scrollGroup->addAction(m_scrollLeftAction);
@@ -1422,24 +1301,39 @@ void Frame::initActions()
 
 	connect(m_copyAction, SIGNAL(triggered()), this, SLOT(copy()));
 	connect(m_pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
-	connect(m_colorCopyAction, SIGNAL(toggled()), this, SLOT(copyColor()));
-	connect(m_rectAction, SIGNAL(toggled()), this, SLOT(copyRect()));
-	connect(m_autoCopyAction, SIGNAL(toggled()), this, SLOT(autoCopy()));
-	connect(m_wwrapAction, SIGNAL(toggled()), this, SLOT(wordwrap()));
+	connect(m_colorCopyAction, SIGNAL(toggled(bool)), this, SLOT(copyColor(bool)));
+	connect(m_rectAction, SIGNAL(toggled(bool)), this, SLOT(copyRect(bool)));
+	connect(m_autoCopyAction, SIGNAL(toggled(bool)), this, SLOT(autoCopy(bool)));
+	connect(m_wwrapAction, SIGNAL(toggled(bool)), this, SLOT(wordWrap(bool)));
+
+	connect(escapeGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateESC(QAction*)));
+	connect(codecGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateCodec(QAction*)));
 
 	connect(m_fontAction, SIGNAL(triggered()), this, SLOT(font()));
 	connect(m_colorAction, SIGNAL(triggered()), this, SLOT(color()));
 	connect(m_refreshAction, SIGNAL(triggered()), this, SLOT(refresh()));
+
+	connect(langGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateLang(QAction*)));
+
 	connect(m_uiFontAction, SIGNAL(triggered()), this, SLOT(uiFont()));
 	connect(m_fullAction, SIGNAL(triggered()), this, SLOT(fullscreen()));
 	connect(m_bossAction, SIGNAL(triggered()), this, SLOT(bosscolor()));
+
+	connect(scrollGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateScroll(QAction*)));
+
+	connect(m_statusAction, SIGNAL(toggled(bool)), this, SLOT(updateStatusBar(bool)));
+	connect(m_switchAction, SIGNAL(toggled(bool)), this, SLOT(updateSwitchBar(bool)));
 
 	connect(m_currentSessionAction, SIGNAL(triggered()), this, SLOT(setting()));
 	connect(m_defaultAction, SIGNAL(triggered()), this, SLOT(defaultSetting()));
 	connect(m_prefAction, SIGNAL(triggered()), this, SLOT(preference()));
 
 	connect(m_copyArticleAction, SIGNAL(triggered()), this, SLOT(copyArticle()));
+	connect(m_antiIdleAction, SIGNAL(toggled(bool)), this, SLOT(antiIdle(bool)));
+	connect(m_autoReplyAction, SIGNAL(toggled(bool)), this, SLOT(autoReply(bool)));
 	connect(m_viewMessageAction, SIGNAL(triggered()), this, SLOT(viewMessages()));
+	connect(m_beepAction, SIGNAL(toggled(bool)), this, SLOT(updateBeep(bool)));
+	connect(m_mouseAction, SIGNAL(toggled(bool)), this, SLOT(updateMouse(bool)));
 	connect(m_viewImageAction, SIGNAL(triggered()), this, SLOT(viewImages()));
 
 	connect(m_scriptRunAction, SIGNAL(triggered()), this, SLOT(runScript()));
