@@ -197,68 +197,44 @@ void Screen::cursorEvent()
 		update();
 	}
 }
-//FIXME better solution?
+
 void Screen::updateCursor()
 {
-// 	qDebug()<<"update cursor:"<<m_pBuffer->caretY()<<m_nEnd<<m_nStart;
 
 	QPainter painter(this);
 
 	if( m_pBuffer->caretY()<=m_nEnd && m_pBuffer->caretY()>=m_nStart )
 	{
-// 		qDebug()<<"paint:"<<m_pParam->m_nCursorType;
 		QPoint pt=mapToPixel(QPoint(m_pBuffer->caretX(),m_pBuffer->caretY()));
-// 		QPixmap *tempPxm;
-// 		qDebug()<<"cursor:"<<m_pBuffer->caretX()<<m_pBuffer->caretY();
+		int startx = testChar(m_pBuffer->caretX(),m_pBuffer->caretY());
+		int endx = testChar(m_pBuffer->caretX()+1, m_pBuffer->caretY());
+		if (startx == m_pBuffer->caretX())
+			if (endx == startx)
+				endx += 2;
+
 		switch(m_pParam->m_nCursorType)
 		{
 			case 0:	// block
-// 				tempPxm = new QPixmap(m_nCharWidth,m_nCharHeight);
-// 				bitBlt(this, pt.x(), pt.y(), tempPxm, 0, 0, 
-// 								m_nCharWidth, m_nCharHeight, Qt::NotROP, false);
-				if (m_bCursor){
-// 					qDebug()<<"paint being at:"<<pt<<m_nCharWidth<<m_nCharHeight;
-					painter.fillRect(pt.x(), pt.y(), m_nCharWidth, m_nCharHeight, m_color[7]);
-				}
-				else{
-					int startx = testChar(m_pBuffer->caretX(),m_pBuffer->caretY());
-					int endx = testChar(m_pBuffer->caretX()+2, m_pBuffer->caretY());
-					painter.fillRect(mapToRect(startx, m_pBuffer->caretY(), endx-startx, 1),m_color[0]);
-					drawLine(painter,m_pBuffer->caretY(),startx,endx, m_pBuffer->caretY());
-				}
+				drawLine(painter,m_pBuffer->caretY(),startx,endx,false);
 				break;
 			case 1:	// underline
-// 				tempPxm = new QPixmap(m_nCharWidth,m_nCharHeight/10);
-// 				bitBlt(this, pt.x(), pt.y()+9*m_nCharHeight/10, tempPxm, 0, 0, 
-// 								m_nCharWidth, m_nCharHeight/10, Qt::NotROP, false);
 				if (m_bCursor)
 					painter.fillRect(pt.x(), pt.y()+9*m_nCharHeight/10, m_nCharWidth, m_nCharHeight/10, m_color[7]);
 				else
 					painter.fillRect(pt.x(), pt.y()+9*m_nCharHeight/10, m_nCharWidth, m_nCharHeight/10, m_color[0]);
 				break;
 			case 2:	// I type
-// 				tempPxm = new QPixmap(m_nCharWidth/9,m_nCharHeight);
-// 				bitBlt(this, pt.x(), pt.y(), tempPxm, 0, 0, 
-// 								m_nCharWidth/9, m_nCharHeight, Qt::NotROP, false);
 				if (m_bCursor)
 					painter.fillRect(pt.x(), pt.y(), m_nCharWidth/9, m_nCharHeight, m_color[7]);
 				else
 					painter.fillRect(pt.x(), pt.y(), m_nCharWidth/9, m_nCharHeight, m_color[0]);
 				break;
 			default:
-// 				tempPxm = new QPixmap(m_nCharWidth,m_nCharHeight);
-// 				bitBlt(this, pt.x(), pt.y(), tempPxm, 0, 0, 
-// 								m_nCharWidth, m_nCharHeight, Qt::NotROP, false);
-				if (m_bCursor)
-					painter.fillRect(pt.x(), pt.y(), m_nCharWidth, m_nCharHeight, m_color[7]);
-				else
-					painter.fillRect(pt.x(), pt.y(), m_nCharWidth, m_nCharHeight, m_color[0]);
-
+				drawLine(painter,m_pBuffer->caretY(),startx,endx,false);
 		}
-// 		if(tempPxm!=NULL)
-// 			delete tempPxm;
 	}
 }
+
 void Screen::blinkEvent()
 {
 	if(m_hasBlink)
@@ -826,32 +802,23 @@ void Screen::refreshScreen()
   happened when only erase and draw the changed part. 
 */
 		startx = testChar(startx, index);
-		
-		int len = -1;
-		if (endx != -1)
-			len = endx - startx;
-		
-		painter.fillRect(mapToRect(startx, index, len, 1),m_color[0]);
-		
-		drawLine( painter, index, startx, endx);
-		//drawLine( painter, index);
+		painter.fillRect(mapToRect(startx, index, -1, 1),m_color[0]);
+		drawLine( painter, index, startx);
 		pTextLine->clearChange();
 	}
 	painter.end();
 
-	//setUpdatesEnabled(true);
-
-	//setMicroFocusHint((m_pBuffer->caret().x()+2)*m_nCharWidth,(m_pBuffer->caret().y()+1)*m_nCharHeight, 
-	//				m_nCharWidth, m_nCharHeight, true);
 	updateMicroFocus();
-	if( m_pWindow->isConnected() )
+	if( m_pWindow->isConnected() ) {
+		m_ePaintState = Cursor;
+		m_bCursor = true;
 		updateCursor();
-		//cursorEvent();
+	}
+
 
 	if( m_pWindow->isConnected() ) m_cursorTimer->start(1000);
 
 	if(m_hasBlink)	m_blinkTimer->start(1000);
-// 	update();
 }
 
 int Screen::testChar(int startx, int index)
@@ -1083,7 +1050,7 @@ void Screen::drawStr( QPainter& painter, const QString& str, int x, int y, int l
 	{
 	};
 	// test reverse mask
-	if ( GETREVERSE( ea ) )
+	if ( GETREVERSE( ea ) || (m_ePaintState == Cursor && m_bCursor))
 		cp = REVERSECOLOR( cp );
 	
 	// test invisible mask
@@ -1126,7 +1093,7 @@ void Screen::drawStr( QPainter& painter, const QString& str, int x, int y, int l
 			painter.eraseRect( mapToRect(x, y, length, 1) );
 	}
 	else {
-		if(GETBG(cp)!=0)
+		if (GETBG(cp)!=0 || m_ePaintState == Cursor)
 			painter.fillRect( mapToRect(x,y,length,1), QBrush(m_color[GETBG(cp)]) );
 		painter.drawText( pt.x(), pt.y()+m_nCharAscent, str);
 	}
