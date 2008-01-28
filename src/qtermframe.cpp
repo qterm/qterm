@@ -1013,6 +1013,7 @@ void Frame::viewMessages( )
 {
 	wndmgr->activeWindow()->viewMessages();
 }
+
 void Frame::updateMouse(bool isEnabled)
 {
 	wndmgr->activeWindow()->m_bMouse = isEnabled;

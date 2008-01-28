@@ -120,10 +120,10 @@ protected slots:
 	void stopScript();
 	
 	// Toolbar
-    void connectIt();
-    void disconnect();
+	void connectIt();
+	void disconnect();
 	void copy();
-    void paste();
+	void paste();
 	void copyRect(bool);
 	void copyColor(bool);
 	void copyArticle();
@@ -135,17 +135,17 @@ protected slots:
 	void updateSwitchBar(bool);
 	void updateStatusBar(bool);
 	void font();
-    void color();
-    void refresh();
+	void color();
+	void refresh();
 	void fullscreen();
 	void bosscolor();
 	void uiFont();
-    void antiIdle(bool);
-    void autoReply(bool);
-    void setting();
+	void antiIdle(bool);
+	void autoReply(bool);
+	void setting();
 	void viewMessages();
-    void updateMouse(bool);
-    void updateBeep(bool);
+	void updateMouse(bool);
+	void updateBeep(bool);
 	void reconnect();
 	void keySetup();
 
