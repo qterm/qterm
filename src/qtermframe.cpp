@@ -27,6 +27,8 @@ AUTHOR:        kingson fiasco
 #include <QCloseEvent>
 #include <QTime>
 #include <QSystemTrayIcon>
+#include <QShortcut>
+#include <QSignalMapper>
 
 #include "aboutdialog.h"
 #include "addrdialog.h"
@@ -124,40 +126,8 @@ Frame::Frame()
 //create the window manager to deal with the window-tab-icon pairs
 	wndmgr=new WndMgr(this);
 
-// expressly connect sites in addressbook
-// 	Q3Accel *accel2 = new Q3Accel(this);
-// 	accel2->insertItem(Qt::CTRL+Qt::ALT+Qt::Key_1, 0);
-// 	accel2->insertItem(Qt::CTRL+Qt::ALT+Qt::Key_2, 1);
-// 	accel2->insertItem(Qt::CTRL+Qt::ALT+Qt::Key_3, 2);
-// 	accel2->insertItem(Qt::CTRL+Qt::ALT+Qt::Key_4, 3);
-// 	accel2->insertItem(Qt::CTRL+Qt::ALT+Qt::Key_5, 4);
-// 	accel2->insertItem(Qt::CTRL+Qt::ALT+Qt::Key_6, 5);
-// 	accel2->insertItem(Qt::CTRL+Qt::ALT+Qt::Key_7, 6);
-// 	accel2->insertItem(Qt::CTRL+Qt::ALT+Qt::Key_8, 7);
-// 	accel2->insertItem(Qt::CTRL+Qt::ALT+Qt::Key_9, 8);
-// 	accel2->insertItem(Qt::CTRL+Qt::ALT+Qt::Key_9, 9);
-// 	connect( accel2, SIGNAL(activated(int)), 
-// 	this,SLOT(connectMenuActivated(int)));
-// 
-// // ALT+# to switch between 10 windows
-// 	Q3Accel *accel = new Q3Accel(this);
-// 	accel->insertItem(Qt::ALT+Qt::Key_1, 1);
-// 	accel->insertItem(Qt::ALT+Qt::Key_2, 2);
-// 	accel->insertItem(Qt::ALT+Qt::Key_3, 3);
-// 	accel->insertItem(Qt::ALT+Qt::Key_4, 4);
-// 	accel->insertItem(Qt::ALT+Qt::Key_5, 5);
-// 	accel->insertItem(Qt::ALT+Qt::Key_6, 6);
-// 	accel->insertItem(Qt::ALT+Qt::Key_7, 7);
-// 	accel->insertItem(Qt::ALT+Qt::Key_8, 8);
-// 	accel->insertItem(Qt::ALT+Qt::Key_9, 9);
-// // ALT+->(<-) to active next(previous) window
-// 	accel->insertItem(Qt::ALT+Qt::Key_Left, 200);
-// 	accel->insertItem(Qt::ALT+Qt::Key_Up, 200);
-// 	accel->insertItem(Qt::ALT+Qt::Key_Right, 201);
-// 	accel->insertItem(Qt::ALT+Qt::Key_Down, 201);
-// 
-// 	connect( accel, SIGNAL(activated(int)), this, SLOT(switchWin(int)) );
-	
+	initShortcuts();
+
 //set menubar
 	initActions();
 
@@ -559,16 +529,19 @@ void Frame::popupConnectMenu()
 	
 	Config conf(addrCfg);
 	QStringList listName = loadNameList( &conf );
+	QSignalMapper * connectMapper = new QSignalMapper(this);
 
 	for ( int i=0; i<listName.count(); i++ )
 	{
-		QAction * idAction = connectMenu->addAction( listName[i],
-					this, SLOT(connectMenuActivated()));
-		idAction->setData(i);
+		QAction * idAction = new QAction(listName[i], connectMenu);
+		connectMenu->addAction(idAction);
+		connect(idAction, SIGNAL(triggered()), connectMapper, SLOT(map()));
+		connectMapper->setMapping(idAction, i);
 	}
-	
+	connect(connectMapper, SIGNAL(mapped(int)), this, SLOT(connectMenuActivated(int)));
 	//connectMenu->exec( connectButton->mapToGlobal( connectButton->rect().bottomLeft() ));
 }
+
 void Frame::connectMenuAboutToHide()
 {
 // 	QMouseEvent me( QEvent::MouseButtonRelease, QPoint(0,0), QPoint(0,0), 
@@ -576,10 +549,9 @@ void Frame::connectMenuAboutToHide()
 // 	QApplication::sendEvent( connectButton, &me );
 
 }
-void Frame::connectMenuActivated()
+void Frame::connectMenuActivated(int id)
 {
 	Config *pConf = new Config(addrCfg);
-	int id = static_cast<QAction *>(sender())->data().toInt();
 	Param param;
 	// FIXME: don't know the relation with id and param setted by setItemParameter
 	if(loadAddress(pConf, id, param))
@@ -604,12 +576,13 @@ void Frame::switchWin(int id)
 		return;
 	}
 
-	QWidget *w = windows.at(id-1);
+	QWidget *w = windows.at(id);
 	if(w == m_MdiArea->activeSubWindow() )
 		return;
 
-	if(w!=NULL)
-		w->showNormal();
+	if(w!=NULL) {
+		w->setFocus();
+	}
 }
 
 bool Frame::eventFilter(QObject *o, QEvent *e)
@@ -1100,6 +1073,38 @@ void Frame::addMainTool()
 	mdiconnectTools->addAction(m_mouseAction);
 	mdiconnectTools->addAction(m_beepAction);
 	mdiconnectTools->addAction(m_reconnectAction);
+}
+
+void Frame::initShortcuts()
+{
+	int i = 0;
+	QShortcut * shortcut = NULL;
+	QSignalMapper * addrMapper = new QSignalMapper(this);
+	for (i = 0; i < 9; i++) {
+		shortcut = new QShortcut(Qt::CTRL+Qt::ALT+0x30+1+i,this);
+		connect(shortcut, SIGNAL(activated()), addrMapper, SLOT(map()));
+		addrMapper->setMapping(shortcut, i);
+	}
+	connect(addrMapper, SIGNAL(mapped(int)), this, SLOT(connectMenuActivated(int)));
+	QSignalMapper * windowMapper = new QSignalMapper(this);
+	for (i = 0; i < 10; i++) {
+		shortcut = new QShortcut(Qt::ALT+0x30+1+i,this);
+		connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
+		windowMapper->setMapping(shortcut, i);
+	}
+	shortcut = new QShortcut(Qt::ALT+Qt::Key_Left, this);
+	connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
+	windowMapper->setMapping(shortcut, 200);
+	shortcut = new QShortcut(Qt::ALT+Qt::Key_Up, this);
+	connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
+	windowMapper->setMapping(shortcut, 200);
+	shortcut = new QShortcut(Qt::ALT+Qt::Key_Right, this);
+	connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
+	windowMapper->setMapping(shortcut, 201);
+	shortcut = new QShortcut(Qt::ALT+Qt::Key_Down, this);
+	connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
+	windowMapper->setMapping(shortcut, 201);
+	connect(windowMapper, SIGNAL(mapped(int)), this, SLOT(switchWin(int)));
 }
 
 void Frame::initActions()

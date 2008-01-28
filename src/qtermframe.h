@@ -155,7 +155,7 @@ protected slots:
 	void themesMenuActivated(QAction *);
 	void windowsMenuAboutToShow();
 	void windowsMenuActivated(int);
-	void connectMenuActivated();
+	void connectMenuActivated(int);
 	void popupConnectMenu();
 	void connectMenuAboutToHide();
 	void trayActived(int);
@@ -273,6 +273,7 @@ protected:
 	void selectStyleMenu(int ,int );
 	void iniSetting();
 	void initActions();
+	void initShortcuts();
 	void loadPref(Config *);
 	void saveSetting();
 	
