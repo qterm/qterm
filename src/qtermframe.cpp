@@ -106,21 +106,6 @@ Frame::Frame()
 
 	tray = 0;
 	trayMenu = 0;
-	
-//set menubar
-	initActions();
-
-	addMainMenu();
-
-//setup toolbar
-	addMainTool();
-
-// add the custom defined key
-	updateKeyToolBar();
-
-// diaable some menu & toolbar
-	enableMenuToolBar( false );
-
 	connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), 
 			this, SLOT(toolBarPosChanged(QToolBar*)));
 
@@ -173,8 +158,24 @@ Frame::Frame()
 // 
 // 	connect( accel, SIGNAL(activated(int)), this, SLOT(switchWin(int)) );
 	
-	//initialize all settings
+//set menubar
+	initActions();
+
+	addMainMenu();
+
+//setup toolbar
+	addMainTool();
+
+// add the custom defined key
+	updateKeyToolBar();
+
+// diaable some menu & toolbar
+	enableMenuToolBar( false );
+
+//initialize all settings
 	iniSetting();
+
+	initThemesMenu();
 
 	installEventFilter(this);
 }
@@ -837,88 +838,22 @@ void Frame::bosscolor()
 // 	menuBar()->setItemChecked( ID_VIEW_BOSS, m_bBossColor );
 }
 
-void Frame::themesMenuAboutToShow()
+void Frame::initThemesMenu()
 {
 	themesMenu->clear();
-// #if QT_VERSION < 300
-// 	insertThemeItem("default");	
-// 	#ifndef QT_NO_STYLE_CDE
-// 	insertThemeItem("CDE");
-// 	#endif
-// 	#ifndef QT_NO_STYLE_MOTIF
-// 	insertThemeItem("Motif");
-// 	#endif
-// 	#ifndef QT_NO_STYLE_MOTIFPLUS
-// 	insertThemeItem("MotifPlus");
-// 	#endif
-// 	#ifndef QT_NO_STYLE_PLATINUM
-// 	insertThemeItem("Platinum");
-// 	#endif
-// 	#ifndef QT_NO_STYLE_SGI
-// 	insertThemeItem("SGI");
-// 	#endif
-// 	#ifndef QT_NO_STYLE_WINDOWS
-// 	insertThemeItem("Windows");
-// 	#endif
-// #else
+	QActionGroup * themesGroup = new QActionGroup(this);
 	QStringList styles = QStyleFactory::keys();
 	for(QStringList::ConstIterator it=styles.begin(); it!=styles.end(); it++)
-		insertThemeItem(*it);
-// #endif
+		themesGroup->addAction(insertThemeItem(*it));
+	connect(themesGroup, SIGNAL(triggered(QAction* )), this, SLOT(themesMenuActivated(QAction*)));
 }
 
-void Frame::themesMenuActivated()
+void Frame::themesMenuActivated(QAction * action)
 {
-
-	theme = ((QAction*)QObject::sender())->text();
-// 	fprintf(stderr, "Theme: %s\n", theme.ascii());
-
-// #if QT_VERSION < 300
-// 	if(theme=="default")
-// 	{
-// 	}
-// 	else if(theme=="CDE")
-// 	{
-// 		#ifndef QT_NO_STYLE_CDE
-// 		qApp->setStyle( new QCDEStyle(true) );
-// 		#endif
-// 	}
-// 	else if(theme=="Motif")
-// 	{
-// 		#ifndef QT_NO_STYLE_MOTIF
-// 		qApp->setStyle( new QMotifStyle(true) );
-// 		#endif
-// 	}
-// 	else if(theme=="MotifPlus")
-// 	{
-// 		#ifndef QT_NO_STYLE_MOTIFPLUS
-// 		qApp->setStyle( new QMotifPlusStyle(true) );
-// 		#endif
-// 	}
-// 	else if(theme=="Platinum")
-// 	{
-// 		#ifndef QT_NO_STYLE_PLATINUM
-// 		qApp->setStyle( new QPlatinumStyle() );
-// 		#endif
-// 	}
-// 	else if(theme=="SGI")
-// 	{
-// 		#ifndef QT_NO_STYLE_SGI
-// 		qApp->setStyle( new QSGIStyle(true) );
-// 		#endif
-// 	}
-// 	else if(theme=="Windows")
-// 	{
-// 		#ifndef QT_NO_STYLE_WINDOWS
-// 		qApp->setStyle( new QWindowsStyle() );
-// 		#endif
-// 	}
-// #else
+	theme = action->text();
 	QStyle * style = QStyleFactory::create(theme);
 	if (style)
 		qApp->setStyle(style);
-// #endif
-	
 }
 
 void Frame::updateScroll(QAction * action)
@@ -1400,8 +1335,6 @@ void Frame::addMainMenu()
 	view->addAction( m_uiFontAction );
 
 	themesMenu = new QMenu( tr("&Themes"), this );
-	connect( themesMenu, SIGNAL( aboutToShow() ),
-	     this, SLOT( themesMenuAboutToShow() ) );
 	view->addMenu( themesMenu );
 
 	view->addAction( m_fullAction );
@@ -1625,17 +1558,13 @@ void Frame::popupFocusIn(Window *)
 	activateWindow();
 }
 
-void Frame::insertThemeItem(QString themeitem)
+QAction * Frame::insertThemeItem(const QString & themeitem)
 {
-	//const char *style[]={"Default", "CDE", "Motif", 
-			//"Motif Plus", "Platinum", "SGI", "Windows"};
-	QAction * idAction;
-
-	idAction = themesMenu->addAction(themeitem, this, SLOT(themesMenuActivated()));
-// 	idAction->setObjectName(themeitem);
-// 	themesMenu->setItemParameter( id, id );
+	QAction * idAction = new QAction(themeitem, this);
+	themesMenu->addAction(idAction);
+	idAction->setCheckable(true);
 	idAction->setChecked(themeitem==theme);
-// 	themesMenu->setItemChecked( id, themeitem==theme );
+	return idAction;
 }
 
 void Frame::setUseDock(bool use)

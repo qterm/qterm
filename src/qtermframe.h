@@ -151,8 +151,8 @@ protected slots:
 
 	void viewImages();
 	
-	void themesMenuAboutToShow();
-	void themesMenuActivated();
+	void initThemesMenu();
+	void themesMenuActivated(QAction *);
 	void windowsMenuAboutToShow();
 	void windowsMenuActivated(int);
 	void connectMenuActivated();
@@ -284,7 +284,7 @@ protected:
 	bool eventFilter(QObject*, QEvent *);
 
 	QString valueToString(bool, int, int, bool, int);
-	void insertThemeItem(QString);
+	QAction * insertThemeItem(const QString & );
 	void setUseDock(bool);
 private:
 	static Frame * s_instance;
