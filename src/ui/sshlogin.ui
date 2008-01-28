@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>SSHLogin</class>
  <widget class="QDialog" name="SSHLogin" >
   <property name="geometry" >
@@ -115,5 +112,38 @@
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>bOK</sender>
+   <signal>clicked()</signal>
+   <receiver>SSHLogin</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>80</x>
+     <y>139</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>140</x>
+     <y>117</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>SSHLogin</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>265</x>
+     <y>136</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>338</x>
+     <y>117</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
