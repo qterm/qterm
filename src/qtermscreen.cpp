@@ -94,18 +94,11 @@ Screen::Screen( QWidget *parent, Buffer *buffer, Param *param, BBS *bbs )
 	m_scrollBar->setValue(0);
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), 
 			this, SLOT(scrollChanged(int)));
-// 	m_pAccel = new Q3Accel(this);
 
-// 	#if (QT_VERSION>=300)
-// 	m_pAccel->connectItem(m_pAccel->insertItem(Qt::Key_PageUp+Qt::SHIFT), this, SLOT(prevPage()));
-// 	m_pAccel->connectItem(m_pAccel->insertItem(Qt::Key_PageDown+Qt::SHIFT), this, SLOT(nextPage()));
-// 	m_pAccel->connectItem(m_pAccel->insertItem(Qt::Key_Up+Qt::SHIFT), this, SLOT(prevLine()));
-// 	m_pAccel->connectItem(m_pAccel->insertItem(Qt::Key_Down+Qt::SHIFT), this, SLOT(nextLine()));
-// 	#endif
-	m_scPrevPage = new QShortcut(Qt::Key_PageUp+Qt::SHIFT, this, "prevPage");
-	m_scNextPage = new QShortcut(Qt::Key_PageDown+Qt::SHIFT, this, "nextPage");
-	m_scPrevLine = new QShortcut(Qt::Key_Up+Qt::SHIFT, this, "prevLine");
-	m_scNextLine = new QShortcut(Qt::Key_Down+Qt::SHIFT, this, "nextLine");
+	m_scPrevPage = new QShortcut(Qt::Key_PageUp+Qt::SHIFT, this, SLOT(prevPage()));
+	m_scNextPage = new QShortcut(Qt::Key_PageDown+Qt::SHIFT, this, SLOT(nextPage()));
+	m_scPrevLine = new QShortcut(Qt::Key_Up+Qt::SHIFT, this, SLOT(prevLine()));
+	m_scNextLine = new QShortcut(Qt::Key_Down+Qt::SHIFT, this, SLOT(nextLine()));
 	
 	setAttribute(Qt::WA_OpaquePaintEvent, true);
 
