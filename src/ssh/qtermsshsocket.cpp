@@ -194,7 +194,7 @@ unsigned long SSHSocket::bytesAvailable()
 
 QByteArray SSHSocket::readBlock(unsigned long size)
 {
-	qDebug("read Block");
+	//qDebug("read Block");
 	QByteArray data(size, 0);
 	d_inBuffer->getBuffer(data.data(), size);
 	return data;
