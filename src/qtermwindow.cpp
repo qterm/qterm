@@ -1630,8 +1630,8 @@ void Window::autoReply(bool isEnabled)
 	if( !m_bAutoReply && m_replyTimer->isActive() )
 		m_replyTimer->stop();
 	// enabled
-	if( m_bAutoReply && !m_replyTimer->isActive() )
-		m_replyTimer->start(m_param.m_nMaxIdle*1000/2);
+//	if( m_bAutoReply && !m_replyTimer->isActive() )
+//		m_replyTimer->start(m_param.m_nMaxIdle*1000/2);
 }
 
 void Window::connectionClosed()
