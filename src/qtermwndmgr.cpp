@@ -100,7 +100,6 @@ void WndMgr::activateTheTab(Window * mw)
 	
 	mw->setFocus();
 	mw->show();
-	mw->refresh();
 	
 	nCurrentIndex = n;
 
@@ -124,7 +123,6 @@ void WndMgr::activateTheWindow(int n)
 	//set focus to it
 	mw->setFocus();
 	mw->show();
-	mw->refresh();
 
 	pFrame->updateMenuToolBar();
 }

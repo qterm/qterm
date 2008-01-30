@@ -181,6 +181,11 @@ void Screen::focusOutEvent( QFocusEvent * )
 // #endif
 }
 
+void Screen::showEvent( QShowEvent * )
+{
+	m_ePaintState = Show;
+	update();
+}
 
 void Screen::cursorEvent()
 {

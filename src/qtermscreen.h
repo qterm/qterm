@@ -93,6 +93,8 @@ protected:
 	void resizeEvent( QResizeEvent * );
 	void focusInEvent ( QFocusEvent * );	
 	void focusOutEvent ( QFocusEvent * );	
+	void showEvent( QShowEvent * );
+
 
 	void paintEvent( QPaintEvent * );
 
