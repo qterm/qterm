@@ -614,10 +614,11 @@ bool Window::event( QEvent *e )
         if (ke->key() == Qt::Key_W && ke->modifiers() == Qt::ControlModifier) {
             keyPressEvent(ke);
             ke->accept();
+            return true;
             //qDebug("override the event");
         }
     }
-    QWidget::event(e);
+    return QWidget::event(e);
 }
 
 void Window::mouseDoubleClickEvent( QMouseEvent * me)
