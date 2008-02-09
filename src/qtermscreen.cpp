@@ -894,6 +894,26 @@ void Screen::paintEvent( QPaintEvent * pe )
 	}
 }
 
+bool Screen::event( QEvent * e)
+{
+	if (e->type() == QEvent::KeyPress) {
+		QKeyEvent * ke = static_cast<QKeyEvent *>(e);
+		if (ke->key() == Qt::Key_Tab) {
+			m_pWindow->keyPressEvent(ke);
+			ke->accept();
+			return true;
+		}
+	} else if (e->type() == QEvent::ShortcutOverride) {
+		QKeyEvent * ke = static_cast<QKeyEvent *>(e);
+		if (ke->key() == Qt::Key_W && ke->modifiers() == Qt::ControlModifier) {
+			m_pWindow->keyPressEvent(ke);
+			ke->accept();
+			return true;
+		}
+	}
+	return QWidget::event(e);
+}
+
 void Screen::repaintScreen(QPaintEvent * pe)
 {
 	QPainter painter;

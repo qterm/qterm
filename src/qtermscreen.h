@@ -94,7 +94,7 @@ protected:
 	void focusInEvent ( QFocusEvent * );	
 	void focusOutEvent ( QFocusEvent * );	
 	void showEvent( QShowEvent * );
-
+	bool event( QEvent * );
 
 	void paintEvent( QPaintEvent * );
 

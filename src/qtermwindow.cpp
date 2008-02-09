@@ -607,20 +607,6 @@ void Window::leaveEvent( QEvent * )
 {
 }
 
-bool Window::event( QEvent *e )
-{
-    if (e->type() == QEvent::ShortcutOverride) {
-        QKeyEvent * ke = static_cast<QKeyEvent *>(e);
-        if (ke->key() == Qt::Key_W && ke->modifiers() == Qt::ControlModifier) {
-            keyPressEvent(ke);
-            ke->accept();
-            return true;
-            //qDebug("override the event");
-        }
-    }
-    return QWidget::event(e);
-}
-
 void Window::mouseDoubleClickEvent( QMouseEvent * me)
 {
 	//pythonMouseEvent(3, me->button(), me->state(), me->pos(),0);
