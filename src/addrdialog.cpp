@@ -44,6 +44,7 @@ addrDialog::addrDialog( QWidget* parent, bool partial, Qt::WFlags fl )
 	bgMenu.addButton(ui.radioButton1,0);
 	bgMenu.addButton(ui.radioButton2,1);
 	bgMenu.addButton(ui.radioButton3,2);
+	ui.menuLabel->setAutoFillBackground(true);
 	if(bPartial)
 	{
 		ui.nameListWidget->hide();
@@ -316,8 +317,9 @@ void addrDialog::onMenuColor()
 	if(color.isValid()==TRUE)
 	{
 		clrMenu=color;
-// 		FIXME: How to demostrate the new color?
-// 		menuLabel->setBackgroundColor(color);
+		QPalette palette;
+		palette.setColor(ui.menuLabel->backgroundRole(),color);
+		ui.menuLabel->setPalette(palette);
 	}
 }
 
@@ -544,7 +546,6 @@ void addrDialog::updateData(bool save)
 		QPalette palette;
 		palette.setColor(ui.menuLabel->backgroundRole(), clrMenu);
 		ui.menuLabel->setPalette(palette);
-// 		ui.menuLabel->setBackgroundColor(param.m_clrMenu);
 	}
 }
 
