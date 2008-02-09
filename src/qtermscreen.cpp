@@ -963,6 +963,7 @@ void Screen::drawLine( QPainter& painter, int index, int starx, int endx, bool c
 	char tempcp, tempea;
 	short tempattr;
 	bool bSelected;
+	bool bReverse = false;
 	int startx;
 	QByteArray cstrText;
 	QString strShow;
@@ -975,10 +976,16 @@ void Screen::drawLine( QPainter& painter, int index, int starx, int endx, bool c
 	
 	if (complete == true && m_pBBS->isSelected(index)){
 		drawMenuSelect(painter, index);
+		if (m_pParam -> m_nMenuType == 1) {
+			bReverse = true;
+		}
 		starx = 0;
 		endx = linelength;
 	}
 
+	if (m_ePaintState == Cursor && m_bCursor) {
+		bReverse = true;
+	}
 	for( uint i=starx; i < endx;i++)
 	{
 		int offset = 0;
@@ -992,11 +999,13 @@ void Screen::drawLine( QPainter& painter, int index, int starx, int endx, bool c
 				bSelected == m_pBuffer->isSelected(QPoint(i,index), m_pWindow->m_bCopyRect) )
 			++i;
 
-		if(bSelected)	// selected area is text=color(0) background=color(7)
+		if(bSelected) // selected area is text=color(0) background=color(7)
 			tempattr = SETCOLOR(SETFG(0)|SETBG(7)) | SETATTR(NO_ATTR);
+		else if (bReverse)
+			tempattr = SETCOLOR(tempcp) | SETATTR(SETREVERSE(tempea));
 		else
 			tempattr = SETCOLOR(tempcp) | SETATTR(tempea);
-		
+
 		cstrText = pTextLine->getText(startx, i - startx);
  		//qDebug()<<"raw: " << cstrText;
 		QString strShow;
@@ -1068,7 +1077,7 @@ void Screen::drawStr( QPainter& painter, const QString& str, int x, int y, int l
 	{
 	};
 	// test reverse mask
-	if ( GETREVERSE( ea ) || (m_ePaintState == Cursor && m_bCursor))
+	if ( GETREVERSE( ea ) )
 		cp = REVERSECOLOR( cp );
 	
 	// test invisible mask
