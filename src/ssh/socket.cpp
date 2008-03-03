@@ -20,7 +20,10 @@
 #include "qtermsocket.h"
 #include <openssl/bn.h>
 #include <QtCore/QStringList>
+
+#ifdef SSH_DEBUG
 #include <QtDebug>
+#endif
 
 // FIXME: smth have some problem with \r\n
 #define QTERM_SSHV1_BANNER "SSH-1.5-QTermSSH\n"
@@ -51,7 +54,9 @@ void SSH2SocketPriv::slotKexFinished(const QByteArray & sessionID)
 {
     m_sessionID = sessionID;
     m_kex->deleteLater();
+#ifdef SSH_DEBUG
     qDebug() << "kex finished";
+#endif
     m_auth = new SSH2Auth(m_sessionID, m_inPacket, m_outPacket);
     connect(m_auth, SIGNAL(authFinished()), this, SLOT(slotAuthFinished()));
     connect(m_auth, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString &)));
@@ -61,7 +66,9 @@ void SSH2SocketPriv::slotKexFinished(const QByteArray & sessionID)
 void SSH2SocketPriv::slotAuthFinished()
 {
     m_auth->deleteLater();
+#ifdef SSH_DEBUG
     qDebug() << "authFinished";
+#endif
     m_channel = new SSH2Channel(m_inPacket, m_outPacket);
     connect(m_channel, SIGNAL(newChannel(int)), this, SLOT(slotNewChannel(int)));
     connect(m_channel, SIGNAL(dataReady(int)), this, SLOT(slotChannelData(int)));
@@ -97,7 +104,9 @@ unsigned long SSH2SocketPriv::bytesAvailable()
 
 SSH1SocketPriv::SSH1SocketPriv(QTermSocketPrivate * plainSocket, QByteArray & banner, QObject * parent)
 {
+#ifdef SSH_DEBUG
     qDebug() << "init ssh1 session";
+#endif
     m_inPacket = new SSH1InBuffer(plainSocket, this);
     m_outPacket = new SSH1OutBuffer(plainSocket, this);
     m_kex = new SSH1Kex(m_inPacket, m_outPacket, this);
@@ -110,7 +119,9 @@ SSH1SocketPriv::~SSH1SocketPriv()
 void SSH1SocketPriv::slotKexFinished()
 {
     m_kex->deleteLater();
+#ifdef SSH_DEBUG
     qDebug() << "kex finished";
+#endif
     m_auth = new SSH1Auth(m_inPacket, m_outPacket, this);
     connect(m_auth, SIGNAL(authFinished()), this, SLOT(slotAuthFinished()));
     m_auth->requestAuthService();
@@ -119,7 +130,9 @@ void SSH1SocketPriv::slotKexFinished()
 void SSH1SocketPriv::slotAuthFinished()
 {
     m_auth->deleteLater();
+#ifdef SSH_DEBUG
     qDebug() << "authFinished";
+#endif
     m_channel = new SSH1Channel(m_inPacket, m_outPacket, this);
 //  connect ( m_channel, SIGNAL ( newChannel ( int ) ), this, SLOT ( slotNewChannel ( int ) ) );
     connect(m_channel, SIGNAL(dataReady()), this, SIGNAL(readyRead()));
@@ -174,7 +187,9 @@ void SSHSocket::close()
 
 void SSHSocket::connectToHost(const QString & hostName, quint16 port)
 {
+#ifdef SSH_DEBUG
     qDebug() << "connect to: " << hostName << port;
+#endif
     m_socket->connectToHost(hostName, port);
 }
 
@@ -197,11 +212,13 @@ unsigned long SSHSocket::bytesAvailable()
 
 void SSHSocket::checkVersion(const QByteArray & banner)
 {
+#ifdef SSH_DEBUG
     qDebug() << banner;
+#endif
     QString server(banner);
     QStringList list = server.split("-", QString::SkipEmptyParts);
     if (list[0] != "SSH") {
-        qDebug() << "It is not a SSH protocol: " << server;
+        qDebug("It is not a SSH protocol: %s", server.toLatin1().data());
         return;
     }
     float version = list[1].toFloat();
@@ -213,14 +230,18 @@ void SSHSocket::checkVersion(const QByteArray & banner)
     switch (m_version) {
     case SSHV1:
         m_socket->writeBlock(QTERM_SSHV1_BANNER);
+#ifdef SSH_DEBUG
         qDebug() << "Send banner version 1";
+#endif
         break;
     case SSHV2:
         m_socket->writeBlock(QTERM_SSHV2_BANNER);
+#ifdef SSH_DEBUG
         qDebug() << "Send banner version 2";
+#endif
         break;
     case SSHUnknown:
-        qDebug() << "Unknown ssh version";
+        qDebug("Unknown ssh version");
         break;
     default:
         break;
@@ -229,7 +250,9 @@ void SSHSocket::checkVersion(const QByteArray & banner)
 
 void SSHSocket::readData()
 {
+#ifdef SSH_DEBUG
     qDebug() << "Read SSH data!";
+#endif
     qint64 nbyte = m_socket->bytesAvailable();
     QByteArray to_socket;
     QByteArray from_socket = m_socket->readBlock(nbyte);
@@ -249,7 +272,9 @@ void SSHSocket::readData()
 void SSHSocket::onError(const QString & message)
 {
     // TODO: notify the user
+#ifdef SSH_DEBUG
     qDebug() << "We get an error message: " << message;
+#endif
     if (m_priv != NULL) {
         m_priv->deleteLater();
     }

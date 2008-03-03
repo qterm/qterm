@@ -13,7 +13,10 @@
 #include "packet.h"
 #include "crc32.h"
 #include <openssl/rand.h>
+
+#ifdef SSH_DEBUG
 #include <QtDebug>
+#endif
 
 u_int32_t get_u32(const void * vp)
 {
@@ -54,6 +57,7 @@ void put_u16(void * vp, u_int16_t v)
     p[1] = (u_char) v & 0xff;
 }
 
+#ifdef SSH_DEBUG
 void dumpData(const QByteArray & data)
 {
     int size = data.size();
@@ -65,6 +69,7 @@ void dumpData(const QByteArray & data)
     }
     printf("\n");
 }
+#endif
 
 namespace QTerm
 {
@@ -111,7 +116,9 @@ void SSH2InBuffer::parseData()
             firstBlock = m_transport->crypt(m_in.left(blockSize));
         else
             firstBlock = m_in.left(blockSize);
+#ifdef SSH_DEBUG
         dumpData(firstBlock);
+#endif
         // TODO: sanity check for packet length
         int length = get_u32(firstBlock.data());
         u_char padding = firstBlock[4];
@@ -120,12 +127,12 @@ void SSH2InBuffer::parseData()
 
         // TODO: die gracefully
         if (length < 0) {
-            qDebug() << "something is wrong";
+            qDebug("something is wrong");
             emit error("SSH2InBuffer: negative packet length");
             return;
         }
         if (length > m_in.size()) {
-            qDebug() << "packet not complete";
+            qDebug("packet not complete");
             return;
         }
 
@@ -143,8 +150,9 @@ void SSH2InBuffer::parseData()
             put_u32(tmp.data(), m_sequenceNumber);
             QByteArray cMac = m_transport->mac(tmp + target);
             QByteArray sMac = m_in.mid(length + 4, macLen);
+            // FIXME: failure handler
             if (cMac != sMac)
-                qDebug() << "mac does not match";
+                qDebug("mac does not match");
         }
 
         m_out = target.mid(5, length - padding - 1);
@@ -196,17 +204,17 @@ void SSH2InBuffer::getBN(BIGNUM * value)
     QByteArray buf = getString();
 
     if (buf.size() > 0 && (buf[0] & 0x80)) {
-        qDebug() << "getBN: negative numbers not supported";
+        qDebug("getBN: negative numbers not supported");
         return;
     }
 
     if (buf.size() > 8 * 1024) {
-        qDebug() << "getBN: cannot handle BN of size" << buf.size();
+        qDebug("getBN: cannot handle BN of size: %d", buf.size());
         return;
     }
 
     if (BN_bin2bn((const unsigned char *) buf.data(), buf.size(), value) == NULL) {
-        qDebug() << ("getBN: BN_bin2bn failed");
+        qDebug("getBN: BN_bin2bn failed");
         return;
     }
 }
@@ -214,10 +222,12 @@ void SSH2InBuffer::getBN(BIGNUM * value)
 bool SSH2InBuffer::atEnd()
 {
     if (m_buf.bytesAvailable() > 0) {
-        qDebug() << "WARNING: extra data";
+        qDebug("WARNING: extra data");
         return false;
     }
+#ifdef SSH_DEBUG
     qDebug() << "At the end of the buffer";
+#endif
     return true;
 }
 
@@ -275,19 +285,21 @@ void SSH1InBuffer::getBN(BIGNUM * value)
     int bytes = (bits + 7) / 8;
     QByteArray buf = getData(bytes);
 
+#ifdef SSH_DEBUG
     qDebug() << "BN length: " << bytes;
+#endif
 //  if ( buf.size() > 0 && ( buf[0] & 0x80 ) ) {
 //   qDebug() << "getBN: negative numbers not supported";
 //   return;
 //  }
 
     if (buf.size() > 8 * 1024) {
-        qDebug() << "getBN: cannot handle BN of size" << buf.size();
+        qDebug("getBN: cannot handle BN of size: %d", buf.size());
         return;
     }
 
     if (BN_bin2bn((const unsigned char *) buf.data(), buf.size(), value) == NULL) {
-        qDebug() << ("getBN: BN_bin2bn failed");
+        qDebug("getBN: BN_bin2bn failed");
         return;
     }
 }
@@ -295,10 +307,12 @@ void SSH1InBuffer::getBN(BIGNUM * value)
 bool SSH1InBuffer::atEnd()
 {
     if (m_buf.bytesAvailable() > 0) {
-        qDebug() << "WARNING: extra data";
+        qDebug("WARNING: extra data");
         return false;
     }
+#ifdef SSH_DEBUG
     qDebug() << "At the end of the buffer";
+#endif
     return true;
 }
 
@@ -331,10 +345,12 @@ void SSH1InBuffer::parseData()
         int length = get_u32(m_in.data());
         int totalLen = (length + 8) & ~7;
         int padding = totalLen - length;
+#ifdef SSH_DEBUG
         qDebug() << "length: " << length << "total length: " << totalLen << "padding: " << padding;
+#endif
 
         if (totalLen > m_in.size()) {
-            qDebug() << "packet not complete";
+            qDebug("packet not complete");
             return;
         }
 
@@ -348,13 +364,15 @@ void SSH1InBuffer::parseData()
         // the Padding, Packet type, and Data fields
         u_int32_t mycrc = ssh_crc32((unsigned char *) plain.left(totalLen - 4).data(), totalLen - 4);
         m_out = plain.mid(padding, length - 4);
+#ifdef SSH_DEBUG
         qDebug() << "Decrypted data";
+#endif
 //  dumpData ( m_out );
 //  dumpData ( m_in.mid ( totalLen, 4 ) );
         u_int32_t gotcrc = get_u32(plain.mid(totalLen - 4, 4));
         if (gotcrc != mycrc)
             // TODO: die gracefully
-            qDebug() << "crc32 check error!";
+            qDebug("crc32 check error!");
         m_buf.reset();
         int flag = m_out[0];
         m_in.remove(0, totalLen + 4);
@@ -425,12 +443,12 @@ void SSH2OutBuffer::putBN(const BIGNUM * value)
     }
 
     if (value->neg) {
-        qDebug() << "putBN: negative numbers not supported";
+        qDebug("putBN: negative numbers not supported");
         return;
     }
     bytes = BN_num_bytes(value) + 1; /* extra padding byte */
     if (bytes < 2) {
-        qDebug() << "putBN: BN too small";
+        qDebug("putBN: BN too small");
         return;
     }
     QByteArray buf(bytes - 1, 0);
@@ -439,8 +457,7 @@ void SSH2OutBuffer::putBN(const BIGNUM * value)
     oi = BN_bn2bin(value, (unsigned char *) buf.data());
     buf.insert(0, (char) 0);
     if (oi < 0 || (u_int) oi != bytes - 1) {
-        qDebug() << "buffer_put_bignum2_ret: BN_bn2bin() failed: "
-        "oi != bin_size";
+        qDebug("buffer_put_bignum2_ret: BN_bn2bin() failed: oi != bin_size");
         return;
     }
     hasnohigh = (buf[1] & 0x80) ? 0 : 1;
@@ -456,13 +473,17 @@ void SSH2OutBuffer::sendPacket()
     else
         blockSize = 8;
     int len = m_in.size();
+#ifdef SSH_DEBUG
     qDebug() << "len: " << len;
+#endif
     int totalLen;
     QByteArray tmp(4, 0);
     u_char padding = blockSize - ((len + 5) % blockSize);
     if (padding < 4)
         padding += blockSize;
+#ifdef SSH_DEBUG
     qDebug() << "padding: " << padding << " bytes";
+#endif
     // TODO: random padding
     QByteArray plain = m_in.leftJustified(len + padding, 0);
     totalLen = plain.size() + 1;
@@ -482,7 +503,7 @@ void SSH2OutBuffer::sendPacket()
     qint64 nwrite = m_socket->writeBlock(packet);
     m_sequenceNumber++;
     if (nwrite < packet.size())
-        qDebug() << "packet write too small";
+        qDebug("packet write too small");
 }
 
 QByteArray & SSH2OutBuffer::buffer()
@@ -551,7 +572,7 @@ void SSH1OutBuffer::putBN(const BIGNUM * value)
     /* Get the value of in binary */
     oi = BN_bn2bin(value, (u_char*) buf.data());
     if (oi != bin_size) {
-        qDebug() << "BN_bn2bin() failed";
+        qDebug("BN_bn2bin() failed");
         return;
     }
 
@@ -566,7 +587,9 @@ void SSH1OutBuffer::sendPacket()
 {
     int len = m_in.size() + 4; // CRC32
     int padding = 8 - (len % 8);
+#ifdef SSH_DEBUG
     qDebug() << len << padding;
+#endif
     QByteArray tmp(padding, 0);
     if (m_encryption != NULL)
         RAND_bytes((unsigned char *) tmp.data(), padding);
@@ -590,7 +613,7 @@ void SSH1OutBuffer::sendPacket()
 //  m_socket->flush();
 
     if (nwrite < packet.size())
-        qDebug() << "packet write too small";
+        qDebug("packet write too small");
 }
 
 QByteArray & SSH1OutBuffer::buffer()

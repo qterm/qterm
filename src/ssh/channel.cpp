@@ -13,9 +13,12 @@
 #include "packet.h"
 #include "ssh1.h"
 #include "ssh2.h"
-#include <QtDebug>
 
+#ifdef SSH_DEBUG
+#include <QtDebug>
 extern void dumpData(const QByteArray & data);
+#endif
+
 namespace QTerm
 {
 
@@ -43,7 +46,7 @@ void SSH2Channel::channelPacketReceived(int flag)
         break;
     case SSH2_MSG_CHANNEL_OPEN_FAILURE:
         // TODO: handle failure
-        qDebug() << "open channel failed";
+        qDebug("open channel failed");
         break;
     case SSH2_MSG_CHANNEL_WINDOW_ADJUST:
         remoteWindowAdjusted();
@@ -52,20 +55,26 @@ void SSH2Channel::channelPacketReceived(int flag)
         receiveData();
         break;
     case SSH2_MSG_CHANNEL_EOF:
-        qDebug() << "channel eof";
+#ifdef SSH_DEBUG
+        qDebug("channel eof");
+#endif
         break;
     case SSH2_MSG_CHANNEL_CLOSE:
-        qDebug() << "channel closed";
+#ifdef SSH_DEBUG
+        qDebug("channel closed");
+#endif
         break;
     case SSH2_MSG_CHANNEL_REQUEST:
-        qDebug() << "channel request";
         m_in->getUInt8();
+#ifdef SSH_DEBUG
+        qDebug() << "channel request";
         qDebug() << "recipient channel " << m_in->getUInt32();
         qDebug() << "request string " << m_in->getString();
         qDebug() << "want reply " << m_in->getUInt8();
+#endif
         break;
     default:
-        qDebug() << "unknown packet: " << flag;
+        qDebug("unknown packet: %d", flag);
         break;
     }
 }
@@ -75,13 +84,17 @@ void SSH2Channel::receiveData()
     m_in->getUInt8();
     Channel * target = m_channelList.at(m_in->getUInt32());
     QByteArray data = m_in->getString();
+#ifdef SSH_DEBUG
     qDebug() << "===remote ID " << target->remoteID << target->remoteWindow;
+#endif
     // TODO: wait for window adjust?
-    if (target->localWindow < data.size())
-        qDebug() << "local window size is too small";
-    else
+    if (target->localWindow >= data.size())
         target->localWindow -= data.size();
+    else
+        qDebug("local window size is too small");
+#ifdef SSH_DEBUG
     qDebug() << "local window size" << target->localWindow;
+#endif
     // qDebug() << data;
     target->data += data;
     if (target->localWindow < 2*target->localPacketSize) {
@@ -94,7 +107,7 @@ void SSH2Channel::receiveData()
 void SSH2Channel::writeData(int id, const QByteArray & data)
 {
     if (m_channelList.at(id)->remoteWindow < data.size()) {
-        qDebug() << "remote window too small";
+        qDebug("remote window too small");
         return;
     }
     m_channelList.at(id)->remoteWindow -= data.size();
@@ -112,7 +125,9 @@ void SSH2Channel::channelOpened()
     target->remoteWindow = m_in->getUInt32();
     target->remotePacketSize = m_in->getUInt32();
     m_in->atEnd();
+#ifdef SSH_DEBUG
     qDebug() << "ID: " << target->localID << target->remoteID << "windows size: " << target->localWindow << target->remoteWindow << "packet size: " << target->localPacketSize << target->remotePacketSize;
+#endif
     requestPty(target->localID);
 }
 
@@ -129,13 +144,17 @@ void SSH2Channel::remoteWindowAdjusted()
     m_in->getUInt8();
     uint id = m_in->getUInt32();
     m_channelList.at(id)->remoteWindow += m_in->getUInt32();
+#ifdef SSH_DEBUG
     qDebug() << "remote window: " << m_channelList.at(id)->remoteWindow;
+#endif
 }
 
 void SSH2Channel::requestPty(uint id)
 {
     // TODO: Env
+#ifdef SSH_DEBUG
     qDebug() << "request PTY";
+#endif
     m_out->startPacket(SSH2_MSG_CHANNEL_REQUEST);
     m_out->putUInt32(id);
     m_out->putString("pty-req");
@@ -149,7 +168,9 @@ void SSH2Channel::requestPty(uint id)
     m_out->putUInt32(0);
     m_out->putString("");
     m_out->sendPacket();
+#ifdef SSH_DEBUG
     qDebug() << "start shell";
+#endif
     m_out->startPacket(SSH2_MSG_CHANNEL_REQUEST);
     m_out->putUInt32(id);
     m_out->putString("shell");
@@ -213,7 +234,9 @@ void SSH1Channel::requestPty()
     m_out->putUInt32(0);
     m_out->putUInt8(0);
     m_out->sendPacket();
+#ifdef SSH_DEBUG
     qDebug() << "Request pty";
+#endif
     m_out->startPacket(SSH_CMSG_EXEC_SHELL);
     m_out->sendPacket();
 }
@@ -250,21 +273,23 @@ void SSH1Channel::channelPacketReceived(int flag)
     switch (flag) {
     case SSH_SMSG_SUCCESS:
         if (m_status == RequestPty) {
+#ifdef SSH_DEBUG
             qDebug() << "Pty request succeed";
+#endif
             m_status = Interactive;
         }
         break;
     case SSH_SMSG_FAILURE:
         if (m_status == RequestPty)
-            qDebug() << "Pty request failed";
+            qDebug("Pty request failed");
         break;
     case SSH_SMSG_STDOUT_DATA:
     case SSH_SMSG_STDERR_DATA:
-        qDebug() << "server data available";
+        qDebug("stderr data available");
         receiveData();
         break;
     default:
-        qDebug() << "unknown packet: " << flag;
+        qDebug("unknown packet: %d", flag);
         break;
     }
 }

@@ -19,9 +19,12 @@
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtGui/QInputDialog>
-#include <QtDebug>
 
+#ifdef SSH_DEBUG
+#include <QtDebug>
 extern void dumpData(const QByteArray & data);
+#endif
+
 namespace QTerm
 {
 
@@ -40,7 +43,9 @@ SSH2Auth::~SSH2Auth()
 
 void SSH2Auth::authPacketReceived(int flag)
 {
+#ifdef SSH_DEBUG
     qDebug() << "flag " << flag;
+#endif
     // TODO: BANNER
     switch (flag) {
     case SSH2_MSG_SERVICE_ACCEPT:
@@ -49,7 +54,9 @@ void SSH2Auth::authPacketReceived(int flag)
     case SSH2_MSG_USERAUTH_FAILURE:
         m_in->getUInt8();//flag
         m_method = m_in->getString();
+#ifdef SSH_DEBUG
         qDebug() << "method: " << m_method << "flag " << m_in->getUInt8();
+#endif
         failureHandler();
         break;
         // TODO: handle the conflict:
@@ -61,23 +68,33 @@ void SSH2Auth::authPacketReceived(int flag)
         switch (m_authMethod) {
         case PublicKey:
             // TODO: discard the remaining data
+#ifdef SSH_DEBUG
             qDebug() << "PublicKey: get pk ok message";
+#endif
             generateSign();
             break;
         case Keyboard:
+#ifdef SSH_DEBUG
             qDebug() << "Keyboard Interactive: request input";
+#endif
             requestInput();
             break;
         case Password:
+#ifdef SSH_DEBUG
             qDebug() << "Password: todo ;)";
+#endif
             break;
         default:
+#ifdef SSH_DEBUG
             qDebug() << "Unknown auth method";
+#endif
             break;
         }
         break;
     case SSH2_MSG_USERAUTH_SUCCESS:
+#ifdef SSH_DEBUG
         qDebug() << "====== success! ======";
+#endif
         emit authFinished();
     default:
         break;
@@ -126,7 +143,9 @@ void SSH2Auth::noneAuth()
     m_authMethod = None;
     m_username = QInputDialog::getText(0, "QTerm", "Username: ", QLineEdit::Normal, "", &ok);
     if (!ok) {
+#ifdef SSH_DEBUG
         qDebug() << "User canceled!";
+#endif
         emit error("User canceled");
         return;
     }
@@ -142,7 +161,9 @@ void SSH2Auth::passwordAuth()
     m_authMethod = Password;
     QString password = QInputDialog::getText(0, "Password", "Password: ", QLineEdit::Password, "", &ok);
     if (!ok) {
+#ifdef SSH_DEBUG
         qDebug() << "User canceled!";
+#endif
         emit error("User canceled");
         return;
     }
@@ -169,7 +190,9 @@ void SSH2Auth::keyboardAuth()
 
 void SSH2Auth::publicKeyAuth()
 {
+#ifdef SSH_DEBUG
     qDebug() << "Start Public Key Auth";
+#endif
     m_authMethod = PublicKey;
     m_out->startPacket(SSH2_MSG_USERAUTH_REQUEST);
     m_out->putString(m_username.toUtf8());
@@ -181,19 +204,25 @@ void SSH2Auth::publicKeyAuth()
     QFile file(QDir::homePath() + "/.ssh/id_dsa.pub");
     // TODO: Die
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Cannot open the public key file";
+        qDebug("Cannot open the public key file");
         failureHandler();
         return;
     }
     QList<QByteArray> pubKeyLine = file.readLine().split(' ');
+#ifdef SSH_DEBUG
     if (pubKeyLine[0] == "ssh-dss") {
         qDebug() << "Get dss key";
     }
+#endif
     m_publicKey = pubKeyLine[1];
+#ifdef SSH_DEBUG
     qDebug() << "Public Key: " << pubKeyLine[1];
+#endif
     m_out->putString(QByteArray::fromBase64(pubKeyLine[1]));
     m_out->sendPacket();
+#ifdef SSH_DEBUG
     qDebug() << "Public Key Sent";
+#endif
 }
 
 void SSH2Auth::generateSign()
@@ -207,13 +236,13 @@ void SSH2Auth::generateSign()
     QString passphrase = "";
     QString privateKeyFile = QDir::homePath() + "/.ssh/id_dsa";
     if (!QFile::exists(privateKeyFile)) {
-        qDebug() << "Cannot find the private key file";
+        qDebug("Cannot find the private key file");
         failureHandler();
         return;
     }
     fp = fopen(privateKeyFile.toUtf8().data(), "r");
     if (!fp) {
-        qDebug() << "Cannot open the private key file";
+        qDebug("Cannot open the private key file");
         failureHandler();
         return;
     }
@@ -224,12 +253,16 @@ void SSH2Auth::generateSign()
     dsa = PEM_read_DSAPrivateKey(fp, NULL, NULL, passphrase.toUtf8().data());
     if (!dsa) {
         fclose(fp);
+#ifdef SSH_DEBUG
         qDebug() << "Cannot read the private key file";
+#endif
         failureHandler();
         return;
     }
     fclose(fp);
+#ifdef SSH_DEBUG
     qDebug() << "Private key read ok";
+#endif
     // TODO: ugly
     SSH2OutBuffer tmp(0);
     tmp.startPacket();
@@ -262,14 +295,22 @@ void SSH2Auth::requestInput()
 {
     m_in->getUInt8(); //flag
     QString name = QString::fromUtf8(m_in->getString());
+#ifdef SSH_DEBUG
     qDebug() << "name: " << name;
+#endif
     QString instruction = QString::fromUtf8(m_in->getString());
+#ifdef SSH_DEBUG
     qDebug() << "instruction: " << instruction;
+#endif
     QByteArray langTag = m_in->getString();
+#ifdef SSH_DEBUG
     if (!langTag.isEmpty())
         qDebug() << "langTag is not empty, ignore it";
+#endif
     uint numPrompts = m_in->getUInt32();
+#ifdef SSH_DEBUG
     qDebug() << "number of prompts: " << numPrompts;
+#endif
     QList<QString> answerList;
     bool ok;
     for (int i = 0; i < numPrompts; i++) {
@@ -280,7 +321,9 @@ void SSH2Auth::requestInput()
         else
             answer = QInputDialog::getText(0, name, prompt, QLineEdit::Password, "", &ok);
         if (!ok) {
+#ifdef SSH_DEBUG
             qDebug() << "User canceled!";
+#endif
             emit error("User canceled!");
             return;
         }
@@ -289,7 +332,9 @@ void SSH2Auth::requestInput()
 
     m_out->startPacket(SSH2_MSG_USERAUTH_INFO_RESPONSE);
     m_out->putUInt32(answerList.size());
+#ifdef SSH_DEBUG
     qDebug() << "number of answers: " << answerList.size();
+#endif
     foreach(QString answer, answerList)
     m_out->putString(answer.toUtf8());
     m_out->sendPacket();
@@ -317,23 +362,30 @@ void SSH1Auth::requestAuthService()
 
 void SSH1Auth::authPacketReceived(int flag)
 {
+#ifdef SSH_DEBUG
     qDebug() << "flag " << flag;
+#endif
     // TODO: BANNER
     switch (flag) {
     case SSH_SMSG_SUCCESS:
         if (m_phase == UserName)
-            qDebug() << "No auth needed";
+            qDebug("No auth needed");
+#ifdef SSH_DEBUG
         else
-            qDebug() << "passwordAuth succeed";
+            qDebug("passwordAuth succeed");
+#endif
         emit authFinished();
         break;
     case SSH_SMSG_FAILURE:
         if (m_phase == UserName) {
-            qDebug() << "Prepare to auth";
+#ifdef SSH_DEBUG
+            qDebug("Prepare to auth");
+#endif
             passwordAuth();
             m_phase = PassWord;
-        } else
-            qDebug() << "Wrong password?";
+        }
+        else
+            qDebug("Wrong password?");
         break;
     default:
         break;

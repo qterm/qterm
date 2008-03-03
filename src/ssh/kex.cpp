@@ -19,12 +19,15 @@
 #include <openssl/dsa.h>
 #include <openssl/rsa.h>
 #include <QtCore/QCryptographicHash>
+
+#ifdef SSH_DEBUG
 #include <QtDebug>
+extern void dumpData(const QByteArray & data);
+#endif
 
 #define INTBLOB_LEN     20
 #define SSH_CIPHER_3DES    3
 
-extern void dumpData(const QByteArray & data);
 namespace QTerm
 {
 
@@ -73,7 +76,9 @@ QString SSH2Kex::chooseAlgorithm(const QStringList & target, const QStringList &
             return algorithm;
         }
     }
+#ifdef SSH_DEBUG
     qDebug() << "no algorithm available!";
+#endif
     emit error("No proper algorithm available!");
     return QString();
 }
@@ -126,7 +131,9 @@ void SSH2Kex::sendKexDH(const QString & dhtype)
 
 void SSH2Kex::DHGroup1()
 {
+#ifdef SSH_DEBUG
     qDebug() << "diffie-hellman-group1-sha1";
+#endif
     unsigned char p_value[128] = {
                                      0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
                                      0xC9, 0x0F, 0xDA, 0xA2, 0x21, 0x68, 0xC2, 0x34,
@@ -152,7 +159,9 @@ void SSH2Kex::DHGroup1()
 
 void SSH2Kex::DHGroup14()
 {
+#ifdef SSH_DEBUG
     qDebug() << "diffie-hellman-group14-sha1";
+#endif
     unsigned char p_value[256] = {
                                      0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
                                      0xC9, 0x0F, 0xDA, 0xA2, 0x21, 0x68, 0xC2, 0x34,
@@ -276,7 +285,7 @@ void SSH2Kex::readKexReply()
     QByteArray key = QCryptographicHash::hash(tmp.buffer(), QCryptographicHash::Sha1);
 
     if (!verifySignature(key, K_S, sign)) {
-        qDebug() << "Signature check error";
+        qDebug("Signature check error");
         emit error("Signature check error!");
         return;
     }
@@ -301,14 +310,18 @@ void SSH2Kex::initTransport(const QByteArray & hash)
     QByteArray iv = deriveKey(hash, m_sessionID, 'A', m_outTrans->ivLen());
     QByteArray secret = deriveKey(hash, m_sessionID, 'C', m_outTrans->secretLen());
     QByteArray key = deriveKey(hash, m_sessionID, 'E', m_outTrans->keyLen());
+#ifdef SSH_DEBUG
     // dumpData ( key );
+#endif
     m_outTrans->initEncryption(secret, iv, SSH2Encryption::Encryption);
     m_outTrans->initMAC(key);
     //server to client
     iv = deriveKey(hash, m_sessionID, 'B', m_inTrans->ivLen());
     secret = deriveKey(hash, m_sessionID, 'D', m_inTrans->secretLen());
     key = deriveKey(hash, m_sessionID, 'F', m_inTrans->keyLen());
+#ifdef SSH_DEBUG
     // dumpData ( key );
+#endif
     m_inTrans->initEncryption(secret, iv, SSH2Encryption::Decryption);
     m_inTrans->initMAC(key);
 }
@@ -319,10 +332,14 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
     SSH2InBuffer tmp(NULL);
     tmp.buffer().append(hostKey);
     QByteArray type = tmp.getString();
+#ifdef SSH_DEBUG
     qDebug() << "key type: " << type;
+#endif
 
     if (type == "ssh-dss") {
+#ifdef SSH_DEBUG
         qDebug() << "generate DSA key";
+#endif
         DSA *dsa = DSA_new();
         dsa->p = BN_new();
         dsa->q = BN_new();
@@ -338,10 +355,14 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
         type.resize(0);
         type = tmp.getString();
         QByteArray signBlob = tmp.getString();
+#ifdef SSH_DEBUG
         //dumpData ( signBlob );
+#endif
 
         if (type == "ssh-dss") {
+#ifdef SSH_DEBUG
             qDebug() << "generate DSA signature";
+#endif
             DSA_SIG * sig;
             sig = DSA_SIG_new();
             sig->r = BN_new();
@@ -365,9 +386,9 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
     if (ret == 1)
         return true;
     else if (ret == 0)
-        qDebug() << "incorrect";
+        qDebug("incorrect");
     else
-        qDebug() << "error: " << ret;
+        qDebug("error: %d", ret);
 
     return false;
 }
@@ -408,7 +429,9 @@ SSH1Kex::~SSH1Kex()
 
 void SSH1Kex::kexPacketReceived(int flag)
 {
+#ifdef SSH_DEBUG
     qDebug() << "flag: " << flag;
+#endif
     switch (flag) {
     case SSH_SMSG_PUBLIC_KEY:
         readKex();
@@ -420,10 +443,10 @@ void SSH1Kex::kexPacketReceived(int flag)
         emit kexFinished();
         break;
     default: {
-        qDebug() << "unknown packet";
         m_in->getUInt8();
         QString error = m_in->getString();
-        qDebug() << "error: " << error;
+        qDebug("unknown packet");
+        qDebug("error: %s",error.toLatin1().data());
         break;
     }
     }
@@ -434,7 +457,9 @@ void SSH1Kex::readKex()
     m_in->getUInt8();
     m_cookie = m_in->getData(8);
     int serverKeyLength = m_in->getUInt32();
+#ifdef SSH_DEBUG
     qDebug() << "length" << serverKeyLength;
+#endif
 
     RSA * serverKey = RSA_new();
     serverKey->e = BN_new();
@@ -446,7 +471,9 @@ void SSH1Kex::readKex()
     // TODO: rbits = BN_num_bits(d_servKey->d_rsa->n);
 
     int hostKeyLength = m_in->getUInt32();
+#ifdef SSH_DEBUG
     qDebug() << "length" << hostKeyLength;
+#endif
     RSA * hostKey = RSA_new();
     hostKey->e = BN_new();
     hostKey->n = BN_new();
@@ -455,12 +482,16 @@ void SSH1Kex::readKex()
     QByteArray host_n(BN_num_bytes(hostKey->n), 0);
     BN_bn2bin(hostKey->n, (unsigned char *) host_n.data());
     m_sessionID = QCryptographicHash::hash(host_n + server_n + m_cookie, QCryptographicHash::Md5);
+#ifdef SSH_DEBUG
     dumpData(m_sessionID);
+#endif
 
     m_sessionKey.resize(32);
     RAND_bytes((unsigned char *) m_sessionKey.data(), 32);
     initEncryption(m_sessionKey);
+#ifdef SSH_DEBUG
     dumpData(m_sessionKey);
+#endif
 
     BIGNUM * key = BN_new();
     BN_set_word(key, 0);
@@ -483,7 +514,7 @@ void SSH1Kex::readKex()
     uint serverCiphers = m_in->getUInt32();
     uint serverAuth = m_in->getUInt32();
     if ((serverCiphers & (1 << SSH_CIPHER_3DES)) != 0)
-        qDebug() << "We can use 3DES";
+        qDebug("We can use 3DES");
 //  qDebug() << serverFlag << serverCiphers << serverAuth;
     m_in->atEnd();
     m_out->startPacket(SSH_CMSG_SESSION_KEY);
@@ -503,7 +534,7 @@ void SSH1Kex::publicEncrypt(BIGNUM *out, BIGNUM *in, RSA *key)
     int len, ilen, olen;
 
     if (BN_num_bits(key->e) < 2 || !BN_is_odd(key->e))
-        qDebug() << "rsa_public_encrypt() exponent too small or not odd";
+        qDebug("rsa_public_encrypt() exponent too small or not odd");
 
     olen = BN_num_bytes(key->n);
     outbuf.resize(olen);
@@ -512,13 +543,13 @@ void SSH1Kex::publicEncrypt(BIGNUM *out, BIGNUM *in, RSA *key)
     inbuf.resize(ilen);
     BN_bn2bin(in, (unsigned char *) inbuf.data());
 
+    // FIXME: failure handler
     if ((len = RSA_public_encrypt(ilen, (unsigned char *) inbuf.data(), (unsigned char *) outbuf.data(), key,
                                   RSA_PKCS1_PADDING)) <= 0)
-        qDebug() << "rsa_public_encrypt() failed";
+        qDebug("rsa_public_encrypt() failed");
 
     if (BN_bin2bn((unsigned char *) outbuf.data(), len, out) == NULL)
-        qDebug() << "rsa_public_encrypt: BN_bin2bn failed";
-
+        qDebug("rsa_public_encrypt: BN_bin2bn failed");
 }
 
 void SSH1Kex::initEncryption(const QByteArray & key)

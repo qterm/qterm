@@ -10,9 +10,13 @@
 //
 //
 #include "transport.h"
-#include <QtDebug>
+#include <QtCore/QString>
 
+#ifdef SSH_DEBUG
+#include <QtDebug>
 extern void dumpData(const QByteArray & data);
+#endif
+
 namespace QTerm
 {
 
@@ -92,20 +96,20 @@ SSH2Encryption::~SSH2Encryption()
 void SSH2Encryption::init(const QByteArray & key, const QByteArray & iv, Method method)
 {
     if (EVP_CipherInit(m_ctx, m_evptype, (const u_char*) key.data(), (const u_char*) iv.data(), method == Encryption) == 0)
-        qDebug() << "Cipher init failed";
+        qDebug("Cipher init failed");
 }
 
 QByteArray SSH2Encryption::crypt(const QByteArray & src)
 {
     QByteArray dest;
     if (src.size() % m_blockSize) {
-        qDebug() << "SSH2Encryption: bad plaintext length " << src.size();
+        qDebug("SSH2Encryption: bad plaintext length %d", src.size());
         return dest;
     }
     dest.resize(src.size());
 
     if (EVP_Cipher(m_ctx, (u_char*) dest.data(), (const u_char *) src.data(), src.size()) == 0)
-        qDebug() << "SSH2Encryption: EVP_Cipher failed";
+        qDebug("SSH2Encryption: EVP_Cipher failed");
 
     return dest;
 }
@@ -167,15 +171,19 @@ QByteArray SSH1Encryption::crypt(const QByteArray & src)
 {
     QByteArray dest;
     if (src.size() % 8)
-        qDebug() << "============Bad data len: " << src.size();
+        qDebug("============Bad data len: %d", src.size());
     dest.resize(src.size());
     if (m_method == Encryption) {
+#ifdef SSH_DEBUG
         qDebug() << "Encryption";
+#endif
         DES_ncbc_encrypt((u_char *)src.data(), (u_char *)dest.data(), dest.size(), &m_key1, &m_IV1, DES_ENCRYPT);
         DES_ncbc_encrypt((u_char *)dest.data(), (u_char *)dest.data(), dest.size(), &m_key2, &m_IV2, DES_DECRYPT);
         DES_ncbc_encrypt((u_char *)dest.data(), (u_char *)dest.data(), dest.size(), &m_key3, &m_IV3, DES_ENCRYPT);
     } else {
+#ifdef SSH_DEBUG
         qDebug() << "Decryption";
+#endif
         DES_ncbc_encrypt((u_char *)src.data(), (u_char *)dest.data(), dest.size(), &m_key3, &m_IV3, DES_DECRYPT);
         DES_ncbc_encrypt((u_char *)dest.data(), (u_char *)dest.data(), dest.size(), &m_key2, &m_IV2, DES_ENCRYPT);
         DES_ncbc_encrypt((u_char *)dest.data(), (u_char *)dest.data(), dest.size(), &m_key1, &m_IV1, DES_DECRYPT);
