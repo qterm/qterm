@@ -11,20 +11,20 @@
 //
 
 #include "kex.h"
-#include <QCryptographicHash>
-#include <QtDebug>
 #include "packet.h"
 #include "transport.h"
-#include "ssh2.h"
 #include "ssh1.h"
+#include "ssh2.h"
 #include <openssl/rand.h>
 #include <openssl/dsa.h>
 #include <openssl/rsa.h>
+#include <QtCore/QCryptographicHash>
+#include <QtDebug>
 
 #define INTBLOB_LEN     20
 #define SSH_CIPHER_3DES    3
-extern void dumpData(const QByteArray & data);
 
+extern void dumpData(const QByteArray & data);
 namespace QTerm
 {
 

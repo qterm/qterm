@@ -12,8 +12,9 @@
 #ifndef SSH_AUTH_H
 #define SSH_AUTH_H
 
-#include <QObject>
-#include <QString>
+#include <QtCore/QObject>
+#include <QtCore/QString>
+
 namespace QTerm
 {
 class SSH2InBuffer;

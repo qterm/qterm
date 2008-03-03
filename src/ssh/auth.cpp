@@ -11,16 +11,16 @@
 //
 #include "auth.h"
 #include "packet.h"
-#include "ssh2.h"
 #include "ssh1.h"
-#include <stdio.h>
+#include "ssh2.h"
 #include <openssl/pem.h>
 #include <openssl/evp.h>
-#include <QCryptographicHash>
-#include <QInputDialog>
-#include <QDir>
-#include <QFile>
+#include <QtCore/QCryptographicHash>
+#include <QtCore/QDir>
+#include <QtCore/QFile>
+#include <QtGui/QInputDialog>
 #include <QtDebug>
+
 extern void dumpData(const QByteArray & data);
 namespace QTerm
 {
@@ -136,7 +136,6 @@ void SSH2Auth::noneAuth()
     m_out->putString("none");
     m_out->sendPacket();
 }
-
 void SSH2Auth::passwordAuth()
 {
     bool ok;

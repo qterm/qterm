@@ -12,8 +12,8 @@
 
 #include "packet.h"
 #include "crc32.h"
-#include <QtDebug>
 #include <openssl/rand.h>
+#include <QtDebug>
 
 u_int32_t get_u32(const void * vp)
 {

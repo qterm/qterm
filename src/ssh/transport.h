@@ -11,12 +11,13 @@
 //
 #ifndef SSH_TRANSPORT_H
 #define SSH_TRANSPORT_H
-#include <QByteArray>
+
 
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
 // TODO: change to EVP?
 #include <openssl/des.h>
+#include <QtCore/QByteArray>
 
 namespace QTerm
 {

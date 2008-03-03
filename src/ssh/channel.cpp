@@ -11,9 +11,10 @@
 //
 #include "channel.h"
 #include "packet.h"
-#include "ssh2.h"
 #include "ssh1.h"
+#include "ssh2.h"
 #include <QtDebug>
+
 extern void dumpData(const QByteArray & data);
 namespace QTerm
 {

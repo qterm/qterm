@@ -12,8 +12,8 @@
 #ifndef SSH_SOCKET_H
 #define SSH_SOCKET_H
 
-#include <QObject>
 #include "qtermsocket.h"
+#include <QtCore/QObject>
 
 namespace QTerm
 {

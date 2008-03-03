@@ -15,12 +15,13 @@
 #include "kex.h"
 #include "auth.h"
 #include "channel.h"
+#include "ssh1.h"
 #include "ssh2.h"
 #include "qtermsocket.h"
-#include <QtDebug>
-#include <QStringList>
-
 #include <openssl/bn.h>
+#include <QtCore/QStringList>
+#include <QtDebug>
+
 // FIXME: smth have some problem with \r\n
 #define QTERM_SSHV1_BANNER "SSH-1.5-QTermSSH\n"
 #define QTERM_SSHV2_BANNER "SSH-2.0-QTermSSH\r\n"

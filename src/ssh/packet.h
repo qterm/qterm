@@ -12,13 +12,12 @@
 #ifndef SSH_PACKET_H
 #define SSH_PACKET_H
 
-#include <QObject>
-#include <QByteArray>
-#include <QBuffer>
-
-#include <openssl/bn.h>
 #include "transport.h"
 #include "qtermsocket.h"
+#include <openssl/bn.h>
+#include <QtCore/QObject>
+#include <QtCore/QByteArray>
+#include <QtCore/QBuffer>
 
 namespace QTerm
 {

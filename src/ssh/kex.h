@@ -12,11 +12,9 @@
 #ifndef SSH_KEX_H
 #define SSH_KEX_H
 
-#include <QObject>
-#include <QStringList>
-
 #include <openssl/bn.h>
-
+#include <QtCore/QObject>
+#include <QtCore/QStringList>
 
 namespace QTerm
 {

@@ -12,7 +12,7 @@
 #ifndef SSH_CHANNEL_H
 #define SSH_CHANNEL_H
 
-#include <QObject>
+#include <QtCore/QObject>
 
 namespace QTerm
 {
