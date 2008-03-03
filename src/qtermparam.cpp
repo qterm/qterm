@@ -49,8 +49,6 @@ Param::Param()
 	m_strProxyUser = "";
 	m_strProxyPasswd = "";
 	m_nProtocolType = 0; // 0--Telnet 1--SSH1 2--SSH2
-	m_strSSHUser = "";
-	m_strSSHPasswd = "";
 // Misc
 	m_nMaxIdle = 180;
 	m_strReplyKey = "^Z";
@@ -105,8 +103,6 @@ Param::Param( const Param & param )
 	m_strProxyUser = param.m_strProxyUser;
 	m_strProxyPasswd = param.m_strProxyPasswd;
 	m_nProtocolType = param.m_nProtocolType; // 0--Telnet 1--SSH1 2--SSH2
-	m_strSSHUser = param.m_strSSHUser;
-	m_strSSHPasswd = param.m_strSSHPasswd;
 // Misc
 	m_nMaxIdle = param.m_nMaxIdle;
 	m_strReplyKey = param.m_strReplyKey;
@@ -165,8 +161,6 @@ Param& Param::operator=(const Param& param)
 	m_strProxyUser = param.m_strProxyUser;
 	m_strProxyPasswd = param.m_strProxyPasswd;
 	m_nProtocolType = param.m_nProtocolType; // 0--Telnet 1--SSH1 2--SSH2
-	m_strSSHUser = param.m_strSSHUser;
-	m_strSSHPasswd = param.m_strSSHPasswd;
 // Misc
 	m_nMaxIdle = param.m_nMaxIdle;
 	m_strReplyKey = param.m_strReplyKey;

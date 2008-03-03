@@ -263,31 +263,13 @@ void addrDialog::onSchema()
 
 void addrDialog::onProtocol(int n)
 {
-	if (n == 0)
-	{
-		ui.sshuserLineEdit->setEnabled(false);
-		ui.sshpasswdLineEdit->setEnabled(false);
-	}
-	else 
+#ifndef SSH_ENABLED
 	if (n == 1)
 	{
-#if defined(_NO_SSH_COMPILED)
 		QMessageBox::warning(this, "sorry", "SSH support is not compiled, check your OpenSSL and try to recompile QTerm");
-		ui.protocolComboBox->setCurrentItem(0);
-		ui.sshuserLineEdit->setEnabled(false);
-		ui.sshpasswdLineEdit->setEnabled(false);
-#else
-		ui.sshuserLineEdit->setEnabled(true);
-		ui.sshpasswdLineEdit->setEnabled(true);
-#endif
-	}
-	else if (n == 2)
-	{
-		QMessageBox::information(this, "sorry", "SSH support is not completed yet, We are trying to bring you this function soon :)");
 		ui.protocolComboBox->setCurrentIndex(0);
-		ui.sshuserLineEdit->setEnabled(false);
-		ui.sshpasswdLineEdit->setEnabled(false);
 	}
+#endif
 }
 
 void addrDialog::onChooseScript()
@@ -399,8 +381,6 @@ bool addrDialog::isChanged()
 		param.m_strProxyUser != ui.proxyuserLineEdit->text() ||
 		param.m_strProxyPasswd != ui.proxypasswdLineEdit->text() ||
 		param.m_nProtocolType != ui.protocolComboBox->currentIndex() ||
-		param.m_strSSHUser != ui.sshuserLineEdit->text() ||
-		param.m_strSSHPasswd != ui.sshpasswdLineEdit->text() ||
 		param.m_nMaxIdle != ui.idletimeLineEdit->text().toInt() ||
 		param.m_strAntiString != ui.antiLineEdit->text() ||
 		param.m_strReplyKey != ui.replykeyLineEdit->text() ||
@@ -453,8 +433,6 @@ void addrDialog::updateData(bool save)
 		param.m_strProxyUser = ui.proxyuserLineEdit->text();
 		param.m_strProxyPasswd = ui.proxypasswdLineEdit->text();
 		param.m_nProtocolType = ui.protocolComboBox->currentIndex();
-		param.m_strSSHUser = ui.sshuserLineEdit->text();
-		param.m_strSSHPasswd = ui.sshpasswdLineEdit->text();
 		param.m_nMaxIdle = ui.idletimeLineEdit->text().toInt();
 		param.m_strReplyKey = ui.replykeyLineEdit->text();
 		if(param.m_strReplyKey.isNull())
@@ -519,8 +497,6 @@ void addrDialog::updateData(bool save)
 		ui.proxypasswdLineEdit->setText(param.m_strProxyPasswd);
 		ui.protocolComboBox->setCurrentIndex(param.m_nProtocolType);
 		onProtocol(param.m_nProtocolType);
-		ui.sshuserLineEdit->setText(param.m_strSSHUser);
-		ui.sshpasswdLineEdit->setText(param.m_strSSHPasswd);
 		strTmp.setNum(param.m_nMaxIdle);
 		ui.idletimeLineEdit->setText(strTmp);
 		ui.replykeyLineEdit->setText(param.m_strReplyKey);

@@ -86,10 +86,6 @@ public:
 	QString m_strProxyPasswd;
 	// Protocol
 	int m_nProtocolType; // 0--Telnet 1--SSH1 2--SSH2
-	// User Name
-	QString m_strSSHUser;
-	// Password
-	QString m_strSSHPasswd;
 // Misc
 	// Max Idle Time %s
 	int m_nMaxIdle;
