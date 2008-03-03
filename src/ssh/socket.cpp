@@ -99,7 +99,7 @@ void SSH2SocketPriv::writeData(const QByteArray & data)
 
 unsigned long SSH2SocketPriv::bytesAvailable()
 {
-    m_channel->bytesAvailable(0);
+    return m_channel->bytesAvailable(0);
 }
 
 SSH1SocketPriv::SSH1SocketPriv(SocketPrivate * plainSocket, QByteArray & banner, QObject * parent)
@@ -151,7 +151,7 @@ void SSH1SocketPriv::writeData(const QByteArray & data)
 
 unsigned long SSH1SocketPriv::bytesAvailable()
 {
-    m_channel->bytesAvailable();
+    return m_channel->bytesAvailable();
 }
 
 SSHSocket::SSHSocket(QObject * parent)
