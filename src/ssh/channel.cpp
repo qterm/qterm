@@ -285,7 +285,9 @@ void SSH1Channel::channelPacketReceived(int flag)
         break;
     case SSH_SMSG_STDOUT_DATA:
     case SSH_SMSG_STDERR_DATA:
-        qDebug("stderr data available");
+#ifdef SSH_DEBUG
+        qDebug() << "new data available";
+#endif
         receiveData();
         break;
     default:
