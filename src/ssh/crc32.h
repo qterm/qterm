@@ -1,4 +1,4 @@
-/*	$OpenBSD: crc32.h,v 1.14 2003/02/12 21:39:50 markus Exp $	*/
+/* $OpenBSD: crc32.h,v 1.14 2003/02/12 21:39:50 markus Exp $ */
 
 /*
  * Copyright (c) 2003 Markus Friedl.  All rights reserved.
@@ -26,6 +26,6 @@
 
 #ifndef SSH_CRC32_H
 #define SSH_CRC32_H
-#include "types.h"
-u_int32_t	 ssh_crc32(const u_char *, u_int32_t);
+#include <stdlib.h>
+u_int32_t  ssh_crc32(const u_char *, u_int32_t);
 #endif

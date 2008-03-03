@@ -13,7 +13,7 @@ AUTHOR:		smartfish kafa
 #include <stdio.h>
 #include "qtermsocket.h"
 #ifndef _NO_SSH_COMPILED
-#include "ssh/qtermsshsocket.h"
+#include "ssh/socket.h"
 #endif
 // #include <q3cstring.h>
 
@@ -104,7 +104,7 @@ Telnet::Telnet( const QString & strTermType, int rows, int columns, bool isSSH, 
 	d_isSSH = isSSH;
 #ifndef _NO_SSH_COMPILED
 	if (d_isSSH)
-		socket = new SSHSocket(sshuser, sshpasswd);
+		socket = new SSHSocket();
 	else
 #endif
 		socket = new TelnetSocket();
