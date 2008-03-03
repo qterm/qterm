@@ -73,7 +73,7 @@ void dumpData(const QByteArray & data)
 
 namespace QTerm
 {
-SSH2InBuffer::SSH2InBuffer(QTermSocketPrivate * plainSocket, QObject * parent)
+SSH2InBuffer::SSH2InBuffer(SocketPrivate * plainSocket, QObject * parent)
         : QObject(parent), m_in(), m_out(), m_buf(this),
         m_sequenceNumber(0)
 {
@@ -236,7 +236,7 @@ QByteArray & SSH2InBuffer::buffer()
     return m_out;
 }
 
-SSH1InBuffer::SSH1InBuffer(QTermSocketPrivate * plainSocket, QObject * parent)
+SSH1InBuffer::SSH1InBuffer(SocketPrivate * plainSocket, QObject * parent)
         : QObject(parent), m_in(), m_out(), m_buf(this)
 {
     m_buf.setBuffer(&m_out);
@@ -380,7 +380,7 @@ void SSH1InBuffer::parseData()
     }
 }
 
-SSH2OutBuffer::SSH2OutBuffer(QTermSocketPrivate * plainSocket, QObject * parent)
+SSH2OutBuffer::SSH2OutBuffer(SocketPrivate * plainSocket, QObject * parent)
         : QObject(parent), m_in(), m_buf(this),
         m_sequenceNumber(0)
 {
@@ -511,7 +511,7 @@ QByteArray & SSH2OutBuffer::buffer()
     return m_in;
 }
 
-SSH1OutBuffer::SSH1OutBuffer(QTermSocketPrivate * plainSocket, QObject * parent)
+SSH1OutBuffer::SSH1OutBuffer(SocketPrivate * plainSocket, QObject * parent)
         : QObject(parent), m_in(), m_buf(this)
 {
     m_buf.setBuffer(&m_in);

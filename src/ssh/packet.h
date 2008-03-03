@@ -29,7 +29,7 @@ class SSH2InBuffer : public QObject
 {
     Q_OBJECT
 public:
-    explicit SSH2InBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
+    explicit SSH2InBuffer(SocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH2InBuffer();
     u_int32_t getUInt32();
     u_char getUInt8();
@@ -56,7 +56,7 @@ private:
     QByteArray m_in;
     QByteArray m_out;
     QBuffer m_buf;
-    QTermSocketPrivate * m_socket;
+    SocketPrivate * m_socket;
     SSH2Transport * m_transport;
     u_int32_t m_sequenceNumber;
 };
@@ -65,7 +65,7 @@ class SSH1InBuffer : public QObject
 {
     Q_OBJECT
 public:
-    explicit SSH1InBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
+    explicit SSH1InBuffer(SocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH1InBuffer();
     u_int32_t getUInt32();
     u_char getUInt8();
@@ -90,7 +90,7 @@ private:
     QByteArray m_in;
     QByteArray m_out;
     QBuffer m_buf;
-    QTermSocketPrivate * m_socket;
+    SocketPrivate * m_socket;
     SSH1Encryption * m_encryption;
 };
 
@@ -98,7 +98,7 @@ class SSH2OutBuffer : public QObject
 {
     Q_OBJECT
 public:
-    explicit SSH2OutBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
+    explicit SSH2OutBuffer(SocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH2OutBuffer();
     void startPacket();
     void startPacket(u_char flag);
@@ -119,7 +119,7 @@ public:
 private:
     QByteArray m_in;
     QBuffer m_buf;
-    QTermSocketPrivate * m_socket;
+    SocketPrivate * m_socket;
     SSH2Transport * m_transport;
     u_int32_t m_sequenceNumber;
 };
@@ -129,7 +129,7 @@ class SSH1OutBuffer : public QObject
 {
     Q_OBJECT
 public:
-    explicit SSH1OutBuffer(QTermSocketPrivate * plainSocket, QObject * parent = 0);
+    explicit SSH1OutBuffer(SocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH1OutBuffer();
     void startPacket();
     void startPacket(u_char flag);
@@ -150,7 +150,7 @@ public:
 private:
     QByteArray m_in;
     QBuffer m_buf;
-    QTermSocketPrivate * m_socket;
+    SocketPrivate * m_socket;
     SSH1Encryption * m_encryption;
 //  u_int32_t m_sequenceNumber;
 };

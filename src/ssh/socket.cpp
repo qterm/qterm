@@ -31,7 +31,7 @@
 
 namespace QTerm
 {
-SSH2SocketPriv::SSH2SocketPriv(QTermSocketPrivate * plainSocket, QByteArray & banner, QObject * parent)
+SSH2SocketPriv::SSH2SocketPriv(SocketPrivate * plainSocket, QByteArray & banner, QObject * parent)
         : SSHSocketPriv(parent), m_banner(banner), m_status(Init), m_sessionID(), m_channelList()
 {
     m_sessionID = NULL;
@@ -102,7 +102,7 @@ unsigned long SSH2SocketPriv::bytesAvailable()
     m_channel->bytesAvailable(0);
 }
 
-SSH1SocketPriv::SSH1SocketPriv(QTermSocketPrivate * plainSocket, QByteArray & banner, QObject * parent)
+SSH1SocketPriv::SSH1SocketPriv(SocketPrivate * plainSocket, QByteArray & banner, QObject * parent)
 {
 #ifdef SSH_DEBUG
     qDebug() << "init ssh1 session";
@@ -155,9 +155,9 @@ unsigned long SSH1SocketPriv::bytesAvailable()
 }
 
 SSHSocket::SSHSocket(QObject * parent)
-        : QTermSocket(parent), m_data()
+        : Socket(parent), m_data()
 {
-    m_socket = new QTermSocketPrivate(this);
+    m_socket = new SocketPrivate(this);
     m_version = SSHUnknown;
     connect(m_socket, SIGNAL(hostFound()), this, SIGNAL(hostFound()));
     connect(m_socket, SIGNAL(connected()), this, SIGNAL(connected()));
