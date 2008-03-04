@@ -214,14 +214,14 @@ int iniWorkingDir( QString param )
 	QFileInfo fi;
 #ifdef Q_OS_MACX
 	// $HOME/Library/QTerm/
-	QString pathHome=QDir::homeDirPath();
+	QString pathHome=QDir::homePath();
 	pathCfg = pathHome+"/Library/QTerm/";
 	if(checkPath(pathCfg)==-1)
 		return -1;
 
 	// get executive file path 
 	fi.setFile(param);
-	pathLib=fi.dirPath()+'/';
+	pathLib=fi.path()+'/';
 #else
 	pathCfg=QDir::homePath()+"/.qterm/";
 	if(checkPath(pathCfg)==-1)
