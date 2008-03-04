@@ -13,21 +13,14 @@ AUTHOR:        kingson fiasco
 
 #include "qtermframe.h"
 
-#include <qpixmap.h>
-#include <qapplication.h>
-#if (QT_VERSION>=300)
-#include <qdesktopwidget.h>
-#endif
-#include <qtimer.h>
-#include <qlabel.h>
-//Added by qt3to4:
+#include <QPixmap>
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QTimer>
+#include <QLabel>
 #include <QMouseEvent>
 #include <QPalette>
-#include <QX11Info>
-//X11 includes
-#include<X11/Xlib.h>
-#include<X11/Xutil.h>
-#include<X11/Xatom.h>
+
 namespace QTerm
 {
 extern QString pathLib;
@@ -82,28 +75,6 @@ popWidget::popWidget( Window *win, QWidget *parent, const char *name, Qt::WFlags
 	window = win;
 	
 	hide();
-	
-	Display *dsp = QX11Info::display();
-	int screen = DefaultScreen(dsp);
-	::Window root = RootWindow(dsp, screen);
-	
-	WId winid = this->winId();
-	
-	XEvent ev;
-	memset(&ev, 0, sizeof(ev));
-
-	ev.xclient.type = ClientMessage;
-	ev.xclient.window = winid;
-	ev.xclient.message_type = XInternAtom (dsp, "_NET_WM_DESKTOP", False );
-	ev.xclient.format = 32;
-	ev.xclient.data.l[0] = -1;
-	ev.xclient.data.l[1] = 0l;
-	ev.xclient.data.l[2] = 0l;
-	ev.xclient.data.l[3] = 0l;
-	ev.xclient.data.l[4] = 0l;
-
-	XSendEvent(dsp, root, False, SubstructureRedirectMask|SubstructureNotifyMask, &ev);
-	XSync(dsp, False);
 }
 
 popWidget::~popWidget()
