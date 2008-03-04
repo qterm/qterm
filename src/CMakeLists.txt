@@ -1,4 +1,21 @@
-set( qterm_SRCS
+set(optionalLibs)
+set(optionalSources)
+find_package(OpenSSL)
+if(OPENSSL_FOUND)
+   message(STATUS "OpenSSL found, enable SSH support")
+   add_definitions(-DSSH_ENABLED)
+   include_directories(${OPENSSL_INCLUDE_DIR})
+   set(optionalLibs ${optionalLibs} ${OPENSSL_LIBRARIES})
+   set(optionalSources
+   ssh/auth.cpp
+   ssh/channel.cpp
+   ssh/crc32.cpp
+   ssh/kex.cpp
+   ssh/packet.cpp
+   ssh/socket.cpp
+   ssh/transport.cpp)
+endif(OPENSSL_FOUND)
+set(qterm_SRCS
 ui_aboutdialog.h
 ui_addrdialog.h
 ui_articledialog.h
@@ -40,7 +57,6 @@ qtermsocket.cpp
 qtermsound.cpp
 qtermtelnet.cpp
 qtermtextline.cpp
-#qtermtimelabel.cpp
 qtermtoolbutton.cpp
 qtermwindow.cpp
 qtermwndmgr.cpp
@@ -49,19 +65,9 @@ quickdialog.cpp
 schemadialog.cpp
 soundconf.cpp
 statusBar.cpp
-#trayicon.cpp
-#trayicon_mac.cpp
-#trayicon_win.cpp
-#trayicon_x11.cpp
 zmodemdialog.cpp
-ssh/auth.cpp
-ssh/channel.cpp
-ssh/crc32.cpp
-ssh/kex.cpp
-ssh/packet.cpp
-ssh/socket.cpp
-ssh/transport.cpp )
-set( qterm_UIS
+${optionalSources})
+set(qterm_UIS
 ui/aboutdialog.ui
 ui/addrdialog.ui
 ui/articledialog.ui
@@ -73,32 +79,30 @@ ui/quickdialog.ui
 ui/schemadialog.ui
 ui/soundconf.ui
 ui/sshlogin.ui
-ui/zmodemdialog.ui )
-set( qterm_MISC
+ui/zmodemdialog.ui)
+set(qterm_MISC
 address.cfg
 credits
-qterm.cfg )
-qt4_wrap_ui( qterm_UIS_H ${qterm_UIS} )
+qterm.cfg)
+qt4_wrap_ui(qterm_UIS_H ${qterm_UIS})
 qt4_automoc(${qterm_SRCS})
-ADD_DEFINITIONS( -Wall -DHAVE_CONFIG_H )
+add_definitions( -Wall -DHAVE_CONFIG_H )
 include_directories(
 ${QT_INCLUDE_DIR}
 ${QT_QTCORE_INCLUDE_DIR}
 ${QT_QTGUI_INCLUDE_DIR}
 ${QT_QTNETWORK_INCLUDE_DIR}
-${OPENSSL_INCLUDE_DIR}
 ${CMAKE_SOURCE_DIR}
 ${CMAKE_BINARY_DIR}
 ${CMAKE_CURRENT_BINARY_DIR}
 ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(qterm ${qterm_SRCS})
-target_link_libraries(qterm 
+target_link_libraries(qterm
 ${QT_LIBRARIES}
 ${QT_QTCORE_LIBRARY}
 ${QT_QTGUI_LIBRARY}
 ${QT_QTNETWORK_LIBRARY}
-${OPENSSL_LIBRARIES}
-)
+${optionalLibs})
 install(TARGETS qterm DESTINATION bin)
 install(FILES ${qterm_MISC} DESTINATION share/qterm)
 add_subdirectory(pic)

@@ -32,8 +32,7 @@ namespace QTerm
 {
 
 SSH2Kex::SSH2Kex(SSH2InBuffer * in, SSH2OutBuffer * out, const QByteArray & server, const QByteArray & client, QObject * parent)
-        : QObject(parent), V_S(server), V_C(client), I_S(), I_C(), m_status(Init),
-        m_kexList(), m_hostKeyList(), m_encList(), m_macList(), m_compList(), m_sessionID()
+        : QObject(parent), m_kexList(), m_hostKeyList(), m_encList(), m_macList(), m_compList(), V_S(server), V_C(client), I_S(), I_C(), m_status(Init), m_sessionID()
 {
     m_kexList << "diffie-hellman-group14-sha1" << "diffie-hellman-group1-sha1";
     m_hostKeyList << "ssh-dss";

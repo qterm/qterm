@@ -279,16 +279,14 @@ Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const ch
 		m_pTelnet = new Telnet( m_param.m_strTerm.toLatin1(), 
 						m_param.m_nRow, m_param.m_nCol, false );
 	else {
-		#if defined(_NO_SSH_COMPILED)
+		#ifndef SSH_ENABLED
 		QMessageBox::warning(this, "sorry", 
 						"SSH support is not compiled, QTerm can only use Telnet!");
 		m_pTelnet = new Telnet( m_param.m_strTerm.toUtf8(), 
 						m_param.m_nRow, m_param.m_nCol,false );
 		#else
 		m_pTelnet = new Telnet( m_param.m_strTerm.toUtf8(), 
-						m_param.m_nRow, m_param.m_nCol,true, 
-						m_param.m_strSSHUser.toUtf8(), 
-						m_param.m_strSSHPasswd.toUtf8() );
+						m_param.m_nRow, m_param.m_nCol,true );
 		#endif
 	}
 	connect( m_pBuffer, SIGNAL(windowSizeChanged(int,int)), 
@@ -398,7 +396,7 @@ Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const ch
 	
 	m_bMouseX11 = false;
 	m_bMouseClicked = false;
-#ifndef _NO_SSH_COMPILED
+#ifdef SSH_ENABLED
 	if (param.m_nProtocolType != 0)
 		m_bDoingLogin = true;
 	else

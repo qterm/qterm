@@ -214,14 +214,14 @@ int iniWorkingDir( QString param )
 	QFileInfo fi;
 #ifdef Q_OS_MACX
 	// $HOME/Library/QTerm/
-	QString pathHome=QDir::homeDirPath();
+	QString pathHome=QDir::homePath();
 	pathCfg = pathHome+"/Library/QTerm/";
 	if(checkPath(pathCfg)==-1)
 		return -1;
 
 	// get executive file path 
 	fi.setFile(param);
-	pathLib=fi.dirPath()+'/';
+	pathLib=fi.path()+'/';
 #else
 	pathCfg=QDir::homePath()+"/.qterm/";
 	if(checkPath(pathCfg)==-1)
@@ -430,8 +430,6 @@ bool loadAddress( Config *pConf, int n, Param& param )
 	param.m_strProxyPasswd = pConf->getItemValue(strSection, "proxypassword");
 	strTmp = pConf->getItemValue(strSection,"protocol");
 	param.m_nProtocolType = strTmp.toInt();
-	param.m_strSSHUser = pConf->getItemValue(strSection, "sshuser");
-	param.m_strSSHPasswd = pConf->getItemValue(strSection, "sshpassword");
 
 	strTmp = pConf->getItemValue(strSection, "maxidle");
 	param.m_nMaxIdle = strTmp.toInt();
@@ -519,8 +517,6 @@ void saveAddress(Config *pConf, int n, const Param& param)
 	pConf->setItemValue(strSection, "proxypassword",param.m_strProxyPasswd);
 	strTmp.setNum(param.m_nProtocolType);
 	pConf->setItemValue(strSection,"protocol",strTmp);
-	pConf->setItemValue(strSection, "sshuser", param.m_strSSHUser);
-	pConf->setItemValue(strSection, "sshpassword",param.m_strSSHPasswd);
 
 	strTmp.setNum(param.m_nMaxIdle);
 	pConf->setItemValue(strSection, "maxidle", strTmp);

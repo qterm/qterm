@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>addrDialog</class>
  <widget class="QDialog" name="addrDialog" >
   <property name="geometry" >
@@ -176,7 +173,18 @@
      <strikeout>false</strikeout>
     </font>
    </property>
+   <property name="currentIndex" >
+    <number>3</number>
+   </property>
    <widget class="QWidget" name="Widget2" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>408</width>
+      <height>276</height>
+     </rect>
+    </property>
     <attribute name="title" >
      <string>General</string>
     </attribute>
@@ -404,6 +412,14 @@
     </widget>
    </widget>
    <widget class="QWidget" name="tab1" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>408</width>
+      <height>276</height>
+     </rect>
+    </property>
     <attribute name="title" >
      <string>Display</string>
     </attribute>
@@ -579,6 +595,14 @@
     </widget>
    </widget>
    <widget class="QWidget" name="tab2" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>408</width>
+      <height>276</height>
+     </rect>
+    </property>
     <attribute name="title" >
      <string>Terminal</string>
     </attribute>
@@ -786,6 +810,14 @@
     </widget>
    </widget>
    <widget class="QWidget" name="tab3" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>408</width>
+      <height>276</height>
+     </rect>
+    </property>
     <attribute name="title" >
      <string>Connection</string>
     </attribute>
@@ -814,45 +846,6 @@
        <string>Type</string>
       </property>
      </widget>
-     <widget class="QLabel" name="TextLabel2_3" >
-      <property name="geometry" >
-       <rect>
-        <x>10</x>
-        <y>50</y>
-        <width>90</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>User</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="TextLabel3_3" >
-      <property name="geometry" >
-       <rect>
-        <x>10</x>
-        <y>80</y>
-        <width>90</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Password</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="sshpasswdLineEdit" >
-      <property name="geometry" >
-       <rect>
-        <x>110</x>
-        <y>80</y>
-        <width>151</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="echoMode" >
-       <enum>QLineEdit::Password</enum>
-      </property>
-     </widget>
      <widget class="QComboBox" name="protocolComboBox" >
       <property name="geometry" >
        <rect>
@@ -869,24 +862,9 @@
       </item>
       <item>
        <property name="text" >
-        <string>SSH1</string>
+        <string>SSH</string>
        </property>
       </item>
-      <item>
-       <property name="text" >
-        <string>SSH2</string>
-       </property>
-      </item>
-     </widget>
-     <widget class="QLineEdit" name="sshuserLineEdit" >
-      <property name="geometry" >
-       <rect>
-        <x>110</x>
-        <y>50</y>
-        <width>151</width>
-        <height>25</height>
-       </rect>
-      </property>
      </widget>
     </widget>
     <widget class="QGroupBox" name="groupBox" >
@@ -1057,6 +1035,14 @@
     </widget>
    </widget>
    <widget class="QWidget" name="Widget3" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>408</width>
+      <height>276</height>
+     </rect>
+    </property>
     <attribute name="title" >
      <string>Misc</string>
     </attribute>
@@ -1275,6 +1261,14 @@
     </widget>
    </widget>
    <widget class="QWidget" name="tab4" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>408</width>
+      <height>276</height>
+     </rect>
+    </property>
     <attribute name="title" >
      <string>Mouse</string>
     </attribute>
@@ -1394,8 +1388,6 @@
   <tabstop>authCheckBox</tabstop>
   <tabstop>proxyuserLineEdit</tabstop>
   <tabstop>protocolComboBox</tabstop>
-  <tabstop>sshuserLineEdit</tabstop>
-  <tabstop>sshpasswdLineEdit</tabstop>
   <tabstop>antiLineEdit</tabstop>
   <tabstop>idletimeLineEdit</tabstop>
   <tabstop>replykeyLineEdit</tabstop>

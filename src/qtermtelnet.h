@@ -108,7 +108,7 @@ class Telnet : public QObject
     Q_OBJECT
 
 public:
-	Telnet( const QString & termtype, int rows, int columns, bool isSSH, const char * sshuser = NULL, const char * sshpasswd = NULL ) ;
+	Telnet( const QString & termtype, int rows, int columns, bool isSSH ) ;
 	~Telnet();
 	
 	void setProxy( int nProxyType,//0-no proxy; 1-wingate; 2-sock4; 3-socks5

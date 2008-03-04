@@ -53,7 +53,7 @@ class SSH2SocketPriv : public SSHSocketPriv
 {
     Q_OBJECT
 public:
-    SSH2SocketPriv(QTermSocketPrivate * plainSocket, QByteArray & banner, QObject * parent = 0);
+    SSH2SocketPriv(SocketPrivate * plainSocket, QByteArray & banner, QObject * parent = 0);
     ~SSH2SocketPriv();
     QByteArray readData(unsigned long size);
     void writeData(const QByteArray & data);
@@ -83,7 +83,7 @@ class SSH1SocketPriv : public SSHSocketPriv
 {
     Q_OBJECT
 public:
-    SSH1SocketPriv(QTermSocketPrivate * plainSocket, QByteArray & banner, QObject * parent = 0);
+    SSH1SocketPriv(SocketPrivate * plainSocket, QByteArray & banner, QObject * parent = 0);
     ~SSH1SocketPriv();
     QByteArray readData(unsigned long size);
     void writeData(const QByteArray & data);
@@ -97,10 +97,10 @@ private:
     SSH1Kex * m_kex;
     SSH1Auth * m_auth;
     SSH1Channel * m_channel;
-    QTermSocketPrivate * m_socket;
+    SocketPrivate * m_socket;
 };
 
-class SSHSocket : public QTermSocket
+class SSHSocket : public Socket
 {
     Q_OBJECT
 public:
@@ -131,7 +131,7 @@ private:
         SSHV1, SSHV2, SSHUnknown
     };
     SSHVersion m_version;
-    QTermSocketPrivate * m_socket;
+    SocketPrivate * m_socket;
     SSHSocketPriv * m_priv;
     QByteArray m_data;
 };

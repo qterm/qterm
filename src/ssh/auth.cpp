@@ -29,7 +29,7 @@ namespace QTerm
 {
 
 SSH2Auth::SSH2Auth(QByteArray & sessionID, SSH2InBuffer * in, SSH2OutBuffer * out, QObject *parent)
-        : QObject(parent), m_username(), m_publicKey(), m_sessionID(sessionID), m_authMethod(None), m_lastTried(None), m_tries(0), m_method()
+        : QObject(parent), m_username(), m_method(), m_authMethod(None), m_lastTried(None), m_sessionID(sessionID), m_publicKey(), m_tries(0)
 {
     m_in = in;
     m_out = out;
@@ -307,7 +307,7 @@ void SSH2Auth::requestInput()
     if (!langTag.isEmpty())
         qDebug() << "langTag is not empty, ignore it";
 #endif
-    uint numPrompts = m_in->getUInt32();
+    int numPrompts = m_in->getUInt32();
 #ifdef SSH_DEBUG
     qDebug() << "number of prompts: " << numPrompts;
 #endif

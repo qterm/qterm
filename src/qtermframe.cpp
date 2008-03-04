@@ -561,7 +561,7 @@ void Frame::connectMenuActivated(int id)
 void Frame::switchWin(int id)
 {
 	QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
-	if(windows.count()==0)
+	if(windows.count() <= id)
 		return;
 
 	if(id==200)
