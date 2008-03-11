@@ -107,9 +107,9 @@
     <widget class="QLineEdit" name="addrLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>179</x>
+       <x>159</x>
        <y>90</y>
-       <width>361</width>
+       <width>371</width>
        <height>32</height>
       </rect>
      </property>
@@ -117,9 +117,9 @@
     <widget class="QLineEdit" name="nameLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>180</x>
+       <x>160</x>
        <y>50</y>
-       <width>361</width>
+       <width>371</width>
        <height>32</height>
       </rect>
      </property>
@@ -129,7 +129,7 @@
       <rect>
        <x>10</x>
        <y>90</y>
-       <width>160</width>
+       <width>140</width>
        <height>32</height>
       </rect>
      </property>
@@ -139,13 +139,16 @@
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>addrLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLabel" name="TextLabel3_6" >
      <property name="geometry" >
       <rect>
        <x>10</x>
        <y>260</y>
-       <width>160</width>
+       <width>140</width>
        <height>32</height>
       </rect>
      </property>
@@ -155,13 +158,16 @@
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>hostTypeComboBox</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="portLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>180</x>
+       <x>160</x>
        <y>130</y>
-       <width>361</width>
+       <width>371</width>
        <height>32</height>
       </rect>
      </property>
@@ -171,7 +177,7 @@
       <rect>
        <x>10</x>
        <y>50</y>
-       <width>160</width>
+       <width>140</width>
        <height>32</height>
       </rect>
      </property>
@@ -181,13 +187,16 @@
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>nameLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QComboBox" name="hostTypeComboBox" >
      <property name="geometry" >
       <rect>
-       <x>180</x>
+       <x>160</x>
        <y>260</y>
-       <width>361</width>
+       <width>371</width>
        <height>31</height>
       </rect>
      </property>
@@ -207,7 +216,7 @@
       <rect>
        <x>10</x>
        <y>130</y>
-       <width>160</width>
+       <width>140</width>
        <height>32</height>
       </rect>
      </property>
@@ -217,13 +226,16 @@
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>portLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLabel" name="TextLabel6" >
      <property name="geometry" >
       <rect>
        <x>10</x>
        <y>300</y>
-       <width>160</width>
+       <width>140</width>
        <height>32</height>
       </rect>
      </property>
@@ -233,13 +245,16 @@
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>bbscodeComboBox</cstring>
+     </property>
     </widget>
     <widget class="QComboBox" name="bbscodeComboBox" >
      <property name="geometry" >
       <rect>
-       <x>180</x>
+       <x>160</x>
        <y>301</y>
-       <width>361</width>
+       <width>371</width>
        <height>31</height>
       </rect>
      </property>
@@ -259,7 +274,7 @@
       <rect>
        <x>10</x>
        <y>340</y>
-       <width>160</width>
+       <width>140</width>
        <height>32</height>
       </rect>
      </property>
@@ -269,13 +284,16 @@
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>displaycodeComboBox</cstring>
+     </property>
     </widget>
     <widget class="QComboBox" name="displaycodeComboBox" >
      <property name="geometry" >
       <rect>
-       <x>180</x>
+       <x>160</x>
        <y>340</y>
-       <width>361</width>
+       <width>371</width>
        <height>31</height>
       </rect>
      </property>
@@ -293,9 +311,9 @@
     <widget class="QComboBox" name="protocolComboBox" >
      <property name="geometry" >
       <rect>
-       <x>180</x>
+       <x>160</x>
        <y>170</y>
-       <width>361</width>
+       <width>371</width>
        <height>31</height>
       </rect>
      </property>
@@ -315,7 +333,7 @@
       <rect>
        <x>10</x>
        <y>170</y>
-       <width>160</width>
+       <width>140</width>
        <height>31</height>
       </rect>
      </property>
@@ -325,11 +343,14 @@
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>protocolComboBox</cstring>
+     </property>
     </widget>
     <widget class="QCheckBox" name="scriptCheckBox" >
      <property name="geometry" >
       <rect>
-       <x>180</x>
+       <x>160</x>
        <y>380</y>
        <width>361</width>
        <height>32</height>
@@ -342,9 +363,9 @@
     <widget class="QLineEdit" name="scriptLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>180</x>
+       <x>160</x>
        <y>420</y>
-       <width>261</width>
+       <width>271</width>
        <height>32</height>
       </rect>
      </property>
@@ -352,9 +373,9 @@
     <widget class="QLabel" name="label_3" >
      <property name="geometry" >
       <rect>
-       <x>-10</x>
+       <x>10</x>
        <y>420</y>
-       <width>180</width>
+       <width>140</width>
        <height>32</height>
       </rect>
      </property>
@@ -364,11 +385,14 @@
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>scriptLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QPushButton" name="scriptPushButton" >
      <property name="geometry" >
       <rect>
-       <x>449</x>
+       <x>440</x>
        <y>420</y>
        <width>91</width>
        <height>32</height>
@@ -383,7 +407,7 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>531</width>
+       <width>521</width>
        <height>34</height>
       </rect>
      </property>
@@ -424,7 +448,7 @@
       <rect>
        <x>10</x>
        <y>220</y>
-       <width>531</width>
+       <width>521</width>
        <height>34</height>
       </rect>
      </property>
@@ -478,7 +502,7 @@
       <rect>
        <x>160</x>
        <y>170</y>
-       <width>381</width>
+       <width>371</width>
        <height>32</height>
       </rect>
      </property>
@@ -501,7 +525,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>160</x>
        <y>250</y>
-       <width>111</width>
+       <width>371</width>
        <height>32</height>
       </rect>
      </property>
@@ -514,7 +538,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>160</x>
        <y>210</y>
-       <width>161</width>
+       <width>371</width>
        <height>32</height>
       </rect>
      </property>
@@ -525,7 +549,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="TextLabel6_3" >
      <property name="geometry" >
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>340</y>
        <width>140</width>
        <height>32</height>
@@ -537,11 +561,14 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>cursorTypeComboBox</cstring>
+     </property>
     </widget>
     <widget class="QComboBox" name="cursorTypeComboBox" >
      <property name="geometry" >
       <rect>
-       <x>160</x>
+       <x>150</x>
        <y>340</y>
        <width>381</width>
        <height>31</height>
@@ -566,7 +593,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="displayTextLabel" >
      <property name="geometry" >
       <rect>
-       <x>160</x>
+       <x>150</x>
        <y>50</y>
        <width>381</width>
        <height>32</height>
@@ -579,7 +606,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QPushButton" name="fontPushButton" >
      <property name="geometry" >
       <rect>
-       <x>160</x>
+       <x>150</x>
        <y>90</y>
        <width>120</width>
        <height>31</height>
@@ -592,7 +619,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QPushButton" name="bgcolorPushButton" >
      <property name="geometry" >
       <rect>
-       <x>420</x>
+       <x>410</x>
        <y>90</y>
        <width>120</width>
        <height>31</height>
@@ -605,7 +632,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QPushButton" name="fgcolorPushButton" >
      <property name="geometry" >
       <rect>
-       <x>290</x>
+       <x>280</x>
        <y>90</y>
        <width>120</width>
        <height>31</height>
@@ -618,7 +645,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="TextLabel6_4" >
      <property name="geometry" >
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>380</y>
        <width>140</width>
        <height>32</height>
@@ -630,11 +657,14 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>menuTypeComboBox</cstring>
+     </property>
     </widget>
     <widget class="QComboBox" name="menuTypeComboBox" >
      <property name="geometry" >
       <rect>
-       <x>160</x>
+       <x>150</x>
        <y>380</y>
        <width>251</width>
        <height>31</height>
@@ -659,7 +689,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QPushButton" name="menuColorButton" >
      <property name="geometry" >
       <rect>
-       <x>420</x>
+       <x>410</x>
        <y>380</y>
        <width>120</width>
        <height>31</height>
@@ -672,7 +702,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="menuLabel" >
      <property name="geometry" >
       <rect>
-       <x>160</x>
+       <x>150</x>
        <y>420</y>
        <width>381</width>
        <height>31</height>
@@ -685,7 +715,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="TextLabel3_5" >
      <property name="geometry" >
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>50</y>
        <width>140</width>
        <height>32</height>
@@ -701,7 +731,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="TextLabel3_10" >
      <property name="geometry" >
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>420</y>
        <width>140</width>
        <height>32</height>
@@ -719,7 +749,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>530</width>
+       <width>521</width>
        <height>34</height>
       </rect>
      </property>
@@ -760,7 +790,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>10</x>
        <y>300</y>
-       <width>534</width>
+       <width>521</width>
        <height>34</height>
       </rect>
      </property>
@@ -799,7 +829,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="TextLabel3_7" >
      <property name="geometry" >
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>130</y>
        <width>140</width>
        <height>32</height>
@@ -811,11 +841,14 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>comboBox</cstring>
+     </property>
     </widget>
     <widget class="QComboBox" name="comboBox" >
      <property name="geometry" >
       <rect>
-       <x>160</x>
+       <x>150</x>
        <y>130</y>
        <width>251</width>
        <height>32</height>
@@ -850,7 +883,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QPushButton" name="schemaPushButton" >
      <property name="geometry" >
       <rect>
-       <x>420</x>
+       <x>410</x>
        <y>130</y>
        <width>120</width>
        <height>31</height>
@@ -876,9 +909,9 @@ p, li { white-space: pre-wrap; }
     <widget class="QLineEdit" name="termtypeLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>220</x>
+       <x>200</x>
        <y>50</y>
-       <width>321</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -886,7 +919,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="TextLabel2_5" >
      <property name="geometry" >
       <rect>
-       <x>30</x>
+       <x>10</x>
        <y>90</y>
        <width>180</width>
        <height>32</height>
@@ -898,13 +931,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>keytypeComboBox</cstring>
+     </property>
     </widget>
     <widget class="QComboBox" name="keytypeComboBox" >
      <property name="geometry" >
       <rect>
-       <x>220</x>
+       <x>200</x>
        <y>90</y>
-       <width>321</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -927,7 +963,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="TextLabel2_6" >
      <property name="geometry" >
       <rect>
-       <x>30</x>
+       <x>10</x>
        <y>50</y>
        <width>180</width>
        <height>32</height>
@@ -939,11 +975,14 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>termtypeLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLabel" name="TextLabel1_4" >
      <property name="geometry" >
       <rect>
-       <x>30</x>
+       <x>10</x>
        <y>130</y>
        <width>180</width>
        <height>32</height>
@@ -955,13 +994,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>escapeLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="escapeLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>220</x>
+       <x>200</x>
        <y>130</y>
-       <width>321</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -969,7 +1011,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="TextLabel4_3" >
      <property name="geometry" >
       <rect>
-       <x>30</x>
+       <x>10</x>
        <y>210</y>
        <width>180</width>
        <height>32</height>
@@ -981,13 +1023,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>rowLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="columnLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>220</x>
+       <x>200</x>
        <y>170</y>
-       <width>321</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -995,7 +1040,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="TextLabel3_4" >
      <property name="geometry" >
       <rect>
-       <x>30</x>
+       <x>10</x>
        <y>170</y>
        <width>180</width>
        <height>32</height>
@@ -1007,13 +1052,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>columnLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="rowLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>220</x>
+       <x>200</x>
        <y>210</y>
-       <width>321</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1021,7 +1069,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="TextLabel5_3" >
      <property name="geometry" >
       <rect>
-       <x>30</x>
+       <x>10</x>
        <y>250</y>
        <width>180</width>
        <height>32</height>
@@ -1033,13 +1081,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>scrollLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="scrollLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>220</x>
+       <x>200</x>
        <y>250</y>
-       <width>321</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1049,7 +1100,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>528</width>
+       <width>521</width>
        <height>34</height>
       </rect>
      </property>
@@ -1113,6 +1164,9 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>idletimeLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLabel" name="textLabel1_2" >
      <property name="geometry" >
@@ -1129,13 +1183,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>replykeyLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="replyLineEdit" >
      <property name="geometry" >
       <rect>
        <x>200</x>
        <y>330</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1145,7 +1202,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>200</x>
        <y>290</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1165,13 +1222,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>replyLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="idletimeLineEdit" >
      <property name="geometry" >
       <rect>
        <x>200</x>
        <y>410</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1181,7 +1241,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>200</x>
        <y>370</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1201,13 +1261,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>antiLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="preloginLineEdit" >
      <property name="geometry" >
       <rect>
        <x>200</x>
        <y>170</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1227,6 +1290,9 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>preloginLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLabel" name="TextLabel5" >
      <property name="geometry" >
@@ -1243,13 +1309,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>passwdLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="userLineEdit" >
      <property name="geometry" >
       <rect>
        <x>200</x>
        <y>90</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1269,13 +1338,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>userLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="postloginLineEdit" >
      <property name="geometry" >
       <rect>
        <x>200</x>
        <y>210</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1285,7 +1357,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>200</x>
        <y>130</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1308,13 +1380,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>postloginLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QCheckBox" name="replyCheckBox" >
      <property name="geometry" >
       <rect>
        <x>200</x>
        <y>250</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1327,7 +1402,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>200</x>
        <y>50</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1340,7 +1415,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>531</width>
+       <width>521</width>
        <height>34</height>
       </rect>
      </property>
@@ -1404,13 +1479,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>proxytypeComboBox</cstring>
+     </property>
     </widget>
     <widget class="QComboBox" name="proxytypeComboBox" >
      <property name="geometry" >
       <rect>
        <x>200</x>
        <y>50</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1455,13 +1533,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>proxyaddrLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="proxyaddrLineEdit" >
      <property name="geometry" >
       <rect>
        <x>200</x>
        <y>90</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1481,13 +1562,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>proxyportLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="proxyportLineEdit" >
      <property name="geometry" >
       <rect>
        <x>200</x>
        <y>130</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1497,7 +1581,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>200</x>
        <y>170</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1520,13 +1604,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>proxyuserLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="proxyuserLineEdit" >
      <property name="geometry" >
       <rect>
        <x>200</x>
        <y>210</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1546,13 +1633,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>proxypasswdLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="proxypasswdLineEdit" >
      <property name="geometry" >
       <rect>
        <x>200</x>
        <y>250</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1572,13 +1662,16 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
+     <property name="buddy" >
+      <cstring>reconnectLineEdit</cstring>
+     </property>
     </widget>
     <widget class="QLineEdit" name="reconnectLineEdit" >
      <property name="geometry" >
       <rect>
        <x>200</x>
        <y>380</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1588,7 +1681,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>200</x>
        <y>340</y>
-       <width>341</width>
+       <width>331</width>
        <height>32</height>
       </rect>
      </property>
@@ -1601,7 +1694,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>531</width>
+       <width>521</width>
        <height>34</height>
       </rect>
      </property>
@@ -1642,7 +1735,7 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>10</x>
        <y>300</y>
-       <width>531</width>
+       <width>521</width>
        <height>34</height>
       </rect>
      </property>
@@ -1805,20 +1898,237 @@ p, li { white-space: pre-wrap; }
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
+  <tabstop>nameListWidget</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>deletePushButton</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>nameLineEdit</tabstop>
   <tabstop>addrLineEdit</tabstop>
+  <tabstop>portLineEdit</tabstop>
+  <tabstop>protocolComboBox</tabstop>
   <tabstop>hostTypeComboBox</tabstop>
+  <tabstop>bbscodeComboBox</tabstop>
+  <tabstop>displaycodeComboBox</tabstop>
+  <tabstop>scriptCheckBox</tabstop>
+  <tabstop>scriptLineEdit</tabstop>
+  <tabstop>scriptPushButton</tabstop>
+  <tabstop>fontPushButton</tabstop>
+  <tabstop>fgcolorPushButton</tabstop>
+  <tabstop>bgcolorPushButton</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>schemaPushButton</tabstop>
   <tabstop>autofontCheckBox</tabstop>
   <tabstop>highlightCheckBox</tabstop>
   <tabstop>ansicolorCheckBox</tabstop>
+  <tabstop>cursorTypeComboBox</tabstop>
+  <tabstop>menuTypeComboBox</tabstop>
+  <tabstop>menuColorButton</tabstop>
   <tabstop>termtypeLineEdit</tabstop>
   <tabstop>keytypeComboBox</tabstop>
+  <tabstop>escapeLineEdit</tabstop>
+  <tabstop>columnLineEdit</tabstop>
+  <tabstop>rowLineEdit</tabstop>
+  <tabstop>scrollLineEdit</tabstop>
+  <tabstop>autoLoginCheckBox</tabstop>
+  <tabstop>userLineEdit</tabstop>
+  <tabstop>passwdLineEdit</tabstop>
+  <tabstop>preloginLineEdit</tabstop>
+  <tabstop>postloginLineEdit</tabstop>
+  <tabstop>replyCheckBox</tabstop>
+  <tabstop>replykeyLineEdit</tabstop>
+  <tabstop>replyLineEdit</tabstop>
+  <tabstop>antiLineEdit</tabstop>
+  <tabstop>idletimeLineEdit</tabstop>
+  <tabstop>proxytypeComboBox</tabstop>
+  <tabstop>proxyaddrLineEdit</tabstop>
+  <tabstop>proxyportLineEdit</tabstop>
+  <tabstop>authCheckBox</tabstop>
+  <tabstop>proxyuserLineEdit</tabstop>
+  <tabstop>proxypasswdLineEdit</tabstop>
+  <tabstop>reconnectCheckBox</tabstop>
+  <tabstop>reconnectLineEdit</tabstop>
+  <tabstop>resetPushButton</tabstop>
   <tabstop>applyPushButton</tabstop>
   <tabstop>connectPushButton</tabstop>
-  <tabstop>addPushButton</tabstop>
-  <tabstop>deletePushButton</tabstop>
+  <tabstop>closePushButton</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>scriptCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>scriptLineEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>432</x>
+     <y>440</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>441</x>
+     <y>476</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>scriptCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>scriptPushButton</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>534</x>
+     <y>440</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>735</x>
+     <y>480</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>autoLoginCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>userLineEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>492</x>
+     <y>110</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>491</x>
+     <y>143</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>autoLoginCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>passwdLineEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>553</x>
+     <y>111</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>560</x>
+     <y>186</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>autoLoginCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>preloginLineEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>610</x>
+     <y>125</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>612</x>
+     <y>230</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>autoLoginCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>postloginLineEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>677</x>
+     <y>113</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>685</x>
+     <y>258</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>replyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>replykeyLineEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>479</x>
+     <y>313</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>474</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>replyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>replyLineEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>559</x>
+     <y>323</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>532</x>
+     <y>392</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>authCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>proxyuserLineEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>478</x>
+     <y>231</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>483</x>
+     <y>259</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>authCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>proxypasswdLineEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>589</x>
+     <y>237</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>592</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reconnectCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>reconnectLineEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>511</x>
+     <y>404</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>516</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
