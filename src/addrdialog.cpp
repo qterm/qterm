@@ -339,8 +339,7 @@ void addrDialog::setLabelPixmap()
 void addrDialog::connectSlots()
 {
 	connect( ui.nameListWidget, SIGNAL(currentRowChanged(int)), this, SLOT(onNamechange(int)) );
-	connect( ui.nameListWidget, SIGNAL(doubleClicked(QListWidgetItem*)), this, SLOT(onConnect()));
-	connect( ui.nameListWidget, SIGNAL(returnPressed(QListWidgetItem*)), this, SLOT(onConnect()));
+	connect( ui.nameListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(onConnect()));
 
 	connect( ui.addPushButton, SIGNAL(clicked()), this, SLOT(onAdd()) );
 	connect( ui.deletePushButton, SIGNAL(clicked()), this, SLOT(onDelete()) );
