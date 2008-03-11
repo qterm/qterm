@@ -111,6 +111,9 @@ SSH1SocketPriv::SSH1SocketPriv(SocketPrivate * plainSocket, QByteArray & banner,
     m_outPacket = new SSH1OutBuffer(plainSocket, this);
     m_kex = new SSH1Kex(m_inPacket, m_outPacket, this);
     connect(m_kex, SIGNAL(kexFinished()), this, SLOT(slotKexFinished()));
+    connect(m_kex, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString&)));
+    connect(m_inPacket, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString&)));
+    // connect(m_outPacket, SIGNAL(error( const QString& )),this, SIGNAL(error( const QString& )));
 }
 
 SSH1SocketPriv::~SSH1SocketPriv()
@@ -123,6 +126,7 @@ void SSH1SocketPriv::slotKexFinished()
     qDebug() << "kex finished";
 #endif
     m_auth = new SSH1Auth(m_inPacket, m_outPacket, this);
+    connect(m_auth, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString &)));
     connect(m_auth, SIGNAL(authFinished()), this, SLOT(slotAuthFinished()));
     m_auth->requestAuthService();
 }

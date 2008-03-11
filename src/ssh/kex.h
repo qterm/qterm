@@ -90,6 +90,7 @@ public:
     void startBinary();
 signals:
     void kexFinished();
+    void error(const QString & message);
 public slots:
     void kexPacketReceived(int flag);
 private:
