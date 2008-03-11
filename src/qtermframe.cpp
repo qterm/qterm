@@ -765,7 +765,7 @@ void Frame::uiFont()
 	
 	if(ok==true)
 	{
-		qApp->setFont(font);
+		qApp->setFont(font, "QWidget");
 	}
 }
 
@@ -866,6 +866,7 @@ void Frame::setting( )
 void Frame::defaultSetting()
 {
 	addrDialog set(this, true);
+
 	
 	Config *pConf = new Config(addrCfg);
 

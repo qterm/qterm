@@ -320,7 +320,7 @@ int iniSettings()
 		if(bAA!="0")
 			font.setStyleStrategy(QFont::PreferAntialias);
 		#endif
-		qApp->setFont(font);
+		qApp->setFont(font, "QWidget");
 	}
 
 	// zmodem and pool directory
