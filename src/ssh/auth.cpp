@@ -354,7 +354,15 @@ SSH1Auth::~SSH1Auth()
 
 void SSH1Auth::requestAuthService()
 {
-    QString username = QInputDialog::getText(0, "QTerm", "Username: ", QLineEdit::Normal);
+    bool ok;
+    QString username = QInputDialog::getText(0, "SSH1 Password Auth", "Username: ", QLineEdit::Normal, "", &ok);
+    if (!ok) {
+#ifdef SSH_DEBUG
+        qDebug() << "User canceled!";
+#endif
+        emit error("User canceled");
+        return;
+    }
     m_out->startPacket(SSH_CMSG_USER);
     m_out->putString(username.toUtf8());
     m_out->sendPacket();
@@ -396,7 +404,15 @@ void SSH1Auth::authPacketReceived(int flag)
 void SSH1Auth::passwordAuth()
 {
     //QString password = QString::fromLatin1 ( getpass ( "Password: " ) );
-    QString password = QInputDialog::getText(0, "QTerm", "Password: ", QLineEdit::Password);
+    bool ok;
+    QString password = QInputDialog::getText(0, "QTerm", "Password: ", QLineEdit::Password, "", &ok);
+    if (!ok) {
+#ifdef SSH_DEBUG
+        qDebug() << "User canceled!";
+#endif
+        emit error("User canceled");
+        return;
+    }
     m_out->startPacket(SSH_CMSG_AUTH_PASSWORD);
     m_out->putString(password.toUtf8());
     m_out->sendPacket();
