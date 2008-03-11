@@ -357,7 +357,7 @@ void SSH1InBuffer::parseData()
         QByteArray plain;
 //  qDebug() << "Encrypted data without the length";
 //  dumpData(m_in.mid(4,totalLen + 4));
-        if (m_encryption == NULL || length == 37)
+        if (m_encryption == NULL)
             plain = m_in.mid(4, totalLen);
         else
             plain = m_encryption->crypt(m_in.mid(4, totalLen));
