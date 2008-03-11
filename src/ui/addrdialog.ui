@@ -847,7 +847,7 @@ p, li { white-space: pre-wrap; }
       </property>
      </item>
     </widget>
-    <widget class="QPushButton" name="fontPushButton_2" >
+    <widget class="QPushButton" name="schemaPushButton" >
      <property name="geometry" >
       <rect>
        <x>420</x>
@@ -1690,130 +1690,116 @@ p, li { white-space: pre-wrap; }
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="" >
+  <widget class="QPushButton" name="resetPushButton" >
    <property name="geometry" >
     <rect>
-     <x>230</x>
-     <y>560</y>
-     <width>561</width>
-     <height>34</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout" >
-    <item>
-     <widget class="QPushButton" name="resetPushButton" >
-      <property name="text" >
-       <string>Reset</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="horizontalSpacer" >
-      <property name="orientation" >
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0" >
-       <size>
-        <width>40</width>
-        <height>31</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QPushButton" name="applyPushButton" >
-      <property name="text" >
-       <string>Apply</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="connectPushButton" >
-      <property name="text" >
-       <string>Connect</string>
-      </property>
-      <property name="shortcut" >
-       <string/>
-      </property>
-      <property name="autoDefault" >
-       <bool>true</bool>
-      </property>
-      <property name="default" >
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="closePushButton" >
-      <property name="text" >
-       <string>Close</string>
-      </property>
-      <property name="shortcut" >
-       <string/>
-      </property>
-      <property name="autoDefault" >
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="" >
-   <property name="geometry" >
-    <rect>
-     <x>11</x>
+     <x>231</x>
      <y>561</y>
-     <width>201</width>
-     <height>33</height>
+     <width>83</width>
+     <height>31</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_2" >
-    <item>
-     <widget class="QPushButton" name="addPushButton" >
-      <property name="sizePolicy" >
-       <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text" >
-       <string>Add</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="horizontalSpacer_2" >
-      <property name="orientation" >
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0" >
-       <size>
-        <width>40</width>
-        <height>31</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QPushButton" name="deletePushButton" >
-      <property name="sizePolicy" >
-       <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text" >
-       <string>Delete</string>
-      </property>
-      <property name="shortcut" >
-       <string/>
-      </property>
-      <property name="autoDefault" >
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <property name="text" >
+    <string>Reset</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="deletePushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>120</x>
+     <y>562</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="sizePolicy" >
+    <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text" >
+    <string>Delete</string>
+   </property>
+   <property name="shortcut" >
+    <string/>
+   </property>
+   <property name="autoDefault" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="addPushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>12</x>
+     <y>562</y>
+     <width>72</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="sizePolicy" >
+    <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text" >
+    <string>Add</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="applyPushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>511</x>
+     <y>561</y>
+     <width>85</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Apply</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="connectPushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>600</x>
+     <y>561</y>
+     <width>104</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Connect</string>
+   </property>
+   <property name="shortcut" >
+    <string/>
+   </property>
+   <property name="autoDefault" >
+    <bool>true</bool>
+   </property>
+   <property name="default" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="closePushButton" >
+   <property name="geometry" >
+    <rect>
+     <x>708</x>
+     <y>561</y>
+     <width>82</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Close</string>
+   </property>
+   <property name="shortcut" >
+    <string/>
+   </property>
+   <property name="autoDefault" >
+    <bool>true</bool>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11" />

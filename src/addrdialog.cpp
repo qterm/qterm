@@ -351,7 +351,7 @@ void addrDialog::connectSlots()
 	connect( ui.fontPushButton, SIGNAL(clicked()), this, SLOT(onFont()) );
 	connect( ui.fgcolorPushButton, SIGNAL(clicked()), this, SLOT(onFgcolor()) );
 	connect( ui.bgcolorPushButton, SIGNAL(clicked()), this, SLOT(onBgcolor()) );
-//	connect( ui.schemaPushButton, SIGNAL(clicked()), this, SLOT(onSchema()) );
+	connect( ui.schemaPushButton, SIGNAL(clicked()), this, SLOT(onSchema()) );
 
 	connect( ui.protocolComboBox, SIGNAL(activated(int)), this, SLOT(onProtocol(int)) );
 
