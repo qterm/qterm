@@ -52,7 +52,7 @@ addrDialog::addrDialog( QWidget* parent, bool partial, Qt::WFlags fl )
 		ui.closePushButton->setText( tr("Cancel") );
 		ui.applyPushButton->setText( tr("OK") );
 		ui.closePushButton->move(ui.closePushButton->x()-210, ui.closePushButton->y());
-		ui.applyPushButton->move(ui.applyPushButton->x()-210, ui.applyPushButton->y());
+		ui.applyPushButton->move(ui.applyPushButton->x()-110, ui.applyPushButton->y());
 		ui.resetPushButton->move(ui.resetPushButton->x()-210, ui.resetPushButton->y());
 		ui.tabWidget->move(ui.tabWidget->x()-210, ui.tabWidget->y());
 		resize( 600, 600 );
