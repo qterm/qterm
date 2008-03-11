@@ -5,26 +5,32 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
-    <height>360</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize" >
    <size>
-    <width>650</width>
-    <height>360</height>
+    <width>800</width>
+    <height>600</height>
    </size>
   </property>
   <property name="maximumSize" >
    <size>
-    <width>650</width>
-    <height>360</height>
+    <width>800</width>
+    <height>600</height>
    </size>
   </property>
   <property name="font" >
    <font>
     <family>Bitstream Vera Sans</family>
-    <pointsize>9</pointsize>
+    <pointsize>12</pointsize>
     <weight>50</weight>
     <italic>false</italic>
     <bold>false</bold>
@@ -38,109 +44,13 @@
   <property name="sizeGripEnabled" >
    <bool>false</bool>
   </property>
-  <widget class="QPushButton" name="applyPushButton" >
-   <property name="geometry" >
-    <rect>
-     <x>20</x>
-     <y>330</y>
-     <width>80</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Apply</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="addPushButton" >
-   <property name="geometry" >
-    <rect>
-     <x>470</x>
-     <y>330</y>
-     <width>60</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Add</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="closePushButton" >
-   <property name="geometry" >
-    <rect>
-     <x>340</x>
-     <y>330</y>
-     <width>80</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Close</string>
-   </property>
-   <property name="shortcut" >
-    <string/>
-   </property>
-   <property name="autoDefault" >
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="connectPushButton" >
-   <property name="geometry" >
-    <rect>
-     <x>180</x>
-     <y>330</y>
-     <width>80</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Connect</string>
-   </property>
-   <property name="shortcut" >
-    <string/>
-   </property>
-   <property name="autoDefault" >
-    <bool>true</bool>
-   </property>
-   <property name="default" >
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="deletePushButton" >
-   <property name="geometry" >
-    <rect>
-     <x>580</x>
-     <y>330</y>
-     <width>60</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Delete</string>
-   </property>
-   <property name="shortcut" >
-    <string/>
-   </property>
-   <property name="autoDefault" >
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="nameListWidget" >
-   <property name="geometry" >
-    <rect>
-     <x>470</x>
-     <y>10</y>
-     <width>171</width>
-     <height>311</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="Line" name="Line" >
    <property name="geometry" >
     <rect>
-     <x>440</x>
-     <y>0</y>
+     <x>210</x>
+     <y>-10</y>
      <width>20</width>
-     <height>380</height>
+     <height>611</height>
     </rect>
    </property>
    <property name="frameShape" >
@@ -156,16 +66,22 @@
   <widget class="QTabWidget" name="tabWidget" >
    <property name="geometry" >
     <rect>
-     <x>10</x>
+     <x>230</x>
      <y>10</y>
-     <width>420</width>
-     <height>313</height>
+     <width>561</width>
+     <height>541</height>
     </rect>
+   </property>
+   <property name="sizePolicy" >
+    <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="font" >
     <font>
      <family>Bitstream Vera Sans</family>
-     <pointsize>9</pointsize>
+     <pointsize>12</pointsize>
      <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
@@ -174,15 +90,15 @@
     </font>
    </property>
    <property name="currentIndex" >
-    <number>3</number>
+    <number>0</number>
    </property>
-   <widget class="QWidget" name="Widget2" >
+   <widget class="QWidget" name="tab0" >
     <property name="geometry" >
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>408</width>
-      <height>276</height>
+      <width>549</width>
+      <height>500</height>
      </rect>
     </property>
     <attribute name="title" >
@@ -191,72 +107,62 @@
     <widget class="QLineEdit" name="addrLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>120</x>
-       <y>40</y>
-       <width>160</width>
-       <height>23</height>
+       <x>179</x>
+       <y>90</y>
+       <width>361</width>
+       <height>32</height>
       </rect>
      </property>
     </widget>
     <widget class="QLineEdit" name="nameLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>120</x>
-       <y>10</y>
-       <width>160</width>
-       <height>23</height>
+       <x>180</x>
+       <y>50</y>
+       <width>361</width>
+       <height>32</height>
       </rect>
      </property>
     </widget>
     <widget class="QLabel" name="TextLabel2" >
      <property name="geometry" >
       <rect>
-       <x>8</x>
-       <y>43</y>
-       <width>80</width>
-       <height>20</height>
+       <x>10</x>
+       <y>90</y>
+       <width>160</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Address</string>
+      <string>Address:</string>
      </property>
      <property name="alignment" >
-      <set>Qt::AlignVCenter</set>
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="TextLabel3_6" >
      <property name="geometry" >
       <rect>
        <x>10</x>
-       <y>80</y>
-       <width>65</width>
-       <height>20</height>
+       <y>260</y>
+       <width>160</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Type</string>
+      <string>Type:</string>
      </property>
-    </widget>
-    <widget class="QCheckBox" name="autoLoginCheckBox" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>110</y>
-       <width>130</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Auto Login</string>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QLineEdit" name="portLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>350</x>
-       <y>40</y>
-       <width>40</width>
-       <height>23</height>
+       <x>180</x>
+       <y>130</y>
+       <width>361</width>
+       <height>32</height>
       </rect>
      </property>
     </widget>
@@ -264,25 +170,25 @@
      <property name="geometry" >
       <rect>
        <x>10</x>
-       <y>10</y>
-       <width>70</width>
-       <height>20</height>
+       <y>50</y>
+       <width>160</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Name</string>
+      <string>Name:</string>
      </property>
      <property name="alignment" >
-      <set>Qt::AlignVCenter</set>
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QComboBox" name="hostTypeComboBox" >
      <property name="geometry" >
       <rect>
-       <x>120</x>
-       <y>80</y>
-       <width>161</width>
-       <height>24</height>
+       <x>180</x>
+       <y>260</y>
+       <width>361</width>
+       <height>31</height>
       </rect>
      </property>
      <item>
@@ -296,192 +202,45 @@
       </property>
      </item>
     </widget>
-    <widget class="QLineEdit" name="preloginLineEdit" >
-     <property name="geometry" >
-      <rect>
-       <x>120</x>
-       <y>140</y>
-       <width>161</width>
-       <height>25</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="userLineEdit" >
-     <property name="geometry" >
-      <rect>
-       <x>120</x>
-       <y>170</y>
-       <width>161</width>
-       <height>25</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="passwdLineEdit" >
-     <property name="geometry" >
-      <rect>
-       <x>120</x>
-       <y>200</y>
-       <width>161</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <property name="echoMode" >
-      <enum>QLineEdit::Password</enum>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="postloginLineEdit" >
-     <property name="geometry" >
-      <rect>
-       <x>120</x>
-       <y>230</y>
-       <width>161</width>
-       <height>25</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QLabel" name="TextLabel3" >
      <property name="geometry" >
       <rect>
-       <x>300</x>
-       <y>40</y>
-       <width>50</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Port</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="TextLabel1_2" >
-     <property name="geometry" >
-      <rect>
        <x>10</x>
-       <y>140</y>
-       <width>80</width>
-       <height>20</height>
+       <y>130</y>
+       <width>160</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Prelogin</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="TextLabel4" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>170</y>
-       <width>80</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>User</string>
+      <string>Port:</string>
      </property>
      <property name="alignment" >
-      <set>Qt::AlignVCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="TextLabel5" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>200</y>
-       <width>80</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Password</string>
-     </property>
-     <property name="alignment" >
-      <set>Qt::AlignVCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="TextLabel11" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>230</y>
-       <width>90</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Postlogin</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab1" >
-    <property name="geometry" >
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>408</width>
-      <height>276</height>
-     </rect>
-    </property>
-    <attribute name="title" >
-     <string>Display</string>
-    </attribute>
-    <widget class="QCheckBox" name="ansicolorCheckBox" >
-     <property name="geometry" >
-      <rect>
-       <x>200</x>
-       <y>80</y>
-       <width>130</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>ANSI Color</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="highlightCheckBox" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>80</y>
-       <width>150</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Always Hightlight</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="autofontCheckBox" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>50</y>
-       <width>340</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Auto Select Font Size When Resize Window</string>
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="TextLabel6" >
      <property name="geometry" >
       <rect>
        <x>10</x>
-       <y>20</y>
-       <width>100</width>
-       <height>20</height>
+       <y>300</y>
+       <width>160</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>BBS Encoding</string>
+      <string>BBS Encoding:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QComboBox" name="bbscodeComboBox" >
      <property name="geometry" >
       <rect>
-       <x>120</x>
-       <y>20</y>
-       <width>60</width>
-       <height>23</height>
+       <x>180</x>
+       <y>301</y>
+       <width>361</width>
+       <height>31</height>
       </rect>
      </property>
      <item>
@@ -498,23 +257,26 @@
     <widget class="QLabel" name="TextLabel7" >
      <property name="geometry" >
       <rect>
-       <x>190</x>
-       <y>20</y>
-       <width>100</width>
-       <height>20</height>
+       <x>10</x>
+       <y>340</y>
+       <width>160</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Display Code</string>
+      <string>Display Code:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QComboBox" name="displaycodeComboBox" >
      <property name="geometry" >
       <rect>
-       <x>300</x>
-       <y>20</y>
-       <width>60</width>
-       <height>23</height>
+       <x>180</x>
+       <y>340</y>
+       <width>361</width>
+       <height>31</height>
       </rect>
      </property>
      <item>
@@ -528,194 +290,261 @@
       </property>
      </item>
     </widget>
-    <widget class="QPushButton" name="fontPushButton" >
+    <widget class="QComboBox" name="protocolComboBox" >
      <property name="geometry" >
       <rect>
-       <x>260</x>
-       <y>130</y>
-       <width>90</width>
-       <height>25</height>
+       <x>180</x>
+       <y>170</y>
+       <width>361</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text" >
+       <string>Telnet</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>SSH</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="TextLabel1_3" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>170</y>
+       <width>160</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Font</string>
+      <string>Protocol:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="fgcolorPushButton" >
+    <widget class="QCheckBox" name="scriptCheckBox" >
      <property name="geometry" >
       <rect>
-       <x>260</x>
-       <y>160</y>
-       <width>90</width>
-       <height>25</height>
+       <x>180</x>
+       <y>380</y>
+       <width>361</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Text Color</string>
+      <string>Load Control Script:</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="bgcolorPushButton" >
+    <widget class="QLineEdit" name="scriptLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>260</x>
-       <y>190</y>
-       <width>90</width>
-       <height>25</height>
+       <x>180</x>
+       <y>420</y>
+       <width>261</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3" >
+     <property name="geometry" >
+      <rect>
+       <x>-10</x>
+       <y>420</y>
+       <width>180</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Background</string>
+      <string>System Script:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="schemaPushButton" >
+    <widget class="QPushButton" name="scriptPushButton" >
      <property name="geometry" >
       <rect>
-       <x>260</x>
+       <x>449</x>
+       <y>420</y>
+       <width>91</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Browse...</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="layoutWidget" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>531</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_6" >
+      <item>
+       <widget class="QLabel" name="boldLabel_1" >
+        <property name="font" >
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text" >
+         <string>General:</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_7" >
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0" >
+         <size>
+          <width>368</width>
+          <height>32</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="layoutWidget" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
        <y>220</y>
-       <width>90</width>
-       <height>25</height>
+       <width>531</width>
+       <height>34</height>
       </rect>
      </property>
-     <property name="text" >
-      <string>Schema</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="displayTextLabel" >
-     <property name="geometry" >
-      <rect>
-       <x>40</x>
-       <y>120</y>
-       <width>170</width>
-       <height>130</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>TextLabel3</string>
-     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_7" >
+      <item>
+       <widget class="QLabel" name="boldLabel_2" >
+        <property name="font" >
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text" >
+         <string>Advanced Settings:</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_8" >
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0" >
+         <size>
+          <width>368</width>
+          <height>32</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab2" >
+   <widget class="QWidget" name="tab1" >
     <property name="geometry" >
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>408</width>
-      <height>276</height>
+      <width>549</width>
+      <height>500</height>
      </rect>
     </property>
     <attribute name="title" >
-     <string>Terminal</string>
+     <string>Display</string>
     </attribute>
-    <widget class="QLineEdit" name="termtypeLineEdit" >
+    <widget class="QCheckBox" name="autofontCheckBox" >
      <property name="geometry" >
       <rect>
-       <x>100</x>
-       <y>20</y>
-       <width>90</width>
-       <height>23</height>
+       <x>160</x>
+       <y>170</y>
+       <width>381</width>
+       <height>32</height>
       </rect>
      </property>
-    </widget>
-    <widget class="QLineEdit" name="escapeLineEdit" >
-     <property name="geometry" >
-      <rect>
-       <x>210</x>
-       <y>150</y>
-       <width>140</width>
-       <height>23</height>
-      </rect>
+     <property name="whatsThis" >
+      <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Bitstream Vera Sans'; font-size:12pt; font-weight:400; font-style:normal;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Auto Select Font Size When Resize Window&lt;/p>&lt;/body>&lt;/html></string>
+     </property>
+     <property name="layoutDirection" >
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text" >
+      <string>Auto Select Font Size When Resize Window</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="columnLineEdit" >
+    <widget class="QCheckBox" name="ansicolorCheckBox" >
      <property name="geometry" >
       <rect>
-       <x>100</x>
-       <y>60</y>
-       <width>90</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="TextLabel3_4" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>60</y>
-       <width>80</width>
-       <height>20</height>
+       <x>160</x>
+       <y>250</y>
+       <width>111</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Columns</string>
+      <string>ANSI Color</string>
      </property>
     </widget>
-    <widget class="QLabel" name="TextLabel1_5" >
+    <widget class="QCheckBox" name="highlightCheckBox" >
      <property name="geometry" >
       <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>80</width>
-       <height>20</height>
+       <x>160</x>
+       <y>210</y>
+       <width>161</width>
+       <height>32</height>
       </rect>
      </property>
-     <property name="font" >
-      <font>
-       <family>Bitstream Vera Sans</family>
-       <pointsize>9</pointsize>
-       <weight>50</weight>
-       <italic>false</italic>
-       <bold>false</bold>
-       <underline>false</underline>
-       <strikeout>false</strikeout>
-      </font>
-     </property>
      <property name="text" >
-      <string>Term Type</string>
+      <string>Always Highlight</string>
      </property>
     </widget>
     <widget class="QLabel" name="TextLabel6_3" >
      <property name="geometry" >
       <rect>
-       <x>210</x>
-       <y>100</y>
-       <width>90</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Cursor Type</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="TextLabel4_3" >
-     <property name="geometry" >
-      <rect>
        <x>10</x>
-       <y>100</y>
-       <width>66</width>
-       <height>20</height>
+       <y>340</y>
+       <width>140</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Rows</string>
+      <string>Cursor Type:</string>
      </property>
-    </widget>
-    <widget class="QLineEdit" name="rowLineEdit" >
-     <property name="geometry" >
-      <rect>
-       <x>100</x>
-       <y>100</y>
-       <width>90</width>
-       <height>23</height>
-      </rect>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QComboBox" name="cursorTypeComboBox" >
      <property name="geometry" >
       <rect>
-       <x>310</x>
-       <y>100</y>
-       <width>100</width>
-       <height>23</height>
+       <x>160</x>
+       <y>340</y>
+       <width>381</width>
+       <height>31</height>
       </rect>
      </property>
      <item>
@@ -734,52 +563,349 @@
       </property>
      </item>
     </widget>
-    <widget class="QLabel" name="TextLabel5_3" >
+    <widget class="QLabel" name="displayTextLabel" >
      <property name="geometry" >
       <rect>
-       <x>210</x>
-       <y>60</y>
-       <width>100</width>
-       <height>20</height>
+       <x>160</x>
+       <y>50</y>
+       <width>381</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Scroll Lines</string>
+      <string>Text Label</string>
      </property>
     </widget>
-    <widget class="QLabel" name="TextLabel1_4" >
+    <widget class="QPushButton" name="fontPushButton" >
+     <property name="geometry" >
+      <rect>
+       <x>160</x>
+       <y>90</y>
+       <width>120</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Font...</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="bgcolorPushButton" >
+     <property name="geometry" >
+      <rect>
+       <x>420</x>
+       <y>90</y>
+       <width>120</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Background...</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="fgcolorPushButton" >
+     <property name="geometry" >
+      <rect>
+       <x>290</x>
+       <y>90</y>
+       <width>120</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Text Color...</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel6_4" >
      <property name="geometry" >
       <rect>
        <x>10</x>
-       <y>150</y>
-       <width>190</width>
-       <height>20</height>
+       <y>380</y>
+       <width>140</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Escape string (i.e. *[ )</string>
+      <string>Menu Type:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="menuTypeComboBox" >
+     <property name="geometry" >
+      <rect>
+       <x>160</x>
+       <y>380</y>
+       <width>251</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text" >
+       <string>Underline</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Reverse</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Custom Color</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QPushButton" name="menuColorButton" >
+     <property name="geometry" >
+      <rect>
+       <x>420</x>
+       <y>380</y>
+       <width>120</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Color...</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="menuLabel" >
+     <property name="geometry" >
+      <rect>
+       <x>160</x>
+       <y>420</y>
+       <width>381</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Menu Label</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel3_5" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>140</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Preview:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel3_10" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>420</y>
+       <width>140</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Preview:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QWidget" name="layoutWidget" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>530</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3" >
+      <item>
+       <widget class="QLabel" name="boldLabel_3" >
+        <property name="font" >
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text" >
+         <string>Text and Color:</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_5" >
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0" >
+         <size>
+          <width>398</width>
+          <height>32</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="layoutWidget" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>300</y>
+       <width>534</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4" >
+      <item>
+       <widget class="QLabel" name="boldLabel_4" >
+        <property name="font" >
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text" >
+         <string>Menu and Cursor:</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_6" >
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0" >
+         <size>
+          <width>378</width>
+          <height>32</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QLabel" name="TextLabel3_7" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>130</y>
+       <width>140</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Scheme:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox" >
+     <property name="geometry" >
+      <rect>
+       <x>160</x>
+       <y>130</y>
+       <width>251</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text" >
+       <string>default</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>VIM</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>XTerm</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Linux</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Softness</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QPushButton" name="fontPushButton_2" >
+     <property name="geometry" >
+      <rect>
+       <x>420</x>
+       <y>130</y>
+       <width>120</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Configure...</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab2" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>549</width>
+      <height>500</height>
+     </rect>
+    </property>
+    <attribute name="title" >
+     <string>Terminal</string>
+    </attribute>
+    <widget class="QLineEdit" name="termtypeLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>220</x>
+       <y>50</y>
+       <width>321</width>
+       <height>32</height>
+      </rect>
      </property>
     </widget>
     <widget class="QLabel" name="TextLabel2_5" >
      <property name="geometry" >
       <rect>
-       <x>210</x>
-       <y>20</y>
-       <width>80</width>
-       <height>20</height>
+       <x>30</x>
+       <y>90</y>
+       <width>180</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Key Type</string>
+      <string>Key Type:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QComboBox" name="keytypeComboBox" >
      <property name="geometry" >
       <rect>
-       <x>310</x>
-       <y>20</y>
-       <width>100</width>
-       <height>23</height>
+       <x>220</x>
+       <y>90</y>
+       <width>321</width>
+       <height>32</height>
       </rect>
      </property>
      <item>
@@ -798,15 +924,166 @@
       </property>
      </item>
     </widget>
+    <widget class="QLabel" name="TextLabel2_6" >
+     <property name="geometry" >
+      <rect>
+       <x>30</x>
+       <y>50</y>
+       <width>180</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Term Type:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel1_4" >
+     <property name="geometry" >
+      <rect>
+       <x>30</x>
+       <y>130</y>
+       <width>180</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Escape string (i.e. *[ ):</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="escapeLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>220</x>
+       <y>130</y>
+       <width>321</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel4_3" >
+     <property name="geometry" >
+      <rect>
+       <x>30</x>
+       <y>210</y>
+       <width>180</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Rows:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="columnLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>220</x>
+       <y>170</y>
+       <width>321</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel3_4" >
+     <property name="geometry" >
+      <rect>
+       <x>30</x>
+       <y>170</y>
+       <width>180</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Columns:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="rowLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>220</x>
+       <y>210</y>
+       <width>321</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel5_3" >
+     <property name="geometry" >
+      <rect>
+       <x>30</x>
+       <y>250</y>
+       <width>180</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Scroll Lines:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
     <widget class="QLineEdit" name="scrollLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>310</x>
-       <y>60</y>
-       <width>101</width>
-       <height>25</height>
+       <x>220</x>
+       <y>250</y>
+       <width>321</width>
+       <height>32</height>
       </rect>
      </property>
+    </widget>
+    <widget class="QWidget" name="layoutWidget" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>528</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_5" >
+      <item>
+       <widget class="QLabel" name="boldLabel_5" >
+        <property name="font" >
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text" >
+         <string>Terminal Settings:</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_4" >
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0" >
+         <size>
+          <width>368</width>
+          <height>32</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QWidget" name="tab3" >
@@ -814,450 +1091,290 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>408</width>
-      <height>276</height>
+      <width>549</width>
+      <height>500</height>
      </rect>
     </property>
     <attribute name="title" >
-     <string>Connection</string>
+     <string>BBS</string>
     </attribute>
-    <widget class="QGroupBox" name="groupBox_2" >
-     <property name="geometry" >
-      <rect>
-       <x>9</x>
-       <y>159</y>
-       <width>401</width>
-       <height>121</height>
-      </rect>
-     </property>
-     <property name="title" >
-      <string>Protocol</string>
-     </property>
-     <widget class="QLabel" name="TextLabel1_3" >
-      <property name="geometry" >
-       <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>80</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Type</string>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="protocolComboBox" >
-      <property name="geometry" >
-       <rect>
-        <x>110</x>
-        <y>20</y>
-        <width>151</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <item>
-       <property name="text" >
-        <string>Telnet</string>
-       </property>
-      </item>
-      <item>
-       <property name="text" >
-        <string>SSH</string>
-       </property>
-      </item>
-     </widget>
-    </widget>
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>0</y>
-       <width>401</width>
-       <height>161</height>
-      </rect>
-     </property>
-     <property name="title" >
-      <string>Proxy</string>
-     </property>
-     <widget class="QLabel" name="TextLabel3_2" >
-      <property name="geometry" >
-       <rect>
-        <x>10</x>
-        <y>50</y>
-        <width>66</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Address</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="TextLabel2_2" >
-      <property name="geometry" >
-       <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>66</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Type</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="authCheckBox" >
-      <property name="geometry" >
-       <rect>
-        <x>10</x>
-        <y>80</y>
-        <width>130</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Authentation</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="proxyportLineEdit" >
-      <property name="geometry" >
-       <rect>
-        <x>330</x>
-        <y>50</y>
-        <width>60</width>
-        <height>23</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="proxyaddrLineEdit" >
-      <property name="geometry" >
-       <rect>
-        <x>110</x>
-        <y>50</y>
-        <width>151</width>
-        <height>25</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="TextLabel4_2" >
-      <property name="geometry" >
-       <rect>
-        <x>280</x>
-        <y>50</y>
-        <width>50</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Port</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="proxyuserLineEdit" >
-      <property name="geometry" >
-       <rect>
-        <x>110</x>
-        <y>100</y>
-        <width>151</width>
-        <height>25</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="TextLabel5_2" >
-      <property name="geometry" >
-       <rect>
-        <x>10</x>
-        <y>100</y>
-        <width>80</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>User</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="TextLabel5_4" >
-      <property name="geometry" >
-       <rect>
-        <x>10</x>
-        <y>130</y>
-        <width>80</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text" >
-       <string>Password</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="proxypasswdLineEdit" >
-      <property name="geometry" >
-       <rect>
-        <x>110</x>
-        <y>130</y>
-        <width>151</width>
-        <height>25</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="proxytypeComboBox" >
-      <property name="geometry" >
-       <rect>
-        <x>110</x>
-        <y>20</y>
-        <width>151</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <item>
-       <property name="text" >
-        <string>None</string>
-       </property>
-      </item>
-      <item>
-       <property name="text" >
-        <string>Wingate</string>
-       </property>
-      </item>
-      <item>
-       <property name="text" >
-        <string>SOCKS4</string>
-       </property>
-      </item>
-      <item>
-       <property name="text" >
-        <string>SOCKS5</string>
-       </property>
-      </item>
-      <item>
-       <property name="text" >
-        <string>HTTP</string>
-       </property>
-      </item>
-     </widget>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="Widget3" >
-    <property name="geometry" >
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>408</width>
-      <height>276</height>
-     </rect>
-    </property>
-    <attribute name="title" >
-     <string>Misc</string>
-    </attribute>
-    <widget class="QLineEdit" name="retryLineEdit" >
-     <property name="geometry" >
-      <rect>
-       <x>140</x>
-       <y>180</y>
-       <width>60</width>
-       <height>20</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="scriptCheckBox" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>210</y>
-       <width>170</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Load Control Script</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="replyCheckBox" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>110</y>
-       <width>160</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Autoreply Message</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="TextLabel8" >
      <property name="geometry" >
       <rect>
        <x>10</x>
-       <y>50</y>
-       <width>130</width>
-       <height>20</height>
+       <y>410</y>
+       <width>180</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Max Idle Time</string>
+      <string>Max Idle Time (sec):</string>
      </property>
-    </widget>
-    <widget class="QLabel" name="TextLabel7_2" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>150</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Anti-idle String</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="replyLineEdit" >
-     <property name="geometry" >
-      <rect>
-       <x>190</x>
-       <y>110</y>
-       <width>220</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="replykeyLineEdit" >
-     <property name="geometry" >
-      <rect>
-       <x>190</x>
-       <y>80</y>
-       <width>90</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="textLabel4" >
-     <property name="geometry" >
-      <rect>
-       <x>30</x>
-       <y>180</y>
-       <width>100</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>For Maximum</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="textLabel5" >
-     <property name="geometry" >
-      <rect>
-       <x>210</x>
-       <y>180</y>
-       <width>200</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Times (-1 means infinite)</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="reconnectCheckBox" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>150</y>
-       <width>310</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>When disconnected, reconnect every</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="reconnectLineEdit" >
-     <property name="geometry" >
-      <rect>
-       <x>320</x>
-       <y>150</y>
-       <width>30</width>
-       <height>22</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="scriptLineEdit" >
-     <property name="geometry" >
-      <rect>
-       <x>40</x>
-       <y>240</y>
-       <width>230</width>
-       <height>22</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="scriptPushButton" >
-     <property name="geometry" >
-      <rect>
-       <x>290</x>
-       <y>240</y>
-       <width>80</width>
-       <height>25</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Browse...</string>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="textLabel1_2" >
      <property name="geometry" >
       <rect>
        <x>10</x>
-       <y>80</y>
-       <width>170</width>
-       <height>20</height>
+       <y>290</y>
+       <width>180</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Key to reply message</string>
+      <string>Key to reply message:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QLineEdit" name="antiLineEdit" >
+    <widget class="QLineEdit" name="replyLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>190</x>
-       <y>20</y>
-       <width>80</width>
-       <height>23</height>
+       <x>200</x>
+       <y>330</y>
+       <width>341</width>
+       <height>32</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="replykeyLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>290</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>330</y>
+       <width>180</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Auto Reply Message:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QLineEdit" name="idletimeLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>190</x>
-       <y>50</y>
-       <width>80</width>
-       <height>23</height>
+       <x>200</x>
+       <y>410</y>
+       <width>341</width>
+       <height>32</height>
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="TextLabel9" >
+    <widget class="QLineEdit" name="antiLineEdit" >
      <property name="geometry" >
       <rect>
-       <x>280</x>
-       <y>50</y>
-       <width>30</width>
-       <height>20</height>
+       <x>200</x>
+       <y>370</y>
+       <width>341</width>
+       <height>32</height>
       </rect>
-     </property>
-     <property name="text" >
-      <string>s</string>
      </property>
     </widget>
-    <widget class="QLabel" name="textLabel2" >
+    <widget class="QLabel" name="TextLabel7_2" >
      <property name="geometry" >
       <rect>
-       <x>360</x>
-       <y>150</y>
-       <width>20</width>
-       <height>20</height>
+       <x>10</x>
+       <y>370</y>
+       <width>180</width>
+       <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>s</string>
+      <string>Anti-idle String:</string>
      </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="preloginLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>170</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel1_2" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>170</y>
+       <width>180</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Pre-login:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel5" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>130</y>
+       <width>180</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Password:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="userLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>90</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel4" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>90</y>
+       <width>180</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>User:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="postloginLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>210</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="passwdLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>130</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="echoMode" >
+      <enum>QLineEdit::Password</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel11" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>210</y>
+       <width>180</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Post-login:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="replyCheckBox" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>250</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Auto Reply</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="autoLoginCheckBox" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>50</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Auto Login</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="layoutWidget" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>531</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_8" >
+      <item>
+       <widget class="QLabel" name="boldLabel_6" >
+        <property name="font" >
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text" >
+         <string>Internal Settings:</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_9" >
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0" >
+         <size>
+          <width>368</width>
+          <height>32</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QWidget" name="tab4" >
@@ -1265,92 +1382,438 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>408</width>
-      <height>276</height>
+      <width>549</width>
+      <height>500</height>
      </rect>
     </property>
     <attribute name="title" >
-     <string>Mouse</string>
+     <string>Misc</string>
     </attribute>
-    <widget class="QGroupBox" name="menuGroup" >
+    <widget class="QLabel" name="TextLabel2_2" >
      <property name="geometry" >
       <rect>
-       <x>9</x>
-       <y>-1</y>
-       <width>391</width>
-       <height>111</height>
+       <x>70</x>
+       <y>50</y>
+       <width>120</width>
+       <height>32</height>
       </rect>
      </property>
-     <property name="title" >
-      <string>Menu Type</string>
+     <property name="text" >
+      <string>Type:</string>
      </property>
-     <widget class="QLabel" name="menuLabel" >
-      <property name="geometry" >
-       <rect>
-        <x>50</x>
-        <y>60</y>
-        <width>100</width>
-        <height>20</height>
-       </rect>
-      </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="proxytypeComboBox" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>50</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <item>
       <property name="text" >
-       <string>Menu Label</string>
+       <string>None</string>
       </property>
-     </widget>
-     <widget class="QRadioButton" name="radioButton2" >
-      <property name="geometry" >
-       <rect>
-        <x>110</x>
-        <y>20</y>
-        <width>80</width>
-        <height>20</height>
-       </rect>
-      </property>
+     </item>
+     <item>
       <property name="text" >
-       <string>Reverse</string>
+       <string>Wingate</string>
       </property>
-     </widget>
-     <widget class="QRadioButton" name="radioButton1" >
-      <property name="geometry" >
-       <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>90</width>
-        <height>20</height>
-       </rect>
-      </property>
+     </item>
+     <item>
       <property name="text" >
-       <string>Underline</string>
+       <string>SOCKS4</string>
       </property>
-     </widget>
-     <widget class="QPushButton" name="menuColorButton" >
-      <property name="geometry" >
-       <rect>
-        <x>280</x>
-        <y>60</y>
-        <width>80</width>
-        <height>25</height>
-       </rect>
-      </property>
+     </item>
+     <item>
       <property name="text" >
-       <string>Color...</string>
+       <string>SOCKS5</string>
       </property>
-     </widget>
-     <widget class="QRadioButton" name="radioButton3" >
-      <property name="geometry" >
-       <rect>
-        <x>200</x>
-        <y>20</y>
-        <width>107</width>
-        <height>20</height>
-       </rect>
-      </property>
+     </item>
+     <item>
       <property name="text" >
-       <string>Custom Color</string>
+       <string>HTTP</string>
       </property>
-     </widget>
+     </item>
+    </widget>
+    <widget class="QLabel" name="TextLabel3_2" >
+     <property name="geometry" >
+      <rect>
+       <x>70</x>
+       <y>90</y>
+       <width>120</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Address:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="proxyaddrLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>90</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel4_2" >
+     <property name="geometry" >
+      <rect>
+       <x>70</x>
+       <y>130</y>
+       <width>120</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Port:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="proxyportLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>130</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="authCheckBox" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>170</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Authentication</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel5_2" >
+     <property name="geometry" >
+      <rect>
+       <x>70</x>
+       <y>210</y>
+       <width>120</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>User:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="proxyuserLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>210</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel5_4" >
+     <property name="geometry" >
+      <rect>
+       <x>70</x>
+       <y>250</y>
+       <width>120</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Password:</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="proxypasswdLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>250</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>380</y>
+       <width>180</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Reconnect Delay (sec):</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="reconnectLineEdit" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>380</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="reconnectCheckBox" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>340</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Auto Reconnect</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="layoutWidget" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>531</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_9" >
+      <item>
+       <widget class="QLabel" name="boldLabel_7" >
+        <property name="font" >
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text" >
+         <string>Proxy:</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_10" >
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0" >
+         <size>
+          <width>368</width>
+          <height>32</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="layoutWidget" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>300</y>
+       <width>531</width>
+       <height>34</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_10" >
+      <item>
+       <widget class="QLabel" name="boldLabel_8" >
+        <property name="font" >
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text" >
+         <string>Connection:</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_11" >
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0" >
+         <size>
+          <width>368</width>
+          <height>32</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
     </widget>
    </widget>
+  </widget>
+  <widget class="QListWidget" name="nameListWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>201</width>
+     <height>541</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>230</x>
+     <y>560</y>
+     <width>561</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout" >
+    <item>
+     <widget class="QPushButton" name="resetPushButton" >
+      <property name="text" >
+       <string>Reset</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer" >
+      <property name="orientation" >
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0" >
+       <size>
+        <width>40</width>
+        <height>31</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="applyPushButton" >
+      <property name="text" >
+       <string>Apply</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="connectPushButton" >
+      <property name="text" >
+       <string>Connect</string>
+      </property>
+      <property name="shortcut" >
+       <string/>
+      </property>
+      <property name="autoDefault" >
+       <bool>true</bool>
+      </property>
+      <property name="default" >
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="closePushButton" >
+      <property name="text" >
+       <string>Close</string>
+      </property>
+      <property name="shortcut" >
+       <string/>
+      </property>
+      <property name="autoDefault" >
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>11</x>
+     <y>561</y>
+     <width>201</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2" >
+    <item>
+     <widget class="QPushButton" name="addPushButton" >
+      <property name="sizePolicy" >
+       <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text" >
+       <string>Add</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_2" >
+      <property name="orientation" >
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0" >
+       <size>
+        <width>40</width>
+        <height>31</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="deletePushButton" >
+      <property name="sizePolicy" >
+       <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text" >
+       <string>Delete</string>
+      </property>
+      <property name="shortcut" >
+       <string/>
+      </property>
+      <property name="autoDefault" >
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11" />
@@ -1359,281 +1822,17 @@
   <tabstop>tabWidget</tabstop>
   <tabstop>nameLineEdit</tabstop>
   <tabstop>addrLineEdit</tabstop>
-  <tabstop>portLineEdit</tabstop>
   <tabstop>hostTypeComboBox</tabstop>
-  <tabstop>autoLoginCheckBox</tabstop>
-  <tabstop>preloginLineEdit</tabstop>
-  <tabstop>userLineEdit</tabstop>
-  <tabstop>passwdLineEdit</tabstop>
-  <tabstop>postloginLineEdit</tabstop>
-  <tabstop>bbscodeComboBox</tabstop>
-  <tabstop>displaycodeComboBox</tabstop>
   <tabstop>autofontCheckBox</tabstop>
   <tabstop>highlightCheckBox</tabstop>
   <tabstop>ansicolorCheckBox</tabstop>
-  <tabstop>fontPushButton</tabstop>
-  <tabstop>fgcolorPushButton</tabstop>
-  <tabstop>bgcolorPushButton</tabstop>
-  <tabstop>schemaPushButton</tabstop>
   <tabstop>termtypeLineEdit</tabstop>
   <tabstop>keytypeComboBox</tabstop>
-  <tabstop>columnLineEdit</tabstop>
-  <tabstop>scrollLineEdit</tabstop>
-  <tabstop>rowLineEdit</tabstop>
-  <tabstop>cursorTypeComboBox</tabstop>
-  <tabstop>escapeLineEdit</tabstop>
-  <tabstop>proxytypeComboBox</tabstop>
-  <tabstop>proxyaddrLineEdit</tabstop>
-  <tabstop>proxyportLineEdit</tabstop>
-  <tabstop>authCheckBox</tabstop>
-  <tabstop>proxyuserLineEdit</tabstop>
-  <tabstop>protocolComboBox</tabstop>
-  <tabstop>antiLineEdit</tabstop>
-  <tabstop>idletimeLineEdit</tabstop>
-  <tabstop>replykeyLineEdit</tabstop>
-  <tabstop>replyCheckBox</tabstop>
-  <tabstop>replyLineEdit</tabstop>
-  <tabstop>reconnectCheckBox</tabstop>
-  <tabstop>reconnectLineEdit</tabstop>
-  <tabstop>retryLineEdit</tabstop>
-  <tabstop>scriptCheckBox</tabstop>
-  <tabstop>scriptLineEdit</tabstop>
-  <tabstop>scriptPushButton</tabstop>
-  <tabstop>radioButton1</tabstop>
-  <tabstop>radioButton2</tabstop>
-  <tabstop>radioButton3</tabstop>
-  <tabstop>menuColorButton</tabstop>
   <tabstop>applyPushButton</tabstop>
   <tabstop>connectPushButton</tabstop>
-  <tabstop>closePushButton</tabstop>
   <tabstop>addPushButton</tabstop>
   <tabstop>deletePushButton</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>radioButton2</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>menuColorButton</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>157</x>
-     <y>69</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>325</x>
-     <y>106</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton1</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>menuColorButton</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>41</x>
-     <y>67</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>356</x>
-     <y>117</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton3</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>menuColorButton</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>274</x>
-     <y>65</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>340</x>
-     <y>108</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>autoLoginCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>preloginLineEdit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>62</x>
-     <y>156</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>201</x>
-     <y>178</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>autoLoginCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>userLineEdit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>54</x>
-     <y>164</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>152</x>
-     <y>214</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>autoLoginCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>passwdLineEdit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>37</x>
-     <y>165</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>135</x>
-     <y>247</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>autoLoginCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>postloginLineEdit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>52</x>
-     <y>163</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>134</x>
-     <y>277</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>authCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>proxyuserLineEdit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>146</x>
-     <y>127</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>208</x>
-     <y>147</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>authCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>proxypasswdLineEdit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>110</x>
-     <y>132</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>163</x>
-     <y>176</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>replyCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>replyLineEdit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>25</x>
-     <y>159</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>206</x>
-     <y>160</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>reconnectCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>reconnectLineEdit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>212</x>
-     <y>197</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>353</x>
-     <y>201</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>reconnectCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>retryLineEdit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>108</x>
-     <y>200</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>181</x>
-     <y>229</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>scriptCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>scriptLineEdit</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>34</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>95</x>
-     <y>288</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>scriptCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>scriptPushButton</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>181</x>
-     <y>262</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>333</x>
-     <y>290</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

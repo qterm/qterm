@@ -47,6 +47,8 @@ protected:
 	void connectSlots();
 	bool isChanged();
 	void setLabelPixmap();
+	void setMenuPixmap();
+
 
 	bool bPartial;
 	QString strFontName;

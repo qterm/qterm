@@ -41,9 +41,6 @@ addrDialog::addrDialog( QWidget* parent, bool partial, Qt::WFlags fl )
 	: QDialog( parent, fl ),bPartial(partial),bgMenu(this),nLastItem(-1)
 {
 	ui.setupUi(this);
-	bgMenu.addButton(ui.radioButton1,0);
-	bgMenu.addButton(ui.radioButton2,1);
-	bgMenu.addButton(ui.radioButton3,2);
 	ui.menuLabel->setAutoFillBackground(true);
 	if(bPartial)
 	{
@@ -54,16 +51,20 @@ addrDialog::addrDialog( QWidget* parent, bool partial, Qt::WFlags fl )
 		ui.connectPushButton->hide();
 		ui.closePushButton->setText( tr("Cancel") );
 		ui.applyPushButton->setText( tr("OK") );
-		resize( 440, 360 );
-	    setMinimumSize( QSize( 440, 360 ) );
-	    setMaximumSize( QSize( 440, 360 ) );
+		ui.closePushButton->move(ui.closePushButton->x()-210, ui.closePushButton->y());
+		ui.applyPushButton->move(ui.applyPushButton->x()-210, ui.applyPushButton->y());
+		ui.resetPushButton->move(ui.resetPushButton->x()-210, ui.resetPushButton->y());
+		ui.tabWidget->move(ui.tabWidget->x()-210, ui.tabWidget->y());
+		resize( 600, 600 );
+		setMinimumSize( QSize( 600, 600 ) );
+		setMaximumSize( QSize( 600, 600 ) );
 		setWindowTitle( tr( "Setting" ) );
 	}
 	else
 	{
-	    resize( 650, 360 );
-	    setMinimumSize( QSize( 650, 360 ) );
-	    setMaximumSize( QSize( 650, 360 ) );
+		resize( 800, 600 );
+		setMinimumSize( QSize( 800, 600 ) );
+		setMaximumSize( QSize( 800, 600 ) );
 		setWindowTitle( tr( "AddressBook" ) );
 		pConf = new Config(addrCfg.toLocal8Bit());
 		ui.nameListWidget->addItems(loadNameList(pConf));
@@ -299,10 +300,23 @@ void addrDialog::onMenuColor()
 	if(color.isValid()==TRUE)
 	{
 		clrMenu=color;
-		QPalette palette;
-		palette.setColor(ui.menuLabel->backgroundRole(),color);
-		ui.menuLabel->setPalette(palette);
+		setMenuPixmap();
 	}
+}
+
+void addrDialog::setMenuPixmap()
+{
+	QPixmap pxm(ui.menuLabel->size());
+	QPainter p;
+	QFont font(strFontName,nFontSize);
+	p.begin(&pxm);
+	p.setBackgroundMode(Qt::TransparentMode);
+	p.setFont(font);
+	p.setPen(clrFg);
+	p.fillRect( ui.menuLabel->rect(), QBrush(clrMenu));
+	p.drawText(ui.menuLabel->rect(), Qt::AlignHCenter|Qt::AlignVCenter, "Menu Label");
+	ui.menuLabel->setPixmap(pxm);
+	p.end();
 }
 
 void addrDialog::setLabelPixmap()
@@ -337,7 +351,7 @@ void addrDialog::connectSlots()
 	connect( ui.fontPushButton, SIGNAL(clicked()), this, SLOT(onFont()) );
 	connect( ui.fgcolorPushButton, SIGNAL(clicked()), this, SLOT(onFgcolor()) );
 	connect( ui.bgcolorPushButton, SIGNAL(clicked()), this, SLOT(onBgcolor()) );
-	connect( ui.schemaPushButton, SIGNAL(clicked()), this, SLOT(onSchema()) );
+//	connect( ui.schemaPushButton, SIGNAL(clicked()), this, SLOT(onSchema()) );
 
 	connect( ui.protocolComboBox, SIGNAL(activated(int)), this, SLOT(onProtocol(int)) );
 
@@ -388,10 +402,10 @@ bool addrDialog::isChanged()
 		param.m_bAutoReply != ui.replyCheckBox->isChecked() ||
 		param.m_bReconnect != ui.reconnectCheckBox->isChecked() ||
 		param.m_nReconnectInterval != ui.reconnectLineEdit->text().toInt() ||
-		param.m_nRetry != ui.retryLineEdit->text().toInt() ||
+//		param.m_nRetry != ui.retryLineEdit->text().toInt() ||
 		param.m_bLoadScript != ui.scriptCheckBox->isChecked() ||
 		param.m_strScriptFile != ui.scriptLineEdit->text() ||
-		param.m_nMenuType != bgMenu.checkedId() ||
+		param.m_nMenuType != ui.menuTypeComboBox->currentIndex() ||
 		param.m_clrMenu != clrMenu;
 		
 }
@@ -442,10 +456,10 @@ void addrDialog::updateData(bool save)
 		param.m_strAutoReply = ui.replyLineEdit->text();
 		param.m_bReconnect = ui.reconnectCheckBox->isChecked();
 		param.m_nReconnectInterval = ui.reconnectLineEdit->text().toInt();
-		param.m_nRetry = ui.retryLineEdit->text().toInt();
+//		param.m_nRetry = ui.retryLineEdit->text().toInt();
 		param.m_bLoadScript = ui.scriptCheckBox->isChecked();
 		param.m_strScriptFile = ui.scriptLineEdit->text();
-		param.m_nMenuType = bgMenu.checkedId();
+		param.m_nMenuType = ui.menuTypeComboBox->currentIndex();
 		param.m_clrMenu = clrMenu;
 	}
 	else	// from param to display
@@ -506,22 +520,21 @@ void addrDialog::updateData(bool save)
 		ui.replyLineEdit->setText(param.m_strAutoReply);
 		ui.reconnectCheckBox->setChecked(param.m_bReconnect);
 		ui.reconnectLineEdit->setEnabled(param.m_bReconnect);
-		ui.retryLineEdit->setEnabled(param.m_bReconnect);
+//		ui.retryLineEdit->setEnabled(param.m_bReconnect);
 		strTmp.setNum(param.m_nReconnectInterval);
 		ui.reconnectLineEdit->setText(strTmp);
 		strTmp.setNum(param.m_nRetry);
-		ui.retryLineEdit->setText(strTmp);
+//		ui.retryLineEdit->setText(strTmp);
 		ui.scriptCheckBox->setChecked(param.m_bLoadScript);
 		ui.scriptLineEdit->setEnabled(param.m_bLoadScript);
 		ui.scriptPushButton->setEnabled(param.m_bLoadScript);
 		ui.scriptLineEdit->setText(param.m_strScriptFile);
+		ui.menuTypeComboBox->setCurrentIndex(param.m_nMenuType);
 		//ui.menuGroup->setButton(param.m_nMenuType);
-		QRadioButton * rbMenu = qobject_cast<QRadioButton*>(bgMenu.button(param.m_nMenuType));
-		rbMenu->setChecked(true);
+		//QRadioButton * rbMenu = qobject_cast<QRadioButton*>(bgMenu.button(param.m_nMenuType));
+		//rbMenu->setChecked(true);
 		clrMenu = param.m_clrMenu;
-		QPalette palette;
-		palette.setColor(ui.menuLabel->backgroundRole(), clrMenu);
-		ui.menuLabel->setPalette(palette);
+		setMenuPixmap();
 	}
 }
 
