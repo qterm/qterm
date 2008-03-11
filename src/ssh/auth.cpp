@@ -384,8 +384,10 @@ void SSH1Auth::authPacketReceived(int flag)
             passwordAuth();
             m_phase = PassWord;
         }
-        else
+        else {
             qDebug("Wrong password?");
+            passwordAuth();
+        }
         break;
     default:
         break;
