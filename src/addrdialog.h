@@ -35,6 +35,7 @@ protected slots:
 	void onApply();
 	void onConnect();
 	void onClose();
+	void onReset();
 	void onFont();
 	void onFgcolor();
 	void onBgcolor();

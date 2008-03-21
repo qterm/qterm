@@ -219,6 +219,10 @@ void addrDialog::onConnect()
 	done(1);
 }
 
+void addrDialog::onReset()
+{
+	updateData(false);
+}
 void addrDialog::onFont()
 {
 	bool ok;
@@ -348,6 +352,7 @@ void addrDialog::connectSlots()
 	connect( ui.applyPushButton, SIGNAL(clicked()), this, SLOT(onApply()) );
 	connect( ui.closePushButton, SIGNAL(clicked()), this, SLOT(onClose()) );
 	connect( ui.connectPushButton, SIGNAL(clicked()), this, SLOT(onConnect()) );
+	connect( ui.resetPushButton, SIGNAL(clicked()), this, SLOT(onReset()) );
 
 	connect( ui.fontPushButton, SIGNAL(clicked()), this, SLOT(onFont()) );
 	connect( ui.fgcolorPushButton, SIGNAL(clicked()), this, SLOT(onFgcolor()) );
