@@ -42,6 +42,8 @@ addrDialog::addrDialog( QWidget* parent, bool partial, Qt::WFlags fl )
 {
 	ui.setupUi(this);
 	ui.menuLabel->setAutoFillBackground(true);
+	ui.portSpinBox->setRange(0, 65535);
+	ui.proxyportSpinBox->setRange(0, 65535);
 	if(bPartial)
 	{
 		ui.nameListWidget->hide();
@@ -363,7 +365,7 @@ bool addrDialog::isChanged()
 {
 	return( param.m_strName != ui.nameLineEdit->text() ||
 		param.m_strAddr != ui.addrLineEdit->text() ||
-		param.m_uPort != ui.portLineEdit->text().toUShort() ||
+		param.m_uPort != ui.portSpinBox->value() ||
 		param.m_nHostType != ui.hostTypeComboBox->currentIndex() ||
 		param.m_bAutoLogin != ui.autoLoginCheckBox->isChecked() ||
 		param.m_strPreLogin != ui.preloginLineEdit->text() ||
@@ -389,7 +391,7 @@ bool addrDialog::isChanged()
 		param.m_strEscape != ui.escapeLineEdit->text() ||
 		param.m_nProxyType != ui.proxytypeComboBox->currentIndex() ||
 		param.m_strProxyHost != ui.proxyaddrLineEdit->text() ||
-		param.m_uProxyPort != ui.proxyportLineEdit->text().toUShort() ||
+		param.m_uProxyPort != ui.proxyportSpinBox->value() ||
 		param.m_bAuth != ui.authCheckBox->isChecked() ||
 		param.m_strProxyUser != ui.proxyuserLineEdit->text() ||
 		param.m_strProxyPasswd != ui.proxypasswdLineEdit->text() ||
@@ -415,7 +417,7 @@ void addrDialog::updateData(bool save)
 	{
 		param.m_strName = ui.nameLineEdit->text();
 		param.m_strAddr = ui.addrLineEdit->text();
-		param.m_uPort = ui.portLineEdit->text().toUShort();
+		param.m_uPort = ui.portSpinBox->value();
 		param.m_nHostType = ui.hostTypeComboBox->currentIndex();
 		param.m_bAutoLogin = ui.autoLoginCheckBox->isChecked();
 		param.m_strPreLogin = ui.preloginLineEdit->text();
@@ -441,7 +443,7 @@ void addrDialog::updateData(bool save)
 		param.m_strEscape = ui.escapeLineEdit->text();
 		param.m_nProxyType = ui.proxytypeComboBox->currentIndex();
 		param.m_strProxyHost = ui.proxyaddrLineEdit->text();
-		param.m_uProxyPort = ui.proxyportLineEdit->text().toUShort();
+		param.m_uProxyPort = ui.proxyportSpinBox->value();
 		param.m_bAuth = ui.authCheckBox->isChecked();
 		param.m_strProxyUser = ui.proxyuserLineEdit->text();
 		param.m_strProxyPasswd = ui.proxypasswdLineEdit->text();
@@ -467,7 +469,7 @@ void addrDialog::updateData(bool save)
 		ui.nameLineEdit->setText(param.m_strName );
 		ui.addrLineEdit->setText(param.m_strAddr );
 		strTmp.setNum(param.m_uPort);
-		ui.portLineEdit->setText(strTmp);
+		ui.portSpinBox->setValue(strTmp.toUInt());
 		ui.hostTypeComboBox->setCurrentIndex(param.m_nHostType);
 		ui.autoLoginCheckBox->setChecked(param.m_bAutoLogin);
 		ui.preloginLineEdit->setEnabled(param.m_bAutoLogin);
@@ -502,7 +504,7 @@ void addrDialog::updateData(bool save)
 		ui.proxytypeComboBox->setCurrentIndex(param.m_nProxyType);
 		ui.proxyaddrLineEdit->setText(param.m_strProxyHost);
 		strTmp.setNum(param.m_uProxyPort);
-		ui.proxyportLineEdit->setText(strTmp);
+		ui.proxyportSpinBox->setValue(strTmp.toUInt());
 		ui.authCheckBox->setChecked(param.m_bAuth);
 		ui.proxyuserLineEdit->setEnabled(param.m_bAuth);
 		ui.proxypasswdLineEdit->setEnabled(param.m_bAuth);

@@ -162,16 +162,6 @@
       <cstring>hostTypeComboBox</cstring>
      </property>
     </widget>
-    <widget class="QLineEdit" name="portLineEdit" >
-     <property name="geometry" >
-      <rect>
-       <x>160</x>
-       <y>130</y>
-       <width>371</width>
-       <height>32</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QLabel" name="TextLabel1" >
      <property name="geometry" >
       <rect>
@@ -225,9 +215,6 @@
      </property>
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-     <property name="buddy" >
-      <cstring>portLineEdit</cstring>
      </property>
     </widget>
     <widget class="QLabel" name="TextLabel6" >
@@ -484,6 +471,16 @@
       </item>
      </layout>
     </widget>
+    <widget class="QSpinBox" name="portSpinBox" >
+     <property name="geometry" >
+      <rect>
+       <x>160</x>
+       <y>130</y>
+       <width>371</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab1" >
     <property name="geometry" >
@@ -500,7 +497,7 @@
     <widget class="QCheckBox" name="autofontCheckBox" >
      <property name="geometry" >
       <rect>
-       <x>160</x>
+       <x>150</x>
        <y>170</y>
        <width>371</width>
        <height>32</height>
@@ -523,7 +520,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QCheckBox" name="ansicolorCheckBox" >
      <property name="geometry" >
       <rect>
-       <x>160</x>
+       <x>150</x>
        <y>250</y>
        <width>371</width>
        <height>32</height>
@@ -536,7 +533,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QCheckBox" name="highlightCheckBox" >
      <property name="geometry" >
       <rect>
-       <x>160</x>
+       <x>150</x>
        <y>210</y>
        <width>371</width>
        <height>32</height>
@@ -1562,19 +1559,6 @@ p, li { white-space: pre-wrap; }
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
-     <property name="buddy" >
-      <cstring>proxyportLineEdit</cstring>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="proxyportLineEdit" >
-     <property name="geometry" >
-      <rect>
-       <x>200</x>
-       <y>130</y>
-       <width>331</width>
-       <height>32</height>
-      </rect>
-     </property>
     </widget>
     <widget class="QCheckBox" name="authCheckBox" >
      <property name="geometry" >
@@ -1771,6 +1755,16 @@ p, li { white-space: pre-wrap; }
       </item>
      </layout>
     </widget>
+    <widget class="QSpinBox" name="proxyportSpinBox" >
+     <property name="geometry" >
+      <rect>
+       <x>200</x>
+       <y>130</y>
+       <width>331</width>
+       <height>32</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QListWidget" name="nameListWidget" >
@@ -1904,7 +1898,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>tabWidget</tabstop>
   <tabstop>nameLineEdit</tabstop>
   <tabstop>addrLineEdit</tabstop>
-  <tabstop>portLineEdit</tabstop>
   <tabstop>protocolComboBox</tabstop>
   <tabstop>hostTypeComboBox</tabstop>
   <tabstop>bbscodeComboBox</tabstop>
@@ -1941,7 +1934,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>idletimeLineEdit</tabstop>
   <tabstop>proxytypeComboBox</tabstop>
   <tabstop>proxyaddrLineEdit</tabstop>
-  <tabstop>proxyportLineEdit</tabstop>
   <tabstop>authCheckBox</tabstop>
   <tabstop>proxyuserLineEdit</tabstop>
   <tabstop>proxypasswdLineEdit</tabstop>
