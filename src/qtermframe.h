@@ -4,6 +4,7 @@
 
 // #include <q3mainwindow.h>
 //Added by qt3to4:
+#include "statusBar.h"
 #include <QPixmap>
 #include <QByteArray>
 #include <QString>
@@ -12,14 +13,13 @@
 #include <QMainWindow>
 #include <QEvent>
 #include <QMenu>
-#include "statusBar.h"
+#include <QSystemTrayIcon>
 
 class QLineEdit;
 // class Q3ToolBar;
 class QToolButton;
 class QMdiArea;
 class QTabBar;
-class QSystemTrayIcon;
 class QFontDialog;
 
 namespace QTerm
@@ -158,10 +158,10 @@ protected slots:
 	void connectMenuActivated(int);
 	void popupConnectMenu();
 	void connectMenuAboutToHide();
-	void trayActived(int);
 
 	//void trayClicked(const QPoint &, int);
 	//void trayDoubleClicked();	
+	void trayActivated(QSystemTrayIcon::ActivationReason reason);
 	void trayHide();
 	void trayShow();
 	void buildTrayMenu();

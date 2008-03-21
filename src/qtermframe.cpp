@@ -1594,9 +1594,8 @@ void Frame::setUseDock(bool use)
 	tray = new QSystemTrayIcon( this ); //pathLib+"pic/qterm_tray.png", "QTerm", trayMenu, this);
 	tray->setIcon(QPixmap(pathPic+"pic/qterm_tray.png"));
 	tray->setContextMenu(trayMenu);
-	connect(tray, SIGNAL(activated(int)), SLOT(trayActived(int)));
-// 	connect(tray, SIGNAL(clicked(const QPoint &, int)), SLOT(trayClicked(const QPoint &, int)));
-// 	connect(tray, SIGNAL(doubleClicked(const QPoint &)), SLOT(trayDoubleClicked()));
+	connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+			this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)));
 // 	connect(tray, SIGNAL(closed()), this, SLOT(exitQTerm()));
 
 	tray->show();
@@ -1616,14 +1615,23 @@ void Frame::buildTrayMenu()
 	trayMenu->addAction(tr("About"), this, SLOT(aboutQTerm()));
 	trayMenu->addAction(tr("Exit"), this, SLOT(exitQTerm()));
 }
-void Frame::trayActived(int reason)
+
+void Frame::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
-	if (reason == QSystemTrayIcon::Context)
+	switch (reason) {
+	case QSystemTrayIcon::Trigger:
+	case QSystemTrayIcon::DoubleClick:
+		if (isHidden()) {
+			trayShow();
+		} else {
+			trayHide();
+		}
+		break;
+	case QSystemTrayIcon::Context:
 		return;
-	if(!isVisible())
-		trayShow();
-	else
-		trayHide();
+	default:
+		return;
+	}
 }
 /*
 void Frame::trayClicked(const QPoint &, int)
