@@ -1,5 +1,6 @@
 set(optionalLibs)
 set(optionalSources)
+set(win32Libs libwsock32.a)
 find_package(OpenSSL)
 if(OPENSSL_FOUND)
    message(STATUS "OpenSSL found, enable SSH support")
@@ -87,6 +88,9 @@ qterm.cfg)
 qt4_wrap_ui(qterm_UIS_H ${qterm_UIS})
 qt4_automoc(${qterm_SRCS})
 add_definitions( -Wall -DHAVE_CONFIG_H )
+if(WIN32)
+	set(CMAKE_CXX_FLAGS -mwindows)
+endif(WIN32)
 include_directories(
 ${QT_INCLUDE_DIR}
 ${QT_QTCORE_INCLUDE_DIR}
@@ -102,7 +106,12 @@ ${QT_LIBRARIES}
 ${QT_QTCORE_LIBRARY}
 ${QT_QTGUI_LIBRARY}
 ${QT_QTNETWORK_LIBRARY}
-${optionalLibs})
+${optionalLibs}
+)
+if(WIN32)
+	target_link_libraries(qterm ${win32Libs})
+endif(WIN32)
+
 install(TARGETS qterm DESTINATION bin)
 install(FILES ${qterm_MISC} DESTINATION share/qterm)
 add_subdirectory(pic)
