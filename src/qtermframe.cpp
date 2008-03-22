@@ -775,6 +775,7 @@ void Frame::fullscreen()
 	
 	if( m_bFullScreen )
 	{
+		//TODO: add an item to the popup menu so we can go back to normal without touch the keyboard
 		menuBar()->hide();
 		mdiTools->hide();
 		mdiconnectTools->hide();
