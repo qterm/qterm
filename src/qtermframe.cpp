@@ -795,7 +795,7 @@ void Frame::fullscreen()
 		showNormal();
 	}
 
-	m_fullAction->setEnabled(m_bFullScreen);
+	m_fullAction->setChecked(m_bFullScreen);
 // 	menuBar()->setItemChecked( ID_VIEW_FULL, m_bFullScreen );
 
 }
@@ -1180,6 +1180,7 @@ void Frame::initActions()
 	m_uiFontAction = new QAction(tr("&UI font"), this);
 	m_fullAction = new QAction(tr("&Fullscreen"), this);
 	m_fullAction->setShortcut(Qt::Key_F6);
+	addAction(m_fullAction);
 	m_bossAction = new QAction(tr("Boss &Color"), this);
 	m_bossAction->setShortcut(Qt::Key_F12);
 
