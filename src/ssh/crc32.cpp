@@ -25,7 +25,7 @@
  */
 #include "crc32.h"
 
-static const u_int32_t crc32tab[] =
+static const uint32_t crc32tab[] =
     {
         0x00000000L, 0x77073096L, 0xee0e612cL, 0x990951baL,
         0x076dc419L, 0x706af48fL, 0xe963a535L, 0x9e6495a3L,
@@ -93,10 +93,10 @@ static const u_int32_t crc32tab[] =
         0xb40bbe37L, 0xc30c8ea1L, 0x5a05df1bL, 0x2d02ef8dL
     };
 
-u_int32_t
-ssh_crc32(const u_char *buf, u_int32_t size)
+uint32_t
+ssh_crc32(const uint8_t *buf, uint32_t size)
 {
-    u_int32_t i, crc;
+    uint32_t i, crc;
 
     crc = 0;
     for (i = 0;  i < size;  i++)

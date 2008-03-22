@@ -14,6 +14,7 @@
 
 #include "transport.h"
 #include "qtermsocket.h"
+#include <stdint.h>
 #include <openssl/bn.h>
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>
@@ -31,8 +32,8 @@ class SSH2InBuffer : public QObject
 public:
     explicit SSH2InBuffer(SocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH2InBuffer();
-    u_int32_t getUInt32();
-    u_char getUInt8();
+    uint32_t getUInt32();
+    uint8_t getUInt8();
     QByteArray getData(uint length);
     QByteArray getString();
     void getBN(BIGNUM * bn);
@@ -58,7 +59,7 @@ private:
     QBuffer m_buf;
     SocketPrivate * m_socket;
     SSH2Transport * m_transport;
-    u_int32_t m_sequenceNumber;
+    uint32_t m_sequenceNumber;
 };
 
 class SSH1InBuffer : public QObject
@@ -67,8 +68,8 @@ class SSH1InBuffer : public QObject
 public:
     explicit SSH1InBuffer(SocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH1InBuffer();
-    u_int32_t getUInt32();
-    u_char getUInt8();
+    uint32_t getUInt32();
+    uint8_t getUInt8();
     QByteArray getData(uint length);
     QByteArray getString();
     void getBN(BIGNUM * bn);
@@ -102,9 +103,9 @@ public:
     explicit SSH2OutBuffer(SocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH2OutBuffer();
     void startPacket();
-    void startPacket(u_char flag);
-    void putUInt32(u_int32_t v);
-    void putUInt8(u_char v);
+    void startPacket(uint8_t flag);
+    void putUInt32(uint32_t v);
+    void putUInt8(uint8_t v);
     void putData(const QByteArray & data);
     void putString(const QByteArray & string);
     void putBN(const BIGNUM * bn);
@@ -122,7 +123,7 @@ private:
     QBuffer m_buf;
     SocketPrivate * m_socket;
     SSH2Transport * m_transport;
-    u_int32_t m_sequenceNumber;
+    uint32_t m_sequenceNumber;
 };
 
 
@@ -133,9 +134,9 @@ public:
     explicit SSH1OutBuffer(SocketPrivate * plainSocket, QObject * parent = 0);
     ~SSH1OutBuffer();
     void startPacket();
-    void startPacket(u_char flag);
-    void putUInt32(u_int32_t v);
-    void putUInt8(u_char v);
+    void startPacket(uint8_t flag);
+    void putUInt32(uint32_t v);
+    void putUInt8(uint8_t v);
     void putData(const QByteArray & data);
     void putString(const QByteArray & string);
     void putBN(const BIGNUM * bn);
@@ -153,7 +154,7 @@ private:
     QBuffer m_buf;
     SocketPrivate * m_socket;
     SSH1Encryption * m_encryption;
-//  u_int32_t m_sequenceNumber;
+//  uint32_t m_sequenceNumber;
 };
 
 }

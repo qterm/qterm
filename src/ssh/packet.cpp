@@ -18,43 +18,43 @@
 #include <QtDebug>
 #endif
 
-u_int32_t get_u32(const void * vp)
+uint32_t get_u32(const void * vp)
 {
-    u_int32_t v;
-    const u_char * p = (const u_char *) vp;
-    v  = (u_int32_t) p[0] << 24;
-    v |= (u_int32_t) p[1] << 16;
-    v |= (u_int32_t) p[2] << 8;
-    v |= (u_int32_t) p[3];
+    uint32_t v;
+    const uint8_t * p = (const uint8_t *) vp;
+    v  = (uint32_t) p[0] << 24;
+    v |= (uint32_t) p[1] << 16;
+    v |= (uint32_t) p[2] << 8;
+    v |= (uint32_t) p[3];
     return v;
 }
 
-u_int16_t get_u16(const void *vp)
+uint16_t get_u16(const void *vp)
 {
-    const u_char *p = (const u_char *) vp;
-    u_int16_t v;
+    const uint8_t *p = (const uint8_t *) vp;
+    uint16_t v;
 
-    v  = (u_int16_t) p[0] << 8;
-    v |= (u_int16_t) p[1];
+    v  = (uint16_t) p[0] << 8;
+    v |= (uint16_t) p[1];
 
     return (v);
 }
 
-void put_u32(void * vp, u_int32_t v)
+void put_u32(void * vp, uint32_t v)
 {
-    u_char * p = (u_char *) vp;
+    uint8_t * p = (uint8_t *) vp;
 
-    p[0] = (u_char)(v >> 24) & 0xff;
-    p[1] = (u_char)(v >> 16) & 0xff;
-    p[2] = (u_char)(v >> 8) & 0xff;
-    p[3] = (u_char) v & 0xff;
+    p[0] = (uint8_t)(v >> 24) & 0xff;
+    p[1] = (uint8_t)(v >> 16) & 0xff;
+    p[2] = (uint8_t)(v >> 8) & 0xff;
+    p[3] = (uint8_t) v & 0xff;
 }
 
-void put_u16(void * vp, u_int16_t v)
+void put_u16(void * vp, uint16_t v)
 {
-    u_char * p = (u_char *) vp;
-    p[0] = (u_char)(v >> 8) & 0xff;
-    p[1] = (u_char) v & 0xff;
+    uint8_t * p = (uint8_t *) vp;
+    p[0] = (uint8_t)(v >> 8) & 0xff;
+    p[1] = (uint8_t) v & 0xff;
 }
 
 #ifdef SSH_DEBUG
@@ -121,7 +121,7 @@ void SSH2InBuffer::parseData()
 #endif
         // TODO: sanity check for packet length
         int length = get_u32(firstBlock.data());
-        u_char padding = firstBlock[4];
+        uint8_t padding = firstBlock[4];
 
 //   qDebug() << "packet length " << length << " padding length " << padding;
 
@@ -172,21 +172,21 @@ void SSH2InBuffer::parseData()
     }
 }
 
-u_int32_t SSH2InBuffer::getUInt32()
+uint32_t SSH2InBuffer::getUInt32()
 {
     char tmp[4];
     m_buf.read(tmp, 4);
     return get_u32(tmp);
 }
 
-u_char SSH2InBuffer::getUInt8()
+uint8_t SSH2InBuffer::getUInt8()
 {
-    u_char v;
+    uint8_t v;
     m_buf.getChar((char*) &v);
     return v;
 }
 
-QByteArray SSH2InBuffer::getData(u_int32_t size)
+QByteArray SSH2InBuffer::getData(uint32_t size)
 {
     QByteArray data(size, 0);
     m_buf.read(data.data(), size);
@@ -195,7 +195,7 @@ QByteArray SSH2InBuffer::getData(u_int32_t size)
 
 QByteArray SSH2InBuffer::getString()
 {
-    u_int32_t length = getUInt32();
+    uint32_t length = getUInt32();
     return getData(length);
 }
 
@@ -250,21 +250,21 @@ SSH1InBuffer::SSH1InBuffer(SocketPrivate * plainSocket, QObject * parent)
 SSH1InBuffer::~SSH1InBuffer()
 {}
 
-u_int32_t SSH1InBuffer::getUInt32()
+uint32_t SSH1InBuffer::getUInt32()
 {
     char tmp[4];
     m_buf.read(tmp, 4);
     return get_u32(tmp);
 }
 
-u_char SSH1InBuffer::getUInt8()
+uint8_t SSH1InBuffer::getUInt8()
 {
-    u_char v;
+    uint8_t v;
     m_buf.getChar((char*) &v);
     return v;
 }
 
-QByteArray SSH1InBuffer::getData(u_int32_t size)
+QByteArray SSH1InBuffer::getData(uint32_t size)
 {
     QByteArray data(size, 0);
     m_buf.read(data.data(), size);
@@ -273,7 +273,7 @@ QByteArray SSH1InBuffer::getData(u_int32_t size)
 
 QByteArray SSH1InBuffer::getString()
 {
-    u_int32_t length = getUInt32();
+    uint32_t length = getUInt32();
     return getData(length);
 }
 
@@ -362,14 +362,14 @@ void SSH1InBuffer::parseData()
         else
             plain = m_encryption->crypt(m_in.mid(4, totalLen));
         // the Padding, Packet type, and Data fields
-        u_int32_t mycrc = ssh_crc32((unsigned char *) plain.left(totalLen - 4).data(), totalLen - 4);
+        uint32_t mycrc = ssh_crc32((unsigned char *) plain.left(totalLen - 4).data(), totalLen - 4);
         m_out = plain.mid(padding, length - 4);
 #ifdef SSH_DEBUG
         qDebug() << "Decrypted data";
 #endif
 //  dumpData ( m_out );
 //  dumpData ( m_in.mid ( totalLen, 4 ) );
-        u_int32_t gotcrc = get_u32(plain.mid(totalLen - 4, 4));
+        uint32_t gotcrc = get_u32(plain.mid(totalLen - 4, 4));
         if (gotcrc != mycrc)
             // TODO: die gracefully
             qDebug("crc32 check error!");
@@ -399,20 +399,20 @@ void SSH2OutBuffer::startPacket()
     m_buf.reset();
 }
 
-void SSH2OutBuffer::startPacket(u_char flag)
+void SSH2OutBuffer::startPacket(uint8_t flag)
 {
     startPacket();
     putUInt8(flag);
 }
 
-void SSH2OutBuffer::putUInt32(u_int32_t v)
+void SSH2OutBuffer::putUInt32(uint32_t v)
 {
     char tmp[4];
     put_u32(tmp, v);
     m_buf.write(tmp, 4);
 }
 
-void SSH2OutBuffer::putUInt8(u_char v)
+void SSH2OutBuffer::putUInt8(uint8_t v)
 {
     m_buf.putChar(v);
 }
@@ -478,7 +478,7 @@ void SSH2OutBuffer::sendPacket()
 #endif
     int totalLen;
     QByteArray tmp(4, 0);
-    u_char padding = blockSize - ((len + 5) % blockSize);
+    uint8_t padding = blockSize - ((len + 5) % blockSize);
     if (padding < 4)
         padding += blockSize;
 #ifdef SSH_DEBUG
@@ -529,20 +529,20 @@ void SSH1OutBuffer::startPacket()
     m_buf.reset();
 }
 
-void SSH1OutBuffer::startPacket(u_char flag)
+void SSH1OutBuffer::startPacket(uint8_t flag)
 {
     startPacket();
     putUInt8(flag);
 }
 
-void SSH1OutBuffer::putUInt32(u_int32_t v)
+void SSH1OutBuffer::putUInt32(uint32_t v)
 {
     char tmp[4];
     put_u32(tmp, v);
     m_buf.write(tmp, 4);
 }
 
-void SSH1OutBuffer::putUInt8(u_char v)
+void SSH1OutBuffer::putUInt8(uint8_t v)
 {
     m_buf.putChar(v);
 }
@@ -570,7 +570,7 @@ void SSH1OutBuffer::putBN(const BIGNUM * value)
     char msg[2];
 
     /* Get the value of in binary */
-    oi = BN_bn2bin(value, (u_char*) buf.data());
+    oi = BN_bn2bin(value, (uint8_t*) buf.data());
     if (oi != bin_size) {
         qDebug("BN_bn2bin() failed");
         return;
@@ -595,7 +595,7 @@ void SSH1OutBuffer::sendPacket()
         RAND_bytes((unsigned char *) tmp.data(), padding);
     QByteArray plain = tmp + m_in;
     tmp.resize(4);
-    u_int32_t mycrc = ssh_crc32((unsigned char *) plain.data(), plain.size());
+    uint32_t mycrc = ssh_crc32((unsigned char *) plain.data(), plain.size());
     put_u32(tmp.data(), mycrc);
 //  dumpData(tmp);
     // TODO: encryption

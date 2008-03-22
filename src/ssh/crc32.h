@@ -26,6 +26,7 @@
 
 #ifndef SSH_CRC32_H
 #define SSH_CRC32_H
+#include <stdint.h>
 #include <stdlib.h>
-u_int32_t  ssh_crc32(const u_char *, u_int32_t);
+uint32_t  ssh_crc32(const uint8_t *, uint32_t);
 #endif

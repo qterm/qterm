@@ -95,7 +95,7 @@ SSH2Encryption::~SSH2Encryption()
 
 void SSH2Encryption::init(const QByteArray & key, const QByteArray & iv, Method method)
 {
-    if (EVP_CipherInit(m_ctx, m_evptype, (const u_char*) key.data(), (const u_char*) iv.data(), method == Encryption) == 0)
+    if (EVP_CipherInit(m_ctx, m_evptype, (const uint8_t*) key.data(), (const uint8_t*) iv.data(), method == Encryption) == 0)
         qDebug("Cipher init failed");
 }
 
@@ -108,7 +108,7 @@ QByteArray SSH2Encryption::crypt(const QByteArray & src)
     }
     dest.resize(src.size());
 
-    if (EVP_Cipher(m_ctx, (u_char*) dest.data(), (const u_char *) src.data(), src.size()) == 0)
+    if (EVP_Cipher(m_ctx, (uint8_t*) dest.data(), (const uint8_t *) src.data(), src.size()) == 0)
         qDebug("SSH2Encryption: EVP_Cipher failed");
 
     return dest;
@@ -137,9 +137,9 @@ SSH2MAC::~SSH2MAC()
 QByteArray SSH2MAC::mac(const QByteArray & data)
 {
     QByteArray hmac(m_macLen, 0);
-    HMAC_Init(m_ctx, (const u_char*) m_key.data(), m_keyLen, m_evptype);
-    HMAC_Update(m_ctx, (const u_char *) data.data(), data.size());
-    HMAC_Final(m_ctx, (u_char *) hmac.data(), NULL);
+    HMAC_Init(m_ctx, (const uint8_t*) m_key.data(), m_keyLen, m_evptype);
+    HMAC_Update(m_ctx, (const uint8_t *) data.data(), data.size());
+    HMAC_Final(m_ctx, (uint8_t *) hmac.data(), NULL);
     return hmac;
 }
 
@@ -147,7 +147,7 @@ SSH1Encryption::SSH1Encryption(Method method, const QByteArray & key)
         : m_method(method)
 {
     DES_cblock desKey;
-    u_char * data = (unsigned char *) key.data();
+    uint8_t * data = (unsigned char *) key.data();
     memset(desKey, 0, sizeof(desKey));
     memcpy(desKey, data, sizeof(desKey));
     DES_set_key(&desKey, &m_key1);
@@ -177,16 +177,16 @@ QByteArray SSH1Encryption::crypt(const QByteArray & src)
 #ifdef SSH_DEBUG
         qDebug() << "Encryption";
 #endif
-        DES_ncbc_encrypt((u_char *)src.data(), (u_char *)dest.data(), dest.size(), &m_key1, &m_IV1, DES_ENCRYPT);
-        DES_ncbc_encrypt((u_char *)dest.data(), (u_char *)dest.data(), dest.size(), &m_key2, &m_IV2, DES_DECRYPT);
-        DES_ncbc_encrypt((u_char *)dest.data(), (u_char *)dest.data(), dest.size(), &m_key3, &m_IV3, DES_ENCRYPT);
+        DES_ncbc_encrypt((uint8_t *)src.data(), (uint8_t *)dest.data(), dest.size(), &m_key1, &m_IV1, DES_ENCRYPT);
+        DES_ncbc_encrypt((uint8_t *)dest.data(), (uint8_t *)dest.data(), dest.size(), &m_key2, &m_IV2, DES_DECRYPT);
+        DES_ncbc_encrypt((uint8_t *)dest.data(), (uint8_t *)dest.data(), dest.size(), &m_key3, &m_IV3, DES_ENCRYPT);
     } else {
 #ifdef SSH_DEBUG
         qDebug() << "Decryption";
 #endif
-        DES_ncbc_encrypt((u_char *)src.data(), (u_char *)dest.data(), dest.size(), &m_key3, &m_IV3, DES_DECRYPT);
-        DES_ncbc_encrypt((u_char *)dest.data(), (u_char *)dest.data(), dest.size(), &m_key2, &m_IV2, DES_ENCRYPT);
-        DES_ncbc_encrypt((u_char *)dest.data(), (u_char *)dest.data(), dest.size(), &m_key1, &m_IV1, DES_DECRYPT);
+        DES_ncbc_encrypt((uint8_t *)src.data(), (uint8_t *)dest.data(), dest.size(), &m_key3, &m_IV3, DES_DECRYPT);
+        DES_ncbc_encrypt((uint8_t *)dest.data(), (uint8_t *)dest.data(), dest.size(), &m_key2, &m_IV2, DES_ENCRYPT);
+        DES_ncbc_encrypt((uint8_t *)dest.data(), (uint8_t *)dest.data(), dest.size(), &m_key1, &m_IV1, DES_DECRYPT);
     }
     return dest;
 }

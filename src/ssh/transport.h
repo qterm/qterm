@@ -170,8 +170,8 @@ public:
     SSH1Encryption(Method method, const QByteArray & key);
     ~SSH1Encryption();
     QByteArray crypt(const QByteArray & src);
-//  void encrypt ( const u_char * source, u_char * dest, int len );
-//  void decrypt ( const u_char * source, u_char * dest, int len );
+//  void encrypt ( const uint8_t * source, uint8_t * dest, int len );
+//  void decrypt ( const uint8_t * source, uint8_t * dest, int len );
 private:
     DES_cblock m_IV1;
     DES_cblock m_IV2;

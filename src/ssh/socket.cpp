@@ -18,6 +18,7 @@
 #include "ssh1.h"
 #include "ssh2.h"
 #include "qtermsocket.h"
+#include <stdint.h>
 #include <openssl/bn.h>
 #include <QtCore/QStringList>
 
