@@ -11,7 +11,7 @@
 #include <malloc.h>
 #endif
 #include <stdlib.h>
-
+#include <alloca.h>
 #include <ctype.h>
 
 /* hack from wget/http.c */
