@@ -173,7 +173,7 @@ void schemaDialog::saveNumSchema(int n)
 
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 	QDir dir(pathLib);
-	QString strSchemaFile = dir.absPath()+"/schema/"+title+".schema";
+	QString strSchemaFile = dir.absolutePath()+"/schema/"+title+".schema";
 #else
 	// save it to $HOME/.qterm/schema/ with filename=title
 	QFileInfo fi(*it);
