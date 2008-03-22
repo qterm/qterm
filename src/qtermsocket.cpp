@@ -5,13 +5,19 @@
 //Added by qt3to4:
 #include <QByteArray>
 #include <QTcpSocket>
+#include <QtGlobal>
 
-#if !defined(Q_OS_BSD4) && !defined(_OS_FREEBSD_) \
+#if !defined(Q_OS_BSD4) && !defined(Q_OS_FREEBSD_) \
 		    && !defined(Q_OS_MACX) && !defined(Q_OS_DARWIN)
 #include <malloc.h>
 #endif
+
 #include <stdlib.h>
+
+#if  defined(Q_OS_SOLARIS)
 #include <alloca.h>
+#endif
+
 #include <ctype.h>
 
 /* hack from wget/http.c */
