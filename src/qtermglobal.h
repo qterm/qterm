@@ -39,12 +39,13 @@ public:
     void saveAddress(int n, const Param & param);
     QString getOpenFileName(const QString & filter, QWidget * widget);
     QString getSaveFileName(const QString & filename, QWidget * widget);
-    Status status();
+    bool isOK();
 
 private:
     Global();
     static Global* m_Instance;
     bool iniWorkingDir(QString param);
+    bool iniSettings();
     bool isPathExist(const QString & path);
     bool createLocalFile(const QString & dst, const QString & src);
     QString m_fileCfg;

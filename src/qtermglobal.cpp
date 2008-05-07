@@ -14,9 +14,10 @@
 #include "qtermconfig.h"
 #include "qtermparam.h"
 #include "qterm.h"
-#include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
+#include <QtCore/QTranslator>
+#include <QtGui/QApplication>
 #include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
 
@@ -56,13 +57,20 @@ Global::Global()
         m_status = ERROR;
         return;
     }
+    if (!iniSettings()) {
+        m_status = ERROR;
+        return;
+    }
     m_config = new Config(m_fileCfg);
     m_address = new Config(m_addrCfg);
 }
 
-Global::Status Global::status()
+bool Global::isOK()
 {
-    return m_status;
+    if (m_status == OK) {
+        return true;
+    }
+    return false;
 }
 
 Config * Global::fileCfg()
@@ -447,6 +455,64 @@ bool Global::iniWorkingDir( QString param )
     return true;
 }
 #endif
+
+bool Global::iniSettings()
+{
+    //install the translator
+    QString lang = m_config->getItemValue("global","language");
+    if(lang !="eng" && !lang.isEmpty())
+    {
+        // look in $HOME/.qterm/po/ first
+        QString qm=QDir::homePath()+"/.qterm/po/qterm_"+lang+".qm";
+        if(!QFile::exists(qm))
+            qm=m_pathLib+"po/qterm_"+lang+".qm";
+        static QTranslator * translator = new QTranslator(0);
+        translator->load(qm);
+        qApp->installTranslator(translator);
+    }
+    //set font
+    QString family = m_config->getItemValue("global","font");
+    QString pointsize = m_config->getItemValue("global","pointsize");
+    QString pixelsize = m_config->getItemValue("global","pixelsize");
+    if( !family.isEmpty() )
+    {
+        QFont font(family);
+        if (pointsize.toInt() > 0)
+            font.setPointSize(pointsize.toInt());
+        if (pixelsize.toInt() > 0)
+            font.setPixelSize(pixelsize.toInt());
+        #if (QT_VERSION>=300)
+        QString bAA = m_config->getItemValue("global", "antialias");
+        if(bAA!="0")
+            font.setStyleStrategy(QFont::PreferAntialias);
+        #endif
+        qApp->setFont(font);
+        qApp->setFont(font, "QWidget");
+    }
+
+    // zmodem and pool directory
+    QString pathZmodem = m_config->getItemValue("preference", "zmodem");
+    if(pathZmodem.isEmpty())
+        pathZmodem = m_pathCfg+"zmodem";
+    if(!isPathExist(pathZmodem))
+        return false;
+
+    QString pathPool = m_config->getItemValue("preference", "pool");
+
+    if(pathPool.isEmpty())
+        pathPool = m_pathCfg+"pool/";
+
+    if (pathPool.right(1) != "/")
+        pathPool.append('/');
+
+    QString pathCache = pathPool+"shadow-cache/";
+
+    if((!isPathExist(pathPool))||(!isPathExist(pathCache)))
+        return false;
+
+    return true;
+}
+
 
 bool Global::isPathExist( const QString& path )
 {
