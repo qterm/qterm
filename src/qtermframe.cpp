@@ -766,6 +766,7 @@ void Frame::uiFont()
 	if(ok==true)
 	{
 		qApp->setFont(font, "QWidget");
+		qApp->setFont(font);
 	}
 }
 
