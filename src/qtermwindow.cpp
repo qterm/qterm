@@ -313,11 +313,7 @@ Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const ch
 
 	connect(m_pDecode, SIGNAL(mouseMode(bool)), this, SLOT(setMouseMode(bool)));
 
-	#if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 	m_popWin = new popWidget(this,m_pFrame);
-	#else
-	m_popWin = new popWidget(this);
-	#endif
 
 	m_pMessage->display(tr("Not Connected"));
 	statusBar()->setSizeGripEnabled(false);

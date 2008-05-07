@@ -101,8 +101,10 @@ void popWidget::popup()
 	pTimer->start(nInterval);
 	nState = 0;
 
-	rcDesktop = qApp->desktop()->rect();
-	ptPos = QPoint( rcDesktop.width()-width()-5, rcDesktop.height()-5 );
+	QDesktopWidget * desktop = qApp->desktop();
+	QWidget * mainWidget = parentWidget();
+	rcDesktop = desktop->screenGeometry(desktop->screenNumber(mainWidget));
+	ptPos = QPoint(rcDesktop.x()+rcDesktop.width()-width()-5, rcDesktop.y()+rcDesktop.height()-5 );
 	move(ptPos);
 
 	if(!isVisible())
@@ -136,6 +138,7 @@ void popWidget::showTimer()
 			ptPos.setY( ptPos.y() + nStep );
 		else
 		{
+			hide();
 			nState = -1;
 			pTimer->stop();
 		}
