@@ -1,7 +1,8 @@
 /*******************************************************************************
 FILENAME:      qtermconfig.cpp
 REVISION:      2001.10.10 first created.
-        	   2004.5.3 rewritten by cppgx.bbs@smth.org 
+               2004.5.3 rewritten by cppgx.bbs@smth.org
+               2008.5.6 rewritten by hooey
 
 *******************************************************************************/
 /*******************************************************************************
@@ -10,173 +11,104 @@ REVISION:      2001.10.10 first created.
  *******************************************************************************/
 #include "qtermconfig.h"
 
-// #include <qfile.h>
-// #include <qfileinfo.h>
-// #include <qstring.h>
-//Added by qt3to4:
-#include <QTextStream>
-#include <QFile>
-#include <QString>
-#include <QTextCodec>
+#include <QtCore/QSettings>
+#include <QtCore/QFileInfo>
+#include <QtCore/QStringList>
+#include <QtCore/QString>
+#include <QtDebug>
 
 namespace QTerm
 {
+
 Config::Config(const QString & szFileName)
 {
-	QFile file( szFileName );
-    if ( !file.open( QIODevice::ReadOnly ) ) 
-	{
-		//qWarning( "could not open for reading `%s'", szFileName.toLatin1() );
-		return;
-    }
-	QTextStream is;
-	is.setDevice(&file);
-	loadFromStream(is);
-	//is.unsetDevice();
-	file.close();
+    m_settings = new QSettings(szFileName, QSettings::IniFormat);
 }
 
 
-Config::~Config ()
+Config::~Config()
 {
-
+    m_settings->sync();
+    delete m_settings;
 }
 
-bool Config::save (const QString & szFileName)
+bool Config::checkError()
 {
-    QFile file( szFileName );
-    if ( !file.open( QIODevice::WriteOnly ) ) 
-	{
-		//qWarning( "could not open for writing `%s'", szFileName.toLatin1() );
-		return false;
-    }
-
-	QTextStream os;
-	os.setDevice(&file);
-	saveToStream(os);
-// 	os.unsetDevice();
-	file.close();
-	return true;
-}
-
-bool Config::loadFromStream(QTextStream& is)
-{
-	QString strLine, strSection;
-
-    data.clear();
-	
-	is.setCodec(QTextCodec::codecForName("UTF-8"));
-
-    while(!is.atEnd())
-    {
-        strLine = is.readLine().trimmed();
-        if(strLine.isEmpty() || strLine[0] == '#')
-            continue;
-
-        if(strLine.left(1) == "[" && strLine.right(1) == "]")
-        {
-            strSection = strLine.mid(1, strLine.length() - 2);
-            addSection(strSection);
-        }
-        else
-        {
-			QString strValue = strLine.section('=', 1);
-            setItemValue(strSection,
-                strLine.section('=', 0, 0), strValue.isNull()?QString(""):strValue);
-        }
-    }
-    return true;
-}
-
-bool Config::saveToStream(QTextStream& os)
-{
-    QString strLine, strSection;
-    Section::iterator iStr;
-
-	os.setCodec(QTextCodec::codecForName("UTF-8"));
-
-    for(StrSecMap::iterator iSec = data.begin();
-         iSec != data.end() ; ++iSec)
-    {
-        os << '[' << iSec.key() << "]\n";
-        for(iStr = iSec.value().begin() ;
-             iStr != iSec.value().end() ; ++iStr)
-        {
-            os << iStr.key() << '=' << iStr.value() << '\n';
-        }
-        os << '\n';
-    }
-    return true;	
-}
-
-
-bool Config::addSection (const QString & szSection)
-{
-    if(hasSection(szSection))
-        return false;
-	Section sec;
-    data[szSection]=sec;
-    return true;	
-}
-
-bool Config::hasSection (const QString & szSection)
-{
-    return data.find(szSection) != data.end();
-}
-
-bool Config::setItemValue (const QString & szSection, 
-			const QString & szItemName, const QString & szItemValue)
-{
-	if(!hasSection(szSection))
-		if(!addSection(szSection))
-			return false;
-
-	data[szSection][szItemName] = szItemValue;
-	return true;
-}
-
-QString Config::getItemValue (const QString & szSection, const QString & szItemName)
-{
-	if(hasSection(szSection))
-		if(data[szSection].find(szItemName) != data[szSection].end());
-			if(!data[szSection][szItemName].isEmpty())
-				return  data[szSection][szItemName];
-	return "";
-}
-
-bool Config::renameSection (const QString & szSection, const QString & szNewName)
-{
-    if(hasSection(szNewName) || !hasSection(szSection))
-    {
-        return false;
-    }
-
-    if(!addSection(szNewName))
-		return false;
-    data[szNewName] = data[szSection];
-
-	return deleteSection(szSection);
-}
-
-bool Config::deleteSection (const QString & szSection)
-{
-	if(hasSection(szSection))
-    {
-        data.remove(szSection);
+    QSettings::Status status = m_settings->status();
+    if (status == QSettings::NoError) {
         return true;
     }
     return false;
 }
 
-bool Config::deleteItem( const QString & szSection, const QString & szItemName)
+bool Config::save(const QString & szFileName)
 {
-	if(hasSection(szSection))
-		if(data[szSection].find(szItemName) != data[szSection].end());
-		{
-			data[szSection].remove(szItemName);
-			return true;
-		}
-	return false;
+    QFileInfo fi(szFileName);
+    Q_ASSERT(QString::compare(fi.absoluteFilePath(), m_settings->fileName()) == 0);
+    m_settings->sync();
+    return checkError();
+}
+
+bool Config::hasSection(const QString & szSection)
+{
+    QStringList section = m_settings->childGroups();
+    return section.contains(szSection);
+}
+
+bool Config::setItemValue(const QString & szSection,
+            const QString & szItemName, const QString & szItemValue)
+{
+    QString key = szSection+"/"+szItemName;
+    m_settings->setValue(key, szItemValue);
+    return checkError();
+}
+
+QString Config::getItemValue(const QString & szSection, const QString & szItemName)
+{
+    QString key = szSection+"/"+szItemName;
+    QVariant data = m_settings->value(key);
+    if (data.isValid()) {
+        return data.toString();
+    } else {
+        return "";
+    }
+}
+
+bool Config::renameSection(const QString & szSection, const QString & szNewName)
+{
+    if (hasSection(szNewName) || !hasSection(szSection))
+    {
+        return false;
+    }
+
+    m_settings->beginGroup(szSection);
+    QStringList keys = m_settings->allKeys();
+    m_settings->endGroup();
+
+    QVariant data;
+    foreach (QString eachKey, keys) {
+        data = m_settings->value(szSection+"/"+eachKey);
+        m_settings->setValue(szNewName+"/"+eachKey,data);
+    }
+
+    deleteSection(szSection);
+
+    return checkError();
+}
+
+bool Config::deleteSection(const QString & szSection)
+{
+    m_settings->beginGroup(szSection);
+    m_settings->remove("");
+    m_settings->endGroup();
+    return checkError();
+}
+
+bool Config::deleteItem(const QString & szSection, const QString & szItemName)
+{
+    QString key = szSection+"/"+szItemName;
+    m_settings->remove(key);
+    return checkError();
 }
 
 } // namespace QTerm
