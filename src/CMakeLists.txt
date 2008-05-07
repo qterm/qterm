@@ -62,6 +62,7 @@ qtermtoolbutton.cpp
 qtermwindow.cpp
 qtermwndmgr.cpp
 qtermzmodem.cpp
+qtermglobal.cpp
 quickdialog.cpp
 schemadialog.cpp
 soundconf.cpp
