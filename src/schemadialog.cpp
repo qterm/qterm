@@ -1,6 +1,7 @@
 
 #include "schemadialog.h"
 #include "qtermconfig.h"
+#include "qtermglobal.h"
 // #include <stdio.h>
 #include <QFileDialog>
 #include <QColorDialog>
@@ -8,8 +9,6 @@
 #include <QMessageBox>
 namespace QTerm
 {
-extern QString pathLib;
-extern QString pathCfg;
 
 schemaDialog::schemaDialog( QWidget* parent, Qt::WFlags fl )
 	: QDialog( parent, fl ),bgBackground(this)
@@ -98,7 +97,7 @@ void schemaDialog::loadList()
 	dir.setNameFilters(QStringList("*.schema"));
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
-	dir.setPath(pathCfg+"/schema");
+	dir.setPath(Global::instance()->pathCfg()+"/schema");
 	lstFile = dir.entryInfoList();
 	//if( lstFile.count()!=0 )
 	{
@@ -111,7 +110,7 @@ void schemaDialog::loadList()
 	}
 #endif	
 
-	dir.setPath( pathLib+"schema" );
+	dir.setPath( Global::instance()->pathLib()+"schema" );
 	lstFile = dir.entryInfoList();
 	//if(lstFile != NULL)
 	{
@@ -172,7 +171,7 @@ void schemaDialog::saveNumSchema(int n)
 	pxmBg = ui.imageLineEdit->text();
 
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
-	QDir dir(pathLib);
+	QDir dir(Global::instance()->pathLib());
 	QString strSchemaFile = dir.absolutePath()+"/schema/"+title+".schema";
 #else
 	// save it to $HOME/.qterm/schema/ with filename=title

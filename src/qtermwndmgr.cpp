@@ -12,30 +12,18 @@ AUTHOR:        kingson fiasco
 #include "qtermwindow.h"
 #include "qtermwndmgr.h"
 #include "qtermframe.h"
-
-// #include <qapplication.h>
-// #include <qtabbar.h>
-// #include <qicon.h>
-// #include <qtimer.h>
+#include "qtermglobal.h"
 
 #include <QString>
 #include <QApplication>
 #include <QTabBar>
 #include <QIcon>
 #include <QTimer>
-// #if (QT_VERSION>=300)
-// #include <q3ptrlist.h>
-// #else
-// #include <qlist.h>
-// #endif
-// 
-// #include <qglobal.h>
 
 #include <stdio.h>
+
 namespace QTerm
 {
-extern QString pathLib;
-
 
 //constructor
 WndMgr::WndMgr( QObject * parent, const char * name )

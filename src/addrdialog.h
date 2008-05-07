@@ -25,7 +25,6 @@ public:
     ~addrDialog();
 	
 	Param param;
-	Config * pConf;
 	void updateData(bool save);
 
 protected slots:

@@ -20,16 +20,6 @@ AUTHOR:        kingson fiasco
 #include "qtermconvert.h"
 #include "qtermbuffer.h"
 #include "qtermparam.h"
-//Added by qt3to4:
-//#include <QCustomEvent>
-#include <QResizeEvent>
-#include <QMouseEvent>
-#include <QKeyEvent>
-#include <QEvent>
-#include <QByteArray>
-#include <QWheelEvent>
-#include <QCloseEvent>
-#include <QPixmap>
 #include "addrdialog.h"
 #include "qtermconfig.h"
 #include "qtermbbs.h"
@@ -44,6 +34,8 @@ AUTHOR:        kingson fiasco
 #include "qtermiplocation.h"
 #include "osdmessage.h"
 #include "statusBar.h"
+#include "progressBar.h"
+#include "qtermglobal.h"
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
@@ -56,6 +48,14 @@ AUTHOR:        kingson fiasco
 #include <stdio.h>
 #include <stdarg.h>
 
+#include <QResizeEvent>
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include <QEvent>
+#include <QByteArray>
+#include <QWheelEvent>
+#include <QCloseEvent>
+#include <QPixmap>
 #include <QApplication>
 #include <QClipboard>
 #include <QToolButton>
@@ -74,38 +74,10 @@ AUTHOR:        kingson fiasco
 #include <QStringList>
 #include <QProgressBar>
 #include <QHBoxLayout>
-// #include <qapplication.h>
-// #include <qclipboard.h>
-// #include <q3toolbar.h>
-// #include <qtoolbutton.h>
-// #include <qmessagebox.h>
-// #include <qstatusbar.h>
-// #include <qfontdialog.h>
-// #include <qtextcodec.h>
-// #include <qsound.h>
-// #include <qtimer.h>
-// #include <q3popupmenu.h>
-// #include <q3textbrowser.h>
-// #include <qinputdialog.h>
-// #include <qtooltip.h>
-// #include <qregexp.h>
-// #include <q3filedialog.h>
-// #include <qtabwidget.h>
-// #include <qstringlist.h>
-// #include <q3progressbar.h>
-// #include <q3hbox.h>
-#include "progressBar.h"
+#include <QtCore/QProcess>
+
 namespace QTerm
 {
-extern QString fileCfg;
-extern QString addrCfg;
-extern QString pathLib;
-extern QString pathPic;
-extern QString pathCfg;
-
-extern void saveAddress(Config*,int,const Param&);
-extern void runProgram(const QString &);
-extern QString getOpenFileName(const QString&, QWidget*);
 
 // script thread
 DAThread::DAThread(Window *win)
@@ -269,7 +241,7 @@ Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const ch
 	m_pFrame = frame;
 	m_param = param;
 	m_nAddrIndex = addr;
-
+	QString pathLib = Global::instance()->pathLib();
 	setMouseTracking( true );
 
 //init the textline list
@@ -806,7 +778,7 @@ void Window::mouseReleaseEvent( QMouseEvent * me )
 				strCmd.replace("%L",  "\""+strUrl+ "\"");
 				//cstrCmd.replace("%L",  strUrl.toLocal8Bit());
 			
-			runProgram(strCmd);
+			QProcess::startDetached(strCmd);
 		}
 		return;
 	}
@@ -1541,7 +1513,7 @@ void Window::showStatusBar(bool bShow)
 void Window::runScript()
 {
 	// get the previous dir
-	QString file = getOpenFileName("Python File (*.py *.txt)", this);
+	QString file = Global::instance()->getOpenFileName("Python File (*.py *.txt)", this);
 
 	if(file.isEmpty())
 		return;
@@ -1556,8 +1528,7 @@ void Window::stopScript()
 void Window::viewMessages( )
 {
 	msgDialog msg(this);
-	Config conf(fileCfg);
-	const char * size = conf.getItemValue("global","msgdialog").toLatin1();
+	const char * size = Global::instance()->fileCfg()->getItemValue("global","msgdialog").toLatin1();
 	if(size!=NULL)
 	{
 		int x,y,cx,cy;
@@ -1573,8 +1544,8 @@ void Window::viewMessages( )
 	msg.exec();
 
 	QString strSize=QString("%1 %2 %3 %4").arg(msg.x()).arg(msg.y()).arg(msg.width()).arg(msg.height());
-	conf.setItemValue("global","msgdialog",strSize);
-	conf.save(fileCfg);
+	Global::instance()->fileCfg()->setItemValue("global","msgdialog",strSize);
+	Global::instance()->fileCfg()->save();
 
 }
 
@@ -1583,7 +1554,7 @@ void Window::setting( )
 	addrDialog set(this, true);
 	
 	set.param = m_param;
-	set.updateData(false);		 
+	set.updateData(false);
 
 	if(set.exec()==1)
 	{
@@ -1699,8 +1670,7 @@ void Window::jobDone(int e)
 	if( e == DAE_FINISH )
 	{
 		articleDialog article(this);
-		Config conf(fileCfg);
-		const char * size = conf.getItemValue("global","articledialog").toLatin1().data();
+		const char * size = Global::instance()->fileCfg()->getItemValue("global","articledialog").toLatin1().data();
 		if(size!=NULL)
 		{
 			int x,y,cx,cy;
@@ -1716,8 +1686,8 @@ void Window::jobDone(int e)
 		article.ui.textBrowser->setPlainText(article.strArticle);
 		article.exec();
 		QString strSize = QString("%1 %2 %3 %4").arg(article.x()).arg(article.y()).arg(article.width()).arg(article.height());
-		conf.setItemValue("global","articledialog",strSize);
-		conf.save(fileCfg);
+		Global::instance()->fileCfg()->setItemValue("global","articledialog",strSize);
+		Global::instance()->fileCfg()->save();
 	}
 	else if(e == DAE_TIMEOUT)
 	{
@@ -1816,10 +1786,7 @@ void Window::saveSetting()
 			0,this);
 	if ( mb.exec() == QMessageBox::Yes )
 	{
-		Config *pConf = new Config(addrCfg);
-		saveAddress(pConf, m_nAddrIndex, m_param);
-		pConf->save(addrCfg);
-		delete pConf;
+		Global::instance()->saveAddress(m_nAddrIndex, m_param);
 	}
 }
 
@@ -2235,7 +2202,7 @@ void Window::openLink()
 		strCmd += " \"" + m_pBBS->getUrl() +"\"";
 	else
 		strCmd.replace(QRegExp("%L",Qt::CaseInsensitive), m_pBBS->getUrl());
-	runProgram(strCmd);
+	QProcess::startDetached(strCmd);
 }
 
 void Window::previewLink()

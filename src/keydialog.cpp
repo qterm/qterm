@@ -9,11 +9,10 @@
 
 #include "keydialog.h"
 #include "qtermconfig.h"
+#include "qtermglobal.h"
 #include <QFileDialog>
 namespace QTerm
 {
-extern QString fileCfg;
-//extern QString getOpenFileName(const QString&, QWidget*);
 
 /* 
  *  Constructs a keyDialog as a child of 'parent', with the 
@@ -34,7 +33,7 @@ keyDialog::keyDialog( QWidget* parent, Qt::WFlags fl )
 	
 	connectSlots();
 	
-	pConf = new Config(fileCfg);
+	pConf = Global::instance()->fileCfg();
 	
 	loadName();
 }
@@ -44,8 +43,6 @@ keyDialog::keyDialog( QWidget* parent, Qt::WFlags fl )
  */
 keyDialog::~keyDialog()
 {
-    // no need to delete child widgets, Qt does it all for us
-	delete pConf;
 }
 
 
@@ -159,7 +156,7 @@ void keyDialog::onUpdate()
 }
 void keyDialog::onClose()
 {
-	pConf->save(fileCfg);
+	pConf->save();
 	done(1);
 }
 void keyDialog::onUp()

@@ -2,7 +2,10 @@
 #include "qtermcanvas.h"
 #include "qterm.h"
 #include "qtermconfig.h"
+#include "qtermglobal.h"
 #include "qtermframe.h"
+#include "imageviewer.h"
+
 //Added by qt3to4:
 #include <QString>
 #include <QApplication>
@@ -11,8 +14,8 @@
 #include <QDataStream>
 #include <QUrl>
 #include <QRegExp>
+#include <QtCore/QProcess>
 
-#include "imageviewer.h"
 
 // #include <qapplication.h>
 // #include <qstring.h>
@@ -23,11 +26,6 @@
 // #include <qregexp.h>
 namespace QTerm
 {
-extern QString pathCfg;
-extern QString fileCfg;
-extern QString pathPic;
-extern void runProgram(const QString&);
-extern QString getSaveFileName(const QString&, QWidget*);
 
 Http::Http(QWidget *p)
 {
@@ -74,9 +72,9 @@ void Http::getLink(const QString& url, bool preview)
 //							url.find(u.host(),false),
 //							false));
 
-	if(QFile::exists(pathCfg+"hosts.cfg"))
+	if(QFile::exists(Global::instance()->pathCfg()+"hosts.cfg"))
 	{
-		Config conf(pathCfg+"hosts.cfg");
+		Config conf(Global::instance()->pathCfg()+"hosts.cfg");
 		QString strTmp = conf.getItemValue("hosts",u.host().toLocal8Bit());
 		if(!strTmp.isEmpty())
 		{
@@ -152,7 +150,7 @@ void Http::httpResponse( const QHttpResponseHeader& hrh)
 	}
 	else
 	{
-		QString strSave = getSaveFileName(m_strHttpFile, NULL);
+		QString strSave = Global::instance()->getSaveFileName(m_strHttpFile, NULL);
 		// no filename specified which means the user canceled this download
 		if(strSave.isEmpty())
 		{
@@ -213,7 +211,7 @@ void Http::httpDone(bool err)
 		QString strPool = Frame::instance()->m_pref.strPoolPath;
 		previewImage(m_strHttpFile);
 		QFileInfo fi = QFileInfo(m_strHttpFile);
-		ImageViewer::genThumb(pathPic+"pic/shadow.png", strPool, fi.fileName());
+		ImageViewer::genThumb(Global::instance()->pathPic()+"pic/shadow.png", strPool, fi.fileName());
 	}
 	else
 		emit message("Download one file successfully");
@@ -223,8 +221,7 @@ void Http::httpDone(bool err)
 
 void Http::previewImage(const QString& filename)
 {
-	Config conf(fileCfg);
-	QString strViewer = conf.getItemValue("preference","image");
+	QString strViewer = Global::instance()->fileCfg()->getItemValue("preference","image");
 
 	if(strViewer.isEmpty())
 	{
@@ -235,7 +232,7 @@ void Http::previewImage(const QString& filename)
 	else
 	{
 		QString strCmd = strViewer+" \""+filename+"\"";
-		runProgram(strCmd);
+        QProcess::startDetached(strCmd);
 	}
 }
 

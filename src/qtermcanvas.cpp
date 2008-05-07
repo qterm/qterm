@@ -1,17 +1,8 @@
 #include "qtermcanvas.h"
 #include "qterm.h"
 #include "qtermconfig.h"
+#include "qtermglobal.h"
 
-// #include <qimage.h>
-// #include <qpixmap.h>
-// #include <qlabel.h>
-// #include <qfileinfo.h>
-// #include <q3filedialog.h>
-// #include <qdir.h>
-// #include <qmatrix.h>
-// #include <q3popupmenu.h>
-// #include <qmessagebox.h>
-//Added by qt3to4:
 #include <QCloseEvent>
 #include <QKeyEvent>
 #include <QResizeEvent>
@@ -25,7 +16,6 @@
 namespace QTerm
 {
 // extern QString getSaveFileName(const QString&, QWidget*);
-extern QString fileCfg;
 
 Canvas::Canvas(QWidget *parent, Qt::WFlags f)
   :QScrollArea(parent)
@@ -213,8 +203,7 @@ void Canvas::copyImage()
 void Canvas::silentCopy()
 {
 	// save it to $savefiledialog
-	Config conf(fileCfg);
-	QString strPath = conf.getItemValue("global","savefiledialog");
+	QString strPath = Global::instance()->fileCfg()->getItemValue("global","savefiledialog");
 	
 	QFileInfo fi(strFileName);
 	QString strSave = strPath+"/"+fi.fileName();

@@ -7,7 +7,8 @@
 #include <QSound>
 #include <QFile>
 #include <QMessageBox>
-#include <stdlib.h>
+#include <QtCore/QProcess>
+
 /*
 #ifndef _NO_ESD_COMPILED
 #include <esd.h>
@@ -19,7 +20,6 @@ using namespace Arts;
 #endif*/
 namespace QTerm
 {
-extern void runProgram(const QString&);
 
 Sound::~Sound()
 {
@@ -74,7 +74,7 @@ ExternalSound::play()
 {
 	if(QFile::exists(_soundfile)) {
 		QString command = _player + ' ' + _soundfile;
-		runProgram(command);
+		QProcess::startDetached(command);
 	}
 }
 

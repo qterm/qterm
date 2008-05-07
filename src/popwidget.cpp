@@ -12,6 +12,7 @@ AUTHOR:        kingson fiasco
 #include "popwidget.h"
 
 #include "qtermframe.h"
+#include "qtermglobal.h"
 
 #include <QPixmap>
 #include <QApplication>
@@ -23,12 +24,11 @@ AUTHOR:        kingson fiasco
 
 namespace QTerm
 {
-extern QString pathLib;
 
 popWidget::popWidget( Window *win, QWidget *parent, const char *name, Qt::WFlags f )
 		: QWidget(parent,f)
 {
-	QPixmap pxm(QPixmap(pathLib+"pic/popwidget.png") );
+	QPixmap pxm(QPixmap(Global::instance()->pathLib()+"pic/popwidget.png") );
 	if(!pxm.isNull())
 	{
 		resize(pxm.width(), pxm.height());

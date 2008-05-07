@@ -1,5 +1,6 @@
 #include "overlayWidget.h"
 #include "statusBar.h"
+#include "qtermglobal.h"
 
 // #include <qapplication.h>
 // #include <qpushbutton.h>
@@ -37,9 +38,6 @@
 
 namespace QTerm
 {
-	
-extern QString pathPic;
-
 //TODO allow for uncertain progress periods
 
 StatusBar* StatusBar::s_instance = 0;
@@ -90,8 +88,8 @@ StatusBar::StatusBar( QWidget *parent, const char *name )
 
     //b1->setIconSet( SmallIconSet( "cancel" ) );
     //b2->setIconSet( SmallIconSet( "2uparrow") );
-    b1->setIcon( QPixmap( pathPic + "pic/messagebox_critical.png" ));
-    b2->setIcon( QPixmap( pathPic + "pic/messagebox_info.png" ));
+    b1->setIcon( QPixmap( Global::instance()->pathPic() + "pic/messagebox_critical.png" ));
+    b2->setIcon( QPixmap( Global::instance()->pathPic() + "pic/messagebox_info.png" ));
     b2->setCheckable( true );
 //     QToolTip::add( b1, tr( "Abort all background-operations" ) );
 //     QToolTip::add( b2, tr( "Show progress detail" ) );

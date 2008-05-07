@@ -17,6 +17,9 @@
 //Added by qt3to4:
 // #include <QPixmap>
 // #include <QMouseEvent>
+#include "osdmessage.h"
+#include "qtermglobal.h"
+
 #include <QPaintEvent>
 #include <QCursor>
 #include <QTimer>
@@ -26,11 +29,9 @@
 #include <QPalette>
 
 // local includes
-#include "osdmessage.h"
 
 namespace QTerm
 {
-extern QString pathPic;
 
 PageViewMessage::PageViewMessage( QWidget * parent )
     : QWidget( parent ), m_timer( 0 ), m_message()
@@ -84,6 +85,7 @@ void PageViewMessage::display( const QString & message, Icon icon, int durationM
     // [QTerm], we don't have a icon at this time.
 
     QPixmap symbol;
+    QString pathPic = Global::instance()->pathPic();
     if ( icon != None )
     {
         switch ( icon )

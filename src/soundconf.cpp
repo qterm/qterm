@@ -1,13 +1,13 @@
 #include "soundconf.h"
 #include "qtermconfig.h"
 #include "qtermsound.h"
+#include "qtermglobal.h"
 #include "qterm.h"
 
 #include <QMessageBox>
 #include <QFileDialog>
 namespace QTerm
 {
-extern QString fileCfg;
 //extern QString getOpenFileName(const QString&, QWidget*);
 
 /* 
@@ -137,15 +137,13 @@ void soundConf::onTestPlay()
 
 void soundConf::loadSetting()
 {
-	Config conf(fileCfg);
-
 	QString strTmp;
 
-	strTmp = conf.getItemValue("preference", "wavefile");
+	strTmp = Global::instance()->fileCfg()->getItemValue("preference", "wavefile");
 	if (!strTmp.isEmpty())
 		ui.leFile->setText( strTmp );
 
-	strTmp = conf.getItemValue("preference", "playmethod");
+	strTmp = Global::instance()->fileCfg()->getItemValue("preference", "playmethod");
 	if (!strTmp.isEmpty()){
 		bgMethod.button(strTmp.toInt())->setChecked(true);
 		if (strTmp.toInt() != 3) {
@@ -153,7 +151,7 @@ void soundConf::loadSetting()
 			ui.bpSelect->setEnabled(false);
 		}
 		else {
-			strTmp = conf.getItemValue("preference", "externalplayer");
+			strTmp = Global::instance()->fileCfg()->getItemValue("preference", "externalplayer");
 			if (!strTmp.isEmpty())
 				ui.leProg->setText( strTmp );
 		}
@@ -166,21 +164,19 @@ void soundConf::loadSetting()
 
 void soundConf::saveSetting()
 {
-	Config conf(fileCfg);
-	
 	QString strTmp;
 
-	conf.setItemValue("preference", "beep", "2");
+	Global::instance()->fileCfg()->setItemValue("preference", "beep", "2");
 
-	conf.setItemValue("preference", "wavefile", ui.leFile->text());
+	Global::instance()->fileCfg()->setItemValue("preference", "wavefile", ui.leFile->text());
 
 	strTmp.setNum(bgMethod.checkedId());
-	conf.setItemValue("preference", "playmethod", strTmp);
+	Global::instance()->fileCfg()->setItemValue("preference", "playmethod", strTmp);
 
 	if (strTmp == "3")
-			conf.setItemValue("preference", "externalplayer", ui.leProg->text());
+			Global::instance()->fileCfg()->setItemValue("preference", "externalplayer", ui.leProg->text());
 
-	conf.save(fileCfg);
+	Global::instance()->fileCfg()->save();
 }
 
 void soundConf::accept()

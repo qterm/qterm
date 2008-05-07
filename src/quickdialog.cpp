@@ -7,30 +7,18 @@
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
 #include "quickdialog.h"
-
 #include "qtermconfig.h"
 #include "qtermparam.h"
-//Added by qt3to4:
-//#include <Q3CString>
-#include <QCloseEvent>
+#include "addrdialog.h"
+#include "qtermglobal.h"
 
+#include <QCloseEvent>
 #include <QComboBox>
 #include <QPixmap>
-
-#include "addrdialog.h"
-
-
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qmessagebox.h>
-#include <stdio.h>
+#include <QMessageBox>
 
 namespace QTerm
 {
-extern QString pathLib;
-extern QString fileCfg;
-extern QString addrCfg;
-extern void saveAddress(Config*,int,const Param&);
 
 /* 
  *  Constructs a quickDialog which is a child of 'parent', with the 
@@ -44,7 +32,7 @@ quickDialog::quickDialog( QWidget* parent, Qt::WFlags fl )
 {
 	ui.setupUi(this);
 	
-	ui.addPushButton->setIcon(QPixmap(pathLib+"pic/addr.png"));
+	ui.addPushButton->setIcon(QPixmap(Global::instance()->pathLib()+"pic/addr.png"));
 	
 	ui.addPushButton->setToolTip(tr("Add To AddressBook" ));
 
@@ -52,7 +40,7 @@ quickDialog::quickDialog( QWidget* parent, Qt::WFlags fl )
 	
 	connectSlots();
 	
-	pConf = new Config(fileCfg);
+	pConf = Global::instance()->fileCfg();
 	
 	loadHistory();
 }
@@ -63,19 +51,16 @@ quickDialog::quickDialog( QWidget* parent, Qt::WFlags fl )
  */
 quickDialog::~quickDialog()
 {
-    // no need to delete child widgets, Qt does it all for us
-	delete pConf;
 }
 
 void quickDialog::closeEvent( QCloseEvent *)
 {
-	pConf->save(fileCfg);
+	pConf->save();
 	reject();
 }
 
 void quickDialog::loadHistory()
 {
-	//Q3CString cstrTmp = pConf->getItemValue("quick list", "num" );
 	QString strTmp = pConf->getItemValue("quick list", "num" );
 	QString strSection;
 	for( int i=0; i<strTmp.toInt(); i++ )
@@ -116,21 +101,19 @@ void quickDialog::listChanged( int index )
 }
 void quickDialog::addAddr()
 {
-	Config *pAddrConf = new Config(addrCfg);
 	QString strTmp;
-	strTmp = pAddrConf->getItemValue("bbs list", "num");
+	strTmp = Global::instance()->addrCfg()->getItemValue("bbs list", "num");
 	int num = strTmp.toInt();
 
 	strTmp.setNum(num+1);
-	pAddrConf->setItemValue("bbs list", "num", strTmp);
+	Global::instance()->addrCfg()->setItemValue("bbs list", "num", strTmp);
 
 	param.m_strName = ui.addrLineEdit->text();
 	param.m_strAddr = ui.addrLineEdit->text();
 	param.m_uPort = ui.portLineEdit->text().toUShort();
-	saveAddress(pAddrConf,num,param);
-	
-	pAddrConf->save(addrCfg);
+	Global::instance()->saveAddress(num,param);
 }
+
 void quickDialog::deleteAddr()
 {
 	int n = ui.historyComboBox->currentIndex();
@@ -256,12 +239,12 @@ void quickDialog::connectIt()
 	param.m_strAddr = ui.addrLineEdit->text();
 	param.m_uPort = ui.portLineEdit->text().toUShort();
 	
-	pConf->save(fileCfg);
+	pConf->save();
 	done(1);
 }
 void quickDialog::close()
 {
-	pConf->save(fileCfg);
+	pConf->save();
 	done(0);
 }
 

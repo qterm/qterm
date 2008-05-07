@@ -2,6 +2,7 @@
 //* made by cyber@thuee.org						    *
 //***************************************************************************
 #include "qtermiplocation.h"
+#include "qtermglobal.h"
 //Added by qt3to4:
 
 #include <QString>
@@ -25,15 +26,14 @@
 namespace QTerm
 {
 
-extern QString pathCfg;
-
 IPLocation::IPLocation(QString & pathLib)
 {
 	f = new _ip_finder;
 	f->ipfp = NULL;
 
 	fileExist = true;
-	
+	QString pathCfg = Global::instance()->pathCfg();
+
 	//case-insensitive match
 	QDir dir(pathCfg);
 	QStringList files = dir.entryList(QStringList("[Qq][Qq][Ww][Rr][Yy].[Dd][Aa][Tt]"),QDir::Files);

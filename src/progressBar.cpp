@@ -17,22 +17,15 @@
  *   51 Franklin Steet, Fifth Floor, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/*
-#include "debug.h"
-#include <klocale.h>
-#include <kpushbutton.h>
-#include <kstdguiitem.h>
-*/
-#include <qpushbutton.h>
-//Added by qt3to4:
-#include <QPixmap>
 #include "progressBar.h"
-#include <qlabel.h>
-#include <QProgressBar>
+#include "qtermglobal.h"
+//Added by qt3to4:
+#include <QtGui/QPixmap>
+#include <QtGui/QLabel>
+#include <QtGui/QProgressBar>
+#include <QtGui/QPushButton>
 
 namespace QTerm {
-
-extern QString pathPic;
 
 ProgressBar::ProgressBar( QWidget *parent, QLabel *label )
         : QProgressBar( parent )
@@ -46,7 +39,7 @@ ProgressBar::ProgressBar( QWidget *parent, QLabel *label )
     m_abort->setObjectName("Abort");
     m_abort->hide();
     //m_abort->setText( tr("Abort") );
-    m_abort->setIcon( QPixmap( pathPic + "pic/messagebox_critical.png" ));
+    m_abort->setIcon( QPixmap( Global::instance()->pathPic() + "pic/messagebox_critical.png" ));
     m_label->show();
     show();
 }

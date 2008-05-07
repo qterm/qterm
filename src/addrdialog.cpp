@@ -10,6 +10,7 @@
 
 #include "qtermparam.h"
 #include "qtermconfig.h"
+#include "qtermglobal.h"
 //Added by qt3to4:
 
 #include "schemadialog.h"
@@ -22,13 +23,6 @@
 #include <QPalette>
 namespace QTerm
 {
-extern QString addrCfg;
-extern QString pathLib;
-extern QString pathCfg;
-
-extern QStringList loadNameList(Config*);
-extern bool loadAddress(Config*,int,Param&);
-extern void saveAddress(Config*,int,const Param&);
 
 /*
  *  Constructs a addrDialog which is a child of 'parent', with the
@@ -68,16 +62,15 @@ addrDialog::addrDialog( QWidget* parent, bool partial, Qt::WFlags fl )
 		setMinimumSize( QSize( 800, 600 ) );
 		setMaximumSize( QSize( 800, 600 ) );
 		setWindowTitle( tr( "AddressBook" ) );
-		pConf = new Config(addrCfg.toLocal8Bit());
-		ui.nameListWidget->addItems(loadNameList(pConf));
+		ui.nameListWidget->addItems(Global::instance()->loadNameList());
 		if(ui.nameListWidget->count()>0)
 		{
-			loadAddress(pConf,0,param);
+            Global::instance()->loadAddress(0,param);
 			ui.nameListWidget->setCurrentRow(0);
 		}
 		else	// the default
-			if(pConf->hasSection("default"))
-				loadAddress(pConf,-1,param);
+			if(Global::instance()->addrCfg()->hasSection("default"))
+				Global::instance()->loadAddress(-1,param);
 		updateData(false);
 	}
 	connectSlots();
@@ -88,9 +81,6 @@ addrDialog::addrDialog( QWidget* parent, bool partial, Qt::WFlags fl )
  */
 addrDialog::~addrDialog()
 {
-    // no need to delete child widgets, Qt does it all for us
-	if(!bPartial)
-		delete pConf;
 }
 
 
@@ -109,7 +99,7 @@ void addrDialog::onNamechange(int item)
 			updateData(true);
 			if(nLastItem!=-1)
 			{
-				saveAddress(pConf,nLastItem,param);
+				Global::instance()->saveAddress(nLastItem,param);
 				ui.nameListWidget->item(nLastItem)->setText(param.m_strName);
 				ui.nameListWidget->setCurrentRow(item);
 				return;
@@ -117,14 +107,14 @@ void addrDialog::onNamechange(int item)
 		}
 	}
 	nLastItem = item;
-	loadAddress(pConf,item,param);
-	qDebug("item changed");
+	Global::instance()->loadAddress(item,param);
 	updateData(false);
 }
 
 void addrDialog::onAdd()
 {
 	QString strTmp;
+	Config * pConf = Global::instance()->addrCfg();
 	strTmp = pConf->getItemValue("bbs list", "num");
 	int num = strTmp.toInt();
 
@@ -145,7 +135,7 @@ void addrDialog::onAdd()
 	pConf->setItemValue("bbs list", "num", strTmp);
 	// update the data
 	updateData(true);
-	saveAddress(pConf,index+1,param);
+	Global::instance()->saveAddress(index+1,param);
 
 	// insert it to the listbox
 	ui.nameListWidget->insertItem(index+1, param.m_strName);
@@ -154,6 +144,7 @@ void addrDialog::onAdd()
 void addrDialog::onDelete()
 {
 	QString strTmp;
+	Config * pConf = Global::instance()->addrCfg();
 	strTmp = pConf->getItemValue("bbs list", "num");
 	int num = strTmp.toInt();
 
@@ -178,7 +169,7 @@ void addrDialog::onDelete()
 	strTmp.setNum(qMax(0,num-1));
 	pConf->setItemValue("bbs list", "num", strTmp);
 	// delete it from name listbox
-	loadAddress(pConf,qMin(index,num-2),param);
+	Global::instance()->loadAddress(qMin(index,num-2),param);
 	updateData(false);
 	ui.nameListWidget->takeItem(index);
 	ui.nameListWidget->setItemSelected(ui.nameListWidget->item(qMin(index,ui.nameListWidget->count()-1)), true);
@@ -188,7 +179,7 @@ void addrDialog::onApply()
 	updateData(true);
 	if(!bPartial)
 	{
-		saveAddress(pConf,ui.nameListWidget->currentRow(),param);
+		Global::instance()->saveAddress(ui.nameListWidget->currentRow(),param);
 		if(ui.nameListWidget->count()!=0)
 			ui.nameListWidget->item(ui.nameListWidget->currentRow())->setText(param.m_strName);
 	}
@@ -198,7 +189,7 @@ void addrDialog::onApply()
 void addrDialog::onClose()
 {
 	if(!bPartial)
-		pConf->save(addrCfg);
+		Global::instance()->addrCfg()->save();
 	done(0);
 }
 void addrDialog::onConnect()
@@ -215,7 +206,7 @@ void addrDialog::onConnect()
 			onApply();
 	}
 	if(!bPartial)
-		pConf->save(addrCfg);
+		Global::instance()->addrCfg()->save();
 	done(1);
 }
 
@@ -283,9 +274,9 @@ void addrDialog::onChooseScript()
 {
 	QString path;
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
-	path=pathLib+"script";
+	path=Global::instance()->pathLib()+"script";
 #else
-	path=pathCfg+"script";
+	path=Global::instance()->pathCfg()+"script";
 #endif
 	
 	QString strFile = QFileDialog::getOpenFileName(

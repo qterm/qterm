@@ -10,6 +10,7 @@
 //Added by qt3to4:
 #include <QPixmap>
 
+#include "qtermglobal.h"
 #include "qterm.h"
 
 #include <QFile>
@@ -24,11 +25,11 @@
  */
 namespace QTerm
 {
-extern QString pathLib;
 
 aboutDialog::aboutDialog( QWidget* parent, Qt::WFlags fl )
     : QDialog( parent, fl )
 {
+	QString pathLib = Global::instance()->pathLib();
 	ui.setupUi(this);
 // 	ui.TextBrowser->setSource(QUrl::fromLocalFile(pathLib+"credits"));
 	QFile file(pathLib+"credits");
