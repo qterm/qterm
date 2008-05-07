@@ -57,12 +57,12 @@ Global::Global()
         m_status = ERROR;
         return;
     }
+    m_config = new Config(m_fileCfg);
+    m_address = new Config(m_addrCfg);
     if (!iniSettings()) {
         m_status = ERROR;
         return;
     }
-    m_config = new Config(m_fileCfg);
-    m_address = new Config(m_addrCfg);
 }
 
 bool Global::isOK()
