@@ -1,8 +1,9 @@
 #ifndef QTERMCFG_H
 #define QTERMCFG_H
 
+#include <QtCore/QString>
+
 class QSettings;
-class QString;
 
 namespace QTerm
 {
@@ -13,7 +14,7 @@ public:
     Config(const QString & szFileName );
     ~Config();
 
-    bool save(const QString & szFileName);
+    bool save(const QString & szFileName = "");
 
     bool setItemValue(const QString & szSection, const QString & szItemName,const QString & szItemValue);
     QString getItemValue(const QString & szSection, const QString & szItemName);

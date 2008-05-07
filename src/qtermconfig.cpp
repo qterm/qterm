@@ -43,8 +43,10 @@ bool Config::checkError()
 
 bool Config::save(const QString & szFileName)
 {
-    QFileInfo fi(szFileName);
-    Q_ASSERT(QString::compare(fi.absoluteFilePath(), m_settings->fileName()) == 0);
+    if (!szFileName.isEmpty()) {
+        QFileInfo fi(szFileName);
+        Q_ASSERT(QString::compare(fi.absoluteFilePath(), m_settings->fileName()) == 0);
+    }
     m_settings->sync();
     return checkError();
 }
