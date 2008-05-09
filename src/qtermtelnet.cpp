@@ -12,15 +12,14 @@ AUTHOR:		smartfish kafa
 #include "qterm.h"
 #include <stdio.h>
 #include "qtermsocket.h"
+#include "hostinfo.h"
 #ifdef SSH_ENABLED
 #include "ssh/socket.h"
 #endif
-// #include <q3cstring.h>
 
+#include <QtNetwork/QAbstractSocket>
 #include <stdlib.h>
 #include <ctype.h>
-// #include <q3socket.h>
-#include <QAbstractSocket>
 namespace QTerm
 {
 struct fsm_trans Telnet::ttstab[] = {
@@ -199,7 +198,7 @@ void Telnet::fsminit(u_char fsm[][NCHRS], struct fsm_trans ttab[], int nstates)
  * connect to host
  *------------------------------------------------------------------------
  */
-void Telnet::connectHost(const QString& hostname, quint16 portnumber)
+void Telnet::connectHost(HostInfo * hostInfo)
 {
 	done_naws=0;
 	synching = 0;
@@ -210,7 +209,7 @@ void Telnet::connectHost(const QString& hostname, quint16 portnumber)
 	termtype = 0;
 	naws = 0;
 
-	socket->connectToHost( hostname, portnumber );
+	socket->connectToHost( hostInfo );
 	// host name resolving
 	emit TelnetState( TSRESOLVING );
 }

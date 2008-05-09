@@ -13,6 +13,7 @@
 #include "packet.h"
 #include "ssh1.h"
 #include "ssh2.h"
+#include "hostinfo.h"
 #include <openssl/pem.h>
 #include <openssl/evp.h>
 #include <QtCore/QCryptographicHash>
@@ -33,6 +34,7 @@ SSH2Auth::SSH2Auth(QByteArray & sessionID, SSH2InBuffer * in, SSH2OutBuffer * ou
 {
     m_in = in;
     m_out = out;
+    m_hostInfo = NULL;
 
     connect(m_in, SIGNAL(packetReady(int)), this, SLOT(authPacketReceived(int)));
 }
@@ -40,6 +42,13 @@ SSH2Auth::SSH2Auth(QByteArray & sessionID, SSH2InBuffer * in, SSH2OutBuffer * ou
 
 SSH2Auth::~SSH2Auth()
 {}
+
+void SSH2Auth::setHostInfo(HostInfo * hostInfo)
+{
+    if (hostInfo->type() == HostInfo::SSH) {
+        m_hostInfo = static_cast<SSHInfo *>(hostInfo);
+    }
+}
 
 void SSH2Auth::authPacketReceived(int flag)
 {
@@ -141,7 +150,7 @@ void SSH2Auth::noneAuth()
 {
     bool ok;
     m_authMethod = None;
-    m_username = QInputDialog::getText(0, "QTerm", "Username: ", QLineEdit::Normal, "", &ok);
+    m_username = m_hostInfo->userName(&ok);
     if (!ok) {
 #ifdef SSH_DEBUG
         qDebug() << "User canceled!";
@@ -159,7 +168,10 @@ void SSH2Auth::passwordAuth()
 {
     bool ok;
     m_authMethod = Password;
-    QString password = QInputDialog::getText(0, "Password", "Password: ", QLineEdit::Password, "", &ok);
+    if (m_tries > 0) {
+        m_hostInfo->reset();
+    }
+    QString password = m_hostInfo->password(&ok);
     if (!ok) {
 #ifdef SSH_DEBUG
         qDebug() << "User canceled!";
@@ -293,6 +305,9 @@ void SSH2Auth::generateSign()
 }
 void SSH2Auth::requestInput()
 {
+    if (m_tries > 0) {
+        m_hostInfo->reset();
+    }
     m_in->getUInt8(); //flag
     QString name = QString::fromUtf8(m_in->getString());
 #ifdef SSH_DEBUG
@@ -317,9 +332,9 @@ void SSH2Auth::requestInput()
         QString prompt = QString::fromUtf8(m_in->getString());
         QString answer;
         if (m_in->getUInt8() == 1)
-            answer = QInputDialog::getText(0, name, prompt, QLineEdit::Normal, "", &ok);
+            answer = m_hostInfo->answer(prompt, SSHInfo::Normal, &ok);
         else
-            answer = QInputDialog::getText(0, name, prompt, QLineEdit::Password, "", &ok);
+            answer = m_hostInfo->answer(prompt, SSHInfo::Password, &ok);
         if (!ok) {
 #ifdef SSH_DEBUG
             qDebug() << "User canceled!";
@@ -341,10 +356,11 @@ void SSH2Auth::requestInput()
 }
 
 SSH1Auth::SSH1Auth(SSH1InBuffer * in, SSH1OutBuffer * out, QObject *parent)
-        : QObject(parent), m_phase(UserName)
+        : QObject(parent), m_phase(UserName), m_tries(0)
 {
     m_in = in;
     m_out = out;
+    m_hostInfo = NULL;
     connect(m_in, SIGNAL(packetReady(int)), this, SLOT(authPacketReceived(int)));
 }
 
@@ -352,10 +368,17 @@ SSH1Auth::SSH1Auth(SSH1InBuffer * in, SSH1OutBuffer * out, QObject *parent)
 SSH1Auth::~SSH1Auth()
 {}
 
+void SSH1Auth::setHostInfo(HostInfo * hostInfo)
+{
+    if (hostInfo->type() == HostInfo::SSH) {
+        m_hostInfo = static_cast<SSHInfo *>(hostInfo);
+    }
+}
+
 void SSH1Auth::requestAuthService()
 {
     bool ok;
-    QString username = QInputDialog::getText(0, "SSH1 Password Auth", "Username: ", QLineEdit::Normal, "", &ok);
+    QString username = m_hostInfo->userName(&ok);
     if (!ok) {
 #ifdef SSH_DEBUG
         qDebug() << "User canceled!";
@@ -394,6 +417,7 @@ void SSH1Auth::authPacketReceived(int flag)
         }
         else {
             qDebug("Wrong password?");
+            m_tries ++;
             passwordAuth();
         }
         break;
@@ -404,8 +428,14 @@ void SSH1Auth::authPacketReceived(int flag)
 void SSH1Auth::passwordAuth()
 {
     //QString password = QString::fromLatin1 ( getpass ( "Password: " ) );
+    if (m_tries > 0) {
+        if (m_tries > 3) {
+            return;
+        }
+        m_hostInfo->reset();
+    }
     bool ok;
-    QString password = QInputDialog::getText(0, "QTerm", "Password: ", QLineEdit::Password, "", &ok);
+    QString password = m_hostInfo->password(&ok);
     if (!ok) {
 #ifdef SSH_DEBUG
         qDebug() << "User canceled!";

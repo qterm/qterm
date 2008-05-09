@@ -1,9 +1,8 @@
 #ifndef QTERMTELNET_H
 #define QTERMTELNET_H
 
-#include <qobject.h>
-//Added by qt3to4:
-#include <QByteArray>
+#include <QtCore/QObject>
+#include <QtCore/QByteArray>
 
 #ifndef u_char
 #define u_char uchar
@@ -83,7 +82,7 @@
 namespace QTerm
 {
 //  decleration 		
-class Telnet;           
+class Telnet;
 // actionFunc is a pointer, point to a Telnet's func
 typedef int (Telnet::*ptrActionFunc)(int c);	
 
@@ -102,6 +101,7 @@ struct fsm_trans {
 */
 
 class Socket;
+class HostInfo;
 
 class Telnet : public QObject
 {
@@ -115,7 +115,7 @@ public:
 		bool bAuth,	// if authentation needed
 		const QString& strProxyHost,quint16 uProxyPort,
 		const QString& strProxyUsr,const QString& strProxyPwd);
-	void connectHost(const QString & hostname, quint16 portnumber);
+	void connectHost(HostInfo * hostInfo);
 	int  read(char * data, uint maxlen);
 	int  write(const char * data, uint len);
 	void close();				// User close the connection

@@ -17,6 +17,7 @@
 
 namespace QTerm
 {
+class HostInfo;
 class SSH2InBuffer;
 class SSH2OutBuffer;
 class SSH1InBuffer;
@@ -78,6 +79,7 @@ private:
     SSHStatus m_status;
     QByteArray m_sessionID;
     QList<uint> m_channelList;
+    HostInfo * m_hostInfo;
 };
 
 class SSH1SocketPriv : public SSHSocketPriv
@@ -99,6 +101,7 @@ private:
     SSH1Auth * m_auth;
     SSH1Channel * m_channel;
     SocketPrivate * m_socket;
+    HostInfo * m_hostInfo;
 };
 
 class SSHSocket : public Socket
@@ -113,7 +116,7 @@ public:
                   const QString& strProxyHost, quint16 uProxyPort,
                   const QString& strProxyUsr, const QString& strProxyPwd);
 
-    void connectToHost(const QString & hostName, quint16 port);
+    void connectToHost(HostInfo * hostInfo);
 
     QByteArray readBlock(unsigned long size);
     long writeBlock(const QByteArray & data);

@@ -36,6 +36,7 @@ AUTHOR:        kingson fiasco
 #include "statusBar.h"
 #include "progressBar.h"
 #include "qtermglobal.h"
+#include "hostinfo.h"
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
@@ -958,12 +959,26 @@ void Window::imEndEvent(QIMEvent * e)
 //connect slot
 void Window::connectHost()
 {
+	HostInfo * hostInfo = NULL;
+
+	if (m_param.m_nProtocolType == 0)
+		hostInfo = new TelnetInfo(m_param.m_strAddr , m_param.m_uPort);
+	else {
+		#ifndef SSH_ENABLED
+		hostInfo = new TelnetInfo(m_param.m_strAddr , m_param.m_uPort);
+		#else
+		SSHInfo * sshInfo = new SSHInfo(m_param.m_strAddr , m_param.m_uPort);
+		sshInfo->setUserName(m_param.m_strUser);
+		sshInfo->setPassword(m_param.m_strPasswd);
+		hostInfo = sshInfo;
+		#endif
+	}
 
 	m_pTelnet->setProxy( m_param.m_nProxyType, m_param.m_bAuth,
 			m_param.m_strProxyHost, m_param.m_uProxyPort,
 			m_param.m_strProxyUser, m_param.m_strProxyPasswd);
 	
-	m_pTelnet->connectHost( m_param.m_strAddr , m_param.m_uPort );
+	m_pTelnet->connectHost( hostInfo );
 }
 /* ------------------------------------------------------------------------ */
 /*	                                                                        */
@@ -1456,7 +1471,7 @@ void Window::disconnect()
 void Window::reconnect()
 {
 	if(!m_bConnected)
-		m_pTelnet->connectHost( m_param.m_strAddr , m_param.m_uPort );
+		connectHost();
 
 }
 

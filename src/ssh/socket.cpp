@@ -18,6 +18,7 @@
 #include "ssh1.h"
 #include "ssh2.h"
 #include "qtermsocket.h"
+#include "hostinfo.h"
 #include <stdint.h>
 #include <openssl/bn.h>
 #include <QtCore/QStringList>
@@ -37,6 +38,7 @@ SSH2SocketPriv::SSH2SocketPriv(SocketPrivate * plainSocket, QByteArray & banner,
 {
     m_sessionID = NULL;
     m_auth = NULL;
+    m_hostInfo = plainSocket->hostInfo();
     m_inPacket = new SSH2InBuffer(plainSocket, this);
     m_outPacket = new SSH2OutBuffer(plainSocket, this);
     m_kex = new SSH2Kex(m_inPacket, m_outPacket, m_banner, QTERM_SSHV2_BANNER, this);
@@ -59,6 +61,7 @@ void SSH2SocketPriv::slotKexFinished(const QByteArray & sessionID)
     qDebug() << "kex finished";
 #endif
     m_auth = new SSH2Auth(m_sessionID, m_inPacket, m_outPacket);
+    m_auth->setHostInfo(m_hostInfo);
     connect(m_auth, SIGNAL(authFinished()), this, SLOT(slotAuthFinished()));
     connect(m_auth, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString &)));
     m_auth->requestAuthService();
@@ -112,6 +115,7 @@ SSH1SocketPriv::SSH1SocketPriv(SocketPrivate * plainSocket, QByteArray & banner,
     m_inPacket = new SSH1InBuffer(plainSocket, this);
     m_outPacket = new SSH1OutBuffer(plainSocket, this);
     m_kex = new SSH1Kex(m_inPacket, m_outPacket, this);
+    m_hostInfo = plainSocket->hostInfo();
     connect(m_kex, SIGNAL(kexFinished()), this, SLOT(slotKexFinished()));
     connect(m_kex, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString&)));
     connect(m_inPacket, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString&)));
@@ -128,6 +132,7 @@ void SSH1SocketPriv::slotKexFinished()
     qDebug() << "kex finished";
 #endif
     m_auth = new SSH1Auth(m_inPacket, m_outPacket, this);
+    m_auth->setHostInfo(m_hostInfo);
     connect(m_auth, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString &)));
     connect(m_auth, SIGNAL(authFinished()), this, SLOT(slotAuthFinished()));
     m_auth->requestAuthService();
@@ -192,13 +197,13 @@ void SSHSocket::close()
     m_socket->close();
 }
 
-void SSHSocket::connectToHost(const QString & hostName, quint16 port)
+void SSHSocket::connectToHost(HostInfo * hostInfo)
 {
 #ifdef SSH_DEBUG
-    qDebug() << "connect to: " << hostName << port;
+    qDebug() << "connect to: " << hostInfo->hostName() << hostInfo->port();
 #endif
     if (m_socket->state() == QAbstractSocket::UnconnectedState)
-        m_socket->connectToHost(hostName, port);
+        m_socket->connectToHost(hostInfo);
 }
 
 

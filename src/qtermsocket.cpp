@@ -1,5 +1,6 @@
 #include "qterm.h"
 #include "qtermsocket.h"
+#include "hostinfo.h"
 
 // #include <q3socket.h>
 //Added by qt3to4:
@@ -231,11 +232,17 @@ QAbstractSocket::SocketState SocketPrivate::state()
 	return m_socket->state();
 }
 
-void SocketPrivate::connectToHost(const QString & hostname, quint16 portnumber)
+HostInfo * SocketPrivate::hostInfo()
 {
-    host=hostname;
-    port=portnumber;
-    addr_host.sin_port=htons(portnumber);
+	return m_hostInfo;
+}
+
+void SocketPrivate::connectToHost(HostInfo * hostInfo)
+{
+	m_hostInfo = hostInfo;
+	host=m_hostInfo->hostName();
+	port=m_hostInfo->port();
+	addr_host.sin_port=htons(port);
 
 	if( proxy_type == NOPROXY )
 	{
@@ -572,9 +579,9 @@ void TelnetSocket::setProxy( int nProxyType, bool bAuth,
 			strProxyUsr, strProxyPwd);
 }
 
-void TelnetSocket::connectToHost(const QString & host, quint16 port)
+void TelnetSocket::connectToHost(HostInfo * hostInfo)
 {
-	d_socket->connectToHost(host, port);
+	d_socket->connectToHost(hostInfo);
 }
 
 void TelnetSocket::close()

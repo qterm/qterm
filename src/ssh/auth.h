@@ -17,6 +17,8 @@
 
 namespace QTerm
 {
+class HostInfo;
+class SSHInfo;
 class SSH2InBuffer;
 class SSH2OutBuffer;
 class SSH1InBuffer;
@@ -33,6 +35,7 @@ public:
 
     ~SSH2Auth();
     void requestAuthService();
+    void setHostInfo(HostInfo * hostInfo);
 signals:
     void authFinished();
     void error(const QString & message);
@@ -61,6 +64,8 @@ private:
     SSH2OutBuffer * m_out;
     QByteArray m_sessionID;
     QByteArray m_publicKey;
+    SSHInfo * m_hostInfo;
+
     // Give keyboardAuth and passwordAuth 3 tries.
     int m_tries;
 };
@@ -72,6 +77,7 @@ public:
     SSH1Auth(SSH1InBuffer * in, SSH1OutBuffer * out, QObject *parent = 0);
     ~SSH1Auth();
     void requestAuthService();
+    void setHostInfo(HostInfo * hostInfo);
 signals:
     void authFinished();
     void error(const QString & message);
@@ -87,6 +93,9 @@ private:
     void failureHandler();
     SSH1InBuffer * m_in;
     SSH1OutBuffer * m_out;
+    SSHInfo * m_hostInfo;
+
+    int m_tries;
 };
 
 }
