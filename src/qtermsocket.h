@@ -2,7 +2,9 @@
 #define QTERMSOCKET_H
 
 // _OS_X_ not defined if i dont include it
-#include <qglobal.h>
+#include <QtGlobal>
+#include <QtCore/QObject>
+#include <QtNetwork/QTcpSocket>
 // different 
 #if defined(Q_OS_WIN32) || defined(_OS_WIN32_)
 	#include <winsock2.h>
@@ -18,10 +20,6 @@
 	#include <sys/types.h>
 	#include <arpa/inet.h>
 #endif
-
-#include <qobject.h>
-
-class QTcpSocket;
 
 namespace QTerm
 {
@@ -41,6 +39,7 @@ public:
 	QByteArray readBlock(unsigned long maxlen);
 	long writeBlock(const QByteArray & data);
 	unsigned long bytesAvailable();
+	QAbstractSocket::SocketState state();
 
 signals:
 	void connected();

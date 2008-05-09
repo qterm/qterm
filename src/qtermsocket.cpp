@@ -42,7 +42,7 @@ SocketPrivate::SocketPrivate(QObject * parent)
 	:QObject(parent)
 {
 	m_socket = new QTcpSocket(this);
-    
+
 	// proxy related
 	proxy_type = NOPROXY;
 	proxy_state = 0;
@@ -224,6 +224,11 @@ void SocketPrivate::socketReadyRead()
 void SocketPrivate::flush()
 {
 	m_socket->flush();
+}
+
+QAbstractSocket::SocketState SocketPrivate::state()
+{
+	return m_socket->state();
 }
 
 void SocketPrivate::connectToHost(const QString & hostname, quint16 portnumber)
