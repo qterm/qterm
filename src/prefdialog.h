@@ -27,11 +27,13 @@ protected slots:
 	void onOK();
 	void onCancel();
 	void onSound();
+	void onPlayer();
 	void onHttp();
 // 	void onBeep(int);
 	void onBrowse();
 	void onImage();
 	void onPool();
+	void onReset();
 
 protected:
 	void closeEvent( QCloseEvent * );
@@ -41,7 +43,6 @@ protected:
 
 private:
 	Ui::prefDialog ui;
-	QButtonGroup bgSound;
 };
 
 } // namespace QTerm
