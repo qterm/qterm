@@ -52,6 +52,7 @@ class Http;
 class IPLocation;
 class PageViewMessage;
 class Script;
+class HostInfo;
 // thread copy article
 class DAThread : public QThread
 {
@@ -234,6 +235,7 @@ public:
 	Telnet * m_pTelnet;
 	Param m_param;
 	BBS	* m_pBBS;
+	HostInfo * m_hostInfo;
 	// menu and toolbar state
 	bool m_bCopyColor;
 	bool m_bCopyRect;

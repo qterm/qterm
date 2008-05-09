@@ -242,6 +242,7 @@ Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const ch
 	m_pFrame = frame;
 	m_param = param;
 	m_nAddrIndex = addr;
+	m_hostInfo = NULL;
 	QString pathLib = Global::instance()->pathLib();
 	setMouseTracking( true );
 
@@ -455,6 +456,7 @@ Window::~Window()
 	delete m_pIPLocation;
 	delete m_pMessage;
 	delete m_pSound;
+	delete m_hostInfo;
 
 #ifdef HAVE_PYTHON
 	// get the global python thread lock
@@ -959,26 +961,26 @@ void Window::imEndEvent(QIMEvent * e)
 //connect slot
 void Window::connectHost()
 {
-	HostInfo * hostInfo = NULL;
-
-	if (m_param.m_nProtocolType == 0)
-		hostInfo = new TelnetInfo(m_param.m_strAddr , m_param.m_uPort);
-	else {
-		#ifndef SSH_ENABLED
-		hostInfo = new TelnetInfo(m_param.m_strAddr , m_param.m_uPort);
-		#else
-		SSHInfo * sshInfo = new SSHInfo(m_param.m_strAddr , m_param.m_uPort);
-		sshInfo->setUserName(m_param.m_strUser);
-		sshInfo->setPassword(m_param.m_strPasswd);
-		hostInfo = sshInfo;
-		#endif
+	if (m_hostInfo == NULL) {
+		if (m_param.m_nProtocolType == 0)
+			m_hostInfo = new TelnetInfo(m_param.m_strAddr , m_param.m_uPort);
+		else {
+			#ifndef SSH_ENABLED
+			m_hostInfo = new TelnetInfo(m_param.m_strAddr , m_param.m_uPort);
+			#else
+			SSHInfo * sshInfo = new SSHInfo(m_param.m_strAddr , m_param.m_uPort);
+			sshInfo->setUserName(m_param.m_strUser);
+			sshInfo->setPassword(m_param.m_strPasswd);
+			m_hostInfo = sshInfo;
+			#endif
+		}
 	}
 
 	m_pTelnet->setProxy( m_param.m_nProxyType, m_param.m_bAuth,
 			m_param.m_strProxyHost, m_param.m_uProxyPort,
 			m_param.m_strProxyUser, m_param.m_strProxyPasswd);
 	
-	m_pTelnet->connectHost( hostInfo );
+	m_pTelnet->connectHost( m_hostInfo );
 }
 /* ------------------------------------------------------------------------ */
 /*	                                                                        */
