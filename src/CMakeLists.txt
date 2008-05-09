@@ -66,6 +66,7 @@ quickdialog.cpp
 schemadialog.cpp
 statusBar.cpp
 zmodemdialog.cpp
+hostinfo.cpp
 ${optionalSources})
 set(qterm_UIS
 ui/aboutdialog.ui
