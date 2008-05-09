@@ -1,6 +1,5 @@
 #include "hostinfo.h"
 #include <QtGui/QInputDialog>
-#include <QtDebug>
 
 namespace QTerm
 {
