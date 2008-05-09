@@ -255,14 +255,10 @@ void Frame::loadPref( Config * conf )
 	m_pref.nXIM = strTmp.toInt();
 	strTmp = conf->getItemValue("preference","wordwrap");
 	m_pref.nWordWrap = strTmp.toInt();
-	strTmp = conf->getItemValue("preference","smartww");
-	m_pref.bSmartWW=(strTmp!="0");
 	strTmp = conf->getItemValue("preference","wheel");
 	m_pref.bWheel=(strTmp!="0");
 	strTmp = conf->getItemValue("preference","url");
 	m_pref.bUrl=(strTmp!="0");
-	strTmp = conf->getItemValue("preference","logmsg");
-	m_pref.bLogMsg=(strTmp!="0");
 	strTmp = conf->getItemValue("preference","blinktab");
 	m_pref.bBlinkTab=(strTmp!="0");
 	strTmp = conf->getItemValue("preference","warn");

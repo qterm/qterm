@@ -37,11 +37,9 @@ struct Pref
 {
 	int 	nXIM;	//	0--GBK	1--BIG5
 	int 	nWordWrap;
-	bool 	bSmartWW;
 	bool	bWheel;
 	bool	bWarn;
 	bool	bBlinkTab;
-	bool	bLogMsg;
 	QString strHttp;
 	int		nBeep;
 	QString strWave;
