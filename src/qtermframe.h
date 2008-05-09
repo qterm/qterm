@@ -43,7 +43,6 @@ struct Pref
 	QString strHttp;
 	int		nBeep;
 	QString strWave;
-	int		nMethod;
 	QString strPlayer;
 	bool	bUrl;
 	bool	bAutoCopy;

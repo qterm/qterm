@@ -272,8 +272,6 @@ void Frame::loadPref( Config * conf )
 	m_pref.bAA=(strTmp!="0");
 	strTmp = conf->getItemValue("preference","tray");
 	m_pref.bTray=(strTmp!="0");
-	strTmp = conf->getItemValue("preference","playmethod");
-	m_pref.nMethod=strTmp.toInt();
 	strTmp = conf->getItemValue("preference","externalplayer");
 	m_pref.strPlayer=strTmp;
 

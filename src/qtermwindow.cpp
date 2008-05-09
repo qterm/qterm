@@ -349,7 +349,7 @@ Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const ch
 	m_bCopyRect	= false;
 	m_bAntiIdle	= true;
 	m_bAutoReply= m_param.m_bAutoReply;
-	m_bBeep		= (m_pFrame->m_pref.nBeep!=0);
+	m_bBeep		= !(m_pFrame->m_pref.strPlayer.isEmpty()||m_pFrame->m_pref.strWave.isEmpty());
 	m_bMouse	= true;
 	m_bWordWrap = false;
 	m_bAutoCopy = true;
@@ -1024,40 +1024,14 @@ if(m_pZmodem->transferstate == notransfer)
 	// because smth.org changed
     if( m_pDecode->bellReceive() ) //&& m_pBuffer->caret().y()==1 )
     {
-		if( m_bBeep )
-			if(m_pFrame->m_pref.strWave.isEmpty()||m_pFrame->m_pref.nBeep==3)
-				qApp->beep();
-			else {
-				//QSound::play(m_pFrame->m_pref.strWave);
-				switch (m_pFrame->m_pref.nMethod){
-				case 0:
-					m_pSound = new InternalSound(m_pFrame->m_pref.strWave);
-					break;
-				/*
-				#ifndef _NO_ARTS_COMPILED
-				case 1:
-					m_pSound = new QTermArtsSound(m_pFrame->m_pref.strWave);
-					break;
-				#endif
-				#ifndef _NO_ESD_COMPILED
-				case 2:
-					m_pSound = new QTermEsdSound(m_pFrame->m_pref.strWave);
-					break;
-				#endif
-				*/
-				case 3:
-					m_pSound = new ExternalSound(m_pFrame->m_pref.strPlayer,
-									m_pFrame->m_pref.strWave);
-					break;
-				default:
-					m_pSound = NULL;
-				}
-				if (m_pSound)
-					m_pSound->play();
-				delete m_pSound;
-				m_pSound = NULL;
-			}
-
+		if( m_bBeep ) {
+			m_pSound = new ExternalSound(m_pFrame->m_pref.strPlayer,
+							m_pFrame->m_pref.strWave);
+			if (m_pSound)
+				m_pSound->play();
+			delete m_pSound;
+			m_pSound = NULL;
+		}
 		if(m_pFrame->m_pref.bBlinkTab)
 			m_tabTimer->start(500);
 
