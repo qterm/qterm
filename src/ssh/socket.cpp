@@ -73,6 +73,7 @@ void SSH2SocketPriv::slotAuthFinished()
     m_channel = new SSH2Channel(m_inPacket, m_outPacket);
     connect(m_channel, SIGNAL(newChannel(int)), this, SLOT(slotNewChannel(int)));
     connect(m_channel, SIGNAL(dataReady(int)), this, SLOT(slotChannelData(int)));
+    connect(m_channel, SIGNAL(channelReady()), this, SIGNAL(socketReady()));
     m_channel->openChannel();
 }
 
@@ -141,6 +142,7 @@ void SSH1SocketPriv::slotAuthFinished()
     m_channel = new SSH1Channel(m_inPacket, m_outPacket, this);
 //  connect ( m_channel, SIGNAL ( newChannel ( int ) ), this, SLOT ( slotNewChannel ( int ) ) );
     connect(m_channel, SIGNAL(dataReady()), this, SIGNAL(readyRead()));
+    connect(m_channel, SIGNAL(channelReady()), this, SIGNAL(socketReady()));
 //  m_channel->openChannel();
 }
 
@@ -165,7 +167,7 @@ SSHSocket::SSHSocket(QObject * parent)
     m_socket = new SocketPrivate(this);
     m_version = SSHUnknown;
     connect(m_socket, SIGNAL(hostFound()), this, SIGNAL(hostFound()));
-    connect(m_socket, SIGNAL(connected()), this, SIGNAL(connected()));
+    //connect(m_socket, SIGNAL(connected()), this, SIGNAL(connected()));
     connect(m_socket, SIGNAL(connectionClosed()), this, SIGNAL(connectionClosed()));
     connect(m_socket, SIGNAL(delayedCloseFinished()), this, SIGNAL(delayedCloseFinished()));
     connect(m_socket, SIGNAL(SocketState(int)), this, SIGNAL(SocketState(int)));
@@ -195,7 +197,8 @@ void SSHSocket::connectToHost(const QString & hostName, quint16 port)
 #ifdef SSH_DEBUG
     qDebug() << "connect to: " << hostName << port;
 #endif
-    m_socket->connectToHost(hostName, port);
+    if (m_socket->state() == QAbstractSocket::UnconnectedState)
+        m_socket->connectToHost(hostName, port);
 }
 
 
@@ -270,6 +273,7 @@ void SSHSocket::readData()
 //   m_socket->write ( QTERM_SSHV1_BANNER );
     }
     disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(readData()));
+    connect(m_priv, SIGNAL(socketReady()), this, SIGNAL(connected()));
     connect(m_priv, SIGNAL(readyRead()), this, SIGNAL(readyRead()));
     connect(m_priv, SIGNAL(error(const QString &)), this, SLOT(onError(const QString &)));
 }

@@ -47,6 +47,7 @@ public:
 signals:
     void readyRead();
     void error(const QString & message);
+    void socketReady();
 };
 
 class SSH2SocketPriv : public SSHSocketPriv

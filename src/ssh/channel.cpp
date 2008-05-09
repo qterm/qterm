@@ -176,6 +176,7 @@ void SSH2Channel::requestPty(uint id)
     m_out->putString("shell");
     m_out->putUInt8(0);
     m_out->sendPacket();
+    emit channelReady();
 }
 
 /*!
@@ -277,6 +278,7 @@ void SSH1Channel::channelPacketReceived(int flag)
             qDebug() << "Pty request succeed";
 #endif
             m_status = Interactive;
+            emit channelReady();
         }
         break;
     case SSH_SMSG_FAILURE:

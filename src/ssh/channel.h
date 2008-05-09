@@ -38,6 +38,7 @@ public:
 signals:
     void dataReady(int id);
     void newChannel(int id);
+    void channelReady();
 private slots:
     void channelPacketReceived(int flag);
 private:
@@ -73,6 +74,7 @@ public:
     unsigned long bytesAvailable();
 signals:
     void dataReady();
+    void channelReady();
 private slots:
     void channelPacketReceived(int flag);
 private:
