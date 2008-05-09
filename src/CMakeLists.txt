@@ -52,7 +52,6 @@ qtermframe.cpp
 qtermhttp.cpp
 qtermiplocation.cpp
 qtermparam.cpp
-qtermpython.cpp
 qtermscreen.cpp
 qtermsocket.cpp
 qtermsound.cpp
@@ -65,7 +64,6 @@ qtermzmodem.cpp
 qtermglobal.cpp
 quickdialog.cpp
 schemadialog.cpp
-soundconf.cpp
 statusBar.cpp
 zmodemdialog.cpp
 ${optionalSources})
