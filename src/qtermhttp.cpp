@@ -165,8 +165,8 @@ void Http::httpResponse( const QHttpResponseHeader& hrh)
 		.setAbortSlot( this, SLOT(cancel()) )
 		.setMaximum( 100 );
 	QTerm::StatusBar::instance()->resetMainText();
-	connect(this, SIGNAL(done(QObject*)), QTerm::StatusBar::instance(), SLOT(endProgressOperation(QObject *)));
-	connect(this, SIGNAL(percent(int)), QTerm::StatusBar::instance(), SLOT(setValue(int)));
+	connect(this, SIGNAL(done(QObject*)), StatusBar::instance(), SLOT(endProgressOperation(QObject *)));
+	connect(this, SIGNAL(percent(int)), StatusBar::instance(), SLOT(setProgress(int)));
 }
 
 
