@@ -367,7 +367,7 @@
       <string>Browse...</string>
      </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget" >
+    <widget class="QWidget" name="layoutWidget1" >
      <property name="geometry" >
       <rect>
        <x>10</x>
@@ -408,7 +408,7 @@
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="layoutWidget" >
+    <widget class="QWidget" name="layoutWidget2" >
      <property name="geometry" >
       <rect>
        <x>10</x>
@@ -719,7 +719,7 @@ p, li { white-space: pre-wrap; }
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget" >
+    <widget class="QWidget" name="layoutWidget3" >
      <property name="geometry" >
       <rect>
        <x>10</x>
@@ -760,7 +760,7 @@ p, li { white-space: pre-wrap; }
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="layoutWidget" >
+    <widget class="QWidget" name="layoutWidget4" >
      <property name="geometry" >
       <rect>
        <x>10</x>
@@ -1070,7 +1070,7 @@ p, li { white-space: pre-wrap; }
       </rect>
      </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget" >
+    <widget class="QWidget" name="layoutWidget5" >
      <property name="geometry" >
       <rect>
        <x>10</x>
@@ -1385,7 +1385,7 @@ p, li { white-space: pre-wrap; }
       <string>Auto Login</string>
      </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget" >
+    <widget class="QWidget" name="layoutWidget6" >
      <property name="geometry" >
       <rect>
        <x>10</x>
@@ -1651,7 +1651,7 @@ p, li { white-space: pre-wrap; }
       <string>Auto Reconnect</string>
      </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget" >
+    <widget class="QWidget" name="layoutWidget7" >
      <property name="geometry" >
       <rect>
        <x>10</x>
@@ -1692,7 +1692,7 @@ p, li { white-space: pre-wrap; }
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="layoutWidget" >
+    <widget class="QWidget" name="layoutWidget8" >
      <property name="geometry" >
       <rect>
        <x>10</x>
