@@ -28,6 +28,9 @@ public:
 
 private:
     bool checkError();
+    bool checkVersion();
+    void upgrade();
+    static const QString m_version;
     QSettings * m_settings;
 };
 

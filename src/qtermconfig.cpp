@@ -15,21 +15,55 @@ REVISION:      2001.10.10 first created.
 #include <QtCore/QFileInfo>
 #include <QtCore/QStringList>
 #include <QtCore/QString>
+#include <QtGui/QMessageBox>
 #include <QtDebug>
 
 namespace QTerm
 {
 
+const QString Config::m_version = "1.0";
+
 Config::Config(const QString & szFileName)
 {
     m_settings = new QSettings(szFileName, QSettings::IniFormat);
+    checkVersion();
 }
-
 
 Config::~Config()
 {
-    m_settings->sync();
+    save();
     delete m_settings;
+}
+
+void Config::upgrade()
+{
+    QStringList keys = m_settings->allKeys();
+
+    QByteArray data;
+    foreach (QString eachKey, keys) {
+        data = m_settings->value(eachKey).toByteArray();
+        m_settings->setValue(eachKey,QString::fromUtf8(data.data()));
+    }
+    if (!m_settings->contains("version")) {
+        m_settings->setValue("version", m_version);
+    }
+    save();
+}
+
+bool Config::checkVersion()
+{
+    QString version = m_settings->value("version").toString();
+
+    if (version.isEmpty()) {
+        QMessageBox::warning(0, "Old Version","The version of your config file is outdated.\n" "It will be automatically updated, but you should check for errors");
+        upgrade();
+    } else if (m_version != version) {
+        QMessageBox::warning(0, "Version Mismath","The version of your config file is not match the current QTerm version.\n" "It will be automatically updated, but you should check for errors");
+        m_settings->setValue("version", m_version);
+        save();
+        return false;
+    }
+    return true;
 }
 
 bool Config::checkError()
