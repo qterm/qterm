@@ -236,7 +236,7 @@ char Window::direction[][5]=
 
 //constructor
 Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const char * name, Qt::WFlags wflags )
-    : QMainWindow( parent, wflags ),location(),m_strMessage()
+    : QMainWindow( parent, wflags ),m_strMessage(),location()
 {
 
 	m_pFrame = frame;

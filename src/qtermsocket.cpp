@@ -141,7 +141,7 @@ void SocketPrivate::socketConnected()
 		sprintf(request,
 					"CONNECT %s:%u HTTP/1.0\r\n"
 					"%s\r\n", 
-					host.toLatin1(),port,
+					host.toLatin1().data(),port,
 					proxyauth!=NULL?proxyauth:"");
 
 
