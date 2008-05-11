@@ -24,8 +24,8 @@ class Global
 {
 public:
     enum Status {
-        OK,
-        ERROR
+        INIT_OK,
+        INIT_ERROR
     };
     static Global * instance();
     Config * fileCfg();

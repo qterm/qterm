@@ -51,23 +51,23 @@ Global * Global::instance()
 }
 
 Global::Global()
-    : m_fileCfg("./qterm.cfg"),m_addrCfg("./address.cfg"),m_pathLib("./"),m_pathPic("./"),m_pathCfg("./"), m_status(OK)
+    : m_fileCfg("./qterm.cfg"),m_addrCfg("./address.cfg"),m_pathLib("./"),m_pathPic("./"),m_pathCfg("./"), m_status(INIT_OK)
 {
     if (!iniWorkingDir(qApp->arguments()[0])) {
-        m_status = ERROR;
+        m_status = INIT_ERROR;
         return;
     }
     m_config = new Config(m_fileCfg);
     m_address = new Config(m_addrCfg);
     if (!iniSettings()) {
-        m_status = ERROR;
+        m_status = INIT_ERROR;
         return;
     }
 }
 
 bool Global::isOK()
 {
-    if (m_status == OK) {
+    if (m_status == INIT_OK) {
         return true;
     }
     return false;
@@ -200,7 +200,7 @@ bool Global::loadAddress(int n, Param& param)
     param.m_nMaxIdle = strTmp.toInt();
     param.m_strReplyKey = m_address->getItemValue(strSection, "replykey");
     if(param.m_strReplyKey.isNull())
-        printf("loading null\n");
+        qDebug("loading null\n");
 
     param.m_strAntiString = m_address->getItemValue(strSection, "antiidlestring");
     param.m_strAutoReply = m_address->getItemValue(strSection, "autoreply");
