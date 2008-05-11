@@ -447,7 +447,7 @@ void addrDialog::updateData(bool save)
 		param.m_nMaxIdle = ui.idletimeLineEdit->text().toInt();
 		param.m_strReplyKey = ui.replykeyLineEdit->text();
 		if(param.m_strReplyKey.isNull())
-			printf("saving null\n");
+			qDebug("saving null");
 		param.m_strAntiString = ui.antiLineEdit->text();
 		param.m_bAutoReply = ui.replyCheckBox->isChecked();
 		param.m_strAutoReply = ui.replyLineEdit->text();

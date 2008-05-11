@@ -775,7 +775,7 @@ void Screen::refreshScreen()
 	{
 		if ( index>=m_pBuffer->lines() )
 		{
-			printf("Screen::drawLine wrong index %d\n", index);
+			qDebug("Screen::drawLine wrong index %d", index);
 			painter.end();
 			return;
 		}
@@ -831,7 +831,7 @@ int Screen::testChar(int startx, int index)
 		return 0;
 	if ( index >= m_pBuffer->lines())
 	{
-		printf("Screen::drawLine wrong index %d\n", index);
+		qDebug("Screen::drawLine wrong index %d", index);
 		return startx; 
 	}
 
@@ -951,7 +951,7 @@ void Screen::drawLine( QPainter& painter, int index, int starx, int endx, bool c
 {
 	if ( index >= m_pBuffer->lines())
 	{
-		printf("Screen::drawLine wrong index %d\n", index);
+		qDebug("Screen::drawLine wrong index %d", index);
 		return;
 	}
 

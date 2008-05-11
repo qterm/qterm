@@ -2750,7 +2750,7 @@ int Zmodem::GotSendWaitAck(  ZModem *info )
 
 	offset = ZDec4(info->hdrData+1) ;
 
-	printf("last=%lx, now=%lx\n", info->lastOffset, offset);
+	qDebug("last=%lx, now=%lx", info->lastOffset, offset);
 
 	if( offset > info->lastOffset )
 	  info->lastOffset = offset ;
@@ -2781,7 +2781,7 @@ int Zmodem::GotSendPos(  ZModem *info )
 {
 	ZStatus(DataErr, ++info->errCount, NULL) ;
 	info->waitflag = 1 ;		/* next pkt should wait, to resync */
-	printf("GotSendPos, offset=%lx\n", info->offset);
+	qDebug("GotSendPos, offset=%lx", info->offset);
 	zmodemlog("GotSendPos[%s] %lx\n", sname(info), info->offset) ;
 	return startFileData(info) ;
 }
