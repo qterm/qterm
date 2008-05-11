@@ -94,7 +94,7 @@ void keyDialog::onAdd()
 	pConf->setItemValue("key",strTmp,strValue); 
 
 	strTmp = QString("name%1").arg(num);
-	pConf->setItemValue("key", strTmp, ui.nameEdit->text().toLocal8Bit());
+	pConf->setItemValue("key", strTmp, ui.nameEdit->text());
 
 	ui.nameListWidget->addItem(ui.nameEdit->text());
 	ui.nameListWidget->setCurrentRow(ui.nameListWidget->count()-1);
@@ -150,7 +150,7 @@ void keyDialog::onUpdate()
 	pConf->setItemValue("key",strTmp,strValue); 
 
 	strTmp = QString("name%1").arg(index);
-	pConf->setItemValue("key", strTmp, ui.nameEdit->text().toLocal8Bit());
+	pConf->setItemValue("key", strTmp, ui.nameEdit->text());
 
 	ui.nameListWidget->item(index)->setText(ui.nameEdit->text());
 }

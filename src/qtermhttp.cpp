@@ -75,7 +75,7 @@ void Http::getLink(const QString& url, bool preview)
 	if(QFile::exists(Global::instance()->pathCfg()+"hosts.cfg"))
 	{
 		Config conf(Global::instance()->pathCfg()+"hosts.cfg");
-		QString strTmp = conf.getItemValue("hosts",u.host().toLocal8Bit());
+		QString strTmp = conf.getItemValue("hosts",u.host());
 		if(!strTmp.isEmpty())
 		{
 			QString strUrl = url;

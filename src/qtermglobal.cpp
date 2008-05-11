@@ -252,7 +252,7 @@ void Global::saveAddress(int n, const Param& param)
     m_address->setItemValue(strSection, "autofont", param.m_bAutoFont?"1":"0");
     m_address->setItemValue(strSection, "alwayshighlight", param.m_bAlwaysHighlight?"1":"0");
     m_address->setItemValue(strSection, "ansicolor", param.m_bAnsiColor?"1":"0");
-    m_address->setItemValue(strSection, "fontname", param.m_strFontName.toLocal8Bit());
+    m_address->setItemValue(strSection, "fontname", param.m_strFontName);
     strTmp.setNum(param.m_nFontSize);
     m_address->setItemValue(strSection, "fontsize", strTmp);
     m_address->setItemValue(strSection, "fgcolor", param.m_clrFg.name());
@@ -288,7 +288,7 @@ void Global::saveAddress(int n, const Param& param)
     m_address->setItemValue(strSection, "replykey", param.m_strReplyKey);
     m_address->setItemValue(strSection, "antiidlestring", param.m_strAntiString);
     m_address->setItemValue(strSection, "bautoreply", param.m_bAutoReply?"1":"0");
-    m_address->setItemValue(strSection, "autoreply", param.m_strAutoReply.toLocal8Bit());
+    m_address->setItemValue(strSection, "autoreply", param.m_strAutoReply);
     m_address->setItemValue(strSection, "reconnect", param.m_bReconnect?"1":"0");
     strTmp.setNum(param.m_nReconnectInterval);
     m_address->setItemValue(strSection, "interval", strTmp);
