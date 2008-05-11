@@ -387,7 +387,7 @@ bool Global::iniWorkingDir( QString param )
     QString pathSchema=m_pathCfg+"schema";
     if(!isPathExist(pathSchema))
         return false;
-
+    return true;
 }
 #else
 bool Global::iniWorkingDir( QString param )
