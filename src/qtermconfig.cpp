@@ -25,8 +25,13 @@ const QString Config::m_version = "1.0";
 
 Config::Config(const QString & szFileName)
 {
-    m_settings = new QSettings(szFileName, QSettings::IniFormat);
-    checkVersion();
+    if (QFile::exists(szFileName)) {
+        m_settings = new QSettings(szFileName, QSettings::IniFormat);
+        checkVersion();
+    } else {
+        m_settings = new QSettings(szFileName, QSettings::IniFormat);
+        m_settings->setValue("version", m_version);
+    }
 }
 
 Config::~Config()
