@@ -281,7 +281,7 @@ void Buffer::shiftStr( int index, int startX, int len, int num )
 		return;
 	
 	QByteArray cstr;
-	cstr.fill( ' ', abs( num ) );
+	cstr.fill( ' ', qAbs( num ) );
 	
 	TextLine * line = m_lineList.at( index+m_lines );
 
@@ -637,7 +637,7 @@ QByteArray Buffer::getSelectText( bool rect, bool color, const QByteArray& escap
 QRect Buffer::getSelectRect( int index, bool rect )
 {
 	if(rect)
-		return QRect( qMin(m_ptSelStart.x(),m_ptSelEnd.x()), index, abs(m_ptSelEnd.x()-m_ptSelStart.x())+1, 1);
+		return QRect( qMin(m_ptSelStart.x(),m_ptSelEnd.x()), index, qAbs(m_ptSelEnd.x()-m_ptSelStart.x())+1, 1);
 	else
 		if( m_ptSelStart.y()==m_ptSelEnd.y() )
 				return QRect( m_ptSelStart.x(), index, qMin(m_ptSelEnd.x(),m_col)-m_ptSelStart.x()+1, 1);
