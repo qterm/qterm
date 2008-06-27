@@ -1078,7 +1078,7 @@ if(m_pZmodem->transferstate == notransfer)
 			}
 			#endif
 		}
-		m_pFrame->buzz();
+		//m_pFrame->buzz();
 	}
 	
 	// set page state
