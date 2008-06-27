@@ -1,0 +1,4 @@
+add_subdirectory(config)
+add_subdirectory(global)
+add_subdirectory(hostinfo)
+add_subdirectory(ssh)
