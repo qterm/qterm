@@ -1,3 +1,4 @@
+enable_testing()
 add_subdirectory(config)
 add_subdirectory(global)
 add_subdirectory(hostinfo)
