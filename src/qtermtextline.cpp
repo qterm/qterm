@@ -249,9 +249,10 @@ QByteArray TextLine::getAttrText( int index, int len, const QByteArray& escape )
 		tempea = m_attr.at(i);
 		// get str of the same attribute
 		while ( tempcp == m_color.at(i) && 
-			tempea == m_attr.at(i)  &&
-			i < m_length )
+			tempea == m_attr.at(i) ) {
 			i++;
+			if (i >= m_length) break;
+		}
 		
 		int fg = GETFG(tempcp)+30;
 		int bg = GETBG(tempcp)+40;
