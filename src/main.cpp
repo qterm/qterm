@@ -35,11 +35,18 @@ using namespace QTerm;
 PyThreadState * mainThreadState;
 #endif //HAVE_PYTHON
 
+static void qtMessageHandler(QtMsgType type, const char *msg)
+{
+        fprintf(stderr, "%s\n", msg);
+        if (type == QtFatalMsg)
+                abort();
+}
 
 int main( int argc, char ** argv )
 {
 
     QApplication a( argc, argv );
+    qInstallMsgHandler(qtMessageHandler);
 
     //qApp=&a;
 
