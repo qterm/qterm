@@ -447,7 +447,7 @@ void Frame::aboutQTerm()
 void Frame::homepage()
 {
     QString strCmd = m_pref.strHttp;
-	QString strUrl = "http://qterm.sourceforge.net";
+	QString strUrl = "http://www.qterm.org";
 
     if(strCmd.indexOf("%L")==-1)
         strCmd += " \"" + strUrl +"\"";
