@@ -111,7 +111,7 @@ void Http::httpResponse( const QHttpResponseHeader& hrh)
 
 	if(m_bPreview)
 	{
-		QString strPool = Frame::instance()->m_pref.strPoolPath;
+		QString strPool = Global::instance()->m_pref.strPoolPath;
 		
 		m_strHttpFile = strPool + m_strHttpFile;
 
@@ -208,7 +208,7 @@ void Http::httpDone(bool err)
 	}
 
 	if(m_bPreview) {
-		QString strPool = Frame::instance()->m_pref.strPoolPath;
+		QString strPool = Global::instance()->m_pref.strPoolPath;
 		previewImage(m_strHttpFile);
 		QFileInfo fi = QFileInfo(m_strHttpFile);
 		ImageViewer::genThumb(Global::instance()->pathPic()+"pic/shadow.png", strPool, fi.fileName());

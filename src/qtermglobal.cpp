@@ -305,6 +305,47 @@ void Global::saveAddress(int n, const Param& param)
 
 }
 
+void Global::loadPrefence() {
+    Config * conf = Global::instance()->fileCfg();
+    QString strTmp;
+    strTmp = conf->getItemValue("preference", "xim");
+    m_pref.nXIM = strTmp.toInt()==0 ? GBK : Big5;
+    strTmp = conf->getItemValue("preference", "wordwrap");
+    m_pref.nWordWrap = strTmp.toInt();
+    strTmp = conf->getItemValue("preference", "wheel");
+    m_pref.bWheel = (strTmp != "0");
+    strTmp = conf->getItemValue("preference", "url");
+    m_pref.bUrl = (strTmp != "0");
+    strTmp = conf->getItemValue("preference", "blinktab");
+    m_pref.bBlinkTab = (strTmp != "0");
+    strTmp = conf->getItemValue("preference", "warn");
+    m_pref.bWarn = (strTmp != "0");
+    strTmp = conf->getItemValue("preference", "beep");
+    m_pref.nBeep = strTmp.toInt();
+    m_pref.strWave = conf->getItemValue("preference", "wavefile");
+    strTmp = conf->getItemValue("preference", "http");
+    m_pref.strHttp = strTmp;
+    strTmp = conf->getItemValue("preference", "antialias");
+    m_pref.bAA = (strTmp != "0");
+    strTmp = conf->getItemValue("preference", "tray");
+    m_pref.bTray = (strTmp != "0");
+    strTmp = conf->getItemValue("preference", "externalplayer");
+    m_pref.strPlayer = strTmp;
+
+    strTmp = conf->getItemValue("preference", "clearpool");
+    m_pref.bClearPool = (strTmp != "0");
+    strTmp = conf->getItemValue("preference", "pool");
+    m_pref.strPoolPath = strTmp.isEmpty() ? Global::instance()->pathCfg() + "pool/" : strTmp;
+    if (m_pref.strPoolPath.right(1) != "/")
+        m_pref.strPoolPath.append('/');
+    strTmp = conf->getItemValue("preference", "zmodem");
+    m_pref.strZmPath = strTmp.isEmpty() ? Global::instance()->pathCfg() + "zmodem/" : strTmp;
+    if (m_pref.strZmPath.right(1) != "/")
+        m_pref.strZmPath.append('/');
+    strTmp = conf->getItemValue("preference", "image");
+    m_pref.strImageViewer = strTmp;
+}
+
 QString Global::getOpenFileName(const QString & filter, QWidget * widget)
 {
     QString path = m_config->getItemValue("global","openfiledialog");
@@ -551,6 +592,61 @@ bool Global::createLocalFile( const QString& dst, const QString& src )
         return false;
     }
     return true;
+}
+bool Global::isBossColor() const {
+    return m_bossColor;
+}
+
+const QString & Global::escapeString() const {
+    return m_escape;
+}
+
+Global::Codec Global::clipCodec() const {
+    return m_clipCodec;
+}
+
+bool Global::showStatusBar() const {
+    return m_statusBar;
+}
+
+Global::Position Global::scrollPosition() const {
+    return m_scrollPos;
+}
+
+bool Global::isFullScreen() const {
+    return m_fullScreen;
+}
+
+bool Global::showSwitchBar() const {
+    return m_switchBar;
+}
+
+void Global::setClipCodec(Global::Codec codec) {
+    m_clipCodec = codec;
+}
+
+void Global::setEscapeString(const QString & escapeString) {
+    m_escape = escapeString;
+}
+
+void Global::setScrollPosition(Global::Position position) {
+    m_scrollPos = position;
+}
+
+void Global::setStatusBar(bool isShow) {
+    m_statusBar = isShow;
+}
+
+void Global::setBossColor(bool isBossColor) {
+    m_bossColor = isBossColor;
+}
+
+void Global::setFullScreen(bool isFullscreen) {
+    m_fullScreen = isFullscreen;
+}
+
+void Global::setSwitchBar(bool isShow) {
+    m_switchBar = isShow;
 }
 
 } // namespace QTerm

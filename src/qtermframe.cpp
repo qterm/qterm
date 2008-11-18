@@ -2,7 +2,7 @@
 FILENAME:      qtermframe.cpp
 REVISION:      2001.10.4 first created.
 
-AUTHOR:        kingson fiasco
+AUTHOR:        kingson fiasco hooey
 *******************************************************************************/
 /*******************************************************************************
                                     NOTE
@@ -132,6 +132,7 @@ Frame::~Frame()
 }
 
 //initialize setting from qterm.cfg
+// TODO: separate config reading and UI setting
 void Frame::iniSetting()
 {
     Config * conf = Global::instance()->fileCfg();
@@ -143,11 +144,11 @@ void Frame::iniSetting()
 //     settings.setValue("pos", pos());
     strTmp = conf->getItemValue("global", "fullscreen");
     if (strTmp == "1") {
-        m_bFullScreen = true;
+        Global::instance()->setFullScreen(true);
         m_fullAction->setChecked(true);
         showFullScreen();
     } else {
-        m_bFullScreen = false;
+        Global::instance()->setFullScreen(false);
         //window size
         strTmp = conf->getItemValue("global", "max");
         if (strTmp == "1")
@@ -180,88 +181,49 @@ void Frame::iniSetting()
         m_engAction->setChecked(true);
 
     m_noescAction->setChecked(true);
-    m_strEscape = "";
+    Global::instance()->setEscapeString("");
+    //m_strEscape = "";
 
     strTmp = conf->getItemValue("global", "clipcodec");
     if (strTmp == "0") {
-        m_nClipCodec = 0;
+        Global::instance()->setClipCodec(Global::GBK);
         m_GBKAction->setChecked(true);
     } else {
-        m_nClipCodec = 1;
+        Global::instance()->setClipCodec(Global::Big5);
         m_BIG5Action->setChecked(true);
     }
 
     strTmp = conf->getItemValue("global", "vscrollpos");
     if (strTmp == "0") {
-        m_nScrollPos = 0;
+        Global::instance()->setScrollPosition(Global::Hide);
         m_scrollHideAction->setChecked(true);
     } else if (strTmp == "1") {
-        m_nScrollPos = 1;
+        Global::instance()->setScrollPosition(Global::Left);
         m_scrollLeftAction->setChecked(true);
     } else {
-        m_nScrollPos = 2;
+        Global::instance()->setScrollPosition(Global::Right);
         m_scrollRightAction->setChecked(true);
     }
 
     strTmp = conf->getItemValue("global", "statusbar");
-    m_bStatusBar = (strTmp != "0");
-    m_statusAction->setChecked(m_bStatusBar);
+    //m_bStatusBar = (strTmp != "0");
+    Global::instance()->setStatusBar(strTmp != "0");
+    m_statusAction->setChecked(Global::instance()->showStatusBar());
 
 
     strTmp = conf->getItemValue("global", "switchbar");
-    m_bSwitchBar = (strTmp != "0");
-    m_switchAction->setChecked(m_bSwitchBar);
-    if (m_bSwitchBar)
+    Global::instance()->setSwitchBar((strTmp != "0"));
+    m_switchAction->setChecked(Global::instance()->showSwitchBar());
+    if (Global::instance()->showSwitchBar())
         statusBar()->show();
     else
         statusBar()->hide();
 
-    m_bBossColor = false;
+    Global::instance()->setBossColor(false);
 
-    loadPref(conf);
+    Global::instance()->loadPrefence();
 
-    setUseTray(m_pref.bTray);
-}
-
-void Frame::loadPref(Config * conf)
-{
-    QString strTmp;
-    strTmp = conf->getItemValue("preference", "xim");
-    m_pref.nXIM = strTmp.toInt();
-    strTmp = conf->getItemValue("preference", "wordwrap");
-    m_pref.nWordWrap = strTmp.toInt();
-    strTmp = conf->getItemValue("preference", "wheel");
-    m_pref.bWheel = (strTmp != "0");
-    strTmp = conf->getItemValue("preference", "url");
-    m_pref.bUrl = (strTmp != "0");
-    strTmp = conf->getItemValue("preference", "blinktab");
-    m_pref.bBlinkTab = (strTmp != "0");
-    strTmp = conf->getItemValue("preference", "warn");
-    m_pref.bWarn = (strTmp != "0");
-    strTmp = conf->getItemValue("preference", "beep");
-    m_pref.nBeep = strTmp.toInt();
-    m_pref.strWave = conf->getItemValue("preference", "wavefile");
-    strTmp = conf->getItemValue("preference", "http");
-    m_pref.strHttp = strTmp;
-    strTmp = conf->getItemValue("preference", "antialias");
-    m_pref.bAA = (strTmp != "0");
-    strTmp = conf->getItemValue("preference", "tray");
-    m_pref.bTray = (strTmp != "0");
-    strTmp = conf->getItemValue("preference", "externalplayer");
-    m_pref.strPlayer = strTmp;
-
-    strTmp = conf->getItemValue("preference", "clearpool");
-    m_pref.bClearPool = (strTmp != "0");
-    strTmp = conf->getItemValue("preference", "pool");
-    m_pref.strPoolPath = strTmp.isEmpty() ? Global::instance()->pathCfg() + "pool/" : strTmp;
-    if (m_pref.strPoolPath.right(1) != "/")
-        m_pref.strPoolPath.append('/');
-    strTmp = conf->getItemValue("preference", "zmodem");
-    m_pref.strZmPath = strTmp.isEmpty() ? Global::instance()->pathCfg() + "zmodem/" : strTmp;
-    if (m_pref.strZmPath.right(1) != "/")
-        m_pref.strZmPath.append('/');
-    strTmp = conf->getItemValue("preference", "image");
-    m_pref.strImageViewer = strTmp;
+    setUseTray(Global::instance()->m_pref.bTray);
 }
 
 //save current setting to qterm.cfg
@@ -290,7 +252,7 @@ void Frame::saveSetting()
         conf->setItemValue("global", "max", "0");
     }
 
-    if (m_bFullScreen)
+    if (Global::instance()->isFullScreen())
         conf->setItemValue("global", "fullscreen", "1");
     else
         conf->setItemValue("global", "fullscreen", "0");
@@ -316,14 +278,15 @@ void Frame::saveSetting()
                        (int)dock, index, nl == 1 ? true : false, extra));
 
 
-    strTmp.setNum(m_nClipCodec);
+    // Should we convert the numbers to strings like "GBK" and "Big5";
+    strTmp.setNum(Global::instance()->clipCodec());
     conf->setItemValue("global", "clipcodec", strTmp);
 
-    strTmp.setNum(m_nScrollPos);
+    strTmp.setNum(Global::instance()->scrollPosition());
     conf->setItemValue("global", "vscrollpos", strTmp);
 
-    conf->setItemValue("global", "statusbar", m_bStatusBar ? "1" : "0");
-    conf->setItemValue("global", "switchbar", m_bSwitchBar ? "1" : "0");
+    conf->setItemValue("global", "statusbar", Global::instance()->showStatusBar() ? "1" : "0");
+    conf->setItemValue("global", "switchbar", Global::instance()->showSwitchBar() ? "1" : "0");
 
     conf->save();
 }
@@ -361,10 +324,10 @@ void Frame::exitQTerm()
 
     saveSetting();
     // clear zmodem and pool if needed
-    if (m_pref.bClearPool) {
-        Global::instance()->clearDir(m_pref.strZmPath);
-        Global::instance()->clearDir(m_pref.strPoolPath);
-        Global::instance()->clearDir(m_pref.strPoolPath + "shadow-cache/");
+    if (Global::instance()->m_pref.bClearPool) {
+        Global::instance()->clearDir(Global::instance()->m_pref.strZmPath);
+        Global::instance()->clearDir(Global::instance()->m_pref.strPoolPath);
+        Global::instance()->clearDir(Global::instance()->m_pref.strPoolPath + "shadow-cache/");
     }
 
     setUseTray(false);
@@ -411,7 +374,7 @@ void Frame::aboutQTerm()
 //slot Help->Homepage
 void Frame::homepage()
 {
-    QString strCmd = m_pref.strHttp;
+    QString strCmd = Global::instance()->m_pref.strHttp;
     QString strUrl = "http://www.qterm.org";
 
     if (strCmd.indexOf("%L") == -1)
@@ -526,7 +489,7 @@ void Frame::closeEvent(QCloseEvent * clse)
     for (int i = 0; i < int(windows.count()); ++i) {
 
         if (((Window *)windows.at(i))->isConnected()) {
-            if (m_pref.bTray) {
+            if (Global::instance()->m_pref.bTray) {
                 trayHide();
                 clse->ignore();
                 return;
@@ -543,10 +506,11 @@ void Frame::closeEvent(QCloseEvent * clse)
 
     saveSetting();
     // clear zmodem and pool if needed
-    if (m_pref.bClearPool) {
-        Global::instance()->clearDir(m_pref.strZmPath);
-        Global::instance()->clearDir(m_pref.strPoolPath);
-        Global::instance()->clearDir(m_pref.strPoolPath + "shadow-cache/");
+    // FIXME: cleanup the code
+    if (Global::instance()->m_pref.bClearPool) {
+        Global::instance()->clearDir(Global::instance()->m_pref.strZmPath);
+        Global::instance()->clearDir(Global::instance()->m_pref.strPoolPath);
+        Global::instance()->clearDir(Global::instance()->m_pref.strPoolPath + "shadow-cache/");
     }
 
     setUseTray(false);
@@ -615,16 +579,16 @@ void Frame::wordWrap(bool isEnabled)
 void Frame::updateESC(QAction * action)
 {
     if (action->objectName() == "actionNoESC") {
-        m_strEscape = "";
+        Global::instance()->setEscapeString("");
     } else if (action->objectName() == "actionESCESC") {
-        m_strEscape = "^[^[[";
+        Global::instance()->setEscapeString("^[^[[");
     } else if (action->objectName() == "actionUESC") {
-        m_strEscape = "^u[";
+        Global::instance()->setEscapeString("^u[");
     } else if (action->objectName() == "actionCustomESC") {
         bool ok;
-        QString strEsc = QInputDialog::getText(this, "define escape", "scape string *[", QLineEdit::Normal, m_strEscape , &ok);
+        QString strEsc = QInputDialog::getText(this, "define escape", "scape string *[", QLineEdit::Normal, Global::instance()->escapeString(), &ok);
         if (ok)
-            m_strEscape = strEsc;
+            Global::instance()->setEscapeString(strEsc);
     } else {
         qDebug("updateESC: should not be here");
     }
@@ -633,9 +597,9 @@ void Frame::updateESC(QAction * action)
 void Frame::updateCodec(QAction * action)
 {
     if (action->objectName() == "actionGBK") {
-        m_nClipCodec = 0;
+        Global::instance()->setClipCodec(Global::GBK);
     } else if (action->objectName() == "actionBig5") {
-        m_nClipCodec = 1;
+        Global::instance()->setClipCodec(Global::Big5);
     } else {
         qDebug("updateCodec: should not be here");
     }
@@ -661,7 +625,7 @@ void Frame::uiFont()
     bool ok;
     QFont font = QFontDialog::getFont(&ok, qApp->font());
 
-    if (m_pref.bAA)
+    if (Global::instance()->m_pref.bAA)
         font.setStyleStrategy(QFont::PreferAntialias);
 
     if (ok == true) {
@@ -671,9 +635,10 @@ void Frame::uiFont()
 
 void Frame::fullscreen()
 {
-    m_bFullScreen = ! m_bFullScreen;
+    bool tmp = ! Global::instance()->isFullScreen();
+    Global::instance()->setFullScreen(tmp);
 
-    if (m_bFullScreen) {
+    if (tmp) {
         //TODO: add an item to the popup menu so we can go back to normal without touch the keyboard
         menuBar()->hide();
         mdiTools->hide();
@@ -693,17 +658,18 @@ void Frame::fullscreen()
         showNormal();
     }
 
-    m_fullAction->setChecked(m_bFullScreen);
+    m_fullAction->setChecked(tmp);
 
 }
 
 void Frame::bosscolor()
 {
-    m_bBossColor = !m_bBossColor;
+    bool tmp = !Global::instance()->isBossColor();
+    Global::instance()->setBossColor(tmp);
 
     emit bossColor();
 
-    m_bossAction->setChecked(m_bBossColor);
+    m_bossAction->setChecked(tmp);
 }
 
 void Frame::initThemesMenu()
@@ -727,11 +693,11 @@ void Frame::themesMenuActivated(QAction * action)
 void Frame::updateScroll(QAction * action)
 {
     if (action->objectName() == "actionHide") {
-        m_nScrollPos = 0;
+        Global::instance()->setScrollPosition(Global::Hide);
     } else if (action->objectName() == "actionLeft") {
-        m_nScrollPos = 1;
+        Global::instance()->setScrollPosition(Global::Left);
     } else if (action->objectName() == "actionRight") {
-        m_nScrollPos = 2;
+        Global::instance()->setScrollPosition(Global::Right);
     } else {
         qDebug("updateScroll: should not be here");
     }
@@ -740,9 +706,9 @@ void Frame::updateScroll(QAction * action)
 
 void Frame::updateSwitchBar(bool isEnabled)
 {
-    m_bSwitchBar = isEnabled;
+    Global::instance()->setSwitchBar(isEnabled);
 
-    if (m_bSwitchBar)
+    if (Global::instance()->showSwitchBar())
         statusBar()->show();
     else
         statusBar()->hide();
@@ -750,9 +716,9 @@ void Frame::updateSwitchBar(bool isEnabled)
 
 void Frame::updateStatusBar(bool isEnabled)
 {
-    m_bStatusBar = isEnabled;
+    Global::instance()->setStatusBar(isEnabled);
 
-    emit statusBarChanged(m_bStatusBar);
+    emit statusBarChanged(isEnabled);
 }
 
 void Frame::setting()
@@ -779,9 +745,8 @@ void Frame::preference()
     prefDialog pref(this);
 
     if (pref.exec() == 1) {
-        Config * pConf = Global::instance()->fileCfg();
-        loadPref(pConf);
-        setUseTray(m_pref.bTray);
+        Global::instance()->loadPrefence();
+        setUseTray(Global::instance()->m_pref.bTray);
     }
 }
 
@@ -817,7 +782,7 @@ void Frame::updateMouse(bool isEnabled)
 
 void Frame::viewImages()
 {
-    Image viewer(Global::instance()->pathPic() + "pic/shadow.png", m_pref.strPoolPath, this);
+    Image viewer(Global::instance()->pathPic() + "pic/shadow.png", Global::instance()->m_pref.strPoolPath, this);
     viewer.exec();
 }
 
@@ -1069,7 +1034,7 @@ void Frame::initActions()
     m_bossAction->setShortcut(Qt::Key_F12);
 
     QActionGroup * scrollGroup = new QActionGroup(this);
-    m_scrollHideAction = new QAction(tr("&actionHide"), this);
+    m_scrollHideAction = new QAction(tr("&Hide"), this);
     m_scrollHideAction->setObjectName("actionHide");
     m_scrollHideAction->setCheckable(true);
     m_scrollLeftAction = new QAction(tr("&Left"), this);
@@ -1315,7 +1280,7 @@ void Frame::updateMenuToolBar()
     m_wwrapAction->setChecked(window->m_bWordWrap);
 
 
-    m_fullAction->setChecked(m_bFullScreen);
+    m_fullAction->setChecked(Global::instance()->isFullScreen());
 
     m_antiIdleAction->setChecked(window->m_bAntiIdle);
     m_autoReplyAction->setChecked(window->m_bAutoReply);

@@ -293,7 +293,7 @@ Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const ch
 	m_pMessage->display(tr("Not Connected"));
 	statusBar()->setSizeGripEnabled(false);
 
-	if(m_pFrame->m_bStatusBar)
+	if(Global::instance()->showStatusBar())
 		statusBar()->show();
 	else
 		statusBar()->hide();
@@ -352,7 +352,7 @@ Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const ch
 	m_bCopyRect	= false;
 	m_bAntiIdle	= true;
 	m_bAutoReply= m_param.m_bAutoReply;
-	m_bBeep		= !(m_pFrame->m_pref.strPlayer.isEmpty()||m_pFrame->m_pref.strWave.isEmpty());
+	m_bBeep		= !(Global::instance()->m_pref.strPlayer.isEmpty()||Global::instance()->m_pref.strWave.isEmpty());
 	m_bMouse	= true;
 	m_bWordWrap = false;
 	m_bAutoCopy = true;
@@ -486,7 +486,7 @@ Window::~Window()
 //close event received
 void Window::closeEvent ( QCloseEvent * clse)
 {
-	if( m_bConnected && m_pFrame->m_pref.bWarn )
+	if( m_bConnected && Global::instance()->m_pref.bWarn )
 	{
 		QMessageBox mb( "QTerm",
 			"Connected,Do you still want to exit?",
@@ -676,7 +676,7 @@ void Window::mouseMoveEvent( QMouseEvent * me)
 		QRect rcOld_i_dont_need_you;
 		QRect rcUrl_leave_me_alone = m_rcUrl;
 		bool bUrl=false;
-		if(m_pFrame->m_pref.bUrl)
+		if(Global::instance()->m_pref.bUrl)
 		{
 			if (m_pBBS->isIP(rcUrl_leave_me_alone, rcOld_i_dont_need_you) && m_bCheckIP)
 			{
@@ -774,7 +774,7 @@ void Window::mouseReleaseEvent( QMouseEvent * me )
 		#endif
 		if (ok)
 		{
-			QString strCmd=m_pFrame->m_pref.strHttp;
+			QString strCmd=Global::instance()->m_pref.strHttp;
 			if(strCmd.indexOf("%L")==-1) // no replace
 				//QApplication::clipboard()->setText(strUrl);
 				strCmd += " \"" + strUrl +"\"";
@@ -848,7 +848,7 @@ void Window::wheelEvent( QWheelEvent *we)
 	int j = we->delta()>0 ? 4 : 5;
 	if(!(we->modifiers()))
 	{
-		if(m_pFrame->m_pref.bWheel && m_bConnected)
+		if(Global::instance()->m_pref.bWheel && m_bConnected)
 			m_pTelnet->write(direction[j], sizeof(direction[j]));
 		return;
 	}
@@ -1046,14 +1046,14 @@ if(m_pZmodem->transferstate == notransfer)
     if( m_pDecode->bellReceive() ) //&& m_pBuffer->caret().y()==1 )
     {
 		if( m_bBeep ) {
-			m_pSound = new ExternalSound(m_pFrame->m_pref.strPlayer,
-							m_pFrame->m_pref.strWave);
+			m_pSound = new ExternalSound(Global::instance()->m_pref.strPlayer,
+							Global::instance()->m_pref.strWave);
 			if (m_pSound)
 				m_pSound->play();
 			delete m_pSound;
 			m_pSound = NULL;
 		}
-		if(m_pFrame->m_pref.bBlinkTab)
+		if(Global::instance()->m_pref.bBlinkTab)
 			m_tabTimer->start(500);
 
 		QString strMsg = m_pBBS->getMessage();
@@ -1334,7 +1334,7 @@ void Window::pasteHelper( bool clip )
 	QClipboard *clipboard = QApplication::clipboard();
 	QByteArray cstrText;
 	
-	if(m_pFrame->m_nClipCodec==0)
+	if(Global::instance()->clipCodec()==Global::GBK)
 	{
 		#if (QT_VERSION>=0x030100)
 		if(clip)
@@ -1369,9 +1369,9 @@ void Window::pasteHelper( bool clip )
 		}
 	}
 
-	if(!m_pFrame->m_strEscape.isEmpty())
+	if(!Global::instance()->escapeString().isEmpty())
 	#if (QT_VERSION>=0x030100)
-		cstrText.replace(parseString(m_pFrame->m_strEscape.toLatin1()), 
+		cstrText.replace(parseString(Global::instance()->escapeString().toLatin1()), 
 				 parseString((const char *)m_param.m_strEscape.toLatin1()));
 	#else
 		cstrText.replace(QRegExp(parseString(m_pFrame->m_cstrEscape)), 
@@ -1394,8 +1394,8 @@ void Window::pasteHelper( bool clip )
 			uint k=0, l=0;
 			while(strText.at(j)!=QChar('\n') && j<strText.length())
 			{
-				if(m_pFrame->m_pref.nWordWrap-(l-k)>=0 &&
-					m_pFrame->m_pref.nWordWrap-(l-k)<2)
+				if(Global::instance()->m_pref.nWordWrap-(l-k)>=0 &&
+					Global::instance()->m_pref.nWordWrap-(l-k)<2)
 				{
 					strText.insert(j,QChar('\n'));
 					k=l;
@@ -1796,7 +1796,7 @@ QByteArray Window::unicode2bbs(const QString& text)
 {
 	QByteArray strTmp;
 
-	if( m_pFrame->m_pref.nXIM == 0 )
+	if( Global::instance()->m_pref.nXIM == 0 )
 	{
 		strTmp = U2G(text);
 		if( m_param.m_nBBSCode == 1)
@@ -2191,7 +2191,7 @@ void Window::inputHandle(QString * text)
 
 void Window::openLink()
 {
-	QString strCmd=m_pFrame->m_pref.strHttp;
+	QString strCmd=Global::instance()->m_pref.strHttp;
 	if(strCmd.indexOf("%L")==-1) // no replace
 	//QApplication::clipboard()->setText(strUrl);
 		strCmd += " \"" + m_pBBS->getUrl() +"\"";

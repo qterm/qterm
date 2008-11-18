@@ -27,26 +27,6 @@ class QTermTimeLabel;
 class Param;
 class Config;
 
-struct Pref {
-    int  nXIM; // 0--GBK 1--BIG5
-    int  nWordWrap;
-    bool bWheel;
-    bool bWarn;
-    bool bBlinkTab;
-    QString strHttp;
-    int  nBeep;
-    QString strWave;
-    QString strPlayer;
-    bool bUrl;
-    bool bAutoCopy;
-    bool bAA;
-    bool bTray;
-    bool bClearPool;
-    QString strZmPath;
-    QString strPoolPath;
-    QString strImageViewer;
-};
-
 class Frame : public QMainWindow
 {
     Q_OBJECT
@@ -134,17 +114,6 @@ public:
     QTabBar *tabBar;
     WndMgr * wndmgr;
 
-    Pref m_pref;
-    bool m_bBossColor;
-
-    QString m_strEscape;
-
-    int m_nClipCodec; // 0--GBK 1--BIG5
-
-    bool m_bStatusBar;
-
-    int m_nScrollPos; // 0--hide 1--LEFT 2--RIGHT
-
     QMdiArea * m_MdiArea;
 protected:
     //variables
@@ -222,8 +191,8 @@ protected:
     QMenuBar * mainMenu;
     QToolBar *mdiconnectTools, *mdiTools;
 
-    bool m_bFullScreen;
-    bool m_bSwitchBar;
+//    bool m_bFullScreen;
+//    bool m_bSwitchBar;
 
     QSystemTrayIcon *tray;
     QMenu *trayMenu;
@@ -235,7 +204,7 @@ protected:
     void iniSetting();
     void initActions();
     void initShortcuts();
-    void loadPref(Config *);
+    //void loadPref(Config *);
     void saveSetting();
 
     void addMainMenu();

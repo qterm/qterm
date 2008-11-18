@@ -21,6 +21,7 @@ AUTHOR:        kingson fiasco
 #include "qtermparam.h"
 #include "qtermtelnet.h"
 #include "qtermconfig.h"
+#include "qtermglobal.h"
 
 #include <QApplication>
 #include <QPainter>
@@ -316,7 +317,7 @@ void Screen::mouseReleaseEvent( QMouseEvent * me )
 
 void Screen::wheelEvent( QWheelEvent * we )
 {
-	if(m_pWindow->m_pFrame->m_pref.bWheel)
+	if(Global::instance()->m_pref.bWheel)
 		QApplication::sendEvent(m_pWindow, we);
 	else
 		QApplication::sendEvent(m_scrollBar,we);
@@ -592,19 +593,19 @@ void Screen::scrollChanged( int value )
 
 void Screen::updateScrollBar()
 {
-	switch(m_pWindow->m_pFrame->m_nScrollPos)
+	switch(Global::instance()->scrollPosition())
 	{
-		case 0:
+        case Global::Hide:
 			m_scrollBar->hide();
 			m_rcClient = QRect( 3,1, rect().width()-3, rect().height()-1 );
 			break;
-		case 1:	// LEFT
+        case Global::Left:
 			m_scrollBar->setGeometry( 0, 0, Scrollbar_Width, rect().height() );
 			m_scrollBar->show();
 			m_rcClient = QRect( Scrollbar_Width+3, 1, 
 							rect().width()-Scrollbar_Width-3, rect().height()-1 );
 			break;
-		case 2:	// RIGHT
+        case Global::Right:
 			m_scrollBar->setGeometry( rect().width()-Scrollbar_Width, 0, 
 							Scrollbar_Width, rect().height() );
 			m_scrollBar->show();
@@ -663,7 +664,7 @@ void Screen::setBgPxm( const QPixmap& pixmap, int nType)
 	m_nPxmType = nType;
 	QPalette palette;
 
-	if( m_pWindow->m_pFrame->m_bBossColor )
+	if( Global::instance()->isBossColor() )
 	{
 		palette.setColor(backgroundRole(), Qt::white);
 		setPalette(palette);
@@ -1088,7 +1089,7 @@ void Screen::drawStr( QPainter& painter, const QString& str, int x, int y, int l
 	QPoint pt = mapToPixel(QPoint(x,y));
 
 	// black on white without attr
-	if(m_pWindow->m_pFrame->m_bBossColor)
+	if(Global::instance()->isBossColor())
 	{
 		painter.setPen(GETFG(cp)==0?Qt::white:Qt::black);
 		if( GETBG(cp)!=0 && !transparent )
@@ -1147,7 +1148,7 @@ void Screen::drawMenuSelect( QPainter& painter, int index )
 	if( m_pBuffer->isSelected(index) )
 	{
 		rcSelect = mapToRect(m_pBuffer->getSelectRect(index, m_pWindow->m_bCopyRect));
-		if(m_pWindow->m_pFrame->m_bBossColor)
+		if(Global::instance()->isBossColor())
 			painter.fillRect(rcSelect, Qt::black);
 		else
 			painter.fillRect(rcSelect, QBrush(m_color[7]));

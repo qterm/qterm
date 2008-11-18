@@ -1043,7 +1043,7 @@ FILE * Zmodem::ZOpenFile(char *name, ulong crc, ZModem *info)
 	//to be complete
 	FILE *rval;
 	int apnd=0;
-	QString str = Frame::instance()->m_pref.strZmPath+G2U(name); // lazy, should use bbs2unicode
+	QString str = Global::instance()->m_pref.strZmPath+G2U(name); // lazy, should use bbs2unicode
 	rval = fopen(str.toLocal8Bit(), apnd ? "ab" : "wb") ;
 
 	if( rval == NULL )
