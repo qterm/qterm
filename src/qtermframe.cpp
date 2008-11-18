@@ -405,13 +405,7 @@ void Frame::closeEvent(QCloseEvent * clse)
     }
 
     saveSetting();
-    // clear zmodem and pool if needed
-    // FIXME: cleanup the code
-    if (Global::instance()->m_pref.bClearPool) {
-        Global::instance()->clearDir(Global::instance()->m_pref.strZmPath);
-        Global::instance()->clearDir(Global::instance()->m_pref.strPoolPath);
-        Global::instance()->clearDir(Global::instance()->m_pref.strPoolPath + "shadow-cache/");
-    }
+    Global::instance()->cleanup();
 
     setUseTray(false);
 

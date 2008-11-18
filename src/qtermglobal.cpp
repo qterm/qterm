@@ -762,4 +762,14 @@ void Global::saveState(const QByteArray state)
 {
     m_config->setItemValueNew("global", "state", state);
 }
+
+void Global::cleanup()
+{
+    if (m_pref.bClearPool) {
+        clearDir(m_pref.strZmPath);
+        clearDir(m_pref.strPoolPath);
+        clearDir(m_pref.strPoolPath + "shadow-cache/");
+    }
+}
+
 } // namespace QTerm

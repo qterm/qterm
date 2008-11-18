@@ -96,6 +96,7 @@ public:
     QByteArray loadState();
     void saveGeometry( const QByteArray geometry);
     void saveState( const QByteArray state);
+    void cleanup();
 
 private:
     Global();
