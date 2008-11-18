@@ -148,7 +148,7 @@ public:
     QMdiArea * m_MdiArea;
 protected:
     //variables
-    QTermTimeLabel *labelTime;
+    //QTermTimeLabel *labelTime;
     QMenu *windowsMenu;
     QMenu *themesMenu;
 
