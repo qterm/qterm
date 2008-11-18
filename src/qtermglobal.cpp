@@ -17,6 +17,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QTranslator>
+#include <QtCore/QVariant>
 #include <QtGui/QApplication>
 #include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
@@ -50,7 +51,7 @@ Global * Global::instance()
 }
 
 Global::Global()
-        : m_fileCfg("./qterm.cfg"), m_addrCfg("./address.cfg"), m_pathLib("./"), m_pathPic("./"), m_pathCfg("./"), m_windowState(), m_status(INIT_OK), m_style(), m_language(Global::English)
+        : m_fileCfg("./qterm.cfg"), m_addrCfg("./address.cfg"), m_pathLib("./"), m_pathPic("./"), m_pathCfg("./"), m_windowState(), m_status(INIT_OK), m_style(), m_fullScreen(false), m_language(Global::English)
 {
     if (!iniWorkingDir(qApp->arguments()[0])) {
         m_status = INIT_ERROR;
@@ -669,8 +670,8 @@ void Global::setStyle(const QString & style)
 void Global::loadConfig()
 {
     QString strTmp;
-
     strTmp = m_config->getItemValue("global", "fullscreen");
+
     if (strTmp == "1") {
         setFullScreen(true);
     } else {
@@ -719,20 +720,7 @@ void Global::saveConfig()
     m_config->setItemValue("global", "pointsize", strTmp);
     strTmp.setNum(QFontInfo(qApp->font()).pixelSize());
     m_config->setItemValue("global", "pixelsize", strTmp);
-/*
-//TODO: 
-//     settings.setValue("size", size());
-//     settings.setValue("pos", pos());
-    //save window position and size
-    if (isMaximized()) {
-        conf->setItemValue("global", "max", "1");
-    } else {
-        strTmp = QString("%1 %2 %3 %4").arg(x()).arg(y()).arg(width()).arg(height());
-//   cstrTmp.sprintf("%d %d %d %d",x(),y(),width(),height());
-        conf->setItemValue("global", "size", strTmp);
-        conf->setItemValue("global", "max", "0");
-    }
-*/
+
     if (isFullScreen())
         m_config->setItemValue("global", "fullscreen", "1");
     else
@@ -755,4 +743,23 @@ void Global::saveConfig()
 
 }
 
+QByteArray Global::loadGeometry()
+{
+    return m_config->getItemValueNew("global","geometry").toByteArray();
+}
+
+QByteArray Global::loadState()
+{
+    return m_config->getItemValueNew("global","state").toByteArray();
+}
+
+void Global::saveGeometry(const QByteArray geometry)
+{
+    m_config->setItemValueNew("global", "geometry", geometry);
+}
+
+void Global::saveState(const QByteArray state)
+{
+    m_config->setItemValueNew("global", "state", state);
+}
 } // namespace QTerm

@@ -49,7 +49,6 @@ signals:
 
 protected slots:
     void keyClicked(int);
-    void toolBarPosChanged(QToolBar*);
     // Menu
     void addressBook();
     void quickLogin();
@@ -82,7 +81,7 @@ protected slots:
     void font();
     void color();
     void refresh();
-    void fullscreen();
+    void triggerFullScreen(bool isFullScreen);
     void bosscolor();
     void uiFont();
     void antiIdle(bool);

@@ -92,6 +92,10 @@ public:
     void setStyle(const QString & style);
     void loadConfig(); //TODO: Merge with iniSettings
     void saveConfig();
+    QByteArray loadGeometry();
+    QByteArray loadState();
+    void saveGeometry( const QByteArray geometry);
+    void saveState( const QByteArray state);
 
 private:
     Global();

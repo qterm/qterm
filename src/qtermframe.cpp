@@ -83,8 +83,6 @@ Frame::Frame()
 
     tray = 0;
     trayMenu = 0;
-    connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)),
-            this, SLOT(toolBarPosChanged(QToolBar*)));
 
 //create a tabbar in the hbox
     tabBar = new QTabBar(statusBar());
@@ -136,30 +134,12 @@ Frame::~Frame()
 void Frame::iniSetting()
 {
     Global::instance()->loadConfig();
-    Config * conf = Global::instance()->fileCfg();
 
-    QString strTmp;
-
-//TODO:
-//     settings.setValue("size", size());
-//     settings.setValue("pos", pos());
+    restoreGeometry(Global::instance()->loadGeometry());
+    restoreState(Global::instance()->loadState());
     if (Global::instance()->isFullScreen()) {
         m_fullAction->setChecked(true);
         showFullScreen();
-    } else {
-        //window size
-        strTmp = conf->getItemValue("global", "max");
-        if (strTmp == "1")
-            showMaximized();
-        else {
-            QString size = conf->getItemValue("global", "size");
-            if (!size.isNull()) {
-                int x, y, cx, cy;
-                sscanf(size.toLatin1(), "%d %d %d %d", &x, &y, &cx, &cy);
-                resize(QSize(cx, cy));
-                move(QPoint(x, y));
-            }
-        }
     }
 
     QStyle * style = QStyleFactory::create(Global::instance()->style());
@@ -204,51 +184,11 @@ void Frame::iniSetting()
     setUseTray(Global::instance()->m_pref.bTray);
 }
 
-//save current setting to qterm.cfg
 void Frame::saveSetting()
 {
+    Global::instance()->saveGeometry(saveGeometry());
+    Global::instance()->saveState(saveState());
     Global::instance()->saveConfig();
-    Config * conf = Global::instance()->fileCfg();
-
-    QString strTmp;
-
-//TODO: 
-//     settings.setValue("size", size());
-//     settings.setValue("pos", pos());
-    //save window position and size
-    if (isMaximized()) {
-        conf->setItemValue("global", "max", "1");
-    } else {
-        strTmp = QString("%1 %2 %3 %4").arg(x()).arg(y()).arg(width()).arg(height());
-//   cstrTmp.sprintf("%d %d %d %d",x(),y(),width(),height());
-        conf->setItemValue("global", "size", strTmp);
-        conf->setItemValue("global", "max", "0");
-    }
-
-    /*
-    // cstrTmp.setNum(theme);
-    conf->setItemValue("global", "theme", theme);
-
-    int hide, dock, index, nl, extra;
-
-    strTmp = conf->getItemValue("global", "bbsbar");
-    sscanf(strTmp.toLatin1(), "%d %d %d %d %d", &hide, &dock, &index, &nl, &extra);
-    conf->setItemValue("global", "bbsbar", valueToString(mdiconnectTools->isVisibleTo(this),
-                       (int)dock, index, nl == 1 ? true : false, extra));
-
-    strTmp = conf->getItemValue("global", "keybar");
-    sscanf(strTmp.toLatin1(), "%d %d %d %d %d", &hide, &dock, &index, &nl, &extra);
-    conf->setItemValue("global", "keybar", valueToString(key->isVisibleTo(this),
-                       (int)dock, index, nl == 1 ? true : false, extra));
-
-    strTmp = conf->getItemValue("global", "mainbar");
-    sscanf(strTmp.toLatin1(), "%d %d %d %d %d", &hide, &dock, &index, &nl, &extra);
-    conf->setItemValue("global", "mainbar", valueToString(mdiTools->isVisibleTo(this),
-                       (int)dock, index, nl == 1 ? true : false, extra));
-
-*/
-    // Should we convert the numbers to strings like "GBK" and "Big5";
-    conf->save();
 }
 
 //addressbook
@@ -593,13 +533,14 @@ void Frame::uiFont()
     }
 }
 
-void Frame::fullscreen()
+void Frame::triggerFullScreen(bool isFullScreen)
 {
-    bool tmp = ! Global::instance()->isFullScreen();
-    Global::instance()->setFullScreen(tmp);
+    Global::instance()->setFullScreen(isFullScreen);
 
-    if (tmp) {
-        //TODO: add an item to the popup menu so we can go back to normal without touch the keyboard
+    //TODO: add an item to the popup menu so we can go back to normal without touch the keyboard
+    if (isFullScreen) {
+        Global::instance()->saveGeometry(saveGeometry());
+        Global::instance()->saveState(saveState());
         menuBar()->hide();
         mdiTools->hide();
         mdiconnectTools->hide();
@@ -609,16 +550,15 @@ void Frame::fullscreen()
         showFullScreen();
     } else {
         menuBar()->show();
-        mdiTools->show();
-        mdiconnectTools->show();
-        key->show();
+        restoreGeometry(Global::instance()->loadGeometry());
+        restoreState(Global::instance()->loadState());
         emit scrollChanged();
+        showNormal();
         //showStatusBar();
         //showSwitchBar();
-        showNormal();
     }
 
-    m_fullAction->setChecked(tmp);
+    m_fullAction->setChecked(isFullScreen);
 
 }
 
@@ -786,32 +726,11 @@ void Frame::keyClicked(int id)
     }
 }
 
-void Frame::toolBarPosChanged(QToolBar*)
-{
-    Config * conf = Global::instance()->fileCfg();
-
-//  Qt::ToolBarDock dock;
-    int index;
-    bool nl;
-    int extra;
-
-// TODO: Position of the tool bar?
-    conf->save();
-}
-
 void Frame::addMainTool()
 {
     mdiTools = addToolBar("Main ToolBar");
+    mdiTools->setObjectName("mainToolBar");
 
-    Config * conf = Global::instance()->fileCfg();
-    int hide, dock, index, nl, extra;
-
-    QString strTmp = conf->getItemValue("global", "mainbar");
-    if (!strTmp.isEmpty()) {
-        sscanf(strTmp.toLatin1(), "%d %d %d %d %d", &hide, &dock, &index, &nl, &extra);
-        if (hide == 0)
-            mdiTools->hide();
-    }
     connectButton = new QToolButton(mdiTools);
     connectButton->setIcon(QPixmap(Global::instance()->pathPic() + "pic/connect.png"));
 
@@ -825,19 +744,11 @@ void Frame::addMainTool()
     mdiTools->addAction(m_quickConnectAction);
     // custom define
     key = addToolBar("Custom Key");
-    strTmp = conf->getItemValue("global", "keybar");
-    if (!strTmp.isEmpty()) {
-        sscanf(strTmp.toLatin1(), "%d %d %d %d %d", &hide, &dock, &index, &nl, &extra);
-        if (hide == 0)
-            key->hide();
-    }
+    key->setObjectName("customKeyToolBar");
 
     // the toolbar
     mdiconnectTools = addToolBar("bbs operations");
-    strTmp = conf->getItemValue("global", "bbbar");
-    if (!strTmp.isEmpty()) {
-        sscanf(strTmp.toLatin1(), "%d %d %d %d %d", &hide, &dock, &index, &nl, &extra);
-    }
+    mdiconnectTools->setObjectName("bbsOperationsToolBar");
 
     mdiconnectTools->addAction(m_disconnectAction);
     mdiconnectTools->addSeparator();
@@ -987,6 +898,7 @@ void Frame::initActions()
     m_uiFontAction->setObjectName("actionUiFont");
     m_fullAction = new QAction(tr("&Fullscreen"), this);
     m_fullAction->setObjectName("actionFull");
+    m_fullAction->setCheckable(true);
     m_fullAction->setShortcut(Qt::Key_F6);
     addAction(m_fullAction);
     m_bossAction = new QAction(tr("Boss &Color"), this);
@@ -1082,7 +994,7 @@ void Frame::initActions()
     connect(langGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateLang(QAction*)));
 
     connect(m_uiFontAction, SIGNAL(triggered()), this, SLOT(uiFont()));
-    connect(m_fullAction, SIGNAL(triggered()), this, SLOT(fullscreen()));
+    connect(m_fullAction, SIGNAL(toggled(bool)), this, SLOT(triggerFullScreen(bool)));
     connect(m_bossAction, SIGNAL(triggered()), this, SLOT(bosscolor()));
 
     connect(scrollGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateScroll(QAction*)));
