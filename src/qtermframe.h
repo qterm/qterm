@@ -245,7 +245,7 @@ protected:
 
     QString valueToString(bool, int, int, bool, int);
     QAction * insertThemeItem(const QString &);
-    void setUseDock(bool);
+    void setUseTray(bool);
 private:
     static Frame * s_instance;
 };

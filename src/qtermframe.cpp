@@ -218,7 +218,7 @@ void Frame::iniSetting()
 
     loadPref(conf);
 
-    setUseDock(m_pref.bTray);
+    setUseTray(m_pref.bTray);
 }
 
 void Frame::loadPref(Config * conf)
@@ -361,7 +361,7 @@ void Frame::exitQTerm()
         Global::instance()->clearDir(m_pref.strPoolPath + "shadow-cache/");
     }
 
-    setUseDock(false);
+    setUseTray(false);
     qApp->quit();
 }
 
@@ -543,7 +543,7 @@ void Frame::closeEvent(QCloseEvent * clse)
         Global::instance()->clearDir(m_pref.strPoolPath + "shadow-cache/");
     }
 
-    setUseDock(false);
+    setUseTray(false);
 
     clse->accept();
 
@@ -775,7 +775,7 @@ void Frame::preference()
     if (pref.exec() == 1) {
         Config * pConf = Global::instance()->fileCfg();
         loadPref(pConf);
-        setUseDock(m_pref.bTray);
+        setUseTray(m_pref.bTray);
     }
 }
 
@@ -1378,7 +1378,7 @@ QAction * Frame::insertThemeItem(const QString & themeitem)
     return idAction;
 }
 
-void Frame::setUseDock(bool use)
+void Frame::setUseTray(bool use)
 {
     if (use == false) {
         if (tray) {
