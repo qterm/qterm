@@ -132,9 +132,10 @@ Frame::~Frame()
 }
 
 //initialize setting from qterm.cfg
-// TODO: separate config reading and UI setting
+
 void Frame::iniSetting()
 {
+    Global::instance()->loadConfig();
     Config * conf = Global::instance()->fileCfg();
 
     QString strTmp;
@@ -142,13 +143,10 @@ void Frame::iniSetting()
 //TODO:
 //     settings.setValue("size", size());
 //     settings.setValue("pos", pos());
-    strTmp = conf->getItemValue("global", "fullscreen");
-    if (strTmp == "1") {
-        Global::instance()->setFullScreen(true);
+    if (Global::instance()->isFullScreen()) {
         m_fullAction->setChecked(true);
         showFullScreen();
     } else {
-        Global::instance()->setFullScreen(false);
         //window size
         strTmp = conf->getItemValue("global", "max");
         if (strTmp == "1")
@@ -164,64 +162,44 @@ void Frame::iniSetting()
         }
     }
 
-    theme = conf->getItemValue("global", "theme");
-    QStyle * style = QStyleFactory::create(theme);
+    QStyle * style = QStyleFactory::create(Global::instance()->style());
     if (style)
         qApp->setStyle(style);
 
     //language
-    strTmp = conf->getItemValue("global", "language");
-    if (strTmp == "actionEng")
+    if (Global::instance()->language() == Global::English)
         m_engAction->setChecked(true);
-    else if (strTmp == "actionChs")
+    else if (Global::instance()->language() == Global::SimpilifiedChinese)
         m_chsAction->setChecked(true);
-    else if (strTmp == "actionCht")
+    else if (Global::instance()->language() == Global::TraditionalChinese)
         m_chtAction->setChecked(true);
     else
         m_engAction->setChecked(true);
 
     m_noescAction->setChecked(true);
-    Global::instance()->setEscapeString("");
-    //m_strEscape = "";
 
-    strTmp = conf->getItemValue("global", "clipcodec");
-    if (strTmp == "0") {
-        Global::instance()->setClipCodec(Global::GBK);
+    if (Global::instance()->clipCodec() == Global::GBK) {
         m_GBKAction->setChecked(true);
     } else {
-        Global::instance()->setClipCodec(Global::Big5);
         m_BIG5Action->setChecked(true);
     }
 
-    strTmp = conf->getItemValue("global", "vscrollpos");
-    if (strTmp == "0") {
-        Global::instance()->setScrollPosition(Global::Hide);
+    if (Global::instance()->scrollPosition() == Global::Hide) {
         m_scrollHideAction->setChecked(true);
-    } else if (strTmp == "1") {
-        Global::instance()->setScrollPosition(Global::Left);
+    } else if (Global::instance()->scrollPosition() == Global::Left) {
         m_scrollLeftAction->setChecked(true);
     } else {
-        Global::instance()->setScrollPosition(Global::Right);
         m_scrollRightAction->setChecked(true);
     }
 
-    strTmp = conf->getItemValue("global", "statusbar");
-    //m_bStatusBar = (strTmp != "0");
-    Global::instance()->setStatusBar(strTmp != "0");
     m_statusAction->setChecked(Global::instance()->showStatusBar());
 
-
-    strTmp = conf->getItemValue("global", "switchbar");
-    Global::instance()->setSwitchBar((strTmp != "0"));
     m_switchAction->setChecked(Global::instance()->showSwitchBar());
+
     if (Global::instance()->showSwitchBar())
         statusBar()->show();
     else
         statusBar()->hide();
-
-    Global::instance()->setBossColor(false);
-
-    Global::instance()->loadPrefence();
 
     setUseTray(Global::instance()->m_pref.bTray);
 }
@@ -229,15 +207,10 @@ void Frame::iniSetting()
 //save current setting to qterm.cfg
 void Frame::saveSetting()
 {
+    Global::instance()->saveConfig();
     Config * conf = Global::instance()->fileCfg();
 
     QString strTmp;
-    //save font
-    conf->setItemValue("global", "font", qApp->font().family());
-    strTmp.setNum(QFontInfo(qApp->font()).pointSize());
-    conf->setItemValue("global", "pointsize", strTmp);
-    strTmp.setNum(QFontInfo(qApp->font()).pixelSize());
-    conf->setItemValue("global", "pixelsize", strTmp);
 
 //TODO: 
 //     settings.setValue("size", size());
@@ -252,11 +225,7 @@ void Frame::saveSetting()
         conf->setItemValue("global", "max", "0");
     }
 
-    if (Global::instance()->isFullScreen())
-        conf->setItemValue("global", "fullscreen", "1");
-    else
-        conf->setItemValue("global", "fullscreen", "0");
-
+    /*
     // cstrTmp.setNum(theme);
     conf->setItemValue("global", "theme", theme);
 
@@ -277,17 +246,8 @@ void Frame::saveSetting()
     conf->setItemValue("global", "mainbar", valueToString(mdiTools->isVisibleTo(this),
                        (int)dock, index, nl == 1 ? true : false, extra));
 
-
+*/
     // Should we convert the numbers to strings like "GBK" and "Big5";
-    strTmp.setNum(Global::instance()->clipCodec());
-    conf->setItemValue("global", "clipcodec", strTmp);
-
-    strTmp.setNum(Global::instance()->scrollPosition());
-    conf->setItemValue("global", "vscrollpos", strTmp);
-
-    conf->setItemValue("global", "statusbar", Global::instance()->showStatusBar() ? "1" : "0");
-    conf->setItemValue("global", "switchbar", Global::instance()->showSwitchBar() ? "1" : "0");
-
     conf->save();
 }
 

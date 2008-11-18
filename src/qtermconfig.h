@@ -4,6 +4,7 @@
 #include <QtCore/QString>
 
 class QSettings;
+class QVariant;
 
 namespace QTerm
 {
@@ -17,8 +18,9 @@ public:
     bool save(const QString & szFileName = "");
 
     bool setItemValue(const QString & szSection, const QString & szItemName,const QString & szItemValue);
+    bool setItemValueNew(const QString & szSection, const QString & szItemName,const QVariant & szItemValue);
     QString getItemValue(const QString & szSection, const QString & szItemName);
-
+    QVariant getItemValueNew(const QString & szSection, const QString & szItemName);
 
     bool deleteItem(const QString & szSection, const QString & szItemName);
     bool deleteSection(const QString & szSection);

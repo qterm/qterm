@@ -104,6 +104,14 @@ bool Config::setItemValue(const QString & szSection,
     return checkError();
 }
 
+bool Config::setItemValueNew(const QString & szSection,
+            const QString & szItemName, const QVariant & szItemValue)
+{
+    QString key = szSection+"/"+szItemName;
+    m_settings->setValue(key, szItemValue);
+    return checkError();
+}
+
 QString Config::getItemValue(const QString & szSection, const QString & szItemName)
 {
     QString key = szSection+"/"+szItemName;
@@ -113,6 +121,13 @@ QString Config::getItemValue(const QString & szSection, const QString & szItemNa
     } else {
         return "";
     }
+}
+
+QVariant Config::getItemValueNew(const QString & szSection, const QString & szItemName)
+{
+    QString key = szSection+"/"+szItemName;
+    QVariant data = m_settings->value(key);
+    return data;
 }
 
 bool Config::renameSection(const QString & szSection, const QString & szNewName)

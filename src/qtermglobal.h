@@ -23,6 +23,11 @@ class Config;
 class Global
 {
 public:
+    enum Language {
+        SimpilifiedChinese,
+        TraditionalChinese,
+        English
+    };
     enum Codec {
         GBK,
         Big5
@@ -69,10 +74,12 @@ public:
     bool isBossColor() const;
     const QString & escapeString() const;
     Codec clipCodec() const;
+    Language language() const;
     bool showStatusBar() const;
     Position scrollPosition() const;
     bool isFullScreen() const;
     bool showSwitchBar() const;
+    const QString & style() const;
 
     void setClipCodec(Codec codecId);
     void setEscapeString(const QString & escapeString);
@@ -81,6 +88,10 @@ public:
     void setBossColor(bool isBossColor);
     void setFullScreen(bool isFullscreen);
     void setSwitchBar(bool isShow);
+    void setLanguage(const Language language);
+    void setStyle(const QString & style);
+    void loadConfig(); //TODO: Merge with iniSettings
+    void saveConfig();
 
 private:
     Global();
@@ -96,7 +107,9 @@ private:
     QString m_pathCfg;
     Config * m_config;
     Config * m_address;
+    QByteArray * m_windowState;
     Status m_status;
+    QString m_style;
     bool m_bossColor;
     QString m_escape;
     Codec m_clipCodec;
@@ -104,7 +117,7 @@ private:
     Position m_scrollPos;
     bool m_fullScreen;
     bool m_switchBar;
-
+    Language m_language;
 };
 
 } // namespace QTerm
