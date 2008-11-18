@@ -138,7 +138,9 @@ void Frame::iniSetting()
 
     QString strTmp;
 
-
+//TODO:
+//     settings.setValue("size", size());
+//     settings.setValue("pos", pos());
     strTmp = conf->getItemValue("global", "fullscreen");
     if (strTmp == "1") {
         m_bFullScreen = true;
@@ -168,11 +170,11 @@ void Frame::iniSetting()
 
     //language
     strTmp = conf->getItemValue("global", "language");
-    if (strTmp == "eng")
+    if (strTmp == "actionEng")
         m_engAction->setChecked(true);
-    else if (strTmp == "chs")
+    else if (strTmp == "actionChs")
         m_chsAction->setChecked(true);
-    else if (strTmp == "cht")
+    else if (strTmp == "actionCht")
         m_chtAction->setChecked(true);
     else
         m_engAction->setChecked(true);
@@ -275,6 +277,9 @@ void Frame::saveSetting()
     strTmp.setNum(QFontInfo(qApp->font()).pixelSize());
     conf->setItemValue("global", "pixelsize", strTmp);
 
+//TODO: 
+//     settings.setValue("size", size());
+//     settings.setValue("pos", pos());
     //save window position and size
     if (isMaximized()) {
         conf->setItemValue("global", "max", "1");
@@ -332,6 +337,7 @@ void Frame::addressBook()
         newWindow(addr.param, addr.ui.nameListWidget->currentRow());
     }
 }
+
 //quicklogin
 void Frame::quickLogin()
 {
@@ -608,13 +614,13 @@ void Frame::wordWrap(bool isEnabled)
 
 void Frame::updateESC(QAction * action)
 {
-    if (action->objectName() == "noesc") {
+    if (action->objectName() == "actionNoESC") {
         m_strEscape = "";
-    } else if (action->objectName() == "escesc") {
+    } else if (action->objectName() == "actionESCESC") {
         m_strEscape = "^[^[[";
-    } else if (action->objectName() == "uesc") {
+    } else if (action->objectName() == "actionUESC") {
         m_strEscape = "^u[";
-    } else if (action->objectName() == "custom") {
+    } else if (action->objectName() == "actionCustomESC") {
         bool ok;
         QString strEsc = QInputDialog::getText(this, "define escape", "scape string *[", QLineEdit::Normal, m_strEscape , &ok);
         if (ok)
@@ -626,9 +632,9 @@ void Frame::updateESC(QAction * action)
 
 void Frame::updateCodec(QAction * action)
 {
-    if (action->objectName() == "GBK") {
+    if (action->objectName() == "actionGBK") {
         m_nClipCodec = 0;
-    } else if (action->objectName() == "Big5") {
+    } else if (action->objectName() == "actionBig5") {
         m_nClipCodec = 1;
     } else {
         qDebug("updateCodec: should not be here");
@@ -720,11 +726,11 @@ void Frame::themesMenuActivated(QAction * action)
 
 void Frame::updateScroll(QAction * action)
 {
-    if (action->objectName() == "Hide") {
+    if (action->objectName() == "actionHide") {
         m_nScrollPos = 0;
-    } else if (action->objectName() == "Left") {
+    } else if (action->objectName() == "actionLeft") {
         m_nScrollPos = 1;
-    } else if (action->objectName() == "Right") {
+    } else if (action->objectName() == "actionRight") {
         m_nScrollPos = 2;
     } else {
         qDebug("updateScroll: should not be here");
@@ -969,39 +975,51 @@ void Frame::initShortcuts()
 void Frame::initActions()
 {
     QString pathLib = Global::instance()->pathLib();
+
     m_connectAction = new QAction(QPixmap(pathLib + "pic/connect.png"), tr("&Connect"), this);
+    m_connectAction->setObjectName("actionConnect");
     m_disconnectAction = new QAction(QPixmap(pathLib + "pic/disconnect.png"), tr("&Disconnect"), this);
+    m_connectAction->setObjectName("actionDisconnect");
     m_addressAction = new QAction(QPixmap(pathLib + "pic/addr.png"), tr("&Address book"), this);
+    m_addressAction->setObjectName("actionAddress");
     m_addressAction->setShortcut(Qt::Key_F2);
     m_quickConnectAction = new QAction(QPixmap(pathLib + "pic/quick.png"), tr("&Quick login"), this);
+    m_quickConnectAction->setObjectName("actionQuickConnect");
     m_quickConnectAction->setShortcut(Qt::Key_F3);
     m_exitAction = new QAction(tr("&Exit"), this);
+    m_exitAction->setObjectName("actionExit");
 
     m_copyAction = new QAction(QPixmap(pathLib + "pic/copy.png"), tr("&Copy"), this);
+    m_copyAction->setObjectName("actionCopy");
     m_copyAction->setShortcut(Qt::CTRL + Qt::Key_Insert);
     m_pasteAction = new QAction(QPixmap(pathLib + "pic/paste.png"), tr("&Paste"), this);
+    m_pasteAction->setObjectName("actionPaste");
     m_pasteAction->setShortcut(Qt::SHIFT + Qt::Key_Insert);
     m_colorCopyAction = new QAction(QPixmap(pathLib + "pic/color-copy.png"), tr("C&opy with color"), this);
+    m_colorCopyAction->setObjectName("actionColorCopy");
     m_colorCopyAction->setCheckable(true);
     m_rectAction = new QAction(QPixmap(pathLib + "pic/rect.png"), tr("&Rectangle select"), this);
+    m_rectAction->setObjectName("actionRect");
     m_rectAction->setCheckable(true);
     m_autoCopyAction = new QAction(tr("Auto copy &select"), this);
+    m_autoCopyAction->setObjectName("actionAutoCopy");
     m_autoCopyAction->setCheckable(true);
     m_wwrapAction = new QAction(tr("P&aste with wordwrap"), this);
+    m_wwrapAction->setObjectName("actionWordWrap");
     m_wwrapAction->setCheckable(true);
 
     QActionGroup * escapeGroup = new QActionGroup(this);
     m_noescAction = new QAction(tr("&None"), this);
-    m_noescAction->setObjectName("noesc");
+    m_noescAction->setObjectName("actionNoESC");
     m_noescAction->setCheckable(true);
     m_escescAction = new QAction(tr("&ESC ESC ["), this);
-    m_escescAction->setObjectName("escesc");
+    m_escescAction->setObjectName("actionESCESC");
     m_escescAction->setCheckable(true);
     m_uescAction = new QAction(tr("Ctrl+&U ["), this);
-    m_uescAction->setObjectName("uesc");
+    m_uescAction->setObjectName("actionUESC");
     m_uescAction->setCheckable(true);
     m_customescAction = new QAction(tr("&Custom..."), this);
-    m_customescAction->setObjectName("custom");
+    m_customescAction->setObjectName("actionCustomESC");
     m_customescAction->setCheckable(true);
     escapeGroup->addAction(m_noescAction);
     escapeGroup->addAction(m_escescAction);
@@ -1010,87 +1028,110 @@ void Frame::initActions()
 
     QActionGroup * codecGroup = new QActionGroup(this);
     m_GBKAction = new QAction(tr("&GBK"), this);
-    m_GBKAction->setObjectName("GBK");
+    m_GBKAction->setObjectName("actionGBK");
     m_GBKAction->setCheckable(true);
     m_BIG5Action = new QAction(tr("&Big5"), this);
-    m_BIG5Action->setObjectName("Big5");
+    m_BIG5Action->setObjectName("actionBig5");
     m_BIG5Action->setCheckable(true);
     codecGroup->addAction(m_GBKAction);
     codecGroup->addAction(m_BIG5Action);
 
     m_fontAction = new QAction(QPixmap(pathLib + "pic/fonts.png"), tr("&Font"), this);
+    m_fontAction->setObjectName("actionFont");
     m_colorAction = new QAction(QPixmap(pathLib + "pic/color.png"), tr("&Color"), this);
+    m_colorAction->setObjectName("actionColor");
     m_refreshAction = new QAction(QPixmap(pathLib + "pic/refresh.png"), tr("&Refresh"), this);
+    m_refreshAction->setObjectName("actionRefresh");
     m_refreshAction->setShortcut(Qt::Key_F5);
 
     QActionGroup * langGroup = new QActionGroup(this);
     m_engAction = new QAction(tr("&English"), this);
-    m_engAction->setObjectName("eng");
+    m_engAction->setObjectName("actionEng");
     m_engAction->setCheckable(true);
     m_chsAction = new QAction(tr("&Simplified Chinese"), this);
-    m_chsAction->setObjectName("chs");
+    m_chsAction->setObjectName("actionChs");
     m_chsAction->setCheckable(true);
     m_chtAction = new QAction(tr("&Traditional Chinese"), this);
-    m_chtAction->setObjectName("cht");
+    m_chtAction->setObjectName("actionCht");
     m_chtAction->setCheckable(true);
     langGroup->addAction(m_engAction);
     langGroup->addAction(m_chsAction);
     langGroup->addAction(m_chtAction);
 
     m_uiFontAction = new QAction(tr("&UI font"), this);
+    m_uiFontAction->setObjectName("actionUiFont");
     m_fullAction = new QAction(tr("&Fullscreen"), this);
+    m_fullAction->setObjectName("actionFull");
     m_fullAction->setShortcut(Qt::Key_F6);
     addAction(m_fullAction);
     m_bossAction = new QAction(tr("Boss &Color"), this);
+    m_bossAction->setObjectName("action Boss");
     m_bossAction->setShortcut(Qt::Key_F12);
 
     QActionGroup * scrollGroup = new QActionGroup(this);
-    m_scrollHideAction = new QAction(tr("&Hide"), this);
-    m_scrollHideAction->setObjectName("Hide");
+    m_scrollHideAction = new QAction(tr("&actionHide"), this);
+    m_scrollHideAction->setObjectName("actionHide");
     m_scrollHideAction->setCheckable(true);
     m_scrollLeftAction = new QAction(tr("&Left"), this);
-    m_scrollLeftAction->setObjectName("Left");
+    m_scrollLeftAction->setObjectName("actionLeft");
     m_scrollLeftAction->setCheckable(true);
     m_scrollRightAction = new QAction(tr("&Right"), this);
-    m_scrollRightAction->setObjectName("Right");
+    m_scrollRightAction->setObjectName("actionRight");
     m_scrollRightAction->setCheckable(true);
     scrollGroup->addAction(m_scrollHideAction);
     scrollGroup->addAction(m_scrollLeftAction);
     scrollGroup->addAction(m_scrollRightAction);
 
     m_statusAction = new QAction(tr("Status &Bar"), this);
+    m_statusAction->setObjectName("actionStatus");
     m_statusAction->setCheckable(true);
     m_switchAction = new QAction(tr("S&witch Bar"), this);
+    m_switchAction->setObjectName("actionSwitch");
     m_switchAction->setCheckable(true);
 
     m_currentSessionAction = new QAction(QPixmap(pathLib + "pic/pref.png"), tr("&Setting for currrent session"), this);
+    m_currentSessionAction->setObjectName("actionCurrentSession");
     m_defaultAction = new QAction(tr("&Default setting"), this);
+    m_defaultAction->setObjectName("actionDefault");
     m_prefAction = new QAction(tr("&Preference"), this);
+    m_prefAction->setObjectName("actionPref");
 
     m_copyArticleAction = new QAction(QPixmap(pathLib + "pic/article.png"), tr("&Copy article"), this);
+    m_copyArticleAction->setObjectName("actionCopyArticle");
     m_copyArticleAction->setShortcut(Qt::Key_F9);
     m_antiIdleAction = new QAction(QPixmap(pathLib + "pic/anti-idle.png"), tr("Anti &idle"), this);
+    m_antiIdleAction->setObjectName("actionAntiIdle");
     m_antiIdleAction->setCheckable(true);
     m_autoReplyAction = new QAction(QPixmap(pathLib + "pic/auto-reply.png"), tr("Auto &reply"), this);
+    m_autoReplyAction->setObjectName("actionAutoReply");
     m_autoReplyAction->setCheckable(true);
     m_viewMessageAction = new QAction(QPixmap(pathLib + "pic/message.png"), tr("&View messages"), this);
+    m_viewMessageAction->setObjectName("actionViewMessage");
     m_viewMessageAction->setShortcut(Qt::Key_F10);
     m_beepAction = new QAction(QPixmap(pathLib + "pic/sound.png"), tr("&Beep "), this);
+    m_beepAction->setObjectName("actionBeep");
     m_beepAction->setCheckable(true);
     m_mouseAction = new QAction(QPixmap(pathLib + "pic/mouse.png"), tr("&Mouse support"), this);
+    m_mouseAction->setObjectName("actionMouse");
     m_mouseAction->setCheckable(true);
     m_viewImageAction = new QAction(tr("&Image viewer"), this);
+    m_viewImageAction->setObjectName("actionViewImage");
 
     m_scriptRunAction = new QAction(tr("&Run..."), this);
+    m_scriptRunAction->setObjectName("actionScriptRun");
     m_scriptRunAction->setShortcut(Qt::Key_F7);
     m_scriptStopAction = new QAction(tr("&Stop"), this);
+    m_scriptStopAction->setObjectName("actionScriptStop");
     m_scriptStopAction->setShortcut(Qt::Key_F8);
 
     m_aboutAction = new QAction(tr("About &QTerm"), this);
+    m_aboutAction->setObjectName("actionAbout");
     m_aboutAction->setShortcut(Qt::Key_F1);
     m_homepageAction = new QAction(tr("QTerm's &Homepage"), this);
+    m_homepageAction->setObjectName("actionHomepage");
 
     m_reconnectAction = new QAction(QPixmap(Global::instance()->pathPic() + "pic/reconnect.png"), tr("Reconnect When Disconnected By Host"), this);
+    m_reconnectAction->setObjectName("actionReconnect");
     m_reconnectAction->setCheckable(true);
 
     connect(m_connectAction, SIGNAL(triggered()), this, SLOT(connectIt()));
