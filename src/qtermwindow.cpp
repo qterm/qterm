@@ -76,6 +76,7 @@ AUTHOR:        kingson fiasco
 #include <QProgressBar>
 #include <QHBoxLayout>
 #include <QtCore/QProcess>
+#include <QtDebug>
 
 namespace QTerm
 {
@@ -781,7 +782,10 @@ void Window::mouseReleaseEvent( QMouseEvent * me )
 				strCmd.replace("%L",  "\""+strUrl+ "\"");
 				//cstrCmd.replace("%L",  strUrl.toLocal8Bit());
 			
-			QProcess::startDetached(strCmd);
+            //qDebug()<<"run command " << strCmd;
+			//QProcess::startDetached(strCmd);
+            //TODO: How to do this in Windows?
+			system(strCmd.toUtf8().data());
 		}
 		return;
 	}
