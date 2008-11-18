@@ -787,12 +787,18 @@ void Frame::initShortcuts()
         connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
         windowMapper->setMapping(shortcut, i);
     }
+    shortcut = new QShortcut(QKeySequence::PreviousChild, this);
+    connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
+    windowMapper->setMapping(shortcut, 200);
     shortcut = new QShortcut(Qt::ALT + Qt::Key_Left, this);
     connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
     windowMapper->setMapping(shortcut, 200);
     shortcut = new QShortcut(Qt::ALT + Qt::Key_Up, this);
     connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
     windowMapper->setMapping(shortcut, 200);
+    shortcut = new QShortcut(QKeySequence::NextChild, this);
+    connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
+    windowMapper->setMapping(shortcut, 201);
     shortcut = new QShortcut(Qt::ALT + Qt::Key_Right, this);
     connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
     windowMapper->setMapping(shortcut, 201);
