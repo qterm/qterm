@@ -1335,12 +1335,16 @@ void Frame::trayShow()
             showNormal();
 #endif
     }
+    restoreGeometry(Global::instance()->loadGeometry());
+    restoreState(Global::instance()->loadState());
     raise();
     activateWindow();
 }
 
 void Frame::trayHide()
 {
+    Global::instance()->saveGeometry(saveGeometry());
+    Global::instance()->saveState(saveState());
     hide();
 }
 
