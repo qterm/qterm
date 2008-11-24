@@ -157,4 +157,4 @@ void ShortcutsDialog::setKeySequence(QObject* obj, QKeySequence key)
 
 }
 
-#include "shortcutsdialog.moc"
+#include <shortcutsdialog.moc>
