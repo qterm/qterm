@@ -820,7 +820,7 @@ void Frame::initActions()
     m_connectAction = new QAction(QPixmap(pathLib + "pic/connect.png"), tr("&Connect"), this);
     m_connectAction->setObjectName("actionConnect");
     m_disconnectAction = new QAction(QPixmap(pathLib + "pic/disconnect.png"), tr("&Disconnect"), this);
-    m_connectAction->setObjectName("actionDisconnect");
+    m_disconnectAction->setObjectName("actionDisconnect");
     m_addressAction = new QAction(QPixmap(pathLib + "pic/addr.png"), tr("&Address book"), this);
     m_addressAction->setObjectName("actionAddress");
     m_addressAction->setShortcut(Qt::Key_F2);
