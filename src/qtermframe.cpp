@@ -1400,7 +1400,7 @@ void Frame::saveToolbars()
             else if (action->objectName().isEmpty()==false)
                 listActions+=action->objectName();
             else
-                qDebug() << "weird object: " << action->objectName();
+                qDebug() << toolbar->objectName() << ": Action without an object name cannot be saved";
         }
         conf->setItemValue("Toolbars", toolbar->objectName(), listActions);
     }
