@@ -210,6 +210,8 @@ protected:
     void saveSetting();
     void saveShortcuts();
     void loadShortcuts();
+    void saveToolbars();
+    void loadToolbars();
 
     void addMainMenu();
     void addMainTool();

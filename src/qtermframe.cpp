@@ -194,6 +194,7 @@ void Frame::saveSetting()
     Global::instance()->saveState(saveState());
     Global::instance()->saveConfig();
     saveShortcuts();
+    saveToolbars();
 }
 
 //addressbook
@@ -733,14 +734,14 @@ void Frame::addMainTool()
     connectButton = new QToolButton(mdiTools);
     connectButton->setIcon(QPixmap(Global::instance()->pathPic() + "pic/connect.png"));
 
-    mdiTools->addWidget(connectButton);
+    QAction * connectAction = mdiTools->addWidget(connectButton);
+    connectAction->setObjectName("actionConnectButton");
     connectMenu = new QMenu(this);
 
     connect(connectMenu, SIGNAL(aboutToShow()), this, SLOT(popupConnectMenu()));
     connectButton->setMenu(connectMenu);
     connectButton->setPopupMode(QToolButton::InstantPopup);
 
-    mdiTools->addAction(m_quickConnectAction);
     // custom define
     key = addToolBar("Custom Key");
     key->setObjectName("customKeyToolBar");
@@ -749,30 +750,7 @@ void Frame::addMainTool()
     mdiconnectTools = addToolBar("bbs operations");
     mdiconnectTools->setObjectName("bbsOperationsToolBar");
 
-    mdiconnectTools->addAction(m_disconnectAction);
-    mdiconnectTools->addSeparator();
-
-    mdiconnectTools->addAction(m_copyAction);
-    mdiconnectTools->addAction(m_pasteAction);
-    mdiconnectTools->addAction(m_rectAction);
-    mdiconnectTools->addAction(m_colorCopyAction);
-    mdiconnectTools->addSeparator();
-
-    mdiconnectTools->addAction(m_fontAction);
-    mdiconnectTools->addAction(m_colorAction);
-    mdiconnectTools->addAction(m_refreshAction);
-    mdiconnectTools->addSeparator();
-
-    mdiconnectTools->addAction(m_currentSessionAction);
-    mdiconnectTools->addSeparator();
-
-    mdiconnectTools->addAction(m_copyArticleAction);
-    mdiconnectTools->addAction(m_antiIdleAction);
-    mdiconnectTools->addAction(m_autoReplyAction);
-    mdiconnectTools->addAction(m_viewMessageAction);
-    mdiconnectTools->addAction(m_mouseAction);
-    mdiconnectTools->addAction(m_beepAction);
-    mdiconnectTools->addAction(m_reconnectAction);
+    loadToolbars();
 }
 
 void Frame::initShortcuts()
@@ -1403,6 +1381,58 @@ void Frame::configShortcuts()
     ShortcutsDialog sd(this,actions,shortcutsList);
     sd.exec();
     saveShortcuts();
+}
+
+void Frame::saveToolbars()
+{
+    Config * conf = Global::instance()->fileCfg();
+    QList<QToolBar*> toolbars = findChildren<QToolBar*>();
+    QToolBar * toolbar;
+    foreach (toolbar, toolbars)
+    {
+        QStringList listActions;
+        foreach(QAction* action, toolbar->actions())
+        {
+            if (action->objectName() == "actionConnectButton")
+                continue;
+            if(action->isSeparator())
+                listActions+="Separator";
+            else if (action->objectName().isEmpty()==false)
+                listActions+=action->objectName();
+            else
+                qDebug() << "weird object: " << action->objectName();
+        }
+        conf->setItemValue("Toolbars", toolbar->objectName(), listActions);
+    }
+    conf->setItemValue("Toolbars", "ButtonStyle", int(toolButtonStyle()));
+    conf->setItemValue("Toolbars", "IconSize", iconSize());
+    conf->save();
+}
+
+void Frame::loadToolbars()
+{
+    Config * conf = Global::instance()->fileCfg();
+    QList<QToolBar*> toolbars = findChildren<QToolBar*>();
+    QToolBar * toolbar;
+    foreach (toolbar, toolbars)
+    {
+        QStringList actions=conf->getItemValue("Toolbars", toolbar->objectName()).toStringList();
+        foreach(QString action, actions)
+        {
+            QAction* act;
+            if (action.isEmpty())
+                continue;
+            if(action=="Separator")
+                toolbar->addSeparator();
+            else {
+                act=findChild<QAction*>(action);
+                if (act != 0)
+                    toolbar->addAction(act);
+            }
+        }
+    }
+    setToolButtonStyle(Qt::ToolButtonStyle(conf->getItemValue("Toolbars", "ButtonStyle").toInt()));
+    setIconSize(conf->getItemValue("Toolbars", "IconSize").toSize());
 }
 
 }
