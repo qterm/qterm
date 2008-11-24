@@ -65,6 +65,7 @@ AUTHOR:        kingson fiasco hooey
 #include <QLineEdit>
 #include <QInputDialog>
 #include <QStatusBar>
+#include <QtDebug>
 
 namespace QTerm
 {
