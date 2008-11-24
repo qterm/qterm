@@ -530,7 +530,7 @@ int Zmodem::ZmodemTInit(ZModem *info)
 
 	info->timeout = 60 ;
 
-	QString path = Global::instance()->fileCfg()->getItemValue("global","openfiledialog");
+	QString path = Global::instance()->fileCfg()->getItemValue("global","openfiledialog").toString();
 	strFileList = QFileDialog::getOpenFileNames(0, "Choose the files", path, "All files(*)");
 	if(strFileList.count()!=0)
 	{

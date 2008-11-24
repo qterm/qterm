@@ -115,7 +115,7 @@ void addrDialog::onAdd()
 {
 	QString strTmp;
 	Config * pConf = Global::instance()->addrCfg();
-	strTmp = pConf->getItemValue("bbs list", "num");
+	strTmp = pConf->getItemValue("bbs list", "num").toString();
 	int num = strTmp.toInt();
 
 	int index = ui.nameListWidget->currentRow();
@@ -145,7 +145,7 @@ void addrDialog::onDelete()
 {
 	QString strTmp;
 	Config * pConf = Global::instance()->addrCfg();
-	strTmp = pConf->getItemValue("bbs list", "num");
+	strTmp = pConf->getItemValue("bbs list", "num").toString();
 	int num = strTmp.toInt();
 
 	if(ui.nameListWidget->count()==0)

@@ -1527,7 +1527,7 @@ void Window::stopScript()
 void Window::viewMessages( )
 {
 	msgDialog msg(this);
-	const char * size = Global::instance()->fileCfg()->getItemValue("global","msgdialog").toLatin1();
+	const char * size = Global::instance()->fileCfg()->getItemValue("global","msgdialog").toString().toLatin1();
 	if(size!=NULL)
 	{
 		int x,y,cx,cy;
@@ -1669,7 +1669,7 @@ void Window::jobDone(int e)
 	if( e == DAE_FINISH )
 	{
 		articleDialog article(this);
-		const char * size = Global::instance()->fileCfg()->getItemValue("global","articledialog").toLatin1().data();
+		const char * size = Global::instance()->fileCfg()->getItemValue("global","articledialog").toString().toLatin1().data();
 		if(size!=NULL)
 		{
 			int x,y,cx,cy;

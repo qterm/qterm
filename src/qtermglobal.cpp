@@ -118,13 +118,13 @@ QStringList Global::loadNameList()
 {
     QStringList listName;
 
-    QString strTmp = m_address->getItemValue("bbs list", "num");
+    QString strTmp = m_address->getItemValue("bbs list", "num").toString();
 
     QString strSection;
 
     for (int i = 0; i < strTmp.toInt(); i++) {
         strSection.sprintf("bbs %d", i);
-        listName.append(m_address->getItemValue(strSection, "name"));
+        listName.append(m_address->getItemValue(strSection, "name").toString());
     }
 
     return listName;
@@ -139,89 +139,89 @@ bool Global::loadAddress(int n, Param& param)
         strSection.sprintf("bbs %d", n);
 
     // check if larger than existence
-    strTmp = m_address->getItemValue("bbs list", "num");
+    strTmp = m_address->getItemValue("bbs list", "num").toString();
     if (n >= strTmp.toInt())
         return false;
-    param.m_strName = m_address->getItemValue(strSection, "name");
-    param.m_strAddr = m_address->getItemValue(strSection, "addr");
-    strTmp = m_address->getItemValue(strSection, "port");
+    param.m_strName = m_address->getItemValue(strSection, "name").toString();
+    param.m_strAddr = m_address->getItemValue(strSection, "addr").toString();
+    strTmp = m_address->getItemValue(strSection, "port").toString();
     param.m_uPort = strTmp.toUShort();
-    strTmp = m_address->getItemValue(strSection, "hosttype");
+    strTmp = m_address->getItemValue(strSection, "hosttype").toString();
     param.m_nHostType = strTmp.toInt();
-    strTmp = m_address->getItemValue(strSection, "autologin");
+    strTmp = m_address->getItemValue(strSection, "autologin").toString();
     param.m_bAutoLogin = (strTmp != "0");
-    param.m_strPreLogin = m_address->getItemValue(strSection, "prelogin");
-    param.m_strUser = m_address->getItemValue(strSection, "user");
-    param.m_strPasswd = m_address->getItemValue(strSection, "password");
-    param.m_strPostLogin = m_address->getItemValue(strSection, "postlogin");
+    param.m_strPreLogin = m_address->getItemValue(strSection, "prelogin").toString();
+    param.m_strUser = m_address->getItemValue(strSection, "user").toString();
+    param.m_strPasswd = m_address->getItemValue(strSection, "password").toString();
+    param.m_strPostLogin = m_address->getItemValue(strSection, "postlogin").toString();
 
-    strTmp = m_address->getItemValue(strSection, "bbscode");
+    strTmp = m_address->getItemValue(strSection, "bbscode").toString();
     param.m_nBBSCode = strTmp.toInt();
-    strTmp = m_address->getItemValue(strSection, "displaycode");
+    strTmp = m_address->getItemValue(strSection, "displaycode").toString();
     param.m_nDispCode = strTmp.toInt();
-    strTmp = m_address->getItemValue(strSection, "autofont");
+    strTmp = m_address->getItemValue(strSection, "autofont").toString();
     param.m_bAutoFont = (strTmp != "0");
-    strTmp = m_address->getItemValue(strSection, "alwayshighlight");
+    strTmp = m_address->getItemValue(strSection, "alwayshighlight").toString();
     param.m_bAlwaysHighlight = (strTmp != "0");
-    strTmp = m_address->getItemValue(strSection, "ansicolor");
+    strTmp = m_address->getItemValue(strSection, "ansicolor").toString();
     param.m_bAnsiColor = (strTmp != "0");
-    param.m_strFontName = m_address->getItemValue(strSection, "fontname");
-    strTmp = m_address->getItemValue(strSection, "fontsize");
+    param.m_strFontName = m_address->getItemValue(strSection, "fontname").toString();
+    strTmp = m_address->getItemValue(strSection, "fontsize").toString();
     param.m_nFontSize = strTmp.toInt();
-    param.m_clrFg.setNamedColor(m_address->getItemValue(strSection, "fgcolor"));
-    param.m_clrBg.setNamedColor(m_address->getItemValue(strSection, "bgcolor"));
-    param.m_strSchemaFile = m_address->getItemValue(strSection, "schemafile");
+    param.m_clrFg.setNamedColor(m_address->getItemValue(strSection, "fgcolor").toString());
+    param.m_clrBg.setNamedColor(m_address->getItemValue(strSection, "bgcolor").toString());
+    param.m_strSchemaFile = m_address->getItemValue(strSection, "schemafile").toString();
 
-    param.m_strTerm = m_address->getItemValue(strSection, "termtype");
-    strTmp = m_address->getItemValue(strSection, "keytype");
+    param.m_strTerm = m_address->getItemValue(strSection, "termtype").toString();
+    strTmp = m_address->getItemValue(strSection, "keytype").toString();
     param.m_nKey = strTmp.toInt();
-    strTmp =  m_address->getItemValue(strSection, "column");
+    strTmp =  m_address->getItemValue(strSection, "column").toString();
     param.m_nCol = strTmp.toInt();
-    strTmp =  m_address->getItemValue(strSection, "row");
+    strTmp =  m_address->getItemValue(strSection, "row").toString();
     param.m_nRow = strTmp.toInt();
-    strTmp =  m_address->getItemValue(strSection, "scroll");
+    strTmp =  m_address->getItemValue(strSection, "scroll").toString();
     param.m_nScrollLines = strTmp.toInt();
-    strTmp =  m_address->getItemValue(strSection, "cursor");
+    strTmp =  m_address->getItemValue(strSection, "cursor").toString();
     param.m_nCursorType = strTmp.toInt();
-    param.m_strEscape = m_address->getItemValue(strSection, "escape");
+    param.m_strEscape = m_address->getItemValue(strSection, "escape").toString();
 
-    strTmp =  m_address->getItemValue(strSection, "proxytype");
+    strTmp =  m_address->getItemValue(strSection, "proxytype").toString();
     param.m_nProxyType = strTmp.toInt();
-    strTmp = m_address->getItemValue(strSection, "proxyauth");
+    strTmp = m_address->getItemValue(strSection, "proxyauth").toString();
     param.m_bAuth = (strTmp != "0");
-    param.m_strProxyHost = m_address->getItemValue(strSection, "proxyaddr");
-    strTmp = m_address->getItemValue(strSection, "proxyport");
+    param.m_strProxyHost = m_address->getItemValue(strSection, "proxyaddr").toString();
+    strTmp = m_address->getItemValue(strSection, "proxyport").toString();
     param.m_uProxyPort = strTmp.toInt();
-    param.m_strProxyUser = m_address->getItemValue(strSection, "proxyuser");
-    param.m_strProxyPasswd = m_address->getItemValue(strSection, "proxypassword");
-    strTmp = m_address->getItemValue(strSection, "protocol");
+    param.m_strProxyUser = m_address->getItemValue(strSection, "proxyuser").toString();
+    param.m_strProxyPasswd = m_address->getItemValue(strSection, "proxypassword").toString();
+    strTmp = m_address->getItemValue(strSection, "protocol").toString();
     param.m_nProtocolType = strTmp.toInt();
 
-    strTmp = m_address->getItemValue(strSection, "maxidle");
+    strTmp = m_address->getItemValue(strSection, "maxidle").toString();
     param.m_nMaxIdle = strTmp.toInt();
-    param.m_strReplyKey = m_address->getItemValue(strSection, "replykey");
+    param.m_strReplyKey = m_address->getItemValue(strSection, "replykey").toString();
     if (param.m_strReplyKey.isNull())
         qDebug("loading null\n");
 
-    param.m_strAntiString = m_address->getItemValue(strSection, "antiidlestring");
-    param.m_strAutoReply = m_address->getItemValue(strSection, "autoreply");
-    strTmp = m_address->getItemValue(strSection, "bautoreply");
+    param.m_strAntiString = m_address->getItemValue(strSection, "antiidlestring").toString();
+    param.m_strAutoReply = m_address->getItemValue(strSection, "autoreply").toString();
+    strTmp = m_address->getItemValue(strSection, "bautoreply").toString();
     param.m_bAutoReply = (strTmp != "0");
 
-    strTmp = m_address->getItemValue(strSection, "reconnect");
+    strTmp = m_address->getItemValue(strSection, "reconnect").toString();
     param.m_bReconnect = (strTmp != "0");
-    strTmp = m_address->getItemValue(strSection, "interval");
+    strTmp = m_address->getItemValue(strSection, "interval").toString();
     param.m_nReconnectInterval = strTmp.toInt();
-    strTmp = m_address->getItemValue(strSection, "retrytimes");
+    strTmp = m_address->getItemValue(strSection, "retrytimes").toString();
     param.m_nRetry = strTmp.toInt();
 
-    strTmp = m_address->getItemValue(strSection, "loadscript");
+    strTmp = m_address->getItemValue(strSection, "loadscript").toString();
     param.m_bLoadScript = (strTmp != "0");
-    param.m_strScriptFile = m_address->getItemValue(strSection, "scriptfile");
+    param.m_strScriptFile = m_address->getItemValue(strSection, "scriptfile").toString();
 
-    strTmp = m_address->getItemValue(strSection, "menutype");
+    strTmp = m_address->getItemValue(strSection, "menutype").toString();
     param.m_nMenuType = strTmp.toInt();
-    param.m_clrMenu.setNamedColor(m_address->getItemValue(strSection, "menucolor"));
+    param.m_clrMenu.setNamedColor(m_address->getItemValue(strSection, "menucolor").toString());
 
     return true;
 }
@@ -309,47 +309,47 @@ void Global::saveAddress(int n, const Param& param)
 void Global::loadPrefence()
 {
     QString strTmp;
-    strTmp = m_config->getItemValue("preference", "xim");
+    strTmp = m_config->getItemValue("preference", "xim").toString();
     m_pref.nXIM = strTmp.toInt() == 0 ? GBK : Big5;
-    strTmp = m_config->getItemValue("preference", "wordwrap");
+    strTmp = m_config->getItemValue("preference", "wordwrap").toString();
     m_pref.nWordWrap = strTmp.toInt();
-    strTmp = m_config->getItemValue("preference", "wheel");
+    strTmp = m_config->getItemValue("preference", "wheel").toString();
     m_pref.bWheel = (strTmp != "0");
-    strTmp = m_config->getItemValue("preference", "url");
+    strTmp = m_config->getItemValue("preference", "url").toString();
     m_pref.bUrl = (strTmp != "0");
-    strTmp = m_config->getItemValue("preference", "blinktab");
+    strTmp = m_config->getItemValue("preference", "blinktab").toString();
     m_pref.bBlinkTab = (strTmp != "0");
-    strTmp = m_config->getItemValue("preference", "warn");
+    strTmp = m_config->getItemValue("preference", "warn").toString();
     m_pref.bWarn = (strTmp != "0");
-    strTmp = m_config->getItemValue("preference", "beep");
+    strTmp = m_config->getItemValue("preference", "beep").toString();
     m_pref.nBeep = strTmp.toInt();
-    m_pref.strWave = m_config->getItemValue("preference", "wavefile");
-    strTmp = m_config->getItemValue("preference", "http");
+    m_pref.strWave = m_config->getItemValue("preference", "wavefile").toString();
+    strTmp = m_config->getItemValue("preference", "http").toString();
     m_pref.strHttp = strTmp;
-    strTmp = m_config->getItemValue("preference", "antialias");
+    strTmp = m_config->getItemValue("preference", "antialias").toString();
     m_pref.bAA = (strTmp != "0");
-    strTmp = m_config->getItemValue("preference", "tray");
+    strTmp = m_config->getItemValue("preference", "tray").toString();
     m_pref.bTray = (strTmp != "0");
-    strTmp = m_config->getItemValue("preference", "externalplayer");
+    strTmp = m_config->getItemValue("preference", "externalplayer").toString();
     m_pref.strPlayer = strTmp;
 
-    strTmp = m_config->getItemValue("preference", "clearpool");
+    strTmp = m_config->getItemValue("preference", "clearpool").toString();
     m_pref.bClearPool = (strTmp != "0");
-    strTmp = m_config->getItemValue("preference", "pool");
+    strTmp = m_config->getItemValue("preference", "pool").toString();
     m_pref.strPoolPath = strTmp.isEmpty() ? Global::instance()->pathCfg() + "pool/" : strTmp;
     if (m_pref.strPoolPath.right(1) != "/")
         m_pref.strPoolPath.append('/');
-    strTmp = m_config->getItemValue("preference", "zmodem");
+    strTmp = m_config->getItemValue("preference", "zmodem").toString();
     m_pref.strZmPath = strTmp.isEmpty() ? Global::instance()->pathCfg() + "zmodem/" : strTmp;
     if (m_pref.strZmPath.right(1) != "/")
         m_pref.strZmPath.append('/');
-    strTmp = m_config->getItemValue("preference", "image");
+    strTmp = m_config->getItemValue("preference", "image").toString();
     m_pref.strImageViewer = strTmp;
 }
 
 QString Global::getOpenFileName(const QString & filter, QWidget * widget)
 {
-    QString path = m_config->getItemValue("global", "openfiledialog");
+    QString path = m_config->getItemValue("global", "openfiledialog").toString();
 
     QString strOpen = QFileDialog::getOpenFileName(widget, "choose a file", path, filter);
 
@@ -367,7 +367,7 @@ QString Global::getOpenFileName(const QString & filter, QWidget * widget)
 QString Global::getSaveFileName(const QString& filename, QWidget* widget)
 {
     // get the previous dir
-    QString path = m_config->getItemValue("global", "savefiledialog");
+    QString path = m_config->getItemValue("global", "savefiledialog").toString();
 
     QString strSave = QFileDialog::getSaveFileName(widget, "Choose a file to save under", path + "/" + filename, "*");
 
@@ -494,7 +494,7 @@ bool Global::iniWorkingDir(QString param)
 bool Global::iniSettings()
 {
     //install the translator
-    QString lang = m_config->getItemValue("global", "language");
+    QString lang = m_config->getItemValue("global", "language").toString();
     if (lang != "eng" && !lang.isEmpty()) {
         // look in $HOME/.qterm/po/ first
         QString qm = QDir::homePath() + "/.qterm/po/qterm_" + lang + ".qm";
@@ -505,9 +505,9 @@ bool Global::iniSettings()
         qApp->installTranslator(translator);
     }
     //set font
-    QString family = m_config->getItemValue("global", "font");
-    QString pointsize = m_config->getItemValue("global", "pointsize");
-    QString pixelsize = m_config->getItemValue("global", "pixelsize");
+    QString family = m_config->getItemValue("global", "font").toString();
+    QString pointsize = m_config->getItemValue("global", "pointsize").toString();
+    QString pixelsize = m_config->getItemValue("global", "pixelsize").toString();
     if (!family.isEmpty()) {
         QFont font(family);
         if (pointsize.toInt() > 0)
@@ -515,7 +515,7 @@ bool Global::iniSettings()
         if (pixelsize.toInt() > 0)
             font.setPixelSize(pixelsize.toInt());
 #if (QT_VERSION>=300)
-        QString bAA = m_config->getItemValue("global", "antialias");
+        QString bAA = m_config->getItemValue("global", "antialias").toString();
         if (bAA != "0")
             font.setStyleStrategy(QFont::PreferAntialias);
 #endif
@@ -523,13 +523,13 @@ bool Global::iniSettings()
     }
 
     // zmodem and pool directory
-    QString pathZmodem = m_config->getItemValue("preference", "zmodem");
+    QString pathZmodem = m_config->getItemValue("preference", "zmodem").toString();
     if (pathZmodem.isEmpty())
         pathZmodem = m_pathCfg + "zmodem";
     if (!isPathExist(pathZmodem))
         return false;
 
-    QString pathPool = m_config->getItemValue("preference", "pool");
+    QString pathPool = m_config->getItemValue("preference", "pool").toString();
 
     if (pathPool.isEmpty())
         pathPool = m_pathCfg + "pool/";
@@ -674,7 +674,7 @@ void Global::setStyle(const QString & style)
 void Global::loadConfig()
 {
     QString strTmp;
-    strTmp = m_config->getItemValue("global", "fullscreen");
+    strTmp = m_config->getItemValue("global", "fullscreen").toString();
 
     if (strTmp == "1") {
         setFullScreen(true);
@@ -682,18 +682,18 @@ void Global::loadConfig()
         setFullScreen(false);
     }
 
-    setStyle(m_config->getItemValue("global", "theme"));
+    setStyle(m_config->getItemValue("global", "theme").toString());
 
     setEscapeString("");
 
-    strTmp = m_config->getItemValue("global", "clipcodec");
+    strTmp = m_config->getItemValue("global", "clipcodec").toString();
     if (strTmp == "0") {
         setClipCodec(Global::GBK);
     } else {
         setClipCodec(Global::Big5);
     }
 
-    strTmp = m_config->getItemValue("global", "vscrollpos");
+    strTmp = m_config->getItemValue("global", "vscrollpos").toString();
     if (strTmp == "0") {
         setScrollPosition(Global::Hide);
     } else if (strTmp == "1") {
@@ -702,10 +702,10 @@ void Global::loadConfig()
         setScrollPosition(Global::Right);
     }
 
-    strTmp = m_config->getItemValue("global", "statusbar");
+    strTmp = m_config->getItemValue("global", "statusbar").toString();
     setStatusBar((strTmp != "0"));
 
-    strTmp = m_config->getItemValue("global", "switchbar");
+    strTmp = m_config->getItemValue("global", "switchbar").toString();
     setSwitchBar((strTmp != "0"));
 
     setBossColor(false);
@@ -749,22 +749,22 @@ void Global::saveConfig()
 
 QByteArray Global::loadGeometry()
 {
-    return m_config->getItemValueNew("global","geometry").toByteArray();
+    return m_config->getItemValue("global","geometry").toByteArray();
 }
 
 QByteArray Global::loadState()
 {
-    return m_config->getItemValueNew("global","state").toByteArray();
+    return m_config->getItemValue("global","state").toByteArray();
 }
 
 void Global::saveGeometry(const QByteArray geometry)
 {
-    m_config->setItemValueNew("global", "geometry", geometry);
+    m_config->setItemValue("global", "geometry", geometry);
 }
 
 void Global::saveState(const QByteArray state)
 {
-    m_config->setItemValueNew("global", "state", state);
+    m_config->setItemValue("global", "state", state);
 }
 
 void Global::cleanup()

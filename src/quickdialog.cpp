@@ -61,12 +61,12 @@ void quickDialog::closeEvent( QCloseEvent *)
 
 void quickDialog::loadHistory()
 {
-	QString strTmp = pConf->getItemValue("quick list", "num" );
+	QString strTmp = pConf->getItemValue("quick list", "num" ).toString();
 	QString strSection;
 	for( int i=0; i<strTmp.toInt(); i++ )
 	{
 		strSection = QString("quick %1").arg(i);
-		ui.historyComboBox->addItem( pConf->getItemValue( strSection.toLatin1(), "addr" ) );
+		ui.historyComboBox->addItem( pConf->getItemValue( strSection.toLatin1(), "addr" ).toString() );
 	}
 	
 	if(strTmp != "0")
@@ -88,21 +88,21 @@ void quickDialog::connectSlots()
 
 void quickDialog::listChanged( int index )
 {
-	QString strTmp = pConf->getItemValue("quick list", "num" );
+	QString strTmp = pConf->getItemValue("quick list", "num" ).toString();
 	if(strTmp=="0")
 		return;
 	
 	QString strSection = QString("quick %1").arg(index);
 // 	cstrSection.sprintf("quick %d", index);
 
-	ui.addrLineEdit->setText( pConf->getItemValue( strSection, "addr" ) );
-	ui.portLineEdit->setText( pConf->getItemValue( strSection, "port" ) );
+	ui.addrLineEdit->setText( pConf->getItemValue( strSection, "addr" ).toString() );
+	ui.portLineEdit->setText( pConf->getItemValue( strSection, "port" ).toString() );
 
 }
 void quickDialog::addAddr()
 {
 	QString strTmp;
-	strTmp = Global::instance()->addrCfg()->getItemValue("bbs list", "num");
+	strTmp = Global::instance()->addrCfg()->getItemValue("bbs list", "num").toString();
 	int num = strTmp.toInt();
 
 	strTmp.setNum(num+1);
@@ -118,7 +118,7 @@ void quickDialog::deleteAddr()
 {
 	int n = ui.historyComboBox->currentIndex();
 	
-	QString strTmp =  pConf->getItemValue("quick list", "num");
+	QString strTmp =  pConf->getItemValue("quick list", "num").toString();
 	int num = strTmp.toInt();
 	
 	if( num!=0 && n!=-1 )
@@ -140,7 +140,7 @@ void quickDialog::deleteAddr()
 			pConf->renameSection( strTmp.toLatin1(), strSection.toLatin1() );
 		}
 
-		strTmp = pConf->getItemValue("quick list", "num" );
+		strTmp = pConf->getItemValue("quick list", "num" ).toString();
 		strTmp.setNum( qMax(0,strTmp.toInt()-1) );
 		pConf->setItemValue("quick list", "num", strTmp.toLatin1());
 	
@@ -190,7 +190,7 @@ void quickDialog::connectIt()
 		return;
 	}
 
-	QString strTmp =  pConf->getItemValue("quick list", "num");
+	QString strTmp =  pConf->getItemValue("quick list", "num").toString();
 	int num = strTmp.toInt();
 
 	bool bExist=false;
@@ -201,10 +201,10 @@ void quickDialog::connectIt()
 	{
 		strSection = QString("quick %1").arg(i);
 	
-		strTmp = pConf->getItemValue(strSection.toLatin1(), "addr");
+		strTmp = pConf->getItemValue(strSection.toLatin1(), "addr").toString();
 		if(strTmp == ui.addrLineEdit->text())
 		{	bExist=true; index=i; break; }
-		strTmp = pConf->getItemValue(strSection.toLatin1(), "port");
+		strTmp = pConf->getItemValue(strSection.toLatin1(), "port").toString();
 		if(ui.portLineEdit->text().toInt()!=strTmp.toInt())
 		{	bExist=true; index=i; break; }
 	}

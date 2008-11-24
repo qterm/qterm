@@ -103,7 +103,7 @@ void schemaDialog::loadList()
 	{
 		foreach (QFileInfo fi, lstFile) {
 			Config *pConf = new Config(fi.absoluteFilePath());
-			ui.nameListWidget->addItem(pConf->getItemValue("schema","title"));
+			ui.nameListWidget->addItem(pConf->getItemValue("schema","title").toString());
 			delete pConf;
 			fileList.append(fi.absoluteFilePath());
 		}
@@ -116,7 +116,7 @@ void schemaDialog::loadList()
 	{
 		foreach (QFileInfo fi, lstFile) {
 			Config *pConf = new Config(fi.absoluteFilePath());
-			ui.nameListWidget->addItem(pConf->getItemValue("schema","title"));
+			ui.nameListWidget->addItem(pConf->getItemValue("schema","title").toString());
 			delete pConf;
 			fileList.append(fi.absoluteFilePath());
 		}
@@ -129,30 +129,30 @@ void schemaDialog::loadSchema(const QString& strSchemaFile)
 
 	strCurrentSchema = strSchemaFile;
 
-	title = pConf->getItemValue("schema","title");
-	pxmBg = pConf->getItemValue("image", "name");
-	QString strTmp = pConf->getItemValue("image","type");
+	title = pConf->getItemValue("schema","title").toString();
+	pxmBg = pConf->getItemValue("image", "name").toString();
+	QString strTmp = pConf->getItemValue("image","type").toString();
 	type = strTmp.toInt();
-	fade.setNamedColor(pConf->getItemValue("image","fade"));
-	strTmp = pConf->getItemValue("image", "alpha");
+	fade.setNamedColor(pConf->getItemValue("image","fade").toString());
+	strTmp = pConf->getItemValue("image", "alpha").toString();
 	alpha = strTmp.toFloat();
 	
-	clr0.setNamedColor(pConf->getItemValue("color","color0"));
-	clr1.setNamedColor(pConf->getItemValue("color","color1"));
-	clr2.setNamedColor(pConf->getItemValue("color","color2"));
-	clr3.setNamedColor(pConf->getItemValue("color","color3"));
-	clr4.setNamedColor(pConf->getItemValue("color","color4"));
-	clr5.setNamedColor(pConf->getItemValue("color","color5"));
-	clr6.setNamedColor(pConf->getItemValue("color","color6"));
-	clr7.setNamedColor(pConf->getItemValue("color","color7"));
-	clr8.setNamedColor(pConf->getItemValue("color","color8"));
-	clr9.setNamedColor(pConf->getItemValue("color","color9"));
-	clr10.setNamedColor(pConf->getItemValue("color","color10"));
-	clr11.setNamedColor(pConf->getItemValue("color","color11"));
-	clr12.setNamedColor(pConf->getItemValue("color","color12"));
-	clr13.setNamedColor(pConf->getItemValue("color","color13"));
-	clr14.setNamedColor(pConf->getItemValue("color","color14"));
-	clr15.setNamedColor(pConf->getItemValue("color","color15"));
+	clr0.setNamedColor(pConf->getItemValue("color","color0").toString());
+	clr1.setNamedColor(pConf->getItemValue("color","color1").toString());
+	clr2.setNamedColor(pConf->getItemValue("color","color2").toString());
+	clr3.setNamedColor(pConf->getItemValue("color","color3").toString());
+	clr4.setNamedColor(pConf->getItemValue("color","color4").toString());
+	clr5.setNamedColor(pConf->getItemValue("color","color5").toString());
+	clr6.setNamedColor(pConf->getItemValue("color","color6").toString());
+	clr7.setNamedColor(pConf->getItemValue("color","color7").toString());
+	clr8.setNamedColor(pConf->getItemValue("color","color8").toString());
+	clr9.setNamedColor(pConf->getItemValue("color","color9").toString());
+	clr10.setNamedColor(pConf->getItemValue("color","color10").toString());
+	clr11.setNamedColor(pConf->getItemValue("color","color11").toString());
+	clr12.setNamedColor(pConf->getItemValue("color","color12").toString());
+	clr13.setNamedColor(pConf->getItemValue("color","color13").toString());
+	clr14.setNamedColor(pConf->getItemValue("color","color14").toString());
+	clr15.setNamedColor(pConf->getItemValue("color","color15").toString());
 
 	delete pConf;
 

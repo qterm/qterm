@@ -465,37 +465,37 @@ void Screen::setSchema()
 //		printf("schema %s loaded sucessfully\n", m_pParam->m_strSchemaFile);
 		Config *pConf = new Config(m_pParam->m_strSchemaFile);
 
-		m_color[0].setNamedColor(pConf->getItemValue("color","color0"));
-		m_color[1].setNamedColor(pConf->getItemValue("color","color1"));
-		m_color[2].setNamedColor(pConf->getItemValue("color","color2"));
-		m_color[3].setNamedColor(pConf->getItemValue("color","color3"));
-		m_color[4].setNamedColor(pConf->getItemValue("color","color4"));
-		m_color[5].setNamedColor(pConf->getItemValue("color","color5"));
-		m_color[6].setNamedColor(pConf->getItemValue("color","color6"));
-		m_color[7].setNamedColor(pConf->getItemValue("color","color7"));
-		m_color[8].setNamedColor(pConf->getItemValue("color","color8"));
-		m_color[9].setNamedColor(pConf->getItemValue("color","color9"));
-		m_color[10].setNamedColor(pConf->getItemValue("color","color10"));
-		m_color[11].setNamedColor(pConf->getItemValue("color","color11"));
-		m_color[12].setNamedColor(pConf->getItemValue("color","color12"));
-		m_color[13].setNamedColor(pConf->getItemValue("color","color13"));
-		m_color[14].setNamedColor(pConf->getItemValue("color","color14"));
-		m_color[15].setNamedColor(pConf->getItemValue("color","color15"));
+		m_color[0].setNamedColor(pConf->getItemValue("color","color0").toString());
+		m_color[1].setNamedColor(pConf->getItemValue("color","color1").toString());
+		m_color[2].setNamedColor(pConf->getItemValue("color","color2").toString());
+		m_color[3].setNamedColor(pConf->getItemValue("color","color3").toString());
+		m_color[4].setNamedColor(pConf->getItemValue("color","color4").toString());
+		m_color[5].setNamedColor(pConf->getItemValue("color","color5").toString());
+		m_color[6].setNamedColor(pConf->getItemValue("color","color6").toString());
+		m_color[7].setNamedColor(pConf->getItemValue("color","color7").toString());
+		m_color[8].setNamedColor(pConf->getItemValue("color","color8").toString());
+		m_color[9].setNamedColor(pConf->getItemValue("color","color9").toString());
+		m_color[10].setNamedColor(pConf->getItemValue("color","color10").toString());
+		m_color[11].setNamedColor(pConf->getItemValue("color","color11").toString());
+		m_color[12].setNamedColor(pConf->getItemValue("color","color12").toString());
+		m_color[13].setNamedColor(pConf->getItemValue("color","color13").toString());
+		m_color[14].setNamedColor(pConf->getItemValue("color","color14").toString());
+		m_color[15].setNamedColor(pConf->getItemValue("color","color15").toString());
 
 		// bg type
-		QString strTmp = pConf->getItemValue("image", "type");
+		QString strTmp = pConf->getItemValue("image", "type").toString();
 		m_nPxmType = strTmp.toInt();
 		
 		// fade effect
 		QColor fadecolor;
-		fadecolor.setNamedColor(pConf->getItemValue("image","fade"));
-		strTmp = pConf->getItemValue("image", "alpha");
+		fadecolor.setNamedColor(pConf->getItemValue("image","fade").toString());
+		strTmp = pConf->getItemValue("image", "alpha").toString();
 		float alpha = strTmp.toFloat();
 
 		// get the image name
-		if(QFile::exists(pConf->getItemValue("image","name")) && m_nPxmType>1) // valid image name and type
+		if(QFile::exists(pConf->getItemValue("image","name").toString()) && m_nPxmType>1) // valid image name and type
 		{
-			m_pxmBg = QPixmap(pConf->getItemValue("image","name"));
+			m_pxmBg = QPixmap(pConf->getItemValue("image","name").toString());
 			QImage ima(m_pxmBg.toImage());
 			ima = fade(ima, alpha, fadecolor);
 			m_pxmBg = QPixmap::fromImage(ima);

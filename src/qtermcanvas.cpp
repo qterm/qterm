@@ -203,7 +203,7 @@ void Canvas::copyImage()
 void Canvas::silentCopy()
 {
 	// save it to $savefiledialog
-	QString strPath = Global::instance()->fileCfg()->getItemValue("global","savefiledialog");
+	QString strPath = Global::instance()->fileCfg()->getItemValue("global","savefiledialog").toString();
 	
 	QFileInfo fi(strFileName);
 	QString strSave = strPath+"/"+fi.fileName();

@@ -709,7 +709,7 @@ void Frame::keyClicked(int id)
 
     QString strItem = QString("key%1").arg(id);
 
-    QString strTmp = conf->getItemValue("key", strItem);
+    QString strTmp = conf->getItemValue("key", strItem).toString();
 
     if (strTmp[0] == '0') { // key
         wndmgr->activeWindow()->externInput(strTmp.mid(1).toLatin1());
@@ -902,7 +902,7 @@ void Frame::initActions()
     m_fullAction->setShortcut(Qt::Key_F6);
     addAction(m_fullAction);
     m_bossAction = new QAction(tr("Boss &Color"), this);
-    m_bossAction->setObjectName("action Boss");
+    m_bossAction->setObjectName("actionBoss");
     m_bossAction->setShortcut(Qt::Key_F12);
 
     QActionGroup * scrollGroup = new QActionGroup(this);
@@ -1203,18 +1203,18 @@ void Frame::updateKeyToolBar()
 
     Config * conf = Global::instance()->fileCfg();
     QString strItem, strTmp;
-    strTmp = conf->getItemValue("key", "num");
+    strTmp = conf->getItemValue("key", "num").toString();
     int num = strTmp.toInt();
 
     for (int i = 0; i < num; i++) {
         strItem = QString("name%1").arg(i);
-        strTmp = conf->getItemValue("key", strItem);
+        strTmp = conf->getItemValue("key", strItem).toString();
         ToolButton *button = new ToolButton(key, i, strTmp);
 //   button->setUsesTextLabel(true);
         button->setText(strTmp);
 //   button->setTextPosition(QToolButton::BesideIcon);
         strItem = QString("key%1").arg(i);
-        strTmp = (conf->getItemValue("key", strItem));
+        strTmp = (conf->getItemValue("key", strItem).toString());
 //   QToolTip::add( button, strTmp.mid(1) );
 //   button->addToolTip(strTmp.mid(1));
         connect(button, SIGNAL(buttonClicked(int)), this, SLOT(keyClicked(int)));

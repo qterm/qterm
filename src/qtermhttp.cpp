@@ -75,7 +75,7 @@ void Http::getLink(const QString& url, bool preview)
 	if(QFile::exists(Global::instance()->pathCfg()+"hosts.cfg"))
 	{
 		Config conf(Global::instance()->pathCfg()+"hosts.cfg");
-		QString strTmp = conf.getItemValue("hosts",u.host());
+		QString strTmp = conf.getItemValue("hosts",u.host()).toString();
 		if(!strTmp.isEmpty())
 		{
 			QString strUrl = url;
@@ -221,7 +221,7 @@ void Http::httpDone(bool err)
 
 void Http::previewImage(const QString& filename)
 {
-	QString strViewer = Global::instance()->fileCfg()->getItemValue("preference","image");
+	QString strViewer = Global::instance()->fileCfg()->getItemValue("preference","image").toString();
 
 	if(strViewer.isEmpty())
 	{

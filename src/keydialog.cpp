@@ -71,7 +71,7 @@ void keyDialog::onNamechange( int item )
 
 void keyDialog::onAdd()
 {
-	QString strTmp = pConf->getItemValue("key", "num");
+	QString strTmp = pConf->getItemValue("key", "num").toString();
 	int num = strTmp.toInt();
 
 	strTmp.setNum(num+1);
@@ -102,7 +102,7 @@ void keyDialog::onAdd()
 
 void keyDialog::onDelete()
 {
-	QString strTmp = pConf->getItemValue("key", "num");
+	QString strTmp = pConf->getItemValue("key", "num").toString();
 	int num = strTmp.toInt();
 	if(num==0)
 		return;
@@ -225,12 +225,12 @@ void keyDialog::onProgram()
 
 void keyDialog::loadName()
 {
-	QString strTmp = pConf->getItemValue("key", "num");
+	QString strTmp = pConf->getItemValue("key", "num").toString();
 	int num = strTmp.toInt();
 	for(int i=0; i<num; i++)
 	{
 		strTmp = QString("name%1").arg(i);
-		ui.nameListWidget->addItem(pConf->getItemValue("key", strTmp));
+		ui.nameListWidget->addItem(pConf->getItemValue("key", strTmp).toString());
 	}
 	if(num>0)
 		ui.nameListWidget->setCurrentRow(0);
@@ -243,16 +243,16 @@ void keyDialog::loadName()
 
 void keyDialog::loadKey(int n)
 {
-	QString strTmp = pConf->getItemValue("key", "num");
+	QString strTmp = pConf->getItemValue("key", "num").toString();
 	if(n>=strTmp.toInt())
 		return;
 	QString strItem;
 
 	strItem = QString("name%1").arg(n);
-	ui.nameEdit->setText(pConf->getItemValue("key", strItem));
+	ui.nameEdit->setText(pConf->getItemValue("key", strItem).toString());
 
 	strItem = QString("key%1").arg(n);
-	strTmp = pConf->getItemValue("key", strItem);
+	strTmp = pConf->getItemValue("key", strItem).toString();
 	if(strTmp[0]=='0')
 	{
 		ui.keyEdit->setText(strTmp.mid(1));

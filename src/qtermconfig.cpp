@@ -97,14 +97,6 @@ bool Config::hasSection(const QString & szSection)
 }
 
 bool Config::setItemValue(const QString & szSection,
-            const QString & szItemName, const QString & szItemValue)
-{
-    QString key = szSection+"/"+szItemName;
-    m_settings->setValue(key, szItemValue);
-    return checkError();
-}
-
-bool Config::setItemValueNew(const QString & szSection,
             const QString & szItemName, const QVariant & szItemValue)
 {
     QString key = szSection+"/"+szItemName;
@@ -112,18 +104,7 @@ bool Config::setItemValueNew(const QString & szSection,
     return checkError();
 }
 
-QString Config::getItemValue(const QString & szSection, const QString & szItemName)
-{
-    QString key = szSection+"/"+szItemName;
-    QVariant data = m_settings->value(key);
-    if (data.isValid()) {
-        return data.toString();
-    } else {
-        return "";
-    }
-}
-
-QVariant Config::getItemValueNew(const QString & szSection, const QString & szItemName)
+QVariant Config::getItemValue(const QString & szSection, const QString & szItemName)
 {
     QString key = szSection+"/"+szItemName;
     QVariant data = m_settings->value(key);

@@ -64,53 +64,53 @@ void prefDialog::loadSetting()
 
 	QString strTmp;
 
-	strTmp = conf->getItemValue("preference","xim");
+	strTmp = conf->getItemValue("preference","xim").toString();
 	ui.ximComboBox->setCurrentIndex(strTmp.toInt());
 
-	strTmp = conf->getItemValue("preference","wordwrap");
+	strTmp = conf->getItemValue("preference","wordwrap").toString();
 	ui.wordSpinBox->setValue(strTmp.toInt());
 
-	strTmp = conf->getItemValue("preference","wheel");
+	strTmp = conf->getItemValue("preference","wheel").toString();
 	ui.wheelCheckBox->setChecked(strTmp!="0");
 
-	strTmp = conf->getItemValue("preference","url");
+	strTmp = conf->getItemValue("preference","url").toString();
 	ui.urlCheckBox->setChecked(strTmp!="0");
 
-	strTmp = conf->getItemValue("preference","blinktab");
+	strTmp = conf->getItemValue("preference","blinktab").toString();
 	ui.blinkCheckBox->setChecked(strTmp!="0");
 
-	strTmp = conf->getItemValue("preference","warn");
+	strTmp = conf->getItemValue("preference","warn").toString();
 	ui.warnCheckBox->setChecked(strTmp!="0");
 
-	strTmp = conf->getItemValue("preference","wavefile");
+	strTmp = conf->getItemValue("preference","wavefile").toString();
 	ui.wavefileLineEdit->setText( strTmp );
 
-	strTmp = conf->getItemValue("preference","externalplayer");
+	strTmp = conf->getItemValue("preference","externalplayer").toString();
 	ui.playerLineEdit->setText( strTmp );
 
-	strTmp = conf->getItemValue("preference","antialias");
+	strTmp = conf->getItemValue("preference","antialias").toString();
 	ui.aacheckBox->setChecked( strTmp!="0" );
 
-	strTmp = conf->getItemValue("preference","tray");
+	strTmp = conf->getItemValue("preference","tray").toString();
 	ui.trayCheckBox->setChecked( strTmp!="0" );
 
-	strTmp = conf->getItemValue("preference","clearpool");
+	strTmp = conf->getItemValue("preference","clearpool").toString();
 	ui.clearCheckBox->setChecked( strTmp!="0" );
 
-	strTmp = conf->getItemValue("preference","pool");
+	strTmp = conf->getItemValue("preference","pool").toString();
 	if(strTmp.isEmpty())
 		strTmp = Global::instance()->pathCfg()+"pool/";
 	ui.poolLineEdit->setText( strTmp );
 
-	strTmp = conf->getItemValue("preference","http");
+	strTmp = conf->getItemValue("preference","http").toString();
 	ui.httpLineEdit->setText( strTmp );
 
-	strTmp = conf->getItemValue("preference","zmodem");
+	strTmp = conf->getItemValue("preference","zmodem").toString();
 	if(strTmp.isEmpty())
 		strTmp = Global::instance()->pathCfg()+"zmodem/";
 	ui.zmodemLineEdit->setText( strTmp );
 
-	strTmp = conf->getItemValue("preference","image");
+	strTmp = conf->getItemValue("preference","image").toString();
 	ui.imageLineEdit->setText( strTmp );
 }
 
