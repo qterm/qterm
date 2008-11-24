@@ -205,13 +205,14 @@ protected:
     void initShortcuts();
     //void loadPref(Config *);
     void saveSetting();
+    void saveShortcut();
+    void loadShortcut();
 
     void addMainMenu();
     void addMainTool();
 
     void updateKeyToolBar();
 
-    QString valueToString(bool, int, int, bool, int);
     QAction * insertThemeItem(const QString &);
     void setUseTray(bool);
 private:

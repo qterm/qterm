@@ -118,6 +118,8 @@ Frame::Frame()
 //initialize all settings
     iniSetting();
 
+    loadShortcut();
+
     initThemesMenu();
 
     installEventFilter(this);
@@ -189,6 +191,7 @@ void Frame::saveSetting()
     Global::instance()->saveGeometry(saveGeometry());
     Global::instance()->saveState(saveState());
     Global::instance()->saveConfig();
+    saveShortcut();
 }
 
 //addressbook
@@ -1222,15 +1225,6 @@ void Frame::updateKeyToolBar()
     }
 }
 
-QString Frame::valueToString(bool shown, int dock, int index, bool nl, int extra)
-{
-    QString str = "";
-
-    str = QString("%1 %2 %3 %4 %5").arg(shown ? 1 : 0).arg(dock).arg(index).arg(nl ? 1 : 0).arg(extra);
-
-    return str;
-}
-
 void Frame::popupFocusIn(Window *)
 {
     // bring to font
@@ -1370,6 +1364,31 @@ void Frame::buzz()
     }
     move(xp, yp);
 }
+
+void Frame::saveShortcut()
+{
+    Config * conf = Global::instance()->fileCfg();
+    QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
+    qDebug() << m_bossAction->shortcut().toString();
+    foreach (QAction* action, actions) {
+        conf->setItemValue("Shortcut", action->objectName(), action->shortcut().toString());
+    }
+    conf->save();
+}
+
+void Frame::loadShortcut()
+{
+    Config * conf = Global::instance()->fileCfg();
+    QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
+    foreach(QAction* action, actions)
+    {
+        QString shortcut=conf->getItemValue("Shortcut", action->objectName()).toString();
+        if (!shortcut.isEmpty())
+            action->setShortcut(QKeySequence(shortcut));
+    }
+
+}
+
 }
 
 #include <qtermframe.moc>
