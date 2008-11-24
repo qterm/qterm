@@ -21,6 +21,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
+#include <QtDBus>
 
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 #ifndef MAX_PATH
@@ -34,6 +35,9 @@ namespace QTerm
 {
 
 Global * Global::m_Instance = 0;
+static const QString dbusServiceName = "org.kde.VisualNotifications";
+static const QString dbusInterfaceName = "org.kde.VisualNotifications";
+static const QString dbusPath = "/VisualNotifications";
 
 Global * Global::instance()
 {
@@ -770,6 +774,32 @@ void Global::cleanup()
         clearDir(m_pref.strPoolPath);
         clearDir(m_pref.strPoolPath + "shadow-cache/");
     }
+}
+
+bool Global::dbusExist() const
+{
+    return QDBusConnection::sessionBus().interface()->isServiceRegistered(dbusServiceName);
+}
+
+bool Global::sendDBusNotification(const QString & summary, const QString & body)
+{
+    QDBusMessage message = QDBusMessage::createMethodCall( dbusServiceName, dbusPath, dbusInterfaceName, "Notify" );
+    uint id = 0;
+    QList<QVariant> args;
+    args.append("QTerm");
+    args.append(id); // If I send 0 directly, this will be an int32 instead of uin32, resulting an unknown method error.
+    args.append(QString());
+    args.append(QString());
+    args.append(summary);
+    args.append(body);
+    QStringList actionList;
+    args.append(actionList);
+    args.append(QVariantMap());
+    args.append(6*1000);
+    message.setArguments(args);
+    QDBusMessage response = QDBusConnection::sessionBus().call(message);
+    //TODO: handle errors
+    return true;
 }
 
 } // namespace QTerm

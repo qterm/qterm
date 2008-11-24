@@ -79,6 +79,7 @@ public:
     Position scrollPosition() const;
     bool isFullScreen() const;
     bool showSwitchBar() const;
+    bool dbusExist() const;
     const QString & style() const;
 
     void setClipCodec(Codec codecId);
@@ -97,6 +98,7 @@ public:
     void saveGeometry( const QByteArray geometry);
     void saveState( const QByteArray state);
     void cleanup();
+    bool sendDBusNotification(const QString & summary, const QString & body);
 
 private:
     Global();

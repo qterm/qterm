@@ -100,6 +100,7 @@ include_directories(
    ${QT_QTCORE_INCLUDE_DIR}
    ${QT_QTGUI_INCLUDE_DIR}
    ${QT_QTNETWORK_INCLUDE_DIR}
+   ${QT_QTDBUS_INCLUDE_DIR}
    ${CMAKE_SOURCE_DIR}
    ${CMAKE_BINARY_DIR}
    ${CMAKE_CURRENT_BINARY_DIR}
@@ -110,6 +111,7 @@ target_link_libraries(qterm
    ${QT_QTCORE_LIBRARY}
    ${QT_QTGUI_LIBRARY}
    ${QT_QTNETWORK_LIBRARY}
+   ${QT_QTDBUS_LIBRARY}
    ${optionalLibs})
 if(WIN32)
    target_link_libraries(qterm ${win32Libs})

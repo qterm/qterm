@@ -1064,8 +1064,12 @@ if(m_pZmodem->transferstate == notransfer)
 	
 		if(!isActiveWindow() || m_pFrame->wndmgr->activeWindow()!=this)
 		{
-			m_popWin->setText(fromBBSCodec(strMsg.toLatin1()));
-			m_popWin->popup();
+            if (Global::instance()->dbusExist()) {
+                Global::instance()->sendDBusNotification("New Message in QTerm", fromBBSCodec(strMsg.toLatin1()));
+            } else {
+                m_popWin->setText(fromBBSCodec(strMsg.toLatin1()));
+                m_popWin->popup();
+            }
 		}
 		if(m_bAutoReply)
 		{	
