@@ -111,6 +111,7 @@ protected slots:
     void paintEvent(QPaintEvent *);
 
     void configShortcuts();
+    void configToolbars();
 public:
     QTabBar *tabBar;
     WndMgr * wndmgr;
@@ -185,6 +186,7 @@ protected:
 
     QAction * m_reconnectAction;
     QAction * m_shortcutsAction;
+    QAction * m_toolbarsAction;
 
     StatusBar * m_pStatusBar;
 

@@ -33,6 +33,7 @@ set(qterm_SRCS
    ui_soundconf.h
    ui_sshlogin.h
    ui_shortcutsdialog.h
+   ui_toolbardialog.h
    ui_zmodemdialog.h
    aboutdialog.cpp
    addrdialog.cpp
@@ -71,6 +72,7 @@ set(qterm_SRCS
    schemadialog.cpp
    shortcutsdialog.cpp
    statusBar.cpp
+   toolbardialog.cpp
    zmodemdialog.cpp
    hostinfo.cpp
    ${optionalSources})
@@ -87,6 +89,7 @@ set(qterm_UIS
    ui/shortcutsdialog.ui
    ui/soundconf.ui
    ui/sshlogin.ui
+   ui/toolbardialog.ui
    ui/zmodemdialog.ui)
 set(qterm_MISC
    address.cfg

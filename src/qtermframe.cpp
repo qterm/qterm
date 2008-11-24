@@ -27,6 +27,7 @@ AUTHOR:        kingson fiasco hooey
 #include "trayicon.h"
 #include "imageviewer.h"
 #include "shortcutsdialog.h"
+#include "toolbardialog.h"
 
 #include <QPaintEvent>
 #include <QMouseEvent>
@@ -957,6 +958,9 @@ void Frame::initActions()
     m_shortcutsAction = new QAction(tr("Configure Shortcuts..."),this);
     m_shortcutsAction->setObjectName("actionShortcuts");
 
+    m_toolbarsAction = new QAction(tr("Configure Toolbars..."),this);
+    m_toolbarsAction->setObjectName("actionToolbars");
+
     connect(m_connectAction, SIGNAL(triggered()), this, SLOT(connectIt()));
     connect(m_disconnectAction, SIGNAL(triggered()), this, SLOT(disconnect()));
     connect(m_addressAction, SIGNAL(triggered()), this, SLOT(addressBook()));
@@ -1008,6 +1012,7 @@ void Frame::initActions()
 
     connect(m_reconnectAction, SIGNAL(toggled(bool)), this, SLOT(reconnect(bool)));
     connect(m_shortcutsAction, SIGNAL(triggered()), this, SLOT(configShortcuts()));
+    connect(m_toolbarsAction, SIGNAL(triggered()), this, SLOT(configToolbars()));
 }
 
 void Frame::addMainMenu()
@@ -1091,6 +1096,7 @@ void Frame::addMainMenu()
     option->addAction(m_prefAction);
     option->addSeparator();
     option->addAction(m_shortcutsAction);
+    option->addAction(m_toolbarsAction);
 
     // Special
     QMenu * spec = new QMenu(tr("&Special"), this);
@@ -1433,6 +1439,14 @@ void Frame::loadToolbars()
     }
     setToolButtonStyle(Qt::ToolButtonStyle(conf->getItemValue("Toolbars", "ButtonStyle").toInt()));
     setIconSize(conf->getItemValue("Toolbars", "IconSize").toSize());
+}
+
+void Frame::configToolbars()
+{
+    ToolbarDialog td(this);
+    td.exec();
+
+    saveToolbars();
 }
 
 }
