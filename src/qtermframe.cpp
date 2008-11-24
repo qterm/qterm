@@ -26,6 +26,7 @@ AUTHOR:        kingson fiasco hooey
 #include "keydialog.h"
 #include "trayicon.h"
 #include "imageviewer.h"
+#include "shortcutsdialog.h"
 
 #include <QPaintEvent>
 #include <QMouseEvent>
@@ -119,7 +120,7 @@ Frame::Frame()
 //initialize all settings
     iniSetting();
 
-    loadShortcut();
+    loadShortcuts();
 
     initThemesMenu();
 
@@ -192,7 +193,7 @@ void Frame::saveSetting()
     Global::instance()->saveGeometry(saveGeometry());
     Global::instance()->saveState(saveState());
     Global::instance()->saveConfig();
-    saveShortcut();
+    saveShortcuts();
 }
 
 //addressbook
@@ -975,6 +976,9 @@ void Frame::initActions()
     m_reconnectAction->setObjectName("actionReconnect");
     m_reconnectAction->setCheckable(true);
 
+    m_shortcutsAction = new QAction(tr("Configure Shortcuts..."),this);
+    m_shortcutsAction->setObjectName("actionShortcuts");
+
     connect(m_connectAction, SIGNAL(triggered()), this, SLOT(connectIt()));
     connect(m_disconnectAction, SIGNAL(triggered()), this, SLOT(disconnect()));
     connect(m_addressAction, SIGNAL(triggered()), this, SLOT(addressBook()));
@@ -1025,6 +1029,7 @@ void Frame::initActions()
     connect(m_homepageAction, SIGNAL(triggered()), this, SLOT(homepage()));
 
     connect(m_reconnectAction, SIGNAL(toggled(bool)), this, SLOT(reconnect(bool)));
+    connect(m_shortcutsAction, SIGNAL(triggered()), this, SLOT(configShortcuts()));
 }
 
 void Frame::addMainMenu()
@@ -1106,6 +1111,8 @@ void Frame::addMainMenu()
     option->addSeparator();
     option->addAction(m_defaultAction);
     option->addAction(m_prefAction);
+    option->addSeparator();
+    option->addAction(m_shortcutsAction);
 
     // Special
     QMenu * spec = new QMenu(tr("&Special"), this);
@@ -1366,18 +1373,17 @@ void Frame::buzz()
     move(xp, yp);
 }
 
-void Frame::saveShortcut()
+void Frame::saveShortcuts()
 {
     Config * conf = Global::instance()->fileCfg();
     QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
-    qDebug() << m_bossAction->shortcut().toString();
     foreach (QAction* action, actions) {
         conf->setItemValue("Shortcut", action->objectName(), action->shortcut().toString());
     }
     conf->save();
 }
 
-void Frame::loadShortcut()
+void Frame::loadShortcuts()
 {
     Config * conf = Global::instance()->fileCfg();
     QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
@@ -1388,6 +1394,15 @@ void Frame::loadShortcut()
             action->setShortcut(QKeySequence(shortcut));
     }
 
+}
+
+void Frame::configShortcuts()
+{
+    QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
+    QList<QShortcut*> shortcutsList;
+    ShortcutsDialog sd(this,actions,shortcutsList);
+    sd.exec();
+    saveShortcuts();
 }
 
 }

@@ -32,6 +32,7 @@ set(qterm_SRCS
    ui_schemadialog.h
    ui_soundconf.h
    ui_sshlogin.h
+   ui_shortcutsdialog.h
    ui_zmodemdialog.h
    aboutdialog.cpp
    addrdialog.cpp
@@ -68,6 +69,7 @@ set(qterm_SRCS
    qtermglobal.cpp
    quickdialog.cpp
    schemadialog.cpp
+   shortcutsdialog.cpp
    statusBar.cpp
    zmodemdialog.cpp
    hostinfo.cpp
@@ -82,6 +84,7 @@ set(qterm_UIS
    ui/prefdialog.ui
    ui/quickdialog.ui
    ui/schemadialog.ui
+   ui/shortcutsdialog.ui
    ui/soundconf.ui
    ui/sshlogin.ui
    ui/zmodemdialog.ui)

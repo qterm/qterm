@@ -109,6 +109,8 @@ protected slots:
 
     void switchWin(int);
     void paintEvent(QPaintEvent *);
+
+    void configShortcuts();
 public:
     QTabBar *tabBar;
     WndMgr * wndmgr;
@@ -182,6 +184,7 @@ protected:
     QAction * m_homepageAction;
 
     QAction * m_reconnectAction;
+    QAction * m_shortcutsAction;
 
     StatusBar * m_pStatusBar;
 
@@ -205,8 +208,8 @@ protected:
     void initShortcuts();
     //void loadPref(Config *);
     void saveSetting();
-    void saveShortcut();
-    void loadShortcut();
+    void saveShortcuts();
+    void loadShortcuts();
 
     void addMainMenu();
     void addMainTool();
