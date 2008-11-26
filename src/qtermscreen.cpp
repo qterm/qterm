@@ -907,7 +907,6 @@ bool Screen::event( QEvent * e)
 	} else if (e->type() == QEvent::ShortcutOverride) {
 		QKeyEvent * ke = static_cast<QKeyEvent *>(e);
 		if (ke->key() == Qt::Key_W && ke->modifiers() == Qt::ControlModifier) {
-			m_pWindow->keyPressEvent(ke);
 			ke->accept();
 			return true;
 		}
