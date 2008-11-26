@@ -39,8 +39,7 @@ public:
 
     void updateMenuToolBar();
     void enableMenuToolBar(bool);
-
-    void popupFocusIn(Window *);
+    void popupFocusIn(Window * window = 0);
     void buzz();
 signals:
     void bossColor();
