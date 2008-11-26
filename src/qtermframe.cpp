@@ -1397,6 +1397,8 @@ void Frame::saveToolbars()
     foreach (toolbar, toolbars)
     {
         QStringList listActions;
+        if (toolbar == key)
+            continue;
         foreach(QAction* action, toolbar->actions())
         {
             if (action->objectName() == "actionConnectButton")
@@ -1423,6 +1425,8 @@ void Frame::loadToolbars()
     foreach (toolbar, toolbars)
     {
         QStringList actions=conf->getItemValue("Toolbars", toolbar->objectName()).toStringList();
+        if (toolbar == key)
+            continue;
         foreach(QString action, actions)
         {
             QAction* act;
