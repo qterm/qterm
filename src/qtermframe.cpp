@@ -748,7 +748,7 @@ void Frame::addMainTool()
     key->setObjectName("customKeyToolBar");
 
     // the toolbar
-    mdiconnectTools = addToolBar("bbs operations");
+    mdiconnectTools = addToolBar("BBS Operations");
     mdiconnectTools->setObjectName("bbsOperationsToolBar");
 
     loadToolbars();
