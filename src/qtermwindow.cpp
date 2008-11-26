@@ -1065,7 +1065,9 @@ if(m_pZmodem->transferstate == notransfer)
 		if(!isActiveWindow() || m_pFrame->wndmgr->activeWindow()!=this)
 		{
             if (Global::instance()->dbusExist()) {
-                Global::instance()->sendDBusNotification("New Message in QTerm", fromBBSCodec(strMsg.toLatin1()));
+                QList<Global::Action> actions;
+                actions.append(Global::Show_QTerm);
+                Global::instance()->sendDBusNotification("New Message in QTerm", fromBBSCodec(strMsg.toLatin1()),actions);
             } else {
                 m_popWin->setText(fromBBSCodec(strMsg.toLatin1()));
                 m_popWin->popup();

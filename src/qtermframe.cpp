@@ -86,6 +86,8 @@ Frame::Frame()
 
     tray = 0;
     trayMenu = 0;
+    Global::instance()->setParent(this);
+    connect(Global::instance(), SIGNAL(showQTerm()), this, SLOT(slotShowQTerm()));
 
 //create a tabbar in the hbox
     tabBar = new QTabBar(statusBar());
@@ -1451,6 +1453,11 @@ void Frame::configToolbars()
     td.exec();
 
     saveToolbars();
+}
+
+void Frame::slotShowQTerm()
+{
+    popupFocusIn(NULL);
 }
 
 }

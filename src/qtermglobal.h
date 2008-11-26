@@ -38,6 +38,9 @@ public:
         INIT_OK,
         INIT_ERROR
     };
+    enum Action {
+        Show_QTerm
+    };
     struct Pref {
         Codec  nXIM;
         int  nWordWrap;
@@ -100,15 +103,24 @@ public:
     void saveGeometry( const QByteArray geometry);
     void saveState( const QByteArray state);
     void cleanup();
-    bool sendDBusNotification(const QString & summary, const QString & body);
+    bool sendDBusNotification(const QString & summary, const QString & body, QList<Global::Action> actions);
 
+signals:
+    void showQTerm();
+private slots:
+    void slotServiceOwnerChanged(const QString & serviceName, const QString & oldOwner, const QString & newOwner);
+    void slotDBusNotificationActionInvoked(uint id, const QString action);
+    void slotDBusNotificationClosed(uint id, uint reason);
 private:
     Global();
     static Global* m_Instance;
     bool iniWorkingDir(QString param);
     bool iniSettings();
+    void initDBus();
+    void createDBusConnection();
     bool isPathExist(const QString & path);
     bool createLocalFile(const QString & dst, const QString & src);
+    void closeNotification(uint id);
     QString m_fileCfg;
     QString m_addrCfg;
     QString m_pathLib;
@@ -126,7 +138,9 @@ private:
     Position m_scrollPos;
     bool m_fullScreen;
     bool m_switchBar;
+    bool m_dbusAvailable;
     Language m_language;
+    QList<uint> m_idList;
 };
 
 } // namespace QTerm

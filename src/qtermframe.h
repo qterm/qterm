@@ -111,6 +111,7 @@ protected slots:
 
     void configShortcuts();
     void configToolbars();
+    void slotShowQTerm();
 public:
     QTabBar *tabBar;
     WndMgr * wndmgr;
