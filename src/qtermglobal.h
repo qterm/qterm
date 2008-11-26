@@ -16,12 +16,14 @@
 
 #include <QtCore/QMutex>
 #include <QtCore/QString>
+#include <QtCore/QObject>
 
 namespace QTerm
 {
 class Config;
-class Global
+class Global : public QObject
 {
+    Q_OBJECT
 public:
     enum Language {
         SimpilifiedChinese,
