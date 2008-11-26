@@ -1436,7 +1436,7 @@ void Frame::loadToolbars()
                 toolbar->addSeparator();
             else {
                 act=findChild<QAction*>(action);
-                if (act != 0)
+                if (act != 0 && act->actionGroup()==0)
                     toolbar->addAction(act);
             }
         }
