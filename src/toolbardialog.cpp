@@ -4,12 +4,14 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QSettings>
 #include <QtGui/QMainWindow>
+#include <QtGui/QToolButton>
 
 ToolbarDialog::ToolbarDialog(QWidget* parent)
-        : QDialog(parent)
+        : QDialog(parent),m_defaultToolBars()
 {
     setupUi(this);
 
+    createDefaultToolBars();
     // populate all available actions
     QList<QAction*> actions = parent->findChildren<QAction*>(QRegExp("action*"));
     QAction* action;
@@ -45,7 +47,7 @@ ToolbarDialog::ToolbarDialog(QWidget* parent)
     connect(comboToolbars, SIGNAL(currentIndexChanged(int)), this, SLOT(comboToolbarsCurrentIndexChanged(int)));
     connect(comboIconSize, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(comboIconSizeCurrentIndexChanged(const QString &)));
     connect(comboButtonStyle, SIGNAL(currentIndexChanged(int)),this, SLOT(comboButtonStyleCurrentIndexChanged(int)));
-
+    connect(buttonDefault, SIGNAL(clicked()), this, SLOT(restoreDefaultToolbars()));
 }
 
 ToolbarDialog::~ToolbarDialog()
@@ -183,7 +185,10 @@ void ToolbarDialog::comboToolbarsCurrentIndexChanged(int index)
     QToolBar *toolbar = qobject_cast<QToolBar*>(comboToolbars->itemData(index).value<QObject*>());
     foreach(QAction *action, toolbar->actions()) {
         QListWidgetItem* item = new QListWidgetItem();
-        if (action->isSeparator())
+        // another ugly hack for connectButton
+        if (action->objectName() == "actionConnectButton")
+            continue;
+        else if (action->isSeparator())
             item->setText("Separator");
         else {
             item->setText(action->toolTip());
@@ -193,6 +198,42 @@ void ToolbarDialog::comboToolbarsCurrentIndexChanged(int index)
                       QVariant::fromValue((QObject*)action));
         listUsedActions->addItem(item);
     }
+}
+
+void ToolbarDialog::createDefaultToolBars()
+{
+    QStringList listActions;
+    listActions << "actionQuickConnect";
+    m_defaultToolBars.insert("mainToolBar", listActions);
+
+    listActions.clear();
+    listActions << "actionDisconnect" << "Separator" << "actionCopy" << "actionPaste" << "actionRect" << "actionColorCopy" << "Separator" << "actionFont" << "actionColor" << "actionRefresh" << "Separator" << "actionCurrentSession" << "Separator" << "actionCopyArticle" << "actionAntiIdle" << "actionAutoReply" << "actionViewMessage" << "actionMouse" << "actionBeep" << "actionReconnect";
+    m_defaultToolBars.insert("bbsOperationsToolBar", listActions);
+}
+
+void ToolbarDialog::restoreDefaultToolbars()
+{
+    QList<QToolBar*> toolbars = parent()->findChildren<QToolBar*>();
+    QToolBar* toolbar;
+    // populate all available actions
+    foreach(toolbar, toolbars) {
+        if (m_defaultToolBars.contains(toolbar->objectName())){
+            QList<QAction *> actions = toolbar->actions();
+            QStringList listActions = m_defaultToolBars.value(toolbar->objectName());
+            // Ugly hack for connectButton
+            foreach (QAction * act, actions) {
+                if (toolbar->objectName() != "mainToolBar" && act->objectName() != "actionConnectButton")
+                    toolbar->removeAction(act);
+            }
+            foreach (QString action, listActions) {
+                QAction * obj = parent()->findChild<QAction*>(action);
+                if (obj != NULL) {
+                    toolbar->addAction(obj);
+                }
+            }
+        }
+    }
+    comboToolbarsCurrentIndexChanged(comboToolbars->currentIndex());
 }
 
 #include <toolbardialog.moc>

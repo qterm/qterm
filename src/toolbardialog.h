@@ -20,6 +20,10 @@ public slots:
     void comboToolbarsCurrentIndexChanged(int);
     void comboIconSizeCurrentIndexChanged(const QString&);
     void comboButtonStyleCurrentIndexChanged(int);
+    void restoreDefaultToolbars();
+private:
+    void createDefaultToolBars();
+    QMap<QString, QStringList> m_defaultToolBars;
 };
 
 #endif //TOOLBARDIALOG_H

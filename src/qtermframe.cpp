@@ -737,7 +737,8 @@ void Frame::addMainTool()
     mdiTools = addToolBar("Main ToolBar");
     mdiTools->setObjectName("mainToolBar");
 
-    connectButton = new QToolButton(mdiTools);
+    connectButton = new QToolButton(this);
+    connectButton->setObjectName("buttonConnect");
     connectButton->setIcon(QPixmap(Global::instance()->pathPic() + "pic/connect.png"));
 
     QAction * connectAction = mdiTools->addWidget(connectButton);
