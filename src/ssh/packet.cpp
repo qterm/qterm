@@ -138,11 +138,12 @@ void SSH2InBuffer::parseData()
 
         // Get the total encrypted data
         QByteArray source;
-        if (length + 4 > blockSize)
+        if ((length + 4) > blockSize) {
             if (m_transport != NULL)
                 source = m_transport->crypt(m_in.mid(blockSize, length + 4 - blockSize));
             else
                 source = m_in.mid(blockSize, length + 4 - blockSize);
+        }
 
         QByteArray target = firstBlock + source;
         if (m_transport != NULL) {
