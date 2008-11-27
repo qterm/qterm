@@ -176,8 +176,6 @@ SSHSocket::SSHSocket(QObject * parent)
     connect(m_socket, SIGNAL(connectionClosed()), this, SIGNAL(connectionClosed()));
     connect(m_socket, SIGNAL(delayedCloseFinished()), this, SIGNAL(delayedCloseFinished()));
     connect(m_socket, SIGNAL(SocketState(int)), this, SIGNAL(SocketState(int)));
-
-    connect(m_socket, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 
 void SSHSocket::setProxy(int nProxyType, //0-no proxy; 1-wingate; 2-sock4; 3-socks5
@@ -202,8 +200,11 @@ void SSHSocket::connectToHost(HostInfo * hostInfo)
 #ifdef SSH_DEBUG
     qDebug() << "connect to: " << hostInfo->hostName() << hostInfo->port();
 #endif
-    if (m_socket->state() == QAbstractSocket::UnconnectedState)
+    if (m_socket->state() == QAbstractSocket::UnconnectedState) {
+        m_socket->disconnect(SIGNAL(readyRead()));
+        connect(m_socket, SIGNAL(readyRead()), this, SLOT(readData()));
         m_socket->connectToHost(hostInfo);
+    }
 }
 
 
