@@ -16,6 +16,7 @@
 
 #include <QtCore/QMutex>
 #include <QtCore/QString>
+#include <QtCore/QMap>
 #include <QtCore/QObject>
 
 namespace QTerm
@@ -84,6 +85,7 @@ public:
     Position scrollPosition() const;
     bool isFullScreen() const;
     bool showSwitchBar() const;
+    bool showToolBar(const QString & toolbar);
     bool dbusExist() const;
     const QString & style() const;
 
@@ -96,6 +98,8 @@ public:
     void setSwitchBar(bool isShow);
     void setLanguage(const Language language);
     void setStyle(const QString & style);
+    void setShowToolBar(const QString & toolbar, bool isShown);
+    void saveShowToolBar();
     void loadConfig(); //TODO: Merge with iniSettings
     void saveConfig();
     QByteArray loadGeometry();
@@ -141,6 +145,7 @@ private:
     bool m_dbusAvailable;
     Language m_language;
     QList<uint> m_idList;
+    QMap<QString, bool> m_showToolBar;
 };
 
 } // namespace QTerm

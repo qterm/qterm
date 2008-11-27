@@ -55,7 +55,7 @@ Global * Global::instance()
 }
 
 Global::Global()
-        : m_fileCfg("./qterm.cfg"), m_addrCfg("./address.cfg"), m_pathLib("./"), m_pathPic("./"), m_pathCfg("./"), m_windowState(), m_status(INIT_OK), m_style(), m_fullScreen(false), m_dbusAvailable(false), m_language(Global::English),m_idList()
+        : m_fileCfg("./qterm.cfg"), m_addrCfg("./address.cfg"), m_pathLib("./"), m_pathPic("./"), m_pathCfg("./"), m_windowState(), m_status(INIT_OK), m_style(), m_fullScreen(false), m_dbusAvailable(false), m_language(Global::English),m_idList(), m_showToolBar()
 {
     if (!iniWorkingDir(qApp->arguments()[0])) {
         m_status = INIT_ERROR;
@@ -715,6 +715,37 @@ void Global::loadConfig()
 
 }
 
+bool Global::showToolBar(const QString & toolbar)
+{
+    if (m_showToolBar.contains(toolbar)) {
+        return m_showToolBar.value(toolbar);
+    } else {
+        if (m_config->hasItem("ToolBars", toolbar+"Shown")) {
+            bool isShown = m_config->getItemValue("ToolBars", toolbar+"Shown").toBool();
+            m_showToolBar.insert(toolbar, isShown);
+            return isShown;
+        } else {
+            // Show toolbar by default
+            m_showToolBar.insert(toolbar, true);
+            return true;
+        }
+    }
+}
+
+void Global::setShowToolBar(const QString & toolbar, bool isShown)
+{
+    m_showToolBar.insert(toolbar, isShown);
+}
+
+void Global::saveShowToolBar()
+{
+    QMapIterator<QString, bool> i(m_showToolBar);
+    while (i.hasNext()) {
+        i.next();
+        m_config->setItemValue("ToolBars",i.key()+"Shown", i.value());
+    }
+}
+
 void Global::saveConfig()
 {
 
@@ -744,6 +775,7 @@ void Global::saveConfig()
 
     m_config->setItemValue("global", "statusbar", showStatusBar() ? "1" : "0");
     m_config->setItemValue("global", "switchbar", showSwitchBar() ? "1" : "0");
+    saveShowToolBar();
     m_config->save();
 
 }

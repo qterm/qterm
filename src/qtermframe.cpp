@@ -148,6 +148,9 @@ void Frame::iniSetting()
         m_fullAction->setChecked(true);
         showFullScreen();
     }
+    mdiTools->setVisible(Global::instance()->showToolBar(mdiTools->objectName()));
+    mdiconnectTools->setVisible(Global::instance()->showToolBar(mdiconnectTools->objectName()));
+    key->setVisible(Global::instance()->showToolBar(key->objectName()));
 
     QStyle * style = QStyleFactory::create(Global::instance()->style());
     if (style)
@@ -1185,10 +1188,14 @@ void Frame::enableMenuToolBar(bool enable)
     m_scriptRunAction->setEnabled(enable);
     m_scriptStopAction->setEnabled(enable);
 
-    if (enable)
-        mdiconnectTools->show();
-    else
+    if (enable) {
+        mdiconnectTools->setVisible(Global::instance()->showToolBar(mdiconnectTools->objectName()));
+    } else {
+        Global::instance()->setShowToolBar(mdiTools->objectName(), !mdiTools->isHidden());
+        Global::instance()->setShowToolBar(mdiconnectTools->objectName(),!mdiconnectTools->isHidden());
+        Global::instance()->setShowToolBar(key->objectName(),!key->isHidden());
         mdiconnectTools->hide();
+    }
 
     return;
 }
