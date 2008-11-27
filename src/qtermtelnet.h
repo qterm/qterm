@@ -3,6 +3,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QByteArray>
+#include <QtNetwork/QAbstractSocket>
 
 #ifndef u_char
 #define u_char uchar
@@ -132,7 +133,7 @@ signals:
 private slots:
 	void connected();
  	void socketReadyRead();	
-	void showError( int );
+	void showError(QAbstractSocket::SocketError);
 	void hostFound ();
 	void delayCloseFinished();
 	void closed();

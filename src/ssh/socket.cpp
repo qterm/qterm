@@ -175,6 +175,7 @@ SSHSocket::SSHSocket(QObject * parent)
     //connect(m_socket, SIGNAL(connected()), this, SIGNAL(connected()));
     connect(m_socket, SIGNAL(connectionClosed()), this, SIGNAL(connectionClosed()));
     connect(m_socket, SIGNAL(delayedCloseFinished()), this, SIGNAL(delayedCloseFinished()));
+    connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(error(QAbstractSocket::SocketError)));
     connect(m_socket, SIGNAL(SocketState(int)), this, SIGNAL(SocketState(int)));
 }
 

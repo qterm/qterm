@@ -54,7 +54,7 @@ SocketPrivate::SocketPrivate(QObject * parent)
 	connect(m_socket, SIGNAL(connectionClosed()), this, SIGNAL(connectionClosed()));
 	connect(m_socket, SIGNAL(delayedCloseFinished()), this, SIGNAL(delayedCloseFinished()));
 	connect(m_socket, SIGNAL(readyRead()), this, SLOT(socketReadyRead()));
-	connect(m_socket, SIGNAL(error(int)), this, SIGNAL(error(int)));
+	connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(error(QAbstractSocket::SocketError)));
 }
 
 SocketPrivate::~SocketPrivate()
@@ -556,7 +556,7 @@ TelnetSocket::TelnetSocket()
 	connect(d_socket, SIGNAL(connectionClosed()), this, SIGNAL(connectionClosed()));
 	connect(d_socket, SIGNAL(delayedCloseFinished()), this, SIGNAL(delayedCloseFinished()));
 	connect(d_socket, SIGNAL(readyRead()), this, SIGNAL(readyRead()));
-	connect(d_socket, SIGNAL(error(int)), this, SIGNAL(error(int)));
+	connect(d_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(error(QAbstractSocket::SocketError)));
 	connect(d_socket, SIGNAL(SocketState(int)), this, SIGNAL(SocketState(int)));
 }
 

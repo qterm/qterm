@@ -113,8 +113,8 @@ Telnet::Telnet( const QString & strTermType, int rows, int columns, bool isSSH )
 	      	this, SLOT( connected() ) );
 	connect ( socket, SIGNAL( readyRead() ),
 		this, SLOT( socketReadyRead() ) );
-	connect ( socket, SIGNAL( error( int ) ),
-		this, SLOT( showError( int ) ) );
+	connect ( socket, SIGNAL( error(QAbstractSocket::SocketError) ),
+		this, SLOT( showError(QAbstractSocket::SocketError) ) );
 	connect ( socket, SIGNAL( hostFound() ),
 		this, SLOT( hostFound() ) );
 	connect ( socket, SIGNAL( delayedCloseFinished() ),
@@ -304,7 +304,7 @@ void Telnet::hostFound()
  * SLOT error
  *------------------------------------------------------------------------
  */
-void Telnet::showError( int index )
+void Telnet::showError( QAbstractSocket::SocketError index )
 {
 
 	switch ( index )

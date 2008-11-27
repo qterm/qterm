@@ -49,7 +49,7 @@ signals:
 	void connectionClosed();
 	void delayedCloseFinished();
 	void readyRead();
-	void error(int);
+	void error(QAbstractSocket::SocketError);
 	void SocketState(int);
 
 protected slots:
@@ -107,7 +107,7 @@ signals:
 	void connectionClosed();
 	void delayedCloseFinished();
 	void readyRead();
-	void error(int);
+	void error(QAbstractSocket::SocketError);
 	void SocketState(int);
 };
 
