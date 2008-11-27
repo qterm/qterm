@@ -1,9 +1,9 @@
 #include "toolbardialog.h"
 
-#include <QToolBar>
-#include <QRegExp>
-#include <QSettings>
-#include <QMainWindow>
+#include <QtGui/QToolBar>
+#include <QtCore/QRegExp>
+#include <QtCore/QSettings>
+#include <QtGui/QMainWindow>
 
 ToolbarDialog::ToolbarDialog(QWidget* parent)
         : QDialog(parent)

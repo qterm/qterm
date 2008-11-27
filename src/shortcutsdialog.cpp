@@ -1,8 +1,8 @@
 #include "shortcutsdialog.h"
 
-#include <QKeyEvent>
-#include <QMessageBox>
-#include <QShortcut>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QMessageBox>
+#include <QtGui/QShortcut>
 
 namespace QTerm {
 
