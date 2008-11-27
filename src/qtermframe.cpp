@@ -117,13 +117,13 @@ Frame::Frame()
 // add the custom defined key
     updateKeyToolBar();
 
-// diaable some menu & toolbar
-    enableMenuToolBar(false);
-
 //initialize all settings
     iniSetting();
 
     loadShortcuts();
+
+// diaable some menu & toolbar
+    enableMenuToolBar(false);
 
     initThemesMenu();
 
