@@ -7,7 +7,7 @@
 namespace QTerm {
 
 ShortcutsDialog::ShortcutsDialog(QWidget* parent, QList<QAction*> actions, QList<QShortcut*> shortcuts)
-        :QDialog(parent)
+        :QDialog(parent),m_defaultShortcut()
 {
     setupUi(this);
     editShortcut->installEventFilter(this);
@@ -15,9 +15,11 @@ ShortcutsDialog::ShortcutsDialog(QWidget* parent, QList<QAction*> actions, QList
     connect(buttonAssign, SIGNAL(clicked()), this, SLOT(buttonAssignClicked()));
     connect(buttonRemove, SIGNAL(clicked()), this, SLOT(buttonRemoveClicked()));
     connect(buttonDone, SIGNAL(clicked()), this, SLOT(buttonDoneClicked()));
+    connect(buttonDefault, SIGNAL(clicked()), this, SLOT(restoreDefaultShortcut()));
     connect(editShortcut, SIGNAL(textChanged(const QString &)), this, SLOT(editShortcutTextChanged(const QString &)));
     connect(tableWidget, SIGNAL(currentCellChanged(int,int,int,int)), this, SLOT(tableWidgetCurrentCellChanged(int,int,int,int)));
 
+    createDefaultShortcut();
     foreach(QAction* action, actions) {
         //toolTip() gives text without '&'
         if (action->actionGroup() != 0)
@@ -47,10 +49,24 @@ ShortcutsDialog::ShortcutsDialog(QWidget* parent, QList<QAction*> actions, QList
     tableWidget->setCurrentCell(0, 0);
 }
 
+void ShortcutsDialog::createDefaultShortcut()
+{
+    m_defaultShortcut.insert("actionAbout","F1");
+    m_defaultShortcut.insert("actionAddress","F2");
+    m_defaultShortcut.insert("actionQuickConnect","F3");
+    m_defaultShortcut.insert("actionRefresh","F5");
+    m_defaultShortcut.insert("actionFull","F6");
+    m_defaultShortcut.insert("actionScriptRun","F7");
+    m_defaultShortcut.insert("actionScriptStop","F8");
+    m_defaultShortcut.insert("actionCopyArticle","F9");
+    m_defaultShortcut.insert("actionViewMessage","F10");
+    m_defaultShortcut.insert("actionBoss","F12");
+    m_defaultShortcut.insert("actionCopy","Ctrl+Ins");
+    m_defaultShortcut.insert("actionPaste","Shift+Ins");
+}
+
 void ShortcutsDialog::buttonAssignClicked()
 {
-    QTableWidgetItem* item;
-
     int row = listKeys.indexOf(editShortcut->text());
 
     if (row == tableWidget->currentRow())
@@ -69,28 +85,16 @@ void ShortcutsDialog::buttonAssignClicked()
         if (aw == QMessageBox::No)
             return;
         // clear it
-        item = tableWidget->item(row, 1);
-        item->setText("");
-        listKeys.replace(row, "");
         setKeySequence(obj, QKeySequence());
     }
     // set it to the target action
     row = tableWidget->currentRow();
-    item = tableWidget->item(row, 1);
-    item->setText(editShortcut->text());
-    listKeys.replace(row, editShortcut->text());
     setKeySequence(listActions.at(row), editShortcut->text());
 }
 
 void ShortcutsDialog::buttonRemoveClicked()
 {
     int row = tableWidget->currentRow();
-    // update table
-    QTableWidgetItem* item = tableWidget->item(row, 1);
-    item->setText("");
-    // update listKeys
-    listKeys.replace(row, "");
-    // update action
     setKeySequence(listActions.at(row), QKeySequence());
 }
 
@@ -102,10 +106,33 @@ void ShortcutsDialog::editShortcutTextChanged(const QString& shortcut)
 void ShortcutsDialog::buttonDoneClicked()
 {
 }
+
+void ShortcutsDialog::restoreDefaultShortcut()
+{
+    foreach(QObject * action, listActions) {
+        if (m_defaultShortcut.contains(action->objectName())) {
+            setKeySequence(action, QKeySequence(m_defaultShortcut.value(action->objectName())));
+        } else {
+            setKeySequence(action, QKeySequence());
+        }
+    }
+    editShortcut->setText(listKeys.at(tableWidget->currentRow()));
+}
+
+void ShortcutsDialog::updateTableItem(QObject * action, QString key)
+{
+    QTableWidgetItem* item;
+    int row = listActions.indexOf(action);
+    item = tableWidget->item(row, 1);
+    item->setText(key);
+    listKeys.replace(row, key);
+}
+
 void ShortcutsDialog::tableWidgetCurrentCellChanged(int row, int col, int, int)
 {
     QTableWidgetItem *item = tableWidget->item(row, 1);
     buttonRemove->setEnabled(!item->text().isEmpty());
+    editShortcut->setText(item->text());
 }
 bool ShortcutsDialog::eventFilter(QObject *object, QEvent *event)
 {
@@ -155,6 +182,7 @@ void ShortcutsDialog::setKeySequence(QObject* obj, QKeySequence key)
         QShortcut* shortcut = qobject_cast<QShortcut*>(obj);
         shortcut->setKey(key);
     }
+    updateTableItem(obj, key.toString());
 }
 
 }

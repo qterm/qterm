@@ -19,14 +19,18 @@ protected slots:
     void buttonAssignClicked();
     void editShortcutTextChanged(const QString&);
     void tableWidgetCurrentCellChanged(int, int, int, int);
+    void restoreDefaultShortcut();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
     QString getName(QObject*);
     void setKeySequence(QObject*, QKeySequence);
 private:
+    void createDefaultShortcut();
+    void updateTableItem(QObject * action, QString key);
     QList<QObject*> listActions;
     QList<QString> listKeys;
+    QMap<QString, QString> m_defaultShortcut;
 };
 
 }

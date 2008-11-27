@@ -5,9 +5,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>588</width>
-    <height>447</height>
+    <width>631</width>
+    <height>515</height>
    </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>631</width>
+    <height>515</height>
+   </size>
+  </property>
+  <property name="maximumSize" >
+   <size>
+    <width>631</width>
+    <height>515</height>
+   </size>
   </property>
   <property name="focusPolicy" >
    <enum>Qt::ClickFocus</enum>
@@ -18,133 +36,186 @@
   <property name="windowTitle" >
    <string>Shortcuts Dialog</string>
   </property>
-  <layout class="QGridLayout" >
-   <property name="margin" >
-    <number>9</number>
+  <widget class="Line" name="line" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>440</y>
+     <width>631</width>
+     <height>20</height>
+    </rect>
    </property>
-   <property name="spacing" >
-    <number>6</number>
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
    </property>
-   <item row="2" column="0" colspan="2" >
-    <widget class="Line" name="line" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="2" >
-    <widget class="QTableWidget" name="tableWidget" >
-     <property name="editTriggers" >
-      <set>QAbstractItemView::NoEditTriggers</set>
-     </property>
-     <property name="selectionBehavior" >
-      <enum>QAbstractItemView::SelectRows</enum>
-     </property>
-     <property name="columnCount" >
-      <number>2</number>
-     </property>
-     <column>
-      <property name="text" >
-       <string>Actions</string>
-      </property>
-     </column>
-     <column>
-      <property name="text" >
-       <string>Shortcuts</string>
-      </property>
-     </column>
-    </widget>
-   </item>
-   <item row="1" column="1" >
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>61</width>
-       <height>23</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="0" >
-    <widget class="QSplitter" name="splitter" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <widget class="QLabel" name="label" >
-      <property name="text" >
-       <string>Press any key here</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="editShortcut" />
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2" >
-    <layout class="QHBoxLayout" >
-     <property name="spacing" >
-      <number>6</number>
-     </property>
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QPushButton" name="buttonAssign" >
-       <property name="text" >
-        <string>Assign</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="buttonRemove" >
-       <property name="text" >
-        <string>Remove</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0" >
-        <size>
-         <width>181</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="buttonDone" >
-       <property name="text" >
-        <string>Done</string>
-       </property>
-       <property name="default" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-  </layout>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>611</width>
+     <height>356</height>
+    </rect>
+   </property>
+   <property name="editTriggers" >
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionBehavior" >
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <property name="columnCount" >
+    <number>2</number>
+   </property>
+   <column>
+    <property name="text" >
+     <string>Actions</string>
+    </property>
+   </column>
+   <column>
+    <property name="text" >
+     <string>Shortcuts</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="buttonCancel" >
+   <property name="geometry" >
+    <rect>
+     <x>530</x>
+     <y>470</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="buttonDefault" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>470</y>
+     <width>120</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Default</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="buttonDone" >
+   <property name="geometry" >
+    <rect>
+     <x>430</x>
+     <y>470</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>OK</string>
+   </property>
+   <property name="default" >
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label" >
+   <property name="geometry" >
+    <rect>
+     <x>11</x>
+     <y>390</y>
+     <width>148</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Press any key here:</string>
+   </property>
+   <property name="alignment" >
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+   <property name="buddy" >
+    <cstring>editShortcut</cstring>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="editShortcut" >
+   <property name="geometry" >
+    <rect>
+     <x>163</x>
+     <y>390</y>
+     <width>261</width>
+     <height>32</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="buttonAssign" >
+   <property name="geometry" >
+    <rect>
+     <x>430</x>
+     <y>390</y>
+     <width>92</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Assign</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="buttonRemove" >
+   <property name="geometry" >
+    <rect>
+     <x>530</x>
+     <y>390</y>
+     <width>92</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Remove</string>
+   </property>
+  </widget>
  </widget>
+ <tabstops>
+  <tabstop>editShortcut</tabstop>
+  <tabstop>buttonAssign</tabstop>
+  <tabstop>buttonRemove</tabstop>
+  <tabstop>buttonDone</tabstop>
+  <tabstop>buttonCancel</tabstop>
+  <tabstop>buttonDefault</tabstop>
+  <tabstop>tableWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
    <sender>buttonDone</sender>
    <signal>clicked()</signal>
    <receiver>ShortcutsDialog</receiver>
-   <slot>reject()</slot>
+   <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>369</x>
-     <y>253</y>
+     <x>520</x>
+     <y>500</y>
     </hint>
     <hint type="destinationlabel" >
      <x>179</x>
      <y>282</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>ShortcutsDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>585</x>
+     <y>473</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>88</x>
+     <y>423</y>
     </hint>
    </hints>
   </connection>
