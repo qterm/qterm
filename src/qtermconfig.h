@@ -25,6 +25,7 @@ public:
 
     bool renameSection(const QString & szSection, const QString & szNewName);
     bool hasSection(const QString & szSection);
+    bool hasItem(const QString & szSection, const QString & szItemName);
 
 private:
     bool checkError();

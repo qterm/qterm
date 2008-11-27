@@ -96,6 +96,12 @@ bool Config::hasSection(const QString & szSection)
     return section.contains(szSection);
 }
 
+bool Config::hasItem(const QString & szSection, const QString & szItemName)
+{
+    QString key = szSection+"/"+szItemName;
+    return m_settings->contains(key);
+}
+
 bool Config::setItemValue(const QString & szSection,
             const QString & szItemName, const QVariant & szItemValue)
 {
