@@ -1404,8 +1404,10 @@ void Frame::saveToolbars()
     Config * conf = Global::instance()->fileCfg();
     QList<QToolBar*> toolbars = findChildren<QToolBar*>();
     QToolBar * toolbar;
+    QSize toolButtonIconSize;
     foreach (toolbar, toolbars)
     {
+        toolButtonIconSize = toolbar->iconSize();
         QStringList listActions;
         if (toolbar == key)
             continue;
@@ -1423,7 +1425,7 @@ void Frame::saveToolbars()
         conf->setItemValue("Toolbars", toolbar->objectName(), listActions);
     }
     conf->setItemValue("Toolbars", "ButtonStyle", int(toolButtonStyle()));
-    conf->setItemValue("Toolbars", "IconSize", iconSize());
+    conf->setItemValue("Toolbars", "IconSize", toolButtonIconSize);
     conf->save();
 }
 
