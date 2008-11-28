@@ -1246,7 +1246,7 @@ void Window::TelnetState(int state)
 	case TSCLOSEFINISH:
 		//statusBar()->message( tr("connection close finished") );
 		m_pMessage->display( tr("connection close finished") );
-		connectionClosed();
+		//connectionClosed();
 		break;
 	case TSCONNECTVIAPROXY:
 		//statusBar()->message( tr("connect to host via proxy") );
@@ -1476,8 +1476,6 @@ void Window::color()
 void Window::disconnect()
 {
 	m_pTelnet->close();
-
-	connectionClosed();
 }
 
 void Window::reconnect()
