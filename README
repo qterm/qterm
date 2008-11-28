@@ -1,11 +1,12 @@
-QTerm 0.5.2
+QTerm 0.5.3
 ===============
 
 这个版本添加/修正了下面一些功能:
+0. 新的域名
 1. 配置文件的格式改变
-2. 新的配置对话框
-3. 初步的 windows 支持
+2. 快捷键和工具栏的配置对话框
+3. 可能的情况下优先使用 KDE 4 的 Notification 功能
 4. Bug fixes
 
                                          The QTerm Team
-                                   http://qterm.sourceforge.net
+                                   http://www.qterm.org
