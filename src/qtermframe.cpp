@@ -1372,7 +1372,7 @@ void Frame::saveShortcuts()
     Config * conf = Global::instance()->fileCfg();
     QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
     foreach (QAction* action, actions) {
-        conf->setItemValue("Shortcut", action->objectName(), action->shortcut().toString());
+        conf->setItemValue("Shortcuts", action->objectName(), action->shortcut().toString());
     }
     conf->save();
 }
@@ -1383,7 +1383,7 @@ void Frame::loadShortcuts()
     QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
     foreach(QAction* action, actions)
     {
-        QString shortcut=conf->getItemValue("Shortcut", action->objectName()).toString();
+        QString shortcut=conf->getItemValue("Shortcuts", action->objectName()).toString();
         if (!shortcut.isEmpty())
             action->setShortcut(QKeySequence(shortcut));
     }
