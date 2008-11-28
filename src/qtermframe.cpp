@@ -1192,6 +1192,7 @@ void Frame::enableMenuToolBar(bool enable)
     if (enable) {
         mdiconnectTools->setVisible(Global::instance()->showToolBar(mdiconnectTools->objectName()));
     } else {
+        //FIXME: Saveing states of the toolbars only works when a window is open
         Global::instance()->setShowToolBar(mdiTools->objectName(), !mdiTools->isHidden());
         Global::instance()->setShowToolBar(mdiconnectTools->objectName(),!mdiconnectTools->isHidden());
         Global::instance()->setShowToolBar(key->objectName(),!key->isHidden());
