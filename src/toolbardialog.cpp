@@ -29,10 +29,11 @@ ToolbarDialog::ToolbarDialog(QWidget* parent)
     QList<QToolBar*> toolbars = parent->findChildren<QToolBar*>();
     QToolBar* toolbar = NULL;
     int index = 0;
-    foreach(toolbar, toolbars)
+    foreach(toolbar, toolbars) {
         index = toolbar->iconSize().height()/16-1;
         if (toolbar->objectName() != "customKeyToolBar")
             comboToolbars->addItem(toolbar->windowTitle(), QVariant::fromValue((QObject*)toolbar));
+    }
     comboToolbarsCurrentIndexChanged(0);
 
     QMainWindow *mwParent = qobject_cast<QMainWindow*>(parent);
