@@ -806,10 +806,10 @@ void Frame::initActions()
     m_connectAction->setObjectName("actionConnect");
     m_disconnectAction = new QAction(QPixmap(pathLib + "pic/disconnect.png"), tr("&Disconnect"), this);
     m_disconnectAction->setObjectName("actionDisconnect");
-    m_addressAction = new QAction(QPixmap(pathLib + "pic/addr.png"), tr("&Address book"), this);
+    m_addressAction = new QAction(QPixmap(pathLib + "pic/addr.png"), tr("&Address Book"), this);
     m_addressAction->setObjectName("actionAddress");
     m_addressAction->setShortcut(Qt::Key_F2);
-    m_quickConnectAction = new QAction(QPixmap(pathLib + "pic/quick.png"), tr("&Quick login"), this);
+    m_quickConnectAction = new QAction(QPixmap(pathLib + "pic/quick.png"), tr("&Quick Login"), this);
     m_quickConnectAction->setObjectName("actionQuickConnect");
     m_quickConnectAction->setShortcut(Qt::Key_F3);
     m_exitAction = new QAction(tr("&Exit"), this);
@@ -821,16 +821,16 @@ void Frame::initActions()
     m_pasteAction = new QAction(QPixmap(pathLib + "pic/paste.png"), tr("&Paste"), this);
     m_pasteAction->setObjectName("actionPaste");
     m_pasteAction->setShortcut(Qt::SHIFT + Qt::Key_Insert);
-    m_colorCopyAction = new QAction(QPixmap(pathLib + "pic/color-copy.png"), tr("C&opy with color"), this);
+    m_colorCopyAction = new QAction(QPixmap(pathLib + "pic/color-copy.png"), tr("C&opy With Color"), this);
     m_colorCopyAction->setObjectName("actionColorCopy");
     m_colorCopyAction->setCheckable(true);
-    m_rectAction = new QAction(QPixmap(pathLib + "pic/rect.png"), tr("&Rectangle select"), this);
+    m_rectAction = new QAction(QPixmap(pathLib + "pic/rect.png"), tr("&Rectangle Select"), this);
     m_rectAction->setObjectName("actionRect");
     m_rectAction->setCheckable(true);
-    m_autoCopyAction = new QAction(tr("Auto copy &select"), this);
+    m_autoCopyAction = new QAction(tr("Auto Copy &Select"), this);
     m_autoCopyAction->setObjectName("actionAutoCopy");
     m_autoCopyAction->setCheckable(true);
-    m_wwrapAction = new QAction(tr("P&aste with wordwrap"), this);
+    m_wwrapAction = new QAction(tr("P&aste With Wordwrap"), this);
     m_wwrapAction->setObjectName("actionWordWrap");
     m_wwrapAction->setCheckable(true);
 
@@ -884,9 +884,9 @@ void Frame::initActions()
     langGroup->addAction(m_chsAction);
     langGroup->addAction(m_chtAction);
 
-    m_uiFontAction = new QAction(tr("&UI font"), this);
+    m_uiFontAction = new QAction(tr("&UI Font"), this);
     m_uiFontAction->setObjectName("actionUiFont");
-    m_fullAction = new QAction(tr("&Fullscreen"), this);
+    m_fullAction = new QAction(tr("&Full Screen"), this);
     m_fullAction->setObjectName("actionFull");
     m_fullAction->setCheckable(true);
     m_fullAction->setShortcut(Qt::Key_F6);
@@ -916,32 +916,32 @@ void Frame::initActions()
     m_switchAction->setObjectName("actionSwitch");
     m_switchAction->setCheckable(true);
 
-    m_currentSessionAction = new QAction(QPixmap(pathLib + "pic/pref.png"), tr("&Setting for currrent session"), this);
+    m_currentSessionAction = new QAction(QPixmap(pathLib + "pic/pref.png"), tr("&Setting For Currrent Session"), this);
     m_currentSessionAction->setObjectName("actionCurrentSession");
-    m_defaultAction = new QAction(tr("&Default setting"), this);
+    m_defaultAction = new QAction(tr("&Default Setting"), this);
     m_defaultAction->setObjectName("actionDefault");
     m_prefAction = new QAction(tr("&Preference"), this);
     m_prefAction->setObjectName("actionPref");
 
-    m_copyArticleAction = new QAction(QPixmap(pathLib + "pic/article.png"), tr("&Copy article"), this);
+    m_copyArticleAction = new QAction(QPixmap(pathLib + "pic/article.png"), tr("&Copy Article"), this);
     m_copyArticleAction->setObjectName("actionCopyArticle");
     m_copyArticleAction->setShortcut(Qt::Key_F9);
-    m_antiIdleAction = new QAction(QPixmap(pathLib + "pic/anti-idle.png"), tr("Anti &idle"), this);
+    m_antiIdleAction = new QAction(QPixmap(pathLib + "pic/anti-idle.png"), tr("Anti &Idle"), this);
     m_antiIdleAction->setObjectName("actionAntiIdle");
     m_antiIdleAction->setCheckable(true);
-    m_autoReplyAction = new QAction(QPixmap(pathLib + "pic/auto-reply.png"), tr("Auto &reply"), this);
+    m_autoReplyAction = new QAction(QPixmap(pathLib + "pic/auto-reply.png"), tr("Auto &Reply"), this);
     m_autoReplyAction->setObjectName("actionAutoReply");
     m_autoReplyAction->setCheckable(true);
-    m_viewMessageAction = new QAction(QPixmap(pathLib + "pic/message.png"), tr("&View messages"), this);
+    m_viewMessageAction = new QAction(QPixmap(pathLib + "pic/message.png"), tr("&View Messages"), this);
     m_viewMessageAction->setObjectName("actionViewMessage");
     m_viewMessageAction->setShortcut(Qt::Key_F10);
     m_beepAction = new QAction(QPixmap(pathLib + "pic/sound.png"), tr("&Beep "), this);
     m_beepAction->setObjectName("actionBeep");
     m_beepAction->setCheckable(true);
-    m_mouseAction = new QAction(QPixmap(pathLib + "pic/mouse.png"), tr("&Mouse support"), this);
+    m_mouseAction = new QAction(QPixmap(pathLib + "pic/mouse.png"), tr("&Mouse Support"), this);
     m_mouseAction->setObjectName("actionMouse");
     m_mouseAction->setCheckable(true);
-    m_viewImageAction = new QAction(tr("&Image viewer"), this);
+    m_viewImageAction = new QAction(tr("&Image Viewer"), this);
     m_viewImageAction->setObjectName("actionViewImage");
 
     m_scriptRunAction = new QAction(tr("&Run..."), this);
@@ -957,7 +957,7 @@ void Frame::initActions()
     m_homepageAction = new QAction(tr("QTerm's &Homepage"), this);
     m_homepageAction->setObjectName("actionHomepage");
 
-    m_reconnectAction = new QAction(QPixmap(Global::instance()->pathPic() + "pic/reconnect.png"), tr("Reconnect When Disconnected By Host"), this);
+    m_reconnectAction = new QAction(QPixmap(Global::instance()->pathPic() + "pic/reconnect.png"), tr("Auto Reconnect"), this);
     m_reconnectAction->setObjectName("actionReconnect");
     m_reconnectAction->setCheckable(true);
 
