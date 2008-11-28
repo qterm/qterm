@@ -27,8 +27,10 @@ ToolbarDialog::ToolbarDialog(QWidget* parent)
     listAllActions->addItem("Separator");
 
     QList<QToolBar*> toolbars = parent->findChildren<QToolBar*>();
-    QToolBar* toolbar;
+    QToolBar* toolbar = NULL;
+    int index = 0;
     foreach(toolbar, toolbars)
+        index = toolbar->iconSize().height()/16-1;
         if (toolbar->objectName() != "customKeyToolBar")
             comboToolbars->addItem(toolbar->windowTitle(), QVariant::fromValue((QObject*)toolbar));
     comboToolbarsCurrentIndexChanged(0);
@@ -36,10 +38,7 @@ ToolbarDialog::ToolbarDialog(QWidget* parent)
     QMainWindow *mwParent = qobject_cast<QMainWindow*>(parent);
 
     comboButtonStyle->setCurrentIndex(int(mwParent->toolButtonStyle()));
-    QVariant size(mwParent->iconSize());
-    for (int index = 0; index < comboIconSize->count(); index++)
-        if (size.toString() == comboIconSize->itemText(index))
-            comboIconSize->setCurrentIndex(index);
+    comboIconSize->setCurrentIndex(index);
     connect(buttonUp, SIGNAL(clicked()), this, SLOT(buttonUpClicked()));
     connect(buttonDown, SIGNAL(clicked()), this, SLOT(buttonDownClicked()));
     connect(buttonAdd, SIGNAL(clicked()), this, SLOT(buttonAddClicked()));
@@ -173,10 +172,20 @@ void ToolbarDialog::comboButtonStyleCurrentIndexChanged(int index)
 
 void ToolbarDialog::comboIconSizeCurrentIndexChanged(const QString& item)
 {
-    QVariant v;
-    v.setValue(item);
-    QMainWindow *parent = qobject_cast<QMainWindow*>(parentWidget());
-    parent->setIconSize(v.toSize());
+    //QMainWindow *parent = qobject_cast<QMainWindow*>(parentWidget());
+    QSize iconSize;
+    if (item == "16x16")
+        iconSize = QSize(16,16);
+    else if (item == "32x32")
+        iconSize = QSize(32,32);
+    else if (item == "48x48")
+        iconSize = QSize(48,48);
+    else
+        iconSize = QSize(16,16);
+    QList<QToolBar*> toolbars = parent()->findChildren<QToolBar*>();
+    QToolBar* toolbar;
+    foreach(toolbar, toolbars)
+        toolbar->setIconSize(iconSize);
 }
 
 void ToolbarDialog::comboToolbarsCurrentIndexChanged(int index)
