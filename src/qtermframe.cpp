@@ -1422,10 +1422,10 @@ void Frame::saveToolbars()
             else
                 qDebug() << toolbar->objectName() << ": Action without an object name cannot be saved";
         }
-        conf->setItemValue("Toolbars", toolbar->objectName(), listActions);
+        conf->setItemValue("ToolBars", toolbar->objectName(), listActions);
     }
-    conf->setItemValue("Toolbars", "ButtonStyle", int(toolButtonStyle()));
-    conf->setItemValue("Toolbars", "IconSize", toolButtonIconSize);
+    conf->setItemValue("ToolBars", "ButtonStyle", int(toolButtonStyle()));
+    conf->setItemValue("ToolBars", "IconSize", toolButtonIconSize);
     conf->save();
 }
 
@@ -1436,7 +1436,7 @@ void Frame::loadToolbars()
     QToolBar * toolbar;
     foreach (toolbar, toolbars)
     {
-        QStringList actions=conf->getItemValue("Toolbars", toolbar->objectName()).toStringList();
+        QStringList actions=conf->getItemValue("ToolBars", toolbar->objectName()).toStringList();
         if (toolbar == key)
             continue;
         foreach(QString action, actions)
@@ -1453,8 +1453,8 @@ void Frame::loadToolbars()
             }
         }
     }
-    setToolButtonStyle(Qt::ToolButtonStyle(conf->getItemValue("Toolbars", "ButtonStyle").toInt()));
-    setIconSize(conf->getItemValue("Toolbars", "IconSize").toSize());
+    setToolButtonStyle(Qt::ToolButtonStyle(conf->getItemValue("ToolBars", "ButtonStyle").toInt()));
+    setIconSize(conf->getItemValue("ToolBars", "IconSize").toSize());
 }
 
 void Frame::configToolbars()
