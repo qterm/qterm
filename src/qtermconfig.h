@@ -31,6 +31,8 @@ private:
     bool checkError();
     bool checkVersion();
     void upgrade();
+    void addShortcuts();
+    void addToolBars();
     static const QString m_version;
     QSettings * m_settings;
 };

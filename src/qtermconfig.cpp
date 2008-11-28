@@ -52,7 +52,46 @@ void Config::upgrade()
     if (!m_settings->contains("version")) {
         m_settings->setValue("version", m_version);
     }
+    addShortcuts();
+    addToolBars();
     save();
+}
+
+void Config::addShortcuts()
+{
+    if (hasSection("Shortcuts"))
+        return;
+    m_settings->beginGroup("Shortcuts");
+    m_settings->setValue("actionAbout","F1");
+    m_settings->setValue("actionAddress","F2");
+    m_settings->setValue("actionQuickConnect","F3");
+    m_settings->setValue("actionRefresh","F5");
+    m_settings->setValue("actionFull","F6");
+    m_settings->setValue("actionScriptRun","F7");
+    m_settings->setValue("actionScriptStop","F8");
+    m_settings->setValue("actionCopyArticle","F9");
+    m_settings->setValue("actionViewMessage","F10");
+    m_settings->setValue("actionBoss","F12");
+    m_settings->setValue("actionCopy","Ctrl+Ins");
+    m_settings->setValue("actionPaste","Shift+Ins");
+    m_settings->endGroup();
+}
+
+void Config::addToolBars()
+{
+    if (hasSection("ToolBars"))
+        return;
+    m_settings->beginGroup("ToolBars");
+    QStringList listActions;
+    listActions << "actionQuickConnect";
+    m_settings->setValue("mainToolBar", listActions);
+    listActions.clear();
+    listActions << "actionDisconnect" << "Separator" << "actionCopy" << "actionPaste" << "actionRect" << "actionColorCopy" << "Separator" << "actionFont" << "actionColor" << "actionRefresh" << "Separator" << "actionCurrentSession" << "Separator" << "actionCopyArticle" << "actionAntiIdle" << "actionAutoReply" << "actionViewMessage" << "actionMouse" << "actionBeep" << "actionReconnect";
+    m_settings->setValue("bbsOperationsToolBar",listActions);
+    m_settings->setValue("mainToolBarShown", true);
+    m_settings->setValue("customKeyToolBarShown", true);
+    m_settings->setValue("bbsOperationsToolBarShown",true);
+    m_settings->endGroup();
 }
 
 bool Config::checkVersion()
@@ -65,7 +104,7 @@ bool Config::checkVersion()
     } else if (m_version != version) {
         QMessageBox::warning(0, "Version Mismath","The version of your config file is not match the current QTerm version.\n" "It will be automatically updated, but you should check for errors");
         m_settings->setValue("version", m_version);
-        save();
+        upgrade();
         return false;
     }
     return true;
