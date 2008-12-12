@@ -1,7 +1,8 @@
 set(optionalLibs)
 set(optionalSources)
 set(win32Libs libwsock32.a)
-option(QTERM_ENABLE_SSH "Build ssh support" ON)
+option(QTERM_ENABLE_SSH "Build SSH Support" ON)
+option(QTERM_ENABLE_DBUS "Build DBus Support" ON)
 option(QTERM_ENABLE_TEST "Build the tests")
 if(QTERM_ENABLE_SSH)
    find_package(OpenSSL)
@@ -10,7 +11,7 @@ if(QTERM_ENABLE_SSH)
       add_definitions(-DSSH_ENABLED)
       include_directories(${OPENSSL_INCLUDE_DIR})
       set(optionalLibs ${optionalLibs} ${OPENSSL_LIBRARIES})
-      set(optionalSources
+      set(optionalSources ${optionalSources}
       ssh/auth.cpp
       ssh/channel.cpp
       ssh/crc32.cpp
@@ -20,6 +21,15 @@ if(QTERM_ENABLE_SSH)
       ssh/transport.cpp)
    endif(OPENSSL_FOUND)
 endif(QTERM_ENABLE_SSH)
+if(QTERM_ENABLE_DBUS)
+   if(QT_QTDBUS_FOUND)
+      message(STATUS "QtDBus module found, enable DBus support")
+      add_definitions(-DDBUS_ENABLED)
+      include_directories(${QT_QTDBUS_INCLUDE_DIR})
+      set(optionalLibs ${optionalLibs} ${QT_QTDBUS_LIBRARY})
+      set(optionalSources ${optionalSources} dbus.cpp)
+   endif(QT_QTDBUS_FOUND)
+endif(QTERM_ENABLE_DBUS)
 set(qterm_SRCS
    ui_aboutdialog.h
    ui_addrdialog.h
@@ -38,7 +48,6 @@ set(qterm_SRCS
    aboutdialog.cpp
    addrdialog.cpp
    articledialog.cpp
-   dbus.cpp
    imageviewer.cpp
    keydialog.cpp
    main.cpp
@@ -107,7 +116,6 @@ include_directories(
    ${QT_QTCORE_INCLUDE_DIR}
    ${QT_QTGUI_INCLUDE_DIR}
    ${QT_QTNETWORK_INCLUDE_DIR}
-   ${QT_QTDBUS_INCLUDE_DIR}
    ${CMAKE_SOURCE_DIR}
    ${CMAKE_BINARY_DIR}
    ${CMAKE_CURRENT_BINARY_DIR}
@@ -118,7 +126,6 @@ target_link_libraries(qterm
    ${QT_QTCORE_LIBRARY}
    ${QT_QTGUI_LIBRARY}
    ${QT_QTNETWORK_LIBRARY}
-   ${QT_QTDBUS_LIBRARY}
    ${optionalLibs})
 if(WIN32)
    target_link_libraries(qterm ${win32Libs})
