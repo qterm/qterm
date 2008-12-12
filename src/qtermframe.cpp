@@ -28,6 +28,7 @@ AUTHOR:        kingson fiasco hooey
 #include "imageviewer.h"
 #include "shortcutsdialog.h"
 #include "toolbardialog.h"
+#include "dbus.h"
 
 #include <QPaintEvent>
 #include <QMouseEvent>
@@ -87,7 +88,8 @@ Frame::Frame()
     tray = 0;
     trayMenu = 0;
     Global::instance()->setParent(this);
-    connect(Global::instance(), SIGNAL(showQTerm()), this, SLOT(slotShowQTerm()));
+    DBus::instance()->setParent(this);
+    connect(DBus::instance(), SIGNAL(showQTerm()), this, SLOT(slotShowQTerm()));
 
 //create a tabbar in the hbox
     tabBar = new QTabBar(statusBar());

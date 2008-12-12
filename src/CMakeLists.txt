@@ -38,6 +38,7 @@ set(qterm_SRCS
    aboutdialog.cpp
    addrdialog.cpp
    articledialog.cpp
+   dbus.cpp
    imageviewer.cpp
    keydialog.cpp
    main.cpp
