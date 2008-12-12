@@ -103,6 +103,7 @@ public:
     void saveGeometry( const QByteArray geometry);
     void saveState( const QByteArray state);
     void cleanup();
+    void openUrl(const QString & url);
 
 private:
     Global();

@@ -288,18 +288,8 @@ void Frame::aboutQTerm()
 //slot Help->Homepage
 void Frame::homepage()
 {
-    QString strCmd = Global::instance()->m_pref.strHttp;
     QString strUrl = "http://www.qterm.org";
-
-    if (strCmd.indexOf("%L") == -1)
-        strCmd += " \"" + strUrl + "\"";
-    else
-        strCmd.replace(QRegExp("%L", Qt::CaseInsensitive), strUrl);
-
-#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
-    strCmd += " &";
-#endif
-    system(strCmd.toLocal8Bit());
+    Global::instance()->openUrl(strUrl);
 }
 
 //slot Windows menu aboutToShow

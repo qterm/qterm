@@ -775,18 +775,7 @@ void Window::mouseReleaseEvent( QMouseEvent * me )
 		#endif
 		if (ok)
 		{
-			QString strCmd=Global::instance()->m_pref.strHttp;
-			if(strCmd.indexOf("%L")==-1) // no replace
-				//QApplication::clipboard()->setText(strUrl);
-				strCmd += " \"" + strUrl +"\"";
-			else
-				strCmd.replace("%L",  "\""+strUrl+ "\"");
-				//cstrCmd.replace("%L",  strUrl.toLocal8Bit());
-			
-            //qDebug()<<"run command " << strCmd;
-			//QProcess::startDetached(strCmd);
-            //TODO: How to do this in Windows?
-			system(strCmd.toUtf8().data());
+            Global::instance()->openUrl(strUrl);
 		}
 		return;
 	}

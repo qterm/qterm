@@ -807,6 +807,25 @@ void Global::cleanup()
     }
 }
 
+void Global::openUrl(const QString & url)
+{
+    QString command = m_pref.strHttp;
+    if(command.indexOf("%L")==-1) // no replace
+        //QApplication::clipboard()->setText(strUrl);
+        command += " \"" + url +"\"";
+    else
+        command.replace("%L",  "\"" + url + "\"");
+        //cstrCmd.replace("%L",  strUrl.toLocal8Bit());
+
+    //qDebug()<<"run command " << strCmd;
+    //QProcess::startDetached(strCmd);
+    //TODO: How to do this in Windows?
+#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
+    command += " &";
+#endif
+    system(command.toUtf8().data());
+}
+
 } // namespace QTerm
 
 #include <qtermglobal.moc>
