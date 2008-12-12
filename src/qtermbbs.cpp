@@ -456,13 +456,13 @@ bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 		m_strUrl = strText.mid(url, end-url);
 	if(nNoType==0)
 		m_strUrl = "mailto:"+m_strUrl;
-	else if(nNoType==1)
+	else if(nNoType==1) {
 		if(checkIP) {
 			if( m_strIP[ m_strIP.length()-1 ] == '*' )
 				m_strIP.replace( m_strIP.length() -1 , 1, "1" );
 		}else
 			m_strUrl = "http://"+m_strUrl;
-	
+    }
 	rcUrl = QRect(url, m_ptCursor.y(), end-url, 1);
 	if (!checkIP) // don't update when we only need ip
 		m_rcUrl = rcUrl;
