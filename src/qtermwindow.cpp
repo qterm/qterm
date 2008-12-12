@@ -37,7 +37,10 @@ AUTHOR:        kingson fiasco
 #include "progressBar.h"
 #include "qtermglobal.h"
 #include "hostinfo.h"
+
+#ifdef DBUS_ENABLED
 #include "dbus.h"
+#endif // DBUS_ENABLED
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
 #include <unistd.h>
@@ -1054,11 +1057,14 @@ if(m_pZmodem->transferstate == notransfer)
 	
 		if(!isActiveWindow() || m_pFrame->wndmgr->activeWindow()!=this)
 		{
+#ifdef DBUS_ENABLED
             if (DBus::instance()->notificationAvailable()) {
                 QList<DBus::Action> actions;
                 actions.append(DBus::Show_QTerm);
                 DBus::instance()->sendNotification("New Message in QTerm", fromBBSCodec(strMsg.toLatin1()),actions);
-            } else {
+            } else
+#endif //DBUS_ENABLED
+            {
                 m_popWin->setText(fromBBSCodec(strMsg.toLatin1()));
                 m_popWin->popup();
             }
