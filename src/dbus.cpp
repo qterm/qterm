@@ -37,15 +37,15 @@ DBus * DBus::instance()
 }
 
 DBus::DBus()
-    :m_dbusAvailable(false),m_idList()
+    :m_notificatoinAvailable(false),m_idList()
 {
     m_idList.clear();
     QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
-    m_dbusAvailable = interface && interface->isServiceRegistered(dbusServiceName);
+    m_notificatoinAvailable = interface && interface->isServiceRegistered(dbusServiceName);
 
-    if( m_dbusAvailable) {
+    if( m_notificatoinAvailable ) {
         qDebug() << "using" << dbusServiceName << "for popups";
-        createDBusConnection();
+        createConnection();
     }
 
     // to catch register/unregister events from service in runtime
@@ -53,7 +53,7 @@ DBus::DBus()
 
 }
 
-void DBus::createDBusConnection()
+void DBus::createConnection()
 {
     bool connected = QDBusConnection::sessionBus().connect(QString(), // from any service
                 dbusPath,
@@ -82,21 +82,21 @@ void DBus::slotServiceOwnerChanged( const QString & serviceName, const QString &
         if(oldOwner.isEmpty())
         {
             m_idList.clear();
-            m_dbusAvailable = true;
+            m_notificatoinAvailable = true;
             qDebug() << dbusServiceName << " was registered on bus, now using it to show popups";
             // connect to action invocation signals
-            createDBusConnection();
+            createConnection();
         }
         if(newOwner.isEmpty())
         {
             m_idList.clear();
-            m_dbusAvailable = false;
+            m_notificatoinAvailable = false;
             qDebug() << dbusServiceName << " was unregistered from bus, using passive popups from now on";
         }
     }
 }
 
-bool DBus::sendDBusNotification(const QString & summary, const QString & body, QList<DBus::Action> actions)
+bool DBus::sendNotification(const QString & summary, const QString & body, QList<DBus::Action> actions)
 {
     QDBusMessage message = QDBusMessage::createMethodCall( dbusServiceName, dbusPath, dbusInterfaceName, "Notify" );
     uint id = 0;
@@ -135,7 +135,7 @@ bool DBus::sendDBusNotification(const QString & summary, const QString & body, Q
     return true;
 }
 
-void DBus::slotDBusNotificationActionInvoked(uint id, const QString action)
+void DBus::slotNotificationActionInvoked(uint id, const QString action)
 {
     if (m_idList.contains(id)) {
         if (action.toInt() == DBus::Show_QTerm) {
@@ -145,7 +145,7 @@ void DBus::slotDBusNotificationActionInvoked(uint id, const QString action)
     }
 }
 
-void DBus::slotDBusNotificationClosed(uint id, uint reason)
+void DBus::slotNotificationClosed(uint id, uint reason)
 {
     if (m_idList.contains(id))
         m_idList.removeAll(id);
@@ -166,9 +166,9 @@ void DBus::closeNotification(uint id)
     }
 }
 
-bool DBus::dbusExist() const
+bool DBus::notificationAvailable() const
 {
-    return m_dbusAvailable;
+    return m_notificatoinAvailable;
 }
 
 } // namespace QTerm

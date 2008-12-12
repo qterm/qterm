@@ -29,20 +29,20 @@ public:
         Show_QTerm
     };
     static DBus * instance();
-    bool dbusExist() const;
-    bool sendDBusNotification(const QString & summary, const QString & body, QList<DBus::Action> actions);
+    bool notificationAvailable() const;
+    bool sendNotification(const QString & summary, const QString & body, QList<DBus::Action> actions);
 signals:
     void showQTerm();
 private slots:
     void slotServiceOwnerChanged(const QString & serviceName, const QString & oldOwner, const QString & newOwner);
-    void slotDBusNotificationActionInvoked(uint id, const QString action);
-    void slotDBusNotificationClosed(uint id, uint reason);
+    void slotNotificationActionInvoked(uint id, const QString action);
+    void slotNotificationClosed(uint id, uint reason);
 private:
     DBus();
-    void createDBusConnection();
+    void createConnection();
     void closeNotification(uint id);
     static DBus * m_instance;
-    bool m_dbusAvailable;
+    bool m_notificatoinAvailable;
     QList<uint> m_idList;
 };
 
