@@ -1,5 +1,5 @@
 //
-// C++ Interface: Global
+// C++ Interface: DBus
 //
 // Description:
 //
