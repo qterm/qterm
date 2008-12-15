@@ -41,6 +41,7 @@ public:
     void enableMenuToolBar(bool);
     void popupFocusIn(Window * window = 0);
     void buzz();
+    QMenu * popupMenu();
 signals:
     void bossColor();
     void scrollChanged();
@@ -130,6 +131,8 @@ protected:
     QMenu * escapeMenu;
     QMenu * langMenu;
     QMenu * connectMenu;
+
+    QMenu * m_popupMenu;
 //  File
     QAction * m_connectAction;
     QAction * m_disconnectAction;
@@ -217,6 +220,7 @@ protected:
 
     void addMainMenu();
     void addMainTool();
+    void initPopupMenu();
 
     void updateKeyToolBar();
 

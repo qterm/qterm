@@ -317,19 +317,7 @@ Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const ch
 	m_pUrl->addAction( tr("Open link"), this, SLOT(openLink()) );
 	m_pUrl->addAction( tr("Copy link address"), this, SLOT(copyLink()) );
 
-	m_pMenu = new QMenu(m_pScreen);
-	//FIXME: shortcut
-	//m_pMenu->insertItem( QPixmap(pathLib+"pic/copy.png"), tr("Copy"), this, SLOT(copy()), Qt::CTRL+Qt::Key_Insert );
-	//m_pMenu->insertItem( QPixmap(pathLib+"pic/paste.png"), tr("Paste"), this, SLOT(paste()), Qt::SHIFT+Qt::Key_Insert );
-	//m_pMenu->insertItem( QPixmap(pathLib+"pic/article.png"), tr("Copy Article"), this, SLOT(copyArticle()), Qt::Key_F9 );
-	m_pMenu->addAction( QPixmap(pathLib+"pic/copy.png"), tr("Copy"), this, SLOT(copy()) );
-	m_pMenu->addAction( QPixmap(pathLib+"pic/paste.png"), tr("Paste"), this, SLOT(paste()) );
-	m_pMenu->addAction( QPixmap(pathLib+"pic/article.png"), tr("Copy Article"), this, SLOT(copyArticle()) );
-	m_pMenu->addSeparator();
-	m_pMenu->addAction( QPixmap(pathLib+"pic/fonts.png"), tr("Font"), this, SLOT(font()) );
-	m_pMenu->addAction( QPixmap(pathLib+"pic/color.png"), tr("Color"), this, SLOT(color()) );
-	m_pMenu->addSeparator();
-	m_pMenu->addAction( QPixmap(pathLib+"pic/pref.png"), tr("Setting"), this, SLOT(setting()) );
+	m_pMenu = m_pFrame->popupMenu();
 
 //connect telnet signal to slots
 	connect(m_pTelnet,SIGNAL( readyRead(int) ),

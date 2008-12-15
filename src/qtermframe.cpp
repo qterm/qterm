@@ -112,6 +112,8 @@ Frame::Frame()
 //create the window manager to deal with the window-tab-icon pairs
     wndmgr = new WndMgr(this);
 
+    m_popupMenu = NULL;
+
     initShortcuts();
 
 //set menubar
@@ -134,6 +136,8 @@ Frame::Frame()
     enableMenuToolBar(false);
 
     initThemesMenu();
+
+    initPopupMenu();
 
     installEventFilter(this);
 }
@@ -1122,6 +1126,27 @@ void Frame::addMainMenu()
     help->addAction(m_aboutAction);
     help->addAction(m_homepageAction);
 
+}
+
+void Frame::initPopupMenu()
+{
+    m_popupMenu = new QMenu(this);
+    m_popupMenu->addAction(m_copyAction);
+    m_popupMenu->addAction(m_pasteAction);
+    m_popupMenu->addAction(m_copyArticleAction);
+    m_popupMenu->addSeparator();
+    m_popupMenu->addAction(m_fontAction);
+    m_popupMenu->addAction(m_colorAction);
+    m_popupMenu->addSeparator();
+    m_popupMenu->addAction(m_currentSessionAction);
+}
+
+QMenu * Frame::popupMenu()
+{
+    if (m_popupMenu == NULL) {
+        initPopupMenu();
+    }
+    return m_popupMenu;
 }
 
 void Frame::updateMenuToolBar()
