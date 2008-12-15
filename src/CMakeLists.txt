@@ -5,12 +5,12 @@ option(QTERM_ENABLE_SSH "Build SSH Support" ON)
 option(QTERM_ENABLE_DBUS "Build DBus Support" ON)
 option(QTERM_ENABLE_TEST "Build the tests")
 if(QTERM_ENABLE_SSH)
-   find_package(OpenSSL)
-   if(OPENSSL_FOUND)
+   find_package(OpenSSLCrypto)
+   if(OPENSSL_CRYPTO_FOUND)
       message(STATUS "OpenSSL found, enable SSH support")
       add_definitions(-DSSH_ENABLED)
-      include_directories(${OPENSSL_INCLUDE_DIR})
-      set(optionalLibs ${optionalLibs} ${OPENSSL_LIBRARIES})
+      include_directories(${OPENSSL_CRYPTO_INCLUDE_DIR})
+      set(optionalLibs ${optionalLibs} ${OPENSSL_CRYPTO_LIBRARIES})
       set(optionalSources ${optionalSources}
       ssh/auth.cpp
       ssh/channel.cpp
@@ -19,7 +19,7 @@ if(QTERM_ENABLE_SSH)
       ssh/packet.cpp
       ssh/socket.cpp
       ssh/transport.cpp)
-   endif(OPENSSL_FOUND)
+   endif(OPENSSL_CRYPTO_FOUND)
 endif(QTERM_ENABLE_SSH)
 if(QTERM_ENABLE_DBUS)
    if(QT_QTDBUS_FOUND)
