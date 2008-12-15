@@ -552,6 +552,7 @@ void Frame::triggerFullScreen(bool isFullScreen)
         menuBar()->hide();
         mdiTools->hide();
         mdiconnectTools->hide();
+        m_popupMenu->addAction(m_fullAction);
         key->hide();
         //showStatusBar();
         //showSwitchBar();
@@ -560,6 +561,7 @@ void Frame::triggerFullScreen(bool isFullScreen)
         menuBar()->show();
         restoreGeometry(Global::instance()->loadGeometry());
         restoreState(Global::instance()->loadState());
+        m_popupMenu->removeAction(m_fullAction);
         emit scrollChanged();
         showNormal();
         //showStatusBar();
