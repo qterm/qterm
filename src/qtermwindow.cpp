@@ -1360,13 +1360,8 @@ void Window::pasteHelper( bool clip )
 	}
 
 	if(!Global::instance()->escapeString().isEmpty())
-	#if (QT_VERSION>=0x030100)
 		cstrText.replace(parseString(Global::instance()->escapeString().toLatin1()), 
 				 parseString((const char *)m_param.m_strEscape.toLatin1()));
-	#else
-		cstrText.replace(QRegExp(parseString(m_pFrame->m_cstrEscape)), 
-						parseString((const char *)m_param.m_strEscape));
-	#endif
 
 	if( m_bWordWrap )
 	{
