@@ -72,6 +72,7 @@ addrDialog::addrDialog( QWidget* parent, bool partial, Qt::WFlags fl )
 			if(Global::instance()->addrCfg()->hasSection("default"))
 				Global::instance()->loadAddress(-1,param);
 		updateData(false);
+		ui.nameListWidget->setFocus(Qt::OtherFocusReason);
 	}
 	connectSlots();
 }

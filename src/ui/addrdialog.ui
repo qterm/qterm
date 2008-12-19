@@ -71,14 +71,6 @@
     <number>0</number>
    </property>
    <widget class="QWidget" name="tab0" >
-    <property name="geometry" >
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>549</width>
-      <height>500</height>
-     </rect>
-    </property>
     <attribute name="title" >
      <string>General</string>
     </attribute>
@@ -461,14 +453,6 @@
     </widget>
    </widget>
    <widget class="QWidget" name="tab1" >
-    <property name="geometry" >
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>549</width>
-      <height>500</height>
-     </rect>
-    </property>
     <attribute name="title" >
      <string>Display</string>
     </attribute>
@@ -870,14 +854,6 @@ p, li { white-space: pre-wrap; }
     </widget>
    </widget>
    <widget class="QWidget" name="tab2" >
-    <property name="geometry" >
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>549</width>
-      <height>500</height>
-     </rect>
-    </property>
     <attribute name="title" >
      <string>Terminal</string>
     </attribute>
@@ -1113,14 +1089,6 @@ p, li { white-space: pre-wrap; }
     </widget>
    </widget>
    <widget class="QWidget" name="tab3" >
-    <property name="geometry" >
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>549</width>
-      <height>500</height>
-     </rect>
-    </property>
     <attribute name="title" >
      <string>BBS</string>
     </attribute>
@@ -1428,14 +1396,6 @@ p, li { white-space: pre-wrap; }
     </widget>
    </widget>
    <widget class="QWidget" name="tab4" >
-    <property name="geometry" >
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>549</width>
-      <height>500</height>
-     </rect>
-    </property>
     <attribute name="title" >
      <string>Misc</string>
     </attribute>
@@ -1871,11 +1831,10 @@ p, li { white-space: pre-wrap; }
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>nameListWidget</tabstop>
-  <tabstop>addPushButton</tabstop>
-  <tabstop>deletePushButton</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>nameLineEdit</tabstop>
   <tabstop>addrLineEdit</tabstop>
+  <tabstop>portSpinBox</tabstop>
   <tabstop>protocolComboBox</tabstop>
   <tabstop>hostTypeComboBox</tabstop>
   <tabstop>bbscodeComboBox</tabstop>
@@ -1912,11 +1871,14 @@ p, li { white-space: pre-wrap; }
   <tabstop>idletimeLineEdit</tabstop>
   <tabstop>proxytypeComboBox</tabstop>
   <tabstop>proxyaddrLineEdit</tabstop>
+  <tabstop>proxyportSpinBox</tabstop>
   <tabstop>authCheckBox</tabstop>
   <tabstop>proxyuserLineEdit</tabstop>
   <tabstop>proxypasswdLineEdit</tabstop>
   <tabstop>reconnectCheckBox</tabstop>
   <tabstop>reconnectLineEdit</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>deletePushButton</tabstop>
   <tabstop>resetPushButton</tabstop>
   <tabstop>applyPushButton</tabstop>
   <tabstop>connectPushButton</tabstop>
@@ -1995,8 +1957,8 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>610</x>
-     <y>125</y>
+     <x>614</x>
+     <y>122</y>
     </hint>
     <hint type="destinationlabel" >
      <x>612</x>
@@ -2043,8 +2005,8 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>559</x>
-     <y>323</y>
+     <x>563</x>
+     <y>322</y>
     </hint>
     <hint type="destinationlabel" >
      <x>532</x>
