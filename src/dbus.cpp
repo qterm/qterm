@@ -60,16 +60,16 @@ void DBus::createConnection()
                 dbusInterfaceName,
                 "ActionInvoked",
                 this,
-                SLOT(slotDBusNotificationActionInvoked(uint,const QString&)));
+                SLOT(slotNotificationActionInvoked(uint,const QString&)));
     if (!connected) {
-            qDebug() << "warning: failed to connect to NotificationClosed dbus signal";
+            qDebug() << "warning: failed to connect to ActionInvoked dbus signal";
     }
     connected = QDBusConnection::sessionBus().connect(QString(), // from any service
             dbusPath,
             dbusInterfaceName,
             "NotificationClosed",
             this,
-            SLOT(slotDBusNotificationClosed(uint,uint)));
+            SLOT(slotNotificationClosed(uint,uint)));
     if (!connected) {
         qDebug() << "warning: failed to connect to NotificationClosed dbus signal";
     }
