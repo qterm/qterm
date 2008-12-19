@@ -34,9 +34,6 @@ namespace QTerm
 {
 
 Global * Global::m_Instance = 0;
-static const QString dbusServiceName = "org.kde.VisualNotifications";
-static const QString dbusInterfaceName = "org.kde.VisualNotifications";
-static const QString dbusPath = "/VisualNotifications";
 
 Global * Global::instance()
 {
