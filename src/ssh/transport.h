@@ -17,6 +17,7 @@
 #include <openssl/evp.h>
 // TODO: change to EVP?
 #include <openssl/des.h>
+#include <stdint.h>
 #include <QtCore/QByteArray>
 
 namespace QTerm

@@ -29,6 +29,8 @@ AUTHOR:        kingson fiasco
 #include <locale.h>
 #endif
 
+#include <stdio.h>
+
 using namespace QTerm;
 
 #ifdef HAVE_PYTHON
