@@ -40,7 +40,6 @@ if(QTERM_ENABLE_PHONON)
    else(QT_PHONON_FOUND)
       # Looking for KDE4, it is quite impossible that some system can have
       # Phonon without KDE4
-      find_package(KDE4)
       if(PHONON_FOUND)
          message(STATUS "KDE Phonon module found, enable Phonon support")
          add_definitions(-DPHONON_ENABLED)
