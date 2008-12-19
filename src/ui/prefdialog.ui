@@ -72,17 +72,9 @@
     </sizepolicy>
    </property>
    <property name="currentIndex" >
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab_2" >
-    <property name="geometry" >
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>619</width>
-      <height>450</height>
-     </rect>
-    </property>
     <attribute name="title" >
      <string>Internal Settings</string>
     </attribute>
@@ -285,14 +277,6 @@
     </widget>
    </widget>
    <widget class="QWidget" name="tab" >
-    <property name="geometry" >
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>619</width>
-      <height>450</height>
-     </rect>
-    </property>
     <attribute name="title" >
      <string>External Settings</string>
     </attribute>
@@ -384,13 +368,13 @@
      <property name="geometry" >
       <rect>
        <x>480</x>
-       <y>340</y>
+       <y>150</y>
        <width>120</width>
        <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Choose...</string>
+      <string>Browse...</string>
      </property>
     </widget>
     <widget class="QLabel" name="textLabel1_4" >
@@ -519,13 +503,13 @@
      <property name="geometry" >
       <rect>
        <x>480</x>
-       <y>150</y>
+       <y>340</y>
        <width>120</width>
        <height>32</height>
       </rect>
      </property>
      <property name="text" >
-      <string>Browse...</string>
+      <string>Choose...</string>
      </property>
     </widget>
     <widget class="QLabel" name="textLabel1" >
