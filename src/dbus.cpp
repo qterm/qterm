@@ -37,13 +37,13 @@ DBus * DBus::instance()
 }
 
 DBus::DBus()
-    :m_notificatoinAvailable(false),m_idList()
+    :m_notificationAvailable(false),m_idList()
 {
     m_idList.clear();
     QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
-    m_notificatoinAvailable = interface && interface->isServiceRegistered(dbusServiceName);
+    m_notificationAvailable = interface && interface->isServiceRegistered(dbusServiceName);
 
-    if( m_notificatoinAvailable ) {
+    if( m_notificationAvailable ) {
         qDebug() << "using" << dbusServiceName << "for popups";
         createConnection();
     }
@@ -82,7 +82,7 @@ void DBus::slotServiceOwnerChanged( const QString & serviceName, const QString &
         if(oldOwner.isEmpty())
         {
             m_idList.clear();
-            m_notificatoinAvailable = true;
+            m_notificationAvailable = true;
             qDebug() << dbusServiceName << " was registered on bus, now using it to show popups";
             // connect to action invocation signals
             createConnection();
@@ -90,7 +90,7 @@ void DBus::slotServiceOwnerChanged( const QString & serviceName, const QString &
         if(newOwner.isEmpty())
         {
             m_idList.clear();
-            m_notificatoinAvailable = false;
+            m_notificationAvailable = false;
             qDebug() << dbusServiceName << " was unregistered from bus, using passive popups from now on";
         }
     }
@@ -168,7 +168,7 @@ void DBus::closeNotification(uint id)
 
 bool DBus::notificationAvailable() const
 {
-    return m_notificatoinAvailable;
+    return m_notificationAvailable;
 }
 
 } // namespace QTerm

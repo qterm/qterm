@@ -42,7 +42,7 @@ private:
     void createConnection();
     void closeNotification(uint id);
     static DBus * m_instance;
-    bool m_notificatoinAvailable;
+    bool m_notificationAvailable;
     QList<uint> m_idList;
 };
 
