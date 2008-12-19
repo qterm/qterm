@@ -343,7 +343,11 @@ Window::Window( Frame * frame, Param param, int addr, QWidget * parent, const ch
 	m_bCopyRect	= false;
 	m_bAntiIdle	= true;
 	m_bAutoReply= m_param.m_bAutoReply;
-	m_bBeep		= !(Global::instance()->m_pref.strPlayer.isEmpty()||Global::instance()->m_pref.strWave.isEmpty());
+	m_bBeep		= !(
+#ifndef PHONON_ENABLED
+            Global::instance()->m_pref.strPlayer.isEmpty()||
+#endif // PHONON_ENABLED
+            Global::instance()->m_pref.strWave.isEmpty());
 	m_bMouse	= true;
 	m_bWordWrap = false;
 	m_bAutoCopy = true;
