@@ -1,23 +1,12 @@
 #include "qtermsound.h"
-// #include <qsound.h>
-// #include <qfile.h>
-// #include <qmessagebox.h>
-//Added by qt3to4:
-// #include <Q3CString>
-#include <QSound>
-#include <QFile>
-#include <QMessageBox>
+#include <QtCore/QFile>
 #include <QtCore/QProcess>
+#include <QtGui/QMessageBox>
 
-/*
-#ifndef _NO_ESD_COMPILED
-#include <esd.h>
-#endif
+#ifdef PHONON_ENABLED
+#include <Phonon/MediaObject>
+#endif // PHONON_ENABLED
 
-#ifndef _NO_ARTS_COMPILED
-#include <soundserver.h>
-using namespace Arts;
-#endif*/
 namespace QTerm
 {
 
@@ -25,57 +14,30 @@ Sound::~Sound()
 {
 }
 
+#ifdef PHONON_ENABLED
 void
-InternalSound::play()
+PhononSound::play()
 {
-	if(QFile::exists(_soundfile))
-		QSound::play(_soundfile);
+    if (QFile::exists(_soundfile)) {
+        Phonon::MediaObject * player = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(_soundfile));
+        player->play();
+    }
 }
-/*
-#ifndef _NO_ARTS_COMPILED
-void
-QTermArtsSound::play()
-{
-	Dispatcher dispatcher;
-	SimpleSoundServer server;
-	server = Arts::Reference("global:Arts_SimpleSoundServer");
+#endif // PHONON_ENABLED
 
-	if (server.isNull()){
-		qWarning("Cannot connect to the sound server, check if you do have a Arts system installed\n");
-		return;
-	}
-
-	if(QFile::exists(_soundfile))
-		server.play(_soundfile.ascii());
-}
-#endif
-
-#ifndef _NO_ESD_COMPILED
-void
-QTermEsdSound::play()
-{
-	int fd = esd_open_sound(NULL);
-	if (fd >= 0 && QFile::exists(_soundfile) ) {
-		esd_play_file(NULL, _soundfile.ascii(), 0);
-		esd_close(fd);
-	}else
-	qWarning("Cannot open Esd driver, Check if you do have a Esd system installed\n");
-}
-#endif
-*/
 void
 ExternalSound::setPlayer(const QString & playername)
 {
-	_player = playername;
+    _player = playername;
 }
 
 void
 ExternalSound::play()
 {
-	if(QFile::exists(_soundfile)) {
-		QString command = _player + ' ' + _soundfile;
-		QProcess::startDetached(command);
-	}
+    if (QFile::exists(_soundfile)) {
+        QString command = _player + ' ' + _soundfile;
+        QProcess::startDetached(command);
+    }
 }
 
 } // namespace QTerm

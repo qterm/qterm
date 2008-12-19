@@ -68,7 +68,6 @@ AUTHOR:        kingson fiasco
 #include <QStatusBar>
 #include <QFontDialog>
 #include <QTextCodec>
-#include <QSound>
 #include <QTimer>
 #include <QMenu>
 #include <QTextBrowser>
@@ -1027,8 +1026,15 @@ if(m_pZmodem->transferstate == notransfer)
     if( m_pDecode->bellReceive() ) //&& m_pBuffer->caret().y()==1 )
     {
 		if( m_bBeep ) {
+#ifdef PHONON_ENABLED
+			if (Global::instance()->m_pref.strPlayer.isEmpty()) {
+				m_pSound = new PhononSound(Global::instance()->m_pref.strWave,this);
+			} else
+#endif // PHONON_ENABLED
+			{
 			m_pSound = new ExternalSound(Global::instance()->m_pref.strPlayer,
-							Global::instance()->m_pref.strWave);
+							Global::instance()->m_pref.strWave, this);
+			}
 			if (m_pSound)
 				m_pSound->play();
 			delete m_pSound;
