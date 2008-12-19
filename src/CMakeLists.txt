@@ -123,12 +123,24 @@ set(qterm_MISC
    address.cfg
    credits
    qterm.cfg)
+if(WIN32)
+  if(MINGW)
+    # resource compilation for mingw
+    ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/qterm_rc.o
+                       COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR}
+                                           -i${CMAKE_CURRENT_SOURCE_DIR}/qterm.rc
+                                           -o ${CMAKE_CURRENT_BINARY_DIR}/qterm_rc.o)
+    SET(qterm_SRCS ${qterm_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/qterm_rc.o)
+  else(MINGW)
+    SET(qterm_SRCS ${qterm_SRCS} qterm.rc)
+  endif(MINGW)
+endif(WIN32)
 qt4_wrap_ui(qterm_UIS_H ${qterm_UIS})
 qt4_automoc(${qterm_SRCS})
 add_definitions( -Wall -DHAVE_CONFIG_H )
-if(WIN32)
+if(WIN32 AND MINGW)
    set(CMAKE_CXX_FLAGS -mwindows)
-endif(WIN32)
+endif(WIN32 AND MINGW)
 include_directories(
    ${QT_INCLUDE_DIR}
    ${QT_QTCORE_INCLUDE_DIR}
@@ -145,9 +157,9 @@ target_link_libraries(qterm
    ${QT_QTGUI_LIBRARY}
    ${QT_QTNETWORK_LIBRARY}
    ${optionalLibs})
-if(WIN32)
+if(WIN32 AND MINGW)
    target_link_libraries(qterm ${win32Libs})
-endif(WIN32)
+endif(WIN32 AND MINGW)
 install(TARGETS qterm DESTINATION bin)
 install(FILES ${qterm_MISC} DESTINATION share/qterm)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qterm.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/qterm.desktop)
