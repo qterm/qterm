@@ -10,3 +10,4 @@ GenericName[zh_TW]=BBS 客戶端程式
 Comment=BBS client based on Qt library in linux
 MimeTypes=
 Terminal=false
+Icon=@CMAKE_INSTALL_PREFIX@/share/icons/qterm.png
