@@ -23,11 +23,14 @@ public:
     const QString & hostName();
     quint16 port();
     Type type();
+    const QString & termType();
+    void setTermType(const QString & termType);
 protected:
     void setType(Type type);
 private:
     QString m_hostName;
     quint16 m_port;
+    QString m_termType;
     Type m_type;
 };
 

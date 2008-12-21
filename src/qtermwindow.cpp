@@ -964,6 +964,7 @@ void Window::connectHost()
 			#endif
 		}
 	}
+	m_hostInfo->setTermType(m_param.m_strTerm);
 
 	m_pTelnet->setProxy( m_param.m_nProxyType, m_param.m_bAuth,
 			m_param.m_strProxyHost, m_param.m_uProxyPort,

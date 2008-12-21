@@ -48,6 +48,16 @@ void HostInfo::setType(HostInfo::Type type)
     m_type = type;
 }
 
+const QString & HostInfo::termType()
+{
+    return m_termType;
+}
+
+void HostInfo::setTermType(const QString & termType)
+{
+    m_termType = termType;
+}
+
 TelnetInfo::TelnetInfo(const QString & hostName, quint16 port)
     :HostInfo(hostName, port)
 {

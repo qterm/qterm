@@ -28,13 +28,14 @@ class SSH2Channel : public QObject
 {
     Q_OBJECT
 public:
-    SSH2Channel(SSH2InBuffer * in, SSH2OutBuffer * out, QObject *parent = 0);
+    SSH2Channel(SSH2InBuffer * in, SSH2OutBuffer * out, const QString & termType = "vt100", QObject *parent = 0);
 
     ~SSH2Channel();
     void openChannel();
     QByteArray readData(int id, unsigned long size);
     void writeData(int id, const QByteArray & data);
     unsigned long bytesAvailable(int id);
+    void setTermType(const QString & termType);
 signals:
     void dataReady(int id);
     void newChannel(int id);
@@ -61,17 +62,19 @@ private:
     QList<Channel * > m_channelList;
     SSH2InBuffer * m_in;
     SSH2OutBuffer * m_out;
+    QString m_termType;
 };
 
 class SSH1Channel : public QObject
 {
     Q_OBJECT
 public:
-    SSH1Channel(SSH1InBuffer * in, SSH1OutBuffer * out, QObject *parent = 0);
+    SSH1Channel(SSH1InBuffer * in, SSH1OutBuffer * out, const QString & termType = "vt100", QObject *parent = 0);
     ~SSH1Channel();
     QByteArray readData(unsigned long size);
     void writeData(const QByteArray & data);
     unsigned long bytesAvailable();
+    void setTermType(const QString & termType);
 signals:
     void dataReady();
     void channelReady();
@@ -88,6 +91,7 @@ private:
     SSH1InBuffer * m_in;
     SSH1OutBuffer * m_out;
     QByteArray m_data;
+    QString m_termType;
 };
 
 }
