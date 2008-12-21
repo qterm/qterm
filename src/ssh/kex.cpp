@@ -272,8 +272,8 @@ void SSH2Kex::readKexReply()
     BN_mod_exp(K, f, x, p, ctx);
     SSH2OutBuffer tmp(NULL);
     tmp.startPacket();
-    tmp.putString(V_C.left(V_C.size() - 2));
-    tmp.putString(V_S.left(V_S.size() - 1));
+    tmp.putString(V_C.replace("\r","").replace("\n",""));
+    tmp.putString(V_S.replace("\r","").replace("\n",""));
     tmp.putString(I_C);
     tmp.putString(I_S);
     tmp.putString(K_S);
