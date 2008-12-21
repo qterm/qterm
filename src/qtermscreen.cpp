@@ -343,11 +343,7 @@ void Screen::initFontMetrics()
 	}
 	m_pFont->setWeight(QFont::Normal);
 
-// 	#if (QT_VERSION >= 300 )
-// 	m_pFont->setStyleHint(QFont::System, 
-// 		m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
-// 	#endif
-	
+	m_pFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
 }
 
 void Screen::setDispFont( const QFont& font)
@@ -365,11 +361,7 @@ void Screen::setDispFont( const QFont& font)
 		delete fm;
 	}
 
-// 	#if (QT_VERSION >= 300 )
-// 	m_pFont->setStyleHint(QFont::System, 
-// 		m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
-// 	#endif
-
+	m_pFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
 }
 
 QFont Screen::getDispFont( )
@@ -408,11 +400,7 @@ void Screen::updateFont()
 		}
 	}
 	m_pFont->setWeight(QFont::Normal);
-// 	#if (QT_VERSION >= 300 )
-// 	m_pFont->setStyleHint(QFont::System, 
-// 		m_pWindow->m_pFrame->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
-// 	#endif
-
+	m_pFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
 }
 
 void Screen::getFontMetrics(QFontMetrics *fm)
