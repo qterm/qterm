@@ -956,8 +956,10 @@ void Window::connectHost()
 			m_hostInfo = new TelnetInfo(m_param.m_strAddr , m_param.m_uPort);
 			#else
 			SSHInfo * sshInfo = new SSHInfo(m_param.m_strAddr , m_param.m_uPort);
-			sshInfo->setUserName(m_param.m_strUser);
-			sshInfo->setPassword(m_param.m_strPasswd);
+			if (m_param.m_bAutoLogin) {
+				sshInfo->setUserName(m_param.m_strUser);
+				sshInfo->setPassword(m_param.m_strPasswd);
+			}
 			m_hostInfo = sshInfo;
 			#endif
 		}
