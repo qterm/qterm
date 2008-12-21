@@ -485,8 +485,10 @@ void SSH2OutBuffer::sendPacket()
 #ifdef SSH_DEBUG
     qDebug() << "padding: " << padding << " bytes";
 #endif
-    // TODO: random padding
-    QByteArray plain = m_in.leftJustified(len + padding, 0);
+    QByteArray paddingData(padding,0);
+    if (m_transport != NULL)
+        RAND_bytes((unsigned char *) paddingData.data(), padding);
+    QByteArray plain = m_in+paddingData;
     totalLen = plain.size() + 1;
     plain.insert(0, padding);
     put_u32(tmp.data(), totalLen);
