@@ -445,7 +445,6 @@ Window::~Window()
 	delete m_replyTimer;
 	delete m_tabTimer;
 
-	delete m_pMenu;
 	delete m_pUrl;
 	delete m_pScreen;
 	delete m_reconnectTimer;
