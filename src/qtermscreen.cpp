@@ -934,8 +934,7 @@ void Screen::repaintScreen(QPaintEvent * pe)
 
 // draw a line with the specialAtter if given.
 // modified by hooey to draw part of the line.
-// I know I should not use starx, but I'm lazy ;)
-void Screen::drawLine( QPainter& painter, int index, int starx, int endx, bool complete)
+void Screen::drawLine( QPainter& painter, int index, int beginx, int endx, bool complete)
 {
 	if ( index >= m_pBuffer->lines())
 	{
@@ -956,8 +955,8 @@ void Screen::drawLine( QPainter& painter, int index, int starx, int endx, bool c
 	QByteArray cstrText;
 	QString strShow;
 	
-	if (starx < 0)
-		starx = 0;
+	if (beginx < 0)
+		beginx = 0;
 
 	if (endx > linelength || endx < 0)
 		endx = linelength;
@@ -967,14 +966,14 @@ void Screen::drawLine( QPainter& painter, int index, int starx, int endx, bool c
 		if (m_pParam -> m_nMenuType == 1) {
 			bReverse = true;
 		}
-		starx = 0;
+		beginx = 0;
 		endx = linelength;
 	}
 
 	if (m_ePaintState == Cursor && m_bCursor) {
 		bReverse = true;
 	}
-	for( uint i=starx; i < endx;i++)
+	for( uint i=beginx; i < endx;i++)
 	{
 		int offset = 0;
 		startx = i;
