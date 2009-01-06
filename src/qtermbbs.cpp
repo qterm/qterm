@@ -210,13 +210,13 @@ QRect BBS::getSelectRect()
             QString cstr = line->getText( 0, m_ptCursor.x() );
 
             QRegExp reg( "[a-zA-Z0-9][).\\]]" );
-            char indexChar = cstr.indexOf( reg );
+            int indexChar = cstr.indexOf( reg );
             if (indexChar != -1)
             {
 				m_cMenuChar = cstr.at(indexChar).toLatin1();
 
                 int nMenuStart = indexChar;
-                if ( cstr[indexChar-1] == '(' || cstr[indexChar-1] == '[' )
+                if ( indexChar > 0 && (cstr[indexChar-1] == '(' || cstr[indexChar-1] == '[') )
                     nMenuStart--;
 
                 cstr = line->getText();
