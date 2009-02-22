@@ -8,18 +8,13 @@ AUTHOR:        kingson fiasco
                                     NOTE
  This file may be used, distributed and modified without limitation.
  *******************************************************************************/
-#include "qtermdecode.h"
-
 #include "qterm.h"
+#include "qtermdecode.h"
 #include "qtermbuffer.h"
 
-
-// #include <math.h>
-// #include <stdlib.h>
-// #include <stdio.h>
-// #include <q3cstring.h>
-#include <QByteArray>
-// #include <Q3CString>
+#include <QtCore/QTextDecoder>
+#include <QtCore/QByteArray>
+//#include <QtDebug>
 
 #define MODE_MouseX11 0
 namespace QTerm
@@ -123,7 +118,7 @@ StateOption Decode::privateState[] = {
     { CHAR_NORMAL,  0,        normalState  }
 };
 
-Decode::Decode(Buffer * buffer)
+Decode::Decode(Buffer * buffer, const QString & codec)
 {
     m_pBuffer = buffer;
 
@@ -136,10 +131,15 @@ Decode::Decode(Buffer * buffer)
     m_pBuffer->setCurAttr(m_curAttr);
 
     bCurMode[MODE_MouseX11] = bSaveMode[MODE_MouseX11] = false;
+
+    //qDebug() << "codec: " << codec;
+    m_codec = QTextCodec::codecForName(codec.toLatin1());
+    m_decoder = m_codec->makeDecoder();
 }
 
 Decode::~Decode()
 {
+    delete m_decoder;
 }
 
 // precess input string from telnet socket
@@ -196,8 +196,8 @@ void Decode::normalInput()
         n++;
 
     QByteArray cstr(inputData + dataIndex, n);
-//  Q3CString cstr( inputData + dataIndex, n + 1 );
-    m_pBuffer->setBuffer(cstr, n);
+    QString str = m_decoder->toUnicode(cstr);
+    m_pBuffer->setBuffer(str, n);
 
     n--;
     dataIndex += n;

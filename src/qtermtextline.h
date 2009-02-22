@@ -1,10 +1,9 @@
 #ifndef QTERMTEXTLINE_H
 #define QTERMTEXTLINE_H
 
-// #include <qstring.h>
-//Added by qt3to4:
-#include <QByteArray>
-// #include <QString>
+#include <QtCore/QByteArray>
+#include "termstring.h"
+
 namespace QTerm
 {
 class TextLine
@@ -36,24 +35,26 @@ public:
         return m_length;
     }
 
-    QByteArray getAttrText(int index = -1, int len = -1, const QByteArray & escape = "\x1b\x1b");
+    QString getAttrText(int index = -1, int len = -1, const QString & escape = "\x1b\x1b");
 
-    QByteArray getText(int index = -1, int len = -1);
+    QString getText(int index = -1, int len = -1);
 
-    void insertText(const QByteArray& str, short attr = -1, int index = -1);
+    void insertText(const QString & str, short attr = -1, int index = -1);
 
     void deleteText(int index = -1, int len = -1);
 
-    void replaceText(const QByteArray& str, short attr = -1, int index = -1, int len = -1);
+    void replaceText(const QString & str, short attr = -1, int index = -1, int len = -1);
 
     bool hasBlink();
+
+    int pos(int index);
 
 protected:
 
 
     // we use QString to store any character after decode
     int m_length;
-    QByteArray m_text;
+    TermString m_text;
     QByteArray m_color;
     QByteArray m_attr;
     char m_curColor;

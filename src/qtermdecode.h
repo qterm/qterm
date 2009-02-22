@@ -1,8 +1,10 @@
 #ifndef QTERMDECODE_H
 #define QTERMDECODE_H
 
-// #include <qobject.h>
-#include <QObject>
+#include <QtCore/QObject>
+
+class QTextDecoder;
+
 namespace QTerm
 {
 class Decode;
@@ -23,7 +25,7 @@ class Decode : public QObject
     Q_OBJECT
 
 public:
-    Decode(Buffer *);
+    Decode(Buffer *, const QString & codec);
     ~Decode();
 
     // translate data from telnet socket to our own buffer
@@ -105,6 +107,9 @@ private:
     bool bCurMode[30];
 
     Buffer * m_pBuffer;
+
+    QTextCodec * m_codec;
+    QTextDecoder * m_decoder;
 
     bool m_test;
 };

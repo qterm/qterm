@@ -1,22 +1,10 @@
 #ifndef QTERMBUFFER_H
 #define QTERMBUFFER_H
 
-// #include <qglobal.h>
+#include <QtCore/QList>
+#include <QtCore/QObject>
+#include <QtCore/QPoint>
 
-// #if (QT_VERSION>=300)
-// #include <q3ptrlist.h>
-// #else
-// #include <qlist.h>
-// #endif
-
-// #include <qobject.h>
-//Added by qt3to4:
-// #include <QString>
-// #include <QByteArray>
-#include <QList>
-#include <QObject>
-
-#include <QPoint>
 #define INSERT_MODE 0
 #define NEWLINE_MODE 1
 
@@ -52,7 +40,7 @@ public:
     QPoint caret();
 
     // string
-    void setBuffer(const QByteArray&, int n);
+    void setBuffer(const QString&, int n);
 
     // attribute
     void setCurAttr(short);

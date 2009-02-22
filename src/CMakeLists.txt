@@ -103,6 +103,7 @@ set(qterm_SRCS
    toolbardialog.cpp
    zmodemdialog.cpp
    hostinfo.cpp
+   termstring.cpp
    ${optionalSources})
 set(qterm_UIS
    ui/aboutdialog.ui

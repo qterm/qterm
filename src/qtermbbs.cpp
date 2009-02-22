@@ -55,11 +55,11 @@ QString BBS::getMessage()
 		return message;
 
 	int i = 1;
-	message = QString::fromLatin1(m_pBuffer->screen(0)->getText().simplified());
+	message = (m_pBuffer->screen(0)->getText().simplified());
 	line = m_pBuffer->screen(i);
 	while (isUnicolor(line))
 	{
-		message += "\n" + QString::fromLatin1(line->getText());
+		message += "\n" + (line->getText());
 		i++;
 		line = m_pBuffer->screen(i);
 	}
@@ -223,12 +223,12 @@ QRect BBS::getSelectRect()
                 reg = QRegExp( "[^ ]" );
 
                 int nMenuBaseLength = 20;
-                int nMenuLength = cstr.lastIndexOf( reg, nMenuStart + nMenuBaseLength ) - nMenuStart + 1;
+                int nMenuLength = line->pos(cstr.lastIndexOf( reg, nMenuStart + nMenuBaseLength )) - line->pos(nMenuStart) + 1;
                 if ( nMenuLength == nMenuBaseLength + 1 )
                     nMenuLength = cstr.indexOf( " ", nMenuStart + nMenuBaseLength ) - nMenuStart;
 				if( m_ptCursor.x()>=nMenuStart && m_ptCursor.x()<=nMenuStart+nMenuLength )
 				{
-					rect.setX(nMenuStart);
+					rect.setX(line->pos(nMenuStart));
 					rect.setY(m_ptCursor.y());
 					rect.setWidth(nMenuLength);
 					rect.setHeight(1);

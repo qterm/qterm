@@ -8,19 +8,17 @@ AUTHOR:  kingson
                                     NOTE
  This file may be used, distributed and modified without limitation.
  ******************************************************************************/
-#include "qtermbuffer.h"
 
 #include "qterm.h"
+#include "qtermbuffer.h"
 #include "qtermtextline.h"
+#include "termstring.h"
 
 
-//Added by qt3to4:
-#include <QString>
-#include <QRect>
-#include <QRegExp>
-// #include <stdlib.h>
-// #include <stdio.h>
-// #include <math.h>
+#include <QtCore/QString>
+#include <QtCore/QRegExp>
+#include <QtCore/QRect>
+
 namespace QTerm
 {
 
@@ -34,8 +32,6 @@ Buffer::Buffer(int line, int column, int limit)
 
     while (m_lineList.count() < m_lin)
         m_lineList.append(new TextLine);
-
-//  m_lineList.setAutoDelete(true);
 
     m_curAttr = SETCOLOR(NO_COLOR) | SETATTR(NO_ATTR);
 
@@ -121,7 +117,7 @@ void Buffer::setCurAttr(short attr)
     m_curAttr = attr;
 }
 
-void Buffer::setBuffer(const QByteArray& cstr, int n)
+void Buffer::setBuffer(const QString & str, int n)
 {
 
     TextLine * line =  m_lineList.value(m_lines + m_caretY, NULL);
@@ -132,12 +128,13 @@ void Buffer::setBuffer(const QByteArray& cstr, int n)
     }
 
     if (Insert_Mode /*bInsert*/)
-        line->insertText(cstr, m_curAttr, m_caretX);
+        line->insertText(str, m_curAttr, m_caretX);
     else
-        line->replaceText(cstr, m_curAttr, m_caretX);
-
-    moveCursorOffset(n, 0);
+        line->replaceText(str, m_curAttr, m_caretX);
+// FIXME: optimization
+    moveCursorOffset(TermString(str).length(), 0);
 }
+
 //nextline
 void Buffer::newLine()
 {
@@ -390,6 +387,7 @@ void Buffer::eraseEntireScreen()
 
     clearArea(0, 0, m_col, m_bottom, m_curAttr);
 }
+
 // width = -1 : clear to end
 void Buffer::clearArea(int startX, int startY, int width, int height, short attr)
 {
@@ -582,9 +580,9 @@ QByteArray Buffer::getSelectText(bool rect, bool color, const QByteArray& escape
         rc = getSelectRect(i, rect);
 
         if (color)
-            strTemp = QString::fromLatin1(m_lineList.at(i)->getAttrText(rc.left(), rc.width(), escape));
+            strTemp = m_lineList.at(i)->getAttrText(rc.left(), rc.width(), escape);
         else
-            strTemp = QString::fromLatin1(m_lineList.at(i)->getText(rc.left(), rc.width()));
+            strTemp = m_lineList.at(i)->getText(rc.left(), rc.width());
 
         //FIXME: potential problem?
         int pos = strTemp.lastIndexOf(QRegExp("[\\S]"));

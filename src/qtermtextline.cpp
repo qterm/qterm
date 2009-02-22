@@ -12,9 +12,10 @@ AUTHOR:        kingson fiasco
 #include "qterm.h"
 #include "qtermtextline.h"
 
-#include <QRegExp>
-#include <QString>
-#include <stdio.h>
+#include <QtCore/QRegExp>
+#include <QtCore/QString>
+
+//#include <QtDebug>
 
 namespace QTerm
 {
@@ -36,7 +37,7 @@ TextLine::~TextLine()
 // insert cstr at position index of line,
 // if attrib == -1, use current attr,
 // if index == -1, append line
-void TextLine::insertText(const QByteArray& str, short attribute, int index)
+void TextLine::insertText(const QString & str, short attribute, int index)
 {
     // set attribute
     if (attribute != -1) {
@@ -49,14 +50,14 @@ void TextLine::insertText(const QByteArray& str, short attribute, int index)
     }
 
 
-    int len = str.length();
+    int len = TermString(str).length();
 
     QByteArray tmp;
 
     int start;
 
     if (index == -1) { // append
-        m_text += str;
+        m_text.append(str);
 
         tmp.fill(m_curColor, len);
         m_color += tmp;
@@ -68,7 +69,7 @@ void TextLine::insertText(const QByteArray& str, short attribute, int index)
     } else { // insert
 
         if (index >= m_length) {
-            m_text.insert(index, str.data());
+            m_text.insert(index, str);
             m_length = m_text.length();
 
             tmp.fill(NO_COLOR, index - m_length);
@@ -81,7 +82,7 @@ void TextLine::insertText(const QByteArray& str, short attribute, int index)
             tmp.fill(m_curAttr, len);
             m_attr.insert(index, tmp.data());
         } else {
-            m_text.insert(index, str.data());
+            m_text.insert(index, str);
             m_length = m_text.length();
             tmp.fill(m_curColor, len);
             m_color.insert(index, tmp.data());
@@ -100,7 +101,7 @@ void TextLine::insertText(const QByteArray& str, short attribute, int index)
 // if attr == -1, use the current attr,
 // if index == -1, reset line and insert str.
 // if len == -1, replace str's length chars.
-void TextLine::replaceText(const QByteArray& str, short attribute, int index, int len)
+void TextLine::replaceText(const QString & str, short attribute, int index, int len)
 {
     // set attribute
     if (attribute != -1) {
@@ -112,12 +113,12 @@ void TextLine::replaceText(const QByteArray& str, short attribute, int index, in
             m_curAttr = NO_ATTR;
     }
 
-    int newlen = str.length();
+    int newlen = TermString(str).length();
 
     QByteArray tmp;
 
     if (index == -1) { // replace whole line
-        m_text = str;
+        m_text = TermString(str);
 
         m_color.fill(m_curColor, newlen);
         m_attr.fill(m_curAttr, newlen);
@@ -132,27 +133,29 @@ void TextLine::replaceText(const QByteArray& str, short attribute, int index, in
     if (len == -1)   // replace with  str
         len = newlen;
 
-    if (index >= m_length) {
-        tmp.fill(' ', index - m_length);
+    if (index + len >= m_length) {
+        //qDebug() << "index: " << index << " len: " << len << " string: " << str;
         m_text.replace(index, len, str);
 
         setChanged(index, qMax(m_length, m_text.length()));
 
-        m_length = m_text.length();
-
-
-        tmp.fill(NO_COLOR, index - m_length);
+        tmp.fill(NO_COLOR, index + len - m_length);
         m_color.append(tmp);
         tmp.fill(m_curColor, newlen);
         m_color.replace(index, len, tmp);
 
-        tmp.fill(NO_ATTR, index - m_length);
+        tmp.fill(NO_ATTR, index + len - m_length);
         m_attr.append(tmp);
         tmp.fill(m_curAttr, newlen);
         m_attr.replace(index, len, tmp);
 
+        m_length = m_text.length();
+
     } else {
+        //qDebug() << "string : " << m_text.string() << " old length: " << m_text.length();
+        //qDebug() << "index: " << index << " len: " << len << " string: " << str;
         m_text.replace(index, len, str);
+        //qDebug() << "new length: " << m_text.length() << "," << newlen;
 
         setChanged(index, qMax(m_length, m_text.length()));
 
@@ -163,7 +166,6 @@ void TextLine::replaceText(const QByteArray& str, short attribute, int index, in
         tmp.fill(m_curAttr, newlen);
         m_attr.replace(index, len, tmp);
     }
-
 }
 
 // delete cstr from position index of line,
@@ -195,22 +197,20 @@ void TextLine::deleteText(int index, int len)
 // return str in text for show
 // if index == -1, get the whole line
 // if len == -1, get the rest from index
-QByteArray TextLine::getText(int index, int len)
+QString TextLine::getText(int index, int len)
 {
-    QByteArray str;
+    QString str;
 
     if (index == -1)
-        str = m_text;
-    else if (len == -1)
-        str = m_text.mid(index, len);
+        str = m_text.string();
     else
         str = m_text.mid(index, len);
     return str;
 }
 
-QByteArray TextLine::getAttrText(int index, int len, const QByteArray& escape)
+QString TextLine::getAttrText(int index, int len, const QString & escape)
 {
-    QByteArray str;
+    QString str;
     int startx;
     char tempcp, tempea;
 
@@ -224,7 +224,7 @@ QByteArray TextLine::getAttrText(int index, int len, const QByteArray& escape)
     if (index >= m_length)
         return (char *)NULL;
 
-    qDebug("index=%d len=%d m_length=%d", index, len, m_length);
+    //qDebug("index=%d len=%d m_length=%d", index, len, m_length);
 
     for (int i = index; i < index + len && i < m_length; i++) {
         startx = i;
@@ -239,32 +239,32 @@ QByteArray TextLine::getAttrText(int index, int len, const QByteArray& escape)
 
         int fg = GETFG(tempcp) + 30;
         int bg = GETBG(tempcp) + 40;
-        QByteArray cstrAttr = QString("%1;%2").arg(fg).arg(bg).toLatin1();//QByteArray::setNum(fg)+';'+QByteArray::setNum(bg)+';';
+        QString strAttr = QString("%1;%2").arg(fg).arg(bg).toLatin1();//QByteArray::setNum(fg)+';'+QByteArray::setNum(bg)+';';
 //   cstrAttr.sprintf("%d;%d;", fg, bg );
-        cstrAttr = escape + cstrAttr;
+        strAttr = escape + strAttr;
 
         if (GETBOLD(tempea))
-            cstrAttr += "1;";
+            strAttr += "1;";
         if (GETDIM(tempea))
-            cstrAttr += "2;";
+            strAttr += "2;";
         if (GETUNDERLINE(tempea))
-            cstrAttr += "4;";
+            strAttr += "4;";
         if (GETBLINK(tempea))
-            cstrAttr += "5;";
+            strAttr += "5;";
         if (GETRAPIDBLINK(tempea))
-            cstrAttr += "6;";
+            strAttr += "6;";
         if (GETREVERSE(tempea))
-            cstrAttr += "7;";
+            strAttr += "7;";
         if (GETINVISIBLE(tempea))
-            cstrAttr += "8;";
-        cstrAttr.remove(cstrAttr.length() - 1, 1);
-        cstrAttr += "m";
-        str += cstrAttr; // set attr
+            strAttr += "8;";
+        strAttr.remove(strAttr.length() - 1, 1);
+        strAttr += "m";
+        str += strAttr; // set attr
         // the text
         str += getText(startx, i - startx);
         // reset attr
-        cstrAttr = escape + "0m";
-        str += cstrAttr;
+        strAttr = escape + "0m";
+        str += strAttr;
         i--;
     }
 
@@ -276,7 +276,7 @@ inline void TextLine::reset()
 {
     m_length = 0;
 
-    m_text = "";
+    m_text = TermString();
     m_color = "";
     m_attr = "";
 
@@ -289,6 +289,7 @@ bool TextLine::hasBlink()
 {
     bool blink = false;
 
+    //qDebug() << "m_length: " << m_length << " m_attr " << m_attr.length();
     char tempea;
     for (int i = 0; i < m_length; i++) {
         tempea = m_attr.at(i);
@@ -330,6 +331,11 @@ void TextLine::setChanged(int start, int end)
     }
 
     m_bChanged = true;
+}
+
+int TextLine::pos(int index)
+{
+    return m_text.pos(index);
 }
 
 } // namespace QTerm

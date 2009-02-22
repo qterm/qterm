@@ -203,11 +203,8 @@ void Screen::updateCursor()
 
     if (m_pBuffer->caretY() <= m_nEnd && m_pBuffer->caretY() >= m_nStart) {
         QPoint pt = mapToPixel(QPoint(m_pBuffer->caretX(), m_pBuffer->caretY()));
-        int startx = testChar(m_pBuffer->caretX(), m_pBuffer->caretY());
-        int endx = testChar(m_pBuffer->caretX() + 1, m_pBuffer->caretY());
-        if (startx == m_pBuffer->caretX())
-            if (endx == startx)
-                endx += 2;
+        int startx = m_pBuffer->caretX();
+        int endx = startx+1;
 
         switch (m_pParam->m_nCursorType) {
         case 0: // block
@@ -763,7 +760,7 @@ void Screen::refreshScreen()
           Finally get around this for pku & ytht, don't know why some weird things
           happened when only erase and draw the changed part.
         */
-        startx = testChar(startx, index);
+        //startx = testChar(startx, index);
         painter.fillRect(mapToRect(startx, index, -1, 1), m_color[0]);
         drawLine(painter, index, startx);
         pTextLine->clearChange();
@@ -874,7 +871,7 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
     bool bSelected;
     bool bReverse = false;
     int startx;
-    QByteArray cstrText;
+    QString strText;
     QString strShow;
 
     if (beginx < 0)
@@ -898,8 +895,10 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
     for (uint i = beginx; i < endx;i++) {
         int offset = 0;
         startx = i;
-        tempcp = color.at(i);
-        tempea = attr.at(i);
+        if (i < color.size())
+            tempcp = color.at(i);
+        if (i < attr.size())
+            tempea = attr.at(i);
         bSelected = m_pBuffer->isSelected(QPoint(i, index), m_pWindow->m_bCopyRect);
         // get str of the same attribute
         while (i < endx && tempcp == color.at(i) &&
@@ -914,23 +913,9 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
         else
             tempattr = SETCOLOR(tempcp) | SETATTR(tempea);
 
-        cstrText = pTextLine->getText(startx, i - startx);
-        //qDebug()<<"raw: " << cstrText;
-        QString strShow;
-        if (m_pParam->m_nDispCode != m_pParam->m_nBBSCode) {
-            char * chText;
-            if (m_pParam->m_nBBSCode == 0)
-                chText = m_converter.G2B(cstrText, cstrText.length());
-            else
-                chText = m_converter.B2G(cstrText, cstrText.length());
+        //qDebug() << "startx: " << startx << " i: " << i << " string: " << strShow;
+        strShow = pTextLine->getText(startx, i - startx);
 
-            strShow = m_pCodec->toUnicode(chText);
-
-            delete chText;
-        } else
-            strShow = m_pCodec->toUnicode(cstrText);
-
-        //qDebug() << "string: " << strShow.toLocal8Bit();
         // Draw Charactors one by one to fix the variable font display problem
         for (uint j = 0; j < strShow.length(); ++j) {
             int length = 2;

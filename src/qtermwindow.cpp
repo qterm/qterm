@@ -103,7 +103,7 @@ void DAThread::run()
         // check it there is duplicated string
         // it starts from the end in the range of one screen height
         // so this is a non-greedy match
-        QString strTemp = pWin->stripWhitespace(pWin->m_pBuffer->screen(0)->getText());
+        QString strTemp = pWin->m_pBuffer->screen(0)->getText().simplified();
         int i = 0;
         int start = 0;
         QStringList::Iterator it = strList.end();
@@ -118,8 +118,7 @@ void DAThread::run()
             bool dup = true;
             // match more to see if its duplicated
             for (int j = 0; j <= i; j++, it2++) {
-                QString str1 = pWin->stripWhitespace(
-                                   pWin->m_pBuffer->screen(j)->getText());
+                QString str1 = pWin->m_pBuffer->screen(j)->getText().simplified();
                 if (*it2 != str1) {
                     dup = false;
                     break;
@@ -133,8 +132,7 @@ void DAThread::run()
         }
         // add new lines
         for (i = start;i < pWin->m_pBuffer->line() - 1;i++)
-            strList += pWin->stripWhitespace(
-                           pWin->m_pBuffer->screen(i)->getText());
+            strList += pWin->m_pBuffer->screen(i)->getText().simplified();
 
         // the end of article
         if (pWin->m_pBuffer->screen(
@@ -264,7 +262,17 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
             m_pTelnet, SLOT(windowSizeChanged(int, int)));
     m_pZmDialog = new zmodemDialog(this);
     m_pZmodem = new Zmodem(m_pTelnet, param.m_nProtocolType);
-    m_pDecode = new Decode(m_pBuffer);
+    //FIXME: String from the addrdialog should be used directly.
+    QString codec;
+    if (m_param.m_nBBSCode == 0) {
+        codec = "GBK";
+    } else if (m_param.m_nBBSCode == 1) {
+        codec = "Big5";
+    } else {
+        codec = "UTF-8";
+    }
+
+    m_pDecode = new Decode(m_pBuffer, codec);
     m_pBBS   = new BBS(m_pBuffer);
     m_pScreen = new Screen(this, m_pBuffer, &m_param, m_pBBS);
 
@@ -963,7 +971,7 @@ void Window::readReady(int size)
         // this works for most but not for all
         TextLine * pTextLine = m_pBuffer->screen(m_pBuffer->line() - 1);
 
-        QString strText = stripWhitespace(pTextLine->getText());
+        QString strText = pTextLine->getText().simplified();
         if (m_pBuffer->caret().y() == m_pBuffer->line() - 1 &&
                 m_pBuffer->caret().x() >= strText.length() - 1)
             m_wcWaiting.wakeAll();
@@ -979,7 +987,8 @@ void Window::readReady(int size)
                 if (Global::instance()->m_pref.strPlayer.isEmpty()) {
                     m_pSound = new PhononSound(Global::instance()->m_pref.strWave, this);
                 } else
-#endif { // PHONON_ENABLED
+#endif // PHONON_ENABLED
+                {
                     m_pSound = new ExternalSound(Global::instance()->m_pref.strPlayer,
                                                  Global::instance()->m_pref.strWave, this);
             }
@@ -997,18 +1006,20 @@ void Window::readReady(int size)
 
         m_bMessage = true;
 
-        if (!isActiveWindow() || m_pFrame->wndmgr->activeWindow() != this) {
+        if (!isActiveWindow() || m_pFrame->wndmgr->activeWindow() != this)
+        {
 #ifdef DBUS_ENABLED
             if (DBus::instance()->notificationAvailable()) {
                 QList<DBus::Action> actions;
                 actions.append(DBus::Show_QTerm);
                 DBus::instance()->sendNotification("New Message in QTerm", fromBBSCodec(strMsg.toLatin1()), actions);
             } else
-#endif { //DBUS_ENABLED
+#endif //DBUS_ENABLED
+            {
                 m_popWin->setText(fromBBSCodec(strMsg.toLatin1()));
-            m_popWin->popup();
+                m_popWin->popup();
+            }
         }
-    }
     if (m_bAutoReply) {
 #ifdef HAVE_PYTHON
         if (!pythonCallback("autoReply", Py_BuildValue("(l)", this))) {
