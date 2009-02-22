@@ -12,7 +12,7 @@
 
 // #include <q3mainwindow.h>
 // #include <qcursor.h>
-// 
+//
 // #include <qthread.h>
 
 #include "qtermparam.h"
@@ -56,205 +56,207 @@ class HostInfo;
 // thread copy article
 class DAThread : public QThread
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	DAThread(Window*);
-	~DAThread();
+    DAThread(Window*);
+    ~DAThread();
 
-	virtual void run();
-	QString strArticle;
-	QMutex mutex;
+    virtual void run();
+    QString strArticle;
+    QMutex mutex;
 signals:
-	void done(int);
+    void done(int);
 private:
-	Window *pWin;
+    Window *pWin;
 };
 
 class Window: public QMainWindow
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	Window( Frame * frame,Param param, int addr=-1, QWidget* parent = 0, 
-					const char* name = 0, Qt::WFlags wflags = Qt::Window );
-	~Window();
-	
-	void connectHost();
-	bool isConnected() { return m_bConnected; }
+    Window(Frame * frame, Param param, int addr = -1, QWidget* parent = 0,
+           const char* name = 0, Qt::WFlags wflags = Qt::Window);
+    ~Window();
+
+    void connectHost();
+    bool isConnected() {
+        return m_bConnected;
+    }
 
 public slots:
-	// ui
-	void copy();
-	void paste();
-	void copyArticle();
-	void font();
-	void setting();
-	void color();
-	void runScript();
-	void stopScript();
-	void showStatusBar(bool);
-	void reconnect();
-	void sendParsedString(const char*);
-	void showIP();
+    // ui
+    void copy();
+    void paste();
+    void copyArticle();
+    void font();
+    void setting();
+    void color();
+    void runScript();
+    void stopScript();
+    void showStatusBar(bool);
+    void reconnect();
+    void sendParsedString(const char*);
+    void showIP();
 public:
-	void disconnect();
-	void refresh();
-	void viewMessages();
-	void autoReply(bool);
-	void antiIdle(bool);
+    void disconnect();
+    void refresh();
+    void viewMessages();
+    void autoReply(bool);
+    void antiIdle(bool);
 
-	void runScriptFile(const QString&);
-	void externInput(const QByteArray&);
-	QByteArray stripWhitespace(const QByteArray& cstr);
-	void getHttpHelper(const QString&, bool);
+    void runScriptFile(const QString&);
+    void externInput(const QByteArray&);
+    QByteArray stripWhitespace(const QByteArray& cstr);
+    void getHttpHelper(const QString&, bool);
 
 protected slots:
-	// from Telnet
-	void readReady(int);
-	void TelnetState(int);
-	void ZmodemState(int,int,const QString&);
-  	// timer
-	void idleProcess();
-	void replyProcess();
-	void blinkTab();
-	void inputHandle(QString * text);
+    // from Telnet
+    void readReady(int);
+    void TelnetState(int);
+    void ZmodemState(int, int, const QString&);
+    // timer
+    void idleProcess();
+    void replyProcess();
+    void blinkTab();
+    void inputHandle(QString * text);
 
-	//http menu
-	void previewLink();
-	void openLink();
-	void copyLink();
-	void saveLink();
-	
-	// httpDone
-	void httpDone(QObject*);
+    //http menu
+    void previewLink();
+    void openLink();
+    void copyLink();
+    void saveLink();
 
-	// decode
-	void setMouseMode(bool);
-	void jobDone(int);
+    // httpDone
+    void httpDone(QObject*);
+
+    // decode
+    void setMouseMode(bool);
+    void jobDone(int);
 
 protected:
-	void mouseDoubleClickEvent( QMouseEvent * );
-	void mouseMoveEvent( QMouseEvent * );
-	void mousePressEvent( QMouseEvent * );
-	void mouseReleaseEvent( QMouseEvent * );
-	void wheelEvent( QWheelEvent * );
-	void enterEvent( QEvent * );
-	void leaveEvent( QEvent * );
+    void mouseDoubleClickEvent(QMouseEvent *);
+    void mouseMoveEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent *);
+    void wheelEvent(QWheelEvent *);
+    void enterEvent(QEvent *);
+    void leaveEvent(QEvent *);
 
-//  	void customEvent( QCustomEvent * );
-	/*
-	void imStartEvent (QIMEvent *);
-	void imComposeEvent (QIMEvent *);
-	void imEndEvent (QIMEvent *);
-*/
-	void reconnectProcess();
-	void connectionClosed();
-	void doAutoLogin();
-	void saveSetting();	
-	void replyMessage();
-	
-	void pasteHelper(bool);
-	QByteArray unicode2bbs(const QString&);
+//   void customEvent( QCustomEvent * );
+    /*
+    void imStartEvent (QIMEvent *);
+    void imComposeEvent (QIMEvent *);
+    void imEndEvent (QIMEvent *);
+    */
+    void reconnectProcess();
+    void connectionClosed();
+    void doAutoLogin();
+    void saveSetting();
+    void replyMessage();
 
-	QByteArray parseString( const QByteArray&, int *len=0);
-	QString fromBBSCodec(const QByteArray& cstr);
+    void pasteHelper(bool);
+    QByteArray unicode2bbs(const QString&);
 
-	#ifdef HAVE_PYTHON
-	bool pythonCallback(const QString &, PyObject*);
-	#endif
-	int runPythonFile(const char*);
-	void pythonMouseEvent(int, Qt::KeyboardModifier, Qt::KeyboardModifier, const QPoint&, int);
-	
-	void closeEvent ( QCloseEvent * );
-	void keyPressEvent( QKeyEvent * );
-	
-	void sendMouseState(int, Qt::KeyboardModifier, Qt::KeyboardModifier, const QPoint&);
-		
-	Screen * m_pScreen;
-	Decode * m_pDecode;
-	QMenu *  m_pMenu;
-	QMenu *  m_pUrl;
-	static char direction[][5];
-    QCursor cursor[9];
-	bool m_bConnected;
+    QByteArray parseString(const QByteArray&, int *len = 0);
+    QString fromBBSCodec(const QByteArray& cstr);
 
-	Convert m_converter;
-	
-	bool m_bMessage;
-	QString m_strMessage;
-
-	// mouse select
-	QPoint m_ptSelStart, m_ptSelEnd;	
-	bool m_bSelecting;
-
-	// timer
-	bool m_bIdling;
-	QTimer *m_idleTimer, *m_replyTimer, *m_tabTimer, *m_reconnectTimer, * m_ipTimer;
-	
-	// address setting
-	bool m_bSetChanged;
-	int m_nAddrIndex;
-
-	bool m_bDoingLogin;
-	bool m_bCheckIP;
-
-	// url rect
-	QRect m_rcUrl;
-
-	// 
-	popWidget *m_popWin;
-
-	// download article thread
-	DAThread *m_pDAThread;
-
-	// python 
 #ifdef HAVE_PYTHON
-	PyObject *pModule, *pDict;
+    bool pythonCallback(const QString &, PyObject*);
 #endif
-	bool m_bPythonScriptLoaded;
-	
-	// play sound
-	Sound * m_pSound;
-	Zmodem *m_pZmodem;
+    int runPythonFile(const char*);
+    void pythonMouseEvent(int, Qt::KeyboardModifier, Qt::KeyboardModifier, const QPoint&, int);
 
-	zmodemDialog *m_pZmDialog;
+    void closeEvent(QCloseEvent *);
+    void keyPressEvent(QKeyEvent *);
 
-	// Decode
-	bool m_bMouseX11;
+    void sendMouseState(int, Qt::KeyboardModifier, Qt::KeyboardModifier, const QPoint&);
 
-	//IP location
-	QString location;
-	IPLocation * m_pIPLocation;
+    Screen * m_pScreen;
+    Decode * m_pDecode;
+    QMenu *  m_pMenu;
+    QMenu *  m_pUrl;
+    static char direction[][5];
+    QCursor cursor[9];
+    bool m_bConnected;
 
-	//osd
-	PageViewMessage * m_pMessage;
+    Convert m_converter;
 
-	bool m_bMouseClicked;
+    bool m_bMessage;
+    QString m_strMessage;
+
+    // mouse select
+    QPoint m_ptSelStart, m_ptSelEnd;
+    bool m_bSelecting;
+
+    // timer
+    bool m_bIdling;
+    QTimer *m_idleTimer, *m_replyTimer, *m_tabTimer, *m_reconnectTimer, * m_ipTimer;
+
+    // address setting
+    bool m_bSetChanged;
+    int m_nAddrIndex;
+
+    bool m_bDoingLogin;
+    bool m_bCheckIP;
+
+    // url rect
+    QRect m_rcUrl;
+
+    //
+    popWidget *m_popWin;
+
+    // download article thread
+    DAThread *m_pDAThread;
+
+    // python
+#ifdef HAVE_PYTHON
+    PyObject *pModule, *pDict;
+#endif
+    bool m_bPythonScriptLoaded;
+
+    // play sound
+    Sound * m_pSound;
+    Zmodem *m_pZmodem;
+
+    zmodemDialog *m_pZmDialog;
+
+    // Decode
+    bool m_bMouseX11;
+
+    //IP location
+    QString location;
+    IPLocation * m_pIPLocation;
+
+    //osd
+    PageViewMessage * m_pMessage;
+
+    bool m_bMouseClicked;
 public:
-	Frame * m_pFrame;
-	Buffer * m_pBuffer;
-	Telnet * m_pTelnet;
-	Param m_param;
-	BBS	* m_pBBS;
-	HostInfo * m_hostInfo;
-	// menu and toolbar state
-	bool m_bCopyColor;
-	bool m_bCopyRect;
-	bool m_bAutoCopy;
-	bool m_bWordWrap;
-	bool m_bAntiIdle;
-	bool m_bAutoReply;
-	bool m_bBeep;
-	bool m_bMouse;
-	bool m_bReconnect;
-	friend class Screen;
-	
-	QString m_strPythonError;
+    Frame * m_pFrame;
+    Buffer * m_pBuffer;
+    Telnet * m_pTelnet;
+    Param m_param;
+    BBS * m_pBBS;
+    HostInfo * m_hostInfo;
+    // menu and toolbar state
+    bool m_bCopyColor;
+    bool m_bCopyRect;
+    bool m_bAutoCopy;
+    bool m_bWordWrap;
+    bool m_bAntiIdle;
+    bool m_bAutoReply;
+    bool m_bBeep;
+    bool m_bMouse;
+    bool m_bReconnect;
+    friend class Screen;
 
-	QWaitCondition m_wcWaiting;
+    QString m_strPythonError;
+
+    QWaitCondition m_wcWaiting;
 
 };
 
 } // namespace QTerm
 
-#endif	//QTERMWINDOW_H
+#endif //QTERMWINDOW_H
 
