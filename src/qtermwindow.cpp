@@ -1301,9 +1301,9 @@ void Window::pasteHelper(bool clip)
             }
             i = j;
         }
-        cstrText = m_codec->fromUnicode(strText);
     }
 
+    cstrText = m_codec->fromUnicode(strText);
     m_pTelnet->write(cstrText, cstrText.length());
 }
 void Window::copyArticle()
