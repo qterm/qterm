@@ -2,6 +2,7 @@
 #define QTERMDECODE_H
 
 #include <QtCore/QObject>
+#include <QtCore/QString>
 
 class QTextDecoder;
 
@@ -97,7 +98,7 @@ private:
     static StateOption normalState[], escState[], bracketState[], privateState[];
 
     // ********** decoder  *****************
-    const char *inputData;
+    QString inputData;
     int inputLength, dataIndex;
 
     int nParam, param[30];

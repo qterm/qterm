@@ -119,6 +119,7 @@ StateOption Decode::privateState[] = {
 };
 
 Decode::Decode(Buffer * buffer, QTextCodec * codec)
+    :inputData()
 {
     m_pBuffer = buffer;
 
@@ -144,8 +145,8 @@ Decode::~Decode()
 //void Decode::ansiDecode( const QCString &cstr, int length )
 void Decode::decode(const char *cstr, int length)
 {
-    inputData = cstr;
-    inputLength = length;//inputData.length();
+    inputData = m_decoder->toUnicode(cstr);
+    inputLength = inputData.length();//inputData.length();
 
     dataIndex = 0;
     m_bBell = false;
@@ -193,8 +194,7 @@ void Decode::normalInput()
             && (dataIndex + n) < inputLength)
         n++;
 
-    QByteArray cstr(inputData + dataIndex, n);
-    QString str = m_decoder->toUnicode(cstr);
+    QString str = inputData.mid(dataIndex, n);
     m_pBuffer->setBuffer(str, n);
 
     n--;
@@ -263,7 +263,7 @@ void Decode::paramDigit()
     // make stream into number
     // ( e.g. this input character is '1' and this param is 4
     // after the following sentence this param is changed to 41
-    param[nParam] = param[nParam] * 10 + inputData[dataIndex] - '0';
+    param[nParam] = param[nParam] * 10 + inputData[dataIndex].digitValue();
 }
 
 void Decode::nextParam()
