@@ -23,7 +23,7 @@ Param::Param()
 	m_strPasswd = "";
 	m_strPostLogin = "";
 // Display
-	m_nBBSCode = 0; 
+	m_BBSCode = "UTF-8";
 	m_nDispCode = 0; 
 	m_bAutoFont = 1;
 	m_bAlwaysHighlight = 0;
@@ -77,7 +77,7 @@ Param::Param( const Param & param )
 	m_strPasswd = param.m_strPasswd;
 	m_strPostLogin = param.m_strPostLogin;
 // Display
-	m_nBBSCode = param.m_nBBSCode; 
+	m_BBSCode = param.m_BBSCode;
 	m_nDispCode = param.m_nDispCode; 
 	m_bAutoFont = param.m_bAutoFont;
 	m_bAlwaysHighlight = param.m_bAlwaysHighlight;
@@ -135,7 +135,7 @@ Param& Param::operator=(const Param& param)
 	m_strPasswd = param.m_strPasswd;
 	m_strPostLogin = param.m_strPostLogin;
 // Display
-	m_nBBSCode = param.m_nBBSCode; 
+	m_BBSCode = param.m_BBSCode; 
 	m_nDispCode = param.m_nDispCode; 
 	m_bAutoFont = param.m_bAutoFont;
 	m_bAlwaysHighlight = param.m_bAlwaysHighlight;

@@ -262,18 +262,10 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
             m_pTelnet, SLOT(windowSizeChanged(int, int)));
     m_pZmDialog = new zmodemDialog(this);
     m_pZmodem = new Zmodem(m_pTelnet, param.m_nProtocolType);
-    //FIXME: String from the addrdialog should be used directly.
-    QString codec;
-    if (m_param.m_nBBSCode == 0) {
-        codec = "GBK";
-    } else if (m_param.m_nBBSCode == 1) {
-        codec = "Big5";
-    } else {
-        codec = "UTF-8";
-    }
-    m_codec = QTextCodec::codecForName(codec.toLatin1());
 
-    m_pDecode = new Decode(m_pBuffer, codec);
+    m_codec = QTextCodec::codecForName(param.m_BBSCode.toLatin1());
+
+    m_pDecode = new Decode(m_pBuffer, m_codec);
     m_pBBS   = new BBS(m_pBuffer);
     m_pScreen = new Screen(this, m_pBuffer, &m_param, m_pBBS);
 

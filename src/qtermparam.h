@@ -39,7 +39,7 @@ public:
 	QString m_strPostLogin;
 // Display
 	 // 0--GBK  1--BGI5
-	int m_nBBSCode; 
+	QString m_BBSCode;
 	// 0--GBK 1--BIG5
 	int m_nDispCode; 
 	// Auto Change Font When Window Resized

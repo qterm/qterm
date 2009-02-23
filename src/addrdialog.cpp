@@ -21,6 +21,7 @@
 #include <QPainter>
 #include <QFileDialog>
 #include <QPalette>
+#include <QtCore/QTextCodec>
 namespace QTerm
 {
 
@@ -38,6 +39,11 @@ addrDialog::addrDialog( QWidget* parent, bool partial, Qt::WFlags fl )
 	ui.menuLabel->setAutoFillBackground(true);
 	ui.portSpinBox->setRange(0, 65535);
 	ui.proxyportSpinBox->setRange(0, 65535);
+	QList<QByteArray> codecList = QTextCodec::availableCodecs();
+	QByteArray codecName;
+	foreach (codecName, codecList) {
+		ui.bbscodeComboBox->addItem(QString::fromLatin1(codecName));
+	}
 	if(bPartial)
 	{
 		ui.nameListWidget->hide();
@@ -369,7 +375,7 @@ bool addrDialog::isChanged()
 		param.m_strUser != ui.userLineEdit->text() ||
 		param.m_strPasswd != ui.passwdLineEdit->text() ||
 		param.m_strPostLogin != ui.postloginLineEdit->text() ||
-		param.m_nBBSCode != ui.bbscodeComboBox->currentIndex() ||
+		param.m_BBSCode != ui.bbscodeComboBox->currentText() ||
 		param.m_nDispCode != ui.displaycodeComboBox->currentIndex() ||
 		param.m_bAutoFont != ui.autofontCheckBox->isChecked() ||
 		param.m_bAlwaysHighlight != ui.highlightCheckBox->isChecked() ||
@@ -421,7 +427,7 @@ void addrDialog::updateData(bool save)
 		param.m_strUser = ui.userLineEdit->text();
 		param.m_strPasswd = ui.passwdLineEdit->text();
 		param.m_strPostLogin = ui.postloginLineEdit->text();
-		param.m_nBBSCode = ui.bbscodeComboBox->currentIndex();
+		param.m_BBSCode = ui.bbscodeComboBox->currentText();
 		param.m_nDispCode = ui.displaycodeComboBox->currentIndex();
 		param.m_bAutoFont = ui.autofontCheckBox->isChecked();
 		param.m_bAlwaysHighlight = ui.highlightCheckBox->isChecked();
@@ -477,7 +483,7 @@ void addrDialog::updateData(bool save)
 		ui.userLineEdit->setText(param.m_strUser);
 		ui.passwdLineEdit->setText(param.m_strPasswd );
 		ui.postloginLineEdit->setText(param.m_strPostLogin);
-		ui.bbscodeComboBox->setCurrentIndex(param.m_nBBSCode);
+		ui.bbscodeComboBox->setCurrentIndex(ui.bbscodeComboBox->findText(param.m_BBSCode));
 		ui.displaycodeComboBox->setCurrentIndex(param.m_nDispCode);
 		ui.autofontCheckBox->setChecked(param.m_bAutoFont );
 		ui.highlightCheckBox->setChecked(param.m_bAlwaysHighlight);

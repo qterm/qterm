@@ -152,7 +152,7 @@ bool Global::loadAddress(int n, Param& param)
     param.m_strPostLogin = m_address->getItemValue(strSection, "postlogin").toString();
 
     strTmp = m_address->getItemValue(strSection, "bbscode").toString();
-    param.m_nBBSCode = strTmp.toInt();
+    param.m_BBSCode = strTmp;
     strTmp = m_address->getItemValue(strSection, "displaycode").toString();
     param.m_nDispCode = strTmp.toInt();
     strTmp = m_address->getItemValue(strSection, "autofont").toString();
@@ -242,7 +242,7 @@ void Global::saveAddress(int n, const Param& param)
     m_address->setItemValue(strSection, "password", param.m_strPasswd);
     m_address->setItemValue(strSection, "postlogin", param.m_strPostLogin);
 
-    strTmp.setNum(param.m_nBBSCode);
+    strTmp=param.m_BBSCode;
     m_address->setItemValue(strSection, "bbscode", strTmp);
     strTmp.setNum(param.m_nDispCode);
     m_address->setItemValue(strSection, "displaycode", strTmp);

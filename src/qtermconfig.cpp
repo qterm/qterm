@@ -21,7 +21,7 @@ REVISION:      2001.10.10 first created.
 namespace QTerm
 {
 
-const QString Config::m_version = "1.5";
+const QString Config::m_version = "1.6";
 
 Config::Config(const QString & szFileName)
 {

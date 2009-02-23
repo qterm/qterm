@@ -118,7 +118,7 @@ StateOption Decode::privateState[] = {
     { CHAR_NORMAL,  0,        normalState  }
 };
 
-Decode::Decode(Buffer * buffer, const QString & codec)
+Decode::Decode(Buffer * buffer, QTextCodec * codec)
 {
     m_pBuffer = buffer;
 
@@ -132,9 +132,7 @@ Decode::Decode(Buffer * buffer, const QString & codec)
 
     bCurMode[MODE_MouseX11] = bSaveMode[MODE_MouseX11] = false;
 
-    //qDebug() << "codec: " << codec;
-    m_codec = QTextCodec::codecForName(codec.toLatin1());
-    m_decoder = m_codec->makeDecoder();
+    m_decoder = codec->makeDecoder();
 }
 
 Decode::~Decode()

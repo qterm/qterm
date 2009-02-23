@@ -25,7 +25,7 @@ class Decode : public QObject
     Q_OBJECT
 
 public:
-    Decode(Buffer *, const QString & codec);
+    Decode(Buffer *, QTextCodec * codec);
     ~Decode();
 
     // translate data from telnet socket to our own buffer
@@ -108,7 +108,6 @@ private:
 
     Buffer * m_pBuffer;
 
-    QTextCodec * m_codec;
     QTextDecoder * m_decoder;
 
     bool m_test;

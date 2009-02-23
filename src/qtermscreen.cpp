@@ -107,11 +107,6 @@ Screen::Screen(QWidget *parent, Buffer *buffer, Param *param, BBS *bbs)
     m_blinkScreen = false;
     m_blinkCursor = true;
 
-    if (m_pParam->m_nDispCode == 0)
-        m_pCodec = QTextCodec::codecForName("GBK");
-    else
-        m_pCodec = QTextCodec::codecForName("Big5");
-
 //  switch(m_pParam->m_nMenuType)
 //  {
 //   case 0:
