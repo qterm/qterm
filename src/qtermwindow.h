@@ -107,7 +107,6 @@ public:
 
     void runScriptFile(const QString&);
     void externInput(const QByteArray&);
-    QByteArray stripWhitespace(const QByteArray& cstr);
     void getHttpHelper(const QString&, bool);
 
 protected slots:

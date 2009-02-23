@@ -732,13 +732,8 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
         bool ok;
         QString caption = tr("Open URL");
         QString hint = "url";
-#if (QT_VERSION>=300)
         QString strUrl = QInputDialog::getText(this, caption, hint,
                                                QLineEdit::Normal, QString(m_pBBS->getUrl()), &ok);
-#else
-        QString strUrl = QInputDialog::getText(this, caption, hint,
-                                               QString(m_pBBS->getUrl()), &ok);
-#endif
         if (ok) {
             Global::instance()->openUrl(strUrl);
         }
@@ -1110,9 +1105,7 @@ void Window::ZmodemState(int type, int value, const QString& status)
         m_pZmDialog->setProgress(0);
         m_pZmDialog->clearErrorLog();
         m_pZmDialog->show();
-#if (QT_VERSION>=0x030200)
         m_pZmDialog->setModal(true);
-#endif
         break;
     case    FileEnd:
         /* file transfer ends, str=name */
@@ -1413,10 +1406,7 @@ void Window::viewMessages()
         msg.move(QPoint(x, y));
     }
 
-    if (m_param.m_nBBSCode == 0)
-        msg.ui.msgBrowser->setPlainText(m_strMessage);
-    else
-        msg.ui.msgBrowser->setPlainText(m_strMessage);
+    msg.ui.msgBrowser->setPlainText(m_strMessage);
     msg.exec();
 
     QString strSize = QString("%1 %2 %3 %4").arg(msg.x()).arg(msg.y()).arg(msg.width()).arg(msg.height());
@@ -1654,23 +1644,6 @@ QByteArray Window::unicode2bbs(const QString& text)
     }
 
     return m_codec->fromUnicode(strTmp);
-}
-
-QByteArray Window::stripWhitespace(const QByteArray& cstr)
-{
-    QString cstrText = QString::fromLatin1(cstr);
-
-#if (QT_VERSION>=300)
-    int pos = cstrText.lastIndexOf(QRegExp("[\\S]"));
-#else
-    int pos = cstrText.lastIndexOf(QRegExp("[^\\s]"));
-#endif
-
-    if (pos == -1)
-        cstrText = "";
-    else
-        cstrText.truncate(pos + 1);
-    return cstrText.toLatin1();
 }
 
 void Window::sendParsedString(const char * str)
