@@ -87,7 +87,7 @@ public:
     void clearSelect();
     bool isSelected(const QPoint&, bool);
     bool isSelected(int);
-    QByteArray getSelectText(bool, bool, const QByteArray&);
+    QString getSelectText(bool, bool, const QByteArray&);
     QRect getSelectRect(int, bool);
 
 signals:

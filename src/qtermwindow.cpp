@@ -271,6 +271,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     } else {
         codec = "UTF-8";
     }
+    m_codec = QTextCodec::codecForName(codec.toLatin1());
 
     m_pDecode = new Decode(m_pBuffer, codec);
     m_pBBS   = new BBS(m_pBuffer);
@@ -1239,32 +1240,12 @@ void Window::copy()
 {
     QClipboard *clipboard = QApplication::clipboard();
 
-#if (QT_VERSION>=0x030100)
-    // as most users complain they cant copy from qterm to other program by context ment, we copy
-    // the text to clipboard except mouse selection
-    if (m_param.m_nBBSCode == 0) {
-        clipboard->setText(G2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor,
-                               parseString((const char *)m_param.m_strEscape.toLatin1()))),
-                           QClipboard::Clipboard);
-        clipboard->setText(G2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor,
-                               parseString((const char *)m_param.m_strEscape.toLatin1()))),
-                           QClipboard::Selection);
-    } else {
-        clipboard->setText(B2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor,
-                               parseString((const char *)m_param.m_strEscape.toLatin1()))),
-                           QClipboard::Clipboard);
-        clipboard->setText(B2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor,
-                               parseString((const char *)m_param.m_strEscape.toLatin1()))),
-                           QClipboard::Selection);
-    }
-#else
-    if (m_param.m_nBBSCode == 0)
-        clipboard->setText(G2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor,
-                               parseString((const char *)m_param.m_strEscape))));
-    else
-        clipboard->setText(B2U(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor,
-                               parseString((const char *)m_param.m_strEscape))));
-#endif
+    clipboard->setText(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor,
+                       parseString((const char *)m_param.m_strEscape.toLatin1())),
+                       QClipboard::Clipboard);
+    clipboard->setText(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor,
+                       parseString((const char *)m_param.m_strEscape.toLatin1())),
+                       QClipboard::Selection);
 }
 
 void Window::paste()
@@ -1278,50 +1259,27 @@ void Window::pasteHelper(bool clip)
         return;
 
     QClipboard *clipboard = QApplication::clipboard();
+    QString strText;
     QByteArray cstrText;
 
-    if (Global::instance()->clipCodec() == Global::GBK) {
-#if (QT_VERSION>=0x030100)
-        if (clip)
-            cstrText = U2G(clipboard->text(QClipboard::Clipboard));
-        else
-            cstrText = U2G(clipboard->text(QClipboard::Selection));
-#else
-        cstrText = U2G(clipboard->text());
-#endif
-        if (m_param.m_nBBSCode == 1) {
-            char * str = m_converter.G2B(cstrText, cstrText.length());
-            cstrText = str;
-            delete []str;
-        }
-    } else {
-#if (QT_VERSION>=0x030100)
-        if (clip)
-            cstrText = U2B(clipboard->text(QClipboard::Clipboard));
-        else
-            cstrText = U2B(clipboard->text(QClipboard::Selection));
-#else
-        cstrText = U2B(clipboard->text());
-#endif
-        if (m_param.m_nBBSCode == 0) {
-            char * str = m_converter.B2G(cstrText, cstrText.length());
-            cstrText = str;
-            delete []str;
-        }
+    if (clip)
+        strText = clipboard->text(QClipboard::Clipboard);
+    else
+        strText = clipboard->text(QClipboard::Selection);
+    QString tmp;
+    if (m_param.m_nDispCode == 1) {
+        tmp = m_converter.S2T(strText);
+        strText = tmp;
+    } else if (m_param.m_nDispCode == 2) {
+        tmp = m_converter.T2S(strText);
+        strText = tmp;
     }
 
     if (!Global::instance()->escapeString().isEmpty())
-        cstrText.replace(parseString(Global::instance()->escapeString().toLatin1()),
+        strText.replace(parseString(Global::instance()->escapeString().toLatin1()),
                          parseString((const char *)m_param.m_strEscape.toLatin1()));
 
     if (m_bWordWrap) {
-        // convert to unicode for word wrap
-        QString strText;
-        if (m_param.m_nBBSCode == 0)
-            strText = G2U(cstrText);
-        else
-            strText = B2U(cstrText);
-
         // insert '\n' as needed
         for (uint i = 0; i < strText.length(); i++) {
             uint j = i;
@@ -1343,11 +1301,7 @@ void Window::pasteHelper(bool clip)
             }
             i = j;
         }
-
-        if (m_param.m_nBBSCode == 0)
-            cstrText = U2G(strText);
-        else
-            cstrText = U2B(strText);
+        cstrText = m_codec->fromUnicode(strText);
     }
 
     m_pTelnet->write(cstrText, cstrText.length());
@@ -1700,25 +1654,14 @@ void Window::externInput(const QByteArray& cstrText)
 
 QByteArray Window::unicode2bbs(const QString& text)
 {
-    QByteArray strTmp;
-
-    if (Global::instance()->m_pref.nXIM == 0) {
-        strTmp = U2G(text);
-        if (m_param.m_nBBSCode == 1) {
-            char * str = m_converter.G2B(strTmp, strTmp.length());
-            strTmp = str;
-            delete []str;
-        }
-    } else {
-        strTmp = U2B(text);
-        if (m_param.m_nBBSCode == 0) {
-            char * str = m_converter.B2G(strTmp, strTmp.length());
-            strTmp = str;
-            delete []str;
-        }
+    QString strTmp = text;
+    if (m_param.m_nDispCode == 1) {
+        strTmp = m_converter.S2T(text);
+    } else if (m_param.m_nDispCode == 2) {
+        strTmp = m_converter.T2S(text);
     }
 
-    return strTmp;
+    return m_codec->fromUnicode(strTmp);
 }
 
 QString Window::fromBBSCodec(const QByteArray& cstr)

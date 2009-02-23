@@ -19,6 +19,8 @@ AUTHOR:  kingson
 #include <QtCore/QRegExp>
 #include <QtCore/QRect>
 
+//#include <QtDebug>
+
 namespace QTerm
 {
 
@@ -566,12 +568,12 @@ bool Buffer::isSelected(const QPoint& pt, bool rect)
 
 }
 
-QByteArray Buffer::getSelectText(bool rect, bool color, const QByteArray& escape)
+QString Buffer::getSelectText(bool rect, bool color, const QByteArray& escape)
 {
-    QByteArray cstrSelect = "";
+    QString strSelect = "";
 
     if (m_ptSelStart == m_ptSelEnd)
-        return cstrSelect;
+        return strSelect;
 
     QRect rc;
     QString strTemp;
@@ -584,21 +586,22 @@ QByteArray Buffer::getSelectText(bool rect, bool color, const QByteArray& escape
         else
             strTemp = m_lineList.at(i)->getText(rc.left(), rc.width());
 
+        //qDebug() << strTemp;
         //FIXME: potential problem?
         int pos = strTemp.lastIndexOf(QRegExp("[\\S]"));
         strTemp.truncate(pos + 1);
-        cstrSelect += strTemp.toLatin1();
+        strSelect += strTemp;
 
         // add newline except the last line
         if (i != m_ptSelEnd.y()) {
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
-            cstrSelect += '\r';
+            strSelect += '\r';
 #endif
-            cstrSelect += '\n';
+            strSelect += '\n';
         }
     }
 
-    return cstrSelect;
+    return strSelect;
 }
 
 QRect Buffer::getSelectRect(int index, bool rect)

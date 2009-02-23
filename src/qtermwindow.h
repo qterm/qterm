@@ -34,6 +34,7 @@
 #include <QMutex>
 class QProgressDialog;
 class QScriptEngine;
+class QTextCodec;
 
 namespace QTerm
 {
@@ -231,6 +232,8 @@ protected:
     PageViewMessage * m_pMessage;
 
     bool m_bMouseClicked;
+
+    QTextCodec * m_codec;
 public:
     Frame * m_pFrame;
     Buffer * m_pBuffer;
