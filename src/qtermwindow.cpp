@@ -1414,9 +1414,9 @@ void Window::viewMessages()
     }
 
     if (m_param.m_nBBSCode == 0)
-        msg.ui.msgBrowser->setPlainText(G2U(m_strMessage.toLatin1()));
+        msg.ui.msgBrowser->setPlainText(m_strMessage);
     else
-        msg.ui.msgBrowser->setPlainText(B2U(m_strMessage.toLatin1()));
+        msg.ui.msgBrowser->setPlainText(m_strMessage);
     msg.exec();
 
     QString strSize = QString("%1 %2 %3 %4").arg(msg.x()).arg(msg.y()).arg(msg.width()).arg(msg.height());
@@ -1547,10 +1547,6 @@ void Window::jobDone(int e)
             article.move(QPoint(x, y));
         }
         article.strArticle = m_pDAThread->strArticle;
-        if (m_param.m_nBBSCode == 0)
-            article.strArticle = G2U(m_pDAThread->strArticle.toLatin1());
-        else
-            article.strArticle = B2U(m_pDAThread->strArticle.toLatin1());
         article.ui.textBrowser->setPlainText(article.strArticle);
         article.exec();
         QString strSize = QString("%1 %2 %3 %4").arg(article.x()).arg(article.y()).arg(article.width()).arg(article.height());
@@ -1618,11 +1614,7 @@ void Window::replyMessage()
 
     QByteArray cstrTmp = m_param.m_strReplyKey.toLocal8Bit();
     QByteArray cstr = parseString(cstrTmp.isEmpty() ? QByteArray("^Z") : cstrTmp);
-    //cstr += m_param.m_strAutoReply.toLocal8Bit();
-    if (m_param.m_nBBSCode == 0)
-        cstr += U2G(m_param.m_strAutoReply);
-    else
-        cstr += U2B(m_param.m_strAutoReply);
+    cstr += m_codec->fromUnicode(m_param.m_strAutoReply);
 
     cstr += '\n';
     m_pTelnet->write(cstr, cstr.length());
@@ -2036,19 +2028,12 @@ void Window::previewLink()
 void Window::copyLink()
 {
     QString strUrl;
-    if (m_param.m_nBBSCode == 0)
-        strUrl = G2U(m_pBBS->getUrl().toLatin1());
-    else
-        strUrl = B2U(m_pBBS->getUrl().toLatin1());
+    strUrl = m_pBBS->getUrl();
 
     QClipboard *clipboard = QApplication::clipboard();
 
-#if (QT_VERSION>=0x030100)
     clipboard->setText(strUrl, QClipboard::Selection);
     clipboard->setText(strUrl, QClipboard::Clipboard);
-#else
-    clipboard->setText(strUrl);
-#endif
 }
 
 void Window::saveLink()
