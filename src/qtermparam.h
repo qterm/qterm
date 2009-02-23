@@ -3,6 +3,7 @@
 
 // #include <qstring.h>
 // #include <qcolor.h>
+
 #include <QString>
 #include <QColor>
 namespace QTerm
@@ -41,7 +42,7 @@ public:
 	 // 0--GBK  1--BGI5
 	QString m_BBSCode;
 	// 0--GBK 1--BIG5
-	int m_nDispCode; 
+    int m_nDispCode;
 	// Auto Change Font When Window Resized
 	bool m_bAutoFont;
 	// Always Highlight

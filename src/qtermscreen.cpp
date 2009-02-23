@@ -909,7 +909,8 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
             tempattr = SETCOLOR(tempcp) | SETATTR(tempea);
 
         //qDebug() << "startx: " << startx << " i: " << i << " string: " << strShow;
-        strShow = pTextLine->getText(startx, i - startx);
+        strShow = Global::instance()->convert(pTextLine->getText(startx, i - startx), (Global::Conversion)m_pParam->m_nDispCode);
+
 
         // Draw Charactors one by one to fix the variable font display problem
         for (uint j = 0; j < strShow.length(); ++j) {

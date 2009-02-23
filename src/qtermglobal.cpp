@@ -13,6 +13,7 @@
 #include "qtermglobal.h"
 #include "qtermconfig.h"
 #include "qtermparam.h"
+#include "qtermconvert.h"
 #include "qterm.h"
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
@@ -59,6 +60,7 @@ Global::Global()
     }
     m_config = new Config(m_fileCfg);
     m_address = new Config(m_addrCfg);
+    m_converter = new Convert();
     if (!iniSettings()) {
         m_status = INIT_ERROR;
         return;
@@ -821,6 +823,23 @@ void Global::openUrl(const QString & url)
     command += " &";
 #endif
     system(command.toUtf8().data());
+}
+
+QString Global::convert(const QString & source, Conversion flag)
+{
+    switch (flag) {
+    case No_Conversion:
+        return source;
+    case Simplified_To_Traditional:
+        return m_converter->S2T(source);
+    case Traditional_To_Simplified:
+        return m_converter->T2S(source);
+    default:
+        return source;
+    }
+    // Just in case
+    qDebug("Global::convert: we should not be here");
+    return source;
 }
 
 } // namespace QTerm

@@ -1245,20 +1245,15 @@ void Window::pasteHelper(bool clip)
 
     QClipboard *clipboard = QApplication::clipboard();
     QString strText;
+    QString strTmp;
     QByteArray cstrText;
 
     if (clip)
-        strText = clipboard->text(QClipboard::Clipboard);
+        strTmp = clipboard->text(QClipboard::Clipboard);
     else
-        strText = clipboard->text(QClipboard::Selection);
-    QString tmp;
-    if (m_param.m_nDispCode == 1) {
-        tmp = m_converter.S2T(strText);
-        strText = tmp;
-    } else if (m_param.m_nDispCode == 2) {
-        tmp = m_converter.T2S(strText);
-        strText = tmp;
-    }
+        strTmp = clipboard->text(QClipboard::Selection);
+    // NOTE: m_nDispCode have the same meaning as Global::conversion
+    strText = Global::instance()->convert(strTmp, (Global::Conversion)m_param.m_nDispCode);
 
     if (!Global::instance()->escapeString().isEmpty())
         strText.replace(parseString(Global::instance()->escapeString().toLatin1()),

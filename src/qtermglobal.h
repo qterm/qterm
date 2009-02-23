@@ -22,6 +22,7 @@
 namespace QTerm
 {
 class Config;
+class Convert;
 class Global : public QObject
 {
     Q_OBJECT
@@ -38,6 +39,11 @@ public:
     enum Status {
         INIT_OK,
         INIT_ERROR
+    };
+    enum Conversion {
+        No_Conversion = 0,
+        Simplified_To_Traditional,
+        Traditional_To_Simplified
     };
     struct Pref {
         Codec  nXIM;
@@ -104,6 +110,7 @@ public:
     void saveState( const QByteArray state);
     void cleanup();
     void openUrl(const QString & url);
+    QString convert(const QString & source, Conversion flag);
 
 private:
     Global();
@@ -126,6 +133,7 @@ private:
     bool m_bossColor;
     QString m_escape;
     Codec m_clipCodec;
+    Convert * m_converter;
     bool m_statusBar;
     Position m_scrollPos;
     bool m_fullScreen;

@@ -24,7 +24,7 @@ Param::Param()
 	m_strPostLogin = "";
 // Display
 	m_BBSCode = "UTF-8";
-	m_nDispCode = 0; 
+	m_nDispCode = 0;
 	m_bAutoFont = 1;
 	m_bAlwaysHighlight = 0;
 	m_bAnsiColor = 1;
