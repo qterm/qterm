@@ -1106,7 +1106,7 @@ void Window::ZmodemState(int type, int value, const QString& status)
     case    FileBegin:
         /* file transfer begins, str=name */
 //                qWarning("starting file %s", status);
-        m_pZmDialog->setFileInfo(G2U(status.toLatin1()), value);
+        m_pZmDialog->setFileInfo(m_codec->toUnicode(status.toLatin1()), value);
         m_pZmDialog->setProgress(0);
         m_pZmDialog->clearErrorLog();
         m_pZmDialog->show();
@@ -1368,7 +1368,7 @@ void Window::showIP()
     QString country, city;
     QString url = m_pBBS->getIP();
     if (m_pIPLocation->getLocation(url, country, city)) {
-        m_pMessage->display(G2U((country + city).toLatin1()), PageViewMessage::Info, 100);
+        m_pMessage->display(m_codec->toUnicode((country + city).toLatin1()), PageViewMessage::Info, 100);
     }
 }
 
