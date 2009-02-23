@@ -104,6 +104,9 @@ void TextLine::insertText(const QString & str, short attribute, int index)
 void TextLine::replaceText(const QString & str, short attribute, int index, int len)
 {
     // set attribute
+    if (str.isEmpty()) { // Return if the string is empty
+        return;
+    }
     if (attribute != -1) {
         m_curColor = GETCOLOR(attribute);
         if (m_curColor == '\0')
