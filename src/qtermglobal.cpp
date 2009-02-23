@@ -685,13 +685,7 @@ void Global::loadConfig()
     setEscapeString("");
 
     strTmp = m_config->getItemValue("global", "clipcodec").toString();
-    if (strTmp == "0") {
-        setClipConversion(Global::No_Conversion);
-    } else if (strTmp == "1") {
-        setClipConversion(Global::Simplified_To_Traditional);
-    } else if (strTmp == "2") {
-        setClipConversion(Global::Traditional_To_Simplified);
-    }
+    setClipConversion((Global::Conversion)strTmp.toInt());
 
     strTmp = m_config->getItemValue("global", "vscrollpos").toString();
     if (strTmp == "0") {
