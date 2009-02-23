@@ -159,8 +159,6 @@ protected:
     QByteArray unicode2bbs(const QString&);
 
     QByteArray parseString(const QByteArray&, int *len = 0);
-    QString fromBBSCodec(const QByteArray& cstr);
-
 #ifdef HAVE_PYTHON
     bool pythonCallback(const QString &, PyObject*);
 #endif

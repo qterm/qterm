@@ -1013,11 +1013,11 @@ void Window::readReady(int size)
             if (DBus::instance()->notificationAvailable()) {
                 QList<DBus::Action> actions;
                 actions.append(DBus::Show_QTerm);
-                DBus::instance()->sendNotification("New Message in QTerm", fromBBSCodec(strMsg.toLatin1()), actions);
+                DBus::instance()->sendNotification("New Message in QTerm", strMsg, actions);
             } else
 #endif //DBUS_ENABLED
             {
-                m_popWin->setText(fromBBSCodec(strMsg.toLatin1()));
+                m_popWin->setText(strMsg);
                 m_popWin->popup();
             }
         }
@@ -1662,14 +1662,6 @@ QByteArray Window::unicode2bbs(const QString& text)
     }
 
     return m_codec->fromUnicode(strTmp);
-}
-
-QString Window::fromBBSCodec(const QByteArray& cstr)
-{
-    if (m_param.m_nBBSCode == 0)
-        return G2U(cstr);
-    else
-        return B2U(cstr);
 }
 
 QByteArray Window::stripWhitespace(const QByteArray& cstr)
