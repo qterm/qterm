@@ -151,8 +151,9 @@ protected:
     QAction * m_escescAction;
     QAction * m_uescAction;
     QAction * m_customescAction;
-    QAction * m_GBKAction;
-    QAction * m_BIG5Action;
+    QAction * m_NoConvAction;
+    QAction * m_S2TAction;
+    QAction * m_T2SAction;
 
     QAction * m_fontAction;
     QAction * m_colorAction;

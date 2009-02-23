@@ -180,10 +180,19 @@ void Frame::iniSetting()
 
     m_noescAction->setChecked(true);
 
-    if (Global::instance()->clipCodec() == Global::GBK) {
-        m_GBKAction->setChecked(true);
-    } else {
-        m_BIG5Action->setChecked(true);
+    switch (Global::instance()->clipConversion()) {
+    case Global::No_Conversion:
+        m_NoConvAction->setChecked(true);
+        break;
+    case Global::Simplified_To_Traditional:
+        m_S2TAction->setChecked(true);
+        break;
+    case Global::Traditional_To_Simplified:
+        m_T2SAction->setChecked(true);
+        break;
+    default:
+        qDebug("ClipboardConversion: we should not be here");
+        break;
     }
 
     if (Global::instance()->scrollPosition() == Global::Hide) {
@@ -504,10 +513,12 @@ void Frame::updateESC(QAction * action)
 
 void Frame::updateCodec(QAction * action)
 {
-    if (action->objectName() == "actionGBK") {
-        Global::instance()->setClipCodec(Global::GBK);
-    } else if (action->objectName() == "actionBig5") {
-        Global::instance()->setClipCodec(Global::Big5);
+    if (action->objectName() == "actionNoConversion") {
+        Global::instance()->setClipConversion(Global::No_Conversion);
+    } else if (action->objectName() == "actionS2T") {
+        Global::instance()->setClipConversion(Global::Simplified_To_Traditional);
+    } else if (action->objectName() == "actionT2S") {
+        Global::instance()->setClipConversion(Global::Traditional_To_Simplified);
     } else {
         qDebug("updateCodec: should not be here");
     }
@@ -853,14 +864,18 @@ void Frame::initActions()
     escapeGroup->addAction(m_customescAction);
 
     QActionGroup * codecGroup = new QActionGroup(this);
-    m_GBKAction = new QAction(tr("&GBK"), this);
-    m_GBKAction->setObjectName("actionGBK");
-    m_GBKAction->setCheckable(true);
-    m_BIG5Action = new QAction(tr("&Big5"), this);
-    m_BIG5Action->setObjectName("actionBig5");
-    m_BIG5Action->setCheckable(true);
-    codecGroup->addAction(m_GBKAction);
-    codecGroup->addAction(m_BIG5Action);
+    m_NoConvAction = new QAction(tr("&No Conversion"), this);
+    m_NoConvAction->setObjectName("actionNoConversion");
+    m_NoConvAction->setCheckable(true);
+    m_S2TAction = new QAction(tr("&Simplified to Traditional"), this);
+    m_S2TAction->setObjectName("actionS2T");
+    m_S2TAction->setCheckable(true);
+    m_T2SAction = new QAction(tr("&Traditional to Simplified"), this);
+    m_T2SAction->setObjectName("actionBig5");
+    m_T2SAction->setCheckable(true);
+    codecGroup->addAction(m_NoConvAction);
+    codecGroup->addAction(m_S2TAction);
+    codecGroup->addAction(m_T2SAction);
 
     m_fontAction = new QAction(QPixmap(pathLib + "pic/fonts.png"), tr("&Font"), this);
     m_fontAction->setObjectName("actionFont");
@@ -1046,9 +1061,10 @@ void Frame::addMainMenu()
     escapeMenu->addAction(m_customescAction);
     edit->addMenu(escapeMenu);
 
-    QMenu * codecMenu = new QMenu(tr("Clipboard &encoding"), this);
-    codecMenu->addAction(m_GBKAction);
-    codecMenu->addAction(m_BIG5Action);
+    QMenu * codecMenu = new QMenu(tr("Clipboard Chinese &conversion"), this);
+    codecMenu->addAction(m_NoConvAction);
+    codecMenu->addAction(m_S2TAction);
+    codecMenu->addAction(m_T2SAction);
     edit->addMenu(codecMenu);
 
     //View menu

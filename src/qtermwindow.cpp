@@ -1252,8 +1252,7 @@ void Window::pasteHelper(bool clip)
         strTmp = clipboard->text(QClipboard::Clipboard);
     else
         strTmp = clipboard->text(QClipboard::Selection);
-    // NOTE: m_nDispCode have the same meaning as Global::conversion
-    strText = Global::instance()->convert(strTmp, (Global::Conversion)m_param.m_nDispCode);
+    strText = Global::instance()->convert(strTmp, (Global::Conversion)Global::instance()->clipConversion());
 
     if (!Global::instance()->escapeString().isEmpty())
         strText.replace(parseString(Global::instance()->escapeString().toLatin1()),

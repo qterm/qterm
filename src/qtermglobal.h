@@ -82,7 +82,7 @@ public:
     enum Position {Hide, Left, Right};
     bool isBossColor() const;
     const QString & escapeString() const;
-    Codec clipCodec() const;
+    Conversion clipConversion() const;
     Language language() const;
     bool showStatusBar() const;
     Position scrollPosition() const;
@@ -91,7 +91,7 @@ public:
     bool showToolBar(const QString & toolbar);
     const QString & style() const;
 
-    void setClipCodec(Codec codecId);
+    void setClipConversion(Conversion conversionId);
     void setEscapeString(const QString & escapeString);
     void setScrollPosition(Position position);
     void setStatusBar(bool isShow); //Better name?
@@ -132,7 +132,7 @@ private:
     QString m_style;
     bool m_bossColor;
     QString m_escape;
-    Codec m_clipCodec;
+    Conversion m_clipConversion;
     Convert * m_converter;
     bool m_statusBar;
     Position m_scrollPos;

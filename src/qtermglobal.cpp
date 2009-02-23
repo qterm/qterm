@@ -589,9 +589,9 @@ const QString & Global::escapeString() const
     return m_escape;
 }
 
-Global::Codec Global::clipCodec() const
+Global::Conversion Global::clipConversion() const
 {
-    return m_clipCodec;
+    return m_clipConversion;
 }
 
 Global::Language Global::language() const
@@ -619,9 +619,9 @@ bool Global::showSwitchBar() const
     return m_switchBar;
 }
 
-void Global::setClipCodec(Global::Codec codec)
+void Global::setClipConversion(Global::Conversion conversionId)
 {
-    m_clipCodec = codec;
+    m_clipConversion = conversionId;
 }
 
 void Global::setEscapeString(const QString & escapeString)
@@ -686,9 +686,11 @@ void Global::loadConfig()
 
     strTmp = m_config->getItemValue("global", "clipcodec").toString();
     if (strTmp == "0") {
-        setClipCodec(Global::GBK);
-    } else {
-        setClipCodec(Global::Big5);
+        setClipConversion(Global::No_Conversion);
+    } else if (strTmp == "1") {
+        setClipConversion(Global::Simplified_To_Traditional);
+    } else if (strTmp == "2") {
+        setClipConversion(Global::Traditional_To_Simplified);
     }
 
     strTmp = m_config->getItemValue("global", "vscrollpos").toString();
@@ -764,7 +766,7 @@ void Global::saveConfig()
 
 
     // Should we convert the numbers to strings like "GBK" and "Big5";
-    strTmp.setNum(clipCodec());
+    strTmp.setNum(clipConversion());
     m_config->setItemValue("global", "clipcodec", strTmp);
 
     strTmp.setNum(scrollPosition());
@@ -825,7 +827,7 @@ void Global::openUrl(const QString & url)
     system(command.toUtf8().data());
 }
 
-QString Global::convert(const QString & source, Conversion flag)
+QString Global::convert(const QString & source, Global::Conversion flag)
 {
     switch (flag) {
     case No_Conversion:
