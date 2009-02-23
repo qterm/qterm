@@ -227,7 +227,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Text Conversion</string>
+      <string>Text Conversion:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
