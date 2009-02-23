@@ -227,7 +227,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Display Code:</string>
+      <string>Text Conversion</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -247,12 +247,17 @@
      </property>
      <item>
       <property name="text">
-       <string>GBK</string>
+       <string>No Conversion</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>BIG5</string>
+       <string>Simplified Chinese to Traditional Chinese</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Traditional Chinese to Simplified Chinese</string>
       </property>
      </item>
     </widget>
