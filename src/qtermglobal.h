@@ -46,7 +46,7 @@ public:
         Traditional_To_Simplified
     };
     struct Pref {
-        Codec  nXIM;
+        Conversion XIM;
         int  nWordWrap;
         bool bWheel;
         bool bWarn;

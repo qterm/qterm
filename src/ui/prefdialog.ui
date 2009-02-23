@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>prefDialog</class>
- <widget class="QDialog" name="prefDialog" >
-  <property name="geometry" >
+ <widget class="QDialog" name="prefDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,29 +10,29 @@
     <height>551</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="minimumSize" >
+  <property name="minimumSize">
    <size>
     <width>648</width>
     <height>551</height>
    </size>
   </property>
-  <property name="maximumSize" >
+  <property name="maximumSize">
    <size>
     <width>648</width>
     <height>551</height>
    </size>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Preference</string>
   </property>
-  <widget class="QPushButton" name="cancelPushButton" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="cancelPushButton">
+   <property name="geometry">
     <rect>
      <x>560</x>
      <y>510</y>
@@ -39,12 +40,12 @@
      <height>32</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Cancel</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="okPushButton" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="okPushButton">
+   <property name="geometry">
     <rect>
      <x>470</x>
      <y>510</y>
@@ -52,12 +53,12 @@
      <height>32</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>OK</string>
    </property>
   </widget>
-  <widget class="QTabWidget" name="tabWidget" >
-   <property name="geometry" >
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
@@ -65,21 +66,21 @@
      <height>491</height>
     </rect>
    </property>
-   <property name="sizePolicy" >
-    <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <property name="currentIndex" >
-    <number>1</number>
+   <property name="currentIndex">
+    <number>0</number>
    </property>
-   <widget class="QWidget" name="tab_2" >
-    <attribute name="title" >
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
      <string>Internal Settings</string>
     </attribute>
-    <widget class="QCheckBox" name="wheelCheckBox" >
-     <property name="geometry" >
+    <widget class="QCheckBox" name="wheelCheckBox">
+     <property name="geometry">
       <rect>
        <x>190</x>
        <y>150</y>
@@ -87,12 +88,12 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Alternative Mouse Wheel Control</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="aacheckBox" >
-     <property name="geometry" >
+    <widget class="QCheckBox" name="aacheckBox">
+     <property name="geometry">
       <rect>
        <x>190</x>
        <y>310</y>
@@ -100,12 +101,12 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Anti-Aliasing</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="warnCheckBox" >
-     <property name="geometry" >
+    <widget class="QCheckBox" name="warnCheckBox">
+     <property name="geometry">
       <rect>
        <x>190</x>
        <y>270</y>
@@ -113,12 +114,12 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Warn When Exit Connected</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="trayCheckBox" >
-     <property name="geometry" >
+    <widget class="QCheckBox" name="trayCheckBox">
+     <property name="geometry">
       <rect>
        <x>190</x>
        <y>350</y>
@@ -126,12 +127,12 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Show System Tray Icon</string>
      </property>
     </widget>
-    <widget class="QLabel" name="TextLabel1_2" >
-     <property name="geometry" >
+    <widget class="QLabel" name="TextLabel1_2">
+     <property name="geometry">
       <rect>
        <x>20</x>
        <y>110</y>
@@ -139,15 +140,15 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Paste Word-Wrap at:</string>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QCheckBox" name="blinkCheckBox" >
-     <property name="geometry" >
+    <widget class="QCheckBox" name="blinkCheckBox">
+     <property name="geometry">
       <rect>
        <x>190</x>
        <y>230</y>
@@ -155,12 +156,12 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Blink Tab When Receive Message</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="clearCheckBox" >
-     <property name="geometry" >
+    <widget class="QCheckBox" name="clearCheckBox">
+     <property name="geometry">
       <rect>
        <x>190</x>
        <y>390</y>
@@ -168,12 +169,12 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Clear ZModem and HTTP directory When Exit</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="urlCheckBox" >
-     <property name="geometry" >
+    <widget class="QCheckBox" name="urlCheckBox">
+     <property name="geometry">
       <rect>
        <x>190</x>
        <y>190</y>
@@ -181,12 +182,12 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Detect URL When Mouse Move</string>
      </property>
     </widget>
-    <widget class="QLabel" name="TextLabel1" >
-     <property name="geometry" >
+    <widget class="QLabel" name="TextLabel1">
+     <property name="geometry">
       <rect>
        <x>20</x>
        <y>70</y>
@@ -194,18 +195,18 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
-      <string>Input Method:</string>
+     <property name="text">
+      <string>Input Conversion:</string>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
-     <property name="buddy" >
+     <property name="buddy">
       <cstring>ximComboBox</cstring>
      </property>
     </widget>
-    <widget class="QComboBox" name="ximComboBox" >
-     <property name="geometry" >
+    <widget class="QComboBox" name="ximComboBox">
+     <property name="geometry">
       <rect>
        <x>190</x>
        <y>70</y>
@@ -214,18 +215,23 @@
       </rect>
      </property>
      <item>
-      <property name="text" >
-       <string>GBK</string>
+      <property name="text">
+       <string>No Conversion</string>
       </property>
      </item>
      <item>
-      <property name="text" >
-       <string>BIG5</string>
+      <property name="text">
+       <string>Simplified to Traditional</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Traditional to Simplified</string>
       </property>
      </item>
     </widget>
-    <widget class="QWidget" name="layoutWidget_2" >
-     <property name="geometry" >
+    <widget class="QWidget" name="layoutWidget_2">
+     <property name="geometry">
       <rect>
        <x>20</x>
        <y>20</y>
@@ -233,29 +239,29 @@
        <height>34</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3" >
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="QLabel" name="boldLabel_3" >
-        <property name="font" >
+       <widget class="QLabel" name="boldLabel_3">
+        <property name="font">
          <font>
           <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Miscellaneous Options:</string>
         </property>
-        <property name="alignment" >
+        <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_9" >
-        <property name="orientation" >
+       <spacer name="horizontalSpacer_9">
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>368</width>
           <height>32</height>
@@ -265,8 +271,8 @@
       </item>
      </layout>
     </widget>
-    <widget class="QSpinBox" name="wordSpinBox" >
-     <property name="geometry" >
+    <widget class="QSpinBox" name="wordSpinBox">
+     <property name="geometry">
       <rect>
        <x>190</x>
        <y>110</y>
@@ -276,12 +282,12 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab" >
-    <attribute name="title" >
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
      <string>External Settings</string>
     </attribute>
-    <widget class="QLineEdit" name="httpLineEdit" >
-     <property name="geometry" >
+    <widget class="QLineEdit" name="httpLineEdit">
+     <property name="geometry">
       <rect>
        <x>210</x>
        <y>260</y>
@@ -290,8 +296,8 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="textLabel1_2" >
-     <property name="geometry" >
+    <widget class="QLabel" name="textLabel1_2">
+     <property name="geometry">
       <rect>
        <x>40</x>
        <y>300</y>
@@ -299,18 +305,18 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Image Viewer:</string>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
-     <property name="buddy" >
+     <property name="buddy">
       <cstring>imageLineEdit</cstring>
      </property>
     </widget>
-    <widget class="QPushButton" name="choosehttpPushButton" >
-     <property name="geometry" >
+    <widget class="QPushButton" name="choosehttpPushButton">
+     <property name="geometry">
       <rect>
        <x>480</x>
        <y>260</y>
@@ -318,12 +324,12 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Choose...</string>
      </property>
     </widget>
-    <widget class="QLabel" name="TextLabel3" >
-     <property name="geometry" >
+    <widget class="QLabel" name="TextLabel3">
+     <property name="geometry">
       <rect>
        <x>40</x>
        <y>260</y>
@@ -331,18 +337,18 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>HTTP Browser:</string>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
-     <property name="buddy" >
+     <property name="buddy">
       <cstring>httpLineEdit</cstring>
      </property>
     </widget>
-    <widget class="QLineEdit" name="imageLineEdit" >
-     <property name="geometry" >
+    <widget class="QLineEdit" name="imageLineEdit">
+     <property name="geometry">
       <rect>
        <x>210</x>
        <y>300</y>
@@ -351,8 +357,8 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="imagePushButton" >
-     <property name="geometry" >
+    <widget class="QPushButton" name="imagePushButton">
+     <property name="geometry">
       <rect>
        <x>480</x>
        <y>300</y>
@@ -360,12 +366,12 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Choose...</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="selectsoundPushButton" >
-     <property name="geometry" >
+    <widget class="QPushButton" name="selectsoundPushButton">
+     <property name="geometry">
       <rect>
        <x>480</x>
        <y>150</y>
@@ -373,12 +379,12 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Browse...</string>
      </property>
     </widget>
-    <widget class="QLabel" name="textLabel1_4" >
-     <property name="geometry" >
+    <widget class="QLabel" name="textLabel1_4">
+     <property name="geometry">
       <rect>
        <x>40</x>
        <y>340</y>
@@ -386,18 +392,18 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Sound Player:</string>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
-     <property name="buddy" >
+     <property name="buddy">
       <cstring>playerLineEdit</cstring>
      </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget" >
-     <property name="geometry" >
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
       <rect>
        <x>20</x>
        <y>210</y>
@@ -405,29 +411,29 @@
        <height>34</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout" >
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLabel" name="boldLabel_1" >
-        <property name="font" >
+       <widget class="QLabel" name="boldLabel_1">
+        <property name="font">
          <font>
           <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>External Applications:</string>
         </property>
-        <property name="alignment" >
+        <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_7" >
-        <property name="orientation" >
+       <spacer name="horizontalSpacer_7">
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>368</width>
           <height>32</height>
@@ -437,8 +443,8 @@
       </item>
      </layout>
     </widget>
-    <widget class="QLineEdit" name="playerLineEdit" >
-     <property name="geometry" >
+    <widget class="QLineEdit" name="playerLineEdit">
+     <property name="geometry">
       <rect>
        <x>210</x>
        <y>340</y>
@@ -447,8 +453,8 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="poolLineEdit" >
-     <property name="geometry" >
+    <widget class="QLineEdit" name="poolLineEdit">
+     <property name="geometry">
       <rect>
        <x>210</x>
        <y>110</y>
@@ -457,8 +463,8 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="poolPushButton" >
-     <property name="geometry" >
+    <widget class="QPushButton" name="poolPushButton">
+     <property name="geometry">
       <rect>
        <x>480</x>
        <y>110</y>
@@ -466,12 +472,12 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Browse...</string>
      </property>
     </widget>
-    <widget class="QLabel" name="textLabel1_3" >
-     <property name="geometry" >
+    <widget class="QLabel" name="textLabel1_3">
+     <property name="geometry">
       <rect>
        <x>40</x>
        <y>110</y>
@@ -479,18 +485,18 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>HTTP Directory:</string>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
-     <property name="buddy" >
+     <property name="buddy">
       <cstring>poolLineEdit</cstring>
      </property>
     </widget>
-    <widget class="QLineEdit" name="zmodemLineEdit" >
-     <property name="geometry" >
+    <widget class="QLineEdit" name="zmodemLineEdit">
+     <property name="geometry">
       <rect>
        <x>210</x>
        <y>70</y>
@@ -499,8 +505,8 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="selectPlayerPushButton" >
-     <property name="geometry" >
+    <widget class="QPushButton" name="selectPlayerPushButton">
+     <property name="geometry">
       <rect>
        <x>480</x>
        <y>340</y>
@@ -508,12 +514,12 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Choose...</string>
      </property>
     </widget>
-    <widget class="QLabel" name="textLabel1" >
-     <property name="geometry" >
+    <widget class="QLabel" name="textLabel1">
+     <property name="geometry">
       <rect>
        <x>40</x>
        <y>70</y>
@@ -521,18 +527,18 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Zmodem Directory:</string>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
-     <property name="buddy" >
+     <property name="buddy">
       <cstring>zmodemLineEdit</cstring>
      </property>
     </widget>
-    <widget class="QLineEdit" name="wavefileLineEdit" >
-     <property name="geometry" >
+    <widget class="QLineEdit" name="wavefileLineEdit">
+     <property name="geometry">
       <rect>
        <x>210</x>
        <y>150</y>
@@ -541,8 +547,8 @@
       </rect>
      </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget_3" >
-     <property name="geometry" >
+    <widget class="QWidget" name="layoutWidget_3">
+     <property name="geometry">
       <rect>
        <x>20</x>
        <y>20</y>
@@ -550,29 +556,29 @@
        <height>34</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2" >
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QLabel" name="boldLabel_2" >
-        <property name="font" >
+       <widget class="QLabel" name="boldLabel_2">
+        <property name="font">
          <font>
           <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Directories and Files:</string>
         </property>
-        <property name="alignment" >
+        <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_8" >
-        <property name="orientation" >
+       <spacer name="horizontalSpacer_8">
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>368</width>
           <height>32</height>
@@ -582,8 +588,8 @@
       </item>
      </layout>
     </widget>
-    <widget class="QPushButton" name="browsePushButton" >
-     <property name="geometry" >
+    <widget class="QPushButton" name="browsePushButton">
+     <property name="geometry">
       <rect>
        <x>480</x>
        <y>70</y>
@@ -591,12 +597,12 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Browse...</string>
      </property>
     </widget>
-    <widget class="QLabel" name="textLabel1_5" >
-     <property name="geometry" >
+    <widget class="QLabel" name="textLabel1_5">
+     <property name="geometry">
       <rect>
        <x>40</x>
        <y>150</y>
@@ -604,20 +610,20 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Sound File:</string>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
-     <property name="buddy" >
+     <property name="buddy">
       <cstring>wavefileLineEdit</cstring>
      </property>
     </widget>
    </widget>
   </widget>
-  <widget class="QPushButton" name="resetPushButton" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="resetPushButton">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>510</y>
@@ -625,12 +631,12 @@
      <height>32</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Reset</string>
    </property>
   </widget>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>ximComboBox</tabstop>

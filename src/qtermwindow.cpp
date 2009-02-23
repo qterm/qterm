@@ -1622,13 +1622,7 @@ void Window::externInput(const QByteArray& cstrText)
 
 QByteArray Window::unicode2bbs(const QString& text)
 {
-    QString strTmp = text;
-    if (m_param.m_nDispCode == 1) {
-        strTmp = m_converter.S2T(text);
-    } else if (m_param.m_nDispCode == 2) {
-        strTmp = m_converter.T2S(text);
-    }
-
+    QString strTmp = Global::instance()->convert(text, Global::instance()->m_pref.XIM);
     return m_codec->fromUnicode(strTmp);
 }
 

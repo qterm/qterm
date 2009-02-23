@@ -308,7 +308,7 @@ void Global::loadPrefence()
 {
     QString strTmp;
     strTmp = m_config->getItemValue("preference", "xim").toString();
-    m_pref.nXIM = strTmp.toInt() == 0 ? GBK : Big5;
+    m_pref.XIM = (Global::Conversion)strTmp.toInt();
     strTmp = m_config->getItemValue("preference", "wordwrap").toString();
     m_pref.nWordWrap = strTmp.toInt();
     strTmp = m_config->getItemValue("preference", "wheel").toString();
