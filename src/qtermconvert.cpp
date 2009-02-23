@@ -12,6 +12,9 @@
  
 #include "qtermconvert.h"
 
+#include <QtCore/QTextCodec>
+#include <QtCore/QByteArray>
+
 #define BtoG_bad1 0xa1
 #define BtoG_bad2 0xf5
 #define GtoB_bad1 0xa1
@@ -22,9 +25,30 @@
 #define MAKEWORD(c1,c2) ( (c1)<<8 & 0xff00 ) | c2
 namespace QTerm
 {
-Convert::Convert( ){}
+
+Convert::Convert()
+{
+	m_gbk = QTextCodec::codecForName("GBK");
+	m_big5 = QTextCodec::codecForName("Big5");
+}
 
 Convert::~Convert( ){}
+
+QString Convert::S2T(const QString & source)
+{
+	QByteArray tmp = m_gbk->fromUnicode(source);
+	char * str = G2B(tmp.data(), tmp.size());
+	QString result = m_big5->toUnicode(str);
+	return result;
+}
+
+QString Convert::T2S(const QString & source)
+{
+	QByteArray tmp = m_big5->fromUnicode(source);
+	char * str = B2G(tmp.data(), tmp.size());
+	QString result = m_gbk->toUnicode(str);
+	return result;
+}
 
 char * Convert::G2B( const char * string, int length )
 {
