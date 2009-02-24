@@ -44,11 +44,11 @@ void Config::upgrade()
 {
     QStringList keys = m_settings->allKeys();
 
-    QByteArray data;
-    foreach (QString eachKey, keys) {
-        data = m_settings->value(eachKey).toByteArray();
-        m_settings->setValue(eachKey,QString::fromUtf8(data.data()));
-    }
+    //QByteArray data;
+    //foreach (QString eachKey, keys) {
+    //    data = m_settings->value(eachKey).toByteArray();
+    //    m_settings->setValue(eachKey,QString::fromUtf8(data.data()));
+    //}
     if (!m_settings->contains("version")) {
         m_settings->setValue("version", m_version);
     }
