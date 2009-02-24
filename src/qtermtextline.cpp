@@ -341,5 +341,10 @@ int TextLine::pos(int index)
     return m_text.pos(index);
 }
 
+bool TextLine::isPartial(int index)
+{
+    return m_text.isPartial(index);
+}
+
 } // namespace QTerm
 

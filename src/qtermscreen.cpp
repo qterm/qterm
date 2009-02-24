@@ -198,12 +198,19 @@ void Screen::updateCursor()
 
     if (m_pBuffer->caretY() <= m_nEnd && m_pBuffer->caretY() >= m_nStart) {
         QPoint pt = mapToPixel(QPoint(m_pBuffer->caretX(), m_pBuffer->caretY()));
+        int linelength = m_pBuffer->at(m_pBuffer->caretY())->getLength();
         int startx = m_pBuffer->caretX();
-        int endx = startx+1;
 
         switch (m_pParam->m_nCursorType) {
         case 0: // block
-            drawLine(painter, m_pBuffer->caretY(), startx, endx, false);
+            if (startx < linelength) {
+                drawLine(painter, m_pBuffer->caretY(), startx, startx, false);
+            } else {
+                if (m_bCursor)
+                    painter.fillRect(pt.x(), pt.y(), m_nCharWidth, m_nCharHeight, m_color[7]);
+                else
+                    painter.fillRect(pt.x(), pt.y(), m_nCharWidth, m_nCharHeight, m_color[0]);
+            }
             break;
         case 1: // underline
             if (m_bCursor)
@@ -218,7 +225,8 @@ void Screen::updateCursor()
                 painter.fillRect(pt.x(), pt.y(), m_nCharWidth / 9, m_nCharHeight, m_color[0]);
             break;
         default:
-            drawLine(painter, m_pBuffer->caretY(), startx, endx, false);
+            break;
+            //drawLine(painter, m_pBuffer->caretY(), startx, startx, false);
         }
     }
 }
@@ -859,21 +867,26 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
     TextLine *pTextLine = m_pBuffer->at(index);
     QByteArray color = pTextLine->getColor();
     QByteArray attr = pTextLine->getAttr();
-    uint linelength = pTextLine->getLength();
-
+    int linelength = pTextLine->getLength();
     char tempcp, tempea;
     short tempattr;
     bool bSelected;
     bool bReverse = false;
     int startx;
+    //qDebug() << "beginx: " << beginx << ", endx: " << endx << ", linelength: " << linelength;
     QString strText;
     QString strShow;
 
     if (beginx < 0)
         beginx = 0;
 
-    if (endx > linelength || endx < 0)
-        endx = linelength;
+    if (endx >= linelength || endx < 0)
+        endx = linelength-1;
+
+    if (beginx >= linelength) {
+        //qDebug("Screen::drawLine: wrong position: %d(%d)", beginx, linelength);
+        return;
+    }
 
     if (complete == true && m_pBBS->isSelected(index)) {
         drawMenuSelect(painter, index);
@@ -881,13 +894,17 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
             bReverse = true;
         }
         beginx = 0;
-        endx = linelength;
+        endx = linelength -1;
+    }
+
+    if (beginx > 0 && pTextLine->isPartial(beginx)) {
+        beginx -= 1;
     }
 
     if (m_ePaintState == Cursor && m_bCursor) {
         bReverse = true;
     }
-    for (uint i = beginx; i < endx;i++) {
+    for (uint i = beginx; i < endx+1;i++) {
         int offset = 0;
         startx = i;
         if (i < color.size())
@@ -896,7 +913,7 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
             tempea = attr.at(i);
         bSelected = m_pBuffer->isSelected(QPoint(i, index), m_pWindow->m_bCopyRect);
         // get str of the same attribute
-        while (i < endx && tempcp == color.at(i) &&
+        while (i < endx+1 && tempcp == color.at(i) &&
                 tempea == attr.at(i)  &&
                 bSelected == m_pBuffer->isSelected(QPoint(i, index), m_pWindow->m_bCopyRect))
             ++i;

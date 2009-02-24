@@ -48,6 +48,7 @@ public:
     bool hasBlink();
 
     int pos(int index);
+    bool isPartial(int index);
 
 protected:
 
