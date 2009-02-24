@@ -107,18 +107,6 @@ Screen::Screen(QWidget *parent, Buffer *buffer, Param *param, BBS *bbs)
     m_blinkScreen = false;
     m_blinkCursor = true;
 
-//  switch(m_pParam->m_nMenuType)
-//  {
-//   case 0:
-//    m_pBand = new QRubberBand(QRubberBand::Line, this);
-//    break;
-//   case 1:
-//   case 2:
-//    m_pBand = new QRubberBand(QRubberBand::Rectangle, this);
-//    break;
-//  }
-//  m_pBand = new QRubberBand(QRubberBand::Rectangle, this);
-//  setAttribute(Qt::WA_InputMethodEnabled);
 }
 
 Screen::~Screen()
@@ -133,14 +121,10 @@ Screen::~Screen()
 // focus event received
 void Screen::focusInEvent(QFocusEvent *)
 {
-
-// #if (QT_VERSION>0x030300) // windows get minimized when closing
-// or switching by ctrl+tab. blame me for this...
     if (m_pWindow->isMaximized() && m_pWindow->m_pFrame->wndmgr->afterRemove()) {
         m_pWindow->showNormal();
         m_pWindow->showMaximized();
     }
-// #endif
 
     m_pWindow->m_pFrame->wndmgr->activateTheTab(m_pWindow);
 
@@ -149,16 +133,6 @@ void Screen::focusInEvent(QFocusEvent *)
     m_scPrevLine->setEnabled(true);
     m_scNextLine->setEnabled(true);
 
-// #if (QT_VERSION<300)
-//  m_pAccel->connectItem(idPrevPage=m_pAccel->insertItem(Qt::Key_PageUp+Qt::SHIFT),
-//      this, SLOT(prevPage()));
-//  m_pAccel->connectItem(idNextPage=m_pAccel->insertItem(Qt::Key_PageDown+Qt::SHIFT),
-//      this, SLOT(nextPage()));
-//  m_pAccel->connectItem(idPrevLine=m_pAccel->insertItem(Qt::Key_Up+Qt::SHIFT),
-//      this, SLOT(prevLine()));
-//  m_pAccel->connectItem(idNextLine=m_pAccel->insertItem(Qt::Key_Down+Qt::SHIFT),
-//      this, SLOT(nextLine()));
-// #endif
 }
 
 // focus out
@@ -168,12 +142,6 @@ void Screen::focusOutEvent(QFocusEvent *)
     m_scNextPage->setEnabled(false);
     m_scPrevLine->setEnabled(false);
     m_scNextLine->setEnabled(false);
-// #if (QT_VERSION<300)
-//  m_pAccel->removeItem(idPrevPage);
-//  m_pAccel->removeItem(idNextPage);
-//  m_pAccel->removeItem(idPrevLine);
-//  m_pAccel->removeItem(idNextLine);
-// #endif
 }
 
 void Screen::showEvent(QShowEvent *)
