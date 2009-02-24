@@ -356,6 +356,10 @@ void Screen::updateFont()
             break;
         }
     }
+    int marginw = (m_rcClient.width() - (m_pBuffer->columns()*m_nCharWidth))/2;
+    int marginh = (m_rcClient.height() - (m_pBuffer->line()*m_nCharHeight))/2;
+    QPoint point = m_rcClient.topLeft();
+    m_rcClient = QRect(point.x()+marginw, point.y()+marginh, m_pBuffer->columns()*m_nCharWidth, m_pBuffer->line()*m_nCharHeight);
     m_pFont->setWeight(QFont::Normal);
     m_pFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
 }
@@ -537,7 +541,7 @@ void Screen::updateScrollBar()
     switch (Global::instance()->scrollPosition()) {
     case Global::Hide:
         m_scrollBar->hide();
-        m_rcClient = QRect(3, 1, rect().width() - 3, rect().height() - 1);
+        m_rcClient = QRect(1, 1, rect().width() - 1, rect().height() - 1);
         break;
     case Global::Left:
         m_scrollBar->setGeometry(0, 0, Scrollbar_Width, rect().height());
@@ -704,7 +708,7 @@ void Screen::refreshScreen()
     painter.begin(this);
     //qDebug("size: %d, %d", width(),height());
     if (m_ePaintState == Show)
-        painter.fillRect(m_rcClient, m_color[0]);
+        painter.fillRect(rect(), m_color[0]);
 
     for (int index = m_nStart; index <= m_nEnd; index++) {
         if (index >= m_pBuffer->lines()) {
