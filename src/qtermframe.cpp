@@ -71,6 +71,9 @@ AUTHOR:        kingson fiasco hooey
 #include <QLineEdit>
 #include <QInputDialog>
 #include <QStatusBar>
+#include <QtGui/QPrinter>
+#include <QtGui/QPrintDialog>
+#include <QtGui/QPainter>
 #include <QtDebug>
 
 namespace QTerm
@@ -679,6 +682,21 @@ void Frame::keySetup()
     }
 }
 
+void Frame::printScreen()
+{
+     QPrinter printer(QPrinter::HighResolution);
+     QPrintDialog *dialog = new QPrintDialog(&printer, this);
+     dialog->setWindowTitle(tr("Print Document"));
+     if (dialog->exec() != QDialog::Accepted)
+         return;
+     QPainter painter;
+     painter.begin(&printer);
+     QPixmap screen = QPixmap::grabWidget(wndmgr->activeWindow());
+     QPixmap target = screen.scaled(printer.pageRect().width(),printer.pageRect().height(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+     painter.drawPixmap(0,0,target);
+     painter.end();
+}
+
 
 void Frame::antiIdle(bool isEnabled)
 {
@@ -825,6 +843,8 @@ void Frame::initActions()
     m_addressAction->setObjectName("actionAddress");
     m_quickConnectAction = new QAction(QPixmap(pathLib + "pic/quick.png"), tr("&Quick Login"), this);
     m_quickConnectAction->setObjectName("actionQuickConnect");
+    m_printAction = new QAction(tr("&Print..."), this);
+    m_printAction->setObjectName("actionPrint");
     m_exitAction = new QAction(tr("&Exit"), this);
     m_exitAction->setObjectName("actionExit");
 
@@ -978,6 +998,7 @@ void Frame::initActions()
     connect(m_disconnectAction, SIGNAL(triggered()), this, SLOT(disconnect()));
     connect(m_addressAction, SIGNAL(triggered()), this, SLOT(addressBook()));
     connect(m_quickConnectAction, SIGNAL(triggered()), this, SLOT(quickLogin()));
+    connect(m_printAction, SIGNAL(triggered()), this, SLOT(printScreen()));
     connect(m_exitAction, SIGNAL(triggered()), this, SLOT(exitQTerm()));
 
     connect(m_copyAction, SIGNAL(triggered()), this, SLOT(copy()));
@@ -1039,6 +1060,8 @@ void Frame::addMainMenu()
     file->addSeparator();
     file->addAction(m_addressAction);
     file->addAction(m_quickConnectAction);
+    file->addSeparator();
+    file->addAction(m_printAction);
     file->addSeparator();
     file->addAction(m_exitAction);
 
@@ -1194,6 +1217,7 @@ void Frame::updateMenuToolBar()
 void Frame::enableMenuToolBar(bool enable)
 {
     m_disconnectAction->setEnabled(enable);
+    m_printAction->setEnabled(enable);
 
     m_copyAction->setEnabled(enable);
     m_pasteAction->setEnabled(enable);

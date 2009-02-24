@@ -92,6 +92,7 @@ protected slots:
     void updateBeep(bool);
     void reconnect(bool);
     void keySetup();
+    void printScreen();
 
     void viewImages();
 
@@ -138,6 +139,7 @@ protected:
     QAction * m_disconnectAction;
     QAction * m_addressAction;
     QAction * m_quickConnectAction;
+    QAction * m_printAction;
     QAction * m_exitAction;
 
 //  Edit
