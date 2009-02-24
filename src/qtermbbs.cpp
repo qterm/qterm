@@ -223,9 +223,15 @@ QRect BBS::getSelectRect()
                 reg = QRegExp( "[^ ]" );
 
                 int nMenuBaseLength = 20;
-                int nMenuLength = line->pos(cstr.lastIndexOf( reg, nMenuStart + nMenuBaseLength )) - line->pos(nMenuStart) + 1;
-                if ( nMenuLength == nMenuBaseLength + 1 )
-                    nMenuLength = cstr.indexOf( " ", nMenuStart + nMenuBaseLength ) - nMenuStart;
+                int nMenuEnd = cstr.lastIndexOf( reg, nMenuStart + nMenuBaseLength );
+                if (nMenuEnd == -1) {
+                    nMenuEnd = cstr.indexOf( " ", nMenuStart + nMenuBaseLength );
+                }
+
+                int nMenuLength = nMenuBaseLength + 1;
+                if (nMenuEnd != -1) {
+                    nMenuLength = line->pos(nMenuEnd) - line->pos(nMenuStart) + 1;
+                }
 				if( m_ptCursor.x()>=nMenuStart && m_ptCursor.x()<=nMenuStart+nMenuLength )
 				{
 					rect.setX(line->pos(nMenuStart));
