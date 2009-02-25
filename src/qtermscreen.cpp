@@ -893,7 +893,7 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
             tempea = attr.at(i);
         bSelected = m_pBuffer->isSelected(QPoint(i, index), m_pWindow->m_bCopyRect);
         len = pTextLine->size(i);
-        if ( (i+1) >=endx) {
+        if ( (i+1) >= linelength) {
             len = 1;
         }
         if (len <= 0) {
