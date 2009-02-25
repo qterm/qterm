@@ -1,22 +1,9 @@
-aboutdialog: QTextStream---Fixed
-clearWState---Remove
-QRubberBand for selection---No need
-QIMEvent->QInputMethodEvent--Partially finished
-QTermScreen: Cursor Events, drawMenuSelect---Partially finished
-QTermWindow: QTooltip
-StatusBar: drawPrimitive
-Copy Article: crash
-SchemaDialog: does not work
-QTermScreen: menu does not clear completely,
-QTermScreen: menu type 2 does not work
-QTermScreen: block cursor does not work properly when move in Chinese chars.
-QList<T*> setAutoDelete?
-QTermConvert
-Q3Accel
-QTermFrame setItemChecked
-substitution of sscanf, or redesign the config format
-QTermFrame Toolbar(getLocation, moveToolBar) and Menu, add action, about to hide
-QTcpSocket writeBlock & readBlock
-Change the api to cope with the new Qt4 api (setProgress->setValue etc.)
-qtermwindow Qt::WDestructiveClose 
-CopyArticle is broken
+--Next release:
+    Use kwallet to save the password
+    Multiple line url detection
+    Support Phonon in windows
+    Compile and run with MSVC
+--Should be easy:
+    Use different fonts for single width and double width char (the configure dialog need to be redesigned)
+--In the future:
+    Script support
