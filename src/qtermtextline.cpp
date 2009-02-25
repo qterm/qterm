@@ -346,6 +346,11 @@ int TextLine::size(int index)
     return m_text.size(index);
 }
 
+int TextLine::pos(int index)
+{
+    return m_text.pos(index);
+}
+
 bool TextLine::isPartial(int index)
 {
     return m_text.isPartial(index);

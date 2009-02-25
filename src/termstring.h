@@ -31,6 +31,7 @@ public:
     QString mid(int index, int len);
     QString string();
     int beginIndex(int pos);
+    int pos(int index);
     int size(int index);
     bool isPartial(int index);
     static int wcwidth(QChar ch);

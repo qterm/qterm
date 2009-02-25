@@ -314,7 +314,7 @@ bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 	static const char mailto[] = "mailto:";
 	static const char telnet[] = "telnet://";
 	
-	int at = m_ptCursor.x();
+	int at = m_pBuffer->at(m_ptCursor.y())->pos(m_ptCursor.x());
 
 	if(at>m_rcUrl.left() && at<m_rcUrl.right() && m_rcUrl.y()==m_ptCursor.y())
 	{	
@@ -469,7 +469,7 @@ bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 		}else
 			m_strUrl = "http://"+m_strUrl;
     }
-	rcUrl = QRect(url, m_ptCursor.y(), end-url, 1);
+	rcUrl = QRect(m_pBuffer->at(m_ptCursor.y())->beginIndex(url), m_ptCursor.y(), end-url, 1);
 	if (!checkIP) // don't update when we only need ip
 		m_rcUrl = rcUrl;
 	return true;

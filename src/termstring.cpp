@@ -166,6 +166,18 @@ bool TermString::isPartial(int index)
     return false;
 }
 
+int TermString::pos(int index)
+{
+    if (index < 0 || index >= m_index.length()) {
+        qDebug("pos: invalid index");
+        return 0;
+    }
+    if (m_index.at(index) == -1) {
+        return m_index.at(index-1);
+    }
+    return m_index.at(index);
+}
+
 // Shameless copied from git
 
 int TermString::bisearch(QChar ucs, const struct interval *table, int max)
