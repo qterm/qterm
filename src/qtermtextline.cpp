@@ -144,12 +144,12 @@ void TextLine::replaceText(const QString & str, short attribute, int index, int 
 
         tmp.fill(NO_COLOR, index + len - m_length);
         m_color.append(tmp);
-        tmp.fill(m_curColor, newlen);
+        tmp.fill(m_curColor, len);
         m_color.replace(index, len, tmp);
 
         tmp.fill(NO_ATTR, index + len - m_length);
         m_attr.append(tmp);
-        tmp.fill(m_curAttr, newlen);
+        tmp.fill(m_curAttr, len);
         m_attr.replace(index, len, tmp);
 
         m_length = m_text.length();
@@ -164,9 +164,9 @@ void TextLine::replaceText(const QString & str, short attribute, int index, int 
 
         m_length = m_text.length();
 
-        tmp.fill(m_curColor, newlen);
+        tmp.fill(m_curColor, len);
         m_color.replace(index, len, tmp);
-        tmp.fill(m_curAttr, newlen);
+        tmp.fill(m_curAttr, len);
         m_attr.replace(index, len, tmp);
     }
 }
