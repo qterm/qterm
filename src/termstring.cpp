@@ -121,9 +121,9 @@ QString TermString::mid(int index, int len)
         qDebug("TermString::mid: start pos is in the middle of a char");
         startpos = m_index.at(index-1);
     }
-    if (index2 < (m_index.size() - 1) && m_index.at(index2+1) == -1) {
+    if (index2 > 0 && index2 < (m_index.size() - 1) && m_index.at(index2+1) == -1) {
         qDebug("TermString::mid: end pos is in the middle of a char");
-        return mid(index, len + 1);
+        return mid(index, len - 1);
     }
     if (endpos == -1) {
         endpos = m_index.at(index2-1);
