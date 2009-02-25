@@ -859,6 +859,9 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
 
     if (endx >= linelength || endx < 0)
         endx = linelength-1;
+    if (endx >= qMin(color.size(), attr.size())) {
+        endx = qMin(color.size(), attr.size()) -1;
+    }
 
     if (beginx >= linelength) {
         //qDebug("Screen::drawLine: wrong position: %d(%d)", beginx, linelength);
@@ -890,6 +893,9 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
             tempea = attr.at(i);
         bSelected = m_pBuffer->isSelected(QPoint(i, index), m_pWindow->m_bCopyRect);
         len = pTextLine->size(i);
+        if ( (i+1) >=endx) {
+            len = 1;
+        }
         if (len <= 0) {
             qDebug("drawLine: non printable char");
             continue;
@@ -912,7 +918,10 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
         // TODO: Rewrite this when we want to do more than char to char convert
         strShow = Global::instance()->convert(pTextLine->getText(startx, len), (Global::Conversion)m_pParam->m_nDispCode);
 
-
+        if (strShow.isEmpty()) {
+            qDebug("drawLine: empty string?");
+            continue;
+        }
         // Draw Charactors one by one to fix the variable font display problem
         int charWidth = TermString::wcwidth(strShow.at(0));
         if (charWidth <= 0) {

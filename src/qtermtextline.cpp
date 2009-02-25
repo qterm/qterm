@@ -294,7 +294,7 @@ bool TextLine::hasBlink()
 
     //qDebug() << "m_length: " << m_length << " m_attr " << m_attr.length();
     char tempea;
-    for (int i = 0; i < m_length; i++) {
+    for (int i = 0; i < m_length && i < m_attr.length(); i++) {
         tempea = m_attr.at(i);
         if (GETBLINK(tempea)) {
             blink = true;
