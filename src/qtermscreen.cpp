@@ -852,7 +852,6 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
     bool bReverse = false;
     int startx;
     //qDebug() << "beginx: " << beginx << ", endx: " << endx << ", linelength: " << linelength;
-    QString strText;
     QString strShow;
 
     if (beginx < 0)
@@ -882,19 +881,24 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
     if (m_ePaintState == Cursor && m_bCursor) {
         bReverse = true;
     }
-    for (uint i = beginx; i < endx+1;i++) {
-        int offset = 0;
+    for (int i = beginx; i < endx+1;i++) {
+        int len = 0;
         startx = i;
         if (i < color.size())
             tempcp = color.at(i);
         if (i < attr.size())
             tempea = attr.at(i);
         bSelected = m_pBuffer->isSelected(QPoint(i, index), m_pWindow->m_bCopyRect);
+        len = pTextLine->size(i);
+        if (len <= 0) {
+            qDebug("drawLine: non printable char");
+            continue;
+        }
+        if (tempcp != color.at(i+len-1) || tempea != attr.at(i+len-1) || bSelected != m_pBuffer->isSelected(QPoint(i+len-1, index), m_pWindow->m_bCopyRect)) {
+            //TODO: draw half char
+            qDebug("drawLine: not implemented yet");
+        }
         // get str of the same attribute
-        while (i < endx+1 && tempcp == color.at(i) &&
-                tempea == attr.at(i)  &&
-                bSelected == m_pBuffer->isSelected(QPoint(i, index), m_pWindow->m_bCopyRect))
-            ++i;
 
         if (bSelected) // selected area is text=color(0) background=color(7)
             tempattr = SETCOLOR(SETFG(0) | SETBG(7)) | SETATTR(NO_ATTR);
@@ -904,23 +908,20 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
             tempattr = SETCOLOR(tempcp) | SETATTR(tempea);
 
         //qDebug() << "startx: " << startx << " i: " << i << " string: " << strShow;
-        strShow = Global::instance()->convert(pTextLine->getText(startx, i - startx), (Global::Conversion)m_pParam->m_nDispCode);
+        // There should be only one.
+        // TODO: Rewrite this when we want to do more than char to char convert
+        strShow = Global::instance()->convert(pTextLine->getText(startx, len), (Global::Conversion)m_pParam->m_nDispCode);
 
 
         // Draw Charactors one by one to fix the variable font display problem
-        for (uint j = 0; j < strShow.length(); ++j) {
-            int length = 2;
-            if (strShow.at(j) < 0x7f) {
-                drawStr(painter, (QString)strShow.at(j), startx + offset, index, 1, tempattr, bSelected);
-                offset++;
-            } else {
-                drawStr(painter, (QString)strShow.at(j), startx + offset, index, length, tempattr, bSelected);
-                offset += 2;
-            }
+        int charWidth = TermString::wcwidth(strShow.at(0));
+        if (charWidth <= 0) {
+            qDebug("drawLine: non printable char");
+            continue;
         }
-        offset = 0;
+        drawStr(painter, (QString)strShow.at(0), startx, index, charWidth, tempattr, bSelected);
 
-        --i;
+        i += (len-1);
     }
 }
 
