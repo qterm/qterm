@@ -112,7 +112,7 @@ QString TermString::string()
 
 QString TermString::mid(int index, int len)
 {
-    if (len <= 0 || index < 0) {
+    if (index < 0) {
         return QString();
     }
     if (index >= m_index.size()) {
@@ -120,12 +120,15 @@ QString TermString::mid(int index, int len)
         return QString();
     }
     int startpos= m_index.at(index);
-    int index2 = index+len < m_index.size() ? index+len - 1 : m_index.size() - 1;
-    int endpos = m_index.at(index2);
     if (startpos == -1) {
         qDebug("TermString::mid: start pos is in the middle of a char");
         startpos = m_index.at(index-1);
     }
+    if (len == -1) {
+        return m_string.mid(startpos,-1);
+    }
+    int index2 = index+len < m_index.size() ? index+len - 1 : m_index.size() - 1;
+    int endpos = m_index.at(index2);
     if (index2 > 0 && index2 < (m_index.size() - 1) && m_index.at(index2+1) == -1) {
         qDebug("TermString::mid: end pos is in the middle of a char");
         return mid(index, len - 1);
