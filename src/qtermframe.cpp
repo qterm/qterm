@@ -1084,7 +1084,7 @@ void Frame::addMainMenu()
     escapeMenu->addAction(m_customescAction);
     edit->addMenu(escapeMenu);
 
-    QMenu * codecMenu = new QMenu(tr("Clipboard Chinese &conversion"), this);
+    QMenu * codecMenu = new QMenu(tr("Clipboard Chinese &Conversion"), this);
     codecMenu->addAction(m_NoConvAction);
     codecMenu->addAction(m_S2TAction);
     codecMenu->addAction(m_T2SAction);
