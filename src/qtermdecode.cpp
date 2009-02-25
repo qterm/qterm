@@ -132,12 +132,13 @@ Decode::Decode(Buffer * buffer, QTextCodec * codec)
 
     bCurMode[MODE_MouseX11] = bSaveMode[MODE_MouseX11] = false;
 
-    m_decoder = codec->makeDecoder();
+    m_decoder = codec;
+    m_state = new QTextCodec::ConverterState;
 }
 
 Decode::~Decode()
 {
-    delete m_decoder;
+    //delete m_decoder;
 }
 
 // precess input string from telnet socket
@@ -185,16 +186,22 @@ void Decode::decode(const char *cstr, int length)
 // fill letters into char buffer
 void Decode::normalInput()
 {
-    if (inputData[dataIndex] < 0x20 && inputData[dataIndex] >= 0x00)   // not print char
+    if (m_state->remainingChars == 0 && inputData[dataIndex] < 0x20 && inputData[dataIndex] >= 0x00)   // not print char
         return;
-
+    QString str;
     int n = 0;
-    while ((inputData[dataIndex + n] >= 0x20 || inputData[dataIndex + n] < 0x00)
-            && (dataIndex + n) < inputLength)
+    while ((m_state->remainingChars != 0 || inputData[dataIndex + n] >= 0x20 || inputData[dataIndex + n] < 0x00)
+            && (dataIndex + n) < inputLength) {
+        str += m_decoder->toUnicode(inputData+dataIndex + n, 1, m_state);
         n++;
+        if ((dataIndex + n + 1) < inputLength && inputData[dataIndex+n] == CHAR_ESC && inputData[dataIndex+n+1] == '[') {
+            qDebug("Decode::normalInput: esc sequence in the middle of a char");
+            break;
+        }
+    }
 
-    QByteArray cstr(inputData + dataIndex, n);
-    QString str = m_decoder->toUnicode(cstr);
+    //QByteArray cstr(inputData + dataIndex, n);
+    //QString str = m_decoder->toUnicode(inputData+dataIndex, n, m_state);
     m_pBuffer->setBuffer(str, n);
 
     n--;

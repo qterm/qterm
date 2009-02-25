@@ -108,7 +108,9 @@ private:
 
     Buffer * m_pBuffer;
 
-    QTextDecoder * m_decoder;
+    QTextCodec * m_decoder;
+    QTextCodec::ConverterState * m_state;
+    //bool CheckESCState(char next);
 
     bool m_test;
 };
