@@ -30,7 +30,8 @@ public:
     int length();
     QString mid(int index, int len);
     QString string();
-    int pos(int index);
+    int beginIndex(int pos);
+    int size(int index);
     bool isPartial(int index);
 private:
     void updateIndex();

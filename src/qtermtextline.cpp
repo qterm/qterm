@@ -336,9 +336,14 @@ void TextLine::setChanged(int start, int end)
     m_bChanged = true;
 }
 
-int TextLine::pos(int index)
+int TextLine::beginIndex(int pos)
 {
-    return m_text.pos(index);
+    return m_text.beginIndex(pos);
+}
+
+int TextLine::size(int index)
+{
+    return m_text.size(index);
 }
 
 bool TextLine::isPartial(int index)

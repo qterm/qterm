@@ -230,11 +230,11 @@ QRect BBS::getSelectRect()
 
                 int nMenuLength = nMenuBaseLength + 1;
                 if (nMenuEnd != -1) {
-                    nMenuLength = line->pos(nMenuEnd) - line->pos(nMenuStart) + 1;
+                    nMenuLength = line->beginIndex(nMenuEnd) - line->beginIndex(nMenuStart) + line->size(line->beginIndex(nMenuEnd));
                 }
 				if( m_ptCursor.x()>=nMenuStart && m_ptCursor.x()<=nMenuStart+nMenuLength )
 				{
-					rect.setX(line->pos(nMenuStart));
+					rect.setX(line->beginIndex(nMenuStart));
 					rect.setY(m_ptCursor.y());
 					rect.setWidth(nMenuLength);
 					rect.setHeight(1);

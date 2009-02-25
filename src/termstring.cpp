@@ -136,13 +136,20 @@ int TermString::length()
     return m_index.size();
 }
 
-int TermString::pos(int index)
+int TermString::beginIndex(int pos)
 {
-    int result = m_index.indexOf(index);
-    if (m_string.at(index) > 0x7f) {
-        result += 1;
+    return m_index.indexOf(pos);
+}
+
+int TermString::size(int index)
+{
+    if (m_index.at(index) == -1 ) {
+        return 2;
     }
-    return result;
+    if ((index+1) < m_index.size() && m_index.at(index+1) == -1) {
+        return 2;
+    }
+    return 1;
 }
 
 bool TermString::isPartial(int index)
