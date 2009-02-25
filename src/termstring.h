@@ -33,7 +33,13 @@ public:
     int beginIndex(int pos);
     int size(int index);
     bool isPartial(int index);
+    static int wcwidth(QChar ch);
 private:
+    struct interval {
+        int first;
+        int last;
+    };
+    static int bisearch(QChar ucs, const struct interval *table, int max);
     void updateIndex();
     QString m_string;
     QByteArray m_index;
