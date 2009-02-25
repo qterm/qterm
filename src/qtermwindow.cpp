@@ -264,6 +264,10 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     m_pZmodem = new Zmodem(m_pTelnet, param.m_nProtocolType);
 
     m_codec = QTextCodec::codecForName(param.m_BBSCode.toLatin1());
+    if (m_codec == 0) {
+        qDebug("Fallback to GBK codec");
+        m_codec = QTextCodec::codecForName("GBK");
+    }
 
     m_pDecode = new Decode(m_pBuffer, m_codec);
     m_pBBS   = new BBS(m_pBuffer);
