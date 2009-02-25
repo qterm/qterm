@@ -1384,20 +1384,21 @@ void Window::stopScript()
 void Window::viewMessages()
 {
     msgDialog msg(this);
-    const char * size = Global::instance()->fileCfg()->getItemValue("global", "msgdialog").toString().toLatin1();
-    if (size != NULL) {
-        int x, y, cx, cy;
-        sscanf(size, "%d %d %d %d", &x, &y, &cx, &cy);
-        msg.resize(QSize(cx, cy));
-        msg.move(QPoint(x, y));
-    }
+
+//    const char * size = Global::instance()->fileCfg()->getItemValue("global", "msgdialog").toString().toLatin1();
+//    if (size != NULL) {
+//        int x, y, cx, cy;
+//        sscanf(size, "%d %d %d %d", &x, &y, &cx, &cy);
+//        msg.resize(QSize(cx, cy));
+//        msg.move(QPoint(x, y));
+//    }
 
     msg.ui.msgBrowser->setPlainText(m_strMessage);
     msg.exec();
 
-    QString strSize = QString("%1 %2 %3 %4").arg(msg.x()).arg(msg.y()).arg(msg.width()).arg(msg.height());
-    Global::instance()->fileCfg()->setItemValue("global", "msgdialog", strSize);
-    Global::instance()->fileCfg()->save();
+//    QString strSize = QString("%1 %2 %3 %4").arg(msg.x()).arg(msg.y()).arg(msg.width()).arg(msg.height());
+//    Global::instance()->fileCfg()->setItemValue("global", "msgdialog", strSize);
+//    Global::instance()->fileCfg()->save();
 
 }
 
