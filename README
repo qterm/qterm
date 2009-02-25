@@ -6,7 +6,9 @@ QTerm 0.5.4
 2. 支持 UTF-8 等编码格式
 3. 打印当前内容
 4. KDE 的 Phonon 的支持 (Qt 的 Phonon 未测试)
-4. Bug fixes
+5. 内容居中显示
+6. 显示程序图标
+7. Bug fixes
 
                                          The QTerm Team
                                       http://www.qterm.org
