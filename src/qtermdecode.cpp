@@ -194,7 +194,7 @@ void Decode::normalInput()
             && (dataIndex + n) < inputLength) {
         str += m_decoder->toUnicode(inputData+dataIndex + n, 1, m_state);
         n++;
-        if ((dataIndex + n + 1) < inputLength && inputData[dataIndex+n] == CHAR_ESC && inputData[dataIndex+n+1] == '[') {
+        if (m_state->remainingChars != 0 && (dataIndex + n + 1) < inputLength && inputData[dataIndex+n] == CHAR_ESC && inputData[dataIndex+n+1] == '[') {
             qDebug("Decode::normalInput: esc sequence in the middle of a char");
             break;
         }
