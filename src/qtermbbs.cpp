@@ -315,6 +315,9 @@ bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 	static const char telnet[] = "telnet://";
 	
 	int at = m_pBuffer->at(m_ptCursor.y())->pos(m_ptCursor.x());
+	if (at == -1) {
+		return false;
+	}
 
 	if(at>m_rcUrl.left() && at<m_rcUrl.right() && m_rcUrl.y()==m_ptCursor.y())
 	{	

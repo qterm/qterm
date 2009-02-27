@@ -172,8 +172,8 @@ bool TermString::isPartial(int index)
 int TermString::pos(int index)
 {
     if (index < 0 || index >= m_index.length()) {
-        qDebug("pos: invalid index");
-        return 0;
+        //qDebug("pos: invalid index: %d", index);
+        return -1;
     }
     if (m_index.at(index) == -1) {
         return m_index.at(index-1);
