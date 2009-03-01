@@ -651,20 +651,12 @@ void Window::mouseMoveEvent(QMouseEvent * me)
         if (Global::instance()->m_pref.bUrl) {
             if (m_pBBS->isIP(rcUrl_leave_me_alone, rcOld_i_dont_need_you) && m_bCheckIP) {
                 if (rcUrl_leave_me_alone != rcOld_i_dont_need_you) {
-//      QString country,city;
-//      QString url = m_pBBS->getIP();
-//      if (m_pIPLocation->getLocation(url, country, city)) {
-//       statusBar()->message( G2U(country + city) );
-//       //m_pMessage->display(G2U(country + city), PageViewMessage::Info, 0);
-//      }
                     if (!m_ipTimer->isActive()) {
                         m_ipTimer->setSingleShot(false);
                         m_ipTimer->start(100);
                     }
                 }
             } else {
-                //statusBar()->message("");
-                //m_pMessage->hide();
                 if (m_ipTimer->isActive())
                     m_ipTimer->stop();
             }
@@ -672,15 +664,9 @@ void Window::mouseMoveEvent(QMouseEvent * me)
             if (m_pBBS->isUrl(m_rcUrl, rcOld)) {
                 setCursor(Qt::PointingHandCursor);
                 if (m_rcUrl != rcOld) {
-                    //QToolTip::remove(this, m_pScreen->mapToRect(rcOld));
-                    //QToolTip::add(this, m_pScreen->mapToRect(m_rcUrl), m_pBBS->getUrl());
                 }
                 bUrl = true;
             }
-            //else
-            //QToolTip::remove(this, m_pScreen->mapToRect(rcOld));
-
-
         }
 
         if (!bUrl) {
