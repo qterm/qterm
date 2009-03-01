@@ -136,7 +136,7 @@ void TextLine::replaceText(const QString & str, short attribute, int index, int 
     if (len == -1)   // replace with  str
         len = newlen;
 
-    if (index + len >= m_length) {
+    if (index + len > m_length) {
         //qDebug() << "index: " << index << " len: " << len << " string: " << str;
         m_text.replace(index, len, str);
 
@@ -154,20 +154,27 @@ void TextLine::replaceText(const QString & str, short attribute, int index, int 
 
         m_length = m_text.length();
 
+        //if ( m_color.length() != m_text.length()) {
+        //    qDebug() << "=================================color length: " << m_color.length() << ", tmp: " << tmp.length() << ", old length: " << tmplen;
+        //}
+
     } else {
         //qDebug() << "string : " << m_text.string() << " old length: " << m_text.length();
         //qDebug() << "index: " << index << " len: " << len << " string: " << str;
         m_text.replace(index, len, str);
         //qDebug() << "new length: " << m_text.length() << "," << newlen;
+        int delta = m_length - m_text.length();
 
         setChanged(index, qMax(m_length, m_text.length()));
 
-        m_length = m_text.length();
-
         tmp.fill(m_curColor, len);
-        m_color.replace(index, len, tmp);
+        m_color.replace(index, len + delta, tmp);
+        //if ( m_color.length() != m_text.length()) {
+        //    qDebug() << "=======================color length: " << m_color.length() << ", tmp: " << tmp.length();
+        //}
         tmp.fill(m_curAttr, len);
-        m_attr.replace(index, len, tmp);
+        m_attr.replace(index, len + delta, tmp);
+        m_length = m_text.length();
     }
 }
 
