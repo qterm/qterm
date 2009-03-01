@@ -806,14 +806,13 @@ void Screen::repaintScreen(QPaintEvent * pe)
 
 //  qDebug("rcClient: %d, %d", m_pCanvas->width(),m_pCanvas->height());
 
+    painter.eraseRect(pe->rect());
+
     QRect rect = pe->rect() & m_rcClient;
-
-    if (rect.isEmpty()) {
-        painter.eraseRect(pe->rect());
+    if (rect.isEmpty())
         return;
-    }
 
-    painter.eraseRect(rect);
+    //painter.eraseRect(rect);
 
     QPoint tlPoint = mapToChar(QPoint(rect.left(), rect.top()));
 
