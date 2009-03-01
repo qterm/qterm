@@ -42,6 +42,7 @@ private:
     };
     static int bisearch(QChar ucs, const struct interval *table, int max);
     void updateIndex();
+    void dumpIndex();
     QString m_string;
     QByteArray m_index;
 };

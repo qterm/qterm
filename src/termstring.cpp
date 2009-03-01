@@ -11,7 +11,7 @@
 //
 
 #include "termstring.h"
-//#include <QtDebug>
+#include <QtDebug>
 //FIXME: check the range of index!!!
 namespace QTerm
 {
@@ -69,6 +69,15 @@ void TermString::insert(int index, const QString & str)
     }
     m_string.insert(index, str);
     updateIndex();
+}
+
+void TermString::dumpIndex()
+{
+    qDebug() << "Index for string: " << m_string;
+    for (int i=0; i < m_index.length(); i++) {
+        printf("%d ",(char)m_index[i]);
+    }
+    printf("\n");
 }
 
 void TermString::updateIndex()
