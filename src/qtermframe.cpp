@@ -335,18 +335,26 @@ void Frame::windowsMenuAboutToShow()
     QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
     for (int i = 0; i < int(windows.count()); ++i) {
         QAction * idAction = windowsMenu->addAction(windows.at(i)->windowTitle(),
-                             this, SLOT(windowsMenuActivated(int)));
+                             this, SLOT(windowsMenuActivated()));
         idAction->setData(i);
         idAction->setChecked(m_MdiArea->activeSubWindow() == windows.at(i));
     }
 
 }
 //slot activate the window correspond with the menu id
-void Frame::windowsMenuActivated(int id)
+void Frame::windowsMenuActivated()
 {
-    QWidget* w = m_MdiArea->subWindowList().at(id);
+    QObject * action = sender();
+    if (action == 0) {
+        qDebug("Frame::windowsMenuActivated: No sender found");
+        return;
+    }
+    int id = static_cast<QAction *>(action)->data().toInt();
+    QMdiSubWindow* w = m_MdiArea->subWindowList().at(id);
     if (w) {
-        w->showNormal();
+        w->showMaximized();
+    } else {
+        qDebug() << "Frame::windowsMenuActivated: No window found, id: " << id;
     }
 }
 

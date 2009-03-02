@@ -99,7 +99,7 @@ protected slots:
     void initThemesMenu();
     void themesMenuActivated(QAction *);
     void windowsMenuAboutToShow();
-    void windowsMenuActivated(int);
+    void windowsMenuActivated();
     void connectMenuActivated(int);
     void popupConnectMenu();
 
