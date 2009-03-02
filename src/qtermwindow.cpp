@@ -283,8 +283,8 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     connect(m_pFrame, SIGNAL(bossColor()), m_pScreen, SLOT(bossColor()));
     connect(m_pFrame, SIGNAL(scrollChanged()), m_pScreen, SLOT(updateScrollBar()));
     connect(m_pScreen, SIGNAL(inputEvent(QString *)), this, SLOT(inputHandle(QString *)));
-    connect(m_pZmodem, SIGNAL(ZmodemState(int, int, const QByteArray&)),
-            this, SLOT(ZmodemState(int, int, const QByteArray&)));
+    connect(m_pZmodem, SIGNAL(ZmodemState(int, int, const QString&)),
+            this, SLOT(ZmodemState(int, int, const QString&)));
     connect(m_pZmDialog, SIGNAL(canceled()), m_pZmodem, SLOT(zmodemCancel()));
 
     connect(m_pDecode, SIGNAL(mouseMode(bool)), this, SLOT(setMouseMode(bool)));
