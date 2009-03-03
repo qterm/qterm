@@ -108,7 +108,7 @@ protected:
 
     // display
     void eraseRect(QPainter& , int, int, int, int, short);
-    void drawStr(QPainter&, const QString&, int, int, int, short, bool);
+    void drawStr(QPainter&, const QString&, int, int, int, short, bool, int);
     void drawLine(QPainter&, int index, int beginx = -1, int endx = -1, bool complete = true);
     void drawCaret(QPainter&, bool);
     void drawMenuSelect(QPainter&, int);

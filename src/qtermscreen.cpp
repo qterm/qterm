@@ -927,7 +927,7 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
             qDebug("drawLine: non printable char");
             continue;
         }
-        drawStr(painter, (QString)strShow.at(0), startx, index, charWidth, tempattr, bSelected);
+        drawStr(painter, (QString)strShow.at(0), startx, index, charWidth, tempattr, bSelected, Qt::AlignCenter);
 
         i += (len-1);
     }
@@ -935,7 +935,7 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
 
 // draw functions
 void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int length,
-                     short attribute, bool transparent)
+                     short attribute, bool transparent, int flags)
 {
     char cp = GETCOLOR(attribute);
     char ea = GETATTR(attribute);
@@ -978,7 +978,7 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
         else
             painter.setBackgroundMode(Qt::TransparentMode);
         painter.setBackground(GETBG(cp) == 7 ? Qt::black : Qt::white);
-        painter.drawText(pt.x(), pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignCenter, str);
+        painter.drawText(pt.x(), pt.y(), m_nCharWidth*length, m_nCharHeight, flags, str);
         return;
     }
 
@@ -1000,7 +1000,7 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
     } else {
         if (GETBG(cp) != 0 || m_ePaintState == Cursor)
             painter.fillRect(mapToRect(x, y, length, 1), QBrush(m_color[GETBG(cp)]));
-        painter.drawText(pt.x(), pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignCenter, str);
+        painter.drawText(pt.x(), pt.y(), m_nCharWidth*length, m_nCharHeight, flags, str);
     }
 }
 
