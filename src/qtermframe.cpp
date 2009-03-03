@@ -24,7 +24,6 @@ AUTHOR:        kingson fiasco hooey
 #include "prefdialog.h"
 #include "quickdialog.h"
 #include "keydialog.h"
-#include "trayicon.h"
 #include "imageviewer.h"
 #include "shortcutsdialog.h"
 #include "toolbardialog.h"
