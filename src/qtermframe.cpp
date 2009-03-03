@@ -335,6 +335,7 @@ void Frame::windowsMenuAboutToShow()
     for (int i = 0; i < int(windows.count()); ++i) {
         QAction * idAction = windowsMenu->addAction(windows.at(i)->windowTitle(),
                              this, SLOT(windowsMenuActivated()));
+        idAction->setCheckable(true);
         idAction->setData(i);
         idAction->setChecked(m_MdiArea->activeSubWindow() == windows.at(i));
     }
