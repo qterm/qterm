@@ -978,7 +978,7 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
         else
             painter.setBackgroundMode(Qt::TransparentMode);
         painter.setBackground(GETBG(cp) == 7 ? Qt::black : Qt::white);
-        painter.drawText(pt.x(), pt.y() + m_nCharAscent, str);
+        painter.drawText(pt.x(), pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignCenter, str);
         return;
     }
 
@@ -1000,7 +1000,7 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
     } else {
         if (GETBG(cp) != 0 || m_ePaintState == Cursor)
             painter.fillRect(mapToRect(x, y, length, 1), QBrush(m_color[GETBG(cp)]));
-        painter.drawText(pt.x(), pt.y() + m_nCharAscent, str);
+        painter.drawText(pt.x(), pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignCenter, str);
     }
 }
 
