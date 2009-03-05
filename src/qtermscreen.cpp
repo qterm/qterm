@@ -368,11 +368,12 @@ void Screen::getFontMetrics(QFontMetrics *fm)
 {
     float cn = fm->width(QChar(0x4e00));
     float en = fm->width('W');
-    if (en / cn < 0.7) // almost half
+    if (en / cn < 0.6) // almost half
         m_nCharWidth = qMax((cn + 1) / 2, en);
     else
         m_nCharWidth = (qMax(en, cn) + 1) / 2;
 
+    m_nCharDelta = m_nCharWidth - cn/2;
     m_nCharHeight = fm->height();
     m_nCharAscent = fm->ascent();
     m_nCharDescent = fm->descent();
@@ -927,15 +928,22 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
             qDebug("drawLine: non printable char");
             continue;
         }
-        drawStr(painter, (QString)strShow.at(0), startx, index, charWidth, tempattr, bSelected, Qt::AlignCenter);
+        CharFlags flags = RenderAll;
+        if ( charWidth == 2) {
+            flags = RenderLeft;
+        }
+        if ( pTextLine->isPartial(startx) ) {
+            flags = RenderRight;
+        }
+        drawStr(painter, (QString)strShow.at(0), startx, index, 1 /*charWidth*/, tempattr, bSelected, flags);
 
-        i += (len-1);
+        //i += (len-1);
     }
 }
 
 // draw functions
 void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int length,
-                     short attribute, bool transparent, int flags)
+                     short attribute, bool transparent, CharFlags flags)
 {
     char cp = GETCOLOR(attribute);
     char ea = GETATTR(attribute);
@@ -1000,7 +1008,13 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
     } else {
         if (GETBG(cp) != 0 || m_ePaintState == Cursor)
             painter.fillRect(mapToRect(x, y, length, 1), QBrush(m_color[GETBG(cp)]));
-        painter.drawText(pt.x(), pt.y(), m_nCharWidth*length, m_nCharHeight, flags, str);
+        if (flags == RenderAll) {
+            painter.drawText(pt.x(), pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignCenter, str);
+        } else if (flags == RenderLeft) {
+            painter.drawText(pt.x()+m_nCharDelta, pt.y(), m_nCharWidth-m_nCharDelta, m_nCharHeight, Qt::AlignLeft, str);
+        } else if (flags == RenderRight) {
+            painter.drawText(pt.x(), pt.y(), m_nCharWidth-m_nCharDelta, m_nCharHeight, Qt::AlignRight, str);
+        }
     }
 }
 

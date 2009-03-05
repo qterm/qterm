@@ -59,6 +59,7 @@ class Screen : public QWidget
 public:
     enum PaintState {NewData, Blink, Cursor, Repaint, Show};
     enum MouseState {Enter, Press, Move, Release, Leave};
+    enum CharFlags {RenderAll, RenderLeft, RenderRight};
     Screen(QWidget *parent, Buffer *buffer, Param *param, BBS *bbs);
     ~Screen();
 
@@ -108,7 +109,7 @@ protected:
 
     // display
     void eraseRect(QPainter& , int, int, int, int, short);
-    void drawStr(QPainter&, const QString&, int, int, int, short, bool, int);
+    void drawStr(QPainter&, const QString&, int, int, int, short, bool, CharFlags);
     void drawLine(QPainter&, int index, int beginx = -1, int endx = -1, bool complete = true);
     void drawCaret(QPainter&, bool);
     void drawMenuSelect(QPainter&, int);
@@ -176,6 +177,7 @@ protected:
     //QPixmap * m_pCanvas;
 
     int m_nCharAscent, m_nCharDescent, m_nCharWidth, m_nCharHeight;
+    int m_nCharDelta;
     int m_nLineSpacing; // for future
 
     bool * m_pBlinkLine;
