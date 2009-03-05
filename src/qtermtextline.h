@@ -51,6 +51,7 @@ public:
     int size(int index);
     int pos(int index);
     bool isPartial(int index);
+    void setAttr (short attr, int index);
 
 protected:
 

@@ -41,6 +41,8 @@ public:
 
     // string
     void setBuffer(const QString&, int n);
+    void saveAttr();
+    void restoreAttr();
 
     // attribute
     void setCurAttr(short);
@@ -113,9 +115,11 @@ protected:
 
     // caret
     int   m_caretX, m_caretY, m_saveX, m_saveY;
+    int   m_tmpX, m_tmpY;
 
     // attribute
     short m_curAttr;
+    short m_tmpAttr;
 
     // Modes
     bool Insert_Mode, NewLine_Mode;

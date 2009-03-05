@@ -137,6 +137,23 @@ void Buffer::setBuffer(const QString & str, int n)
     moveCursorOffset(TermString(str).length(), 0);
 }
 
+void Buffer::saveAttr()
+{
+    m_tmpAttr = m_curAttr;
+    m_tmpX = m_caretX;
+    m_tmpY = m_caretY;
+}
+
+void Buffer::restoreAttr()
+{
+    TextLine * line =  m_lineList.value(m_lines + m_tmpY, NULL);
+    if (line == NULL) {
+        qWarning("setBuffer null line");
+        return;
+    }
+    line->setAttr(m_tmpAttr, m_tmpX);
+}
+
 //nextline
 void Buffer::newLine()
 {

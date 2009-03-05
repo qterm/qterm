@@ -363,5 +363,17 @@ bool TextLine::isPartial(int index)
     return m_text.isPartial(index);
 }
 
+void TextLine::setAttr(short attr, int index)
+{
+    char tmpColor = GETCOLOR(attr);
+    if (tmpColor == '\0')
+        tmpColor = NO_COLOR;
+    char tmpAttr  = GETATTR(attr);
+    if (tmpAttr == '\0')
+        tmpAttr = NO_ATTR;
+    m_color[index] = tmpColor;
+    m_attr[index] = tmpAttr;
+}
+
 } // namespace QTerm
 
