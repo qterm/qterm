@@ -113,6 +113,7 @@ private:
     //bool CheckESCState(char next);
 
     bool m_test;
+    bool m_attrHack;
 };
 
 } // namespace QTerm

@@ -134,6 +134,7 @@ Decode::Decode(Buffer * buffer, QTextCodec * codec)
 
     m_decoder = codec;
     m_state = new QTextCodec::ConverterState;
+    m_attrHack = false;
 }
 
 Decode::~Decode()
@@ -189,9 +190,10 @@ void Decode::normalInput()
     if (m_state->remainingChars == 0 && inputData[dataIndex] < 0x20 && inputData[dataIndex] >= 0x00)   // not print char
         return;
     bool fixAttr = false;
-    bool saveAttr = false;
-    if (m_state->remainingChars != 0)
+    if (m_state->remainingChars != 0 && m_attrHack) {
         fixAttr = true;
+        m_attrHack = false;
+    }
     QString str;
     int n = 0;
     while ((m_state->remainingChars != 0 || inputData[dataIndex + n] >= 0x20 || inputData[dataIndex + n] < 0x00)
@@ -200,7 +202,7 @@ void Decode::normalInput()
         n++;
         if (m_state->remainingChars != 0 && (dataIndex + n + 1) < inputLength && inputData[dataIndex+n] == CHAR_ESC && inputData[dataIndex+n+1] == '[') {
             qDebug("Decode::normalInput: esc sequence in the middle of a char");
-            saveAttr = true;
+            m_attrHack = true;
             break;
         }
     }
@@ -212,7 +214,7 @@ void Decode::normalInput()
         qDebug("Decode::normalInput: load attr");
         m_pBuffer->restoreAttr();
     }
-    if (saveAttr == true) {
+    if (m_attrHack == true) {
         qDebug("Decode::normalInput: save attr");
         m_pBuffer->saveAttr();
     }
