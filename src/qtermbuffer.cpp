@@ -44,6 +44,10 @@ Buffer::Buffer(int line, int column, int limit)
     m_oldCaretX = 0;
     m_oldCaretY = 0;
 
+    m_tmpX = 0;
+    m_tmpY = 0;
+    m_tmpAttr = 0;
+
 
     m_top = 0;
     m_bottom = m_lin - 1;
