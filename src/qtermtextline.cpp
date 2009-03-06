@@ -42,8 +42,6 @@ void TextLine::insertText(const QString & str, short attribute, int index)
     // set attribute
     if (attribute != -1) {
         m_curColor = GETCOLOR(attribute);
-        if (m_curColor == '\0')
-            m_curColor = NO_COLOR;
         m_curAttr  = GETATTR(attribute);
         if (m_curAttr == '\0')
             m_curAttr = NO_ATTR;
@@ -109,8 +107,6 @@ void TextLine::replaceText(const QString & str, short attribute, int index, int 
     }
     if (attribute != -1) {
         m_curColor = GETCOLOR(attribute);
-        if (m_curColor == '\0')
-            m_curColor = NO_COLOR;
         m_curAttr  = GETATTR(attribute);
         if (m_curAttr == '\0')
             m_curAttr = NO_ATTR;
@@ -366,8 +362,6 @@ bool TextLine::isPartial(int index)
 void TextLine::setAttr(short attr, int index)
 {
     char tmpColor = GETCOLOR(attr);
-    if (tmpColor == '\0')
-        tmpColor = NO_COLOR;
     char tmpAttr  = GETATTR(attr);
     if (tmpAttr == '\0')
         tmpAttr = NO_ATTR;
