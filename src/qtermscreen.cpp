@@ -368,7 +368,7 @@ void Screen::getFontMetrics(QFontMetrics *fm)
 {
     float cn = fm->width(QChar(0x4e00));
     float en = fm->width('W');
-    if (en / cn < 0.6) // almost half
+    if (en / cn < 0.7) // almost half
         m_nCharWidth = qMax((cn + 1) / 2, en);
     else
         m_nCharWidth = (qMax(en, cn) + 1) / 2;
