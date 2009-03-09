@@ -275,10 +275,10 @@ bool BBS::isUnicolor(TextLine *line)
     return bSame;
 }
 
-bool BBS::isIllChar(char ch)
+bool BBS::isIllChar(QChar ch)
 {
-    static char illChars[] = ",;'\"()[]<>^";
-    return ch > '~' || ch < '#' || strchr(illChars, ch) != NULL;
+    static QString illChars = ",;'\"()[]<>^";
+    return ch > '~' || ch < '#' || illChars.contains(ch);
 }
 
 bool BBS::isUrl(QRect& rcUrl, QRect& rcOld)
@@ -328,9 +328,9 @@ bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
     int ip_begin = 0;
     int ip_end = 0;
 
-    for (i = at; i >= 0 && !isIllChar(strText.at(i).toLatin1()); i--);
+    for (i = at; i >= 0 && !isIllChar(strText.at(i)); i--);
     url = i + 1;
-    for (i = at; i < strText.length() && !isIllChar(strText.at(i).toLatin1()); i++);
+    for (i = at; i < strText.length() && !isIllChar(strText.at(i)); i++);
     end = i;
 
     int nNoType = -1;

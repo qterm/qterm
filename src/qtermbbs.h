@@ -46,7 +46,7 @@ public:
 
 protected:
     bool isUnicolor(TextLine *);
-    bool isIllChar(char);
+    bool isIllChar(QChar);
     Buffer *m_pBuffer;
 
     QRect m_rcUrl;
