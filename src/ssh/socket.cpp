@@ -184,6 +184,7 @@ void SSHSocket::setProxy(int nProxyType, //0-no proxy; 1-wingate; 2-sock4; 3-soc
                          const QString& strProxyHost, quint16 uProxyPort,
                          const QString& strProxyUsr, const QString& strProxyPwd)
 {
+     m_socket->setProxy(nProxyType,bAuth,strProxyHost,uProxyPort,strProxyUsr, strProxyPwd);
     // TODO: proxy?
 }
 
