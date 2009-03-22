@@ -247,8 +247,9 @@ void SocketPrivate::connectToHost(HostInfo * hostInfo)
 	if( proxy_type == NOPROXY )
 	{
 		m_socket->connectToHost(host, port);
-	}
-	else
+	} else if ( proxy_type == HTTP ) {
+		m_socket->connectToHost(proxy_host, proxy_port);
+	} else
 	{
 		//get ip addr from name
 		struct hostent * hostent;
