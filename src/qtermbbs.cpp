@@ -338,48 +338,42 @@ bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
         if (begin > at)
             return false;
         host = url + 7;
-    } else
-        if ((begin = strText.indexOf(https, url, Qt::CaseInsensitive)) != -1) {
-            if (begin > at)
-                return false;
-            host = url + 8;
-        } else
-            if ((begin = strText.indexOf(mms, url, Qt::CaseInsensitive)) != -1) {
-                if (begin > at)
-                    return false;
-                host = url + 6;
-            } else
-                if ((begin = strText.indexOf(rstp, url, Qt::CaseInsensitive)) != -1) {
-                    if (begin > at)
-                        return false;
-                    host = url + 7;
-                } else
-                    if ((begin = strText.indexOf(ftp, url, Qt::CaseInsensitive)) != -1) {
-                        if (begin > at)
-                            return false;
-                        host = url + 6;
-                    } else
-                        if ((begin = strText.indexOf(mailto, url, Qt::CaseInsensitive)) != -1) {
-                            if (begin > at)
-                                return false;
-                            if ((ata = strText.indexOf('@', begin + 9)) == -1)
-                                return false;
-                            host = ata + 1;
-                        } else
-                            if ((begin = strText.indexOf(telnet, url, Qt::CaseInsensitive)) != -1) {
-                                if (begin > at)
-                                    return false;
-                                host = url + 9;
-                            } else {
-                                begin = url;
-                                if ((ata = strText.indexOf('@', begin + 1)) != -1) {
-                                    host = url + (ata - begin) + 1;
-                                    nNoType = 0;
-                                } else {
-                                    host = url;
-                                    nNoType = 1;
-                                }
-                            }
+    } else if ((begin = strText.indexOf(https, url, Qt::CaseInsensitive)) != -1) {
+        if (begin > at)
+            return false;
+        host = url + 8;
+    } else if ((begin = strText.indexOf(mms, url, Qt::CaseInsensitive)) != -1) {
+        if (begin > at)
+            return false;
+        host = url + 6;
+    } else if ((begin = strText.indexOf(rstp, url, Qt::CaseInsensitive)) != -1) {
+        if (begin > at)
+            return false;
+        host = url + 7;
+    } else if ((begin = strText.indexOf(ftp, url, Qt::CaseInsensitive)) != -1) {
+        if (begin > at)
+            return false;
+        host = url + 6;
+    } else if ((begin = strText.indexOf(mailto, url, Qt::CaseInsensitive)) != -1) {
+        if (begin > at)
+            return false;
+        if ((ata = strText.indexOf('@', begin + 9)) == -1)
+            return false;
+        host = ata + 1;
+    } else if ((begin = strText.indexOf(telnet, url, Qt::CaseInsensitive)) != -1) {
+        if (begin > at)
+            return false;
+        host = url + 9;
+    } else {
+        begin = url;
+        if ((ata = strText.indexOf('@', begin + 1)) != -1) {
+            host = url + (ata - begin) + 1;
+            nNoType = 0;
+        } else {
+            host = url;
+            nNoType = 1;
+        }
+    }
 
 // if (end - begin < 7) // too short
 //  return false;
