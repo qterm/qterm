@@ -190,6 +190,14 @@ int TermString::pos(int index)
     return m_index.at(index);
 }
 
+bool TermString::isEmpty()
+{
+    if (m_string.isNull()) {
+        return true;
+    }
+    return m_string.isEmpty();
+}
+
 // Shameless copied from git
 
 int TermString::bisearch(QChar ucs, const struct interval *table, int max)

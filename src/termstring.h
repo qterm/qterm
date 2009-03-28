@@ -34,6 +34,7 @@ public:
     int pos(int index);
     int size(int index);
     bool isPartial(int index);
+    bool isEmpty();
     static int wcwidth(QChar ch);
 private:
     struct interval {
