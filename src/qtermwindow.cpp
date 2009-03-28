@@ -1016,6 +1016,7 @@ void Window::readReady(int size)
 
 // set page state
 m_pBBS->setPageState();
+m_pBBS->updateUrlList();
 //refresh screen
 m_pScreen->m_ePaintState = Screen::NewData;
 m_pScreen->update();
