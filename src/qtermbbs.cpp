@@ -17,9 +17,11 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <qregexp.h>
+#include <QtDebug>
 namespace QTerm
 {
 BBS::BBS(Buffer * buffer)
+    :m_urlPosList()
 {
     m_pBuffer = buffer;
 }
@@ -283,11 +285,29 @@ bool BBS::isIllChar(QChar ch)
 
 bool BBS::isUrl(QRect& rcUrl, QRect& rcOld)
 {
-    return checkUrl(rcUrl, rcOld, false);
+    //return checkUrl(rcUrl, rcOld, false);
+    return checkUrl2(rcUrl, rcOld);
 }
 bool BBS::isIP(QRect& rcUrl, QRect& rcOld)
 {
     return checkUrl(rcUrl, rcOld, true);
+}
+
+bool BBS::checkUrl2(QRect & rcUrl, QRect & rcOld)
+{
+    m_strUrl = "";
+    int pt = (m_ptCursor.y()-m_nScreenStart)*m_pBuffer->columns()+m_ptCursor.x();
+    if (!m_urlPosList.isEmpty()) {
+        QPair<int, int> url;
+        foreach (url, m_urlPosList) {
+            if (pt > url.first && pt < url.second) {
+                qDebug() << "get text: " << getText(url.first, url.second);
+                m_strUrl = getText(url.first, url.second);
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
@@ -453,6 +473,169 @@ bool BBS::isPageComplete()
 {
     return m_pBuffer->caret().y() == (m_pBuffer->line() - 1)
            && m_pBuffer->caret().x() == (m_pBuffer->columns() - 1);
+}
+
+void BBS::updateUrlList()
+{
+    m_urlPosList.clear();
+    for (int i = 0; i < m_pBuffer->line(); i++) {
+        TextLine * lineBegin = m_pBuffer->screen(i);
+        if (lineBegin == NULL) {
+            break;
+        }
+        for (int j = 0; j < m_pBuffer->columns(); j++) {
+            int index = checkUrlBegin(lineBegin->getText(),j);
+            if (index != -1) {
+                int urlBegin = i*m_pBuffer->columns() + lineBegin->beginIndex(index);
+                int index2 = checkUrlEnd(lineBegin->getText(), index);
+                bool multiline = false;
+                if (index2 == -1) {
+                    while (m_pBuffer->screen(i+1) != NULL&&index2 == -1&&i < m_pBuffer->line()) {
+                        i++;
+                        TextLine * lineCurrent = m_pBuffer->screen(i);
+                        index2 = checkUrlEnd(lineCurrent->getText(), 0);
+                    }
+                    multiline = true;
+                }
+                int urlEnd = i*m_pBuffer->columns() + m_pBuffer->screen(i)->beginIndex(index2);
+                if (verifyUrl(urlBegin, urlEnd))
+                    m_urlPosList.append(qMakePair(urlBegin, urlEnd));
+                if (multiline)
+                    break;
+                j = index2;
+            }
+        }
+    }
+    if (!m_urlPosList.isEmpty()) {
+        QPair<int, int> url;
+        foreach (url, m_urlPosList) {
+            qDebug() << getText(url.first, url.second);
+        }
+    }
+}
+
+//FIXME: The function use the assumption that the Url is latin only
+bool BBS::verifyUrl(int urlBegin, int urlEnd)
+{
+    static const char http[] = "http://";
+    static const char https[] = "https://";
+    static const char mms[] = "mms://";
+    static const char rstp[] = "rstp://";
+    static const char ftp[] = "ftp://";
+    static const char mailto[] = "mailto:";
+    static const char telnet[] = "telnet://";
+
+    int i, index, begin, end, dot, url, host, ata;
+    int ip_begin = 0;
+    int ip_end = 0;
+
+    QString strText = getText(urlBegin, urlEnd);
+
+    int nNoType = -1;
+    url = 0;
+    host = 0;
+    end = strText.length()-1;
+    if ((begin = strText.indexOf(http, url, Qt::CaseInsensitive)) != -1) {
+        host = url + 7;
+    } else if ((begin = strText.indexOf(https, url, Qt::CaseInsensitive)) != -1) {
+        host = url + 8;
+    } else if ((begin = strText.indexOf(mms, url, Qt::CaseInsensitive)) != -1) {
+        host = url + 6;
+    } else if ((begin = strText.indexOf(rstp, url, Qt::CaseInsensitive)) != -1) {
+        host = url + 7;
+    } else if ((begin = strText.indexOf(ftp, url, Qt::CaseInsensitive)) != -1) {
+        host = url + 6;
+    } else if ((begin = strText.indexOf(mailto, url, Qt::CaseInsensitive)) != -1) {
+        if ((ata = strText.indexOf('@', begin + 9)) == -1)
+            return false;
+        host = ata + 1;
+    } else if ((begin = strText.indexOf(telnet, url, Qt::CaseInsensitive)) != -1) {
+        host = url + 9;
+    } else {
+        begin = url;
+        if ((ata = strText.indexOf('@', begin + 1)) != -1) {
+            host = url + (ata - begin) + 1;
+            nNoType = 0;
+        } else {
+            host = url;
+            nNoType = 1;
+        }
+    }
+    ip_begin = host;
+    ip_end = end;
+    for (index = host, dot = host - 1, i = 0; index < end && strText.at(index) != '/'; index++) {
+        if (strText.at(index) == '.') {
+            if (index <= dot + 1) // xxx..x is illegal
+                return false;
+            dot = index;
+            i++;
+        } else {
+                if (!strText.at(index).isLetterOrNumber() &&
+                        strText.at(index) != '-' &&
+                        strText.at(index) != '_' &&
+                        strText.at(index) != '~' &&
+                        strText.at(index) != ':' &&
+                        strText.at(index) != '@'
+                   )
+                    return false;
+        }
+    }
+    if (index > 0 && strText.at(index - 1) == '.')
+        return false;
+
+    if (i < 1 || end <= url)
+        return false;
+    return true;
+}
+
+QString BBS::getText(int startpt, int endpt)
+{
+    QString text;
+    QPoint start((int)(startpt%m_pBuffer->columns()),(int)(startpt/m_pBuffer->columns()));
+    QPoint end((int)(endpt%m_pBuffer->columns()),(int)(endpt/m_pBuffer->columns()));
+    TextLine * line;
+    if (start.y() == end.y()) {
+        line = m_pBuffer->screen(start.y());
+        if (line != NULL)
+            text = line->getText(start.x(), end.x()-start.x());
+    } else if (end.y() > start.y()) {
+        line = m_pBuffer->screen(start.y());
+        if (line != NULL)
+            text = line->getText(start.x(), -1);
+        for (int i = start.y()+1; i < end.y(); i++) {
+            line = m_pBuffer->screen(i);
+            if (line == NULL) {
+                return text;
+            }
+            text += line->getText(0,-1);
+        }
+        line = m_pBuffer->screen(end.y());
+        if (line != NULL && end.x() != 0)
+            text += m_pBuffer->screen(end.y())->getText(0,end.x());
+    } else {
+        qDebug() << start << end;
+    }
+    return text;
+}
+
+int BBS::checkUrlBegin( const QString & lineText, int index)
+{
+    int i = 0;
+    for (i = index; i < lineText.length() && isIllChar(lineText.at(i)); i++);
+    if (i < lineText.length()) {
+        return i;
+    }
+    return -1;
+}
+
+int BBS::checkUrlEnd( const QString & lineText, int index)
+{
+    int i = 0;
+    for (i = index; i< lineText.length() && !isIllChar(lineText.at(i)); i++);
+    if (i < lineText.length()) {
+        return i;
+    }
+    return -1;
 }
 
 } // namespace QTerm

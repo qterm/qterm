@@ -5,6 +5,8 @@
 #include <qrect.h>
 //Added by qt3to4:
 #include <QString>
+#include <QPair>
+#include <QList>
 
 class QRect;
 
@@ -35,6 +37,7 @@ public:
     bool isIP(QRect&, QRect&);
     bool isPageComplete();
     bool checkUrl(QRect&, QRect&, bool);
+    bool checkUrl2(QRect&, QRect&);
 
     QString getUrl();
     QString getIP();
@@ -43,6 +46,12 @@ public:
     QRect getSelectRect();
     int getCursorType(const QPoint&);
     QString getMessage();
+    QString getText(int startpt, int endpt);
+    void updateUrlList();
+
+    int checkUrlBegin(const QString & lineText, int index);
+    int checkUrlEnd(const QString & lineText, int index);
+    bool verifyUrl(int urlBegin, int urlEnd);
 
 protected:
     bool isUnicolor(TextLine *);
@@ -56,6 +65,8 @@ protected:
     int m_nPageState;
     QPoint m_ptCursor;
     int m_nScreenStart;
+    QList< QPair<int,int> > m_urlPosList;
+    QString m_url;
 };
 
 } // namespace QTerm
