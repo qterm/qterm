@@ -205,7 +205,7 @@ void TextLine::deleteText(int index, int len)
 // if len == -1, get the rest from index
 QString TextLine::getText(int index, int len)
 {
-    if (m_text.isEmpty()) {
+    if (m_text.isEmpty()||len == 0) {
         return QString();
     }
     QString str;
