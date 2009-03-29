@@ -301,7 +301,7 @@ bool BBS::checkUrl2(QRect & rcUrl, QRect & rcOld)
         QPair<int, int> url;
         foreach (url, m_urlPosList) {
             if (pt > url.first && pt < url.second) {
-                qDebug() << "get text: " << getText(url.first, url.second);
+                //qDebug() << "get text: " << getText(url.first, url.second);
                 m_strUrl = getText(url.first, url.second);
                 return true;
             }
@@ -506,12 +506,12 @@ void BBS::updateUrlList()
             }
         }
     }
-    if (!m_urlPosList.isEmpty()) {
-        QPair<int, int> url;
-        foreach (url, m_urlPosList) {
-            qDebug() << getText(url.first, url.second);
-        }
-    }
+//    if (!m_urlPosList.isEmpty()) {
+//        QPair<int, int> url;
+//        foreach (url, m_urlPosList) {
+//            qDebug() << getText(url.first, url.second);
+//        }
+//    }
 }
 
 //FIXME: The function use the assumption that the Url is latin only
