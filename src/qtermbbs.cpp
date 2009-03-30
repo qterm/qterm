@@ -286,14 +286,14 @@ bool BBS::isIllChar(QChar ch)
 bool BBS::isUrl(QRect& rcUrl, QRect& rcOld)
 {
     //return checkUrl(rcUrl, rcOld, false);
-    return checkUrl2(rcUrl, rcOld);
+    return checkUrl(rcUrl, rcOld);
 }
 bool BBS::isIP(QRect& rcUrl, QRect& rcOld)
 {
-    return checkUrl(rcUrl, rcOld, true);
+    return checkIP(rcUrl, rcOld);
 }
 
-bool BBS::checkUrl2(QRect & rcUrl, QRect & rcOld)
+bool BBS::checkUrl(QRect & rcUrl, QRect & rcOld)
 {
     m_strUrl = "";
     int pt = (m_ptCursor.y()-m_nScreenStart)*m_pBuffer->columns()+m_ptCursor.x();
@@ -310,7 +310,9 @@ bool BBS::checkUrl2(QRect & rcUrl, QRect & rcOld)
     return false;
 }
 
-bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
+// TODO: I do not know whether we need to support ip addr in multiple lines
+// TODO: Further Simplification
+bool BBS::checkIP(QRect& rcUrl, QRect& rcOld)
 {
     static const char http[] = "http://";
     static const char https[] = "https://";
@@ -319,7 +321,6 @@ bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
     static const char ftp[] = "ftp://";
     static const char mailto[] = "mailto:";
     static const char telnet[] = "telnet://";
-
     int at = m_pBuffer->at(m_ptCursor.y())->pos(m_ptCursor.x());
     if (at == -1) {
         return false;
@@ -330,16 +331,10 @@ bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
         rcOld = m_rcUrl;
         return true;
     }
-    if (!checkIP)
-        m_strUrl = "";
-    else
-        m_strIP = "";
+    m_strIP = "";
     rcOld = m_rcUrl;
-    if (!checkIP) //don't update when we only need ip
-        m_rcUrl = QRect(0, 0, 0, 0);
 
     QString strText = m_pBuffer->at(m_ptCursor.y())->getText();
-
 
     if (at >= strText.length())
         return false;
@@ -395,16 +390,13 @@ bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
         }
     }
 
-// if (end - begin < 7) // too short
-//  return false;
-
     ip_begin = host;
     ip_end = end;
     for (index = host, dot = host - 1, i = 0; index < end && strText.at(index) != '/'; index++) {
-        if (strText.at(index) == '@' && checkIP) {
+        if (strText.at(index) == '@') {
             ip_begin = index + 1;
         }
-        if (strText.at(index) == ':' && checkIP) {
+        if (strText.at(index) == ':') {
             ip_end = index;
         }
         if (strText.at(index) == '.') {
@@ -413,7 +405,6 @@ bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
             dot = index;
             i++;
         } else {
-            if (checkIP) { // somebody save me out
                 if (!strText.at(index).isLetterOrNumber() &&
                         strText.at(index) != '-' &&
                         strText.at(index) != '_' &&
@@ -423,16 +414,6 @@ bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
                         strText.at(index) != '@'
                    )
                     return false;
-            } else {
-                if (!strText.at(index).isLetterOrNumber() &&
-                        strText.at(index) != '-' &&
-                        strText.at(index) != '_' &&
-                        strText.at(index) != '~' &&
-                        strText.at(index) != ':' &&
-                        strText.at(index) != '@'
-                   )
-                    return false;
-            }
         }
     }
     if (index > 0 && strText.at(index - 1) == '.')
@@ -440,22 +421,10 @@ bool BBS::checkUrl(QRect& rcUrl, QRect& rcOld, bool checkIP)
 
     if (i < 1 || ip_end <= ip_begin || end <= url)
         return false;
-    if (checkIP)
-        m_strIP = strText.mid(ip_begin, ip_end - ip_begin);//get the pure ip address
-    else
-        m_strUrl = strText.mid(url, end - url);
-    if (nNoType == 0)
-        m_strUrl = "mailto:" + m_strUrl;
-    else if (nNoType == 1) {
-        if (checkIP) {
-            if (m_strIP[ m_strIP.length()-1 ] == '*')
-                m_strIP.replace(m_strIP.length() - 1 , 1, "1");
-        } else
-            m_strUrl = "http://" + m_strUrl;
-    }
+    m_strIP = strText.mid(ip_begin, ip_end - ip_begin);//get the pure ip address
+    if (m_strIP[ m_strIP.length()-1 ] == '*')
+        m_strIP.replace(m_strIP.length() - 1 , 1, "1");
     rcUrl = QRect(m_pBuffer->at(m_ptCursor.y())->beginIndex(url), m_ptCursor.y(), end - url, 1);
-    if (!checkIP) // don't update when we only need ip
-        m_rcUrl = rcUrl;
     return true;
 }
 

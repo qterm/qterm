@@ -36,8 +36,8 @@ public:
     bool isUrl(QRect&, QRect&);
     bool isIP(QRect&, QRect&);
     bool isPageComplete();
-    bool checkUrl(QRect&, QRect&, bool);
-    bool checkUrl2(QRect&, QRect&);
+    bool checkUrl(QRect&, QRect&);
+    bool checkIP(QRect&, QRect&);
 
     QString getUrl();
     QString getIP();
