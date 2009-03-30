@@ -1,10 +1,8 @@
-<ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>aboutDialog</class>
- <widget class="QDialog" name="aboutDialog" >
-  <property name="geometry" >
+ <widget class="QDialog" name="aboutDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -12,33 +10,31 @@
     <height>290</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy>
-    <hsizetype>5</hsizetype>
-    <vsizetype>5</vsizetype>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="minimumSize" >
+  <property name="minimumSize">
    <size>
     <width>400</width>
     <height>290</height>
    </size>
   </property>
-  <property name="maximumSize" >
+  <property name="maximumSize">
    <size>
     <width>400</width>
     <height>290</height>
    </size>
   </property>
-  <property name="baseSize" >
+  <property name="baseSize">
    <size>
     <width>0</width>
     <height>0</height>
    </size>
   </property>
-  <property name="font" >
+  <property name="font">
    <font>
     <family>Bitstream Vera Sans</family>
     <pointsize>9</pointsize>
@@ -49,14 +45,14 @@
     <strikeout>false</strikeout>
    </font>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>About QTerm</string>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>false</bool>
   </property>
-  <widget class="QLabel" name="pixmapLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="pixmapLabel">
+   <property name="geometry">
     <rect>
      <x>20</x>
      <y>10</y>
@@ -64,15 +60,15 @@
      <height>32</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string/>
    </property>
-   <property name="scaledContents" >
+   <property name="scaledContents">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="TextLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="TextLabel">
+   <property name="geometry">
     <rect>
      <x>100</x>
      <y>20</y>
@@ -80,18 +76,18 @@
      <height>19</height>
     </rect>
    </property>
-   <property name="frameShape" >
+   <property name="frameShape">
     <enum>QFrame::NoFrame</enum>
    </property>
-   <property name="frameShadow" >
+   <property name="frameShadow">
     <enum>QFrame::Plain</enum>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>QTerm 0.5.0 (QT 4.1 based)</string>
    </property>
   </widget>
-  <widget class="QTabWidget" name="mainTabWidget" >
-   <property name="geometry" >
+  <widget class="QTabWidget" name="mainTabWidget">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>50</y>
@@ -99,12 +95,15 @@
      <height>190</height>
     </rect>
    </property>
-   <widget class="QWidget" name="tab1" >
-    <attribute name="title" >
+   <property name="currentIndex">
+    <number>1</number>
+   </property>
+   <widget class="QWidget" name="tab1">
+    <attribute name="title">
      <string>About</string>
     </attribute>
-    <widget class="QLabel" name="TextLabel3" >
-     <property name="geometry" >
+    <widget class="QLabel" name="TextLabel3">
+     <property name="geometry">
       <rect>
        <x>70</x>
        <y>40</y>
@@ -112,7 +111,7 @@
        <height>87</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>QTerm --- BBS Client for X Window 2001-2008, 
 
 The QTerm Developers
@@ -121,12 +120,12 @@ http://www.qterm.org</string>
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab2" >
-    <attribute name="title" >
+   <widget class="QWidget" name="tab2">
+    <attribute name="title">
      <string>Authors</string>
     </attribute>
-    <widget class="QLabel" name="TextLabel1" >
-     <property name="geometry" >
+    <widget class="QLabel" name="TextLabel1">
+     <property name="geometry">
       <rect>
        <x>40</x>
        <y>10</y>
@@ -134,7 +133,7 @@ http://www.qterm.org</string>
        <height>140</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>kingson     
 	xiaokiangwang@yahoo.com.cn  
 
@@ -142,16 +141,16 @@ fiasco
 	yinshouyi@peoplemail.com.cn
 
 hooey
-	hephooey@hotmail.com</string>
+	hephooey@fastmail.fm</string>
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab3" >
-    <attribute name="title" >
+   <widget class="QWidget" name="tab3">
+    <attribute name="title">
      <string>Credits</string>
     </attribute>
-    <widget class="QTextBrowser" name="TextBrowser" >
-     <property name="geometry" >
+    <widget class="QTextBrowser" name="TextBrowser">
+     <property name="geometry">
       <rect>
        <x>10</x>
        <y>10</y>
@@ -162,8 +161,8 @@ hooey
     </widget>
    </widget>
   </widget>
-  <widget class="QPushButton" name="closeButton" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="closeButton">
+   <property name="geometry">
     <rect>
      <x>310</x>
      <y>250</y>
@@ -171,12 +170,12 @@ hooey
      <height>25</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Close</string>
    </property>
   </widget>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>closeButton</tabstop>
@@ -190,11 +189,11 @@ hooey
    <receiver>aboutDialog</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>339</x>
      <y>261</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>211</x>
      <y>249</y>
     </hint>
