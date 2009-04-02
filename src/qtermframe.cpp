@@ -618,8 +618,10 @@ void Frame::themesMenuActivated(QAction * action)
 {
     theme = action->text();
     QStyle * style = QStyleFactory::create(theme);
-    if (style)
+    if (style) {
         qApp->setStyle(style);
+        Global::instance()->setStyle(theme);
+    }
 }
 
 void Frame::updateScroll(QAction * action)
