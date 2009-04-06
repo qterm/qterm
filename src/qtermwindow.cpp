@@ -334,6 +334,9 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     connect(m_reconnectTimer, SIGNAL(timeout()), this, SLOT(reconnect()));
     m_ipTimer = new QTimer;
     connect(m_ipTimer, SIGNAL(timeout()), this, SLOT(showIP()));
+    m_updateTimer = new QTimer;
+    m_updateTimer->setSingleShot(true);
+    connect(m_updateTimer, SIGNAL(timeout()), this, SLOT(updateProcess()));
 
 
 // initial varibles
@@ -439,6 +442,7 @@ Window::~Window()
     delete m_idleTimer;
     delete m_replyTimer;
     delete m_tabTimer;
+    delete m_updateTimer;
 
     delete m_pUrl;
     delete m_pScreen;
@@ -543,6 +547,13 @@ void Window::blinkTab()
     static bool bVisible = TRUE;
     m_pFrame->wndmgr->blinkTheTab(this, bVisible);
     bVisible = !bVisible;
+}
+
+void Window::updateProcess()
+{
+// set page state
+    m_pBBS->setPageState();
+    m_pBBS->updateUrlList();
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1014,9 +1025,7 @@ void Window::readReady(int size)
     //m_pFrame->buzz();
 }
 
-// set page state
-m_pBBS->setPageState();
-m_pBBS->updateUrlList();
+m_updateTimer->start(100);
 //refresh screen
 m_pScreen->m_ePaintState = Screen::NewData;
 m_pScreen->update();
