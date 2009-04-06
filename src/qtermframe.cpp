@@ -166,7 +166,8 @@ void Frame::iniSetting()
     mdiconnectTools->setVisible(Global::instance()->showToolBar(mdiconnectTools->objectName()));
     key->setVisible(Global::instance()->showToolBar(key->objectName()));
 
-    QStyle * style = QStyleFactory::create(Global::instance()->style());
+    theme = Global::instance()->style();
+    QStyle * style = QStyleFactory::create(theme);
     if (style)
         qApp->setStyle(style);
 
