@@ -201,7 +201,7 @@ void Decode::normalInput()
         str += m_decoder->toUnicode(inputData+dataIndex + n, 1, m_state);
         n++;
         if (m_state->remainingChars != 0 && (dataIndex + n + 1) < inputLength && inputData[dataIndex+n] == CHAR_ESC && inputData[dataIndex+n+1] == '[') {
-            qDebug("Decode::normalInput: esc sequence in the middle of a char");
+            //qDebug("Decode::normalInput: esc sequence in the middle of a char");
             m_attrHack = true;
             break;
         }
@@ -211,11 +211,11 @@ void Decode::normalInput()
     //QString str = m_decoder->toUnicode(inputData+dataIndex, n, m_state);
     m_pBuffer->setBuffer(str, n);
     if (fixAttr == true) {
-        qDebug("Decode::normalInput: load attr");
+        //qDebug("Decode::normalInput: load attr");
         m_pBuffer->restoreAttr();
     }
     if (m_attrHack == true) {
-        qDebug("Decode::normalInput: save attr");
+        //qDebug("Decode::normalInput: save attr");
         m_pBuffer->saveAttr();
     }
 

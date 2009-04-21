@@ -900,10 +900,10 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
             qDebug("drawLine: non printable char");
             continue;
         }
-        if (tempcp != color.at(i+len-1) || tempea != attr.at(i+len-1) || bSelected != m_pBuffer->isSelected(QPoint(i+len-1, index), m_pWindow->m_bCopyRect)) {
+        //if (tempcp != color.at(i+len-1) || tempea != attr.at(i+len-1) || bSelected != m_pBuffer->isSelected(QPoint(i+len-1, index), m_pWindow->m_bCopyRect)) {
             //TODO: draw half char
-            qDebug("drawLine: not implemented yet");
-        }
+            //qDebug("drawLine: not implemented yet");
+        //}
         // get str of the same attribute
 
         if (bSelected) // selected area is text=color(0) background=color(7)
