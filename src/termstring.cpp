@@ -73,7 +73,7 @@ void TermString::insert(int index, const QString & str)
 
 void TermString::dumpIndex()
 {
-    qDebug() << "Index for string: " << m_string;
+    qDebug() << "Index for string: " << m_string << " " << m_index.length();
     for (int i=0; i < m_index.length(); i++) {
         printf("%d ",(char)m_index[i]);
     }
