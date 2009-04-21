@@ -519,6 +519,16 @@ int Zmodem::ZmodemTInit(ZModem *info)
 
 	ZIFlush(info) ;
 
+	QString path = Global::instance()->fileCfg()->getItemValue("global","openfiledialog").toString();
+	strFileList = QFileDialog::getOpenFileNames(0, "Choose the files", path, "All files(*)");
+	if(strFileList.count()!=0)
+	{
+		QStringList::Iterator itFile = strFileList.begin();
+		QFileInfo fi(*itFile);
+		Global::instance()->fileCfg()->setItemValue("global","openfiledialog", fi.absoluteDir().absolutePath() );
+		Global::instance()->fileCfg()->save();	
+	}
+	
 	/* optional: send "rz\r" to remote end */
 	if( DoInitRZ ) {
 	  if( (err = ZXmitStr((uchar *)"rz\r", 3, info)) )
@@ -530,16 +540,6 @@ int Zmodem::ZmodemTInit(ZModem *info)
 
 	info->timeout = 60 ;
 
-	QString path = Global::instance()->fileCfg()->getItemValue("global","openfiledialog").toString();
-	strFileList = QFileDialog::getOpenFileNames(0, "Choose the files", path, "All files(*)");
-	if(strFileList.count()!=0)
-	{
-		QStringList::Iterator itFile = strFileList.begin();
-		QFileInfo fi(*itFile);
-		Global::instance()->fileCfg()->setItemValue("global","openfiledialog", fi.absoluteDir().absolutePath() );
-		Global::instance()->fileCfg()->save();	
-	}
-	
 	zmodemlog("ZmodemTInit[%s]: sent ZRQINIT\n", sname(info)) ;
 
 	return 0 ;
