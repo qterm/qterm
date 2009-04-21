@@ -552,7 +552,6 @@ void Window::blinkTab()
 void Window::updateProcess()
 {
 // set page state
-    m_pBBS->setPageState();
     m_pBBS->updateUrlList();
 }
 
@@ -1025,6 +1024,7 @@ void Window::readReady(int size)
     //m_pFrame->buzz();
 }
 
+m_pBBS->setPageState();
 m_updateTimer->start(100);
 //refresh screen
 m_pScreen->m_ePaintState = Screen::NewData;
