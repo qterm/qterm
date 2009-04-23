@@ -342,7 +342,7 @@ void SSH1InBuffer::parseData()
     // -------------------------------------------------------
     // |                   |           total len             |
     // -------------------------------------------------------
-    while (m_in.size() > 0) {
+    while (m_in.size() > 4) {
         int length = get_u32(m_in.data());
         int totalLen = (length + 8) & ~7;
         int padding = totalLen - length;
