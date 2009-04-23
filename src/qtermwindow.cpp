@@ -937,7 +937,7 @@ void Window::readReady(int size)
     // read raw buffer
     m_pZmodem->ZmodemRcv((uchar *)raw_str, raw_size, &(m_pZmodem->info));
 
-    if (m_pZmodem->transferstate == notransfer) {
+    if (m_pZmodem->transferstate == NoTransfer) {
         //decode
         m_pDecode->decode(str, size);
 
@@ -1040,8 +1040,8 @@ pythonCallback("dataEvent", Py_BuildValue("(l)", this));
 delete []str;
 delete []raw_str;
 
-if (m_pZmodem->transferstate == transferstop)
-    m_pZmodem->transferstate = notransfer;
+if (m_pZmodem->transferstate == TransferStop)
+    m_pZmodem->transferstate = NoTransfer;
 }
 
 void Window::ZmodemState(int type, int value, const QString& status)

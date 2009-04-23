@@ -450,7 +450,7 @@ Zmodem::Zmodem(QObject *netinterface, int type)
 
 	sending = false;
 
-	transferstate = notransfer;
+	transferstate = NoTransfer;
 
 	zmodemTimer= new QTimer(this);
 	connect(zmodemTimer, SIGNAL(timeout()), this, SLOT(ZmodemTimeout()));
@@ -539,6 +539,7 @@ int Zmodem::ZmodemTInit(ZModem *info)
 	  return err ;
 
 	info->timeout = 60 ;
+	transferstate = WaitingForReply;  // transfer complete
 
 	zmodemlog("ZmodemTInit[%s]: sent ZRQINIT\n", sname(info)) ;
 
@@ -622,7 +623,7 @@ int Zmodem::ZmodemAbort(ZModem *info)
 	ZIFlush(info) ;
 	ZOFlush(info) ;
 
-	transferstate = transferstop;  // transfer complete
+	transferstate = TransferStop;  // transfer complete
 	ZmodemReset(info);  //Tranfer complete, zmodem return to receive state
 
 	zmodemlog("ZmodemAbort[%s]: send CAN\n", sname(info));
@@ -1888,7 +1889,7 @@ int Zmodem::SendRinit(  ZModem *info )
 	  /* TODO: switch to Ymodem */
 #endif	/* COMMENT */
 
-	transferstate = transferstart; //transfer would be active, it must be set to false when transfer complete or abort
+	transferstate = TransferStart; //transfer would be active, it must be set to false when transfer complete or abort
 	zmodemlog("SendRinit[%s]: send ZRINIT\n", sname(info)) ;
 
 	info->timeout = ResponseTime ;
@@ -2183,7 +2184,7 @@ int Zmodem::GotFin(  ZModem *info )
 	  free(info->filename) ;
 	i= ZXmitHdrHex(ZFIN, zeros, info) ;
 	ZmodemReset( info);
-	transferstate = transferstop;  // transfer complete
+	transferstate = TransferStop;  // transfer complete
 	return i;
 }
 
@@ -2609,7 +2610,7 @@ int Zmodem::GotRinit(  ZModem *info )
 	 * ZCRCW: CRC next, send ZACK, frame ends, header follows
 	 */
 
-	transferstate = transferstart;
+	transferstate = TransferStart;
 
 	ZFlowControl(1,info) ;
 
@@ -2803,7 +2804,7 @@ int Zmodem::OverAndOut( ZModem *info )
 
 	ZXmitStr((uchar *)"OO", 2, info) ;
 
-	transferstate = transferstop;  // transfer complete
+	transferstate = TransferStop;  // transfer complete
 
 	ZmodemReset(info);  //Tranfer complete, zmodem return to receive state
 

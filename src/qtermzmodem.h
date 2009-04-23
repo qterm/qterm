@@ -60,7 +60,7 @@ namespace QTerm
 enum enum_InputState {Idle, Padding, Inhdr, Indata, Finish, Ysend, Yrcv} ;
 enum enum_Protocol {XMODEM, YMODEM, ZMODEM};
 enum enum_Streaming {Full, StrWindow, SlidingWindow, Segmented};
-enum enum_transferstate {notransfer, transferstart, transferstop};
+enum enum_transferstate {NoTransfer, WaitingForReply, TransferStart, TransferStop};
 
 
 	/* Internal State */
