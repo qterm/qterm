@@ -304,6 +304,14 @@ void Global::saveAddress(int n, const Param& param)
 
 }
 
+void Global::removeAddress(int n)
+{
+    if (n < 0)
+        return;
+    QString strSection = QString("bbs %1").arg(n);
+    m_address->deleteSection(strSection);
+}
+
 void Global::loadPrefence()
 {
     QString strTmp;

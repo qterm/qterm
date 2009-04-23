@@ -162,7 +162,7 @@ void addrDialog::onDelete()
 	// delete the section
 	QString strSection = QString("bbs %1").arg(index);
 // 	strSection.sprintf("bbs %d",index);
-	pConf->deleteSection(strSection);
+	Global::instance()->removeAddress(index);
 	// change the number after that
 	for(int i=index+1; i<num; i++)
 	{

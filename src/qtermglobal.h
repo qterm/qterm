@@ -74,6 +74,7 @@ public:
     QStringList loadNameList();
     bool loadAddress(int n, Param & param);
     void saveAddress(int n, const Param & param);
+    void removeAddress(int n);
     QString getOpenFileName(const QString & filter, QWidget * widget);
     QString getSaveFileName(const QString & filename, QWidget * widget);
     bool isOK();
