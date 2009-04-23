@@ -13,10 +13,11 @@
 #include "qtermtextline.h"
 #include "qterm.h"
 //Added by qt3to4:
-#include <QString>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QRegExp>
 #include <stdio.h>
 #include <ctype.h>
-#include <qregexp.h>
 #include <QtDebug>
 namespace QTerm
 {
@@ -279,7 +280,7 @@ bool BBS::isUnicolor(TextLine *line)
 
 bool BBS::isIllChar(QChar ch)
 {
-    static QString illChars = ",;'\"()[]<>^";
+    static QString illChars = ",;'\"()<>^";
     return ch > '~' || ch < '#' || illChars.contains(ch);
 }
 
@@ -303,6 +304,15 @@ bool BBS::checkUrl(QRect & rcUrl, QRect & rcOld)
             if (pt > url.first && pt < url.second) {
                 //qDebug() << "get text: " << getText(url.first, url.second);
                 m_strUrl = getText(url.first, url.second);
+                QRegExp urlRe("^(mailto:|(https?|mms|rstp|ftp|gopher|telnet|ed2k|file)://)");
+                QRegExp emailRe("^[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}");
+                if (urlRe.indexIn(m_strUrl)==-1) {
+                    if (emailRe.indexIn(m_strUrl)==-1) {
+                        m_strUrl = "http://"+m_strUrl;
+                    } else {
+                        m_strUrl = "mailto:"+m_strUrl;
+                    }
+                }
                 return true;
             }
         }
@@ -486,14 +496,6 @@ void BBS::updateUrlList()
 //FIXME: The function use the assumption that the Url is latin only
 bool BBS::verifyUrl(int urlBegin, int urlEnd)
 {
-    static const char http[] = "http://";
-    static const char https[] = "https://";
-    static const char mms[] = "mms://";
-    static const char rstp[] = "rstp://";
-    static const char ftp[] = "ftp://";
-    static const char mailto[] = "mailto:";
-    static const char telnet[] = "telnet://";
-
     int i, index, begin, end, dot, url, host, ata;
     int ip_begin = 0;
     int ip_end = 0;
@@ -504,22 +506,16 @@ bool BBS::verifyUrl(int urlBegin, int urlEnd)
     url = 0;
     host = 0;
     end = strText.length()-1;
-    if ((begin = strText.indexOf(http, url, Qt::CaseInsensitive)) != -1) {
-        host = url + 7;
-    } else if ((begin = strText.indexOf(https, url, Qt::CaseInsensitive)) != -1) {
-        host = url + 8;
-    } else if ((begin = strText.indexOf(mms, url, Qt::CaseInsensitive)) != -1) {
-        host = url + 6;
-    } else if ((begin = strText.indexOf(rstp, url, Qt::CaseInsensitive)) != -1) {
-        host = url + 7;
-    } else if ((begin = strText.indexOf(ftp, url, Qt::CaseInsensitive)) != -1) {
-        host = url + 6;
-    } else if ((begin = strText.indexOf(mailto, url, Qt::CaseInsensitive)) != -1) {
-        if ((ata = strText.indexOf('@', begin + 9)) == -1)
-            return false;
-        host = ata + 1;
-    } else if ((begin = strText.indexOf(telnet, url, Qt::CaseInsensitive)) != -1) {
-        host = url + 9;
+    QRegExp urlRe("^(mailto:|(https?|mms|rstp|ftp|gopher|telnet|ed2k|file)://)");
+    if ((begin = urlRe.indexIn(strText))!=-1) {
+        if (urlRe.capturedTexts().contains("mailto:")) {
+            if ((ata = strText.indexOf('@', begin + 1)) == -1)
+                host = url + (ata - begin) + 1;
+            else
+                return -1;
+        } else {
+            host = url+urlRe.matchedLength();
+        }
     } else {
         begin = url;
         if ((ata = strText.indexOf('@', begin + 1)) != -1) {
@@ -544,6 +540,11 @@ bool BBS::verifyUrl(int urlBegin, int urlEnd)
                         strText.at(index) != '_' &&
                         strText.at(index) != '~' &&
                         strText.at(index) != ':' &&
+                        strText.at(index) != '[' &&
+                        strText.at(index) != ']' &&
+                        strText.at(index) != '%' &&
+                        strText.at(index) != '|' &&
+                        strText.at(index) != '=' &&
                         strText.at(index) != '@'
                    )
                     return false;
@@ -570,13 +571,13 @@ QString BBS::getText(int startpt, int endpt)
     } else if (end.y() > start.y()) {
         line = m_pBuffer->screen(start.y());
         if (line != NULL)
-            text = line->getText(start.x(), -1);
+            text = line->getText(start.x(), -1).trimmed();
         for (int i = start.y()+1; i < end.y(); i++) {
             line = m_pBuffer->screen(i);
             if (line == NULL) {
                 return text;
             }
-            text += line->getText(0,-1);
+            text += line->getText(0,-1).trimmed();
         }
         line = m_pBuffer->screen(end.y());
         if (line != NULL && end.x() != 0)
@@ -590,8 +591,9 @@ QString BBS::getText(int startpt, int endpt)
 int BBS::checkUrlBegin( const QString & lineText, int index)
 {
     int i = 0;
-    for (i = index; i < lineText.length() && isIllChar(lineText.at(i)); i++);
-    if (i < lineText.length()) {
+    QString urlText = lineText.trimmed();
+    for (i = index; i < urlText.length() && isIllChar(urlText.at(i)); i++);
+    if (i < urlText.length()) {
         return i;
     }
     return -1;
@@ -600,8 +602,12 @@ int BBS::checkUrlBegin( const QString & lineText, int index)
 int BBS::checkUrlEnd( const QString & lineText, int index)
 {
     int i = 0;
-    for (i = index; i< lineText.length() && !isIllChar(lineText.at(i)); i++);
-    if (i < lineText.length()) {
+    QString urlText = lineText.trimmed();
+    if (urlText.isEmpty()) {
+        return 0;
+    }
+    for (i = index; i< urlText.length() && !isIllChar(urlText.at(i)); i++);
+    if (i < urlText.length()) {
         return i;
     }
     return -1;
