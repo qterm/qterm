@@ -14,6 +14,9 @@
 #include "qtermconfig.h"
 #include "qtermparam.h"
 #include "qtermconvert.h"
+#ifdef KWALLET_ENABLED
+#include "wallet.h"
+#endif // KWALLET_ENABLED
 #include "qterm.h"
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
@@ -61,6 +64,14 @@ Global::Global()
     m_config = new Config(m_fileCfg);
     m_address = new Config(m_addrCfg);
     m_converter = new Convert();
+#ifdef KWALLET_ENABLED
+    if (Wallet::isWalletAvailable()) {
+        qDebug() << "KWallet service found";
+        m_wallet = new Wallet(this);
+    } else {
+        m_wallet = NULL;
+    }
+#endif // KWALLET_ENABLED
     if (!iniSettings()) {
         m_status = INIT_ERROR;
         return;
@@ -150,7 +161,13 @@ bool Global::loadAddress(int n, Param& param)
     param.m_bAutoLogin = (strTmp != "0");
     param.m_strPreLogin = m_address->getItemValue(strSection, "prelogin").toString();
     param.m_strUser = m_address->getItemValue(strSection, "user").toString();
-    param.m_strPasswd = m_address->getItemValue(strSection, "password").toString();
+#ifdef KWALLET_ENABLED
+    if (m_wallet != NULL) {
+        m_wallet->open();
+        param.m_strPasswd = m_wallet->readPassword(param.m_strName, param.m_strUser);
+    } else
+#endif // KWALLET_ENABLED
+        param.m_strPasswd = m_address->getItemValue(strSection, "password").toString();
     param.m_strPostLogin = m_address->getItemValue(strSection, "postlogin").toString();
 
     strTmp = m_address->getItemValue(strSection, "bbscode").toString();
@@ -241,7 +258,14 @@ void Global::saveAddress(int n, const Param& param)
     m_address->setItemValue(strSection, "autologin", param.m_bAutoLogin ? "1" : "0");
     m_address->setItemValue(strSection, "prelogin", param.m_strPreLogin);
     m_address->setItemValue(strSection, "user", param.m_strUser);
-    m_address->setItemValue(strSection, "password", param.m_strPasswd);
+
+#ifdef KWALLET_ENABLED
+    if (m_wallet != NULL) {
+        m_wallet->open();
+        m_wallet->writePassword(param.m_strName, param.m_strUser, param.m_strPasswd);
+    } else
+#endif // KWALLET_ENABLED
+        m_address->setItemValue(strSection, "password", param.m_strPasswd);
     m_address->setItemValue(strSection, "postlogin", param.m_strPostLogin);
 
     strTmp=param.m_BBSCode;
@@ -309,6 +333,18 @@ void Global::removeAddress(int n)
     if (n < 0)
         return;
     QString strSection = QString("bbs %1").arg(n);
+#ifdef KWALLET_ENABLED
+    // check if larger than existence
+    QString strTmp = m_address->getItemValue("bbs list", "num").toString();
+    if (n >= strTmp.toInt())
+        return;
+    QString site = m_address->getItemValue(strSection, "name").toString();
+    QString username = m_address->getItemValue(strSection, "user").toString();
+    if (m_wallet != NULL) {
+        m_wallet->open();
+        m_wallet->removePassword(site, username);
+    }
+#endif // KWALLET_ENABLED
     m_address->deleteSection(strSection);
 }
 
@@ -803,6 +839,9 @@ void Global::saveState(const QByteArray state)
 
 void Global::cleanup()
 {
+#ifdef KWALLET_ENABLED
+    m_wallet->close();
+#endif // KWALLET_ENABLED
     if (m_pref.bClearPool) {
         clearDir(m_pref.strZmPath);
         clearDir(m_pref.strPoolPath);
