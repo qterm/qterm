@@ -1009,7 +1009,7 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
         if (GETBG(cp) != 0 || m_ePaintState == Cursor)
             painter.fillRect(mapToRect(x, y, length, 1), QBrush(m_color[GETBG(cp)]));
         if (flags == RenderAll) {
-            painter.drawText(pt.x(), pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignCenter, str);
+            painter.drawText(pt.x(), pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignLeft, str);
         } else if (flags == RenderLeft) {
             painter.drawText(pt.x()+m_nCharDelta, pt.y(), m_nCharWidth-m_nCharDelta, m_nCharHeight, Qt::AlignLeft, str);
         } else if (flags == RenderRight) {
