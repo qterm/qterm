@@ -1,6 +1,5 @@
 set(optionalLibs)
 set(optionalSources)
-set(win32Libs libwsock32.a)
 option(QTERM_ENABLE_SSH "Build SSH Support" ON)
 option(QTERM_ENABLE_DBUS "Build DBus Support" ON)
 option(QTERM_ENABLE_PHONON "Build Phonon Support" ON)
@@ -132,6 +131,10 @@ set(qterm_MISC
    credits
    qterm.cfg)
 if(WIN32)
+  find_library(WIN32_WS2_LIBRARY NAMES ws2_32 PATHS $ENV{WINDIR}/system32)
+  if(WIN32_WS2_LIBRARY)
+      set(optionalLibs ${optionalLibs} ${WIN32_WS2_LIBRARY})
+  endif(WIN32_WS2_LIBRARY)
   if(MINGW)
     # resource compilation for mingw
     ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/qterm_rc.o
@@ -145,7 +148,7 @@ if(WIN32)
 endif(WIN32)
 qt4_wrap_ui(qterm_UIS_H ${qterm_UIS})
 qt4_automoc(${qterm_SRCS})
-add_definitions( -Wall -DHAVE_CONFIG_H )
+add_definitions( -DHAVE_CONFIG_H )
 if(WIN32 AND MINGW)
    set(CMAKE_CXX_FLAGS -mwindows)
 endif(WIN32 AND MINGW)
@@ -158,7 +161,11 @@ include_directories(
    ${CMAKE_BINARY_DIR}
    ${CMAKE_CURRENT_BINARY_DIR}
    ${CMAKE_CURRENT_SOURCE_DIR})
-add_executable(qterm ${qterm_SRCS})
+if(WIN32)
+   add_executable(qterm WIN32 ${qterm_SRCS})
+else(WIN32)
+   add_executable(qterm ${qterm_SRCS})
+endif(WIN32)
 target_link_libraries(qterm
    ${QT_LIBRARIES}
    ${QT_QTCORE_LIBRARY}

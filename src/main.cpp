@@ -37,6 +37,18 @@ using namespace QTerm;
 PyThreadState * mainThreadState;
 #endif //HAVE_PYTHON
 
+#ifdef Q_WS_WIN
+#define WIN32_LEAN_AND_MEAN
+#include "windows.h"
+int main(int argc, char **argv);
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+                                 LPSTR lpCmdLine, int nCmdShow)
+{
+  return main(__argc, __argv);
+}
+#endif
+
 static void qtMessageHandler(QtMsgType type, const char *msg)
 {
         fprintf(stderr, "%s\n", msg);
