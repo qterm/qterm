@@ -571,13 +571,13 @@ QString BBS::getText(int startpt, int endpt)
     } else if (end.y() > start.y()) {
         line = m_pBuffer->screen(start.y());
         if (line != NULL)
-            text = line->getText(start.x(), -1).trimmed();
+            text = line->getText(start.x(), -1);
         for (int i = start.y()+1; i < end.y(); i++) {
             line = m_pBuffer->screen(i);
             if (line == NULL) {
                 return text;
             }
-            text += line->getText(0,-1).trimmed();
+            text += line->getText(0,-1);
         }
         line = m_pBuffer->screen(end.y());
         if (line != NULL && end.x() != 0)
@@ -591,7 +591,7 @@ QString BBS::getText(int startpt, int endpt)
 int BBS::checkUrlBegin( const QString & lineText, int index)
 {
     int i = 0;
-    QString urlText = lineText.trimmed();
+    QString urlText = lineText;
     for (i = index; i < urlText.length() && isIllChar(urlText.at(i)); i++);
     if (i < urlText.length()) {
         return i;
@@ -602,7 +602,7 @@ int BBS::checkUrlBegin( const QString & lineText, int index)
 int BBS::checkUrlEnd( const QString & lineText, int index)
 {
     int i = 0;
-    QString urlText = lineText.trimmed();
+    QString urlText = lineText;
     if (urlText.isEmpty()) {
         return 0;
     }
