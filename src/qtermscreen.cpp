@@ -1262,7 +1262,6 @@ void Input::drawInput(QInputMethodEvent * e)
 {
     int cursorPos = -1;
     foreach (QInputMethodEvent::Attribute attribute, e->attributes()) {
-        qDebug() << "attributes: " << attribute.type;
         switch (attribute.type) {
             case QInputMethodEvent::TextFormat:
                 //FIXME: text format?
