@@ -367,6 +367,10 @@ void Screen::updateFont()
     m_rcClient = QRect(point.x()+marginw, point.y()+marginh, m_pBuffer->columns()*m_nCharWidth, m_pBuffer->line()*m_nCharHeight);
     m_pFont->setWeight(QFont::Normal);
     m_pFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+    if (m_inputContent != NULL) {
+        delete m_inputContent;
+        m_inputContent = NULL;
+    }
 }
 
 void Screen::getFontMetrics(QFontMetrics *fm)
