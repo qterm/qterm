@@ -1138,9 +1138,9 @@ QRect Screen::mapToRect(int x, int y, int width, int height)
     QPoint pt = mapToPixel(QPoint(x, y));
 
     if (width == -1)  // to the end
-        return QRect(pt.x(), pt.y(), size().width() , m_nCharHeight*height);
+        return QRect(pt.x()+m_nCharDelta, pt.y(), size().width() , m_nCharHeight*height);
     else
-        return QRect(pt.x(), pt.y(), width*m_nCharWidth, m_nCharHeight*height);
+        return QRect(pt.x()+m_nCharDelta, pt.y(), width*m_nCharWidth, m_nCharHeight*height);
 }
 
 QRect Screen::mapToRect(const QRect& rect)
