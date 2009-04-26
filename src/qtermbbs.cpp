@@ -280,7 +280,7 @@ bool BBS::isUnicolor(TextLine *line)
 
 bool BBS::isIllChar(QChar ch)
 {
-    static QString illChars = ",;'\"()<>^";
+    static QString illChars = ",;'\"()<>^[]";
     return ch > '~' || ch < '#' || illChars.contains(ch);
 }
 
