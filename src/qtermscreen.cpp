@@ -933,16 +933,15 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
             continue;
         }
         CharFlags flags = RenderAll;
-        if ( charWidth == 2) {
+        if ( pTextLine->isPartial(startx) ) {
+            flags = RenderRight;
+        } else if ( charWidth == 2) {
             if (tempcp != color.at(i+1) || tempea != attr.at(i+1) || bSelected != m_pBuffer->isSelected(QPoint(i+1, index), m_pWindow->m_bCopyRect)) {
                 charWidth = 1;
                 flags = RenderLeft;
             } else {
                 ++i;
             }
-        }
-        if ( pTextLine->isPartial(startx) ) {
-            flags = RenderRight;
         }
         drawStr(painter, (QString)strShow.at(0), startx, index, charWidth, tempattr, bSelected, flags);
 
@@ -1018,11 +1017,12 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
         if (GETBG(cp) != 0 || m_ePaintState == Cursor)
             painter.fillRect(mapToRect(x, y, length, 1), QBrush(m_color[GETBG(cp)]));
         if (flags == RenderAll) {
-            painter.drawText(pt.x(), pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignLeft, str);
+            painter.drawText(pt.x()+m_nCharDelta, pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignLeft, str);
         } else if (flags == RenderLeft) {
             painter.drawText(pt.x()+m_nCharDelta, pt.y(), m_nCharWidth-m_nCharDelta, m_nCharHeight, Qt::AlignLeft, str);
         } else if (flags == RenderRight) {
-            painter.drawText(pt.x(), pt.y(), m_nCharWidth-m_nCharDelta, m_nCharHeight, Qt::AlignRight, str);
+            int width = painter.fontMetrics().width(str[0])-m_nCharWidth+m_nCharDelta;
+            painter.drawText(pt.x(), pt.y(), width, m_nCharHeight, Qt::AlignRight, str);
         }
     }
 }
