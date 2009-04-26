@@ -64,6 +64,7 @@ Screen::Screen(QWidget *parent, Buffer *buffer, Param *param, BBS *bbs)
     //m_pCanvas = NULL;
     m_ePaintState = Repaint;
     m_bCursor = true;
+    m_inputContent = NULL;
 
     setFocusPolicy(Qt::ClickFocus);
     setAttribute(Qt::WA_InputMethodEnabled, true);
@@ -115,7 +116,7 @@ Screen::~Screen()
     delete m_blinkTimer;
     delete m_cursorTimer;
     //delete m_pCanvas;
-    //delete m_inputContent;
+    delete m_inputContent;
 }
 
 // focus event received
@@ -1213,8 +1214,32 @@ QImage& Screen::fade(QImage& img, float val, const QColor& color)
 
 void Screen::inputMethodEvent(QInputMethodEvent * e)
 {
-    QString text = e->commitString();
-    emit inputEvent(&text);
+    QString commitString = e->commitString();
+    if (!commitString.isEmpty()) {
+        emit inputEvent(&commitString);
+    }
+    QString preeditString = e->preeditString();
+    if (m_inputContent == NULL){
+        m_inputContent = new Input(this, m_nCharWidth, m_nCharHeight, m_nCharAscent);
+        m_inputContent->setFont(*m_pFont);
+    }
+    if (preeditString.isEmpty()) {
+        m_inputContent->hide();
+    } else {
+        m_inputContent->drawInput(e);
+        QPoint cursor;
+        int x = m_pBuffer->caretX();
+        int y = m_pBuffer->caretY();
+        cursor = mapToPixel(QPoint(x+1,y));
+
+        if (m_inputContent->width() + cursor.x() > m_rcClient.width()){
+            cursor = mapToPixel(QPoint(x,y));
+            cursor.setX(m_rcClient.right() - m_inputContent->width());
+        }else
+            cursor = mapToPixel(QPoint(x,y));
+        m_inputContent->show();
+        m_inputContent->move(cursor);
+    }
 }
 
 QVariant Screen::inputMethodQuery(Qt::InputMethodQuery property) const
@@ -1232,133 +1257,76 @@ QVariant Screen::inputMethodQuery(Qt::InputMethodQuery property) const
         return QVariant();
     }
 }
-/*
-void Screen::imStartEvent(QIMEvent * e)
-{
- //m_inputContent = new QTermInput(this, m_nCharWidth, m_nCharHeight, m_nCharAscent);
- //m_inputContent->setFont(*m_pFont);
- //m_inputContent->setTextFormat(Qt::RichText);
 
- //m_inputContent->show();
+void Input::drawInput(QInputMethodEvent * e)
+{
+    int cursorPos = -1;
+    foreach (QInputMethodEvent::Attribute attribute, e->attributes()) {
+        qDebug() << "attributes: " << attribute.type;
+        switch (attribute.type) {
+            case QInputMethodEvent::TextFormat:
+                //FIXME: text format?
+                break;
+            case QInputMethodEvent::Cursor:
+                if (attribute.length == 0) {
+                    cursorPos = -1;
+                } else {
+                    cursorPos = attribute.start;
+                }
+                break;
+            case QInputMethodEvent::Language:
+                break;
+            case QInputMethodEvent::Ruby:
+                break;
+            default:
+                qDebug("Unknown attribute");
+                break;
+        }
+    }
+
+    d_text = e->preeditString();
+    d_pos = cursorPos;
+    repaint();
 }
 
-void Screen::imComposeEvent(QIMEvent * e)
+void Input::paintEvent(QPaintEvent * e)
 {
- if (m_inputContent == NULL){
-  m_inputContent = new QTermInput(this, m_nCharWidth, m_nCharHeight, m_nCharAscent);
-  m_inputContent->setFont(*m_pFont);
-  m_inputContent->show();
- }
- QString text = QString::null;
+    QPainter inputPainter;
+    int len = 0;
+    int cursor = 0;
+    int width, height;
 
- QPoint cursor;
- int x = m_pBuffer->caretX();
- int y = m_pBuffer->caretY();
- int pos = e->cursorPos();
+    if (d_pos == -1 || d_pos >= d_text.length())
+        d_pos = 0;
+    for (int i = 0; i < d_text.length(); ++i) {
+        if (i == d_pos)
+            cursor = len;
+        len += TermString::wcwidth(d_text[i]);
+    }
 
- text += e->text();
-// how dirty
-#ifdef Q_OS_MACX
-ushort code=text[text.length()-1].unicode();
-if( (code>0xff00&&code<0xffef) ||
-(code>0x3000&&code<0x303f) ||
-(code>0x2000&&code<0x206f) ||
-code==0x00b7)
-{
-emit inputEvent(&text);
-return;
+    width = len * d_width;
+    height = d_height;
+
+    inputPainter.begin(this);
+    setFixedSize(width,height);
+    inputPainter.eraseRect(rect());
+
+    len = 0;
+    inputPainter.setPen(Qt::black);
+
+    for (int j = 0; j < d_text.length(); ++j) {
+        if (j == d_pos) {
+            QRect rcCurrent(len * d_width, 0, d_width*TermString::wcwidth(d_text[d_pos]), d_height);
+            inputPainter.fillRect(rcCurrent, QBrush(Qt::darkGray));
+            inputPainter.setPen(Qt::white);
+            inputPainter.drawText(len * d_width ,d_ascent, d_text.mid(d_pos, 1));
+        } else {
+            inputPainter.drawText(len * d_width, d_ascent, d_text.mid(j, 1));
+        }
+        len += TermString::wcwidth(d_text[j]);
+    }
+    inputPainter.end();
 }
-#endif
- m_inputContent->drawInput(text, pos);
-
- QString text_before = text.left(pos);
- QString text_after = text.mid(pos + 1);
- QString text_select = "<u>" + text.mid(pos,1) + "</u>";
-
- text = text_before + text_select + text_after;
-
- cursor = mapToPixel(QPoint(x+1,y));
-
- //m_inputContent->setText(text);
- //m_inputContent->adjustSize();
-
- if (m_inputContent->width() + cursor.x() > m_rcClient.width()){
-  cursor = mapToPixel(QPoint(x,y));
-  cursor.setX(m_rcClient.right() - m_inputContent->width());
- }else
-  cursor = mapToPixel(QPoint(x,y));
- m_inputContent->move(cursor);
-}
-
-void Screen::imEndEvent(QIMEvent * e)
-{
- QString text = QString::null;
- text += e->text();
- //m_inputContent->setText(QString::null);
- delete m_inputContent;
- m_inputContent = NULL;
- emit inputEvent(&text);
-}
-*/
-/*
-void QTermInput::drawInput(QString & inputText, int position)
-{
- d_text = inputText;
- d_pos = position;
- repaint();
-}
-
-void QTermInput::paintEvent(QPaintEvent * e)
-{
- QPainter inputPainter;
- int len = 0;
- int cursor = 0;
- int width, height;
-
- if (d_pos == -1 || d_pos >= d_text.length())
-  d_pos = 0;
- for (int i = 0; i < d_text.length(); ++i) {
-  if (d_text[i] <= 0x7f) {
-   ++len;
-   if (i == d_pos)
-    cursor = len - 1;
-  }
-  else {
-   len += 2;
-   if (i == d_pos)
-    cursor = len - 2;
-  }
- }
-
- width = len * d_width;
- height = d_height;
-
- inputPainter.begin(this);
- setFixedSize(width,height);
- erase();
-
- len = 0;
- inputPainter.setPen(Qt::black);
- //inputPainter.drawText(0 ,m_nCharAscent, text);
-
- for (int j = 0; j < d_text.length(); ++j) {
-  inputPainter.drawText(len * d_width, d_ascent, d_text.mid(j, 1));
-  if (d_text[j] <= 0x7f)
-   ++len;
-  else
-   len += 2;
- }
-#ifndef Q_OS_MACX
- QRect rcCurrent(cursor * d_width, 0, d_width*2, d_height);
- if (d_text[d_pos] <= 0x7f)
-  rcCurrent.setRect(cursor * d_width, 0, d_width, d_height);
- erase(rcCurrent);
- inputPainter.fillRect(rcCurrent, QBrush(Qt::darkGray));
- inputPainter.setPen(Qt::white);
- inputPainter.drawText(cursor * d_width ,d_ascent, d_text.mid(d_pos, 1));
-#endif
- inputPainter.end();
-}*/
 
 } // namespace QTerm
 

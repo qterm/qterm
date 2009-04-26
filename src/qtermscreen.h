@@ -32,27 +32,27 @@ class Buffer;
 class BBS;
 class Param;
 // class Q3Accel;
-/*
-class QTermInput : public QWidget
+
+class Input : public QWidget
 {
- Q_OBJECT
+    Q_OBJECT
 public:
- QTermInput(QWidget * parent, int width, int height, int ascent)
-  :QWidget(parent),d_text(0),d_pos(0),d_height(height), d_width(width), d_ascent(ascent)
- {
- }
- ~QTermInput()
- {
- }
- void drawInput(QString & text, int position);
+    Input(QWidget * parent, int width, int height, int ascent)
+        :QWidget(parent),d_text(0),d_pos(0),d_height(height), d_width(width), d_ascent(ascent)
+    {
+    }
+    ~Input()
+    {
+    }
+    void drawInput(QInputMethodEvent * );
 protected:
- void paintEvent( QPaintEvent * );
+    void paintEvent( QPaintEvent * );
 private:
- QString d_text;
- int d_pos;
- int d_height, d_width, d_ascent;
+    QString d_text;
+    int d_pos;
+    int d_height, d_width, d_ascent;
 };
-*/
+
 class Screen : public QWidget
 {
     Q_OBJECT
@@ -160,7 +160,7 @@ protected:
 
     QTimer * m_blinkTimer;
     QTimer * m_cursorTimer;
-    //QTermInput * m_inputContent;
+    Input * m_inputContent;
 
     bool m_blinkScreen;
     bool m_blinkCursor;
