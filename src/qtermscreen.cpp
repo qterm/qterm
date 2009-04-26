@@ -909,11 +909,6 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
             qDebug("drawLine: non printable char");
             continue;
         }
-        //if (tempcp != color.at(i+len-1) || tempea != attr.at(i+len-1) || bSelected != m_pBuffer->isSelected(QPoint(i+len-1, index), m_pWindow->m_bCopyRect)) {
-            //TODO: draw half char
-            //qDebug("drawLine: not implemented yet");
-        //}
-        // get str of the same attribute
 
         if (bSelected) // selected area is text=color(0) background=color(7)
             tempattr = SETCOLOR(SETFG(0) | SETBG(7)) | SETATTR(NO_ATTR);
@@ -939,12 +934,17 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
         }
         CharFlags flags = RenderAll;
         if ( charWidth == 2) {
-            flags = RenderLeft;
+            if (tempcp != color.at(i+1) || tempea != attr.at(i+1) || bSelected != m_pBuffer->isSelected(QPoint(i+1, index), m_pWindow->m_bCopyRect)) {
+                charWidth = 1;
+                flags = RenderLeft;
+            } else {
+                ++i;
+            }
         }
         if ( pTextLine->isPartial(startx) ) {
             flags = RenderRight;
         }
-        drawStr(painter, (QString)strShow.at(0), startx, index, 1 /*charWidth*/, tempattr, bSelected, flags);
+        drawStr(painter, (QString)strShow.at(0), startx, index, charWidth, tempattr, bSelected, flags);
 
         //i += (len-1);
     }
