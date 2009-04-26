@@ -54,6 +54,9 @@ void Wallet::open()
 
 void Wallet::close()
 {
+    if (m_wallet == NULL) {
+        return;
+    }
     m_wallet->close(m_handle,false,"QTerm");
     delete m_wallet;
     m_wallet = NULL;
