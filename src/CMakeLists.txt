@@ -131,10 +131,6 @@ set(qterm_MISC
    credits
    qterm.cfg)
 if(WIN32)
-  find_library(WIN32_WS2_LIBRARY NAMES ws2_32 PATHS $ENV{WINDIR}/system32)
-  if(WIN32_WS2_LIBRARY)
-      set(optionalLibs ${optionalLibs} ${WIN32_WS2_LIBRARY})
-  endif(WIN32_WS2_LIBRARY)
   if(MINGW)
     # resource compilation for mingw
     ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/qterm_rc.o
@@ -145,13 +141,14 @@ if(WIN32)
   else(MINGW)
     SET(qterm_SRCS ${qterm_SRCS} qterm.rc)
   endif(MINGW)
+  find_library(WIN32_WS2_LIBRARY NAMES ws2_32)
+  if(WIN32_WS2_LIBRARY)
+    set(optionalLibs ${optionalLibs} ${WIN32_WS2_LIBRARY})
+  endif(WIN32_WS2_LIBRARY)
 endif(WIN32)
 qt4_wrap_ui(qterm_UIS_H ${qterm_UIS})
 qt4_automoc(${qterm_SRCS})
 add_definitions( -DHAVE_CONFIG_H )
-if(WIN32 AND MINGW)
-   set(CMAKE_CXX_FLAGS -mwindows)
-endif(WIN32 AND MINGW)
 include_directories(
    ${QT_INCLUDE_DIR}
    ${QT_QTCORE_INCLUDE_DIR}
