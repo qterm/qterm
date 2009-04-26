@@ -359,36 +359,16 @@ bool BBS::checkIP(QRect& rcUrl, QRect& rcOld)
     end = i;
 
     int nNoType = -1;
-    if ((begin = strText.indexOf(http, url, Qt::CaseInsensitive)) != -1) {
-        if (begin > at)
-            return false;
-        host = url + 7;
-    } else if ((begin = strText.indexOf(https, url, Qt::CaseInsensitive)) != -1) {
-        if (begin > at)
-            return false;
-        host = url + 8;
-    } else if ((begin = strText.indexOf(mms, url, Qt::CaseInsensitive)) != -1) {
-        if (begin > at)
-            return false;
-        host = url + 6;
-    } else if ((begin = strText.indexOf(rstp, url, Qt::CaseInsensitive)) != -1) {
-        if (begin > at)
-            return false;
-        host = url + 7;
-    } else if ((begin = strText.indexOf(ftp, url, Qt::CaseInsensitive)) != -1) {
-        if (begin > at)
-            return false;
-        host = url + 6;
-    } else if ((begin = strText.indexOf(mailto, url, Qt::CaseInsensitive)) != -1) {
-        if (begin > at)
-            return false;
-        if ((ata = strText.indexOf('@', begin + 9)) == -1)
-            return false;
-        host = ata + 1;
-    } else if ((begin = strText.indexOf(telnet, url, Qt::CaseInsensitive)) != -1) {
-        if (begin > at)
-            return false;
-        host = url + 9;
+    QRegExp urlRe("^(mailto:|(https?|mms|rstp|ftp|gopher|telnet|ed2k|file)://)");
+    if ((begin = urlRe.indexIn(strText))!=-1) {
+        if (urlRe.capturedTexts().contains("mailto:")) {
+            if ((ata = strText.indexOf('@', begin + 1)) == -1)
+                host = url + (ata - begin) + 1;
+            else
+                return -1;
+        } else {
+            host = url+urlRe.matchedLength();
+        }
     } else {
         begin = url;
         if ((ata = strText.indexOf('@', begin + 1)) != -1) {
