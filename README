@@ -1,14 +1,13 @@
-QTerm 0.5.4
+QTerm 0.5.5
 ===============
 
 这个版本添加/修正了下面一些功能:
-1. 配置文件的格式改变
-2. 支持 UTF-8 等编码格式
+1. 在 KWallet 可用时用 KWallet 保存密码
+2. PTT 的一字双色支持
 3. 打印当前内容
-4. KDE 的 Phonon 的支持 (Qt 的 Phonon 未测试)
-5. 内容居中显示
-6. 显示程序图标
-7. Bug fixes
+4. 跨行 url 识别
+5. MinGW 和 MSVC 的编译支持
+6. Bug fixes
 
                                          The QTerm Team
                                       http://www.qterm.org

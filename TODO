@@ -1,8 +1,6 @@
 --Next release:
-    Use kwallet to save the password
-    Multiple line url detection
-    Support Phonon in windows
-    Compile and run with MSVC
+    Script support
+    Complete Vt102 support?
 --Should be easy (but I probably will not do it in the next release):
     Use different fonts for single width and double width char (the configure dialog need to be redesigned)
     Fix the warnings, compile time and runtime, also FIXMEs
@@ -13,7 +11,4 @@
     Proxy support using Qt
     Add a option to disable center display
 --In the future:
-    Script support
-    Half char drawing?
-    Complete Vt102 support?
     Ascii editor?(Kingson, where are you?)
