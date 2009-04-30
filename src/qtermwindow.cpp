@@ -1412,7 +1412,12 @@ void Window::setting()
     if (set.exec() == 1) {
         m_param = set.param;
         m_bSetChanged = true;
-        m_pBuffer->setSize(m_param.m_nRow, m_param.m_nCol);
+        if (m_param.m_bAutoFont) {
+            m_pBuffer->setSize(m_param.m_nCol, m_param.m_nRow);
+            m_pScreen->updateFont();
+            m_pScreen->m_ePaintState = Screen::Show;
+            m_pScreen->update();
+        }
     }
 }
 

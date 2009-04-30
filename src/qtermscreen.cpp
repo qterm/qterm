@@ -867,7 +867,7 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
         beginx = 0;
 
     if (endx >= linelength || endx < 0)
-        endx = linelength-1;
+        endx = qMin(m_pBuffer->columns(), linelength)-1;
     if (endx >= qMin(color.size(), attr.size())) {
         endx = qMin(color.size(), attr.size()) -1;
     }

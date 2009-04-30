@@ -74,6 +74,7 @@ public:
     void blinkScreen();
     void updateCursor();
     void repaintScreen(QPaintEvent * pe);
+    void updateFont();
     PaintState m_ePaintState;
 
 signals:
@@ -128,7 +129,6 @@ protected:
     QRect mapToRect(int, int, int, int);
     QRect mapToRect(const QRect&);
 
-    void updateFont();
     void getFontMetrics(QFontMetrics *);
 
     QImage& fade(QImage&, float, const QColor&);
