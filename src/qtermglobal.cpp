@@ -840,7 +840,8 @@ void Global::saveState(const QByteArray state)
 void Global::cleanup()
 {
 #ifdef KWALLET_ENABLED
-    m_wallet->close();
+    if (m_wallet != NULL)
+        m_wallet->close();
 #endif // KWALLET_ENABLED
     if (m_pref.bClearPool) {
         clearDir(m_pref.strZmPath);
