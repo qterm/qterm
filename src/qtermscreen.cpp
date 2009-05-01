@@ -691,6 +691,7 @@ void Screen::blinkScreen()
                     startx = i;
                     while (i < linelength && GETBLINK(attr.at(i)))
                         ++i;
+                    --i;
                     drawLine(painter, index, startx, i, false);
                 }
             }
