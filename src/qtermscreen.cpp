@@ -936,6 +936,7 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
         CharFlags flags = RenderAll;
         if ( pTextLine->isPartial(startx) ) {
             flags = RenderRight;
+            charWidth = 1;
         } else if ( charWidth == 2) {
             if (tempcp != color.at(i+1) || tempea != attr.at(i+1) || bSelected != m_pBuffer->isSelected(QPoint(i+1, index), m_pWindow->m_bCopyRect)) {
                 charWidth = 1;
