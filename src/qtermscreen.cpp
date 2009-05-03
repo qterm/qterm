@@ -1027,6 +1027,7 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
             painter.drawText(pt.x(), pt.y(), width, m_nCharHeight, Qt::AlignRight, str);
         }
     }
+    painter.setBackground(QBrush(m_color[0]));
 }
 
 
