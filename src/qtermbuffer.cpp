@@ -325,6 +325,15 @@ void Buffer::reverseIndex()
     }
 }
 
+void Buffer::index()
+{
+    if (m_caretY == m_bottom) {
+        scrollLines(m_caretY, 1);
+    } else {
+        moveCursorOffset(0, 1);
+    }
+}
+
 void Buffer::deleteLine(int n)
 {
     int y = m_bottom - m_caretY;

@@ -70,6 +70,7 @@ public:
     void saveCursor();
     void restoreCursor();
     void reverseIndex();
+    void index();
     void cr();
 
     // non-printing characters

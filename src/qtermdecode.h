@@ -64,6 +64,7 @@ private:
     void cursorUp();
     void cursorPosition();
     void reverseIndex();
+    void index();
 
     /*****************************************************************************/
 // other escape sequence actions

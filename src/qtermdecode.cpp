@@ -38,6 +38,8 @@ StateOption Decode::normalState[] = {
 StateOption Decode::escState[] = {
     { '[',   &Decode::clearParam,    bracketState },
     // VT52
+    { 'D',   &Decode::index,  normalState },
+    { 'E',   &Decode::lf,  normalState },
     { 'M',   &Decode::reverseIndex,  normalState },
     { 'Z',  &Decode::test,    normalState },
     { '>',  &Decode::test,    normalState },
@@ -326,6 +328,11 @@ void Decode::cursorUp()
         n = 1;
 
     m_pBuffer->moveCursorOffset(0, -n);
+}
+
+void Decode::index()
+{
+    m_pBuffer->index();
 }
 
 void Decode::reverseIndex()
