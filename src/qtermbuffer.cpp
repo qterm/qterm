@@ -316,6 +316,14 @@ void Buffer::shiftStr(int index, int startX, int len, int num)
     }
 }
 
+void Buffer::reverseIndex()
+{
+    if (m_caretY == m_top) {
+        scrollLines(m_caretY, -1);
+    } else {
+        moveCursorOffset(0, -1);
+    }
+}
 
 void Buffer::deleteLine(int n)
 {

@@ -69,6 +69,7 @@ public:
     void moveCursor(int, int);
     void saveCursor();
     void restoreCursor();
+    void reverseIndex();
     void cr();
 
     // non-printing characters
