@@ -41,18 +41,25 @@ void TermString::replace(int index, int length, const QString & str)
     int startpos = m_index.at(index);
     int index2 = index+length < m_index.size() ? index+length - 1 : m_index.size() - 1;
     int endpos = m_index.at(index2);
+
+    //TODO: I need to modify the replacing string for PTT, I doubt this is the correct thing to do
+    //since it is more like some other bug in the calculation of char length, but for now, it works
+    //and does not seem to introduce any regressions.
+    QString newStr = str;
     if (startpos == -1 && index > 0) {
         //qDebug("TermString::replace: start pos is in the middle of a char");
         startpos = m_index.at(index-1);
+        newStr = " " + newStr;
     }
     if (index2 < (m_index.size() - 1) && m_index.at(index2+1) == -1) {
         //qDebug("TermString::mid: end pos is in the middle of a char");
+        newStr = newStr + " ";
     }
     if (endpos == -1 && index2 > 0) {
         endpos = m_index.at(index2 - 1); //Could this happen at the endof a string?
     }
     //qDebug() << "startpos: " << startpos << " endpos: " << endpos;
-    m_string.replace(startpos, endpos-startpos + 1, str);
+    m_string.replace(startpos, endpos-startpos + 1, newStr);
     updateIndex();
 }
 
