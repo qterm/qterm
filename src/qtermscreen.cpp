@@ -359,7 +359,7 @@ void Screen::updateFont()
     }
     int marginw,marginh;
     marginw=marginh=0;
-    if (Frame::instance()->isMaximized()) {
+    if (Frame::instance()->isMaximized()||Frame::instance()->isFullScreen()) {
         marginw = (m_rcClient.width() - (m_pBuffer->columns()*m_nCharWidth))/2;
         marginh = (m_rcClient.height() - (m_pBuffer->line()*m_nCharHeight))/2;
     }
