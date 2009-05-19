@@ -8,6 +8,7 @@
 #include <QtCore/QList>
 
 class QRect;
+class QScriptEngine;
 
 namespace QTerm
 {
@@ -17,7 +18,7 @@ class Buffer;
 class BBS
 {
 public:
-    BBS(Buffer *);
+    BBS(Buffer *, QScriptEngine *);
     ~BBS();
 
     /* -1 -- undefined
@@ -66,6 +67,7 @@ protected:
     int m_nScreenStart;
     QList< QPair<int,int> > m_urlPosList;
     QString m_url;
+    QScriptEngine * m_engine;
 };
 
 } // namespace QTerm

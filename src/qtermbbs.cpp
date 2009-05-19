@@ -19,12 +19,14 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <QtDebug>
+#include <QtScript>
 namespace QTerm
 {
-BBS::BBS(Buffer * buffer)
+BBS::BBS(Buffer * buffer, QScriptEngine * engine)
     :m_urlPosList()
 {
     m_pBuffer = buffer;
+    m_engine = engine;
 }
 
 BBS::~BBS()
@@ -87,6 +89,22 @@ void BBS::setPageState()
         line = m_pBuffer->screen(m_pBuffer->line() - 1);  // last line
         if (isUnicolor(line))
             m_nPageState = 2; // reading
+    }
+
+    if (m_engine != NULL) {
+        QScriptValue func = m_engine->globalObject().property("setPageState");
+        if (func.isFunction()) {
+            int ret = func.call().toInt32();
+            if (ret != -1) {
+                m_nPageState = ret;
+            }
+        } else {
+            qDebug("setPageState is not a function");
+        }
+        if (m_engine->hasUncaughtException()) {
+            QScriptValue exception = m_engine->uncaughtException();
+            qDebug() << "Exception: " << exception.toString();
+        }
     }
 
 }
