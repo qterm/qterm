@@ -29,7 +29,6 @@ AUTHOR:        kingson fiasco
 #include "popwidget.h"
 #include "qtermzmodem.h"
 #include "zmodemdialog.h"
-#include "qtermpython.h"
 #include "qtermhttp.h"
 #include "qtermiplocation.h"
 #include "osdmessage.h"
