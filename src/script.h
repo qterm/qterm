@@ -17,7 +17,7 @@ public slots:
     int columns();
     int rows();
     void sendString(const QString & string);
-    void showMessage(const QString & message);
+    void showMessage(const QString & message, int type, int duration);
 //    void sendParsedString(const QString & message);
     QString getText(int line);
     QString getAttrText(int line);

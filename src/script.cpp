@@ -42,9 +42,9 @@ void Script::sendString(const QString & string)
     m_window->inputHandle(string);
 }
 
-void Script::showMessage(const QString & message)
+void Script::showMessage(const QString & message, int type, int duration)
 {
-    m_window->showMessage(message);
+    m_window->showMessage(message, type, duration);
 }
 
 QString Script::getText(int line)

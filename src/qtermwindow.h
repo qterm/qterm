@@ -112,7 +112,7 @@ public:
     void runScriptFile(const QString&);
     void externInput(const QByteArray&);
     void getHttpHelper(const QString&, bool);
-    void showMessage(const QString &);
+    void showMessage(const QString &, int type, int duration);
 
 protected slots:
     // from Telnet

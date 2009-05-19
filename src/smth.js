@@ -1,6 +1,6 @@
 function init()
 {
-    QTerm.showMessage("system script loaded");
+    QTerm.showMessage("system script loaded", 1, 0);
 }
 
 function getCursorType(pos)
