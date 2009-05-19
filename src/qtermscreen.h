@@ -80,7 +80,7 @@ public:
 signals:
     // 0 - enter  1 - press  2 - move  3 - release 4 - leave
     void mouseAction(int, QMouseEvent *);
-    void inputEvent(QString *);
+    void inputEvent(const QString &);
 
 public slots:
 

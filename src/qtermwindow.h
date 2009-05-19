@@ -98,6 +98,7 @@ public slots:
     void reconnect();
     void sendParsedString(const char*);
     void showIP();
+    void inputHandle(const QString & text);
 public:
     void disconnect();
     void refresh();
@@ -119,7 +120,6 @@ protected slots:
     void replyProcess();
     void updateProcess();
     void blinkTab();
-    void inputHandle(QString * text);
 
     //http menu
     void previewLink();

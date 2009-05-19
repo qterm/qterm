@@ -282,7 +282,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     setCentralWidget(m_pScreen);
     connect(m_pFrame, SIGNAL(bossColor()), m_pScreen, SLOT(bossColor()));
     connect(m_pFrame, SIGNAL(scrollChanged()), m_pScreen, SLOT(updateScrollBar()));
-    connect(m_pScreen, SIGNAL(inputEvent(QString *)), this, SLOT(inputHandle(QString *)));
+    connect(m_pScreen, SIGNAL(inputEvent(const QString &)), this, SLOT(inputHandle(const QString &)));
     connect(m_pZmodem, SIGNAL(ZmodemState(int, int, const QString&)),
             this, SLOT(ZmodemState(int, int, const QString&)));
     connect(m_pZmDialog, SIGNAL(canceled()), m_pZmodem, SLOT(zmodemCancel()));
@@ -1954,10 +1954,10 @@ void Window::pythonMouseEvent(int type, Qt::KeyboardModifier, Qt::KeyboardModifi
     */
 }
 
-void Window::inputHandle(QString * text)
+void Window::inputHandle(const QString & text)
 {
-    if (text->length() > 0) {
-        QByteArray cstrTmp = unicode2bbs(*text);
+    if (text.length() > 0) {
+        QByteArray cstrTmp = unicode2bbs(text);
         m_pTelnet->write(cstrTmp, cstrTmp.length());
     }
 }

@@ -1223,7 +1223,7 @@ void Screen::inputMethodEvent(QInputMethodEvent * e)
 {
     QString commitString = e->commitString();
     if (!commitString.isEmpty()) {
-        emit inputEvent(&commitString);
+        emit inputEvent(commitString);
     }
     QString preeditString = e->preeditString();
     if (m_inputContent == NULL){
