@@ -295,7 +295,7 @@ void addrDialog::onChooseScript()
 
 	QFileInfo file(strFile);
 	
-	ui.scriptLineEdit->setText(file.baseName());
+	ui.scriptLineEdit->setText(file.absoluteFilePath());
 }
 
 void addrDialog::onMenuColor()
