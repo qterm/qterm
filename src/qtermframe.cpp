@@ -101,7 +101,8 @@ Frame::Frame()
 
 //create a tabbar in the hbox
     tabBar = new QTabBar(statusBar());
-    statusBar()->addWidget(tabBar, 0);
+    tabBar->setExpanding(false);
+    statusBar()->addWidget(tabBar, 90);
     connect(tabBar, SIGNAL(selected(int)), this, SLOT(selectionChanged(int)));
     //tabBar->setShape(QTabBar::TriangularBelow);
     tabBar->setShape(QTabBar:: RoundedSouth);
