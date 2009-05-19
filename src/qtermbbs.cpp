@@ -19,19 +19,29 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <QtDebug>
+
+#ifdef SCRIPT_ENABLED
 #include <QtScript>
+#endif
+
 namespace QTerm
 {
-BBS::BBS(Buffer * buffer, QScriptEngine * engine)
+BBS::BBS(Buffer * buffer)
     :m_urlPosList()
 {
     m_pBuffer = buffer;
-    m_engine = engine;
 }
 
 BBS::~BBS()
 {
 }
+
+#ifdef SCRIPT_ENABLED
+void BBS::setScript(QScriptEngine * engine)
+{
+    m_engine = engine;
+}
+#endif
 
 void BBS::setScreenStart(int nStart)
 {
@@ -91,6 +101,7 @@ void BBS::setPageState()
             m_nPageState = 2; // reading
     }
 
+#ifdef SCRIPT_ENABLED
     if (m_engine != NULL) {
         QScriptValue func = m_engine->globalObject().property("setPageState");
         if (func.isFunction()) {
@@ -106,7 +117,7 @@ void BBS::setPageState()
             qDebug() << "Exception: " << exception.toString();
         }
     }
-
+#endif
 }
 
 int BBS::getCursorType(const QPoint& pt)

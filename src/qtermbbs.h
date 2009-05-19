@@ -8,7 +8,9 @@
 #include <QtCore/QList>
 
 class QRect;
+#ifdef SCRIPT_ENABLED
 class QScriptEngine;
+#endif
 
 namespace QTerm
 {
@@ -18,9 +20,12 @@ class Buffer;
 class BBS
 {
 public:
-    BBS(Buffer *, QScriptEngine *);
+    BBS(Buffer *);
     ~BBS();
 
+#ifdef SCRIPT_ENABLED
+    void setScript(QScriptEngine *);
+#endif
     /* -1 -- undefined
      *  0 -- menu
      *  1 -- article or board list
@@ -67,7 +72,9 @@ protected:
     int m_nScreenStart;
     QList< QPair<int,int> > m_urlPosList;
     QString m_url;
+#ifdef SCRIPT_ENABLED
     QScriptEngine * m_engine;
+#endif
 };
 
 } // namespace QTerm

@@ -44,7 +44,7 @@ if(QTERM_ENABLE_SCRIPT)
       add_definitions(-DSCRIPT_ENABLED)
       include_directories(${QT_QTSCRIPT_INCLUDE_DIR})
       set(optionalLibs ${optionalLibs} ${QT_QTSCRIPT_LIBRARY})
-      #set(optionalSources ${optionalSources} dbus.cpp)
+      set(optionalSources ${optionalSources} script.cpp)
    endif(QT_QTSCRIPT_FOUND)
 endif(QTERM_ENABLE_SCRIPT)
 if(QTERM_ENABLE_PHONON)
@@ -120,7 +120,6 @@ set(qterm_SRCS
    zmodemdialog.cpp
    hostinfo.cpp
    termstring.cpp
-   script.cpp
    ${optionalSources})
 set(qterm_UIS
    ui/aboutdialog.ui

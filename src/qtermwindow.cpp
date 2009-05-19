@@ -36,7 +36,10 @@ AUTHOR:        kingson fiasco
 #include "progressBar.h"
 #include "qtermglobal.h"
 #include "hostinfo.h"
+
+#ifdef SCRIPT_ENABLED
 #include "script.h"
+#endif // SCRIPT_ENABLED
 
 #ifdef DBUS_ENABLED
 #include "dbus.h"
@@ -79,7 +82,9 @@ AUTHOR:        kingson fiasco
 #include <QProgressBar>
 #include <QHBoxLayout>
 #include <QtCore/QProcess>
+#ifdef SCRIPT_ENABLED
 #include <QtScript>
+#endif
 #include <QtDebug>
 
 namespace QTerm
@@ -242,8 +247,10 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     QString pathLib = Global::instance()->pathLib();
     setMouseTracking(true);
 
+#ifdef SCRIPT_ENABLED
     m_scriptHelper = new Script(this);
-    m_scriptEngine = new QScriptEngine;
+    m_scriptEngine = new QScriptEngine(this);
+#endif
 //init the textline list
 
     m_pBuffer = new Buffer(m_param.m_nRow, m_param.m_nCol, m_param.m_nScrollLines);
@@ -273,7 +280,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     }
 
     m_pDecode = new Decode(m_pBuffer, m_codec);
-    m_pBBS   = new BBS(m_pBuffer, m_scriptEngine);
+    m_pBBS   = new BBS(m_pBuffer);
     m_pScreen = new Screen(this, m_pBuffer, &m_param, m_pBBS);
 
     m_pIPLocation = new IPLocation(pathLib);
@@ -1627,6 +1634,7 @@ void Window::sendMouseState(int num, Qt::KeyboardModifier btnstate, Qt::Keyboard
 
 void Window::reloadScript()
 {
+#ifdef SCRIPT_ENABLED
     QFile file(m_param.m_strScriptFile);
     file.open(QIODevice::ReadOnly);
     QString scripts = file.readAll();
@@ -1643,10 +1651,12 @@ void Window::reloadScript()
         qDebug() << "init is not a function";
     }
     func.call();
+#endif // SCRIPT_ENABLED
 }
 
 bool Window::loadScript()
 {
+#ifdef SCRIPT_ENABLED
     QStringList extensions;
     extensions << "qt.core"
                << "qt.gui"
@@ -1682,6 +1692,8 @@ bool Window::loadScript()
     QScriptValue scriptHelper = m_scriptEngine->newQObject(m_scriptHelper);
     m_scriptEngine->globalObject().setProperty("QTerm", scriptHelper);
     reloadScript();
+    m_pBBS->setScript(m_scriptEngine);
+#endif // SCRIPT_ENABLED
 }
 
 /* ------------------------------------------------------------------------ */

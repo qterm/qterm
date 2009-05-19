@@ -32,10 +32,12 @@
 #include <QCloseEvent>
 #include <QWaitCondition>
 #include <QMutex>
-#include <QtScript>
 
 class QProgressDialog;
 class QTextCodec;
+#ifdef SCRIPT_ENABLED
+class QScriptEngine;
+#endif
 
 namespace QTerm
 {
@@ -53,9 +55,10 @@ class zmodemDialog;
 class Http;
 class IPLocation;
 class PageViewMessage;
+#ifdef SCRIPT_ENABLED
 class Script;
+#endif
 class HostInfo;
-class Script;
 // thread copy article
 class DAThread : public QThread
 {
@@ -238,8 +241,10 @@ protected:
     bool m_bMouseClicked;
 
     QTextCodec * m_codec;
+#ifdef SCRIPT_ENABLED
     QScriptEngine * m_scriptEngine;
     Script * m_scriptHelper;
+#endif
 public:
     Frame * m_pFrame;
     Buffer * m_pBuffer;
