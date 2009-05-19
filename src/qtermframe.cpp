@@ -435,7 +435,15 @@ void Frame::closeEvent(QCloseEvent * clse)
         }
     }
     while (wndmgr->count() > 0) {
-        bool closed = m_MdiArea->activeSubWindow()->close();
+        QWidget * w = m_MdiArea->activeSubWindow();
+        if (w == NULL) {
+            w = m_MdiArea->subWindowList().at(0);
+            if (w == NULL) {
+                qDebug("get mdiarea subwindow failed");
+                break;
+            }
+        }
+        bool closed = w->close();
         if (!closed) {
             clse->ignore();
             return;
