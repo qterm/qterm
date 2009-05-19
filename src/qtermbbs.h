@@ -1,12 +1,11 @@
 #ifndef QTERMBBS_H
 #define QTERMBBS_H
 
-#include <qpoint.h>
-#include <qrect.h>
-//Added by qt3to4:
-#include <QString>
-#include <QPair>
-#include <QList>
+#include <QtCore/QPoint>
+#include <QtCore/QRect>
+#include <QtCore/QString>
+#include <QtCore/QPair>
+#include <QtCore/QList>
 
 class QRect;
 
