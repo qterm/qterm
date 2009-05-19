@@ -2,6 +2,7 @@ set(optionalLibs)
 set(optionalSources)
 option(QTERM_ENABLE_SSH "Build SSH Support" ON)
 option(QTERM_ENABLE_DBUS "Build DBus Support" ON)
+option(QTERM_ENABLE_SCRIPT "Build Script Support" ON)
 option(QTERM_ENABLE_PHONON "Build Phonon Support" ON)
 option(QTERM_ENABLE_TEST "Build the tests")
 if(QTERM_ENABLE_SSH)
@@ -37,6 +38,15 @@ if(QTERM_ENABLE_DBUS)
       endif(KWALLET_XML)
    endif(QT_QTDBUS_FOUND)
 endif(QTERM_ENABLE_DBUS)
+if(QTERM_ENABLE_SCRIPT)
+   if(QT_QTSCRIPT_FOUND)
+      message(STATUS "QtScript module found, enable Script support")
+      add_definitions(-DSCRIPT_ENABLED)
+      include_directories(${QT_QTSCRIPT_INCLUDE_DIR})
+      set(optionalLibs ${optionalLibs} ${QT_QTSCRIPT_LIBRARY})
+      #set(optionalSources ${optionalSources} dbus.cpp)
+   endif(QT_QTSCRIPT_FOUND)
+endif(QTERM_ENABLE_SCRIPT)
 if(QTERM_ENABLE_PHONON)
    if(QT_PHONON_FOUND)
       message(STATUS "Qt Phonon module found, enable Phonon support")
@@ -110,6 +120,7 @@ set(qterm_SRCS
    zmodemdialog.cpp
    hostinfo.cpp
    termstring.cpp
+   script.cpp
    ${optionalSources})
 set(qterm_UIS
    ui/aboutdialog.ui
