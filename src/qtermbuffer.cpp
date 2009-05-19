@@ -654,7 +654,7 @@ QRect Buffer::getSelectRect(int index, bool rect)
                 return QRect(m_ptSelStart.x(), index, qMax(0, m_col - m_ptSelStart.x()), 1);
             else
                 if (index == m_ptSelEnd.y())
-                    return QRect(0, index, qMin(m_col, m_ptSelEnd.x()), 1);
+                    return QRect(0, index, qMin(m_col, m_ptSelEnd.x()+1), 1);
                 else
                     return QRect(0, index, m_col, 1);
 }
