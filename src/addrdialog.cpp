@@ -281,9 +281,9 @@ void addrDialog::onChooseScript()
 {
 	QString path;
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
-	path=Global::instance()->pathLib()+"script";
+	path=Global::instance()->pathLib()+"scripts";
 #else
-	path=Global::instance()->pathCfg()+"script";
+	path=Global::instance()->pathCfg()+"scripts";
 #endif
 	
 	QString strFile = QFileDialog::getOpenFileName(

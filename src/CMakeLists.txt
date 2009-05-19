@@ -139,7 +139,6 @@ set(qterm_UIS
 set(qterm_MISC
    address.cfg
    credits
-   smth.js
    qterm.cfg)
 if(WIN32)
   if(MINGW)
@@ -191,6 +190,7 @@ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/qterm.png DESTINATION share/icons)
 add_subdirectory(pic)
 add_subdirectory(cursor)
 add_subdirectory(schema)
+add_subdirectory(scripts)
 if(QTERM_ENABLE_TEST)
    add_subdirectory(test)
 endif(QTERM_ENABLE_TEST)
