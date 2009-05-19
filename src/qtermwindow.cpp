@@ -36,6 +36,7 @@ AUTHOR:        kingson fiasco
 #include "progressBar.h"
 #include "qtermglobal.h"
 #include "hostinfo.h"
+#include "script.h"
 
 #ifdef DBUS_ENABLED
 #include "dbus.h"
@@ -78,6 +79,7 @@ AUTHOR:        kingson fiasco
 #include <QProgressBar>
 #include <QHBoxLayout>
 #include <QtCore/QProcess>
+#include <QtScript>
 #include <QtDebug>
 
 namespace QTerm
@@ -240,6 +242,8 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     QString pathLib = Global::instance()->pathLib();
     setMouseTracking(true);
 
+    m_scriptHelper = new Script(this);
+    m_scriptEngine = new QScriptEngine;
 //init the textline list
 
     m_pBuffer = new Buffer(m_param.m_nRow, m_param.m_nCol, m_param.m_nScrollLines);
@@ -269,7 +273,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     }
 
     m_pDecode = new Decode(m_pBuffer, m_codec);
-    m_pBBS   = new BBS(m_pBuffer);
+    m_pBBS   = new BBS(m_pBuffer, m_scriptEngine);
     m_pScreen = new Screen(this, m_pBuffer, &m_param, m_pBBS);
 
     m_pIPLocation = new IPLocation(pathLib);
@@ -381,48 +385,8 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
 
     // the system wide script
     m_bPythonScriptLoaded = false;
-#ifdef HAVE_PYTHON
-    pModule = NULL;
-// python thread module
-    // get the global python thread lock
-    PyEval_AcquireLock();
 
-    // get a reference to the PyInterpreterState
-    extern PyThreadState * mainThreadState;
-    PyInterpreterState * mainInterpreterState = mainThreadState->interp;
-
-    // create a thread state object for this thread
-    PyThreadState * myThreadState = PyThreadState_New(mainInterpreterState);
-    PyThreadState_Swap(myThreadState);
-
-    PyImport_AddModule("qterm");
-    Py_InitModule4("qterm", qterm_methods,
-                   NULL, (PyObject*)NULL, PYTHON_API_VERSION);
-
-
-    if (m_param.m_bLoadScript && !m_param.m_strScriptFile.isEmpty()) {
-        PyObject *pName = PyString_FromString(m_param.m_strScriptFile);
-        pModule = PyImport_Import(pName);
-        Py_DECREF(pName);
-        if (pModule != NULL)
-            pDict = PyModule_GetDict(pModule);
-        else {
-            qDebug("Failed to PyImport_Import");
-        }
-
-        if (pDict != NULL)
-            m_bPythonScriptLoaded = true;
-        else {
-            qDebug("Failed to PyModule_GetDict");
-        }
-    }
-
-    //Clean up this thread's python interpreter reference
-    PyThreadState_Swap(NULL);
-    PyThreadState_Clear(myThreadState);
-    PyThreadState_Delete(myThreadState);
-    PyEval_ReleaseLock();
-#endif //HAVE_PYTHON
+    loadScript();
 
     connectHost();
 }
@@ -450,29 +414,6 @@ Window::~Window()
     delete m_pMessage;
     delete m_pSound;
     delete m_hostInfo;
-
-#ifdef HAVE_PYTHON
-    // get the global python thread lock
-    PyEval_AcquireLock();
-
-    // get a reference to the PyInterpreterState
-    extern PyThreadState * mainThreadState;
-    PyInterpreterState * mainInterpreterState = mainThreadState->interp;
-
-    // create a thread state object for this thread
-    PyThreadState * myThreadState = PyThreadState_New(mainInterpreterState);
-    PyThreadState_Swap(myThreadState);
-
-    //Displose of current python module so we can reload in constructor.
-    if (pModule != NULL)
-        Py_DECREF(pModule);
-
-    //Clean up this thread's python interpreter reference
-    PyThreadState_Swap(NULL);
-    PyThreadState_Clear(myThreadState);
-    PyThreadState_Delete(myThreadState);
-    PyEval_ReleaseLock();
-#endif // HAVE_PYTHON
 }
 
 //close event received
@@ -1682,6 +1623,65 @@ void Window::sendMouseState(int num, Qt::KeyboardModifier btnstate, Qt::Keyboard
       ptc.y()+1+0x20);
     m_pTelnet->write( mouse, strlen(mouse) );
     */
+}
+
+void Window::reloadScript()
+{
+    QFile file(m_param.m_strScriptFile);
+    file.open(QIODevice::ReadOnly);
+    QString scripts = file.readAll();
+    file.close();
+    if (!m_scriptEngine->canEvaluate(scripts))
+        qDebug() << "Cannot evaluate the scripts";
+    m_scriptEngine->evaluate(scripts);
+    if (m_scriptEngine->hasUncaughtException()) {
+        QScriptValue exception = m_scriptEngine->uncaughtException();
+        qDebug() << "Exception: " << exception.toString();
+    }
+    QScriptValue func = m_scriptEngine->globalObject().property("init");
+    if (!func.isFunction()) {
+        qDebug() << "init is not a function";
+    }
+    func.call();
+}
+
+bool Window::loadScript()
+{
+    QStringList extensions;
+    extensions << "qt.core"
+               << "qt.gui"
+               << "qt.xml"
+               << "qt.svg"
+               << "qt.network"
+               << "qt.sql"
+               << "qt.opengl"
+               << "qt.webkit"
+//               << "qt.xmlpatterns"
+               << "qt.uitools";
+    QStringList failExtensions;
+    foreach (const QString &ext, extensions) {
+        QScriptValue ret = m_scriptEngine->importExtension(ext);
+        if (ret.isError())
+            failExtensions.append(ext);
+    }
+    if (!failExtensions.isEmpty()) {
+        if (failExtensions.size() == extensions.size()) {
+            qWarning("Failed to import Qt bindings!\n"
+                     "Make sure that the bindings have been built, "
+                     "and that this executable and the plugins are "
+                     "using compatible Qt libraries.");
+        } else {
+            qWarning("Failed to import some Qt bindings: %s\n"
+                     "Make sure that the bindings have been built, "
+                     "and that this executable and the plugins are "
+                     "using compatible Qt libraries.",
+                     qPrintable(failExtensions.join(", ")));
+        }
+    }
+
+    QScriptValue scriptHelper = m_scriptEngine->newQObject(m_scriptHelper);
+    m_scriptEngine->globalObject().setProperty("QTerm", scriptHelper);
+    reloadScript();
 }
 
 /* ------------------------------------------------------------------------ */

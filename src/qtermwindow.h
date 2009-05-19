@@ -32,8 +32,9 @@
 #include <QCloseEvent>
 #include <QWaitCondition>
 #include <QMutex>
+#include <QtScript>
+
 class QProgressDialog;
-class QScriptEngine;
 class QTextCodec;
 
 namespace QTerm
@@ -54,6 +55,7 @@ class IPLocation;
 class PageViewMessage;
 class Script;
 class HostInfo;
+class Script;
 // thread copy article
 class DAThread : public QThread
 {
@@ -92,6 +94,7 @@ public slots:
     void font();
     void setting();
     void color();
+    void reloadScript();
     void runScript();
     void stopScript();
     void showStatusBar(bool);
@@ -136,6 +139,7 @@ protected slots:
     void jobDone(int);
 
 protected:
+    bool loadScript();
     void mouseDoubleClickEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
@@ -234,6 +238,8 @@ protected:
     bool m_bMouseClicked;
 
     QTextCodec * m_codec;
+    QScriptEngine * m_scriptEngine;
+    Script * m_scriptHelper;
 public:
     Frame * m_pFrame;
     Buffer * m_pBuffer;

@@ -60,6 +60,7 @@ protected slots:
     void updateLang(QAction*);
     void defaultSetting();
     void preference();
+    void reloadScript();
     void runScript();
     void stopScript();
 
@@ -184,6 +185,7 @@ protected:
     QAction * m_mouseAction;
     QAction * m_viewImageAction;
 
+    QAction * m_scriptReloadAction;
     QAction * m_scriptRunAction;
     QAction * m_scriptStopAction;
 

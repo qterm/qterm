@@ -748,6 +748,11 @@ void Frame::reconnect(bool isEnabled)
     wndmgr->activeWindow()->m_bReconnect = isEnabled;
 }
 
+void Frame::reloadScript()
+{
+    wndmgr->activeWindow()->reloadScript();
+}
+
 void Frame::runScript()
 {
     wndmgr->activeWindow()->runScript();
@@ -986,6 +991,8 @@ void Frame::initActions()
     m_viewImageAction = new QAction(tr("&Image Viewer"), this);
     m_viewImageAction->setObjectName("actionViewImage");
 
+    m_scriptReloadAction = new QAction(tr("&Reload System Script"), this);
+    m_scriptReloadAction->setObjectName("actionScriptReload");
     m_scriptRunAction = new QAction(tr("&Run..."), this);
     m_scriptRunAction->setObjectName("actionScriptRun");
     m_scriptStopAction = new QAction(tr("&Stop"), this);
@@ -1050,6 +1057,7 @@ void Frame::initActions()
     connect(m_mouseAction, SIGNAL(toggled(bool)), this, SLOT(updateMouse(bool)));
     connect(m_viewImageAction, SIGNAL(triggered()), this, SLOT(viewImages()));
 
+    connect(m_scriptReloadAction, SIGNAL(triggered()), this, SLOT(reloadScript()));
     connect(m_scriptRunAction, SIGNAL(triggered()), this, SLOT(runScript()));
     connect(m_scriptStopAction, SIGNAL(triggered()), this, SLOT(stopScript()));
 
@@ -1162,6 +1170,7 @@ void Frame::addMainMenu()
     //Script
     QMenu * script = new QMenu(tr("Scrip&t"), this);
     mainMenu->addMenu(script);
+    script->addAction(m_scriptReloadAction);
     script->addAction(m_scriptRunAction);
     script->addAction(m_scriptStopAction);
 
