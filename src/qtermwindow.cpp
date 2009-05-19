@@ -2012,5 +2012,10 @@ void Window::httpDone(QObject *pHttp)
 {
     pHttp->deleteLater();
 }
+
+void Window::showMessage(const QString & message)
+{
+    m_pMessage->display(message, PageViewMessage::Info, 0);
+}
 }
 #include <qtermwindow.moc>
