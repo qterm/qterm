@@ -140,6 +140,7 @@ set(qterm_UIS
 set(qterm_MISC
    address.cfg
    credits
+   smth.js
    qterm.cfg)
 if(WIN32)
   if(MINGW)
