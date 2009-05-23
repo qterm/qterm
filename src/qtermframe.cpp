@@ -117,7 +117,6 @@ Frame::Frame()
 //create the window manager to deal with the window-tab-icon pairs
     wndmgr = new WndMgr(this);
 
-    m_popupMenu = NULL;
 
     initShortcuts();
 
@@ -141,8 +140,6 @@ Frame::Frame()
     enableMenuToolBar(false);
 
     initThemesMenu();
-
-    initPopupMenu();
 
     installEventFilter(this);
 }
@@ -586,7 +583,6 @@ void Frame::triggerFullScreen(bool isFullScreen)
         menuBar()->hide();
         mdiTools->hide();
         mdiconnectTools->hide();
-        m_popupMenu->addAction(m_fullAction);
         key->hide();
         //showStatusBar();
         //showSwitchBar();
@@ -595,7 +591,6 @@ void Frame::triggerFullScreen(bool isFullScreen)
         menuBar()->show();
         restoreGeometry(Global::instance()->loadGeometry());
         restoreState(Global::instance()->loadState());
-        m_popupMenu->removeAction(m_fullAction);
         emit scrollChanged();
         showNormal();
         //showStatusBar();
@@ -1200,25 +1195,20 @@ void Frame::addMainMenu()
 
 }
 
-void Frame::initPopupMenu()
+QMenu * Frame::createPopupMenu(QWidget * owner)
 {
-    m_popupMenu = new QMenu(this);
-    m_popupMenu->addAction(m_copyAction);
-    m_popupMenu->addAction(m_pasteAction);
-    m_popupMenu->addAction(m_copyArticleAction);
-    m_popupMenu->addSeparator();
-    m_popupMenu->addAction(m_fontAction);
-    m_popupMenu->addAction(m_colorAction);
-    m_popupMenu->addSeparator();
-    m_popupMenu->addAction(m_currentSessionAction);
-}
-
-QMenu * Frame::popupMenu()
-{
-    if (m_popupMenu == NULL) {
-        initPopupMenu();
-    }
-    return m_popupMenu;
+    QMenu * popupMenu = new QMenu(owner);
+    popupMenu->addAction(m_copyAction);
+    popupMenu->addAction(m_pasteAction);
+    popupMenu->addAction(m_copyArticleAction);
+    popupMenu->addSeparator();
+    popupMenu->addAction(m_fontAction);
+    popupMenu->addAction(m_colorAction);
+    popupMenu->addSeparator();
+    popupMenu->addAction(m_currentSessionAction);
+    popupMenu->addAction(m_fullAction);
+    popupMenu->addSeparator();
+    return popupMenu;
 }
 
 void Frame::updateMenuToolBar()

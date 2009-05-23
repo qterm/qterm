@@ -324,7 +324,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     m_pUrl->addAction(tr("Open link"), this, SLOT(openLink()));
     m_pUrl->addAction(tr("Copy link address"), this, SLOT(copyLink()));
 
-    m_pMenu = m_pFrame->popupMenu();
+    m_pMenu = m_pFrame->createPopupMenu(this);
 
 //connect telnet signal to slots
     connect(m_pTelnet, SIGNAL(readyRead(int)),
