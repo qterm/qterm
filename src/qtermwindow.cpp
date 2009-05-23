@@ -1682,18 +1682,9 @@ bool Window::loadScript()
             failExtensions.append(ext);
     }
     if (!failExtensions.isEmpty()) {
-        if (failExtensions.size() == extensions.size()) {
-            qWarning("Failed to import Qt bindings!\n"
-                     "Make sure that the bindings have been built, "
-                     "and that this executable and the plugins are "
-                     "using compatible Qt libraries.");
-        } else {
-            qWarning("Failed to import some Qt bindings: %s\n"
-                     "Make sure that the bindings have been built, "
-                     "and that this executable and the plugins are "
-                     "using compatible Qt libraries.",
-                     qPrintable(failExtensions.join(", ")));
-        }
+        qWarning("Failed to import some Qt bindings: %s\n"
+                 "Some scripts might need them to run.",
+                 qPrintable(failExtensions.join(", ")));
     }
 
     QScriptValue scriptHelper = m_scriptEngine->newQObject(m_scriptHelper);
