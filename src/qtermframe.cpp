@@ -1195,7 +1195,7 @@ void Frame::addMainMenu()
 
 }
 
-QMenu * Frame::createPopupMenu(QWidget * owner)
+QMenu * Frame::genPopupMenu(QWidget * owner)
 {
     QMenu * popupMenu = new QMenu(owner);
     popupMenu->addAction(m_copyAction);

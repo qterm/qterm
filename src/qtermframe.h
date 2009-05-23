@@ -41,7 +41,7 @@ public:
     void enableMenuToolBar(bool);
     void popupFocusIn(Window * window = 0);
     void buzz();
-    QMenu * createPopupMenu(QWidget * owner);
+    QMenu * genPopupMenu(QWidget * owner);
 signals:
     void bossColor();
     void scrollChanged();
