@@ -84,6 +84,9 @@ AUTHOR:        kingson fiasco
 #include <QtCore/QProcess>
 #ifdef SCRIPT_ENABLED
 #include <QtScript>
+#ifdef SCRIPTTOOLS_ENABLED
+#include <QtScriptTools/QScriptEngineDebugger>
+#endif
 #endif
 #include <QtDebug>
 
@@ -248,9 +251,13 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     setMouseTracking(true);
 
 #ifdef SCRIPT_ENABLED
-    m_scriptHelper = new Script(this);
     m_scriptEngine = new QScriptEngine(this);
-#endif
+    m_scriptHelper = new Script(this, m_scriptEngine);
+#ifdef SCRIPTTOOLS_ENABLED
+    m_scriptDebugger = new QScriptEngineDebugger;
+    m_scriptDebugger->attachTo(m_scriptEngine);
+#endif // SCRIPTTOOLS_ENABLED
+#endif // SCRIPT_ENABLED
 //init the textline list
 
     m_pBuffer = new Buffer(m_param.m_nRow, m_param.m_nCol, m_param.m_nScrollLines);
