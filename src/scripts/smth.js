@@ -44,9 +44,8 @@ function fromUtf8(utftext)
     return string;
 }
 
-function startsWith(str, target)
-{
-    return (str.substr(0,target.length) == target)
+String.prototype.startsWith = function(str) {
+    return(this.substr(0,str.length) == str);
 }
 
 // This is for SMTH only
@@ -54,31 +53,32 @@ function setPageState()
 {
     var title = QTerm.getText(0);
     var bottom = QTerm.getText(QTerm.rows()-1);
-    if (startsWith(title, fromUtf8("主选单")))
-        return 0;
-    if (startsWith(title, fromUtf8("聊天选单")))
-        return 0;
-    if (startsWith(title, fromUtf8("[处理信笺选单]")))
-        return 0;
-    if (startsWith(title, fromUtf8("版主:")))
-        return 1;
-    if (startsWith(title, fromUtf8("[好朋友列表]")))
-        return 1;
-    if (startsWith(title, fromUtf8("[讨论区列表]")))
-        return 1;
-    if (startsWith(title, fromUtf8("邮件选单")))
-        return 1;
-    if (startsWith(title, fromUtf8("[个人定制区]")))
-        return 1;
+    var pageState = -1;
+    if (title.startsWith(fromUtf8("主选单")))
+        pageState = 0;
+    if (title.startsWith(fromUtf8("聊天选单")))
+        pageState = 0;
+    if (title.startsWith(fromUtf8("[处理信笺选单]")))
+        pageState = 0;
+    if (title.startsWith(fromUtf8("版主:")))
+        pageState = 1;
+    if (title.startsWith(fromUtf8("[好朋友列表]")))
+        pageState = 1;
+    if (title.startsWith(fromUtf8("[讨论区列表]")))
+        pageState = 1;
+    if (title.startsWith(fromUtf8("邮件选单")))
+        pageState = 1;
+    if (title.startsWith(fromUtf8("[个人定制区]")))
+        pageState = 1;
     if (title.indexOf(fromUtf8("水木社区 精华区公布栏")) > 0)
-        return 1;
+        pageState = 1;
     if (title.indexOf(fromUtf8("本日十大热门话题")) > 0)
-        return 1;
-    if (startsWith(bottom, fromUtf8("[阅读文章]")))
-        return 2;
-    if (startsWith(bottom, fromUtf8("下面还有喔")))
-        return 2;
-    if (startsWith(bottom, fromUtf8("(R)回信, (D)删除, (G)继续? [G]:")))
-        return 2;
-    return -1;
+        pageState = 1;
+    if (bottom.startsWith(fromUtf8("[阅读文章]")))
+        pageState = 2;
+    if (bottom.startsWith(fromUtf8("下面还有喔")))
+        pageState = 2;
+    if (bottom.startsWith(fromUtf8("(R)回信, (D)删除, (G)继续? [G]:")))
+        pageState = 2;
+    return pageState;
 }
