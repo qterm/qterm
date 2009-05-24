@@ -123,3 +123,25 @@ function getClickableString(x, y)
     }
     return ""
 }
+
+function onMouseEvent(type, button, modifiers, pt_x, pt_y)
+{
+    var x = QTerm.char_x(pt_x, pt_y);
+    var y = QTerm.char_y(pt_x, pt_y);
+    if (type == 1 && button == 1 && modifiers == 0) {
+        accepted = sendKey(x, y);
+    }
+    return accepted;
+}
+
+function sendKey(x, y)
+{
+    if (pageState == 0) {
+        str = getClickableString(x,y);
+        result = str.match(/[\(\[]?([a-zA-Z0-9])[\).\]]\s?[^\s]+/);
+        QTerm.sendString(result[1]);
+        QTerm.sendString("\n");
+        return true;
+    }
+    return false;
+}
