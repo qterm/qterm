@@ -48,12 +48,15 @@ String.prototype.startsWith = function(str) {
     return(this.substr(0,str.length) == str);
 }
 
+String.prototype.contains = function(str) {
+    return(this.indexOf(str) != -1);
+}
+
 // This is for SMTH only
 function setPageState()
 {
     var title = QTerm.getText(0);
     var bottom = QTerm.getText(QTerm.rows()-1);
-    var pageState = -1;
     if (title.startsWith(fromUtf8("主选单")))
         pageState = 0;
     if (title.startsWith(fromUtf8("聊天选单")))
@@ -70,9 +73,9 @@ function setPageState()
         pageState = 1;
     if (title.startsWith(fromUtf8("[个人定制区]")))
         pageState = 1;
-    if (title.indexOf(fromUtf8("水木社区 精华区公布栏")) > 0)
+    if (title.contains(fromUtf8("水木社区 精华区公布栏")))
         pageState = 1;
-    if (title.indexOf(fromUtf8("本日十大热门话题")) > 0)
+    if (title.contains(fromUtf8("本日十大热门话题")))
         pageState = 1;
     if (bottom.startsWith(fromUtf8("[阅读文章]")))
         pageState = 2;
