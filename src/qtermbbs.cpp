@@ -308,7 +308,6 @@ QRect BBS::getSelectRect()
         func = m_engine->globalObject().property("getClickableString");
         if (func.isFunction()) {
             line = m_pBuffer->at(m_ptCursor.y());
-            int pos = line->pos(x);
             QString clickableString = func.call(QScriptValue(), QScriptValueList() << x << y).toString();
             if (!clickableString.isEmpty()) {
                 int index = line->getText().indexOf(clickableString);
