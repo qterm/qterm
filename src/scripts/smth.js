@@ -8,6 +8,7 @@ function init()
 
 function getCursorType(pos)
 {
+    return -1;
 }
 
 function getBG(color)

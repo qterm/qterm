@@ -133,6 +133,24 @@ int BBS::getCursorType(const QPoint& pt)
     QRect rc = getSelectRect();
 
     int nCursorType = 8;
+#ifdef SCRIPT_ENABLED
+    if (m_engine != NULL) {
+        TextLine * line = m_pBuffer->at(pt.y());
+        int x = pt.x();
+        int y = pt.y() - m_nScreenStart;
+        int pos = line->pos(m_ptCursor.x());
+        QScriptValue func = m_engine->globalObject().property("getCursorType");
+        if (func.isFunction()) {
+            int ret = func.call(QScriptValue(), QScriptValueList() << x << y << pos).toInt32();
+            if (ret != -1) {
+                nCursorType = ret;
+            }
+        } else {
+            qDebug("getCursorType is not a function");
+        }
+    }
+#endif
+
     switch (m_nPageState) {
     case -1: // not recognized
         nCursorType = 8;
