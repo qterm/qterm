@@ -287,8 +287,50 @@ QRect BBS::getSelectRect()
         break;
     }
 
-    return rect;
+#ifdef SCRIPT_ENABLED
+    if (m_engine != NULL) {
+        rect.setRect(0,0,0,0);
+        int x = m_ptCursor.x();
+        int y = m_ptCursor.y() - m_nScreenStart;
+        QScriptValue func = m_engine->globalObject().property("isLineClickable");
+        if (func.isFunction()) {
+            bool clickable = func.call(QScriptValue(), QScriptValueList() << x << y).toBool();
+            if (clickable) {
+                rect.setX(0);
+                rect.setY(m_ptCursor.y());
+                rect.setWidth(m_pBuffer->columns());
+                rect.setHeight(1);
+                return rect;
+            }
+        } else {
+            qDebug("isLineClickable is not a function");
+        }
+        func = m_engine->globalObject().property("getClickableString");
+        if (func.isFunction()) {
+            line = m_pBuffer->at(m_ptCursor.y());
+            int pos = line->pos(m_ptCursor.x());
+            QString clickableString = func.call(QScriptValue(), QScriptValueList() << x << y << pos ).toString();
+            if (!clickableString.isEmpty()) {
+                int index = line->getText().indexOf(clickableString);
+                int rectx = line->beginIndex(index);
+                int width = line->beginIndex(index+clickableString.length()) - rectx;
+                rect.setX(rectx);
+                rect.setY(m_ptCursor.y());
+                rect.setWidth(width);
+                rect.setHeight(1);
+            }
 
+        } else {
+            qDebug("getClickableString is not a function");
+        }
+        if (m_engine->hasUncaughtException()) {
+            QScriptValue exception = m_engine->uncaughtException();
+            qDebug() << "Exception: " << exception.toString();
+        }
+    }
+#endif
+
+    return rect;
 }
 
 bool BBS::isUnicolor(TextLine *line)

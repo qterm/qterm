@@ -82,3 +82,32 @@ function setPageState()
         pageState = 2;
     return pageState;
 }
+
+function isLineClickable(x, y)
+{
+    if (pageState == 1) {
+        if (y >= 3 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16) {
+            return true;
+        }
+    }
+    return false
+}
+
+function getClickableString(x, y, pos)
+{
+    if (pageState != 0) {
+        return "";
+    }
+    var text = QTerm.getText(y);
+    var pattern = /[\(\[]?[a-zA-Z0-9][\).\]]\s[^\s]+/g;
+    var result;
+    while ((result = pattern.exec(text)) != null) {
+        var item = result[0];
+        if (pos > result.index && pos < result.index + item.length) {
+            return item;
+        }
+        if (pattern.lastIndex == 0)
+            return text;
+    }
+    return ""
+}
