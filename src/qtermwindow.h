@@ -119,6 +119,10 @@ public:
     void externInput(const QByteArray&);
     void getHttpHelper(const QString&, bool);
     void showMessage(const QString &, int type, int duration);
+    Screen * getScreen()
+    {
+        return m_pScreen;
+    }
 
 protected slots:
     // from Telnet

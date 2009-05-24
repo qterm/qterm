@@ -3,6 +3,7 @@
 #include "qtermwindow.h"
 #include "qtermbuffer.h"
 #include "qtermscreen.h"
+#include "qtermbbs.h"
 #include "qtermtextline.h"
 
 namespace QTerm
@@ -25,6 +26,18 @@ int Script::caretX()
 int Script::caretY()
 {
     return m_window->m_pBuffer->caret().y();
+}
+
+int Script::char_x(int x, int y)
+{
+    QPoint pt = m_window->getScreen()->mapToChar(QPoint(x,y));
+    return pt.x();
+}
+
+int Script::char_y(int x, int y)
+{
+    QPoint pt = m_window->getScreen()->mapToChar(QPoint(x,y));
+    return pt.y() - m_window->m_pBBS->getScreenStart();
 }
 
 int Script::pos(int x, int y)
