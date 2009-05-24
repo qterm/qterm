@@ -75,6 +75,12 @@ public:
     void updateCursor();
     void repaintScreen(QPaintEvent * pe);
     void updateFont();
+    QPoint mapToPixel(const QPoint&);
+    QPoint mapToChar(const QPoint&);
+
+    QRect mapToRect(int, int, int, int);
+    QRect mapToRect(const QRect&);
+
     PaintState m_ePaintState;
 
 signals:
@@ -122,12 +128,6 @@ protected:
     int getPosY(int yLine) {
         return yLine*m_nCharHeight;
     }
-
-    QPoint mapToPixel(const QPoint&);
-    QPoint mapToChar(const QPoint&);
-
-    QRect mapToRect(int, int, int, int);
-    QRect mapToRect(const QRect&);
 
     void getFontMetrics(QFontMetrics *);
 
