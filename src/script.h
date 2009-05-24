@@ -16,6 +16,7 @@ public slots:
     int caretY();
     int columns();
     int rows();
+    int pos(int x,int y);
     void sendString(const QString & string);
     void showMessage(const QString & message, int type, int duration);
 //    void sendParsedString(const QString & message);

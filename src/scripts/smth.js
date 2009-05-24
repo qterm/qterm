@@ -1,3 +1,6 @@
+var pageState = -1;
+var clickableString = "";
+
 function init()
 {
     QTerm.showMessage("system script loaded", 1, 0);
@@ -57,11 +60,14 @@ function setPageState()
 {
     var title = QTerm.getText(0);
     var bottom = QTerm.getText(QTerm.rows()-1);
+    pageState = -1;
     if (title.startsWith(fromUtf8("主选单")))
         pageState = 0;
     if (title.startsWith(fromUtf8("聊天选单")))
         pageState = 0;
     if (title.startsWith(fromUtf8("[处理信笺选单]")))
+        pageState = 0;
+    if (title.startsWith(fromUtf8("工具箱选单")))
         pageState = 0;
     if (title.startsWith(fromUtf8("版主:")))
         pageState = 1;
@@ -96,21 +102,23 @@ function isLineClickable(x, y)
     return false
 }
 
-function getClickableString(x, y, pos)
+function getClickableString(x, y)
 {
     if (pageState != 0) {
         return "";
     }
     var text = QTerm.getText(y);
-    var pattern = /[\(\[]?[a-zA-Z0-9][\).\]]\s[^\s]+/g;
+    var pos = QTerm.pos(x,y);
+    var pattern = /[\(\[]?[a-zA-Z0-9][\).\]]\s?[^\s]+/g;
     var result;
+    var clickableString = "";
     while ((result = pattern.exec(text)) != null) {
-        var item = result[0];
-        if (pos > result.index && pos < result.index + item.length) {
-            return item;
+        clickableString = result[0];
+        if (pos > result.index && pos < result.index + clickableString.length) {
+            return clickableString;
         }
         if (pattern.lastIndex == 0)
-            return text;
+            return "";
     }
     return ""
 }

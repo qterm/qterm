@@ -27,6 +27,11 @@ int Script::caretY()
     return m_window->m_pBuffer->caret().y();
 }
 
+int Script::pos(int x, int y)
+{
+    return m_window->m_pBuffer->screen(y)->pos(x);
+}
+
 int Script::columns()
 {
     return m_window->m_pBuffer->columns();

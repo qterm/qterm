@@ -222,7 +222,7 @@ QRect BBS::getSelectRect()
         return rect;
     }
 
-    TextLine * line;
+    TextLine * line = NULL;
 
     switch (m_nPageState) {
     case -1:
@@ -308,8 +308,8 @@ QRect BBS::getSelectRect()
         func = m_engine->globalObject().property("getClickableString");
         if (func.isFunction()) {
             line = m_pBuffer->at(m_ptCursor.y());
-            int pos = line->pos(m_ptCursor.x());
-            QString clickableString = func.call(QScriptValue(), QScriptValueList() << x << y << pos ).toString();
+            int pos = line->pos(x);
+            QString clickableString = func.call(QScriptValue(), QScriptValueList() << x << y).toString();
             if (!clickableString.isEmpty()) {
                 int index = line->getText().indexOf(clickableString);
                 int rectx = line->beginIndex(index);
