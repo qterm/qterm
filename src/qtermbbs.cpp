@@ -59,6 +59,8 @@ bool BBS::setCursorPos(const QPoint& pt, QRect& rc)
 
     m_ptCursor = pt;
 
+    updateSelectRect();
+
     QRect rectNew = getSelectRect();
 
     rc = rectOld | rectNew;
@@ -236,13 +238,14 @@ char BBS::getMenuChar()
     return m_cMenuChar;
 }
 
-QRect BBS::getSelectRect()
+void BBS::updateSelectRect()
 {
     QRect rect(0, 0, 0, 0);
 
     // current screen scrolled
     if (m_nScreenStart != (m_pBuffer->lines() - m_pBuffer->line())) {
-        return rect;
+        m_rcSelection = rect;
+        return;
     }
 
     TextLine * line = NULL;
@@ -323,7 +326,8 @@ QRect BBS::getSelectRect()
                 rect.setY(m_ptCursor.y());
                 rect.setWidth(m_pBuffer->columns());
                 rect.setHeight(1);
-                return rect;
+                m_rcSelection = rect;
+                return;
             }
         } else {
             qDebug("isLineClickable is not a function");
@@ -352,7 +356,12 @@ QRect BBS::getSelectRect()
     }
 #endif
 
-    return rect;
+    m_rcSelection = rect;
+}
+
+QRect BBS::getSelectRect()
+{
+    return m_rcSelection;
 }
 
 bool BBS::isUnicolor(TextLine *line)

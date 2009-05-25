@@ -50,6 +50,7 @@ public:
     int getPageState();
     char getMenuChar();
     QRect getSelectRect();
+    void updateSelectRect();
     int getCursorType(const QPoint&);
     QString getMessage();
     QString getText(int startpt, int endpt);
@@ -65,6 +66,7 @@ protected:
     Buffer *m_pBuffer;
 
     QRect m_rcUrl;
+    QRect m_rcSelection;
     QString m_strUrl;
     QString m_strIP;
     char m_cMenuChar;

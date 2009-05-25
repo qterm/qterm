@@ -996,6 +996,7 @@ void Window::readReady(int size)
 }
 
 m_pBBS->setPageState();
+m_pBBS->updateSelectRect();
 m_updateTimer->start(100);
 //refresh screen
 m_pScreen->m_ePaintState = Screen::NewData;
