@@ -159,8 +159,10 @@ void SocketPrivate::socketConnected()
 
 void SocketPrivate::socketReadyRead()
 {
-	if(proxy_type==NOPROXY || proxy_state==0)
+	if(proxy_type==NOPROXY || proxy_state==0) {
 		emit readyRead();
+		return;
+	}
 
 	int nbytes,nread;
 	QByteArray from_socket;
