@@ -373,4 +373,4 @@ void TextLine::setAttr(short attr, int index)
 }
 
 } // namespace QTerm
-
+#include <qtermtextline.moc>

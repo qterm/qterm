@@ -1,18 +1,20 @@
 #ifndef QTERMTEXTLINE_H
 #define QTERMTEXTLINE_H
 
+#include <QtCore/QObject>
 #include <QtCore/QByteArray>
 #include "termstring.h"
 
 namespace QTerm
 {
-class TextLine
+class TextLine : public QObject
 {
-
+    Q_OBJECT
 public:
     TextLine();
     ~TextLine();
 
+public slots:
     void reset();
 
     void setChanged(int start, int end);
