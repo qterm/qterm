@@ -1427,8 +1427,6 @@ void Frame::buzz()
 
     t.start();
     for (int i = 32; i > 0;) {
-        //QApplication::processEvents();
-        qApp->processEvents();
         if (t.elapsed() >= 1) {
             int delta = i >> 2;
             int dir = i & 3;
