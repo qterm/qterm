@@ -1,10 +1,12 @@
 #ifndef SCRIPT_H
 #define SCRIPT_H
 #include <QtCore/QObject>
+#include <QtScript>
 
 namespace QTerm
 {
 class Window;
+class TextLine;
 class Script : public QObject
 {
     Q_OBJECT

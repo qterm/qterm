@@ -3,6 +3,7 @@
 #include "qtermwindow.h"
 #include "qtermbuffer.h"
 #include "qtermscreen.h"
+#include "qtermframe.h"
 #include "qtermbbs.h"
 #include "qtermtextline.h"
 
