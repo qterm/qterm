@@ -100,7 +100,7 @@ function setPageState()
 function isLineClickable(x, y)
 {
     if (pageState == 1) {
-        if (y >= 3 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16) {
+        if (y >= 3 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16 && getText(y).search(/[^\s]/)!=-1) {
             return true;
         }
     }
@@ -143,6 +143,9 @@ function sendKey(x, y)
 {
     if (pageState == 0) {
         str = getClickableString(x,y);
+        if (str == "") {
+            return false;
+        }
         result = str.match(/[\(\[]?([a-zA-Z0-9])[\).\]]\s?[^\s]+/);
         QTerm.sendString(result[1]);
         QTerm.sendString("\n");
