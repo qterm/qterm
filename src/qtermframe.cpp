@@ -755,7 +755,7 @@ void Frame::reconnect(bool isEnabled)
 
 void Frame::reloadScript()
 {
-    wndmgr->activeWindow()->reloadScript();
+    wndmgr->activeWindow()->loadScript();
 }
 
 void Frame::runScript()

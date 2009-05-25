@@ -100,7 +100,6 @@ public slots:
     void font();
     void setting();
     void color();
-    void reloadScript();
     void runScript();
     void stopScript();
     void showStatusBar(bool);

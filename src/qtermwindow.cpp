@@ -251,11 +251,10 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     setMouseTracking(true);
 
 #ifdef SCRIPT_ENABLED
-    m_scriptEngine = new QScriptEngine(this);
-    m_scriptHelper = new Script(this, m_scriptEngine);
+    m_scriptEngine = NULL;
+    m_scriptHelper = NULL;
 #ifdef SCRIPTTOOLS_ENABLED
     m_scriptDebugger = new QScriptEngineDebugger;
-    m_scriptDebugger->attachTo(m_scriptEngine);
 #endif // SCRIPTTOOLS_ENABLED
 #endif // SCRIPT_ENABLED
 //init the textline list
@@ -428,6 +427,9 @@ Window::~Window()
     delete m_pMessage;
     delete m_pSound;
     delete m_hostInfo;
+#ifdef SCRIPTTOOLS_ENABLED
+    delete m_scriptDebugger;
+#endif
 }
 
 //close event received
@@ -1725,14 +1727,42 @@ void Window::sendMouseState(int num, Qt::KeyboardModifier btnstate, Qt::Keyboard
     */
 }
 
-void Window::reloadScript()
+bool Window::loadScript()
 {
 #ifdef SCRIPT_ENABLED
-    m_scriptEngine->abortEvaluation();
+    if (m_scriptEngine != NULL)
+        m_scriptEngine->abortEvaluation();
     delete m_scriptEngine;
     delete m_scriptHelper;
     m_scriptEngine = new QScriptEngine(this);
     m_scriptHelper = new Script(this, m_scriptEngine);
+    QStringList extensions;
+    extensions << "qt.core"
+               << "qt.gui"
+               << "qt.xml"
+               << "qt.svg"
+               << "qt.network"
+               << "qt.sql"
+               << "qt.opengl"
+               << "qt.webkit"
+               << "qt.xmlpatterns"
+               << "qt.uitools";
+    QStringList failExtensions;
+    foreach (const QString &ext, extensions) {
+        QScriptValue ret = m_scriptEngine->importExtension(ext);
+        if (ret.isError())
+            failExtensions.append(ext);
+    }
+    if (!failExtensions.isEmpty()) {
+        qWarning("Failed to import some Qt bindings: %s\n"
+                 "Some scripts might need them to run.",
+                 qPrintable(failExtensions.join(", ")));
+    }
+
+#ifdef SCRIPTTOOLS_ENABLED
+    m_scriptDebugger->attachTo(m_scriptEngine);
+#endif
+
     QScriptValue scriptHelper = m_scriptEngine->newQObject(m_scriptHelper);
     m_scriptEngine->globalObject().setProperty("QTerm", scriptHelper);
     m_pBBS->setScript(m_scriptEngine);
@@ -1752,39 +1782,6 @@ void Window::reloadScript()
         qDebug() << "init is not a function";
     }
     func.call();
-#endif // SCRIPT_ENABLED
-}
-
-bool Window::loadScript()
-{
-#ifdef SCRIPT_ENABLED
-    QStringList extensions;
-    extensions << "qt.core"
-               << "qt.gui"
-               << "qt.xml"
-               << "qt.svg"
-               << "qt.network"
-               << "qt.sql"
-               << "qt.opengl"
-               << "qt.webkit"
-//               << "qt.xmlpatterns"
-               << "qt.uitools";
-    QStringList failExtensions;
-    foreach (const QString &ext, extensions) {
-        QScriptValue ret = m_scriptEngine->importExtension(ext);
-        if (ret.isError())
-            failExtensions.append(ext);
-    }
-    if (!failExtensions.isEmpty()) {
-        qWarning("Failed to import some Qt bindings: %s\n"
-                 "Some scripts might need them to run.",
-                 qPrintable(failExtensions.join(", ")));
-    }
-
-    QScriptValue scriptHelper = m_scriptEngine->newQObject(m_scriptHelper);
-    m_scriptEngine->globalObject().setProperty("QTerm", scriptHelper);
-    reloadScript();
-    m_pBBS->setScript(m_scriptEngine);
 #endif // SCRIPT_ENABLED
 }
 
