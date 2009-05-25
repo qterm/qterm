@@ -70,24 +70,13 @@ void Script::showMessage(const QString & message, int type, int duration)
     m_window->showMessage(message, type, duration);
 }
 
-QString Script::getText(int line)
+QScriptValue Script::getLine(int line)
 {
-    return m_window->m_pBuffer->screen(line)->getText();
+    TextLine * obj = m_window->m_pBuffer->screen(line);
+    return m_engine->newQObject(obj);
 }
 
-QString Script::getAttrText(int line)
 {
-    return m_window->m_pBuffer->screen(line)->getAttrText();
-}
-
-QByteArray Script::getColor(int line)
-{
-    return m_window->m_pBuffer->screen(line)->getColor();
-}
-
-QByteArray Script::getAttr(int line)
-{
-    return m_window->m_pBuffer->screen(line)->getAttr();
 }
 
 } // namespace QTerm

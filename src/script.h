@@ -23,10 +23,7 @@ public slots:
     void sendString(const QString & string);
     void showMessage(const QString & message, int type, int duration);
 //    void sendParsedString(const QString & message);
-    QString getText(int line);
-    QString getAttrText(int line);
-    QByteArray getColor(int line);
-    QByteArray getAttr(int line);
+    QScriptValue getLine(int line);
 private:
     Window * m_window;
 };

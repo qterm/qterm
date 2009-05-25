@@ -56,11 +56,15 @@ String.prototype.contains = function(str) {
     return(this.indexOf(str) != -1);
 }
 
+function getText(line) {
+    return QTerm.getLine(line).getText();
+}
+
 // This is for SMTH only
 function setPageState()
 {
-    var title = QTerm.getText(0);
-    var bottom = QTerm.getText(QTerm.rows()-1);
+    var title = getText(0);
+    var bottom = getText(QTerm.rows()-1);
     pageState = -1;
     if (title.startsWith(fromUtf8("主选单")))
         pageState = 0;
@@ -108,7 +112,7 @@ function getClickableString(x, y)
     if (pageState != 0) {
         return "";
     }
-    var text = QTerm.getText(y);
+    var text = getText(y);
     var pos = QTerm.pos(x,y);
     var pattern = /[\(\[]?[a-zA-Z0-9][\).\]]\s?[^\s]+/g;
     var result;
