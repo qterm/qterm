@@ -55,6 +55,11 @@ int Script::rows()
     return m_window->m_pBuffer->line();
 }
 
+void Script::buzz()
+{
+    m_window->m_pFrame->buzz();
+}
+
 void Script::sendString(const QString & string)
 {
     m_window->inputHandle(string);
