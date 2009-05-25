@@ -1728,6 +1728,14 @@ void Window::sendMouseState(int num, Qt::KeyboardModifier btnstate, Qt::Keyboard
 void Window::reloadScript()
 {
 #ifdef SCRIPT_ENABLED
+    m_scriptEngine->abortEvaluation();
+    delete m_scriptEngine;
+    delete m_scriptHelper;
+    m_scriptEngine = new QScriptEngine(this);
+    m_scriptHelper = new Script(this, m_scriptEngine);
+    QScriptValue scriptHelper = m_scriptEngine->newQObject(m_scriptHelper);
+    m_scriptEngine->globalObject().setProperty("QTerm", scriptHelper);
+    m_pBBS->setScript(m_scriptEngine);
     QFile file(m_param.m_strScriptFile);
     file.open(QIODevice::ReadOnly);
     QString scripts = file.readAll();
