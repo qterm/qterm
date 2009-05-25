@@ -124,10 +124,11 @@ function getClickableString(x, y)
     return ""
 }
 
-function onMouseEvent(type, button, modifiers, pt_x, pt_y)
+function onMouseEvent(type, button, buttons, modifiers, pt_x, pt_y)
 {
     var x = QTerm.char_x(pt_x, pt_y);
     var y = QTerm.char_y(pt_x, pt_y);
+    var accepted = false;
     if (type == 1 && button == 1 && modifiers == 0) {
         accepted = sendKey(x, y);
     }
@@ -143,5 +144,17 @@ function sendKey(x, y)
         QTerm.sendString("\n");
         return true;
     }
+    return false;
+}
+
+function onKeyPressEvent(key, modifiers, text)
+{
+    var msg = "The key pressed is: " + text;
+    QTerm.showMessage(msg,1,1000);
+    return false;
+}
+
+function onWheelEvent(delta, buttons, modifiers, pt_x, pt_y, orientation)
+{
     return false;
 }
