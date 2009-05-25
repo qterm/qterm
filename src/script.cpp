@@ -6,13 +6,15 @@
 #include "qtermframe.h"
 #include "qtermbbs.h"
 #include "qtermtextline.h"
+#include <QtScript>
 
 namespace QTerm
 {
-Script::Script(Window * parent)
+Script::Script(Window * parent, QScriptEngine * engine)
     :QObject(parent)
 {
     m_window = parent;
+    m_engine = engine;
 }
 
 Script::~Script()

@@ -11,7 +11,7 @@ class Script : public QObject
 {
     Q_OBJECT
 public:
-    Script(Window *parent);
+    Script(Window *parent, QScriptEngine *engine);
     ~Script();
 public slots:
     int caretX();
@@ -28,6 +28,7 @@ public slots:
     QScriptValue getLine(int line);
 private:
     Window * m_window;
+    QScriptEngine * m_engine;
 };
 } // namespace QTerm
 
