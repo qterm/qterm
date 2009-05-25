@@ -114,6 +114,7 @@ public:
     void autoReply(bool);
     void antiIdle(bool);
 
+    void loadScript();
     void runScriptFile(const QString&);
     void externInput(const QByteArray&);
     void getHttpHelper(const QString&, bool);
@@ -148,7 +149,6 @@ protected slots:
     void jobDone(int);
 
 protected:
-    bool loadScript();
     void mouseDoubleClickEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);

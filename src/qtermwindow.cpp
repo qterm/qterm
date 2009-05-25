@@ -1727,7 +1727,7 @@ void Window::sendMouseState(int num, Qt::KeyboardModifier btnstate, Qt::Keyboard
     */
 }
 
-bool Window::loadScript()
+void Window::loadScript()
 {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL)
