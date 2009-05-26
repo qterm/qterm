@@ -328,7 +328,8 @@ void SSH1InBuffer::parseData()
         return;
 //  int blockSize = m_transport == NULL ? 8 : m_transport->blockSize();
 //  int macLen = m_transport == NULL ? 0 : m_transport->macLen();
-    qint64 nbyte = m_socket->bytesAvailable();
+    qint64 nbyte = 0;
+    while ((nbyte = m_socket->bytesAvailable()) > 0) {
     QByteArray from_socket = m_socket->readBlock(nbyte);
 
     // Add data into the buffer
@@ -378,6 +379,7 @@ void SSH1InBuffer::parseData()
         int flag = m_out[0];
         m_in.remove(0, totalLen + 4);
         emit packetReady(flag);
+    }
     }
 }
 
