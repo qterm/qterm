@@ -699,23 +699,6 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
     if (!m_bMouseClicked)
         return;
     m_bMouseClicked = false;
-#ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL) {
-        QScriptValue func = m_scriptEngine->globalObject().property("onMouseEvent");
-        if (func.isFunction()) {
-            bool accepted = func.call(QScriptValue(), QScriptValueList() << 1 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y()).toBool();
-            if (accepted) {
-                return;
-            }
-        } else {
-            qDebug("onMouseEvent is not a function");
-        }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
-            qDebug() << "Exception: " << exception.toString();
-        }
-    }
-#endif
     // other than Left Button ignored
     if (!(me->button()&Qt::LeftButton) || (me->modifiers()&Qt::KeyboardModifierMask)) {
         //pythonMouseEvent(1, me->button(), me->state(), me->pos(),0);
@@ -740,6 +723,24 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
 
     if (!m_bMouse || !m_bConnected)
         return;
+
+#ifdef SCRIPT_ENABLED
+    if (m_scriptEngine != NULL) {
+        QScriptValue func = m_scriptEngine->globalObject().property("onMouseEvent");
+        if (func.isFunction()) {
+            bool accepted = func.call(QScriptValue(), QScriptValueList() << 1 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y()).toBool();
+            if (accepted) {
+                return;
+            }
+        } else {
+            qDebug("onMouseEvent is not a function");
+        }
+        if (m_scriptEngine->hasUncaughtException()) {
+            QScriptValue exception = m_scriptEngine->uncaughtException();
+            qDebug() << "Exception: " << exception.toString();
+        }
+    }
+#endif
 
     // url
     if (!m_pBBS->getUrl().isEmpty()) {
