@@ -982,6 +982,24 @@ void Window::readReady(int size)
         //decode
         m_pDecode->decode(str, size);
 
+#ifdef SCRIPT_ENABLED
+    if (m_scriptEngine != NULL) {
+        QScriptValue func = m_scriptEngine->globalObject().property("onNewData");
+        if (func.isFunction()) {
+            bool accepted = func.call().toBool();
+            if (accepted) {
+                return;
+            }
+        } else {
+            qDebug("onNewData is not a function");
+        }
+        if (m_scriptEngine->hasUncaughtException()) {
+            QScriptValue exception = m_scriptEngine->uncaughtException();
+            qDebug() << "Exception: " << exception.toString();
+        }
+    }
+#endif
+
         if (m_bDoingLogin) {
             int n = m_pBuffer->caret().y();
             for (int y = n - 5;y < n + 5;y++) {
