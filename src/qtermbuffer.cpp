@@ -564,7 +564,7 @@ void Buffer::setSelect(const QPoint& pt1, const QPoint& pt2, bool rect)
 
 void Buffer::clearSelect()
 {
-    if (m_ptSelStart == m_ptSelEnd)
+    if (m_ptSelStart == QPoint(-1,-1) || m_ptSelEnd == QPoint(-1,-1))
         return;
 
     for (int i = m_ptSelStart.y(); i <= m_ptSelEnd.y(); i++)
@@ -575,17 +575,11 @@ void Buffer::clearSelect()
 
 bool Buffer::isSelected(int index)
 {
-    if (m_ptSelStart == m_ptSelEnd)
-        return false;
-    else
-        return index >= m_ptSelStart.y() && index <= m_ptSelEnd.y();
+    return index >= m_ptSelStart.y() && index <= m_ptSelEnd.y();
 }
 
 bool Buffer::isSelected(const QPoint& pt, bool rect)
 {
-    if (m_ptSelStart == m_ptSelEnd)
-        return false;
-
     if (rect) {
         int x1, x2;
         x1 = qMin(m_ptSelStart.x(), m_ptSelEnd.x());
@@ -609,9 +603,6 @@ bool Buffer::isSelected(const QPoint& pt, bool rect)
 QString Buffer::getSelectText(bool rect, bool color, const QByteArray& escape)
 {
     QString strSelect = "";
-
-    if (m_ptSelStart == m_ptSelEnd)
-        return strSelect;
 
     QRect rc;
     QString strTemp;

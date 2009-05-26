@@ -580,7 +580,7 @@ void Window::mousePressEvent(QMouseEvent * me)
 
         // set the selecting flag
         m_bSelecting = true;
-        m_ptSelStart = m_pScreen->mapToChar(me->pos());
+        m_ptSelStart = me->pos();
         m_ptSelEnd = m_ptSelStart;
     }
 
@@ -647,9 +647,9 @@ void Window::mouseMoveEvent(QMouseEvent * me)
         if (me->pos().y() > childrenRect().bottom())
             m_pScreen->scrollLine(1);
 
-        m_ptSelEnd = m_pScreen->mapToChar(me->pos());
+        m_ptSelEnd = me->pos();
         if (m_ptSelEnd != m_ptSelStart) {
-            m_pBuffer->setSelect(m_ptSelStart, m_ptSelEnd, m_bCopyRect);
+            m_pBuffer->setSelect(m_pScreen->mapToChar(m_ptSelStart), m_pScreen->mapToChar(m_ptSelEnd), m_bCopyRect);
             m_pScreen->m_ePaintState = Screen::NewData;
             m_pScreen->update();
         }
@@ -725,9 +725,9 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
     }
 
     // Left Button for selecting
-    m_ptSelEnd = m_pScreen->mapToChar(me->pos());
+    m_ptSelEnd = me->pos();
     if (m_ptSelEnd != m_ptSelStart && m_bSelecting) {
-        m_pBuffer->setSelect(m_ptSelStart, m_ptSelEnd, m_bCopyRect);
+        m_pBuffer->setSelect(m_pScreen->mapToChar(m_ptSelStart), m_pScreen->mapToChar(m_ptSelEnd), m_bCopyRect);
         m_pScreen->m_ePaintState = Screen::NewData;
         m_pScreen->update();
         if (m_bAutoCopy)
