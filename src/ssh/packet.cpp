@@ -330,56 +330,56 @@ void SSH1InBuffer::parseData()
 //  int macLen = m_transport == NULL ? 0 : m_transport->macLen();
     qint64 nbyte = 0;
     while ((nbyte = m_socket->bytesAvailable()) > 0) {
-    QByteArray from_socket = m_socket->readBlock(nbyte);
+        QByteArray from_socket = m_socket->readBlock(nbyte);
 
-    // Add data into the buffer
-    m_in.append(from_socket);
-//  dumpData ( m_in );
+        // Add data into the buffer
+        m_in.append(from_socket);
+//      dumpData ( m_in );
 
-    // -------------------------------------------------------
-    // | n = packet length | p = padding |  payload  | crc32 |
-    // -------------------------------------------------------
-    // |         4         |    1 - 7    |   n - 4   |   4   |
-    // -------------------------------------------------------
-    // |                   |           total len             |
-    // -------------------------------------------------------
-    while (m_in.size() > 4) {
-        int length = get_u32(m_in.data());
-        int totalLen = (length + 8) & ~7;
-        int padding = totalLen - length;
+        // -------------------------------------------------------
+        // | n = packet length | p = padding |  payload  | crc32 |
+        // -------------------------------------------------------
+        // |         4         |    1 - 7    |   n - 4   |   4   |
+        // -------------------------------------------------------
+        // |                   |           total len             |
+        // -------------------------------------------------------
+        while (m_in.size() > 4) {
+            int length = get_u32(m_in.data());
+            int totalLen = (length + 8) & ~7;
+            int padding = totalLen - length;
 #ifdef SSH_DEBUG
-        qDebug() << "length: " << length << "total length: " << totalLen << "padding: " << padding;
+            qDebug() << "length: " << length << "total length: " << totalLen << "padding: " << padding;
 #endif
 
-        if (totalLen > m_in.size()) {
-            qDebug("packet not complete");
-            return;
+            if (totalLen > m_in.size()) {
+                qDebug("packet not complete");
+                return;
+            }
+
+            QByteArray plain;
+//      qDebug() << "Encrypted data without the length";
+//      dumpData(m_in.mid(4,totalLen + 4));
+            if (m_encryption == NULL)
+                plain = m_in.mid(4, totalLen);
+            else
+                plain = m_encryption->crypt(m_in.mid(4, totalLen));
+            // the Padding, Packet type, and Data fields
+            uint32_t mycrc = ssh_crc32((unsigned char *) plain.left(totalLen - 4).data(), totalLen - 4);
+            m_out = plain.mid(padding, length - 4);
+#ifdef SSH_DEBUG
+            qDebug() << "Decrypted data";
+#endif
+//      dumpData ( m_out );
+//      dumpData ( m_in.mid ( totalLen, 4 ) );
+            uint32_t gotcrc = get_u32(plain.mid(totalLen - 4, 4));
+            if (gotcrc != mycrc)
+                // TODO: die gracefully
+                qDebug("crc32 check error!");
+            m_buf.reset();
+            int flag = m_out[0];
+            m_in.remove(0, totalLen + 4);
+            emit packetReady(flag);
         }
-
-        QByteArray plain;
-//  qDebug() << "Encrypted data without the length";
-//  dumpData(m_in.mid(4,totalLen + 4));
-        if (m_encryption == NULL)
-            plain = m_in.mid(4, totalLen);
-        else
-            plain = m_encryption->crypt(m_in.mid(4, totalLen));
-        // the Padding, Packet type, and Data fields
-        uint32_t mycrc = ssh_crc32((unsigned char *) plain.left(totalLen - 4).data(), totalLen - 4);
-        m_out = plain.mid(padding, length - 4);
-#ifdef SSH_DEBUG
-        qDebug() << "Decrypted data";
-#endif
-//  dumpData ( m_out );
-//  dumpData ( m_in.mid ( totalLen, 4 ) );
-        uint32_t gotcrc = get_u32(plain.mid(totalLen - 4, 4));
-        if (gotcrc != mycrc)
-            // TODO: die gracefully
-            qDebug("crc32 check error!");
-        m_buf.reset();
-        int flag = m_out[0];
-        m_in.remove(0, totalLen + 4);
-        emit packetReady(flag);
-    }
     }
 }
 
