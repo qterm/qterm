@@ -73,8 +73,9 @@ function getClickableString(x, y)
     if (pageState != 0) {
         return "";
     }
-    var text = getText(y);
-    var pos = QTerm.pos(x,y);
+    var line = QTerm.getLine(y);
+    var text = line.getText();
+    var pos = line.pos(x);
     var pattern = /[\(\[]?[a-zA-Z0-9][\).\]]\s?[^\s]+/g;
     var result;
     var clickableString = "";

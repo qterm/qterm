@@ -43,11 +43,6 @@ int Script::char_y(int x, int y)
     return pt.y() - m_window->m_pBBS->getScreenStart();
 }
 
-int Script::pos(int x, int y)
-{
-    return m_window->m_pBuffer->screen(y)->pos(x);
-}
-
 int Script::columns()
 {
     return m_window->m_pBuffer->columns();

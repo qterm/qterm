@@ -20,7 +20,6 @@ public slots:
     int rows();
     int char_x(int x,int y);
     int char_y(int x,int y);
-    int pos(int x,int y);
     void buzz();
     void sendString(const QString & string);
     void showMessage(const QString & message, int type, int duration);
