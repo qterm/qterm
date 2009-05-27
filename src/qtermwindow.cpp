@@ -1748,6 +1748,8 @@ void Window::sendMouseState(int num, Qt::KeyboardModifier btnstate, Qt::Keyboard
 
 void Window::loadScript()
 {
+    if (!m_param.m_bLoadScript)
+        return;
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL)
         m_scriptEngine->abortEvaluation();

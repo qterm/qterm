@@ -30,6 +30,7 @@ BBS::BBS(Buffer * buffer)
     :m_urlPosList()
 {
     m_pBuffer = buffer;
+    m_engine = NULL;
 }
 
 BBS::~BBS()

@@ -1260,6 +1260,7 @@ void Frame::enableMenuToolBar(bool enable)
     m_beepAction->setEnabled(enable);
     m_mouseAction->setEnabled(enable);
 
+    m_scriptReloadAction->setEnabled(enable);
     m_scriptRunAction->setEnabled(enable);
     m_scriptStopAction->setEnabled(enable);
 
