@@ -1787,7 +1787,7 @@ void Window::loadScript()
     m_pBBS->setScript(m_scriptEngine);
     QFile file(m_param.m_strScriptFile);
     file.open(QIODevice::ReadOnly);
-    QString scripts = file.readAll();
+    QString scripts = QString::fromUtf8(file.readAll());
     file.close();
     if (!m_scriptEngine->canEvaluate(scripts))
         qDebug() << "Cannot evaluate the scripts";
