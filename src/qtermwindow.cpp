@@ -528,7 +528,7 @@ void Window::mouseDoubleClickEvent(QMouseEvent * me)
 {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
-        QScriptValue func = m_scriptEngine->globalObject().property("onMouseEvent");
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
             bool accepted = func.call(QScriptValue(), QScriptValueList() << 3 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y()).toBool();
             if (accepted) {
@@ -550,7 +550,7 @@ void Window::mousePressEvent(QMouseEvent * me)
 {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
-        QScriptValue func = m_scriptEngine->globalObject().property("onMouseEvent");
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
             bool accepted = func.call(QScriptValue(), QScriptValueList() << 0 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y()).toBool();
             if (accepted) {
@@ -625,7 +625,7 @@ void Window::mouseMoveEvent(QMouseEvent * me)
 {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
-        QScriptValue func = m_scriptEngine->globalObject().property("onMouseEvent");
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
             bool accepted = func.call(QScriptValue(), QScriptValueList() << 2 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y()).toBool();
             if (accepted) {
@@ -726,7 +726,7 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
 
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
-        QScriptValue func = m_scriptEngine->globalObject().property("onMouseEvent");
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
             bool accepted = func.call(QScriptValue(), QScriptValueList() << 1 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y()).toBool();
             if (accepted) {
@@ -804,7 +804,7 @@ void Window::wheelEvent(QWheelEvent *we)
 {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
-        QScriptValue func = m_scriptEngine->globalObject().property("onWheelEvent");
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onWheelEvent");
         if (func.isFunction()) {
             bool accepted = func.call(QScriptValue(), QScriptValueList() << we->delta() << (int) we->buttons() << (int) we->modifiers() << we->x() << we->y() << (int) we->orientation()).toBool();
             if (accepted) {
@@ -832,7 +832,7 @@ void Window::keyPressEvent(QKeyEvent * e)
 {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
-        QScriptValue func = m_scriptEngine->globalObject().property("onKeyPressEvent");
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onKeyPressEvent");
         if (func.isFunction()) {
             bool accepted = func.call(QScriptValue(), QScriptValueList() << e->key() << (int) e->modifiers() << e->text()).toBool();
             if (accepted) {
@@ -985,7 +985,7 @@ void Window::readReady(int size)
 
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
-        QScriptValue func = m_scriptEngine->globalObject().property("onNewData");
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onNewData");
         if (func.isFunction()) {
             bool accepted = func.call().toBool();
             if (accepted) {
@@ -1798,7 +1798,7 @@ void Window::loadScript()
         QScriptValue exception = m_scriptEngine->uncaughtException();
         qDebug() << "Exception: " << exception.toString();
     }
-    QScriptValue func = m_scriptEngine->globalObject().property("init");
+    QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("init");
     if (!func.isFunction()) {
         qDebug() << "init is not a function";
     }

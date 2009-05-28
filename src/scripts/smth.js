@@ -1,17 +1,25 @@
+function onInput()
+{
+//    QTerm.sendString("v");
+//    QTerm.buzz();
+    var text = QInputDialog.getText(this, "Text Input", "Text Input:",QLineEdit.Normal, "", Qt.WindowFlags(0));
+    QTerm.sendString(text);
+}
+
 var pageState = -1;
 var clickableString = "";
 
-function init()
+QTerm.init = function()
 {
     QTerm.showMessage("system script loaded", 1, 0);
 }
 
-function getCursorType(pos)
+QTerm.getCursorType = function(pos)
 {
     return -1;
 }
 
-function getBG(color)
+QTerm.getBG = function(color)
 {
     var bg = (color & 0xf0) >> 4;
     return bg;
@@ -32,15 +40,15 @@ String.prototype.contains = function(str) {
     return(this.indexOf(str) != -1);
 }
 
-function getText(line) {
+QTerm.getText = function(line) {
     return QTerm.getLine(line).getText();
 }
 
 // This is for SMTH only
-function setPageState()
+QTerm.setPageState = function()
 {
-    var title = getText(0);
-    var bottom = getText(QTerm.rows()-1);
+    var title = QTerm.getText(0);
+    var bottom = QTerm.getText(QTerm.rows()-1);
     pageState = -1;
     var menuList = ["主选单","聊天选单","[处理信笺选单]","工具箱选单","分类讨论区选单"];
     var listList = ["版主:","[好朋友列表]","[讨论区列表]","邮件选单","[个人定制区]"];
@@ -58,17 +66,17 @@ function setPageState()
     return pageState;
 }
 
-function isLineClickable(x, y)
+QTerm.isLineClickable = function(x, y)
 {
     if (pageState == 1) {
-        if (y >= 3 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16 && getText(y).search(/[^\s]/)!=-1) {
+        if (y >= 3 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16 && QTerm.getText(y).search(/[^\s]/)!=-1) {
             return true;
         }
     }
     return false
 }
 
-function getClickableString(x, y)
+QTerm.getClickableString = function(x, y)
 {
     if (pageState != 0) {
         return "";
@@ -90,21 +98,21 @@ function getClickableString(x, y)
     return ""
 }
 
-function onMouseEvent(type, button, buttons, modifiers, pt_x, pt_y)
+QTerm.onMouseEvent = function(type, button, buttons, modifiers, pt_x, pt_y)
 {
     var x = QTerm.char_x(pt_x, pt_y);
     var y = QTerm.char_y(pt_x, pt_y);
     var accepted = false;
     if (type == 1 && button == 1 && modifiers == 0) {
-        accepted = sendKey(x, y);
+        accepted = QTerm.sendKey(x, y);
     }
     return accepted;
 }
 
-function sendKey(x, y)
+QTerm.sendKey = function(x, y)
 {
     if (pageState == 0) {
-        str = getClickableString(x,y);
+        str = QTerm.getClickableString(x,y);
         if (str == "") {
             return false;
         }
@@ -116,14 +124,19 @@ function sendKey(x, y)
     return false;
 }
 
-function onKeyPressEvent(key, modifiers, text)
+QTerm.onKeyPressEvent = function(key, modifiers, text)
 {
-    var msg = "The key pressed is: " + text;
-    QTerm.showMessage(msg,1,1000);
+//    var msg = "The key pressed is: " + text;
+//    QTerm.showMessage(msg,1,1000);
     return false;
 }
 
-function onWheelEvent(delta, buttons, modifiers, pt_x, pt_y, orientation)
+QTerm.onWheelEvent = function(delta, buttons, modifiers, pt_x, pt_y, orientation)
+{
+    return false;
+}
+
+QTerm.onNewData = function()
 {
     return false;
 }

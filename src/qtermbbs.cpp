@@ -111,7 +111,7 @@ void BBS::setPageState()
 
 #ifdef SCRIPT_ENABLED
     if (m_engine != NULL) {
-        QScriptValue func = m_engine->globalObject().property("setPageState");
+        QScriptValue func = m_engine->globalObject().property("QTerm").property("setPageState");
         if (func.isFunction()) {
             int ret = func.call().toInt32();
             if (ret != -1) {
@@ -142,7 +142,7 @@ int BBS::getCursorType(const QPoint& pt)
         int x = pt.x();
         int y = pt.y() - m_nScreenStart;
         int pos = line->pos(m_ptCursor.x());
-        QScriptValue func = m_engine->globalObject().property("getCursorType");
+        QScriptValue func = m_engine->globalObject().property("QTerm").property("getCursorType");
         if (func.isFunction()) {
             int ret = func.call(QScriptValue(), QScriptValueList() << x << y << pos).toInt32();
             if (ret != -1) {
@@ -319,7 +319,7 @@ void BBS::updateSelectRect()
         rect.setRect(0,0,0,0);
         int x = m_ptCursor.x();
         int y = m_ptCursor.y() - m_nScreenStart;
-        QScriptValue func = m_engine->globalObject().property("isLineClickable");
+        QScriptValue func = m_engine->globalObject().property("QTerm").property("isLineClickable");
         if (func.isFunction()) {
             bool clickable = func.call(QScriptValue(), QScriptValueList() << x << y).toBool();
             if (clickable) {
@@ -333,7 +333,7 @@ void BBS::updateSelectRect()
         } else {
             qDebug("isLineClickable is not a function");
         }
-        func = m_engine->globalObject().property("getClickableString");
+        func = m_engine->globalObject().property("QTerm").property("getClickableString");
         if (func.isFunction()) {
             line = m_pBuffer->at(m_ptCursor.y());
             QString clickableString = func.call(QScriptValue(), QScriptValueList() << x << y).toString();
