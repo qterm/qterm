@@ -1748,8 +1748,6 @@ void Window::sendMouseState(int num, Qt::KeyboardModifier btnstate, Qt::Keyboard
 
 void Window::loadScript()
 {
-    if (!m_param.m_bLoadScript)
-        return;
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL)
         m_scriptEngine->abortEvaluation();
@@ -1786,6 +1784,8 @@ void Window::loadScript()
 
     QScriptValue scriptHelper = m_scriptEngine->newQObject(m_scriptHelper);
     m_scriptEngine->globalObject().setProperty("QTerm", scriptHelper);
+    if (!m_param.m_bLoadScript)
+        return;
     m_pBBS->setScript(m_scriptEngine);
     QFile file(m_param.m_strScriptFile);
     file.open(QIODevice::ReadOnly);
