@@ -1430,16 +1430,17 @@ void Window::showStatusBar(bool bShow)
 void Window::runScript()
 {
     // get the previous dir
-    QString file = Global::instance()->getOpenFileName("Python File (*.py *.txt)", this);
+    QString file = Global::instance()->getOpenFileName("Script File (*.js *.txt)", this);
 
     if (file.isEmpty())
         return;
 
-    runScriptFile(file.toLocal8Bit());
+    runScriptFile(file);
 }
 
 void Window::stopScript()
 {
+    m_scriptEngine->abortEvaluation();
 }
 
 void Window::viewMessages()
@@ -1813,36 +1814,19 @@ void Window::loadScript()
 /* ------------------------------------------------------------------------ */
 
 
-void Window::runScriptFile(const QString & cstr)
+void Window::runScriptFile(const QString & filename)
 {
-    char str[32];
-    sprintf(str, "%ld", this);
-
-    char *argv[2] = {str, NULL};
-
-#ifdef HAVE_PYTHON
-    // get the global python thread lock
-    PyEval_AcquireLock();
-
-    // get a reference to the PyInterpreterState
-    extern PyThreadState * mainThreadState;
-    PyInterpreterState * mainInterpreterState = mainThreadState->interp;
-
-    // create a thread state object for this thread
-    PyThreadState * myThreadState = PyThreadState_New(mainInterpreterState);
-    PyThreadState_Swap(myThreadState);
-
-
-    PySys_SetArgv(1, argv);
-
-    runPythonFile(cstr.toLocal8Bit());
-
-    //Clean up this thread's python interpreter reference
-    PyThreadState_Swap(NULL);
-    PyThreadState_Clear(myThreadState);
-    PyThreadState_Delete(myThreadState);
-    PyEval_ReleaseLock();
-#endif // HAVE_PYTHON
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    QString scripts = QString::fromUtf8(file.readAll());
+    file.close();
+    if (!m_scriptEngine->canEvaluate(scripts))
+        qDebug() << "Cannot evaluate this script";
+    m_scriptEngine->evaluate(scripts);
+    if (m_scriptEngine->hasUncaughtException()) {
+        QScriptValue exception = m_scriptEngine->uncaughtException();
+        qDebug() << "Exception: " << exception.toString();
+    }
 }
 
 #ifdef HAVE_PYTHON
