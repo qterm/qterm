@@ -94,8 +94,5 @@ QScriptValue Script::getLine(int line)
     return m_engine->newQObject(obj);
 }
 
-{
-}
-
 } // namespace QTerm
 #include <script.moc>
