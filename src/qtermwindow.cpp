@@ -1709,10 +1709,11 @@ QByteArray Window::unicode2bbs(const QString& text)
     return m_codec->fromUnicode(strTmp);
 }
 
-void Window::sendParsedString(const char * str)
+void Window::sendParsedString(const QString& str)
 {
-    int length;
-    QByteArray cstr = parseString(str, &length);
+    int length = 0;
+    QByteArray bbsText = unicode2bbs(str);
+    QByteArray cstr = parseString(bbsText, &length);
     m_pTelnet->write(cstr, length);
 }
 

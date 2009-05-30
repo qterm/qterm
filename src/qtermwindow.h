@@ -104,7 +104,7 @@ public slots:
     void stopScript();
     void showStatusBar(bool);
     void reconnect();
-    void sendParsedString(const char*);
+    void sendParsedString(const QString &);
     void showIP();
     void inputHandle(const QString & text);
 public:

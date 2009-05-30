@@ -73,6 +73,11 @@ void Script::sendString(const QString & string)
     m_window->inputHandle(string);
 }
 
+void Script::sendParsedString(const QString & string)
+{
+    m_window->sendParsedString(string);
+}
+
 void Script::showMessage(const QString & message, int type, int duration)
 {
     m_window->showMessage(message, type, duration);

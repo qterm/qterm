@@ -25,8 +25,8 @@ public slots:
     int char_y(int x,int y);
     void buzz();
     void sendString(const QString & string);
+    void sendParsedString(const QString & string);
     void showMessage(const QString & message, int type, int duration);
-//    void sendParsedString(const QString & message);
     QScriptValue getLine(int line);
 signals:
     void downloadFinished();
