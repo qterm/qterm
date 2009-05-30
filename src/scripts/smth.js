@@ -239,3 +239,15 @@ QTerm.downloadArticle = function()
     //strArticle = strList.join("\r\n");
     //strArticle = strList.join("\n");
 }
+
+QTerm.antiIdle = function()
+{
+    return false;
+}
+
+//The script shoul get the message by itself since the code in QTerm might not be reliable for every
+//site.
+QTerm.autoReply = function()
+{
+    return false;
+}

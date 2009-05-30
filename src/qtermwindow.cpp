@@ -474,9 +474,22 @@ void Window::idleProcess()
 
     m_bIdling = true;
     // system script can handle that
-#ifdef HAVE_PYTHON
-    if (pythonCallback("antiIdle", Py_BuildValue("(l)", this)))
-        return;
+#ifdef SCRIPT_ENABLED
+    if (m_scriptEngine != NULL) {
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("antiIdle");
+        if (func.isFunction()) {
+            bool accepted = func.call().toBool();
+            if (accepted) {
+                return;
+            }
+        } else {
+            qDebug("antiIdle is not a function");
+        }
+        if (m_scriptEngine->hasUncaughtException()) {
+            QScriptValue exception = m_scriptEngine->uncaughtException();
+            qDebug() << "Exception: " << exception.toString();
+        }
+    }
 #endif
     // the default function
     int length;
@@ -1069,16 +1082,28 @@ void Window::readReady(int size)
             }
         }
     if (m_bAutoReply) {
-#ifdef HAVE_PYTHON
-        if (!pythonCallback("autoReply", Py_BuildValue("(l)", this))) {
-#endif
-            // TODO: save messages
-            if (m_bIdling)
-                replyMessage();
-            else
-                m_replyTimer->start(m_param.m_nMaxIdle*1000 / 2);
-#ifdef HAVE_PYTHON
+#ifdef SCRIPT_ENABLED
+    if (m_scriptEngine != NULL) {
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("autoReply");
+        if (func.isFunction()) {
+            bool accepted = func.call().toBool();
+            if (accepted) {
+                return;
+            } else {
+                // TODO: save messages
+                if (m_bIdling)
+                    replyMessage();
+                else
+                    m_replyTimer->start(m_param.m_nMaxIdle*1000 / 2);
+            }
+        } else {
+            qDebug("autoReply is not a function");
         }
+        if (m_scriptEngine->hasUncaughtException()) {
+            QScriptValue exception = m_scriptEngine->uncaughtException();
+            qDebug() << "Exception: " << exception.toString();
+        }
+    }
 #endif
     }
     //m_pFrame->buzz();
@@ -1090,11 +1115,6 @@ m_updateTimer->start(100);
 //refresh screen
 m_pScreen->m_ePaintState = Screen::NewData;
 m_pScreen->update();
-
-#ifdef HAVE_PYTHON
-// python
-pythonCallback("dataEvent", Py_BuildValue("(l)", this));
-#endif
 }
 
 //delete the buf
