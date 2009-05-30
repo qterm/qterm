@@ -177,8 +177,6 @@ protected:
     void closeEvent(QCloseEvent *);
     void keyPressEvent(QKeyEvent *);
 
-    void sendMouseState(int, Qt::KeyboardModifier, Qt::KeyboardModifier, const QPoint&);
-
     Screen * m_pScreen;
     Decode * m_pDecode;
     QMenu *  m_pMenu;
