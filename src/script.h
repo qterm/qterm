@@ -25,6 +25,8 @@ public slots:
     void showMessage(const QString & message, int type, int duration);
 //    void sendParsedString(const QString & message);
     QScriptValue getLine(int line);
+signals:
+    void downloadFinished();
 private:
     Window * m_window;
     QScriptEngine * m_engine;
