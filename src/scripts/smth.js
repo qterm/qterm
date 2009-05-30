@@ -6,8 +6,7 @@ function onInput()
     QTerm.sendString(text);
 }
 
-var pageState = -1;
-var clickableString = "";
+QTerm.pageState = -1;
 QTerm.downloading = false;
 QTerm.textList= [];
 QTerm.articleText = "";
@@ -66,26 +65,26 @@ QTerm.setPageState = function()
     QTerm.accepted = true;
     var title = QTerm.getText(0);
     var bottom = QTerm.getText(QTerm.rows()-1);
-    pageState = -1;
+    QTerm.pageState = -1;
     var menuList = ["主选单","聊天选单","[处理信笺选单]","工具箱选单","分类讨论区选单"];
     var listList = ["版主:","[好朋友列表]","[讨论区列表]","邮件选单","[个人定制区]"];
     var articleList = ["[阅读文章]","下面还有喔","(R)回信, (D)删除, (G)继续? [G]:"];
     if (title.startsWith(menuList))
-        pageState = 0;
+        QTerm.pageState = 0;
     if (title.startsWith(listList))
-        pageState = 1;
+        QTerm.pageState = 1;
     if (title.indexOf("水木社区 精华区公布栏")!=-1)
-        pageState = 1;
+        QTerm.pageState = 1;
     if (title.indexOf("本日十大热门话题")!=-1)
-        pageState = 1;
+        QTerm.pageState = 1;
     if (bottom.startsWith(articleList))
-        pageState = 2;
-    return pageState;
+        QTerm.pageState = 2;
+    return QTerm.pageState;
 }
 
 QTerm.isLineClickable = function(x, y)
 {
-    if (pageState == 1) {
+    if (QTerm.pageState == 1) {
         if (y >= 3 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16 && QTerm.getText(y).search(/[^\s]/)!=-1) {
             QTerm.accepted = true;
             return true;
@@ -98,7 +97,7 @@ QTerm.isLineClickable = function(x, y)
 QTerm.getClickableString = function(x, y)
 {
     QTerm.accepted = true;
-    if (pageState != 0) {
+    if (QTerm.pageState != 0) {
         return "";
     }
     var line = QTerm.getLine(y);
@@ -131,7 +130,7 @@ QTerm.onMouseEvent = function(type, button, buttons, modifiers, pt_x, pt_y)
 
 QTerm.sendKey = function(x, y)
 {
-    if (pageState == 0) {
+    if (QTerm.pageState == 0) {
         str = QTerm.getClickableString(x,y);
         if (str == "") {
             return false;
