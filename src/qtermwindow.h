@@ -173,11 +173,6 @@ protected:
     QByteArray unicode2bbs(const QString&);
 
     QByteArray parseString(const QByteArray&, int *len = 0);
-#ifdef HAVE_PYTHON
-    bool pythonCallback(const QString &, PyObject*);
-#endif
-    int runPythonFile(const char*);
-    void pythonMouseEvent(int, Qt::KeyboardModifier, Qt::KeyboardModifier, const QPoint&, int);
 
     void closeEvent(QCloseEvent *);
     void keyPressEvent(QKeyEvent *);
