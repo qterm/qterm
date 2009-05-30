@@ -1618,12 +1618,7 @@ void Window::jobDone(int e)
         Global::instance()->fileCfg()->save();
     } else if (e == DAE_TIMEOUT) {
         QMessageBox::warning(this, "timeout", "download article timeout, aborted");
-    } else if (e == PYE_ERROR) {
-        QMessageBox::warning(this, "Python script error", m_strPythonError);
-    } else if (e == PYE_FINISH) {
-        QMessageBox::information(this, "Python script finished", "Python script file executed successfully");
     }
-
 }
 
 /* ------------------------------------------------------------------------ */
