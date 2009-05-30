@@ -63,6 +63,11 @@ int Script::rows()
     return m_window->m_pBuffer->line();
 }
 
+QString Script::getUrl()
+{
+    return m_window->m_pBBS->getUrl();
+}
+
 void Script::buzz()
 {
     m_window->m_pFrame->buzz();
