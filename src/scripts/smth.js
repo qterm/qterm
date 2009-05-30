@@ -257,3 +257,15 @@ QTerm.autoReply = function()
 {
     QTerm.accepted = false;
 }
+
+QTerm.checkUrl = function(x, y)
+{
+    QTerm.accepted = false;
+    return "";
+}
+
+QTerm.checkIP = function(x, y)
+{
+    QTerm.accepted = false;
+    return "";
+}

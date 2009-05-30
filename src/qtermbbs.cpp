@@ -409,6 +409,27 @@ bool BBS::isIP(QRect& rcUrl, QRect& rcOld)
 bool BBS::checkUrl(QRect & rcUrl, QRect & rcOld)
 {
     m_strUrl = "";
+#ifdef SCRIPT_ENABLED
+    if (m_engine != NULL) {
+        QScriptValue func = m_engine->globalObject().property("QTerm").property("checkUrl");
+        if (func.isFunction()) {
+            QString url= func.call(QScriptValue(), QScriptValueList() << m_ptCursor.x() << m_ptCursor.y()-m_nScreenStart).toString();
+            if (m_script->accepted()) {
+                if (url.isEmpty()) {
+                    return false;
+                }
+                m_strUrl = url;
+                return true;
+            }
+        } else {
+            qDebug("checkUrl is not a function");
+        }
+        if (m_engine->hasUncaughtException()) {
+            QScriptValue exception = m_engine->uncaughtException();
+            qDebug() << "Exception: " << exception.toString();
+        }
+    }
+#endif
     int pt = (m_ptCursor.y()-m_nScreenStart)*m_pBuffer->columns()+m_ptCursor.x();
     if (!m_urlPosList.isEmpty()) {
         QPair<int, int> url;
@@ -436,13 +457,27 @@ bool BBS::checkUrl(QRect & rcUrl, QRect & rcOld)
 // TODO: Further Simplification
 bool BBS::checkIP(QRect& rcUrl, QRect& rcOld)
 {
-    static const char http[] = "http://";
-    static const char https[] = "https://";
-    static const char mms[] = "mms://";
-    static const char rstp[] = "rstp://";
-    static const char ftp[] = "ftp://";
-    static const char mailto[] = "mailto:";
-    static const char telnet[] = "telnet://";
+#ifdef SCRIPT_ENABLED
+    if (m_engine != NULL) {
+        QScriptValue func = m_engine->globalObject().property("QTerm").property("checkIP");
+        if (func.isFunction()) {
+            QString ipAddr= func.call(QScriptValue(), QScriptValueList() << m_ptCursor.x() << m_ptCursor.y()-m_nScreenStart).toString();
+            if (m_script->accepted()) {
+                if (ipAddr.isEmpty()) {
+                    return false;
+                }
+                m_strIP = ipAddr;
+                return true;
+            }
+        } else {
+            qDebug("checkIP is not a function");
+        }
+        if (m_engine->hasUncaughtException()) {
+            QScriptValue exception = m_engine->uncaughtException();
+            qDebug() << "Exception: " << exception.toString();
+        }
+    }
+#endif
     int at = m_pBuffer->at(m_ptCursor.y())->pos(m_ptCursor.x());
     if (at == -1) {
         return false;
