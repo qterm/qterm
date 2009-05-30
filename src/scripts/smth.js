@@ -19,6 +19,7 @@ QTerm.init = function()
 
 QTerm.getCursorType = function(pos)
 {
+    QTerm.accepted = false;
     return -1;
 }
 
@@ -62,6 +63,7 @@ QTerm.getText = function(line) {
 // This is for SMTH only
 QTerm.setPageState = function()
 {
+    QTerm.accepted = true;
     var title = QTerm.getText(0);
     var bottom = QTerm.getText(QTerm.rows()-1);
     pageState = -1;
@@ -85,14 +87,17 @@ QTerm.isLineClickable = function(x, y)
 {
     if (pageState == 1) {
         if (y >= 3 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16 && QTerm.getText(y).search(/[^\s]/)!=-1) {
+            QTerm.accepted = true;
             return true;
         }
     }
+    QTerm.accepted = false;
     return false
 }
 
 QTerm.getClickableString = function(x, y)
 {
+    QTerm.accepted = true;
     if (pageState != 0) {
         return "";
     }
@@ -121,7 +126,7 @@ QTerm.onMouseEvent = function(type, button, buttons, modifiers, pt_x, pt_y)
     if (type == 1 && button == 1 && modifiers == 0) {
         accepted = QTerm.sendKey(x, y);
     }
-    return accepted;
+    QTerm.accepted = accepted;
 }
 
 QTerm.sendKey = function(x, y)
@@ -143,16 +148,17 @@ QTerm.onKeyPressEvent = function(key, modifiers, text)
 {
 //    var msg = "The key pressed is: " + text;
 //    QTerm.showMessage(msg,1,1000);
-    return false;
+    QTerm.accepted = false;
 }
 
 QTerm.onWheelEvent = function(delta, buttons, modifiers, pt_x, pt_y, orientation)
 {
-    return false;
+    QTerm.accepted = false;
 }
 
 QTerm.onNewData = function()
 {
+    QTerm.accepted = false;
     return false;
 }
 
@@ -242,12 +248,12 @@ QTerm.downloadArticle = function()
 
 QTerm.antiIdle = function()
 {
-    return false;
+    QTerm.accepted = false;
 }
 
 //The script shoul get the message by itself since the code in QTerm might not be reliable for every
 //site.
 QTerm.autoReply = function()
 {
-    return false;
+    QTerm.accepted = false;
 }

@@ -11,7 +11,7 @@
 namespace QTerm
 {
 Script::Script(Window * parent, QScriptEngine * engine)
-    :QObject(parent)
+    :QObject(parent),m_accepted(false)
 {
     m_window = parent;
     m_engine = engine;
@@ -19,6 +19,16 @@ Script::Script(Window * parent, QScriptEngine * engine)
 
 Script::~Script()
 {
+}
+
+bool Script::accepted() const
+{
+    return m_accepted;
+}
+
+void Script::setAccepted(bool accepted)
+{
+    m_accepted =  accepted;
 }
 
 int Script::caretX()

@@ -21,6 +21,7 @@
 #include <QtDebug>
 
 #ifdef SCRIPT_ENABLED
+#include "script.h"
 #include <QtScript>
 #endif
 
@@ -38,9 +39,10 @@ BBS::~BBS()
 }
 
 #ifdef SCRIPT_ENABLED
-void BBS::setScript(QScriptEngine * engine)
+void BBS::setScript(QScriptEngine * engine, Script * script)
 {
     m_engine = engine;
+    m_script = script;
 }
 #endif
 
@@ -91,6 +93,25 @@ QString BBS::getMessage()
 
 void BBS::setPageState()
 {
+#ifdef SCRIPT_ENABLED
+    if (m_engine != NULL) {
+        QScriptValue func = m_engine->globalObject().property("QTerm").property("setPageState");
+        if (func.isFunction()) {
+            int ret = func.call().toInt32();
+            if (m_script->accepted()) {
+                m_nPageState = ret;
+                return;
+            }
+        } else {
+            qDebug("setPageState is not a function");
+        }
+        if (m_engine->hasUncaughtException()) {
+            QScriptValue exception = m_engine->uncaughtException();
+            qDebug() << "Exception: " << exception.toString();
+        }
+    }
+#endif
+
     m_nPageState = -1;
 
     TextLine * line;
@@ -108,24 +129,6 @@ void BBS::setPageState()
         if (isUnicolor(line))
             m_nPageState = 2; // reading
     }
-
-#ifdef SCRIPT_ENABLED
-    if (m_engine != NULL) {
-        QScriptValue func = m_engine->globalObject().property("QTerm").property("setPageState");
-        if (func.isFunction()) {
-            int ret = func.call().toInt32();
-            if (ret != -1) {
-                m_nPageState = ret;
-            }
-        } else {
-            qDebug("setPageState is not a function");
-        }
-        if (m_engine->hasUncaughtException()) {
-            QScriptValue exception = m_engine->uncaughtException();
-            qDebug() << "Exception: " << exception.toString();
-        }
-    }
-#endif
 }
 
 int BBS::getCursorType(const QPoint& pt)
@@ -145,8 +148,8 @@ int BBS::getCursorType(const QPoint& pt)
         QScriptValue func = m_engine->globalObject().property("QTerm").property("getCursorType");
         if (func.isFunction()) {
             int ret = func.call(QScriptValue(), QScriptValueList() << x << y << pos).toInt32();
-            if (ret != -1) {
-                nCursorType = ret;
+            if (m_script->accepted()) {
+                return ret;
             }
         } else {
             qDebug("getCursorType is not a function");
@@ -322,11 +325,13 @@ void BBS::updateSelectRect()
         QScriptValue func = m_engine->globalObject().property("QTerm").property("isLineClickable");
         if (func.isFunction()) {
             bool clickable = func.call(QScriptValue(), QScriptValueList() << x << y).toBool();
-            if (clickable) {
-                rect.setX(0);
-                rect.setY(m_ptCursor.y());
-                rect.setWidth(m_pBuffer->columns());
-                rect.setHeight(1);
+            if (m_script->accepted()) {
+                if (clickable) {
+                    rect.setX(0);
+                    rect.setY(m_ptCursor.y());
+                    rect.setWidth(m_pBuffer->columns());
+                    rect.setHeight(1);
+                }
                 m_rcSelection = rect;
                 return;
             }
@@ -337,14 +342,18 @@ void BBS::updateSelectRect()
         if (func.isFunction()) {
             line = m_pBuffer->at(m_ptCursor.y());
             QString clickableString = func.call(QScriptValue(), QScriptValueList() << x << y).toString();
-            if (!clickableString.isEmpty()) {
-                int index = line->getText().indexOf(clickableString);
-                int rectx = line->beginIndex(index);
-                int width = line->beginIndex(index+clickableString.length()) - rectx;
-                rect.setX(rectx);
-                rect.setY(m_ptCursor.y());
-                rect.setWidth(width);
-                rect.setHeight(1);
+            if (m_script->accepted()) {
+                if (!clickableString.isEmpty()) {
+                    int index = line->getText().indexOf(clickableString);
+                    int rectx = line->beginIndex(index);
+                    int width = line->beginIndex(index+clickableString.length()) - rectx;
+                    rect.setX(rectx);
+                    rect.setY(m_ptCursor.y());
+                    rect.setWidth(width);
+                    rect.setHeight(1);
+                }
+                m_rcSelection = rect;
+                return;
             }
 
         } else {

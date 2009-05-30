@@ -13,7 +13,10 @@ class Script : public QObject
 public:
     Script(Window *parent, QScriptEngine *engine);
     ~Script();
+    Q_PROPERTY(bool accepted READ accepted WRITE setAccepted);
 public slots:
+    bool accepted() const;
+    void setAccepted(bool);
     int caretX();
     int caretY();
     int columns();
@@ -30,6 +33,7 @@ signals:
 private:
     Window * m_window;
     QScriptEngine * m_engine;
+    bool m_accepted;
 };
 } // namespace QTerm
 

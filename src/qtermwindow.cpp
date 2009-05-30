@@ -478,8 +478,8 @@ void Window::idleProcess()
     if (m_scriptEngine != NULL) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("antiIdle");
         if (func.isFunction()) {
-            bool accepted = func.call().toBool();
-            if (accepted) {
+            func.call();
+            if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
@@ -543,8 +543,8 @@ void Window::mouseDoubleClickEvent(QMouseEvent * me)
     if (m_scriptEngine != NULL) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
-            bool accepted = func.call(QScriptValue(), QScriptValueList() << 3 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y()).toBool();
-            if (accepted) {
+            func.call(QScriptValue(), QScriptValueList() << 3 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
+            if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
@@ -565,8 +565,8 @@ void Window::mousePressEvent(QMouseEvent * me)
     if (m_scriptEngine != NULL) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
-            bool accepted = func.call(QScriptValue(), QScriptValueList() << 0 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y()).toBool();
-            if (accepted) {
+            func.call(QScriptValue(), QScriptValueList() << 0 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
+            if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
@@ -640,8 +640,8 @@ void Window::mouseMoveEvent(QMouseEvent * me)
     if (m_scriptEngine != NULL) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
-            bool accepted = func.call(QScriptValue(), QScriptValueList() << 2 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y()).toBool();
-            if (accepted) {
+            func.call(QScriptValue(), QScriptValueList() << 2 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
+            if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
@@ -741,8 +741,8 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
     if (m_scriptEngine != NULL) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
-            bool accepted = func.call(QScriptValue(), QScriptValueList() << 1 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y()).toBool();
-            if (accepted) {
+            func.call(QScriptValue(), QScriptValueList() << 1 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
+            if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
@@ -819,8 +819,8 @@ void Window::wheelEvent(QWheelEvent *we)
     if (m_scriptEngine != NULL) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onWheelEvent");
         if (func.isFunction()) {
-            bool accepted = func.call(QScriptValue(), QScriptValueList() << we->delta() << (int) we->buttons() << (int) we->modifiers() << we->x() << we->y() << (int) we->orientation()).toBool();
-            if (accepted) {
+            func.call(QScriptValue(), QScriptValueList() << we->delta() << (int) we->buttons() << (int) we->modifiers() << we->x() << we->y() << (int) we->orientation());
+            if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
@@ -847,8 +847,8 @@ void Window::keyPressEvent(QKeyEvent * e)
     if (m_scriptEngine != NULL) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onKeyPressEvent");
         if (func.isFunction()) {
-            bool accepted = func.call(QScriptValue(), QScriptValueList() << e->key() << (int) e->modifiers() << e->text()).toBool();
-            if (accepted) {
+            func.call(QScriptValue(), QScriptValueList() << e->key() << (int) e->modifiers() << e->text());
+            if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
@@ -1000,8 +1000,8 @@ void Window::readReady(int size)
     if (m_scriptEngine != NULL) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onNewData");
         if (func.isFunction()) {
-            bool accepted = func.call().toBool();
-            if (accepted) {
+            func.call();
+            if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
@@ -1086,8 +1086,8 @@ void Window::readReady(int size)
     if (m_scriptEngine != NULL) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("autoReply");
         if (func.isFunction()) {
-            bool accepted = func.call().toBool();
-            if (accepted) {
+            func.call();
+            if (m_scriptHelper->accepted()) {
                 return;
             } else {
                 // TODO: save messages
@@ -1767,7 +1767,7 @@ void Window::loadScript()
     m_scriptEngine->globalObject().setProperty("QTerm", scriptHelper);
     if (!m_param.m_bLoadScript)
         return;
-    m_pBBS->setScript(m_scriptEngine);
+    m_pBBS->setScript(m_scriptEngine, m_scriptHelper);
     QFile file(m_param.m_strScriptFile);
     file.open(QIODevice::ReadOnly);
     QString scripts = QString::fromUtf8(file.readAll());
