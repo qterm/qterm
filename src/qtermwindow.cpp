@@ -1696,8 +1696,9 @@ void Window::saveSetting()
     }
 }
 
-void Window::externInput(const QByteArray& cstrText)
+void Window::externInput(const QString & strText)
 {
+    QByteArray cstrText = unicode2bbs(strText);
     QByteArray cstrParsed = parseString(cstrText);
     m_pTelnet->write(cstrParsed, cstrParsed.length());
 

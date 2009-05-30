@@ -779,7 +779,7 @@ void Frame::keyClicked(int id)
     QString strTmp = conf->getItemValue("key", strItem).toString();
 
     if (strTmp[0] == '0') { // key
-        wndmgr->activeWindow()->externInput(strTmp.mid(1).toLatin1());
+        wndmgr->activeWindow()->externInput(strTmp.mid(1));
     } else if (strTmp[0] == '1') { // script
         wndmgr->activeWindow()->runScriptFile(strTmp.mid(1).toLatin1());
     } else if (strTmp[0] == '2') { // program

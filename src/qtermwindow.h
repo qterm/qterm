@@ -116,7 +116,7 @@ public:
 
     void loadScript();
     void runScriptFile(const QString&);
-    void externInput(const QByteArray&);
+    void externInput(const QString &);
     void getHttpHelper(const QString&, bool);
     void showMessage(const QString &, int type, int duration);
     Screen * getScreen()
