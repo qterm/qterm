@@ -28,26 +28,26 @@ Canvas::Canvas(QWidget *parent, Qt::WFlags f)
 		bEmbed = false;
 
 	m_pMenu = new QMenu(this);
-	m_pMenu->addAction( tr("zoom 1:1"), this, SLOT(oriSize()), Qt::Key_Z );
-	m_pMenu->addAction( tr("fit window"), this, SLOT(fitWin()), Qt::Key_X );
+	addAction(m_pMenu->addAction( tr("zoom 1:1"), this, SLOT(oriSize()), Qt::Key_Z ));
+	addAction(m_pMenu->addAction( tr("fit window"), this, SLOT(fitWin()), Qt::Key_X ));
 	m_pMenu->addSeparator();	
-	m_pMenu->addAction( tr("zoom in"), this, SLOT(zoomIn()), Qt::Key_Equal );
-	m_pMenu->addAction( tr("zoom out"), this, SLOT(zoomOut()), Qt::Key_Minus );
+	addAction(m_pMenu->addAction( tr("zoom in"), this, SLOT(zoomIn()), Qt::Key_Equal ));
+	addAction(m_pMenu->addAction( tr("zoom out"), this, SLOT(zoomOut()), Qt::Key_Minus ));
 	if (!bEmbed)
-		m_pMenu->addAction( tr("fullscreen"), this, SLOT(fullScreen()), Qt::Key_F );
+		addAction(m_pMenu->addAction( tr("fullscreen"), this, SLOT(fullScreen()), Qt::Key_F ));
 	m_pMenu->addSeparator();	
-	m_pMenu->addAction( tr("rotate CW 90"), this, SLOT(cwRotate()), Qt::Key_BracketRight );
-	m_pMenu->addAction( tr("rotate CCW 90"), this, SLOT(ccwRotate()), Qt::Key_BracketLeft );
+	addAction(m_pMenu->addAction( tr("rotate CW 90"), this, SLOT(cwRotate()), Qt::Key_BracketRight ));
+	addAction(m_pMenu->addAction( tr("rotate CCW 90"), this, SLOT(ccwRotate()), Qt::Key_BracketLeft ));
 
 	if (!bEmbed) {
 		m_pMenu->addSeparator();
-		m_pMenu->addAction( tr("save as"), this, SLOT(saveImage()), Qt::Key_S );
-		m_pMenu->addAction( tr("copy to"), this, SLOT(copyImage()), Qt::Key_C );
-		m_pMenu->addAction( tr("silent copy"), this, SLOT(silentCopy()), Qt::Key_S+Qt::SHIFT );
-		m_pMenu->addAction( tr("delete"), this, SLOT(deleteImage()), Qt::Key_D );
+		addAction(m_pMenu->addAction( tr("save as"), this, SLOT(saveImage()), Qt::Key_S ));
+		addAction(m_pMenu->addAction( tr("copy to"), this, SLOT(copyImage()), Qt::Key_C ));
+		addAction(m_pMenu->addAction( tr("silent copy"), this, SLOT(silentCopy()), Qt::Key_S+Qt::SHIFT ));
+		addAction(m_pMenu->addAction( tr("delete"), this, SLOT(deleteImage()), Qt::Key_D ));
 
 		m_pMenu->addSeparator();
-		m_pMenu->addAction( tr("exit"), this, SLOT(close()), Qt::Key_Q );
+		addAction(m_pMenu->addAction( tr("exit"), this, SLOT(close()), Qt::Key_Q ));
 	}
 
 	bFitWin=true;
