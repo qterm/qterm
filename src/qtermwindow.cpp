@@ -1130,6 +1130,23 @@ if (m_pZmodem->transferstate == TransferStop)
 void Window::ZmodemState(int type, int value, const QString& msg)
 {
     QString status = m_codec->toUnicode(msg.toLatin1());
+#ifdef SCRIPT_ENABLED
+    if (m_scriptEngine != NULL) {
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onZmodemState");
+        if (func.isFunction()) {
+            func.call(QScriptValue(), QScriptValueList() << type << value << status);
+            if (m_scriptHelper->accepted()) {
+                return;
+            }
+        } else {
+            qDebug("onZmodemState is not a function");
+        }
+        if (m_scriptEngine->hasUncaughtException()) {
+            QScriptValue exception = m_scriptEngine->uncaughtException();
+            qDebug() << "Exception: " << exception.toString();
+        }
+    }
+#endif
     QString strMsg;
     //to be completed
     switch (type) {
@@ -1200,6 +1217,23 @@ void Window::ZmodemState(int type, int value, const QString& msg)
 // telnet state slot
 void Window::TelnetState(int state)
 {
+#ifdef SCRIPT_ENABLED
+    if (m_scriptEngine != NULL) {
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onTelnetState");
+        if (func.isFunction()) {
+            func.call(QScriptValue(), QScriptValueList() << state);
+            if (m_scriptHelper->accepted()) {
+                return;
+            }
+        } else {
+            qDebug("onTelnetState is not a function");
+        }
+        if (m_scriptEngine->hasUncaughtException()) {
+            QScriptValue exception = m_scriptEngine->uncaughtException();
+            qDebug() << "Exception: " << exception.toString();
+        }
+    }
+#endif
     switch (state) {
     case TSRESOLVING:
         //statusBar()->message( tr("resolving host name") );
