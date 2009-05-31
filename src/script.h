@@ -24,6 +24,9 @@ public slots:
     int char_x(int x,int y);
     int char_y(int x,int y);
     QString getUrl();
+    bool isConnected();
+    void reconnect();
+    void disconnect();
     void buzz();
     void sendString(const QString & string);
     void sendParsedString(const QString & string);

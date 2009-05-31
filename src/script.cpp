@@ -68,6 +68,21 @@ QString Script::getUrl()
     return m_window->m_pBBS->getUrl();
 }
 
+bool Script::isConnected()
+{
+    return m_window->isConnected();
+}
+
+void Script::reconnect()
+{
+    m_window->reconnect();
+}
+
+void Script::disconnect()
+{
+    m_window->disconnect();
+}
+
 void Script::buzz()
 {
     m_window->m_pFrame->buzz();
