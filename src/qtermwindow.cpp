@@ -561,23 +561,6 @@ void Window::mouseDoubleClickEvent(QMouseEvent * me)
 
 void Window::mousePressEvent(QMouseEvent * me)
 {
-#ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL) {
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
-        if (func.isFunction()) {
-            func.call(QScriptValue(), QScriptValueList() << 0 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
-            if (m_scriptHelper->accepted()) {
-                return;
-            }
-        } else {
-            qDebug("onMouseEvent is not a function");
-        }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
-            qDebug() << "Exception: " << exception.toString();
-        }
-    }
-#endif
     // stop  the tab blinking
     if (m_tabTimer->isActive()) {
         m_tabTimer->stop();
@@ -596,6 +579,24 @@ void Window::mousePressEvent(QMouseEvent * me)
         m_ptSelStart = me->pos();
         m_ptSelEnd = m_ptSelStart;
     }
+
+#ifdef SCRIPT_ENABLED
+    if (m_scriptEngine != NULL) {
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
+        if (func.isFunction()) {
+            func.call(QScriptValue(), QScriptValueList() << 0 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
+            if (m_scriptHelper->accepted()) {
+                return;
+            }
+        } else {
+            qDebug("onMouseEvent is not a function");
+        }
+        if (m_scriptEngine->hasUncaughtException()) {
+            QScriptValue exception = m_scriptEngine->uncaughtException();
+            qDebug() << "Exception: " << exception.toString();
+        }
+    }
+#endif
 
     // Right Button
     if ((me->button()&Qt::RightButton)) {
@@ -636,6 +637,21 @@ void Window::mousePressEvent(QMouseEvent * me)
 
 void Window::mouseMoveEvent(QMouseEvent * me)
 {
+    // selecting by leftbutton
+    if ((me->buttons()&Qt::LeftButton) && m_bSelecting) {
+        if (me->pos().y() < childrenRect().top())
+            m_pScreen->scrollLine(-1);
+        if (me->pos().y() > childrenRect().bottom())
+            m_pScreen->scrollLine(1);
+
+        m_ptSelEnd = me->pos();
+        if (m_ptSelEnd != m_ptSelStart) {
+            m_pBuffer->setSelect(m_pScreen->mapToChar(m_ptSelStart), m_pScreen->mapToChar(m_ptSelEnd), m_bCopyRect);
+            m_pScreen->m_ePaintState = Screen::NewData;
+            m_pScreen->update();
+        }
+    }
+
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
@@ -653,20 +669,6 @@ void Window::mouseMoveEvent(QMouseEvent * me)
         }
     }
 #endif
-    // selecting by leftbutton
-    if ((me->buttons()&Qt::LeftButton) && m_bSelecting) {
-        if (me->pos().y() < childrenRect().top())
-            m_pScreen->scrollLine(-1);
-        if (me->pos().y() > childrenRect().bottom())
-            m_pScreen->scrollLine(1);
-
-        m_ptSelEnd = me->pos();
-        if (m_ptSelEnd != m_ptSelStart) {
-            m_pBuffer->setSelect(m_pScreen->mapToChar(m_ptSelStart), m_pScreen->mapToChar(m_ptSelEnd), m_bCopyRect);
-            m_pScreen->m_ePaintState = Screen::NewData;
-            m_pScreen->update();
-        }
-    }
 
     if (m_bMouse && m_bConnected) {
         // set cursor pos, repaint if state changed
@@ -734,9 +736,6 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
     m_bSelecting = false;
 
 
-    if (!m_bMouse || !m_bConnected)
-        return;
-
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
@@ -754,6 +753,9 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
         }
     }
 #endif
+
+    if (!m_bMouse || !m_bConnected)
+        return;
 
     // url
     if (!m_pBBS->getUrl().isEmpty()) {
