@@ -1127,8 +1127,9 @@ if (m_pZmodem->transferstate == TransferStop)
     m_pZmodem->transferstate = NoTransfer;
 }
 
-void Window::ZmodemState(int type, int value, const QString& status)
+void Window::ZmodemState(int type, int value, const QString& msg)
 {
+    QString status = m_codec->toUnicode(msg.toLatin1());
     QString strMsg;
     //to be completed
     switch (type) {
@@ -1176,7 +1177,7 @@ void Window::ZmodemState(int type, int value, const QString& status)
     case    FileBegin:
         /* file transfer begins, str=name */
 //                qWarning("starting file %s", status);
-        m_pZmDialog->setFileInfo(m_codec->toUnicode(status.toLatin1()), value);
+        m_pZmDialog->setFileInfo(status, value);
         m_pZmDialog->setProgress(0);
         m_pZmDialog->clearErrorLog();
         m_pZmDialog->show();

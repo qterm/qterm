@@ -987,6 +987,7 @@ int Zmodem::ZAttn(ZModem *info)
 
 void Zmodem::ZStatus(int type, int value, const char * status)
 {
+	QString msg = QString::fromLatin1(status);
 	emit ZmodemState(type, value, status);
 	switch(type)
 	{
