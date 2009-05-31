@@ -6,6 +6,7 @@
 #include "qtermframe.h"
 #include "qtermbbs.h"
 #include "qtermtextline.h"
+#include "qtermzmodem.h"
 #include <QtScript>
 
 namespace QTerm
@@ -101,6 +102,16 @@ void Script::sendParsedString(const QString & string)
 void Script::showMessage(const QString & message, int type, int duration)
 {
     m_window->showMessage(message, type, duration);
+}
+
+void Script::cancelZmodem()
+{
+    m_window->zmodem()->zmodemCancel();
+}
+
+void Script::setZmodemFileList(const QStringList & fileList)
+{
+    m_window->zmodem()->setFileList(fileList);
 }
 
 QScriptValue Script::getLine(int line)

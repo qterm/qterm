@@ -123,6 +123,10 @@ public:
     {
         return m_pScreen;
     }
+    Zmodem * zmodem()
+    {
+        return m_pZmodem;
+    }
 
 protected slots:
     // from Telnet

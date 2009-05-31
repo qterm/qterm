@@ -638,6 +638,7 @@ public slots:
 
 	void zmodemCancel();
 	int	ZmodemTimeout() ;
+	void setFileList(const QStringList & fileList);
 	
 };
 

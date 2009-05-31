@@ -31,6 +31,8 @@ public slots:
     void sendString(const QString & string);
     void sendParsedString(const QString & string);
     void showMessage(const QString & message, int type, int duration);
+    void cancelZmodem();
+    void setZmodemFileList(const QStringList & fileList);
     QScriptValue getLine(int line);
 signals:
     void downloadFinished();

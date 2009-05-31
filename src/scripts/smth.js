@@ -268,3 +268,15 @@ QTerm.checkIP = function(x, y)
     QTerm.accepted = false;
     return "";
 }
+
+QTerm.onTelnetState = function(state)
+{
+    QTerm.accepted = false;
+    return;
+}
+
+QTerm.onZmodemState = function(type, value, state)
+{
+    QTerm.accepted = false;
+    return;
+}
