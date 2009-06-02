@@ -1487,7 +1487,7 @@ void Window::showStatusBar(bool bShow)
 void Window::runScript()
 {
     // get the previous dir
-    QString file = Global::instance()->getOpenFileName("Script File (*.js *.txt)", this);
+    QString file = Global::instance()->getOpenFileName("Script Files (*.js *.txt)", this);
 
     if (file.isEmpty())
         return;
