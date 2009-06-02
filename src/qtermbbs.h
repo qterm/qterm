@@ -79,8 +79,8 @@ protected:
     QList< QPair<int,int> > m_urlPosList;
     QString m_url;
 #ifdef SCRIPT_ENABLED
-    QScriptEngine * m_engine;
-    ScriptHelper * m_script;
+    QScriptEngine * m_scriptEngine;
+    ScriptHelper * m_scriptHelper;
 #endif
 };
 

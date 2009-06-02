@@ -31,7 +31,7 @@ BBS::BBS(Buffer * buffer)
     :m_urlPosList()
 {
     m_pBuffer = buffer;
-    m_engine = NULL;
+    m_scriptEngine = NULL;
 }
 
 BBS::~BBS()
@@ -41,8 +41,8 @@ BBS::~BBS()
 #ifdef SCRIPT_ENABLED
 void BBS::setScript(QScriptEngine * engine, ScriptHelper * script)
 {
-    m_engine = engine;
-    m_script = script;
+    m_scriptEngine = engine;
+    m_scriptHelper = script;
 }
 #endif
 
@@ -94,19 +94,19 @@ QString BBS::getMessage()
 void BBS::setPageState()
 {
 #ifdef SCRIPT_ENABLED
-    if (m_engine != NULL) {
-        QScriptValue func = m_engine->globalObject().property("QTerm").property("setPageState");
+    if (m_scriptEngine != NULL) {
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("setPageState");
         if (func.isFunction()) {
             int ret = func.call().toInt32();
-            if (m_script->accepted()) {
+            if (m_scriptHelper->accepted()) {
                 m_nPageState = ret;
                 return;
             }
         } else {
             qDebug("setPageState is not a function");
         }
-        if (m_engine->hasUncaughtException()) {
-            QScriptValue exception = m_engine->uncaughtException();
+        if (m_scriptEngine->hasUncaughtException()) {
+            QScriptValue exception = m_scriptEngine->uncaughtException();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -140,15 +140,15 @@ int BBS::getCursorType(const QPoint& pt)
 
     int nCursorType = 8;
 #ifdef SCRIPT_ENABLED
-    if (m_engine != NULL) {
+    if (m_scriptEngine != NULL) {
         TextLine * line = m_pBuffer->at(pt.y());
         int x = pt.x();
         int y = pt.y() - m_nScreenStart;
         int pos = line->pos(m_ptCursor.x());
-        QScriptValue func = m_engine->globalObject().property("QTerm").property("getCursorType");
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("getCursorType");
         if (func.isFunction()) {
             int ret = func.call(QScriptValue(), QScriptValueList() << x << y << pos).toInt32();
-            if (m_script->accepted()) {
+            if (m_scriptHelper->accepted()) {
                 return ret;
             }
         } else {
@@ -318,14 +318,14 @@ void BBS::updateSelectRect()
     }
 
 #ifdef SCRIPT_ENABLED
-    if (m_engine != NULL) {
+    if (m_scriptEngine != NULL) {
         rect.setRect(0,0,0,0);
         int x = m_ptCursor.x();
         int y = m_ptCursor.y() - m_nScreenStart;
-        QScriptValue func = m_engine->globalObject().property("QTerm").property("isLineClickable");
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("isLineClickable");
         if (func.isFunction()) {
             bool clickable = func.call(QScriptValue(), QScriptValueList() << x << y).toBool();
-            if (m_script->accepted()) {
+            if (m_scriptHelper->accepted()) {
                 if (clickable) {
                     rect.setX(0);
                     rect.setY(m_ptCursor.y());
@@ -338,11 +338,11 @@ void BBS::updateSelectRect()
         } else {
             qDebug("isLineClickable is not a function");
         }
-        func = m_engine->globalObject().property("QTerm").property("getClickableString");
+        func = m_scriptEngine->globalObject().property("QTerm").property("getClickableString");
         if (func.isFunction()) {
             line = m_pBuffer->at(m_ptCursor.y());
             QString clickableString = func.call(QScriptValue(), QScriptValueList() << x << y).toString();
-            if (m_script->accepted()) {
+            if (m_scriptHelper->accepted()) {
                 if (!clickableString.isEmpty()) {
                     int index = line->getText().indexOf(clickableString);
                     int rectx = line->beginIndex(index);
@@ -359,8 +359,8 @@ void BBS::updateSelectRect()
         } else {
             qDebug("getClickableString is not a function");
         }
-        if (m_engine->hasUncaughtException()) {
-            QScriptValue exception = m_engine->uncaughtException();
+        if (m_scriptEngine->hasUncaughtException()) {
+            QScriptValue exception = m_scriptEngine->uncaughtException();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -410,11 +410,11 @@ bool BBS::checkUrl(QRect & rcUrl, QRect & rcOld)
 {
     m_strUrl = "";
 #ifdef SCRIPT_ENABLED
-    if (m_engine != NULL) {
-        QScriptValue func = m_engine->globalObject().property("QTerm").property("checkUrl");
+    if (m_scriptEngine != NULL) {
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("checkUrl");
         if (func.isFunction()) {
             QString url= func.call(QScriptValue(), QScriptValueList() << m_ptCursor.x() << m_ptCursor.y()-m_nScreenStart).toString();
-            if (m_script->accepted()) {
+            if (m_scriptHelper->accepted()) {
                 if (url.isEmpty()) {
                     return false;
                 }
@@ -424,8 +424,8 @@ bool BBS::checkUrl(QRect & rcUrl, QRect & rcOld)
         } else {
             qDebug("checkUrl is not a function");
         }
-        if (m_engine->hasUncaughtException()) {
-            QScriptValue exception = m_engine->uncaughtException();
+        if (m_scriptEngine->hasUncaughtException()) {
+            QScriptValue exception = m_scriptEngine->uncaughtException();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -458,11 +458,11 @@ bool BBS::checkUrl(QRect & rcUrl, QRect & rcOld)
 bool BBS::checkIP(QRect& rcUrl, QRect& rcOld)
 {
 #ifdef SCRIPT_ENABLED
-    if (m_engine != NULL) {
-        QScriptValue func = m_engine->globalObject().property("QTerm").property("checkIP");
+    if (m_scriptEngine != NULL) {
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("checkIP");
         if (func.isFunction()) {
             QString ipAddr= func.call(QScriptValue(), QScriptValueList() << m_ptCursor.x() << m_ptCursor.y()-m_nScreenStart).toString();
-            if (m_script->accepted()) {
+            if (m_scriptHelper->accepted()) {
                 if (ipAddr.isEmpty()) {
                     return false;
                 }
@@ -472,8 +472,8 @@ bool BBS::checkIP(QRect& rcUrl, QRect& rcOld)
         } else {
             qDebug("checkIP is not a function");
         }
-        if (m_engine->hasUncaughtException()) {
-            QScriptValue exception = m_engine->uncaughtException();
+        if (m_scriptEngine->hasUncaughtException()) {
+            QScriptValue exception = m_scriptEngine->uncaughtException();
             qDebug() << "Exception: " << exception.toString();
         }
     }
