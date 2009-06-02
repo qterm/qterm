@@ -59,7 +59,7 @@ class Http;
 class IPLocation;
 class PageViewMessage;
 #ifdef SCRIPT_ENABLED
-class Script;
+class ScriptHelper;
 #endif
 class HostInfo;
 // thread copy article
@@ -246,7 +246,7 @@ protected:
     QTextCodec * m_codec;
 #ifdef SCRIPT_ENABLED
     QScriptEngine * m_scriptEngine;
-    Script * m_scriptHelper;
+    ScriptHelper * m_scriptHelper;
 #ifdef SCRIPTTOOLS_ENABLED
     QScriptEngineDebugger * m_scriptDebugger;
 #endif

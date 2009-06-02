@@ -17,7 +17,7 @@ namespace QTerm
 class TextLine;
 class Buffer;
 #ifdef SCRIPT_ENABLED
-class Script;
+class ScriptHelper;
 #endif
 
 class BBS
@@ -27,7 +27,7 @@ public:
     ~BBS();
 
 #ifdef SCRIPT_ENABLED
-    void setScript(QScriptEngine *, Script *);
+    void setScript(QScriptEngine *, ScriptHelper *);
 #endif
     /* -1 -- undefined
      *  0 -- menu
@@ -80,7 +80,7 @@ protected:
     QString m_url;
 #ifdef SCRIPT_ENABLED
     QScriptEngine * m_engine;
-    Script * m_script;
+    ScriptHelper * m_script;
 #endif
 };
 

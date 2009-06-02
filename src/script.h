@@ -7,12 +7,12 @@ namespace QTerm
 {
 class Window;
 class TextLine;
-class Script : public QObject
+class ScriptHelper : public QObject
 {
     Q_OBJECT
 public:
-    Script(Window *parent, QScriptEngine *engine);
-    ~Script();
+    ScriptHelper(Window *parent, QScriptEngine *engine);
+    ~ScriptHelper();
     Q_PROPERTY(bool accepted READ accepted WRITE setAccepted);
 public slots:
     bool accepted() const;

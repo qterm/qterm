@@ -1769,7 +1769,7 @@ void Window::loadScript()
     delete m_scriptEngine;
     delete m_scriptHelper;
     m_scriptEngine = new QScriptEngine(this);
-    m_scriptHelper = new Script(this, m_scriptEngine);
+    m_scriptHelper = new ScriptHelper(this, m_scriptEngine);
     QStringList extensions;
     extensions << "qt.core"
                << "qt.gui"

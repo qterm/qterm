@@ -39,7 +39,7 @@ BBS::~BBS()
 }
 
 #ifdef SCRIPT_ENABLED
-void BBS::setScript(QScriptEngine * engine, Script * script)
+void BBS::setScript(QScriptEngine * engine, ScriptHelper * script)
 {
     m_engine = engine;
     m_script = script;

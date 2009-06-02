@@ -11,115 +11,115 @@
 
 namespace QTerm
 {
-Script::Script(Window * parent, QScriptEngine * engine)
+ScriptHelper::ScriptHelper(Window * parent, QScriptEngine * engine)
     :QObject(parent),m_accepted(false)
 {
     m_window = parent;
     m_engine = engine;
 }
 
-Script::~Script()
+ScriptHelper::~ScriptHelper()
 {
 }
 
-bool Script::accepted() const
+bool ScriptHelper::accepted() const
 {
     return m_accepted;
 }
 
-void Script::setAccepted(bool accepted)
+void ScriptHelper::setAccepted(bool accepted)
 {
     m_accepted =  accepted;
 }
 
-int Script::caretX()
+int ScriptHelper::caretX()
 {
     return m_window->m_pBuffer->caret().x();
 }
 
-int Script::caretY()
+int ScriptHelper::caretY()
 {
     return m_window->m_pBuffer->caret().y();
 }
 
-int Script::char_x(int x, int y)
+int ScriptHelper::char_x(int x, int y)
 {
     QPoint pt = m_window->getScreen()->mapToChar(QPoint(x,y));
     return pt.x();
 }
 
-int Script::char_y(int x, int y)
+int ScriptHelper::char_y(int x, int y)
 {
     QPoint pt = m_window->getScreen()->mapToChar(QPoint(x,y));
     return pt.y() - m_window->m_pBBS->getScreenStart();
 }
 
-int Script::columns()
+int ScriptHelper::columns()
 {
     return m_window->m_pBuffer->columns();
 }
 
-int Script::rows()
+int ScriptHelper::rows()
 {
     return m_window->m_pBuffer->line();
 }
 
-QString Script::getUrl()
+QString ScriptHelper::getUrl()
 {
     return m_window->m_pBBS->getUrl();
 }
 
-QString Script::getIP()
+QString ScriptHelper::getIP()
 {
     return m_window->m_pBBS->getIP();
 }
 
-bool Script::isConnected()
+bool ScriptHelper::isConnected()
 {
     return m_window->isConnected();
 }
 
-void Script::reconnect()
+void ScriptHelper::reconnect()
 {
     m_window->reconnect();
 }
 
-void Script::disconnect()
+void ScriptHelper::disconnect()
 {
     m_window->disconnect();
 }
 
-void Script::buzz()
+void ScriptHelper::buzz()
 {
     m_window->m_pFrame->buzz();
 }
 
-void Script::sendString(const QString & string)
+void ScriptHelper::sendString(const QString & string)
 {
     m_window->inputHandle(string);
 }
 
-void Script::sendParsedString(const QString & string)
+void ScriptHelper::sendParsedString(const QString & string)
 {
     m_window->sendParsedString(string);
 }
 
-void Script::showMessage(const QString & message, int type, int duration)
+void ScriptHelper::showMessage(const QString & message, int type, int duration)
 {
     m_window->showMessage(message, type, duration);
 }
 
-void Script::cancelZmodem()
+void ScriptHelper::cancelZmodem()
 {
     m_window->zmodem()->zmodemCancel();
 }
 
-void Script::setZmodemFileList(const QStringList & fileList)
+void ScriptHelper::setZmodemFileList(const QStringList & fileList)
 {
     m_window->zmodem()->setFileList(fileList);
 }
 
-QScriptValue Script::getLine(int line)
+QScriptValue ScriptHelper::getLine(int line)
 {
     TextLine * obj = m_window->m_pBuffer->screen(line);
     return m_engine->newQObject(obj);
