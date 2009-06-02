@@ -1,5 +1,5 @@
 #include "qterm.h"
-#include "script.h"
+#include "scripthelper.h"
 #include "qtermwindow.h"
 #include "qtermbuffer.h"
 #include "qtermscreen.h"
@@ -126,4 +126,4 @@ QScriptValue ScriptHelper::getLine(int line)
 }
 
 } // namespace QTerm
-#include <script.moc>
+#include <scripthelper.moc>

@@ -38,7 +38,7 @@ AUTHOR:        kingson fiasco
 #include "hostinfo.h"
 
 #ifdef SCRIPT_ENABLED
-#include "script.h"
+#include "scripthelper.h"
 #endif // SCRIPT_ENABLED
 
 #ifdef DBUS_ENABLED

@@ -21,7 +21,7 @@
 #include <QtDebug>
 
 #ifdef SCRIPT_ENABLED
-#include "script.h"
+#include "scripthelper.h"
 #include <QtScript>
 #endif
 
