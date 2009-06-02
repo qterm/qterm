@@ -71,13 +71,15 @@ QTerm.setPageState = function()
     var articleList = ["[阅读文章]","下面还有喔","(R)回信, (D)删除, (G)继续? [G]:"];
     if (title.startsWith(menuList))
         QTerm.pageState = 0;
-    if (title.startsWith(listList))
+    else if (title.startsWith(listList))
         QTerm.pageState = 1;
-    if (title.indexOf("水木社区 精华区公布栏")!=-1)
+    else if (title.indexOf("水木社区 精华区公布栏")!=-1)
         QTerm.pageState = 1;
-    if (title.indexOf("本日十大热门话题")!=-1)
+    else if (title.indexOf("本日十大热门话题")!=-1)
         QTerm.pageState = 1;
-    if (bottom.startsWith(articleList))
+    else if (title.indexOf("(BM:")!=-1)
+        QTerm.pageState = 1;
+    else if (bottom.startsWith(articleList))
         QTerm.pageState = 2;
     return QTerm.pageState;
 }
