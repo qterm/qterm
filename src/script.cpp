@@ -69,6 +69,11 @@ QString Script::getUrl()
     return m_window->m_pBBS->getUrl();
 }
 
+QString Script::getIP()
+{
+    return m_window->m_pBBS->getIP();
+}
+
 bool Script::isConnected()
 {
     return m_window->isConnected();

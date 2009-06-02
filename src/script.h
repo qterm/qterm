@@ -24,6 +24,7 @@ public slots:
     int char_x(int x,int y);
     int char_y(int x,int y);
     QString getUrl();
+    QString getIP();
     bool isConnected();
     void reconnect();
     void disconnect();
