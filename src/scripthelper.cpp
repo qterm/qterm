@@ -7,6 +7,7 @@
 #include "qtermbbs.h"
 #include "qtermtextline.h"
 #include "qtermzmodem.h"
+#include "qtermglobal.h"
 #include <QtGui/QAction>
 #include <QtGui/QMenu>
 #include <QtScript>
@@ -162,6 +163,16 @@ bool ScriptHelper::addUrlMenu(QString id, QString menuTitle, QString icon)
     QScriptValue newItem = m_scriptEngine->newQObject( action );
     m_scriptEngine->globalObject().property( "QTerm" ).setProperty( id, newItem );
     return true;
+}
+
+QString ScriptHelper::globalPath()
+{
+    return Global::instance()->pathLib();
+}
+
+QString ScriptHelper::localPath()
+{
+    return Global::instance()->pathCfg();
 }
 
 } // namespace QTerm

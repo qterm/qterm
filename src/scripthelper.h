@@ -40,6 +40,8 @@ public slots:
     QScriptValue window();
     bool addPopupMenu(QString id, QString menuTitle, QString icon = "QTerm");
     bool addUrlMenu(QString id, QString menuTitle, QString icon = "QTerm");
+    QString globalPath();
+    QString localPath();
 signals:
     void downloadFinished();
 private:
