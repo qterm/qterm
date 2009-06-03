@@ -350,9 +350,10 @@ void Frame::windowsMenuActivated()
         qDebug("Frame::windowsMenuActivated: No sender found");
         return;
     }
-    int id = static_cast<QAction *>(action)->data().toInt();
-    QMdiSubWindow* w = m_MdiArea->subWindowList().at(id);
+    int id = qobject_cast<QAction *>(action)->data().toInt();
+    Window * w = qobject_cast<Window *>(m_MdiArea->subWindowList().at(id)->widget());
     if (w) {
+        w->setFocus();
         w->showMaximized();
     } else {
         qDebug() << "Frame::windowsMenuActivated: No window found, id: " << id;
