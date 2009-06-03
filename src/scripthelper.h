@@ -23,6 +23,8 @@ public slots:
     int rows();
     int char_x(int x,int y);
     int char_y(int x,int y);
+    int posX();
+    int posY();
     QString getUrl();
     QString getIP();
     bool isConnected();

@@ -637,6 +637,7 @@ void Window::mousePressEvent(QMouseEvent * me)
 
 void Window::mouseMoveEvent(QMouseEvent * me)
 {
+    m_ptMouse = me->pos();
     // selecting by leftbutton
     if ((me->buttons()&Qt::LeftButton) && m_bSelecting) {
         if (me->pos().y() < childrenRect().top())

@@ -128,6 +128,10 @@ public:
     {
         return m_pZmodem;
     }
+    QPoint mousePos() const
+    {
+        return m_ptMouse;
+    }
 
 protected slots:
     // from Telnet
@@ -197,6 +201,7 @@ protected:
 
     // mouse select
     QPoint m_ptSelStart, m_ptSelEnd;
+    QPoint m_ptMouse;
     bool m_bSelecting;
 
     // timer

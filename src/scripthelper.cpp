@@ -54,6 +54,16 @@ int ScriptHelper::char_y(int x, int y)
     return pt.y() - m_window->m_pBBS->getScreenStart();
 }
 
+int ScriptHelper::posX()
+{
+    return m_window->mousePos().x();
+}
+
+int ScriptHelper::posY()
+{
+    return m_window->mousePos().y();
+}
+
 int ScriptHelper::columns()
 {
     return m_window->m_pBuffer->columns();
