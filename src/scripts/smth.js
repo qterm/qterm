@@ -1,4 +1,5 @@
 QTerm.import("utils.js");
+QTerm.import("console.js");
 QTerm.pageState = -1;
 QTerm.downloading = false;
 QTerm.textList= [];
