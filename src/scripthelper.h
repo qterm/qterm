@@ -44,7 +44,7 @@ signals:
     void downloadFinished();
 private:
     Window * m_window;
-    QScriptEngine * m_engine;
+    QScriptEngine * m_scriptEngine;
     bool m_accepted;
 };
 } // namespace QTerm

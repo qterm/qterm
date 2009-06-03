@@ -17,7 +17,7 @@ ScriptHelper::ScriptHelper(Window * parent, QScriptEngine * engine)
     :QObject(parent),m_accepted(false)
 {
     m_window = parent;
-    m_engine = engine;
+    m_scriptEngine = engine;
 }
 
 ScriptHelper::~ScriptHelper()
@@ -134,12 +134,12 @@ void ScriptHelper::setZmodemFileList(const QStringList & fileList)
 QScriptValue ScriptHelper::getLine(int line)
 {
     TextLine * obj = m_window->m_pBuffer->screen(line);
-    return m_engine->newQObject(obj);
+    return m_scriptEngine->newQObject(obj);
 }
 
 QScriptValue ScriptHelper::window()
 {
-    return m_engine->newQObject(m_window);
+    return m_scriptEngine->newQObject(m_window);
 }
 
 bool ScriptHelper::addPopupMenu(QString id, QString menuTitle, QString icon)
@@ -148,8 +148,8 @@ bool ScriptHelper::addPopupMenu(QString id, QString menuTitle, QString icon)
     action->setObjectName(id);
     QMenu * popupMenu = m_window->popupMenu();
     popupMenu->addAction(action);
-    QScriptValue newItem = m_engine->newQObject( action );
-    m_engine->globalObject().property( "QTerm" ).setProperty( id, newItem );
+    QScriptValue newItem = m_scriptEngine->newQObject( action );
+    m_scriptEngine->globalObject().property( "QTerm" ).setProperty( id, newItem );
     return true;
 }
 
@@ -159,8 +159,8 @@ bool ScriptHelper::addUrlMenu(QString id, QString menuTitle, QString icon)
     action->setObjectName(id);
     QMenu * urlMenu = m_window->urlMenu();
     urlMenu->addAction(action);
-    QScriptValue newItem = m_engine->newQObject( action );
-    m_engine->globalObject().property( "QTerm" ).setProperty( id, newItem );
+    QScriptValue newItem = m_scriptEngine->newQObject( action );
+    m_scriptEngine->globalObject().property( "QTerm" ).setProperty( id, newItem );
     return true;
 }
 
