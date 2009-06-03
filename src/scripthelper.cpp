@@ -194,9 +194,11 @@ void ScriptHelper::import(const QString & filename)
         fileInfo = QFileInfo(globalPath() + "scripts/" + filename);
     }
     if (!fileInfo.exists()) {
+        qDebug() << "Script file " << filename << "not found";
         return;
     }
     if (isScriptLoaded(fileInfo.absoluteFilePath())) {
+        qDebug() << "Script file " << fileInfo.absoluteFilePath() << "is already loaded";
         return;
     }
     m_window->loadScriptFile(fileInfo.absoluteFilePath());
