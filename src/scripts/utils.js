@@ -24,12 +24,55 @@ String.prototype.rtrim = function() {
         return this.replace(/\s+$/,"");
 }
 
-QTerm.getBG = function(color)
+QTerm.setFG = function(color)
 {
-    var bg = (color & 0xf0) >> 4;
-    return bg;
+    return color & 0x0f;
 }
 
+QTerm.getFG = function(color)
+{
+    return color & 0x0f;
+}
+
+QTerm.setBG = function(color)
+{
+    return (color << 4) & 0x0f;
+}
+
+QTerm.getBG = function(color)
+{
+    return (color & 0xf0) >> 4;
+}
+
+QTerm.setColor = function(color)
+{
+    return color & 0x00ff;
+}
+
+QTerm.getColor = function(color)
+{
+    return color & 0x00ff;
+}
+
+QTerm.setAttr = function(attr)
+{
+    return (attr << 8) & 0xff00;
+}
+
+QTerm.getAttr = function(attr)
+{
+    return (attr & 0xff00) >> 8;
+}
+
+QTerm.defaultColor = function()
+{
+    return 0x7;
+}
+
+QTerm.defaultAttr = function()
+{
+    return 0x4;
+}
 
 QTerm.getText = function(line) {
     return QTerm.getLine(line).getText();
