@@ -1,5 +1,6 @@
 QTerm.import("utils.js");
 QTerm.import("article.js");
+QTerm.import("highlight.js");
 QTerm.import("console.js");
 
 QTerm.pageState = -1;
@@ -117,6 +118,7 @@ QTerm.onWheelEvent = function(delta, buttons, modifiers, pt_x, pt_y, orientation
 QTerm.onNewData = function()
 {
     QTerm.accepted = false;
+    QTerm.highlightKeywords(/qterm|kde/ig);
     return false;
 }
 
