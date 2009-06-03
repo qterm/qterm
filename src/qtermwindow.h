@@ -5,16 +5,6 @@
 #include <config.h>
 #endif
 
-//#include "qterm.h"
-#ifdef HAVE_PYTHON
-#include <Python.h>
-#endif
-
-// #include <q3mainwindow.h>
-// #include <qcursor.h>
-//
-// #include <qthread.h>
-
 #include "qtermparam.h"
 #include "qtermconvert.h"
 #include "qtermsound.h"
