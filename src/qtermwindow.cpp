@@ -1484,6 +1484,11 @@ void Window::showStatusBar(bool bShow)
         statusBar()->hide();
 }
 
+void Window::debugConsole()
+{
+    m_scriptDebugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
+}
+
 void Window::runScript()
 {
     // get the previous dir

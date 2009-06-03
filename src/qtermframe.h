@@ -63,6 +63,7 @@ protected slots:
     void reloadScript();
     void runScript();
     void stopScript();
+    void debugConsole();
 
     // Toolbar
     void connectIt();
@@ -187,6 +188,7 @@ protected:
     QAction * m_scriptReloadAction;
     QAction * m_scriptRunAction;
     QAction * m_scriptStopAction;
+    QAction * m_scriptDebugAction;
 
     QAction * m_aboutAction;
     QAction * m_homepageAction;

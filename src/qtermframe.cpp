@@ -754,6 +754,11 @@ void Frame::reconnect(bool isEnabled)
     wndmgr->activeWindow()->m_bReconnect = isEnabled;
 }
 
+void Frame::debugConsole()
+{
+    wndmgr->activeWindow()->debugConsole();
+}
+
 void Frame::reloadScript()
 {
     wndmgr->activeWindow()->loadScript();
@@ -1003,6 +1008,8 @@ void Frame::initActions()
     m_scriptRunAction->setObjectName("actionScriptRun");
     m_scriptStopAction = new QAction(tr("&Stop"), this);
     m_scriptStopAction->setObjectName("actionScriptStop");
+    m_scriptDebugAction = new QAction(tr("&Debug..."), this);
+    m_scriptDebugAction->setObjectName("actionScriptDebug");
 
     m_aboutAction = new QAction(tr("About &QTerm"), this);
     m_aboutAction->setObjectName("actionAbout");
@@ -1066,6 +1073,7 @@ void Frame::initActions()
     connect(m_scriptReloadAction, SIGNAL(triggered()), this, SLOT(reloadScript()));
     connect(m_scriptRunAction, SIGNAL(triggered()), this, SLOT(runScript()));
     connect(m_scriptStopAction, SIGNAL(triggered()), this, SLOT(stopScript()));
+    connect(m_scriptDebugAction, SIGNAL(triggered()), this, SLOT(debugConsole()));
 
     connect(m_aboutAction, SIGNAL(triggered()), this, SLOT(aboutQTerm()));
     connect(m_homepageAction, SIGNAL(triggered()), this, SLOT(homepage()));
@@ -1179,6 +1187,7 @@ void Frame::addMainMenu()
     script->addAction(m_scriptReloadAction);
     script->addAction(m_scriptRunAction);
     script->addAction(m_scriptStopAction);
+    script->addAction(m_scriptDebugAction);
 
     //Window menu
     windowsMenu = new QMenu(tr("&Windows"), this);
