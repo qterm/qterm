@@ -766,7 +766,7 @@ void Frame::debugConsole()
 
 void Frame::reloadScript()
 {
-    wndmgr->activeWindow()->loadScript();
+    wndmgr->activeWindow()->initScript();
 }
 
 void Frame::runScript()
@@ -792,7 +792,7 @@ void Frame::keyClicked(int id)
     if (strTmp[0] == '0') { // key
         wndmgr->activeWindow()->externInput(strTmp.mid(1));
     } else if (strTmp[0] == '1') { // script
-        wndmgr->activeWindow()->runScriptFile(strTmp.mid(1).toLatin1());
+        wndmgr->activeWindow()->loadScriptFile(strTmp.mid(1).toLatin1());
     } else if (strTmp[0] == '2') { // program
         system((strTmp.mid(1) + " &").toLocal8Bit());
     }

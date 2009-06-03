@@ -115,8 +115,8 @@ public:
     void autoReply(bool);
     void antiIdle(bool);
 
-    void loadScript();
-    void runScriptFile(const QString&);
+    void initScript();
+    void loadScriptFile(const QString&);
     void externInput(const QString &);
     void getHttpHelper(const QString&, bool);
     void showMessage(const QString &, int type, int duration);

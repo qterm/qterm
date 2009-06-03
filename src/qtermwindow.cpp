@@ -399,7 +399,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     // the system wide script
     m_bPythonScriptLoaded = false;
 
-    loadScript();
+    initScript();
 
     connectHost();
 }
@@ -1500,7 +1500,7 @@ void Window::runScript()
     if (file.isEmpty())
         return;
 
-    runScriptFile(file);
+    loadScriptFile(file);
 }
 
 void Window::stopScript()
@@ -1769,7 +1769,7 @@ void Window::setMouseMode(bool on)
 }
 
 
-void Window::loadScript()
+void Window::initScript()
 {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL)
@@ -1829,7 +1829,7 @@ void Window::loadScript()
 #endif // SCRIPT_ENABLED
 }
 
-void Window::runScriptFile(const QString & filename)
+void Window::loadScriptFile(const QString & filename)
 {
     QFile file(filename);
     file.open(QIODevice::ReadOnly);
