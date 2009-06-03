@@ -38,6 +38,8 @@ public slots:
     void setZmodemFileList(const QStringList & fileList);
     QScriptValue getLine(int line);
     QScriptValue window();
+    bool addPopupMenu(QString id, QString menuTitle, QString icon = "QTerm");
+    bool addUrlMenu(QString id, QString menuTitle, QString icon = "QTerm");
 signals:
     void downloadFinished();
 private:

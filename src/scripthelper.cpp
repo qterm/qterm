@@ -7,6 +7,8 @@
 #include "qtermbbs.h"
 #include "qtermtextline.h"
 #include "qtermzmodem.h"
+#include <QtGui/QAction>
+#include <QtGui/QMenu>
 #include <QtScript>
 
 namespace QTerm
@@ -138,6 +140,28 @@ QScriptValue ScriptHelper::getLine(int line)
 QScriptValue ScriptHelper::window()
 {
     return m_engine->newQObject(m_window);
+}
+
+bool ScriptHelper::addPopupMenu(QString id, QString menuTitle, QString icon)
+{
+    QAction * action = new QAction(menuTitle, this);
+    action->setObjectName(id);
+    QMenu * popupMenu = m_window->popupMenu();
+    popupMenu->addAction(action);
+    QScriptValue newItem = m_engine->newQObject( action );
+    m_engine->globalObject().property( "QTerm" ).setProperty( id, newItem );
+    return true;
+}
+
+bool ScriptHelper::addUrlMenu(QString id, QString menuTitle, QString icon)
+{
+    QAction * action = new QAction(menuTitle, this);
+    action->setObjectName(id);
+    QMenu * urlMenu = m_window->urlMenu();
+    urlMenu->addAction(action);
+    QScriptValue newItem = m_engine->newQObject( action );
+    m_engine->globalObject().property( "QTerm" ).setProperty( id, newItem );
+    return true;
 }
 
 } // namespace QTerm

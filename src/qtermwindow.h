@@ -128,6 +128,8 @@ public:
     {
         return m_pZmodem;
     }
+    QMenu * popupMenu();
+    QMenu * urlMenu();
     QPoint mousePos() const
     {
         return m_ptMouse;

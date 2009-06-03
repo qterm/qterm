@@ -1908,5 +1908,15 @@ void Window::showMessage(const QString & message, int type, int duration)
     m_pMessage->display(message, (PageViewMessage::Icon)type, duration);
 }
 
+QMenu * Window::popupMenu()
+{
+    return m_pMenu;
+}
+
+QMenu * Window::urlMenu()
+{
+    return m_pUrl;
+}
+
 }
 #include <qtermwindow.moc>
