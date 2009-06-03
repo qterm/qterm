@@ -475,7 +475,7 @@ void Window::idleProcess()
     m_bIdling = true;
     // system script can handle that
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL) {
+    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("antiIdle");
         if (func.isFunction()) {
             func.call();
@@ -540,7 +540,7 @@ void Window::leaveEvent(QEvent *)
 void Window::mouseDoubleClickEvent(QMouseEvent * me)
 {
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL) {
+    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << 3 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
@@ -581,7 +581,7 @@ void Window::mousePressEvent(QMouseEvent * me)
     }
 
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL) {
+    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << 0 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
@@ -653,7 +653,7 @@ void Window::mouseMoveEvent(QMouseEvent * me)
     }
 
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL) {
+    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << 2 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
@@ -737,7 +737,7 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
 
 
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL) {
+    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << 1 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
@@ -818,7 +818,7 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
 void Window::wheelEvent(QWheelEvent *we)
 {
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL) {
+    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onWheelEvent");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << we->delta() << (int) we->buttons() << (int) we->modifiers() << we->x() << we->y() << (int) we->orientation());
@@ -846,7 +846,7 @@ void Window::wheelEvent(QWheelEvent *we)
 void Window::keyPressEvent(QKeyEvent * e)
 {
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL) {
+    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onKeyPressEvent");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << e->key() << (int) e->modifiers() << e->text());
@@ -999,7 +999,7 @@ void Window::readReady(int size)
         m_pDecode->decode(str, size);
 
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL) {
+    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onNewData");
         if (func.isFunction()) {
             func.call();
@@ -1085,7 +1085,7 @@ void Window::readReady(int size)
         }
     if (m_bAutoReply) {
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL) {
+    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("autoReply");
         if (func.isFunction()) {
             func.call();
@@ -1131,7 +1131,7 @@ void Window::ZmodemState(int type, int value, const QString& msg)
 {
     QString status = m_codec->toUnicode(msg.toLatin1());
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL) {
+    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onZmodemState");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << type << value << status);
@@ -1218,7 +1218,7 @@ void Window::ZmodemState(int type, int value, const QString& msg)
 void Window::TelnetState(int state)
 {
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL) {
+    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onTelnetState");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << state);

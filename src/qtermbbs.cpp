@@ -32,6 +32,7 @@ BBS::BBS(Buffer * buffer)
 {
     m_pBuffer = buffer;
     m_scriptEngine = NULL;
+    m_scriptHelper = NULL;
 }
 
 BBS::~BBS()
