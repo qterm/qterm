@@ -47,7 +47,7 @@ public slots:
     QString globalPath();
     QString localPath();
 signals:
-    void scriptEvent(int type);
+    void scriptEvent(const QString & type);
 private:
     Window * m_window;
     QScriptEngine * m_scriptEngine;
