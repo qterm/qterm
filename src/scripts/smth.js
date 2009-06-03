@@ -1,11 +1,4 @@
-function onInput()
-{
-//    QTerm.sendString("v");
-//    QTerm.buzz();
-    var text = QInputDialog.getText(this, "Text Input", "Text Input:",QLineEdit.Normal, "", Qt.WindowFlags(0));
-    QTerm.sendString(text);
-}
-
+QTerm.import("utils.js");
 QTerm.pageState = -1;
 QTerm.downloading = false;
 QTerm.textList= [];
@@ -20,43 +13,6 @@ QTerm.getCursorType = function(pos)
 {
     QTerm.accepted = false;
     return -1;
-}
-
-QTerm.getBG = function(color)
-{
-    var bg = (color & 0xf0) >> 4;
-    return bg;
-}
-
-String.prototype.startsWith = function(list)
-{
-    for (var i = 0; i < list.length; i++) {
-        var item = list[i];
-        if (this.substr(0,item.length) == item)
-            return true;
-    }
-    return false;
-    //return(this.substr(0,str.length) == str);
-}
-
-String.prototype.contains = function(str) {
-    return(this.indexOf(str) != -1);
-}
-
-String.prototype.trim = function() {
-        return this.replace(/^\s+|\s+$/g,"");
-}
-
-String.prototype.ltrim = function() {
-        return this.replace(/^\s+/,"");
-}
-
-String.prototype.rtrim = function() {
-        return this.replace(/\s+$/,"");
-}
-
-QTerm.getText = function(line) {
-    return QTerm.getLine(line).getText();
 }
 
 // This is for SMTH only
