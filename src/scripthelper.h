@@ -53,6 +53,8 @@ private:
     QScriptEngine * m_scriptEngine;
     bool m_accepted;
     QStringList m_scriptList;
+    QStringList m_popupActionList;
+    QStringList m_urlActionList;
 };
 } // namespace QTerm
 

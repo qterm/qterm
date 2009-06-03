@@ -17,7 +17,7 @@
 namespace QTerm
 {
 ScriptHelper::ScriptHelper(Window * parent, QScriptEngine * engine)
-    :QObject(parent),m_accepted(false),m_scriptList()
+    :QObject(parent),m_accepted(false),m_scriptList(),m_popupActionList(),m_urlActionList()
 {
     m_window = parent;
     m_scriptEngine = engine;
@@ -147,23 +147,33 @@ QScriptValue ScriptHelper::window()
 
 bool ScriptHelper::addPopupMenu(QString id, QString menuTitle, QString icon)
 {
+    if (m_popupActionList.contains(id)) {
+        qDebug("action with the same name is already registered");
+        return false;
+    }
     QAction * action = new QAction(menuTitle, this);
     action->setObjectName(id);
     QMenu * popupMenu = m_window->popupMenu();
     popupMenu->addAction(action);
     QScriptValue newItem = m_scriptEngine->newQObject( action );
     m_scriptEngine->globalObject().property( "QTerm" ).setProperty( id, newItem );
+    m_popupActionList << id;
     return true;
 }
 
 bool ScriptHelper::addUrlMenu(QString id, QString menuTitle, QString icon)
 {
+    if (m_urlActionList.contains(id)) {
+        qDebug("action with the same name is already registered");
+        return false;
+    }
     QAction * action = new QAction(menuTitle, this);
     action->setObjectName(id);
     QMenu * urlMenu = m_window->urlMenu();
     urlMenu->addAction(action);
     QScriptValue newItem = m_scriptEngine->newQObject( action );
     m_scriptEngine->globalObject().property( "QTerm" ).setProperty( id, newItem );
+    m_urlActionList << id;
     return true;
 }
 
