@@ -41,6 +41,8 @@ public slots:
     QScriptValue window();
     bool addPopupMenu(QString id, QString menuTitle, QString icon = "QTerm");
     bool addUrlMenu(QString id, QString menuTitle, QString icon = "QTerm");
+    void addPopupSeparator();
+    void addUrlSeparator();
     void import(const QString & filename);
     void addImportedScript(const QString & filename);
     bool isScriptLoaded(const QString & filename);

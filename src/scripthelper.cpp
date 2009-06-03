@@ -177,6 +177,16 @@ bool ScriptHelper::addUrlMenu(QString id, QString menuTitle, QString icon)
     return true;
 }
 
+void ScriptHelper::addPopupSeparator()
+{
+    m_window->popupMenu()->addSeparator();
+}
+
+void ScriptHelper::addUrlSeparator()
+{
+    m_window->urlMenu()->addSeparator();
+}
+
 void ScriptHelper::addImportedScript(const QString & filename)
 {
     m_scriptList << filename;
