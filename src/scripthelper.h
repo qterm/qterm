@@ -21,8 +21,8 @@ public slots:
     int caretY();
     int columns();
     int rows();
-    int char_x(int x,int y);
-    int char_y(int x,int y);
+    int charX(int x,int y);
+    int charY(int x,int y);
     int posX();
     int posY();
     QString getUrl();

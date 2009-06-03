@@ -122,8 +122,8 @@ QTerm.getClickableString = function(x, y)
 
 QTerm.onMouseEvent = function(type, button, buttons, modifiers, pt_x, pt_y)
 {
-    var x = QTerm.char_x(pt_x, pt_y);
-    var y = QTerm.char_y(pt_x, pt_y);
+    var x = QTerm.charX(pt_x, pt_y);
+    var y = QTerm.charY(pt_x, pt_y);
     var accepted = false;
     if (type == 1 && button == 1 && modifiers == 0) {
         accepted = QTerm.sendKey(x, y);

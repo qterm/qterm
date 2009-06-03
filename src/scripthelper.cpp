@@ -42,13 +42,13 @@ int ScriptHelper::caretY()
     return m_window->m_pBuffer->caret().y();
 }
 
-int ScriptHelper::char_x(int x, int y)
+int ScriptHelper::charX(int x, int y)
 {
     QPoint pt = m_window->getScreen()->mapToChar(QPoint(x,y));
     return pt.x();
 }
 
-int ScriptHelper::char_y(int x, int y)
+int ScriptHelper::charY(int x, int y)
 {
     QPoint pt = m_window->getScreen()->mapToChar(QPoint(x,y));
     return pt.y() - m_window->m_pBBS->getScreenStart();
