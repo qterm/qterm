@@ -1486,7 +1486,9 @@ void Window::showStatusBar(bool bShow)
 
 void Window::debugConsole()
 {
+#ifdef SCRIPTTOOLS_ENABLED
     m_scriptDebugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
+#endif
 }
 
 void Window::runScript()

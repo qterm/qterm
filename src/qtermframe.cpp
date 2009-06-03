@@ -756,7 +756,12 @@ void Frame::reconnect(bool isEnabled)
 
 void Frame::debugConsole()
 {
+#ifndef SCRIPTTOOLS_ENABLED
+    QMessageBox::information(this, "QTerm",
+                             tr("You need to enable the script engine debugger to use this feature. Please recompile QTerm with the debugger enabled (need Qt 4.5 or newer version)"));
+#else
     wndmgr->activeWindow()->debugConsole();
+#endif
 }
 
 void Frame::reloadScript()
@@ -1273,6 +1278,7 @@ void Frame::enableMenuToolBar(bool enable)
     m_scriptReloadAction->setEnabled(enable);
     m_scriptRunAction->setEnabled(enable);
     m_scriptStopAction->setEnabled(enable);
+    m_scriptDebugAction->setEnabled(enable);
 
     if (enable) {
         mdiconnectTools->setVisible(Global::instance()->showToolBar(mdiconnectTools->objectName()));
