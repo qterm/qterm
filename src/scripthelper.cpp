@@ -135,5 +135,10 @@ QScriptValue ScriptHelper::getLine(int line)
     return m_engine->newQObject(obj);
 }
 
+QScriptValue ScriptHelper::window()
+{
+    return m_engine->newQObject(m_window);
+}
+
 } // namespace QTerm
 #include <scripthelper.moc>

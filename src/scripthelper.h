@@ -37,6 +37,7 @@ public slots:
     void cancelZmodem();
     void setZmodemFileList(const QStringList & fileList);
     QScriptValue getLine(int line);
+    QScriptValue window();
 signals:
     void downloadFinished();
 private:
