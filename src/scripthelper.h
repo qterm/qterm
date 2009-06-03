@@ -1,6 +1,7 @@
 #ifndef SCRIPT_H
 #define SCRIPT_H
 #include <QtCore/QObject>
+#include <QtCore/QStringList>
 #include <QtScript>
 
 namespace QTerm
@@ -40,6 +41,9 @@ public slots:
     QScriptValue window();
     bool addPopupMenu(QString id, QString menuTitle, QString icon = "QTerm");
     bool addUrlMenu(QString id, QString menuTitle, QString icon = "QTerm");
+    void import(const QString & filename);
+    void addImportedScript(const QString & filename);
+    bool isScriptLoaded(const QString & filename);
     QString globalPath();
     QString localPath();
 signals:
@@ -48,6 +52,7 @@ private:
     Window * m_window;
     QScriptEngine * m_scriptEngine;
     bool m_accepted;
+    QStringList m_scriptList;
 };
 } // namespace QTerm
 

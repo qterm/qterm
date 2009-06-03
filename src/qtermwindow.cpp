@@ -1821,6 +1821,7 @@ void Window::initScript()
         QScriptValue exception = m_scriptEngine->uncaughtException();
         qDebug() << "Exception: " << exception.toString();
     }
+    m_scriptHelper->addImportedScript(file.fileName());
     QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("init");
     if (!func.isFunction()) {
         qDebug() << "init is not a function";

@@ -8,6 +8,8 @@
 #include "qtermtextline.h"
 #include "qtermzmodem.h"
 #include "qtermglobal.h"
+#include <QtCore/QFile>
+#include <QtCore/QFileInfo>
 #include <QtGui/QAction>
 #include <QtGui/QMenu>
 #include <QtScript>
@@ -15,7 +17,7 @@
 namespace QTerm
 {
 ScriptHelper::ScriptHelper(Window * parent, QScriptEngine * engine)
-    :QObject(parent),m_accepted(false)
+    :QObject(parent),m_accepted(false),m_scriptList()
 {
     m_window = parent;
     m_scriptEngine = engine;
@@ -165,6 +167,16 @@ bool ScriptHelper::addUrlMenu(QString id, QString menuTitle, QString icon)
     return true;
 }
 
+void ScriptHelper::addImportedScript(const QString & filename)
+{
+    m_scriptList << filename;
+}
+
+bool ScriptHelper::isScriptLoaded(const QString & filename)
+{
+    return m_scriptList.contains(filename);
+}
+
 QString ScriptHelper::globalPath()
 {
     return Global::instance()->pathLib();
@@ -173,6 +185,23 @@ QString ScriptHelper::globalPath()
 QString ScriptHelper::localPath()
 {
     return Global::instance()->pathCfg();
+}
+
+void ScriptHelper::import(const QString & filename)
+{
+    QFileInfo fileInfo(localPath() + "scripts/" + filename);
+    if (!fileInfo.exists()) {
+        fileInfo = QFileInfo(globalPath() + "scripts/" + filename);
+    }
+    if (!fileInfo.exists()) {
+        return;
+    }
+    if (isScriptLoaded(fileInfo.absoluteFilePath())) {
+        return;
+    }
+    m_window->loadScriptFile(fileInfo.absoluteFilePath());
+    qDebug() << "load script file: " << filename;
+    addImportedScript(fileInfo.absoluteFilePath());
 }
 
 } // namespace QTerm
