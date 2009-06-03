@@ -2,6 +2,7 @@ QTerm.import("utils.js");
 QTerm.import("article.js");
 QTerm.import("highlight.js");
 QTerm.import("console.js");
+QTerm.import("websnap.js");
 
 QTerm.pageState = -1;
 
