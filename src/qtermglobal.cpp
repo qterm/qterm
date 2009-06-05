@@ -23,6 +23,7 @@
 #include <QtCore/QTranslator>
 #include <QtCore/QVariant>
 #include <QtGui/QApplication>
+#include <QtGui/QDesktopServices>
 #include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
 
@@ -850,23 +851,32 @@ void Global::cleanup()
     }
 }
 
-void Global::openUrl(const QString & url)
+void Global::openUrl(const QString & urlStr)
 {
     QString command = m_pref.strHttp;
+    if (command.isEmpty()) {
+        QUrl url(urlStr,QUrl::TolerantMode);
+        if (!QDesktopServices::openUrl(url)) {
+            qDebug("Failed to open the url with QDesktopServices");
+        }
+        return;
+    }
+
+#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
     if(command.indexOf("%L")==-1) // no replace
         //QApplication::clipboard()->setText(strUrl);
-        command += " \"" + url +"\"";
+        command += " \"" + urlStr +"\"";
     else
-        command.replace("%L",  "\"" + url + "\"");
+        command.replace("%L",  "\"" + urlStr + "\"");
         //cstrCmd.replace("%L",  strUrl.toLocal8Bit());
 
-    //qDebug()<<"run command " << strCmd;
-    //QProcess::startDetached(strCmd);
-    //TODO: How to do this in Windows?
-#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
     command += " &";
-#endif
     system(command.toUtf8().data());
+#else
+    // TODO: arguments? also get rid of "%L"
+    QProcess::startDetached(m_pref.strHttp, urlStr);
+#endif
+
 }
 
 QString Global::convert(const QString & source, Global::Conversion flag)
