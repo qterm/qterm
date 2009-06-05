@@ -1,3 +1,6 @@
+[General]
+version=1.7
+
 [schema]
 title=VIM
 
