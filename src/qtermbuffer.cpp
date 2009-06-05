@@ -600,7 +600,7 @@ bool Buffer::isSelected(const QPoint& pt, bool rect)
 
 }
 
-QString Buffer::getSelectText(bool rect, bool color, const QByteArray& escape)
+QString Buffer::getSelectText(bool rect, bool color, const QString & escape)
 {
     QString strSelect = "";
 

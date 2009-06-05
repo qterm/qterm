@@ -91,7 +91,7 @@ public:
     void clearSelect();
     bool isSelected(const QPoint&, bool);
     bool isSelected(int);
-    QString getSelectText(bool, bool, const QByteArray&);
+    QString getSelectText(bool, bool, const QString &);
     QRect getSelectRect(int, bool);
 
 signals:
