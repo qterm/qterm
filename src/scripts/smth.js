@@ -128,7 +128,7 @@ QTerm.antiIdle = function()
     QTerm.accepted = false;
 }
 
-//The script shoul get the message by itself since the code in QTerm might not be reliable for every
+//The script should get the message by itself since the code in QTerm might not be reliable for every
 //site.
 QTerm.autoReply = function()
 {
