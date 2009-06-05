@@ -51,6 +51,7 @@ public slots:
     QString getSelectedText(bool rect = false, bool color = false, const QString & escape = "");
     void openUrl(const QString & url);
     void loadExtension(const QString & extension);
+    QString version();
 signals:
     void scriptEvent(const QString & type);
 private:

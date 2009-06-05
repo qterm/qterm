@@ -245,5 +245,10 @@ QString ScriptHelper::getSelectedText(bool rect, bool color, const QString & esc
     return m_window->m_pBuffer->getSelectText(rect,color,escape);
 }
 
+QString ScriptHelper::version()
+{
+    return QTERM_VERSION;
+}
+
 } // namespace QTerm
 #include <scripthelper.moc>
