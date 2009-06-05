@@ -226,5 +226,14 @@ void ScriptHelper::import(const QString & filename)
     addImportedScript(fileInfo.absoluteFilePath());
 }
 
+void ScriptHelper::loadExtension(const QString & extension)
+{
+    QScriptValue ret = m_scriptEngine->importExtension(extension);
+    if (ret.isError()) {
+        showMessage("Fail to load extension: "+extension);
+        qDebug() << "Fail to load extension: " << extension;
+    }
+}
+
 } // namespace QTerm
 #include <scripthelper.moc>

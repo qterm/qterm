@@ -1,3 +1,7 @@
+QTerm.loadExtension("qt.core");
+QTerm.loadExtension("qt.gui");
+QTerm.loadExtension("qt.webkit");
+
 QTerm.webPage= new QWebPage;
 //QTerm.label = new QLabel(QTerm.window());
 QTerm.label = new QLabel;

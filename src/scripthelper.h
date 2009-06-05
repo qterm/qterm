@@ -48,6 +48,7 @@ public slots:
     bool isScriptLoaded(const QString & filename);
     QString globalPath();
     QString localPath();
+    void loadExtension(const QString & extension);
 signals:
     void scriptEvent(const QString & type);
 private:

@@ -1778,28 +1778,6 @@ void Window::initScript()
     delete m_scriptHelper;
     m_scriptEngine = new QScriptEngine(this);
     m_scriptHelper = new ScriptHelper(this, m_scriptEngine);
-    QStringList extensions;
-    extensions << "qt.core"
-               << "qt.gui"
-               << "qt.xml"
-               << "qt.svg"
-               << "qt.network"
-               << "qt.sql"
-               << "qt.opengl"
-               << "qt.webkit"
-               << "qt.xmlpatterns"
-               << "qt.uitools";
-    QStringList failExtensions;
-    foreach (const QString &ext, extensions) {
-        QScriptValue ret = m_scriptEngine->importExtension(ext);
-        if (ret.isError())
-            failExtensions.append(ext);
-    }
-    if (!failExtensions.isEmpty()) {
-        qWarning("Failed to import some Qt bindings: %s\n"
-                 "Some scripts might need them to run.",
-                 qPrintable(failExtensions.join(", ")));
-    }
 
 #ifdef SCRIPTTOOLS_ENABLED
     m_scriptDebugger->attachTo(m_scriptEngine);
