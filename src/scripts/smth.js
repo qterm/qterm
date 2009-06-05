@@ -24,7 +24,7 @@ QTerm.setPageState = function()
     var third = QTerm.getText(2);
     QTerm.pageState = -1;
     var menuList = ["主选单","聊天选单","[处理信笺选单]","工具箱选单","分类讨论区选单","系统资讯选单"];
-    var listList = ["版主:","[好朋友列表]","[讨论区列表]","邮件选单","[个人定制区]"];
+    var listList = ["[好朋友列表]","[讨论区列表]","邮件选单","[个人定制区]"];
     var articleList = ["[十大模式]","[主题阅读]","[阅读文章]","[阅读精华区资料]","下面还有喔","(R)回信, (D)删除, (G)继续? [G]:"];
     if (title.startsWith(menuList))
         QTerm.pageState = 0;
