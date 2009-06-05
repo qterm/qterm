@@ -364,7 +364,7 @@ void Frame::popupConnectMenu()
 {
     connectMenu->clear();
 
-    connectMenu->addAction("Quick Login", this, SLOT(quickLogin()));
+    connectMenu->addAction(tr("Quick Login"), this, SLOT(quickLogin()));
     connectMenu->addSeparator();
 
     QStringList listName = Global::instance()->loadNameList();

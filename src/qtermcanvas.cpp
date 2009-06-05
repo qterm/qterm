@@ -252,13 +252,13 @@ void Canvas::moveImage(float dx, float dy)
 void Canvas::saveImage()
 {
 	QFileInfo fi(strFileName);
-	QString strSave = QFileDialog::getSaveFileName(this,"Choose a filename to save under", QDir::currentPath()+fi.fileName());
+	QString strSave = QFileDialog::getSaveFileName(this,tr("Choose a filename to save under"), QDir::currentPath()+fi.fileName());
 
 	if(strSave.isEmpty())
 		return;
 	QString fmt = fi.suffix().toUpper();
 	if(!img.save(strSave, fmt.toLatin1()))
-		QMessageBox::warning(this, "Failed to save file", "Cant save file, maybe format not supported");
+		QMessageBox::warning(this, tr("Failed to save file"), tr("Cant save file, maybe format not supported"));
 }
 
 void Canvas::deleteImage()

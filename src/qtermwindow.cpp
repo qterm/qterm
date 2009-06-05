@@ -265,8 +265,8 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
                                m_param.m_nRow, m_param.m_nCol, false);
     else {
 #ifndef SSH_ENABLED
-        QMessageBox::warning(this, "sorry",
-                             "SSH support is not compiled, QTerm can only use Telnet!");
+        QMessageBox::warning(this, "QTerm",
+                             tr("SSH support is not compiled, QTerm can only use Telnet!"));
         m_pTelnet = new Telnet(m_param.m_strTerm.toUtf8(),
                                m_param.m_nRow, m_param.m_nCol, false);
 #else
@@ -437,7 +437,7 @@ void Window::closeEvent(QCloseEvent * clse)
 {
     if (m_bConnected && Global::instance()->m_pref.bWarn) {
         QMessageBox mb("QTerm",
-                       "Connected,Do you still want to exit?",
+                       tr("Connected,Do you still want to exit?"),
                        QMessageBox::Warning,
                        QMessageBox::Yes | QMessageBox::Default,
                        QMessageBox::No  | QMessageBox::Escape ,
@@ -1728,7 +1728,7 @@ void Window::replyMessage()
 
     cstr += '\n';
     m_pTelnet->write(cstr, cstr.length());
-    m_pMessage->display("You have messages", PageViewMessage::Info, 0);
+    m_pMessage->display(tr("You have messages"), PageViewMessage::Info, 0);
 }
 
 void Window::saveSetting()
@@ -1737,7 +1737,7 @@ void Window::saveSetting()
         return;
 
     QMessageBox mb("QTerm",
-                   "Setting changed do you want to save it?",
+                   tr("Setting changed do you want to save it?"),
                    QMessageBox::Warning,
                    QMessageBox::Yes | QMessageBox::Default,
                    QMessageBox::No  | QMessageBox::Escape ,

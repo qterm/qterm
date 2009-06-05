@@ -412,16 +412,16 @@ QString Global::getSaveFileName(const QString& filename, QWidget* widget)
     // get the previous dir
     QString path = m_config->getItemValue("global", "savefiledialog").toString();
 
-    QString strSave = QFileDialog::getSaveFileName(widget, "Choose a file to save under", path + "/" + filename, "*");
+    QString strSave = QFileDialog::getSaveFileName(widget, tr("Choose a file to save under"), path + "/" + filename, "*");
 
     QFileInfo fi(strSave);
 
     while (fi.exists()) {
         int yn = QMessageBox::warning(widget, "QTerm",
-                                      "File exists. Overwrite?", "Yes", "No");
+                                      tr("File exists. Overwrite?"), "Yes", "No");
         if (yn == 0)
             break;
-        strSave = QFileDialog::getSaveFileName(widget, "Choose a file to save under", path + "/" + filename, "*");
+        strSave = QFileDialog::getSaveFileName(widget, tr("Choose a file to save under"), path + "/" + filename, "*");
         if (strSave.isEmpty())
             break;
     }

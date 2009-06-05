@@ -96,7 +96,7 @@ void addrDialog::onNamechange(int item)
 	if(isChanged())
 	{
 		QMessageBox mb( "QTerm",
-			"Setting changed, do you want to save?",
+			tr("Setting changed, do you want to save?"),
 			QMessageBox::Warning,
 			QMessageBox::Yes | QMessageBox::Default,
 			QMessageBox::No  | QMessageBox::Escape ,
@@ -204,7 +204,7 @@ void addrDialog::onConnect()
 	if(isChanged())
 	{
 		QMessageBox mb( "QTerm",
-			"Setting changed, do you want to save?",
+			tr("Setting changed, do you want to save?"),
 			QMessageBox::Warning,
 			QMessageBox::Yes | QMessageBox::Default,
 			QMessageBox::No  | QMessageBox::Escape ,
@@ -271,7 +271,7 @@ void addrDialog::onProtocol(int n)
 #ifndef SSH_ENABLED
 	if (n == 1)
 	{
-		QMessageBox::warning(this, "sorry", "SSH support is not compiled, check your OpenSSL and try to recompile QTerm");
+		QMessageBox::warning(this, "QTerm", tr("SSH support is not compiled, check your OpenSSL and try to recompile QTerm"));
 		ui.protocolComboBox->setCurrentIndex(0);
 	}
 #endif
