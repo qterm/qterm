@@ -83,15 +83,15 @@
     <name>QTerm::Frame</name>
     <message>
         <source>Cascade</source>
-        <translation>重叠</translation>
+        <translation type="obsolete">重叠</translation>
     </message>
     <message>
         <source>Tile</source>
-        <translation>平铺</translation>
+        <translation type="obsolete">平铺</translation>
     </message>
     <message>
         <source>Main Window</source>
-        <translation>主窗口</translation>
+        <translation type="obsolete">主窗口</translation>
     </message>
     <message>
         <source>This will take effect after restart,
@@ -308,11 +308,11 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>Configure Shortcuts...</source>
-        <translation>配置快捷方式...</translation>
+        <translation type="obsolete">配置快捷方式...</translation>
     </message>
     <message>
         <source>Configure Toolbars...</source>
-        <translation>配置工具栏...</translation>
+        <translation type="obsolete">配置工具栏...</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -372,23 +372,51 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>Show</source>
-        <translation>显示</translation>
+        <translation type="obsolete">显示</translation>
     </message>
     <message>
         <source>Hide</source>
-        <translation>隐藏</translation>
+        <translation type="obsolete">隐藏</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>关于</translation>
+        <translation type="obsolete">关于</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>退出</translation>
+        <translation type="obsolete">退出</translation>
     </message>
     <message>
         <source>Quick Login</source>
         <translation>快速登录</translation>
+    </message>
+    <message>
+        <source>&amp;Cascade</source>
+        <translation>重叠(&amp;C)</translation>
+    </message>
+    <message>
+        <source>&amp;Tile</source>
+        <translation>平铺(&amp;T)</translation>
+    </message>
+    <message>
+        <source>&amp;Main Window</source>
+        <translation>主窗口(&amp;M)</translation>
+    </message>
+    <message>
+        <source>&amp;Configure Shortcuts...</source>
+        <translation>配置快捷方式(&amp;C)...</translation>
+    </message>
+    <message>
+        <source>Configure &amp;Toolbars...</source>
+        <translation>配置工具栏(&amp;T)...</translation>
+    </message>
+    <message>
+        <source>&amp;Show</source>
+        <translation>显示(&amp;S)</translation>
+    </message>
+    <message>
+        <source>&amp;About</source>
+        <translation>关于(&amp;A)</translation>
     </message>
 </context>
 <context>
