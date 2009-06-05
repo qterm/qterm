@@ -538,6 +538,16 @@ bool Global::iniSettings()
 {
     //install the translator
     QString lang = m_config->getItemValue("global", "language").toString();
+    if (lang == "eng")
+        m_language = Global::English;
+    else if (lang == "chs")
+        m_language = Global::SimpilifiedChinese;
+    else if (lang == "cht")
+        m_language = Global::TraditionalChinese;
+    else {
+        qDebug("Language setting is not correct");
+        m_language = Global::English;
+    }
     if (lang != "eng" && !lang.isEmpty()) {
         // look in $HOME/.qterm/po/ first
         QString qm = QDir::homePath() + "/.qterm/po/qterm_" + lang + ".qm";

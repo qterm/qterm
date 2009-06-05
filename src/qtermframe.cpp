@@ -462,7 +462,7 @@ void Frame::updateLang(QAction * action)
     QMessageBox::information(this, "QTerm",
                              tr("This will take effect after restart,\nplease close all windows and restart."));
     Config * conf = Global::instance()->fileCfg();
-    conf->setItemValue("global", "language", action->objectName());
+    conf->setItemValue("global", "language", action->data().toString());
     conf->save();
 }
 
@@ -941,12 +941,15 @@ void Frame::initActions()
     m_engAction = new QAction(tr("&English"), this);
     m_engAction->setObjectName("actionEng");
     m_engAction->setCheckable(true);
+    m_engAction->setData("eng");
     m_chsAction = new QAction(tr("&Simplified Chinese"), this);
     m_chsAction->setObjectName("actionChs");
     m_chsAction->setCheckable(true);
+    m_chsAction->setData("chs");
     m_chtAction = new QAction(tr("&Traditional Chinese"), this);
     m_chtAction->setObjectName("actionCht");
     m_chtAction->setCheckable(true);
+    m_chtAction->setData("cht");
     langGroup->addAction(m_engAction);
     langGroup->addAction(m_chsAction);
     langGroup->addAction(m_chtAction);
