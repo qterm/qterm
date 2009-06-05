@@ -1189,10 +1189,11 @@ void Frame::addMainMenu()
     //Script
     QMenu * script = new QMenu(tr("Scrip&t"), this);
     mainMenu->addMenu(script);
-    script->addAction(m_scriptReloadAction);
     script->addAction(m_scriptRunAction);
     script->addAction(m_scriptStopAction);
+    script->addSeparator();
     script->addAction(m_scriptDebugAction);
+    script->addAction(m_scriptReloadAction);
 
     //Window menu
     windowsMenu = new QMenu(tr("&Windows"), this);
