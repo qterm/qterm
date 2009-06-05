@@ -484,8 +484,9 @@ bool BBS::checkIP(QRect& rcUrl, QRect& rcOld)
         }
     }
 #endif
+    QString strText = m_pBuffer->at(m_ptCursor.y())->getText();
     int at = m_pBuffer->at(m_ptCursor.y())->pos(m_ptCursor.x());
-    if (at == -1) {
+    if (at == -1 || at >= strText.length()) {
         return false;
     }
 
@@ -494,80 +495,30 @@ bool BBS::checkIP(QRect& rcUrl, QRect& rcOld)
         rcOld = m_rcUrl;
         return true;
     }
-    m_strIP = "";
-    rcOld = m_rcUrl;
 
-    QString strText = m_pBuffer->at(m_ptCursor.y())->getText();
-
-    if (at >= strText.length())
-        return false;
-
-    int i, index, begin, end, dot, url, host, ata;
+    QRegExp rx("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|\\*)");
+    int pos = 0;
     int ip_begin = 0;
     int ip_end = 0;
-
-    for (i = at; i >= 0 && !isIllChar(strText.at(i)); i--);
-    url = i + 1;
-    for (i = at; i < strText.length() && !isIllChar(strText.at(i)); i++);
-    end = i;
-
-    int nNoType = -1;
-    QRegExp urlRe("^(mailto:|(https?|mms|rstp|ftp|gopher|telnet|ed2k|file)://)");
-    if ((begin = urlRe.indexIn(strText))!=-1) {
-        if (urlRe.capturedTexts().contains("mailto:")) {
-            if ((ata = strText.indexOf('@', begin + 1)) == -1)
-                host = url + (ata - begin) + 1;
-            else
-                return -1;
-        } else {
-            host = url+urlRe.matchedLength();
+    while ((pos = rx.indexIn(strText, pos)) != -1) {
+        if (pos < at && (pos + rx.matchedLength()) > at) {
+            break;
         }
-    } else {
-        begin = url;
-        if ((ata = strText.indexOf('@', begin + 1)) != -1) {
-            host = url + (ata - begin) + 1;
-            nNoType = 0;
-        } else {
-            host = url;
-            nNoType = 1;
-        }
+        pos += rx.matchedLength();
     }
 
-    ip_begin = host;
-    ip_end = end;
-    for (index = host, dot = host - 1, i = 0; index < end && strText.at(index) != '/'; index++) {
-        if (strText.at(index) == '@') {
-            ip_begin = index + 1;
-        }
-        if (strText.at(index) == ':') {
-            ip_end = index;
-        }
-        if (strText.at(index) == '.') {
-            if (index <= dot + 1) // xxx..x is illegal
-                return false;
-            dot = index;
-            i++;
-        } else {
-                if (!strText.at(index).isLetterOrNumber() &&
-                        strText.at(index) != '-' &&
-                        strText.at(index) != '_' &&
-                        strText.at(index) != '~' &&
-                        strText.at(index) != ':' &&
-                        strText.at(index) != '*' &&  //add by cyber@thuee.org, allow ip like 166.111.1.*
-                        strText.at(index) != '@'
-                   )
-                    return false;
-        }
+    if (rx.matchedLength() <= 0) {
+        return false;
     }
-    if (index > 0 && strText.at(index - 1) == '.')
-        return false;
 
-    if (i < 1 || ip_end <= ip_begin || end <= url)
-        return false;
+    ip_begin = pos;
+    ip_end = pos+rx.matchedLength();
+
     m_strIP = strText.mid(ip_begin, ip_end - ip_begin);//get the pure ip address
     if (m_strIP[ m_strIP.length()-1 ] == '*')
         m_strIP.replace(m_strIP.length() - 1 , 1, "1");
-    rcUrl = QRect(m_pBuffer->at(m_ptCursor.y())->beginIndex(url), m_ptCursor.y(), end - url, 1);
+    rcUrl = QRect(ip_begin, m_ptCursor.y(), ip_end - ip_begin, 1);
+
     return true;
 }
 
