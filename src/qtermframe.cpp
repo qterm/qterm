@@ -318,8 +318,8 @@ void Frame::homepage()
 void Frame::windowsMenuAboutToShow()
 {
     windowsMenu->clear();
-    QAction * cascadeAction = windowsMenu->addAction(tr("Cascade"), m_MdiArea, SLOT(cascadeSubWindows()));
-    QAction * tileAction = windowsMenu->addAction(tr("Tile"), m_MdiArea, SLOT(tileSubWindows()));
+    QAction * cascadeAction = windowsMenu->addAction(tr("&Cascade"), m_MdiArea, SLOT(cascadeSubWindows()));
+    QAction * tileAction = windowsMenu->addAction(tr("&Tile"), m_MdiArea, SLOT(tileSubWindows()));
     if (m_MdiArea->subWindowList().isEmpty()) {
         cascadeAction->setEnabled(false);
         tileAction->setEnabled(false);
@@ -329,7 +329,7 @@ void Frame::windowsMenuAboutToShow()
 #ifdef Q_OS_MACX
     // used to dock the programe
     if (isHidden())
-        windowsMenu->addAction(tr("Main Window"), this, SLOT(trayShow()));
+        windowsMenu->addAction(tr("&Main Window"), this, SLOT(trayShow()));
 #endif
 
     QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
@@ -1028,10 +1028,10 @@ void Frame::initActions()
     m_reconnectAction->setObjectName("actionReconnect");
     m_reconnectAction->setCheckable(true);
 
-    m_shortcutsAction = new QAction(tr("Configure Shortcuts..."),this);
+    m_shortcutsAction = new QAction(tr("&Configure Shortcuts..."),this);
     m_shortcutsAction->setObjectName("actionShortcuts");
 
-    m_toolbarsAction = new QAction(tr("Configure Toolbars..."),this);
+    m_toolbarsAction = new QAction(tr("Configure &Toolbars..."),this);
     m_toolbarsAction->setObjectName("actionToolbars");
 
     connect(m_connectAction, SIGNAL(triggered()), this, SLOT(connectIt()));
@@ -1384,12 +1384,12 @@ void Frame::buildTrayMenu()
     trayMenu->clear();
 
     if (isHidden())
-        trayMenu->addAction(tr("Show"), this, SLOT(trayShow()));
+        trayMenu->addAction(tr("&Show"), this, SLOT(trayShow()));
     else
-        trayMenu->addAction(tr("Hide"), this, SLOT(trayHide()));
+        trayMenu->addAction(tr("&Hide"), this, SLOT(trayHide()));
     trayMenu->addSeparator();
-    trayMenu->addAction(tr("About"), this, SLOT(aboutQTerm()));
-    trayMenu->addAction(tr("Exit"), this, SLOT(exitQTerm()));
+    trayMenu->addAction(tr("&About"), this, SLOT(aboutQTerm()));
+    trayMenu->addAction(tr("&Exit"), this, SLOT(exitQTerm()));
 }
 
 void Frame::trayActivated(QSystemTrayIcon::ActivationReason reason)
