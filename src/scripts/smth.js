@@ -109,7 +109,7 @@ QTerm.onKeyPressEvent = function(key, modifiers, text)
     QTerm.accepted = false;
 }
 
-QTerm.onWheelEvent = function(delta, buttons, modifiers, pt_x, pt_y, orientation)
+QTerm.onWheelEvent = function(delta, buttons, modifiers, orientation, pt_x, pt_y)
 {
     QTerm.accepted = false;
 }

@@ -823,7 +823,7 @@ void Window::wheelEvent(QWheelEvent *we)
         m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onWheelEvent");
         if (func.isFunction()) {
-            func.call(QScriptValue(), QScriptValueList() << we->delta() << (int) we->buttons() << (int) we->modifiers() << we->x() << we->y() << (int) we->orientation());
+            func.call(QScriptValue(), QScriptValueList() << we->delta() << (int) we->buttons() << (int) we->modifiers() << (int) we->orientation() << we->x() << we->y() );
             if (m_scriptHelper->accepted()) {
                 return;
             }
