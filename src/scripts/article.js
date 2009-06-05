@@ -72,15 +72,17 @@ Article.downloadArticle = function()
         QTerm.showMessage("Download Complete",1,0);
         this.downloading = false;
         this.articleText = this.textList.join("\n");
-        //var file = new QFile("test.txt");
-        //file.open(QIODevice.OpenMode(QIODevice.WriteOnly, QIODevice.Text));
-        //var stream = new QTextStream(file);
-        //stream.writeString(article);
-        //file.close();
-        QTerm.scriptEvent("downloadFinished");
+        var file = new QFile("test.txt");
+        file.open(QIODevice.OpenMode(QIODevice.WriteOnly, QIODevice.Text));
+        var stream = new QTextStream(file);
+        stream.writeString(this.articleText);
+        file.close();
+        //QTerm.scriptEvent("downloadFinished");
         return;
     }
 
     // continue
     QTerm.sendString(" ");
 }
+
+QTerm.Article = Article;

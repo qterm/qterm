@@ -53,13 +53,4 @@ WebSnap.getWebsnap = function( urlStr )
     this.label.show();
 }
 
-QTerm.onWebsnap = function()
-{
-//    QTerm.showMessage(QTerm.getUrl());
-    WebSnap.getWebsnap(QTerm.getUrl());
-}
-
-if (QTerm.addUrlMenu( "websnap", "Web Snapshot" ) ) {
-        QTerm.websnap.triggered.connect(QTerm.onWebsnap);
-}
-
+QTerm.WebSnap = WebSnap;
