@@ -1861,13 +1861,7 @@ void Window::inputHandle(const QString & text)
 
 void Window::openLink()
 {
-    QString strCmd = Global::instance()->m_pref.strHttp;
-    if (strCmd.indexOf("%L") == -1) // no replace
-        //QApplication::clipboard()->setText(strUrl);
-        strCmd += " \"" + m_pBBS->getUrl() + "\"";
-    else
-        strCmd.replace(QRegExp("%L", Qt::CaseInsensitive), m_pBBS->getUrl());
-    QProcess::startDetached(strCmd);
+    Global::instance()->openUrl(m_pBBS->getUrl());
 }
 
 void Window::previewLink()
