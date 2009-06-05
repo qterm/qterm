@@ -235,5 +235,10 @@ void ScriptHelper::loadExtension(const QString & extension)
     }
 }
 
+void ScriptHelper::openUrl(const QString & url)
+{
+    Global::instance()->openUrl(url);
+}
+
 } // namespace QTerm
 #include <scripthelper.moc>
