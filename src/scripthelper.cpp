@@ -240,5 +240,10 @@ void ScriptHelper::openUrl(const QString & url)
     Global::instance()->openUrl(url);
 }
 
+QString ScriptHelper::getSelectedText(bool rect, bool color, const QString & escape)
+{
+    return m_window->m_pBuffer->getSelectText(rect,color,escape);
+}
+
 } // namespace QTerm
 #include <scripthelper.moc>

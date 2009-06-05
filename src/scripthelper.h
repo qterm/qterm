@@ -48,6 +48,7 @@ public slots:
     bool isScriptLoaded(const QString & filename);
     QString globalPath();
     QString localPath();
+    QString getSelectedText(bool rect = false, bool color = false, const QString & escape = "");
     void openUrl(const QString & url);
     void loadExtension(const QString & extension);
 signals:
