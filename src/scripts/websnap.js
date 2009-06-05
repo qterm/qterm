@@ -1,35 +1,23 @@
 QTerm.loadExtension("qt.core");
+QTerm.loadExtension("qt.network");
 QTerm.loadExtension("qt.gui");
 QTerm.loadExtension("qt.webkit");
 
-QTerm.webPage= new QWebPage;
-//QTerm.label = new QLabel(QTerm.window());
-QTerm.label = new QLabel;
+var WebSnap = WebSnap ? WebSnap : new Object;
+WebSnap.webPage = new QWebPage;
+WebSnap.label = new QLabel;
+//WebSnap.label = new QLabel(QTerm.window());
+WebSnap.loading = false;
 
-QTerm.onWebsnap = function()
-{
-//    QTerm.showMessage("generating websnap", 1, 0);
-    var url = new QUrl(QTerm.getUrl(), QUrl.TolerantMode);
-    QTerm.webPage.loadFinished.connect(QTerm.showSnap);
-    QTerm.webPage.mainFrame().load(url);
-    QTerm.webLoading = true;
-    var image = new QPixmap;
-    image.load(QTerm.localPath()+"pic/loading.png");
-    QTerm.label.pixmap = image;
-//    QTerm.label.setWindowFlags(Qt.FramelessWindowHint)
-    QTerm.label.move(QTerm.posX(),QTerm.posY());
-    QTerm.label.show();
-}
-
-QTerm.showSnap = function(ok)
+WebSnap.showSnap = function(ok)
 {
     if (!ok) {
         QTerm.showMessage("cannot download the webpage");
         return;
     }
-    QTerm.webLoading = false;
+    this.loading = false;
     var target = new QSize(400, 300);
-    var size = QTerm.webPage.mainFrame().contentsSize;
+    var size = this.webPage.mainFrame().contentsSize;
     size.setHeight(size.width() * target.height() / target.width());
 
     // create the target surface
@@ -39,16 +27,39 @@ QTerm.showSnap = function(ok)
     // render and rescale
     var p = new QPainter;
     p.begin(image);
-    QTerm.webPage.viewportSize = QTerm.webPage.mainFrame().contentsSize;
-    QTerm.webPage.mainFrame().render(p);
+    this.webPage.viewportSize = this.webPage.mainFrame().contentsSize;
+    this.webPage.mainFrame().render(p);
     p.end();
     image = image.scaled(target, Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation);
 //    QTerm.showMessage("generating finished", 1, 0);
-    QTerm.label.size = target;
-    QTerm.label.pixmap = image;
+    this.label.size = target;
+    this.label.pixmap = image;
 }
 
-if (QTerm.addUrlMenu( "websnap", "Websnap" ) ) {
+WebSnap.getWebsnap = function( urlStr )
+{
+//    QTerm.showMessage("generating websnap", 1, 0);
+    var url = new QUrl(urlStr, QUrl.TolerantMode);
+//    this.webPage = new QWebPage;
+//    this.label = new QLabel;
+    this.webPage.loadFinished.connect(this,this.showSnap);
+    this.webPage.mainFrame().load(url);
+    this.loading = true;
+    var image = new QPixmap;
+    image.load(QTerm.localPath()+"pic/loading.png");
+    this.label.pixmap = image;
+//    this.label.setWindowFlags(Qt.FramelessWindowHint)
+    this.label.move(QTerm.posX(),QTerm.posY());
+    this.label.show();
+}
+
+QTerm.onWebsnap = function()
+{
+//    QTerm.showMessage(QTerm.getUrl());
+    WebSnap.getWebsnap(QTerm.getUrl());
+}
+
+if (QTerm.addUrlMenu( "websnap", "Web Snapshot" ) ) {
         QTerm.websnap.triggered.connect(QTerm.onWebsnap);
 }
 

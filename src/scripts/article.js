@@ -1,31 +1,32 @@
 QTerm.import("utils.js");
-QTerm.downloading = false;
-QTerm.textList= [];
-QTerm.articleText = "";
+var Article = Article ? Article : new Object;
+Article.downloading = false;
+Article.textList= [];
+Article.articleText = "";
 
-QTerm.getArticle = function()
+Article.getArticle = function()
 {
-    QTerm.textList = [];
-    QTerm.downloading = true;
-    QTerm.downloadArticle();
+    this.textList = [];
+    this.downloading = true;
+    this.downloadArticle();
 }
 
 // check it there is duplicated string
 // it starts from the end in the range of one screen height
 // so this is a non-greedy match
-QTerm.checkDuplicate = function()
+Article.checkDuplicate = function()
 {
     var strTemp = QTerm.getText(0).rtrim();
     var i=0;
     var start=0;
-    if (QTerm.textList.length == 0) {
+    if (this.textList.length == 0) {
         return 0;
     }
-    for(var index = QTerm.textList.length -1; index > 0, i < QTerm.rows()-1; // not exceeeding the last screen
+    for(var index = this.textList.length -1; index > 0, i < QTerm.rows()-1; // not exceeeding the last screen
             --index, i++)
     {
-        var text = QTerm.textList[index];
-        if(QTerm.textList[index] != strTemp)
+        var text = this.textList[index];
+        if(this.textList[index] != strTemp)
             continue;
         var index2 = index;
         var dup=true;
@@ -33,7 +34,7 @@ QTerm.checkDuplicate = function()
         for(var j=0; j<=i; j++, index2++)
         {
             str1 = QTerm.getText(j).rtrim();
-            if(QTerm.textList[index2]!=str1)
+            if(this.textList[index2]!=str1)
             {
                 dup = false;
                 break;
@@ -49,7 +50,7 @@ QTerm.checkDuplicate = function()
     return start;
 }
 
-QTerm.pageComplete = function()
+Article.pageComplete = function()
 {
     var bottom = QTerm.getText(QTerm.rows() - 1).rtrim();
     if (QTerm.caretY() == QTerm.rows() - 1 && QTerm.caretX() >= bottom.length - 1) {
@@ -57,20 +58,20 @@ QTerm.pageComplete = function()
     }
 }
 
-QTerm.downloadArticle = function()
+Article.downloadArticle = function()
 {
-    if (!QTerm.pageComplete())
+    if (!this.pageComplete())
         return;
-    var start = QTerm.checkDuplicate();
+    var start = this.checkDuplicate();
     // add new lines
     for(i=start;i<QTerm.rows()-1;i++)
-        QTerm.textList[QTerm.textList.length]=QTerm.getText(i).rtrim();
+        this.textList[this.textList.length]=QTerm.getText(i).rtrim();
 
     // the end of article
     if( QTerm.getText(QTerm.rows()-1).indexOf("%") == -1 ) {
         QTerm.showMessage("Download Complete",1,0);
-        QTerm.downloading = false;
-        QTerm.articleText = QTerm.textList.join("\n");
+        this.downloading = false;
+        this.articleText = this.textList.join("\n");
         //var file = new QFile("test.txt");
         //file.open(QIODevice.OpenMode(QIODevice.WriteOnly, QIODevice.Text));
         //var stream = new QTextStream(file);
