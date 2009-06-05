@@ -820,6 +820,7 @@ void Window::wheelEvent(QWheelEvent *we)
 {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+        m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onWheelEvent");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << we->delta() << (int) we->buttons() << (int) we->modifiers() << we->x() << we->y() << (int) we->orientation());
@@ -848,6 +849,7 @@ void Window::keyPressEvent(QKeyEvent * e)
 {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+        m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onKeyPressEvent");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << e->key() << (int) e->modifiers() << e->text());
@@ -1001,6 +1003,7 @@ void Window::readReady(int size)
 
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+        m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onNewData");
         if (func.isFunction()) {
             func.call();
@@ -1087,6 +1090,7 @@ void Window::readReady(int size)
     if (m_bAutoReply) {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+        m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("autoReply");
         if (func.isFunction()) {
             func.call();
@@ -1133,6 +1137,7 @@ void Window::ZmodemState(int type, int value, const QString& msg)
     QString status = m_codec->toUnicode(msg.toLatin1());
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+        m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onZmodemState");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << type << value << status);
@@ -1220,6 +1225,7 @@ void Window::TelnetState(int state)
 {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+        m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onTelnetState");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << state);

@@ -96,6 +96,7 @@ void BBS::setPageState()
 {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
+        m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("setPageState");
         if (func.isFunction()) {
             int ret = func.call().toInt32();
@@ -142,6 +143,7 @@ int BBS::getCursorType(const QPoint& pt)
     int nCursorType = 8;
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
+        m_scriptHelper->setAccepted(false);
         TextLine * line = m_pBuffer->at(pt.y());
         int x = pt.x();
         int y = pt.y() - m_nScreenStart;
@@ -320,6 +322,7 @@ void BBS::updateSelectRect()
 
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
+        m_scriptHelper->setAccepted(false);
         rect.setRect(0,0,0,0);
         int x = m_ptCursor.x();
         int y = m_ptCursor.y() - m_nScreenStart;
@@ -412,6 +415,7 @@ bool BBS::checkUrl(QRect & rcUrl, QRect & rcOld)
     m_strUrl = "";
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
+        m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("checkUrl");
         if (func.isFunction()) {
             QString url= func.call(QScriptValue(), QScriptValueList() << m_ptCursor.x() << m_ptCursor.y()-m_nScreenStart).toString();
@@ -460,6 +464,7 @@ bool BBS::checkIP(QRect& rcUrl, QRect& rcOld)
 {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
+        m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("checkIP");
         if (func.isFunction()) {
             QString ipAddr= func.call(QScriptValue(), QScriptValueList() << m_ptCursor.x() << m_ptCursor.y()-m_nScreenStart).toString();
