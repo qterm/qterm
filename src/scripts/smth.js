@@ -1,8 +1,6 @@
 QTerm.import("utils.js");
-QTerm.import("article.js");
 QTerm.import("highlight.js");
 QTerm.import("console.js");
-QTerm.import("websnap.js");
 
 QTerm.pageState = -1;
 
@@ -161,6 +159,8 @@ QTerm.onZmodemState = function(type, value, state)
     return;
 }
 
+QTerm.import("article.js");
+
 QTerm.onArticle = function()
 {
     QTerm.Article.getArticle();
@@ -169,6 +169,8 @@ QTerm.onArticle = function()
 if (QTerm.addPopupMenu( "article", "Download Article" ) ) {
         QTerm.article.triggered.connect(QTerm.onArticle);
 }
+
+QTerm.import("websnap.js");
 
 QTerm.onWebsnap = function()
 {
