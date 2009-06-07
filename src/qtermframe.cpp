@@ -242,7 +242,7 @@ void Frame::quickLogin()
 {
     quickDialog quick(this);
 
-    Global::instance()->loadAddress(-1, quick.param);
+    Global::instance()->loadAddress(-2, quick.param);
 
     if (quick.exec() == 1) {
         newWindow(quick.param);

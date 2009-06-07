@@ -146,7 +146,7 @@ bool Global::loadAddress(int n, Param& param)
 {
     QString strTmp, strSection;
     strTmp = m_address->getItemValue("bbs list", "num").toString();
-    if (n < 0 && strTmp.toInt() <= 0)
+    if ((n < 0 && strTmp.toInt() <= 0) || n < -1)
         strSection = "default";
     else {
         n = n < 0 ? 0 : n;
