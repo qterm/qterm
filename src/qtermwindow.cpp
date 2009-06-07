@@ -616,11 +616,12 @@ void Window::mousePressEvent(QMouseEvent * me)
     }
     // Middle Button for paste
     if (me->button()&Qt::MidButton && !(me->modifiers())) {
-        if (m_bConnected)
+        if (m_bConnected) {
             if (!m_pBBS->getUrl().isEmpty())        // on Url
                 previewLink();
             else
                 pasteHelper(false);
+        }
         return;
     }
 
