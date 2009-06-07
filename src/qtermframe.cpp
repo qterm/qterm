@@ -1279,11 +1279,14 @@ void Frame::enableMenuToolBar(bool enable)
     m_beepAction->setEnabled(enable);
     m_mouseAction->setEnabled(enable);
 
+#ifdef SCRIPT_ENABLED
     m_scriptReloadAction->setEnabled(enable);
     m_scriptRunAction->setEnabled(enable);
     m_scriptStopAction->setEnabled(enable);
+#ifdef SCRIPTTOOLS_ENABLED
     m_scriptDebugAction->setEnabled(enable);
-
+#endif // SCRIPTTOOLS_ENABLED
+#endif
     if (enable) {
         mdiconnectTools->setVisible(Global::instance()->showToolBar(mdiconnectTools->objectName()));
     } else {

@@ -31,8 +31,10 @@ BBS::BBS(Buffer * buffer)
     :m_urlPosList()
 {
     m_pBuffer = buffer;
+#ifdef SCRIPT_ENABLED
     m_scriptEngine = NULL;
     m_scriptHelper = NULL;
+#endif
 }
 
 BBS::~BBS()

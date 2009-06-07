@@ -1502,7 +1502,9 @@ void Window::runScript()
 
 void Window::stopScript()
 {
+#ifdef SCRIPT_ENABLED
     m_scriptEngine->abortEvaluation();
+#endif
 }
 
 void Window::viewMessages()
@@ -1810,6 +1812,7 @@ void Window::initScript()
 
 void Window::loadScriptFile(const QString & filename)
 {
+#ifdef SCRIPT_ENABLED
     QFile file(filename);
     file.open(QIODevice::ReadOnly);
     QString scripts = QString::fromUtf8(file.readAll());
@@ -1821,6 +1824,7 @@ void Window::loadScriptFile(const QString & filename)
         QScriptValue exception = m_scriptEngine->uncaughtException();
         qDebug() << "Exception: " << exception.toString();
     }
+#endif
 }
 
 void Window::inputHandle(const QString & text)
