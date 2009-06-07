@@ -33,13 +33,10 @@ QTerm.setPageState = function()
         QTerm.pageState = 1;
     else if (title.indexOf("水木社区 精华区公布栏")!=-1)
         QTerm.pageState = 1;
-    else if (title.indexOf("本日十大热门话题")!=-1)
-        QTerm.pageState = 1;
     else if (third.indexOf("编号")!=-1)
         QTerm.pageState = 1;
     else if (bottom.startsWith(articleList))
         QTerm.pageState = 2;
-    return QTerm.pageState;
 }
 
 QTerm.isLineClickable = function(x, y)
