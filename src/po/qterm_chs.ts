@@ -641,7 +641,11 @@ Do you want to clear and reassign?</source>
     <name>QTerm::quickDialog</name>
     <message>
         <source>Add To AddressBook</source>
-        <translation>添加到地址簿</translation>
+        <translation type="obsolete">添加到地址簿</translation>
+    </message>
+    <message>
+        <source>Address can not be blank.</source>
+        <translation>地址不能为空.</translation>
     </message>
 </context>
 <context>
@@ -1391,35 +1395,12 @@ please close all windows and restart.</source>
         <translation>关于 QTerm</translation>
     </message>
     <message>
-        <source>QTerm 0.5.0 (QT 4.1 based)</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <source>QTerm --- BBS Client for X Window 2001-2008, 
-
-The QTerm Developers
-
-http://www.qterm.org</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Authors</source>
         <translation>作者</translation>
-    </message>
-    <message>
-        <source>kingson     
-	xiaokiangwang@yahoo.com.cn  
-
-fiasco     
-	yinshouyi@peoplemail.com.cn
-
-hooey
-	hephooey@fastmail.fm</source>
-        <translation></translation>
     </message>
     <message>
         <source>Credits</source>
@@ -1428,6 +1409,41 @@ hooey
     <message>
         <source>Close</source>
         <translation>关闭</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Bitstream Vera Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;QTerm 0.5.0 (QT 4.1 based)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Bitstream Vera Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;QTerm --- BBS Client for X Window&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(C) 2001-2009, The QTerm Developers&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;http://www.qterm.org&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Bitstream Vera Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;kingson  &lt;/span&gt;   &lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;        xiaokiangwang@yahoo.com.cn  &lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;fiasco &lt;/span&gt;    &lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;        yinshouyi@peoplemail.com.cn&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;hooey&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;        hephooey@fastmail.fm&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2595,11 +2611,11 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>History</source>
-        <translation>历史</translation>
+        <translation type="obsolete">历史</translation>
     </message>
     <message>
         <source>Address</source>
-        <translation>地址</translation>
+        <translation type="obsolete">地址</translation>
     </message>
     <message>
         <source>Connect</source>
@@ -2611,7 +2627,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Advanced</source>
-        <translation>高级</translation>
+        <translation type="obsolete">高级</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -2619,7 +2635,39 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Port</source>
-        <translation>端口</translation>
+        <translation type="obsolete">端口</translation>
+    </message>
+    <message>
+        <source>History:</source>
+        <translation>历史记录:</translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation>地址:</translation>
+    </message>
+    <message>
+        <source>Advanced...</source>
+        <translation>高级选项...</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>添加</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation>端口:</translation>
+    </message>
+    <message>
+        <source>Protocol:</source>
+        <translation>协议:</translation>
+    </message>
+    <message>
+        <source>Telnet</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>SSH</source>
+        <translation></translation>
     </message>
 </context>
 <context>
