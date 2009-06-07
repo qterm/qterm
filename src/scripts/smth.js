@@ -10,7 +10,7 @@ QTerm.init = function()
     QTerm.showMessage("system script loaded", 1, 0);
 }
 
-QTerm.setCursorType = function(pos)
+QTerm.setCursorType = function(x,y,pos)
 {
     QTerm.accepted = false;
     return -1;
