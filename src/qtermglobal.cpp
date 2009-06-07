@@ -236,6 +236,9 @@ bool Global::loadAddress(int n, Param& param)
     strTmp = m_address->getItemValue(strSection, "loadscript").toString();
     param.m_bLoadScript = (strTmp != "0");
     param.m_strScriptFile = m_address->getItemValue(strSection, "scriptfile").toString();
+    if (param.m_strScriptFile.isEmpty()) {
+        param.m_bLoadScript = false;
+    }
 
     strTmp = m_address->getItemValue(strSection, "menutype").toString();
     param.m_nMenuType = strTmp.toInt();
