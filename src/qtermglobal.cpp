@@ -145,10 +145,13 @@ QStringList Global::loadNameList()
 bool Global::loadAddress(int n, Param& param)
 {
     QString strTmp, strSection;
-    if (n < 0)
+    strTmp = m_address->getItemValue("bbs list", "num").toString();
+    if (n < 0 && strTmp.toInt() <= 0)
         strSection = "default";
-    else
+    else {
+        n = n < 0 ? 0 : n;
         strSection.sprintf("bbs %d", n);
+    }
 
     // check if larger than existence
     strTmp = m_address->getItemValue("bbs list", "num").toString();
