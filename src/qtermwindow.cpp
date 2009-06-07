@@ -676,12 +676,12 @@ void Window::mouseMoveEvent(QMouseEvent * me)
             m_pScreen->repaint(m_pScreen->mapToRect(rect));
         // judge if URL
         QRect rcOld;
-        QRect rcOld_i_dont_need_you;
-        QRect rcUrl_leave_me_alone = m_rcUrl;
+        QRect rcOld_IP;
+        QRect rcUrl_IP = m_rcUrl;
         bool bUrl = false;
         if (Global::instance()->m_pref.bUrl) {
-            if (m_pBBS->isIP(rcUrl_leave_me_alone, rcOld_i_dont_need_you) && m_bCheckIP) {
-                if (rcUrl_leave_me_alone != rcOld_i_dont_need_you) {
+            if (m_pBBS->isIP(rcUrl_IP, rcOld_IP) && m_bCheckIP) {
+                if (rcUrl_IP != rcOld_IP) {
                     if (!m_ipTimer->isActive()) {
                         m_ipTimer->setSingleShot(false);
                         m_ipTimer->start(100);
@@ -694,8 +694,6 @@ void Window::mouseMoveEvent(QMouseEvent * me)
 
             if (m_pBBS->isUrl(m_rcUrl, rcOld)) {
                 setCursor(Qt::PointingHandCursor);
-                if (m_rcUrl != rcOld) {
-                }
                 bUrl = true;
             }
         }
