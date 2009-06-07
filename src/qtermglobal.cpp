@@ -22,6 +22,8 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QTranslator>
 #include <QtCore/QVariant>
+#include <QtCore/QUrl>
+#include <QtCore/QProcess>
 #include <QtGui/QApplication>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QFileDialog>
@@ -884,7 +886,7 @@ void Global::openUrl(const QString & urlStr)
     system(command.toUtf8().data());
 #else
     // TODO: arguments? also get rid of "%L"
-    QProcess::startDetached(m_pref.strHttp, urlStr);
+    QProcess::startDetached(m_pref.strHttp, QStringList() << urlStr);
 #endif
 
 }
