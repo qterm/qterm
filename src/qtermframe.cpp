@@ -938,9 +938,9 @@ void Frame::initActions()
     codecGroup->addAction(m_S2TAction);
     codecGroup->addAction(m_T2SAction);
 
-    m_fontAction = new QAction(QPixmap(pathLib + "pic/fonts.png"), tr("&Font"), this);
+    m_fontAction = new QAction(QPixmap(pathLib + "pic/fonts.png"), tr("&Font..."), this);
     m_fontAction->setObjectName("actionFont");
-    m_colorAction = new QAction(QPixmap(pathLib + "pic/color.png"), tr("&Color"), this);
+    m_colorAction = new QAction(QPixmap(pathLib + "pic/color.png"), tr("&Color..."), this);
     m_colorAction->setObjectName("actionColor");
     m_refreshAction = new QAction(QPixmap(pathLib + "pic/refresh.png"), tr("&Refresh"), this);
     m_refreshAction->setObjectName("actionRefresh");
@@ -962,7 +962,7 @@ void Frame::initActions()
     langGroup->addAction(m_chsAction);
     langGroup->addAction(m_chtAction);
 
-    m_uiFontAction = new QAction(tr("&UI Font"), this);
+    m_uiFontAction = new QAction(tr("&UI Font..."), this);
     m_uiFontAction->setObjectName("actionUiFont");
     m_fullAction = new QAction(tr("&Full Screen"), this);
     m_fullAction->setObjectName("actionFull");
@@ -996,14 +996,14 @@ void Frame::initActions()
     m_switchAction->setObjectName("actionSwitch");
     m_switchAction->setCheckable(true);
 
-    m_currentSessionAction = new QAction(QPixmap(pathLib + "pic/pref.png"), tr("&Setting For Currrent Session"), this);
+    m_currentSessionAction = new QAction(QPixmap(pathLib + "pic/pref.png"), tr("&Setting For Currrent Session..."), this);
     m_currentSessionAction->setObjectName("actionCurrentSession");
-    m_defaultAction = new QAction(tr("&Default Setting"), this);
+    m_defaultAction = new QAction(tr("&Default Setting..."), this);
     m_defaultAction->setObjectName("actionDefault");
-    m_prefAction = new QAction(tr("&Preference"), this);
+    m_prefAction = new QAction(tr("&Preference..."), this);
     m_prefAction->setObjectName("actionPref");
 
-    m_copyArticleAction = new QAction(QPixmap(pathLib + "pic/article.png"), tr("&Copy Article"), this);
+    m_copyArticleAction = new QAction(QPixmap(pathLib + "pic/article.png"), tr("&Copy Article..."), this);
     m_copyArticleAction->setObjectName("actionCopyArticle");
     m_antiIdleAction = new QAction(QPixmap(pathLib + "pic/anti-idle.png"), tr("Anti &Idle"), this);
     m_antiIdleAction->setObjectName("actionAntiIdle");
@@ -1011,7 +1011,7 @@ void Frame::initActions()
     m_autoReplyAction = new QAction(QPixmap(pathLib + "pic/auto-reply.png"), tr("Auto &Reply"), this);
     m_autoReplyAction->setObjectName("actionAutoReply");
     m_autoReplyAction->setCheckable(true);
-    m_viewMessageAction = new QAction(QPixmap(pathLib + "pic/message.png"), tr("&View Messages"), this);
+    m_viewMessageAction = new QAction(QPixmap(pathLib + "pic/message.png"), tr("&View Messages..."), this);
     m_viewMessageAction->setObjectName("actionViewMessage");
     m_beepAction = new QAction(QPixmap(pathLib + "pic/sound.png"), tr("&Beep "), this);
     m_beepAction->setObjectName("actionBeep");
@@ -1019,7 +1019,7 @@ void Frame::initActions()
     m_mouseAction = new QAction(QPixmap(pathLib + "pic/mouse.png"), tr("&Mouse Support"), this);
     m_mouseAction->setObjectName("actionMouse");
     m_mouseAction->setCheckable(true);
-    m_viewImageAction = new QAction(tr("&Image Viewer"), this);
+    m_viewImageAction = new QAction(tr("&Image Viewer..."), this);
     m_viewImageAction->setObjectName("actionViewImage");
 
     m_scriptReloadAction = new QAction(tr("&Reload System Script"), this);

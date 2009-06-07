@@ -184,11 +184,11 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>&amp;Font</source>
-        <translation>字体(&amp;F)</translation>
+        <translation type="obsolete">字体(&amp;F)</translation>
     </message>
     <message>
         <source>&amp;Color</source>
-        <translation>颜色(&amp;C)</translation>
+        <translation type="obsolete">颜色(&amp;C)</translation>
     </message>
     <message>
         <source>&amp;Refresh</source>
@@ -208,7 +208,7 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>&amp;UI Font</source>
-        <translation>界面字体(&amp;U)</translation>
+        <translation type="obsolete">界面字体(&amp;U)</translation>
     </message>
     <message>
         <source>&amp;Full Screen</source>
@@ -240,19 +240,19 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>&amp;Setting For Currrent Session</source>
-        <translation>当前连接设置(&amp;S)</translation>
+        <translation type="obsolete">当前连接设置(&amp;S)</translation>
     </message>
     <message>
         <source>&amp;Default Setting</source>
-        <translation>缺省设置(&amp;D)</translation>
+        <translation type="obsolete">缺省设置(&amp;D)</translation>
     </message>
     <message>
         <source>&amp;Preference</source>
-        <translation>偏好(&amp;P)</translation>
+        <translation type="obsolete">偏好(&amp;P)</translation>
     </message>
     <message>
         <source>&amp;Copy Article</source>
-        <translation>拷贝文章(&amp;C)</translation>
+        <translation type="obsolete">拷贝文章(&amp;C)</translation>
     </message>
     <message>
         <source>Anti &amp;Idle</source>
@@ -264,7 +264,7 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>&amp;View Messages</source>
-        <translation>查看消息(&amp;V)</translation>
+        <translation type="obsolete">查看消息(&amp;V)</translation>
     </message>
     <message>
         <source>&amp;Beep </source>
@@ -276,7 +276,7 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>&amp;Image Viewer</source>
-        <translation>图片浏览器(&amp;I)</translation>
+        <translation type="obsolete">图片浏览器(&amp;I)</translation>
     </message>
     <message>
         <source>&amp;Reload System Script</source>
@@ -417,6 +417,46 @@ please close all windows and restart.</source>
     <message>
         <source>&amp;About</source>
         <translation>关于(&amp;A)</translation>
+    </message>
+    <message>
+        <source>&amp;Font...</source>
+        <translation>字体(&amp;F)...</translation>
+    </message>
+    <message>
+        <source>&amp;Color...</source>
+        <translation>颜色(&amp;C)...</translation>
+    </message>
+    <message>
+        <source>&amp;Setting For Currrent Session...</source>
+        <translation>当前会话设置(&amp;S)...</translation>
+    </message>
+    <message>
+        <source>&amp;Default Setting...</source>
+        <translation>缺省设置(&amp;D)...</translation>
+    </message>
+    <message>
+        <source>&amp;Preference...</source>
+        <translation>偏好(&amp;P)...</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Article...</source>
+        <translation>拷贝文章(&amp;C)...</translation>
+    </message>
+    <message>
+        <source>&amp;View Messages...</source>
+        <translation>查看消息(&amp;V)...</translation>
+    </message>
+    <message>
+        <source>&amp;Image Viewer...</source>
+        <translation>图片浏览器(&amp;I)...</translation>
+    </message>
+    <message>
+        <source>&amp;UI Font...</source>
+        <translation>界面字体(&amp;U)...</translation>
+    </message>
+    <message>
+        <source>&amp;Hide Menu Bar</source>
+        <translation>隐藏菜单条(&amp;H)</translation>
     </message>
 </context>
 <context>

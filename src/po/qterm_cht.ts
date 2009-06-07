@@ -108,354 +108,359 @@ please close all windows and restart.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="707"/>
+        <location filename="../qtermframe.cpp" line="715"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="761"/>
+        <location filename="../qtermframe.cpp" line="769"/>
         <source>You need to enable the script engine debugger to use this feature. Please recompile QTerm with the debugger enabled (need Qt 4.5 or newer version)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="871"/>
+        <location filename="../qtermframe.cpp" line="879"/>
         <source>&amp;Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="873"/>
+        <location filename="../qtermframe.cpp" line="881"/>
         <source>&amp;Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="875"/>
+        <location filename="../qtermframe.cpp" line="883"/>
         <source>&amp;Address Book</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="877"/>
+        <location filename="../qtermframe.cpp" line="885"/>
         <source>&amp;Quick Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="879"/>
+        <location filename="../qtermframe.cpp" line="887"/>
         <source>&amp;Print...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="881"/>
-        <location filename="../qtermframe.cpp" line="1399"/>
+        <location filename="../qtermframe.cpp" line="889"/>
+        <location filename="../qtermframe.cpp" line="1415"/>
         <source>&amp;Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="884"/>
+        <location filename="../qtermframe.cpp" line="892"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="886"/>
+        <location filename="../qtermframe.cpp" line="894"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="888"/>
+        <location filename="../qtermframe.cpp" line="896"/>
         <source>C&amp;opy With Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="891"/>
+        <location filename="../qtermframe.cpp" line="899"/>
         <source>&amp;Rectangle Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="894"/>
+        <location filename="../qtermframe.cpp" line="902"/>
         <source>Auto Copy &amp;Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="897"/>
+        <location filename="../qtermframe.cpp" line="905"/>
         <source>P&amp;aste With Wordwrap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="902"/>
+        <location filename="../qtermframe.cpp" line="910"/>
         <source>&amp;None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="905"/>
+        <location filename="../qtermframe.cpp" line="913"/>
         <source>&amp;ESC ESC [</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="908"/>
+        <location filename="../qtermframe.cpp" line="916"/>
         <source>Ctrl+&amp;U [</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="911"/>
+        <location filename="../qtermframe.cpp" line="919"/>
         <source>&amp;Custom...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="920"/>
+        <location filename="../qtermframe.cpp" line="928"/>
         <source>&amp;No Conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="923"/>
+        <location filename="../qtermframe.cpp" line="931"/>
         <source>&amp;Simplified to Traditional</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="926"/>
+        <location filename="../qtermframe.cpp" line="934"/>
         <source>&amp;Traditional to Simplified</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="933"/>
-        <source>&amp;Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="935"/>
-        <source>&amp;Color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="937"/>
-        <source>&amp;Refresh</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qtermframe.cpp" line="941"/>
-        <source>&amp;English</source>
+        <source>&amp;Font...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="945"/>
-        <source>&amp;Simplified Chinese</source>
+        <location filename="../qtermframe.cpp" line="943"/>
+        <source>&amp;Color...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="949"/>
-        <source>&amp;Traditional Chinese</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="957"/>
-        <source>&amp;UI Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="959"/>
-        <source>&amp;Full Screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="963"/>
-        <source>Boss &amp;Color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="967"/>
-        <location filename="../qtermframe.cpp" line="1396"/>
-        <source>&amp;Hide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="970"/>
-        <source>&amp;Left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="973"/>
-        <source>&amp;Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="980"/>
-        <source>Status &amp;Bar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="983"/>
-        <source>S&amp;witch Bar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="987"/>
-        <source>&amp;Setting For Currrent Session</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="989"/>
-        <source>&amp;Default Setting</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="991"/>
-        <source>&amp;Preference</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="994"/>
-        <source>&amp;Copy Article</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="996"/>
-        <source>Anti &amp;Idle</source>
+        <location filename="../qtermframe.cpp" line="965"/>
+        <source>&amp;UI Font...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qtermframe.cpp" line="999"/>
-        <source>Auto &amp;Reply</source>
+        <source>&amp;Setting For Currrent Session...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1002"/>
-        <source>&amp;View Messages</source>
+        <location filename="../qtermframe.cpp" line="1001"/>
+        <source>&amp;Default Setting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1004"/>
-        <source>&amp;Beep </source>
+        <location filename="../qtermframe.cpp" line="1003"/>
+        <source>&amp;Preference...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1007"/>
-        <source>&amp;Mouse Support</source>
+        <location filename="../qtermframe.cpp" line="1006"/>
+        <source>&amp;Copy Article...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1010"/>
-        <source>&amp;Image Viewer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="1013"/>
-        <source>&amp;Reload System Script</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="1016"/>
-        <source>&amp;Run...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="1019"/>
-        <source>&amp;Stop</source>
+        <location filename="../qtermframe.cpp" line="1014"/>
+        <source>&amp;View Messages...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qtermframe.cpp" line="1022"/>
-        <source>&amp;Debug...</source>
+        <source>&amp;Image Viewer...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1026"/>
-        <source>About &amp;QTerm</source>
+        <location filename="../qtermframe.cpp" line="945"/>
+        <source>&amp;Refresh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="949"/>
+        <source>&amp;English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="953"/>
+        <source>&amp;Simplified Chinese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="957"/>
+        <source>&amp;Traditional Chinese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="967"/>
+        <source>&amp;Full Screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="971"/>
+        <source>&amp;Hide Menu Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="975"/>
+        <source>Boss &amp;Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="979"/>
+        <location filename="../qtermframe.cpp" line="1412"/>
+        <source>&amp;Hide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="982"/>
+        <source>&amp;Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="985"/>
+        <source>&amp;Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="992"/>
+        <source>Status &amp;Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="995"/>
+        <source>S&amp;witch Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1008"/>
+        <source>Anti &amp;Idle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1011"/>
+        <source>Auto &amp;Reply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1016"/>
+        <source>&amp;Beep </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1019"/>
+        <source>&amp;Mouse Support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1025"/>
+        <source>&amp;Reload System Script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qtermframe.cpp" line="1028"/>
-        <source>QTerm&apos;s &amp;Homepage</source>
+        <source>&amp;Run...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qtermframe.cpp" line="1031"/>
-        <source>Auto Reconnect</source>
+        <source>&amp;Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1035"/>
-        <source>&amp;Configure Shortcuts...</source>
+        <location filename="../qtermframe.cpp" line="1034"/>
+        <source>&amp;Debug...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qtermframe.cpp" line="1038"/>
+        <source>About &amp;QTerm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1040"/>
+        <source>QTerm&apos;s &amp;Homepage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1043"/>
+        <source>Auto Reconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1047"/>
+        <source>&amp;Configure Shortcuts...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1050"/>
         <source>Configure &amp;Toolbars...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1102"/>
+        <location filename="../qtermframe.cpp" line="1115"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1115"/>
+        <location filename="../qtermframe.cpp" line="1128"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1126"/>
+        <location filename="../qtermframe.cpp" line="1139"/>
         <source>Paste &amp;with color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1133"/>
+        <location filename="../qtermframe.cpp" line="1146"/>
         <source>Clipboard Chinese &amp;Conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1140"/>
+        <location filename="../qtermframe.cpp" line="1153"/>
         <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1149"/>
+        <location filename="../qtermframe.cpp" line="1162"/>
         <source>&amp;Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1156"/>
+        <location filename="../qtermframe.cpp" line="1169"/>
         <source>&amp;Themes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1163"/>
+        <location filename="../qtermframe.cpp" line="1175"/>
         <source>&amp;ScrollBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1173"/>
+        <location filename="../qtermframe.cpp" line="1188"/>
         <source>&amp;Option</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1185"/>
+        <location filename="../qtermframe.cpp" line="1200"/>
         <source>&amp;Special</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1197"/>
+        <location filename="../qtermframe.cpp" line="1212"/>
         <source>Scrip&amp;t</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1206"/>
+        <location filename="../qtermframe.cpp" line="1221"/>
         <source>&amp;Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1214"/>
+        <location filename="../qtermframe.cpp" line="1229"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1310"/>
+        <location filename="../qtermframe.cpp" line="1326"/>
         <source>Key Setup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1394"/>
+        <location filename="../qtermframe.cpp" line="1410"/>
         <source>&amp;Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1398"/>
+        <location filename="../qtermframe.cpp" line="1414"/>
         <source>&amp;About</source>
         <translation type="unfinished"></translation>
     </message>
