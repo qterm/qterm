@@ -1,6 +1,7 @@
 QTerm.import("utils.js");
 QTerm.import("highlight.js");
 QTerm.import("console.js");
+QTerm.import("websnap.js");
 
 QTerm.pageState = -1;
 
@@ -118,8 +119,9 @@ QTerm.onNewData = function()
 {
     QTerm.accepted = false;
     QTerm.highlightKeywords(/qterm|kde/ig);
-    if (QTerm.Article.downloading)
-        QTerm.Article.downloadArticle();
+// This is a ugly way to download article
+//    if (QTerm.Article.downloading)
+//        QTerm.Article.downloadArticle();
     return false;
 }
 
@@ -159,6 +161,7 @@ QTerm.onZmodemState = function(type, value, state)
     return;
 }
 
+/*
 QTerm.import("article.js");
 
 QTerm.onArticle = function()
@@ -169,15 +172,4 @@ QTerm.onArticle = function()
 if (QTerm.addPopupMenu( "article", "Download Article" ) ) {
         QTerm.article.triggered.connect(QTerm.onArticle);
 }
-
-QTerm.import("websnap.js");
-
-QTerm.onWebsnap = function()
-{
-    QTerm.WebSnap.getWebsnap(QTerm.getUrl());
-}
-
-if (QTerm.addUrlMenu( "snapshot", "Web Snapshot" ) ) {
-        QTerm.snapshot.triggered.connect(QTerm.onWebsnap);
-}
-
+*/

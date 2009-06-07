@@ -54,3 +54,13 @@ WebSnap.getWebsnap = function( urlStr )
 }
 
 QTerm.WebSnap = WebSnap;
+
+QTerm.onWebsnap = function()
+{
+    QTerm.WebSnap.getWebsnap(QTerm.getUrl());
+}
+
+if (QTerm.addUrlMenu( "snapshot", "Web Snapshot" ) ) {
+        QTerm.snapshot.triggered.connect(QTerm.onWebsnap);
+}
+
