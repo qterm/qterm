@@ -1,0 +1,262 @@
+Introduction:
+
+Starting from the version 0.5.6, QTerm supports scripts with QtScript. With
+the greatest and latest script support in QTerm, you can:
+
+1. Do boring and repeating operation automatically.
+2. Change the default behavior of QTerm with system scripts.
+3. Try new functions with script (In order to do this you might want to have
+   Qt bindings for QtScript installed, they can be downloaded from
+   http://labs.trolltech.com/page/Projects/QtScript/Generator)
+
+================================================================================
+
+How to Use:
+
+You can run simple scripts using Script->Run, for example, save the following
+code
+
+for (var i = 0; i < 10; i++)
+    QTerm.sendString("q");
+
+to a script file, run it in QTerm will send 10 q's to the server.
+
+To use the system control script. Open the address book, in the very end of
+the General tab. First enable the Load Control Script checkbox, then choose
+your system script.
+
+================================================================================
+
+How to Debug:
+
+If you want to develop serious/complicate scripts for QTerm, it is very
+helpful to have QScriptEngineDebugger enable. This feature is introduced in Qt
+4.5, make sure your qt is new enough. Then you can run cmake with
+-DQTERM_ENABLE_SCRIPT_DEBUGGER=ON, for example:
+
+cmake .. -DQTERM_ENABLE_SCRIPT_DEBUGGER=ON
+
+Then do the usual make, make install to install QTerm
+
+After you enable the debugger. It will pop up every time the script engine
+catches a exception. You can also call the debugger any time by Script->Debug.
+
+================================================================================
+
+How To Write a Script
+
+Here is a list of functions you can call in the scripts, they are all in the
+"QTerm" object, so for example if you want to call "version()" you should call
+"QTerm.version()" instead.
+
+QString version()
+    Return the version of QTerm.
+
+int caretX()
+int caretY()
+    Return the x or y coordinate of the current position of caret.
+
+int columns()
+int rows()
+    Return the number of columns or rows of the current window.
+
+int charX(int x, int y)
+int charY(int x, int y)
+    Given the graphical coordinate in the current window, convert it to the
+    text coordinate.
+
+int posX()
+int posY()
+    Return the x or y coordinate of the mouse.
+
+QString getUrl()
+QString getIP()
+    Return the URL or IP address under the mouse pointer, if no url is
+    detected an empty string will be returned.
+
+bool isConnected()
+    Check if the current window is conneced to a BBS server.
+
+void reconnect()
+    Reconnect to the BBS server, do nothing if the current window is already
+    connected.
+void disconnect()
+    Disconnect from the current BBS server.
+
+void buzz()
+    Shake QTerm.
+
+void sendString(const QString & string)
+    Send string to the BBS server.
+
+void sendParsedString(const QString & string)
+    Send parsed string to the BBS server. you can use '^M' to represent the
+    return key for example.
+
+void showMessage(const QString & message, int icon = 1, int duration = 0)
+    Show message in the osd, icon = 0, 1, 2, 3 means No/Info/Warning/Error
+    icon. Duration is in the unit of ms, 0 means forever.
+
+void cancelZmodem()
+    Cancel the current zmodem transfer.
+
+void setZmodemFileList(const QStringList & fileList)
+    Set the list of files you want to upload with zmodem.
+
+QScriptValue getLine(int line)
+    Get the object represent the 'line' line text.
+
+QScriptValue window()
+    Return the current window object.
+
+bool addPopupMenu(QString id, QString menuTitle, QString icon = "QTerm")
+    Add a menu item to the popup menu, you can access to the new action with
+    QTerm.id property if the method succeed. menuTitle is the text displayed
+    in the menu. currently icon parameter has no effect. Return true if
+    succeed, otherwise it will return false.
+
+bool addUrlMenu(QString id, QString menuTitle, QString icon = "QTerm")
+    Add a menu item to the url popup menu, you can access to the new action
+    with QTerm.id property if the method succeed. menuTitle is the text
+    displayed in the menu. currently icon parameter has no effect. Return true
+    if succeed, otherwise it will return false.
+
+void addPopupSeparator()
+void addUrlSeparator()
+    Add separators to the popup/url menu so they will look nicer.
+
+void import(const QString & filename)
+    Import external javascript files, QTerm will search the file under the
+    "scripts" directory under the local path (e.g.SHOME/.qterm) first and then
+    search the global path (e.g. /usr/share)
+
+void globalPath()
+    Return the global data path, for example, if you installed QTerm to /usr,
+    then it will return /usr/share.
+
+void localPath()
+    Return the local data path, $HOME/.qterm under Linux.
+
+QString getSelectedText(bool rect = false, bool color = false, const QString & escape = "")
+    Return the current selected region. rect should always be false currently.
+    color indicate if you want the copy the attribute of the text, escape is
+    only useful when color is true, indicate how you want to represent the
+    escape sequence.
+
+void openUrl(const QString & url)
+    Open the url using the http browser specified in QTerm.
+
+void loadExtension(const QString & extension)
+    Load extension, if you want to use the classes in Qt bindings, you
+    need to load them first.
+
+================================================================================
+
+How to Write a System Script
+
+In order to change the behavior of QTerm. You can reimplement the following
+functions in the system script, again all the functions are members of 'QTerm'
+object, for example init() should be understand as QTerm.init():
+
+There is a property which is important for this usage: QTerm.accepted. It
+should be set to true if you do not want the native QTerm code to handle the
+event any further, otherwise it should set to false.
+
+init()
+    This function is called every time the system script is loaded. You can
+    show messages or initiate some variables here.
+
+setCursorType()
+    Determine what kind of mouse cursor should be shown in the current
+    context, if mouse release events is not handle by the script this function
+    also determine how the mouse release will be handled.
+
+setPageState()
+    Determine the current state of the BBS page, useful for further determine
+    the mouse behavior
+
+isLineClickable(x,y)
+    Determine if the current line under mouse cursor is clickable, x and y is
+    the mouse text coordinate.
+
+getClickableString(x,y)
+    Determine if the string under mouse cursor is clickable, x and y is the
+    mouse text coordinate, the string should be returned and will be
+    highlighted by QTerm.
+
+onMouseEvent(type, button, buttons, modifiers, pt_x, pt_y)
+    Handle the mouse event, type, button, buttons, modifiers follow the
+    definition in QMouseEvent, pt_x and pt_y is the graphical coordinate of the
+    mouse pointer.
+
+onKeyPressEvent(key, modifiers, text)
+    Handle the key press event, the definition of the arguments again follows
+    QKeyEvent.
+
+onWheelEvent(delta, buttons, modifiers, orientation, pt_x, pt_y)
+    Handle the mouse wheel event, the definition of delta, button, modifiers,
+    and orientation follow QWheelEvent. pt_x and pt_y is the graphical
+    coordinate of the mouse pointer.
+
+onNewData()
+    The function will be called every time QTerm gets new data, you can
+    manipulate the received data a little bit.
+
+antiIdle()
+    Determine how the anti idle event should be handled.
+
+autoReply()
+    Determine how to reply the incoming message. Useful for those who want to
+    write BBS robots.
+
+checkUrl()
+    Determine if there is a URL under the mouse pointer, return the URL if
+    found, otherwise return a empty string.
+
+checkIP()
+    Determine if there is a IP address under the mouse pointer, return the URL
+    if found, otherwise return a empty string.
+
+onTelnetState()
+    Handle telnet events
+
+onZmodemState()
+    Handle zmodem events
+
+There is also a signal: scriptEvent(const QString& type) which can be used by
+the script to emit and handle signals
+
+================================================================================
+
+Example Scripts:
+
+There are several examples provided in the QTerm source code, you can use them
+in you script or get a feeling about how the scripts can be used.
+
+utils.js
+    This script provides useful auxiliary functions to save a few keystrokes
+    for you.
+article.js
+    This script provides basic article downloading functionality, note that
+    the downloading operation is not well handled right now. Do this through
+    the upcoming dbus interface might be a better idea.
+
+highlight.js
+    This script will highlight keywords your specified in the code if they are
+    found in the current page.
+
+console.js
+    This script gives you a console to test different script functions. Steal
+    from the great Amarok. You need qt bindings to run it.
+
+websnap.js
+    This script, modified from the code in graphics dojo
+    (http://qt.gitorious.org/qt-labs/graphics-dojo/trees/master/websnap),
+    generates webpage snapshot. Currently it has troubles with webpage with
+    frames, you are more than welcome to improve this if you are interested.
+
+smth.js
+    Sample system script for newsmth.net.
+
+ptt.js
+    Sample system script for ptt.cc.
