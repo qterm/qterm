@@ -32,11 +32,11 @@ quickDialog::quickDialog( QWidget* parent, Qt::WFlags fl )
 {
 	ui.setupUi(this);
 	
-	ui.addPushButton->setIcon(QPixmap(Global::instance()->pathLib()+"pic/addr.png"));
+	//ui.addPushButton->setIcon(QPixmap(Global::instance()->pathLib()+"pic/addr.png"));
 	
-	ui.addPushButton->setToolTip(tr("Add To AddressBook" ));
+	//ui.addPushButton->setToolTip(tr("Add To AddressBook" ));
 
-	ui.connectPushButton->setDefault(true);
+	//ui.connectPushButton->setDefault(true);
 	
 	connectSlots();
 	
@@ -66,7 +66,7 @@ void quickDialog::loadHistory()
 	for( int i=0; i<strTmp.toInt(); i++ )
 	{
 		strSection = QString("quick %1").arg(i);
-		ui.historyComboBox->addItem( pConf->getItemValue( strSection.toLatin1(), "addr" ).toString() );
+		ui.historyComboBox->addItem( pConf->getItemValue( strSection, "addr" ).toString() );
 	}
 	
 	if(strTmp != "0")
@@ -96,7 +96,10 @@ void quickDialog::listChanged( int index )
 // 	cstrSection.sprintf("quick %d", index);
 
 	ui.addrLineEdit->setText( pConf->getItemValue( strSection, "addr" ).toString() );
-	ui.portLineEdit->setText( pConf->getItemValue( strSection, "port" ).toString() );
+	ui.portSpinBox->setValue( pConf->getItemValue( strSection, "port" ).toInt() );
+	ui.protocolComboBox->setCurrentIndex(1);
+	int protocolType= pConf->getItemValue(strSection, "protocol").toInt();
+	ui.protocolComboBox->setCurrentIndex(protocolType);
 
 }
 void quickDialog::addAddr()
@@ -110,7 +113,8 @@ void quickDialog::addAddr()
 
 	param.m_strName = ui.addrLineEdit->text();
 	param.m_strAddr = ui.addrLineEdit->text();
-	param.m_uPort = ui.portLineEdit->text().toUShort();
+	param.m_uPort = ui.portSpinBox->value();
+	param.m_nProtocolType = ui.protocolComboBox->currentIndex();
 	Global::instance()->saveAddress(num,param);
 }
 
@@ -125,7 +129,7 @@ void quickDialog::deleteAddr()
 	{
 		QString strSection = QString("quick %1").arg(n);
 // 		cstrSection.sprintf("quick %d", n);
-		if(!pConf->deleteSection( strSection.toLatin1() ))
+		if(!pConf->deleteSection( strSection ))
 		{
 			qDebug("Failed to delete %d", n);
 			return;
@@ -137,18 +141,18 @@ void quickDialog::deleteAddr()
 		{
 			strTmp = QString("quick %1").arg(i);
 			strSection = QString("quick %1").arg(i-1);
-			pConf->renameSection( strTmp.toLatin1(), strSection.toLatin1() );
+			pConf->renameSection( strTmp, strSection );
 		}
 
 		strTmp = pConf->getItemValue("quick list", "num" ).toString();
 		strTmp.setNum( qMax(0,strTmp.toInt()-1) );
-		pConf->setItemValue("quick list", "num", strTmp.toLatin1());
+		pConf->setItemValue("quick list", "num", strTmp);
 	
 		// update
 		if(num==1)
 		{
 			ui.addrLineEdit->setText("");
-			ui.portLineEdit->setText("");
+			ui.portSpinBox->setValue(0);
 		}
 		else
 		{
@@ -163,7 +167,8 @@ void quickDialog::advOption()
 
 	param.m_strName = ui.addrLineEdit->text();
 	param.m_strAddr = ui.addrLineEdit->text();
-	param.m_uPort = ui.portLineEdit->text().toUShort();
+	param.m_uPort = ui.portSpinBox->value();
+	param.m_nProtocolType = ui.protocolComboBox->currentIndex();
 	
 	set.param = param;
 	set.updateData(false);
@@ -172,17 +177,16 @@ void quickDialog::advOption()
 	{
 		param=set.param;
 		ui.addrLineEdit->setText(param.m_strAddr);
-		QString strTmp;
-		strTmp.setNum(param.m_uPort);
-		ui.portLineEdit->setText(strTmp);
+		ui.portSpinBox->setValue(param.m_uPort);
+		ui.protocolComboBox->setCurrentIndex(param.m_nProtocolType);
 	}
 }
 void quickDialog::connectIt()
 {
-	if(ui.addrLineEdit->text().isEmpty() || ui.portLineEdit->text().isEmpty() )
+	if(ui.addrLineEdit->text().isEmpty())
 	{
 		QMessageBox mb( "QTerm",
-                  "address or port cant be blank",
+                  tr("Address can not be blank."),
                   QMessageBox::Warning,
                   QMessageBox::Ok | QMessageBox::Default,0,
                   0);
@@ -201,44 +205,49 @@ void quickDialog::connectIt()
 	{
 		strSection = QString("quick %1").arg(i);
 	
-		strTmp = pConf->getItemValue(strSection.toLatin1(), "addr").toString();
+		strTmp = pConf->getItemValue(strSection, "addr").toString();
 		if(strTmp == ui.addrLineEdit->text())
 		{	bExist=true; index=i; break; }
-		strTmp = pConf->getItemValue(strSection.toLatin1(), "port").toString();
-		if(ui.portLineEdit->text().toInt()!=strTmp.toInt())
+		strTmp = pConf->getItemValue(strSection, "port").toString();
+		if(ui.portSpinBox->value()!=strTmp.toInt())
+		{	bExist=true; index=i; break; }
+		strTmp = pConf->getItemValue(strSection, "protocol").toString();
+		if(ui.protocolComboBox->currentIndex()!=strTmp.toInt())
 		{	bExist=true; index=i; break; }
 	}
 	// append it 
 	if(!bExist)
 	{
 		strSection = QString("quick %1").arg(num);
-		pConf->setItemValue(strSection.toLatin1(), "addr", ui.addrLineEdit->text());
-		pConf->setItemValue(strSection.toLatin1(), "port", ui.portLineEdit->text());
+		pConf->setItemValue(strSection, "addr", ui.addrLineEdit->text());
+		pConf->setItemValue(strSection, "port", ui.portSpinBox->value());
+		pConf->setItemValue(strSection, "protocol", ui.protocolComboBox->currentIndex());
 		strTmp.setNum(num+1);
-		pConf->setItemValue("quick list", "num", strTmp.toLatin1());
+		pConf->setItemValue("quick list", "num", strTmp);
 		index=num;
 	}
 	
 	// set another name first to avoid duplicate
 	strSection = QString("quick %1").arg(index);
 	strTmp = QString("quick %1").arg(num+2);
-	pConf->renameSection(strSection.toLatin1(),strTmp.toLatin1());
+	pConf->renameSection(strSection,strTmp);
 	// shift the current select to  the first
 	for(int j=index-1; j>=0; j--)
 	{
 		strSection = QString("quick %1").arg(j);
 		strTmp = QString("quick %1").arg(j+1);
-		pConf->renameSection(strSection.toLatin1(),strTmp.toLatin1());
+		pConf->renameSection(strSection,strTmp);
 	}
 	// set it back to 0
 	strSection = QString("quick %1").arg(num+2);
 	strTmp = QString("quick %1").arg(0);
-	pConf->renameSection(strSection.toLatin1(),strTmp.toLatin1());
+	pConf->renameSection(strSection,strTmp);
 
 	param.m_strName = ui.addrLineEdit->text();
 	param.m_strAddr = ui.addrLineEdit->text();
-	param.m_uPort = ui.portLineEdit->text().toUShort();
-	
+	param.m_uPort = ui.portSpinBox->value();
+	param.m_nProtocolType = ui.protocolComboBox->currentIndex();
+
 	pConf->save();
 	done(1);
 }
