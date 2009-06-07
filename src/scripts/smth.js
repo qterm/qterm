@@ -37,6 +37,7 @@ QTerm.setPageState = function()
         QTerm.pageState = 1;
     else if (bottom.startsWith(articleList))
         QTerm.pageState = 2;
+    return QTerm.pageState;
 }
 
 QTerm.isLineClickable = function(x, y)
