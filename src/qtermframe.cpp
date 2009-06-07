@@ -1012,12 +1012,16 @@ void Frame::initActions()
 
     m_scriptReloadAction = new QAction(tr("&Reload System Script"), this);
     m_scriptReloadAction->setObjectName("actionScriptReload");
+    m_scriptReloadAction->setEnabled(false);
     m_scriptRunAction = new QAction(tr("&Run..."), this);
     m_scriptRunAction->setObjectName("actionScriptRun");
+    m_scriptRunAction->setEnabled(false);
     m_scriptStopAction = new QAction(tr("&Stop"), this);
     m_scriptStopAction->setObjectName("actionScriptStop");
+    m_scriptStopAction->setEnabled(false);
     m_scriptDebugAction = new QAction(tr("&Debug..."), this);
     m_scriptDebugAction->setObjectName("actionScriptDebug");
+    m_scriptDebugAction->setEnabled(false);
 
     m_aboutAction = new QAction(tr("About &QTerm"), this);
     m_aboutAction->setObjectName("actionAbout");
