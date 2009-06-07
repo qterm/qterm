@@ -43,8 +43,10 @@ aboutDialog::aboutDialog( QWidget* parent, Qt::WFlags fl )
 		file.close();
 	}
 
-	ui.pixmapLabel->setPixmap( QPixmap(pathLib+"pic/qterm_32x32.png") );
-	ui.TextLabel->setText("QTerm "+QString(QTERM_VERSION)+" (Qt 4.3 based)");
+	ui.pixmapLabel1->setPixmap( QPixmap(pathLib+"pic/qterm.png") );
+	ui.pixmapLabel2->setPixmap( QPixmap(pathLib+"pic/qterm.png") );
+	ui.pixmapLabel3->setPixmap( QPixmap(pathLib+"pic/qterm.png") );
+	ui.TextLabel->setText("QTerm "+QString(QTERM_VERSION)+" (Qt 4.5 based)");
 	//connect(ui.closeButton, SIGNAL(clicked()), this, SLOT(accept()));
 }
 
