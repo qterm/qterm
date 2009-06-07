@@ -105,7 +105,7 @@ QTerm.sendKey = function(x, y)
         }
         result = str.match(/[\(\[]?([a-zA-Z0-9])[\).\]]\s?[^\s]+/);
         QTerm.sendString(result[1]);
-        QTerm.sendString("\n");
+        QTerm.sendParsedString("^M");
         return true;
     }
     return false;
