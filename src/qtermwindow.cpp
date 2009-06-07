@@ -556,7 +556,6 @@ void Window::mouseDoubleClickEvent(QMouseEvent * me)
         }
     }
 #endif
-    //pythonMouseEvent(3, me->button(), me->state(), me->pos(),0);
 }
 
 void Window::mousePressEvent(QMouseEvent * me)
@@ -630,9 +629,6 @@ void Window::mousePressEvent(QMouseEvent * me)
 
     // xterm mouse event
     //sendMouseState(0, me->button(), me->state(), me->pos());
-
-    // python mouse event
-    //pythonMouseEvent(0, me->button(), me->state(), me->pos(),0);
 }
 
 
@@ -716,13 +712,6 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
     if (!m_bMouseClicked)
         return;
     m_bMouseClicked = false;
-    // other than Left Button ignored
-    if (!(me->button()&Qt::LeftButton) || (me->modifiers()&Qt::KeyboardModifierMask)) {
-        //pythonMouseEvent(1, me->button(), me->state(), me->pos(),0);
-        // no local mouse event
-        //sendMouseState(3, me->button(), me->state(), me->pos());
-        return;
-    }
 
     // Left Button for selecting
     m_ptSelEnd = me->pos();
