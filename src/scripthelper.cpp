@@ -209,9 +209,12 @@ QString ScriptHelper::localPath()
 
 void ScriptHelper::import(const QString & filename)
 {
-    QFileInfo fileInfo(localPath() + "scripts/" + filename);
-    if (!fileInfo.exists()) {
-        fileInfo = QFileInfo(globalPath() + "scripts/" + filename);
+    QFileInfo fileInfo(filename);
+    if (!fileInfo.isAbsolute()) {
+        fileInfo = QFileInfo(localPath() + "scripts/" + filename);
+        if (!fileInfo.exists()) {
+            fileInfo = QFileInfo(globalPath() + "scripts/" + filename);
+        }
     }
     if (!fileInfo.exists()) {
         qDebug() << "Script file " << filename << "not found";
