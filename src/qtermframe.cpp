@@ -573,6 +573,14 @@ void Frame::uiFont()
     }
 }
 
+void Frame::hideMenuBar(bool hide)
+{
+    if (hide)
+        menuBar()->hide();
+    else
+        menuBar()->show();
+}
+
 void Frame::triggerFullScreen(bool isFullScreen)
 {
     Global::instance()->setFullScreen(isFullScreen);
@@ -581,7 +589,7 @@ void Frame::triggerFullScreen(bool isFullScreen)
     if (isFullScreen) {
         Global::instance()->saveGeometry(saveGeometry());
         Global::instance()->saveState(saveState());
-        menuBar()->hide();
+        //menuBar()->hide();
         mdiTools->hide();
         mdiconnectTools->hide();
         key->hide();
@@ -589,7 +597,7 @@ void Frame::triggerFullScreen(bool isFullScreen)
         //showSwitchBar();
         showFullScreen();
     } else {
-        menuBar()->show();
+        //menuBar()->show();
         restoreGeometry(Global::instance()->loadGeometry());
         restoreState(Global::instance()->loadState());
         emit scrollChanged();
@@ -960,6 +968,10 @@ void Frame::initActions()
     m_fullAction->setObjectName("actionFull");
     m_fullAction->setCheckable(true);
     addAction(m_fullAction);
+    m_menuBarAction= new QAction(tr("&Hide Menu Bar"), this);
+    m_menuBarAction->setObjectName("actionMenuBar");
+    m_menuBarAction->setCheckable(true);
+    addAction(m_menuBarAction);
     m_bossAction = new QAction(tr("Boss &Color"), this);
     m_bossAction->setObjectName("actionBoss");
 
@@ -1063,6 +1075,7 @@ void Frame::initActions()
 
     connect(m_uiFontAction, SIGNAL(triggered()), this, SLOT(uiFont()));
     connect(m_fullAction, SIGNAL(toggled(bool)), this, SLOT(triggerFullScreen(bool)));
+    connect(m_menuBarAction, SIGNAL(toggled(bool)), this, SLOT(hideMenuBar(bool)));
     connect(m_bossAction, SIGNAL(triggered()), this, SLOT(bosscolor()));
 
     connect(scrollGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateScroll(QAction*)));
@@ -1156,7 +1169,6 @@ void Frame::addMainMenu()
     themesMenu = new QMenu(tr("&Themes"), this);
     view->addMenu(themesMenu);
 
-    view->addAction(m_fullAction);
     view->addAction(m_bossAction);
 
     view->addSeparator();
@@ -1167,6 +1179,9 @@ void Frame::addMainMenu()
     view->addMenu(scrollMenu);
     view->addAction(m_statusAction);
     view->addAction(m_switchAction);
+    view->addSeparator();
+    view->addAction(m_menuBarAction);
+    view->addAction(m_fullAction);
 
 
     // Option Menu
@@ -1221,6 +1236,9 @@ void Frame::addMainMenu()
 QMenu * Frame::genPopupMenu(QWidget * owner)
 {
     QMenu * popupMenu = new QMenu(owner);
+    popupMenu->addAction(m_menuBarAction);
+    popupMenu->addAction(m_fullAction);
+    popupMenu->addSeparator();
     popupMenu->addAction(m_copyAction);
     popupMenu->addAction(m_pasteAction);
     popupMenu->addAction(m_copyArticleAction);
@@ -1229,8 +1247,6 @@ QMenu * Frame::genPopupMenu(QWidget * owner)
     popupMenu->addAction(m_colorAction);
     popupMenu->addSeparator();
     popupMenu->addAction(m_currentSessionAction);
-    popupMenu->addAction(m_fullAction);
-    popupMenu->addSeparator();
     return popupMenu;
 }
 

@@ -84,6 +84,7 @@ protected slots:
     void color();
     void refresh();
     void triggerFullScreen(bool isFullScreen);
+    void hideMenuBar(bool hide);
     void bosscolor();
     void uiFont();
     void antiIdle(bool);
@@ -184,6 +185,7 @@ protected:
     QAction * m_beepAction;
     QAction * m_mouseAction;
     QAction * m_viewImageAction;
+    QAction * m_menuBarAction;
 
     QAction * m_scriptReloadAction;
     QAction * m_scriptRunAction;
