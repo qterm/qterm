@@ -1770,6 +1770,9 @@ void Window::initScript()
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL)
         m_scriptEngine->abortEvaluation();
+#ifdef SCRIPTTOOLS_ENABLED
+    m_scriptDebugger->detach();
+#endif
     delete m_scriptEngine;
     delete m_scriptHelper;
     m_scriptEngine = new QScriptEngine(this);
