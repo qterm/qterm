@@ -279,6 +279,9 @@ void SSHSocket::readData()
     } else if (m_version == SSHV1) {
         m_priv = new SSH1SocketPriv(m_socket, from_socket, this);
 //   m_socket->write ( QTERM_SSHV1_BANNER );
+    } else {
+        emit error(QAbstractSocket::UnknownSocketError);
+        return;
     }
     disconnect(m_socket, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(m_priv, SIGNAL(socketReady()), this, SIGNAL(connected()));
