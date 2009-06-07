@@ -249,6 +249,7 @@ void BBS::updateSelectRect()
 {
     QRect rect(0, 0, 0, 0);
 
+    m_pBuffer->at(m_rcSelection.y())->setChanged(-1,-1);
     // current screen scrolled
     if (m_nScreenStart != (m_pBuffer->lines() - m_pBuffer->line())) {
         m_rcSelection = rect;
