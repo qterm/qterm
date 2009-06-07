@@ -1,7 +1,8 @@
 QTerm.import("utils.js");
 QTerm.import("highlight.js");
-QTerm.import("console.js");
-QTerm.import("websnap.js");
+//Enable this if you have qt bindings installed.
+//QTerm.import("console.js");
+//QTerm.import("websnap.js");
 
 QTerm.PTT = {
     Unknown : -1,
@@ -171,3 +172,18 @@ QTerm.onZmodemState = function(type, value, state)
     QTerm.accepted = false;
     return;
 }
+
+// Here is an example about how to add item to the popup menu.
+
+QTerm.addPopupSeparator();
+
+QTerm.onAbout = function()
+{
+    msg = "You are using ptt.js in QTerm " + QTerm.version() + " (C) 2009 QTerm Developers";
+    QTerm.showMessage(msg, QTerm.OSDType.Info, 10000);
+}
+
+if (QTerm.addPopupMenu( "aboutScript", "About This Script" ) ) {
+        QTerm.aboutScript.triggered.connect(QTerm.onAbout);
+}
+
