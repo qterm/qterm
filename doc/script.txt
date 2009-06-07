@@ -101,7 +101,8 @@ void cancelZmodem()
     Cancel the current zmodem transfer.
 
 void setZmodemFileList(const QStringList & fileList)
-    Set the list of files you want to upload with zmodem.
+    Set the list of files you want to upload with zmodem. call it before your
+    start zmodem to avoid the file selection dialog.
 
 QScriptValue getLine(int line)
     Get the object represent the 'line' line text.
@@ -166,7 +167,7 @@ init()
     This function is called every time the system script is loaded. You can
     show messages or initiate some variables here.
 
-setCursorType()
+setCursorType(x,y)
     Determine what kind of mouse cursor should be shown in the current
     context, if mouse release events is not handle by the script this function
     also determine how the mouse release will be handled.
@@ -217,10 +218,10 @@ checkIP()
     Determine if there is a IP address under the mouse pointer, return the URL
     if found, otherwise return a empty string.
 
-onTelnetState()
+onTelnetState(int state)
     Handle telnet events
 
-onZmodemState()
+onZmodemState(int type, int value, const QString& msg)
     Handle zmodem events
 
 There is also a signal: scriptEvent(const QString& type) which can be used by

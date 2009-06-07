@@ -149,10 +149,9 @@ int BBS::getCursorType(const QPoint& pt)
         TextLine * line = m_pBuffer->at(pt.y());
         int x = pt.x();
         int y = pt.y() - m_nScreenStart;
-        int pos = line->pos(m_ptCursor.x());
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("setCursorType");
         if (func.isFunction()) {
-            int ret = func.call(QScriptValue(), QScriptValueList() << x << y << pos).toInt32();
+            int ret = func.call(QScriptValue(), QScriptValueList() << x << y).toInt32();
             if (m_scriptHelper->accepted()) {
                 return ret;
             }

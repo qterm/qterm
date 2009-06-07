@@ -10,7 +10,7 @@ QTerm.init = function()
     QTerm.showMessage("system script loaded", 1, 0);
 }
 
-QTerm.setCursorType = function(x,y,pos)
+QTerm.setCursorType = function(x,y)
 {
     QTerm.accepted = false;
     if (QTerm.isLineClickable(x,y)) {
