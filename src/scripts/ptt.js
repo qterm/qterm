@@ -3,11 +3,18 @@ QTerm.import("highlight.js");
 QTerm.import("console.js");
 QTerm.import("websnap.js");
 
-QTerm.pageState = -1;
+QTerm.PTT = {
+    Unknown : -1,
+    Menu : 0,
+    List : 1,
+    Article : 2
+}
+
+QTerm.pageState = QTerm.PTT.Unknown;
 
 QTerm.init = function()
 {
-    QTerm.showMessage("system script loaded", 1, 0);
+    QTerm.showMessage("system script loaded", QTerm.OSDType.Info, 10000);
 }
 
 QTerm.setCursorType = function(x,y)
@@ -20,30 +27,30 @@ QTerm.setCursorType = function(x,y)
     return -1;
 }
 
-// This is for SMTH only
+// This is for PTT only
 QTerm.setPageState = function()
 {
     QTerm.accepted = true;
     var title = QTerm.getText(0);
     var bottom = QTerm.getText(QTerm.rows()-1);
     var third = QTerm.getText(2);
-    QTerm.pageState = -1;
+    QTerm.pageState = QTerm.PTT.Unknown;
     var menuList = ["【主功能表】","【電子郵件】","【聊天說話】","【個人設定】","【工具程式】"];
     var listList = ["【看板列表】","【精華文章】","【分類看板】","【休閒聊天】"];
     if (title.startsWith(menuList))
-        QTerm.pageState = 0;
+        QTerm.pageState = QTerm.PTT.Menu;
     else if (title.startsWith(listList))
-        QTerm.pageState = 1;
+        QTerm.pageState = QTerm.PTT.List;
     else if (third.indexOf("編號")!=-1)
-        QTerm.pageState = 1;
+        QTerm.pageState = QTerm.PTT.List;
     else if (bottom.indexOf("瀏覽")!=-1)
-        QTerm.pageState = 2;
+        QTerm.pageState = QTerm.PTT.Article;
     return QTerm.pageState;
 }
 
 QTerm.isLineClickable = function(x, y)
 {
-    if (QTerm.pageState == 1) {
+    if (QTerm.pageState == QTerm.PTT.List) {
         if (x < 12 || x > QTerm.columns() - 16)
             return false;
         var text = QTerm.getText(y);
@@ -63,7 +70,7 @@ QTerm.isLineClickable = function(x, y)
 QTerm.getClickableString = function(x, y)
 {
     QTerm.accepted = true;
-    if (QTerm.pageState != 0) {
+    if (QTerm.pageState != QTerm.PTT.Menu) {
         return "";
     }
     var line = QTerm.getLine(y);
@@ -96,7 +103,7 @@ QTerm.onMouseEvent = function(type, button, buttons, modifiers, pt_x, pt_y)
 
 QTerm.sendKey = function(x, y)
 {
-    if (QTerm.pageState == 0) {
+    if (QTerm.pageState == QTerm.PTT.Menu) {
         var str = QTerm.getClickableString(x,y);
         if (str == "") {
             return false;

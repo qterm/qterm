@@ -24,6 +24,28 @@ String.prototype.rtrim = function() {
         return this.replace(/\s+$/,"");
 }
 
+QTerm.Attr = {
+    Bold : 0x01,
+    Dimm : 0x02,
+    Default : 0x04,
+    Underline: 0x08,
+    Blink : 0x10,
+    Reverse : 0x40,
+    Invisible : 0x80
+}
+
+QTerm.Color = {
+    Black : 0,
+    Red : 1,
+    Green : 2,
+    Yellow : 3,
+    Blue : 4,
+    Magenta : 5,
+    Cyan : 6,
+    White : 7,
+    Highlight : 8
+}
+
 QTerm.setFG = function(color)
 {
     return color & 0x0f;
@@ -66,12 +88,14 @@ QTerm.getAttr = function(attr)
 
 QTerm.defaultColor = function()
 {
-    return 0x7;
+    return setFG(QTerm.Color.White)|setBG(QTerm.Color.Black);
 }
 
-QTerm.defaultAttr = function()
-{
-    return 0x4;
+QTerm.OSDType = {
+    None : 0,
+    Info : 1,
+    Warning : 2,
+    Error : 3
 }
 
 QTerm.getText = function(line) {
