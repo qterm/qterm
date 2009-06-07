@@ -201,7 +201,7 @@ void prefDialog::onHttp()
 	QString http = QFileDialog::getOpenFileName( this, "Choose a browser", QDir::currentPath(), "*" );
 	if ( !http.isNull() )
 	{
-		ui.httpLineEdit->setText(http+" %L");
+		ui.httpLineEdit->setText("\"" + http + "\"" + " %L");
 	}
 
 }
@@ -211,7 +211,7 @@ void prefDialog::onPlayer()
 	QString player= QFileDialog::getOpenFileName( this, "Choose a program", QDir::currentPath(), "*" );
 	if ( !player.isNull() )
 	{
-		ui.playerLineEdit->setText(player);
+		ui.playerLineEdit->setText("\"" + player + "\"");
 	}
 }
 
@@ -228,7 +228,7 @@ void prefDialog::onImage()
 	QString image = QFileDialog::getOpenFileName( this, "Choose a program", QDir::currentPath(), "*" );
 	if ( !image.isNull() )
 	{
-		ui.imageLineEdit->setText(image);
+		ui.imageLineEdit->setText("\"" + image + "\"");
 	}
 }
 

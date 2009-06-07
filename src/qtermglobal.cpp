@@ -880,7 +880,6 @@ void Global::openUrl(const QString & urlStr)
         return;
     }
 
-#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
     if(command.indexOf("%L")==-1) // no replace
         //QApplication::clipboard()->setText(strUrl);
         command += " \"" + urlStr +"\"";
@@ -888,11 +887,11 @@ void Global::openUrl(const QString & urlStr)
         command.replace("%L",  "\"" + urlStr + "\"");
         //cstrCmd.replace("%L",  strUrl.toLocal8Bit());
 
+#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
     command += " &";
     system(command.toUtf8().data());
 #else
-    // TODO: arguments? also get rid of "%L"
-    QProcess::startDetached(m_pref.strHttp, QStringList() << urlStr);
+    QProcess::startDetached(command);
 #endif
 
 }
