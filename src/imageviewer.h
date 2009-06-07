@@ -33,7 +33,7 @@ public slots:
 	void viewImage(int n);
 	void imageChanged(const QString &);
 signals:
-	void selectionChanged(const QString &);
+	void selectedFileChanged(const QString &);
 private:
 	static const int thumbSize = 100;
 	static const QString thumbDir;

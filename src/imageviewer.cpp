@@ -110,7 +110,7 @@ void ImageViewer::imageChanged(const QString &filename)
 void ImageViewer::viewImage(int n)
 {
 // 	QString filename = item(n)->text(1);
-// 	emit selectionChanged(filename);
+// 	emit selectedFileChanged(filename);
 }
 
 Image::Image(const QString & image, const QString & path, QWidget * parent)
@@ -147,7 +147,7 @@ Image::Image(const QString & image, const QString & path, QWidget * parent)
 		ui.d_canvas->loadImage(d_path+(d_list->first()));
 		d_extensionShown = false;
 		d_viewer = new ImageViewer(d_shadow, d_path, 0);
-		connect(d_viewer, SIGNAL(selectionChanged(const QString&)), this, SLOT(onChange(const QString&)));
+		connect(d_viewer, SIGNAL(selectedFileChanged(const QString&)), this, SLOT(onChange(const QString&)));
 		connect(this, SIGNAL(changeImage(const QString&)), d_viewer, SLOT(imageChanged(const QString&)));
 		setExtension(d_viewer);
 		setOrientation(Qt::Horizontal);
