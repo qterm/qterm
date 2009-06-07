@@ -1,13 +1,12 @@
-QTerm 0.5.5
+QTerm 0.5.6
 ===============
 
 这个版本添加/修正了下面一些功能:
-1. 在 KWallet 可用时用 KWallet 保存密码
-2. PTT 的一字双色支持
-3. 打印当前内容
-4. 跨行 url 识别
-5. MinGW 和 MSVC 的编译支持
-6. Bug fixes
+1. QtScript 脚本支持
+2. QtScript 脚本支持
+3. QtScript 脚本支持
+4. QtScript 脚本支持
+5. Bug fixes
 
                                          The QTerm Team
                                       http://www.qterm.org

@@ -1,14 +1,11 @@
 --Next release:
-    Script support
     Complete Vt102 support?
 --Should be easy (but I probably will not do it in the next release):
     Use different fonts for single width and double width char (the configure dialog need to be redesigned)
     Fix the warnings, compile time and runtime, also FIXMEs
-    Revive preedit string display
     Fix tab and status bar
     Fix image viewer
     Anonying bugs
     Proxy support using Qt
-    Add a option to disable center display
 --In the future:
     Ascii editor?(Kingson, where are you?)
