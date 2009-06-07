@@ -643,7 +643,8 @@ void Window::mouseMoveEvent(QMouseEvent * me)
             m_pScreen->scrollLine(1);
 
         m_ptSelEnd = me->pos();
-        if (m_ptSelEnd != m_ptSelStart) {
+        QPoint point = m_ptSelEnd - m_ptSelStart;
+        if (point.manhattanLength() > 3) {
             m_pBuffer->setSelect(m_pScreen->mapToChar(m_ptSelStart), m_pScreen->mapToChar(m_ptSelEnd), m_bCopyRect);
             m_pScreen->m_ePaintState = Screen::NewData;
             m_pScreen->update();
