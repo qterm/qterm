@@ -78,12 +78,9 @@ struct fsm_trans Telnet::substab[] = {
  *------------------------------------------------------------------------
  */
 Telnet::Telnet(const QString & strTermType, int rows, int columns, bool isSSH)
-        : from_socket(), to_ansi(), from_ansi(), to_socket()
+        : term(), from_socket(), to_ansi(), from_ansi(), to_socket()
 {
-    term = new char[21];
-    int i;
-    for (i = 0;i < 21;i++) term[i] = '\000'; //clean up, need???
-    sprintf(term, strTermType.toLatin1());
+    term = strTermType.toUtf8();
 
     wx = columns;
     wy = rows;
@@ -134,7 +131,6 @@ Telnet::Telnet(const QString & strTermType, int rows, int columns, bool isSSH)
 Telnet::~Telnet()
 {
     // delete objects
-    delete [] term;
     delete socket;
 }
 
@@ -767,7 +763,6 @@ int Telnet::subopt(int c)
 
 int Telnet::subtermtype(int)
 {
-    char *i;
     /* have received IAC.SB.TERMTYPE.SEND */
 
     putc_down(TCIAC);
@@ -777,8 +772,8 @@ int Telnet::subtermtype(int)
 
     //write term type string
     //fputs(term, sfp);
-    for (i = term; (*i) != '\000'; i++)
-        putc_down(*i);
+    for (int i = 0; i < term.length(); i++)
+        putc_down(term[i]);
 
     putc_down(TCIAC);
     putc_down(TCSE);

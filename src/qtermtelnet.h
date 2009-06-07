@@ -176,7 +176,7 @@ private:
     u_char option_cmd; // has value WILL, WONT, DO, or DONT
 
     char termtype; // non-zero if received "DO TERMTYPE"
-    char  * term;  // terminal name
+    QByteArray term;  // terminal name
 
     /* // BBS don't need control signals
            // Special keys - Terminal control characters
