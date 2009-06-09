@@ -1488,15 +1488,17 @@ void Window::debugConsole()
 #endif
 }
 
-void Window::runScript()
+void Window::runScript(const QString & filename)
 {
-    // get the previous dir
-    QString file = Global::instance()->getOpenFileName("Script Files (*.js *.txt)", this);
-
+    QString file = filename;
+    if (file.isEmpty()){
+        // get the previous dir
+        file= Global::instance()->getOpenFileName("Script Files (*.js *.txt)", this);
+    }
     if (file.isEmpty())
         return;
 
-    loadScriptFile(file);
+    m_scriptHelper->loadScriptFile(file);
 }
 
 void Window::stopScript()
@@ -1796,23 +1798,6 @@ void Window::initScript()
     }
     func.call();
 #endif // SCRIPT_ENABLED
-}
-
-void Window::loadScriptFile(const QString & filename)
-{
-#ifdef SCRIPT_ENABLED
-    QFile file(filename);
-    file.open(QIODevice::ReadOnly);
-    QString scripts = QString::fromUtf8(file.readAll());
-    file.close();
-    if (!m_scriptEngine->canEvaluate(scripts))
-        qDebug() << "Cannot evaluate this script";
-    m_scriptEngine->evaluate(scripts);
-    if (m_scriptEngine->hasUncaughtException()) {
-        QScriptValue exception = m_scriptEngine->uncaughtException();
-        qDebug() << "Exception: " << exception.toString();
-    }
-#endif
 }
 
 void Window::inputHandle(const QString & text)

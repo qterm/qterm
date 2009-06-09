@@ -90,7 +90,7 @@ public slots:
     void font();
     void setting();
     void color();
-    void runScript();
+    void runScript(const QString & filename="");
     void stopScript();
     void debugConsole();
     void showStatusBar(bool);
@@ -106,7 +106,6 @@ public:
     void antiIdle(bool);
 
     void initScript();
-    void loadScriptFile(const QString&);
     void externInput(const QString &);
     void getHttpHelper(const QString&, bool);
     void showMessage(const QString &, int type, int duration);

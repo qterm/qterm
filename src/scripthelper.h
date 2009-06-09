@@ -15,6 +15,7 @@ public:
     ScriptHelper(Window *parent, QScriptEngine *engine);
     ~ScriptHelper();
     Q_PROPERTY(bool accepted READ accepted WRITE setAccepted);
+    void loadScriptFile(const QString&);
 public slots:
     bool accepted() const;
     void setAccepted(bool);
@@ -44,8 +45,6 @@ public slots:
     void addPopupSeparator();
     void addUrlSeparator();
     void import(const QString & filename);
-    void addImportedScript(const QString & filename);
-    bool isScriptLoaded(const QString & filename);
     QString globalPath();
     QString localPath();
     QString getSelectedText(bool rect = false, bool color = false, const QString & escape = "");
@@ -55,6 +54,8 @@ public slots:
 signals:
     void scriptEvent(const QString & type);
 private:
+    bool isScriptLoaded(const QString & filename);
+    void addImportedScript(const QString & filename);
     Window * m_window;
     QScriptEngine * m_scriptEngine;
     bool m_accepted;

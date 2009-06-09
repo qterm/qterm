@@ -224,7 +224,7 @@ void ScriptHelper::import(const QString & filename)
         qDebug() << "Script file " << fileInfo.absoluteFilePath() << "is already loaded";
         return;
     }
-    m_window->loadScriptFile(fileInfo.absoluteFilePath());
+    loadScriptFile(fileInfo.absoluteFilePath());
     qDebug() << "load script file: " << filename;
     addImportedScript(fileInfo.absoluteFilePath());
 }
@@ -252,6 +252,21 @@ QString ScriptHelper::version()
 {
     return QTERM_VERSION;
 }
+
+void ScriptHelper::loadScriptFile(const QString & filename)
+{
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    QString scripts = QString::fromUtf8(file.readAll());
+    file.close();
+    if (!m_scriptEngine->canEvaluate(scripts))
+        qDebug() << "Cannot evaluate this script";
+    m_scriptEngine->evaluate(scripts);
+    if (m_scriptEngine->hasUncaughtException()) {
+        qDebug() << "Exception: " << m_scriptEngine->uncaughtExceptionBacktrace();
+    }
+}
+
 
 } // namespace QTerm
 #include <scripthelper.moc>

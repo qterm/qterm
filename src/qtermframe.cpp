@@ -800,7 +800,7 @@ void Frame::keyClicked(int id)
     if (strTmp[0] == '0') { // key
         wndmgr->activeWindow()->externInput(strTmp.mid(1));
     } else if (strTmp[0] == '1') { // script
-        wndmgr->activeWindow()->loadScriptFile(strTmp.mid(1));
+        wndmgr->activeWindow()->runScript(strTmp.mid(1));
     } else if (strTmp[0] == '2') { // program
         system((strTmp.mid(1) + " &").toLocal8Bit());
     }
