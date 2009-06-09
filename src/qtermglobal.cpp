@@ -426,7 +426,7 @@ QString Global::getSaveFileName(const QString& filename, QWidget* widget)
 
     while (fi.exists()) {
         int yn = QMessageBox::warning(widget, "QTerm",
-                                      tr("File exists. Overwrite?"), "Yes", "No");
+                                      tr("File exists. Overwrite?"), tr("Yes"), tr("No"));
         if (yn == 0)
             break;
         strSave = QFileDialog::getSaveFileName(widget, tr("Choose a file to save under"), path + "/" + filename, "*");
