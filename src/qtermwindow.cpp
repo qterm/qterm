@@ -1789,18 +1789,7 @@ void Window::initScript()
     if (!m_param.m_bLoadScript)
         return;
     m_pBBS->setScript(m_scriptEngine, m_scriptHelper);
-    QFile file(m_param.m_strScriptFile);
-    file.open(QIODevice::ReadOnly);
-    QString scripts = QString::fromUtf8(file.readAll());
-    file.close();
-    if (!m_scriptEngine->canEvaluate(scripts))
-        qDebug() << "Cannot evaluate the scripts";
-    m_scriptEngine->evaluate(scripts);
-    if (m_scriptEngine->hasUncaughtException()) {
-        QScriptValue exception = m_scriptEngine->uncaughtException();
-        qDebug() << "Exception: " << exception.toString();
-    }
-    m_scriptHelper->addImportedScript(file.fileName());
+    m_scriptHelper->import(m_param.m_strScriptFile);
     QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("init");
     if (!func.isFunction()) {
         qDebug() << "init is not a function";
