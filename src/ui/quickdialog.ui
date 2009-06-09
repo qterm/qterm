@@ -52,6 +52,9 @@
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
+   <property name="buddy">
+    <cstring>historyComboBox</cstring>
+   </property>
   </widget>
   <widget class="QLabel" name="TextLabel5">
    <property name="geometry">
@@ -73,6 +76,9 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+   <property name="buddy">
+    <cstring>addrLineEdit</cstring>
    </property>
   </widget>
   <widget class="QComboBox" name="historyComboBox">
@@ -224,6 +230,9 @@
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
+   <property name="buddy">
+    <cstring>portSpinBox</cstring>
+   </property>
   </widget>
   <widget class="QLabel" name="TextLabel6_2">
    <property name="geometry">
@@ -245,6 +254,9 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+   <property name="buddy">
+    <cstring>protocolComboBox</cstring>
    </property>
   </widget>
   <widget class="QSpinBox" name="portSpinBox">
@@ -283,11 +295,13 @@
  <tabstops>
   <tabstop>historyComboBox</tabstop>
   <tabstop>deletePushButton</tabstop>
-  <tabstop>addPushButton</tabstop>
   <tabstop>addrLineEdit</tabstop>
-  <tabstop>advPushButton</tabstop>
+  <tabstop>portSpinBox</tabstop>
+  <tabstop>protocolComboBox</tabstop>
   <tabstop>connectPushButton</tabstop>
   <tabstop>closePushButton</tabstop>
+  <tabstop>addPushButton</tabstop>
+  <tabstop>advPushButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
