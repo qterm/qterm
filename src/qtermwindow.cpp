@@ -428,6 +428,7 @@ Window::~Window()
     delete m_pSound;
     delete m_hostInfo;
 #ifdef SCRIPTTOOLS_ENABLED
+    m_scriptEngine->abortEvaluation();
     delete m_scriptDebugger;
 #endif
 }
