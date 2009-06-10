@@ -112,7 +112,7 @@ void DAThread::run()
         // check it there is duplicated string
         // it starts from the end in the range of one screen height
         // so this is a non-greedy match
-        QString strTemp = pWin->m_pBuffer->screen(0)->getText().simplified();
+        QString strTemp = pWin->m_pBuffer->screen(0)->getText().replace(QRegExp("\\s+$"),"");
         int i = 0;
         int start = 0;
         QStringList::Iterator it = strList.end();
@@ -126,8 +126,8 @@ void DAThread::run()
             QStringList::Iterator it2 = it;
             bool dup = true;
             // match more to see if its duplicated
-            for (int j = 0; j <= i; j++, it2++) {
-                QString str1 = pWin->m_pBuffer->screen(j)->getText().simplified();
+            for (int j = 0; j <= i && it2 != strList.end(); j++, it2++) {
+                QString str1 = pWin->m_pBuffer->screen(j)->getText().replace(QRegExp("\\s+$"),"");
                 if (*it2 != str1) {
                     dup = false;
                     break;
@@ -141,7 +141,7 @@ void DAThread::run()
         }
         // add new lines
         for (i = start;i < pWin->m_pBuffer->line() - 1;i++)
-            strList += pWin->m_pBuffer->screen(i)->getText().simplified();
+            strList += pWin->m_pBuffer->screen(i)->getText().replace(QRegExp("\\s+$"),"");
 
         // the end of article
         if (pWin->m_pBuffer->screen(
@@ -1013,7 +1013,7 @@ void Window::readReady(int size)
         // this works for most but not for all
         TextLine * pTextLine = m_pBuffer->screen(m_pBuffer->line() - 1);
 
-        QString strText = pTextLine->getText().simplified();
+        QString strText = pTextLine->getText().replace(QRegExp("\\s+$"),"");
         if (m_pBuffer->caret().y() == m_pBuffer->line() - 1 &&
                 m_pBuffer->caret().x() >= strText.length() - 1)
             m_wcWaiting.wakeAll();
