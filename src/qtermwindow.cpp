@@ -1790,72 +1790,72 @@ void Window::updateWindow()
                 {
                     m_pSound = new ExternalSound(Global::instance()->m_pref.strPlayer,
                                                  Global::instance()->m_pref.strWave, this);
+                }
+                if (m_pSound)
+                    m_pSound->play();
+                delete m_pSound;
+                m_pSound = NULL;
             }
-            if (m_pSound)
-                m_pSound->play();
-            delete m_pSound;
-            m_pSound = NULL;
-        }
-        if (Global::instance()->m_pref.bBlinkTab)
-            m_tabTimer->start(500);
+            if (Global::instance()->m_pref.bBlinkTab)
+                m_tabTimer->start(500);
 
-        QString strMsg = m_pBBS->getMessage();
-        if (!strMsg.isEmpty())
-            m_strMessage += strMsg + "\n\n";
+            QString strMsg = m_pBBS->getMessage();
+            if (!strMsg.isEmpty())
+                m_strMessage += strMsg + "\n\n";
 
 
-        if (!isActiveWindow() || m_pFrame->wndmgr->activeWindow() != this)
-        {
-#ifdef DBUS_ENABLED
-            if (DBus::instance()->notificationAvailable()) {
-                QList<DBus::Action> actions;
-                actions.append(DBus::Show_QTerm);
-                DBus::instance()->sendNotification("New Message in QTerm", strMsg, actions);
-            } else
-#endif //DBUS_ENABLED
+            if (!isActiveWindow() || m_pFrame->wndmgr->activeWindow() != this)
             {
-                m_popWin->setText(strMsg);
-                m_popWin->popup();
+#ifdef DBUS_ENABLED
+                if (DBus::instance()->notificationAvailable()) {
+                    QList<DBus::Action> actions;
+                    actions.append(DBus::Show_QTerm);
+                    DBus::instance()->sendNotification("New Message in QTerm", strMsg, actions);
+                } else
+#endif //DBUS_ENABLED
+                {
+                    m_popWin->setText(strMsg);
+                    m_popWin->popup();
+                }
             }
-        }
-    if (m_bAutoReply) {
+        if (m_bAutoReply) {
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
-        m_scriptHelper->setAccepted(false);
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("autoReply");
-        if (func.isFunction()) {
-            func.call();
-            if (m_scriptHelper->accepted()) {
-                return;
-            } else {
-                // TODO: save messages
-                if (m_bIdling)
-                    replyMessage();
-                else
-                    m_replyTimer->start(m_param.m_nMaxIdle*1000 / 2);
+            if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+                m_scriptHelper->setAccepted(false);
+                QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("autoReply");
+                if (func.isFunction()) {
+                    func.call();
+                    if (m_scriptHelper->accepted()) {
+                        return;
+                    } else {
+                        // TODO: save messages
+                        if (m_bIdling)
+                            replyMessage();
+                        else
+                            m_replyTimer->start(m_param.m_nMaxIdle*1000 / 2);
+                    }
+                } else {
+                    qDebug("autoReply is not a function");
+                }
+                if (m_scriptEngine->hasUncaughtException()) {
+                    QScriptValue exception = m_scriptEngine->uncaughtException();
+                    qDebug() << "Exception: " << exception.toString();
+                }
             }
-        } else {
-            qDebug("autoReply is not a function");
-        }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
-            qDebug() << "Exception: " << exception.toString();
-        }
-    }
 #endif
+        }
+        //m_pFrame->buzz();
     }
-    //m_pFrame->buzz();
-}
 
-m_pBBS->setPageState();
-m_pBBS->updateSelectRect();
-// set page state
-m_pBBS->updateUrlList();
-//m_updateTimer->start(100);
-//refresh screen
-m_pScreen->m_ePaintState = Screen::NewData;
-m_pScreen->update();
-m_bMessage = false;
+    m_pBBS->setPageState();
+    m_pBBS->updateSelectRect();
+    // set page state
+    m_pBBS->updateUrlList();
+    //m_updateTimer->start(100);
+    //refresh screen
+    m_pScreen->m_ePaintState = Screen::NewData;
+    m_pScreen->update();
+    m_bMessage = false;
 }
 
 }
