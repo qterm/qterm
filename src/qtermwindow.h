@@ -132,7 +132,7 @@ protected slots:
     // timer
     void idleProcess();
     void replyProcess();
-    void updateProcess();
+    void updateWindow();
     void blinkTab();
 
     //http menu
