@@ -923,22 +923,7 @@ void Window::keyPressEvent(QKeyEvent * e)
         m_pTelnet->write(cstrTmp, cstrTmp.length());
     }
 }
-/*
-void Window::imStartEvent(QIMEvent * e)
-{
- m_pScreen->imStartEvent(e);
-}
 
-void Window::imComposeEvent(QIMEvent * e)
-{
- m_pScreen->imComposeEvent(e);
-}
-
-void Window::imEndEvent(QIMEvent * e)
-{
- m_pScreen->imEndEvent(e);
-}
-*/
 //connect slot
 void Window::connectHost()
 {
