@@ -121,6 +121,7 @@ void DAThread::run()
 //    it!=strList.begin(), i < pWin->m_pBuffer->line()-1; // not exceeeding the last screen
 //    --it, i++)
             --it;
+            i++;
             if (*it != strTemp)
                 continue;
             QStringList::Iterator it2 = it;
@@ -154,7 +155,6 @@ void DAThread::run()
             emit done(DAE_TIMEOUT);
             break;
         }
-        i++;
     }
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
     strArticle = strList.join("\r\n");
