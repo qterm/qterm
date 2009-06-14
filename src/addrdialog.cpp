@@ -36,7 +36,6 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WFlags fl)
         : QDialog(parent, fl), bPartial(partial), bgMenu(this), nLastItem(-1)
 {
     ui.setupUi(this);
-    ui.menuLabel->setAutoFillBackground(true);
     ui.portSpinBox->setRange(0, 65535);
     ui.proxyportSpinBox->setRange(0, 65535);
     QList<QByteArray> codecList = QTextCodec::availableCodecs();
@@ -208,34 +207,22 @@ void addrDialog::onReset()
 {
     updateData(false);
 }
-void addrDialog::onFont()
-{
-    bool ok;
-    QFont now(strFontName, nFontSize);
 
-    QFont font = QFontDialog::getFont(&ok, now);
-    if (ok == true) {
-        strFontName = font.family();
-        nFontSize = font.pointSize();
-        setLabelPixmap();
-    }
-}
-void addrDialog::onFgcolor()
+void addrDialog::onASCIIFont(const QFont & font)
 {
-    QColor color = QColorDialog::getColor(clrFg);
-    if (color.isValid() == TRUE) {
-        clrFg = color;
-        setLabelPixmap();
-    }
+    strASCIIFontName = font.family();
 }
-void addrDialog::onBgcolor()
+
+void addrDialog::onGeneralFont(const QFont & font)
 {
-    QColor color = QColorDialog::getColor(clrBg);
-    if (color.isValid() == TRUE) {
-        clrBg = color;
-        setLabelPixmap();
-    }
+    strGeneralFontName = font.family();
 }
+
+void addrDialog::onFontSize(int size)
+{
+    nFontSize = size;
+}
+
 void addrDialog::onSchema()
 {
     schemaDialog schema(this);
@@ -285,40 +272,7 @@ void addrDialog::onMenuColor()
     QColor color = QColorDialog::getColor(clrMenu);
     if (color.isValid() == TRUE) {
         clrMenu = color;
-        setMenuPixmap();
     }
-}
-
-void addrDialog::setMenuPixmap()
-{
-    QPixmap pxm(ui.menuLabel->size());
-    QPainter p;
-    QFont font(strFontName, nFontSize);
-    p.begin(&pxm);
-    p.setBackgroundMode(Qt::TransparentMode);
-    p.setFont(font);
-    p.setPen(clrFg);
-    p.fillRect(ui.menuLabel->rect(), QBrush(clrMenu));
-    p.drawText(ui.menuLabel->rect(), Qt::AlignHCenter | Qt::AlignVCenter, "Menu Label");
-    ui.menuLabel->setPixmap(pxm);
-    p.end();
-}
-
-void addrDialog::setLabelPixmap()
-{
-    QPixmap pxm(ui.displayTextLabel->size());
-    QPainter p;
-    QFont font(strFontName, nFontSize);
-    QString strTmp;
-    strTmp.setNum(nFontSize);
-    p.begin(&pxm);
-    p.setBackgroundMode(Qt::TransparentMode);
-    p.setFont(font);
-    p.setPen(clrFg);
-    p.fillRect(ui.displayTextLabel->rect(), QBrush(clrBg));
-    p.drawText(ui.displayTextLabel->rect(), Qt::AlignHCenter | Qt::AlignVCenter, strFontName + " " + strTmp);
-    ui.displayTextLabel->setPixmap(pxm);
-    p.end();
 }
 
 void addrDialog::connectSlots()
@@ -333,9 +287,6 @@ void addrDialog::connectSlots()
     connect(ui.connectPushButton, SIGNAL(clicked()), this, SLOT(onConnect()));
     connect(ui.resetPushButton, SIGNAL(clicked()), this, SLOT(onReset()));
 
-    connect(ui.fontPushButton, SIGNAL(clicked()), this, SLOT(onFont()));
-    connect(ui.fgcolorPushButton, SIGNAL(clicked()), this, SLOT(onFgcolor()));
-    connect(ui.bgcolorPushButton, SIGNAL(clicked()), this, SLOT(onBgcolor()));
     connect(ui.schemaPushButton, SIGNAL(clicked()), this, SLOT(onSchema()));
 
     connect(ui.protocolComboBox, SIGNAL(activated(int)), this, SLOT(onProtocol(int)));
@@ -343,6 +294,9 @@ void addrDialog::connectSlots()
     connect(ui.scriptPushButton, SIGNAL(clicked()), this, SLOT(onChooseScript()));
 
     connect(ui.menuColorButton, SIGNAL(clicked()), this, SLOT(onMenuColor()));
+    connect(ui.asciiFontComboBox, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(onASCIIFont(const QFont &)));
+    connect(ui.generalFontComboBox, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(onGeneralFont(const QFont &)));
+    connect(ui.fontSizeSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onFontSize(int)));
 }
 
 bool addrDialog::isChanged()
@@ -361,7 +315,8 @@ bool addrDialog::isChanged()
            param.m_bAutoFont != ui.autofontCheckBox->isChecked() ||
            param.m_bAlwaysHighlight != ui.highlightCheckBox->isChecked() ||
            param.m_bAnsiColor != ui.ansicolorCheckBox->isChecked() ||
-           param.m_strFontName != strFontName ||
+           param.m_strASCIIFontName != strASCIIFontName ||
+           param.m_strGeneralFontName != strGeneralFontName||
            param.m_nFontSize != nFontSize ||
            param.m_clrBg != clrBg ||
            param.m_clrFg != clrFg ||
@@ -412,7 +367,8 @@ void addrDialog::updateData(bool save)
         param.m_bAutoFont = ui.autofontCheckBox->isChecked();
         param.m_bAlwaysHighlight = ui.highlightCheckBox->isChecked();
         param.m_bAnsiColor = ui.ansicolorCheckBox->isChecked();
-        param.m_strFontName = strFontName;
+        param.m_strASCIIFontName = strASCIIFontName;
+        param.m_strGeneralFontName = strGeneralFontName;
         param.m_nFontSize = nFontSize;
         param.m_clrBg = clrBg;
         param.m_clrFg = clrFg;
@@ -466,12 +422,15 @@ void addrDialog::updateData(bool save)
         ui.autofontCheckBox->setChecked(param.m_bAutoFont);
         ui.highlightCheckBox->setChecked(param.m_bAlwaysHighlight);
         ui.ansicolorCheckBox->setChecked(param.m_bAnsiColor);
-        strFontName = param.m_strFontName;
+        strASCIIFontName = param.m_strASCIIFontName;
+        ui.asciiFontComboBox->setCurrentFont(QFont(strASCIIFontName));
+        strGeneralFontName = param.m_strGeneralFontName;
+        ui.generalFontComboBox->setCurrentFont(QFont(strGeneralFontName));
         nFontSize = param.m_nFontSize ;
+        ui.fontSizeSpinBox->setValue(nFontSize);
         clrBg = param.m_clrBg;
         clrFg = param.m_clrFg;
         strSchemaFile = param.m_strSchemaFile;
-        setLabelPixmap();
         ui.termtypeLineEdit->setText(param.m_strTerm);
         ui.keytypeComboBox->setCurrentIndex(param.m_nKey);
         strTmp.setNum(param.m_nCol);
@@ -516,7 +475,6 @@ void addrDialog::updateData(bool save)
         //QRadioButton * rbMenu = qobject_cast<QRadioButton*>(bgMenu.button(param.m_nMenuType));
         //rbMenu->setChecked(true);
         clrMenu = param.m_clrMenu;
-        setMenuPixmap();
     }
 }
 

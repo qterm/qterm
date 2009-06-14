@@ -1275,21 +1275,8 @@ void Window::copyArticle()
     m_pDAThread->start();
 
 }
-void Window::font()
-{
-    bool ok;
 
-    QResizeEvent* re = new QResizeEvent(m_pScreen->size(), m_pScreen->size());
-
-    QFont font = QFontDialog::getFont(&ok, m_pScreen->getDispFont());
-    if (ok == true) {
-        m_pScreen->setDispFont(font);
-        QApplication::postEvent(m_pScreen, re);
-    }
-}
-
-
-void Window::color()
+void Window::appearance()
 {
     addrDialog set(this, true);
 

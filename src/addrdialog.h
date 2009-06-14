@@ -35,13 +35,13 @@ protected slots:
     void onConnect();
     void onClose();
     void onReset();
-    void onFont();
-    void onFgcolor();
-    void onBgcolor();
     void onSchema();
     void onProtocol(int);
     void onChooseScript();
     void onMenuColor();
+    void onASCIIFont(const QFont & font);
+    void onGeneralFont(const QFont & font);
+    void onFontSize(int size);
 
 protected:
     void connectSlots();
@@ -51,7 +51,8 @@ protected:
 
 
     bool bPartial;
-    QString strFontName;
+    QString strASCIIFontName;
+    QString strGeneralFontName;
     int nFontSize;
     QColor clrFg;
     QColor clrBg;

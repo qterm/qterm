@@ -186,7 +186,8 @@ bool Global::loadAddress(int n, Param& param)
     param.m_bAlwaysHighlight = (strTmp != "0");
     strTmp = m_address->getItemValue(strSection, "ansicolor").toString();
     param.m_bAnsiColor = (strTmp != "0");
-    param.m_strFontName = m_address->getItemValue(strSection, "fontname").toString();
+    param.m_strASCIIFontName = m_address->getItemValue(strSection, "asciifont").toString();
+    param.m_strGeneralFontName = m_address->getItemValue(strSection, "generalfont").toString();
     strTmp = m_address->getItemValue(strSection, "fontsize").toString();
     param.m_nFontSize = strTmp.toInt();
     param.m_clrFg.setNamedColor(m_address->getItemValue(strSection, "fgcolor").toString());
@@ -284,7 +285,8 @@ void Global::saveAddress(int n, const Param& param)
     m_address->setItemValue(strSection, "autofont", param.m_bAutoFont ? "1" : "0");
     m_address->setItemValue(strSection, "alwayshighlight", param.m_bAlwaysHighlight ? "1" : "0");
     m_address->setItemValue(strSection, "ansicolor", param.m_bAnsiColor ? "1" : "0");
-    m_address->setItemValue(strSection, "fontname", param.m_strFontName);
+    m_address->setItemValue(strSection, "asciifont", param.m_strASCIIFontName);
+    m_address->setItemValue(strSection, "generalfont", param.m_strGeneralFontName);
     strTmp.setNum(param.m_nFontSize);
     m_address->setItemValue(strSection, "fontsize", strTmp);
     m_address->setItemValue(strSection, "fgcolor", param.m_clrFg.name());

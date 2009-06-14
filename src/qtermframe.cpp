@@ -545,14 +545,9 @@ void Frame::updateCodec(QAction * action)
     }
 }
 
-void Frame::font()
+void Frame::appearance()
 {
-    wndmgr->activeWindow()->font();
-}
-
-void Frame::color()
-{
-    wndmgr->activeWindow()->color();
+    wndmgr->activeWindow()->appearance();
 
 }
 void Frame::refresh()
@@ -938,10 +933,8 @@ void Frame::initActions()
     codecGroup->addAction(m_S2TAction);
     codecGroup->addAction(m_T2SAction);
 
-    m_fontAction = new QAction(QPixmap(pathLib + "pic/fonts.png"), tr("&Font..."), this);
-    m_fontAction->setObjectName("actionFont");
-    m_colorAction = new QAction(QPixmap(pathLib + "pic/color.png"), tr("&Color..."), this);
-    m_colorAction->setObjectName("actionColor");
+    m_appearanceAction= new QAction(QPixmap(pathLib + "pic/color.png"), tr("&Appearance..."), this);
+    m_appearanceAction->setObjectName("actionAppearance");
     m_refreshAction = new QAction(QPixmap(pathLib + "pic/refresh.png"), tr("&Refresh"), this);
     m_refreshAction->setObjectName("actionRefresh");
 
@@ -1067,8 +1060,7 @@ void Frame::initActions()
     connect(escapeGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateESC(QAction*)));
     connect(codecGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateCodec(QAction*)));
 
-    connect(m_fontAction, SIGNAL(triggered()), this, SLOT(font()));
-    connect(m_colorAction, SIGNAL(triggered()), this, SLOT(color()));
+    connect(m_appearanceAction, SIGNAL(triggered()), this, SLOT(appearance()));
     connect(m_refreshAction, SIGNAL(triggered()), this, SLOT(refresh()));
 
     connect(langGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateLang(QAction*)));
@@ -1153,8 +1145,7 @@ void Frame::addMainMenu()
     QMenu * view = new QMenu(tr("&View"), this);
     mainMenu->addMenu(view);
 
-    view->addAction(m_fontAction);
-    view->addAction(m_colorAction);
+    view->addAction(m_appearanceAction);
     view->addAction(m_refreshAction);
     view->addSeparator();
 
@@ -1243,8 +1234,7 @@ QMenu * Frame::genPopupMenu(QWidget * owner)
     popupMenu->addAction(m_pasteAction);
     popupMenu->addAction(m_copyArticleAction);
     popupMenu->addSeparator();
-    popupMenu->addAction(m_fontAction);
-    popupMenu->addAction(m_colorAction);
+    popupMenu->addAction(m_appearanceAction);
     popupMenu->addSeparator();
     popupMenu->addAction(m_currentSessionAction);
     return popupMenu;
@@ -1286,8 +1276,7 @@ void Frame::enableMenuToolBar(bool enable)
     m_autoCopyAction->setEnabled(enable);
     m_wwrapAction->setEnabled(enable);
 
-    m_fontAction->setEnabled(enable);
-    m_colorAction->setEnabled(enable);
+    m_appearanceAction->setEnabled(enable);
     m_refreshAction->setEnabled(enable);
 
     m_currentSessionAction->setEnabled(enable);

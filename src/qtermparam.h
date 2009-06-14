@@ -50,7 +50,8 @@ public:
 	// ANSI Color
 	bool m_bAnsiColor;
 	// Font Name
-	QString m_strFontName;
+	QString m_strASCIIFontName;
+	QString m_strGeneralFontName;
 	// Font Size
 	int m_nFontSize;
 	// Background Color

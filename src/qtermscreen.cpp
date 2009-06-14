@@ -293,43 +293,20 @@ void Screen::wheelEvent(QWheelEvent * we)
 
 void Screen::initFontMetrics()
 {
-    if (m_pParam->m_bAutoFont)
-        m_pFont = new QFont(m_pParam->m_strFontName);
-    else {
-        m_pFont = new QFont(m_pParam->m_strFontName, qMax(8, m_pParam->m_nFontSize));
-        QFontMetrics *fm = new QFontMetrics(*m_pFont);
-
-        getFontMetrics(fm);
-        delete fm;
-    }
-    m_pFont->setWeight(QFont::Normal);
-
-    m_pFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
-}
-
-void Screen::setDispFont(const QFont& font)
-{
-    delete m_pFont;
-    if (m_pParam->m_bAutoFont)
-        m_pFont = new QFont(font.family());
-    else {
-        m_pFont = new QFont(font);
-
-        QFontInfo fi(*m_pFont);
-        //int nSize = fi.pixelSize();
-        QFontMetrics *fm = new QFontMetrics(*m_pFont);
-        getFontMetrics(fm);
-        delete fm;
+    if (m_pParam->m_bAutoFont) {
+        m_pASCIIFont = new QFont(m_pParam->m_strASCIIFontName);
+        m_pGeneralFont = new QFont(m_pParam->m_strGeneralFontName);
+    } else {
+        m_pASCIIFont = new QFont(m_pParam->m_strASCIIFontName, qMax(8, m_pParam->m_nFontSize));
+        m_pGeneralFont = new QFont(m_pParam->m_strGeneralFontName, qMax(8, m_pParam->m_nFontSize));
     }
 
-    m_pFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
-}
+    m_pASCIIFont->setWeight(QFont::Normal);
+    m_pGeneralFont->setWeight(QFont::Normal);
 
-QFont Screen::getDispFont()
-{
-    return *m_pFont;
+    m_pASCIIFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+    m_pGeneralFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
 }
-
 
 void Screen::updateFont()
 {
@@ -338,18 +315,18 @@ void Screen::updateFont()
                                 m_rcClient.width() * 2 / m_pBuffer->columns()));
 
     for (nPixelSize = nIniSize - 3; nPixelSize <= nIniSize + 3; nPixelSize++) {
-        m_pFont->setPixelSize(nPixelSize);
+        m_pASCIIFont->setPixelSize(nPixelSize);
+        m_pGeneralFont->setPixelSize(nPixelSize);
 
-        QFontMetrics fm(*m_pFont);
-        getFontMetrics(&fm);
+        getFontMetrics();
         if ((m_pBuffer->line()*m_nCharHeight) > m_rcClient.height()
                 || (m_pBuffer->columns()*m_nCharWidth) > m_rcClient.width()) {
             while (nPixelSize > 5) {
                 nPixelSize--;
-                m_pFont->setPixelSize(nPixelSize);
+                m_pASCIIFont->setPixelSize(nPixelSize);
+                m_pGeneralFont->setPixelSize(nPixelSize);
 
-                QFontMetrics fm2(*m_pFont);
-                getFontMetrics(&fm2);
+                getFontMetrics();
                 if ((m_pBuffer->line()*m_nCharHeight) < m_rcClient.height()
                         && (m_pBuffer->columns()*m_nCharWidth) < m_rcClient.width())
                     break;
@@ -365,27 +342,31 @@ void Screen::updateFont()
     }
     QPoint point = m_rcClient.topLeft();
     m_rcClient = QRect(point.x()+marginw, point.y()+marginh, m_pBuffer->columns()*m_nCharWidth, m_pBuffer->line()*m_nCharHeight);
-    m_pFont->setWeight(QFont::Normal);
-    m_pFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+    m_pASCIIFont->setWeight(QFont::Normal);
+    m_pGeneralFont->setWeight(QFont::Normal);
+    m_pASCIIFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+    m_pGeneralFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
     if (m_inputContent != NULL) {
         delete m_inputContent;
         m_inputContent = NULL;
     }
 }
 
-void Screen::getFontMetrics(QFontMetrics *fm)
+void Screen::getFontMetrics()
 {
-    float cn = fm->width(QChar(0x4e00));
-    float en = fm->width('W');
+    QFontMetrics ascii_fm(*m_pASCIIFont);
+    QFontMetrics general_fm(*m_pGeneralFont);
+    float cn = general_fm.width(QChar(0x4e00));
+    float en = ascii_fm.width('W');
     if (en / cn < 0.7) // almost half
         m_nCharWidth = qMax((cn + 1) / 2, en);
     else
         m_nCharWidth = (qMax(en, cn) + 1) / 2;
 
     m_nCharDelta = m_nCharWidth - cn/2;
-    m_nCharHeight = fm->height();
-    m_nCharAscent = fm->ascent();
-    m_nCharDescent = fm->descent();
+    m_nCharHeight = general_fm.height();
+    m_nCharAscent = general_fm.ascent();
+    m_nCharDescent = general_fm.descent();
 }
 
 /* ------------------------------------------------------------------------ */
@@ -934,6 +915,10 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
         if (charWidth <= 0) {
             qDebug("drawLine: non printable char");
             continue;
+        } else if (charWidth == 1) {
+            painter.setFont(*m_pASCIIFont);
+        } else if (charWidth == 2) {
+            painter.setFont(*m_pGeneralFont);
         }
         CharFlags flags = RenderAll;
         if ( pTextLine->isPartial(startx) ) {
@@ -968,11 +953,11 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
     };
     // test underline mask
     if (GETUNDERLINE(ea)) {
-        m_pFont->setUnderline(true);
-        painter.setFont(*m_pFont);
+        m_pASCIIFont->setUnderline(true);
+        m_pGeneralFont->setUnderline(true);
     } else {
-        m_pFont->setUnderline(false);
-        painter.setFont(*m_pFont);
+        m_pASCIIFont->setUnderline(false);
+        m_pGeneralFont->setUnderline(false);
     }
     // test blink mask
     if (GETBLINK(ea)) {
@@ -1194,7 +1179,7 @@ void Screen::inputMethodEvent(QInputMethodEvent * e)
     QString preeditString = e->preeditString();
     if (m_inputContent == NULL){
         m_inputContent = new Input(this, m_nCharWidth, m_nCharHeight, m_nCharAscent);
-        m_inputContent->setFont(*m_pFont);
+        m_inputContent->setFont(*m_pGeneralFont);
     }
     if (preeditString.isEmpty()) {
         m_inputContent->hide();
@@ -1223,7 +1208,7 @@ QVariant Screen::inputMethodQuery(Qt::InputMethodQuery property) const
         return QVariant(QRect((m_pBuffer->caret().x() + 1)*m_nCharWidth, (m_pBuffer->caret().y() + 1)*m_nCharHeight,
                               m_nCharWidth, m_nCharHeight));
     case Qt::ImFont:
-        return QVariant(*m_pFont);
+        return QVariant(*m_pGeneralFont);
     case Qt::ImCursorPosition:
         return m_pBuffer->caret().x();
     default:
