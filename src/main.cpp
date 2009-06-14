@@ -17,6 +17,7 @@ AUTHOR:        kingson fiasco
 #include "qtermglobal.h"
 #include "qterm.h"
 
+#include <QtGlobal>
 #include <QApplication>
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
@@ -26,6 +27,88 @@ AUTHOR:        kingson fiasco
 #endif
 
 #include <stdio.h>
+
+//==============================================================================
+// Crash Handler: Save the backtrace info to /var/tmp as qterm.pid.timestamp
+// The line number can be retrieved using addr2line
+//==============================================================================
+
+#ifdef Q_OS_LINUX
+#include <linux/limits.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <execinfo.h>
+#include <signal.h>
+
+#define QTERM_SIG_MAX_RETS 50
+#define QTERM_SIG_LOG_DIR "/var/tmp"
+
+// keep big data static to keep sig handler's stack usage to a minimum
+static void *_rets[QTERM_SIG_MAX_RETS];
+static char _sig_fname[PATH_MAX+1];
+static char _buf[256];
+void sig_fatal_init(int sig);
+void sig_fatal_finish();
+void sig_fatal_init();
+
+void sig_fatal_handler (int sig)
+{
+    int num, fd, i;
+
+    i = 0;
+
+    sig_fatal_finish ();
+
+    chdir (QTERM_SIG_LOG_DIR);
+
+    if ((fd = creat (_sig_fname, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0) {
+        i = errno;
+        fd = STDERR_FILENO;
+    }
+
+    num = backtrace (_rets, QTERM_SIG_MAX_RETS);
+
+    sprintf (_buf, "Hit with signal %d! Stack trace of last %d functions:\n",
+            sig, num);
+    write (fd, _buf, strlen (_buf));
+
+    backtrace_symbols_fd (_rets, num, fd);
+
+    close (fd);
+
+    abort ();
+}
+
+void sig_fatal_init ()
+{
+    time_t ut;
+
+    time (&ut);
+    strftime (_buf, sizeof (_buf), "%Y%m%d.%H%M%S", localtime (&ut));
+    snprintf (_sig_fname, sizeof (_sig_fname), "%s/%s.%d.%s",
+            QTERM_SIG_LOG_DIR, "qterm", getpid(), _buf);
+
+    if (access (QTERM_SIG_LOG_DIR, F_OK))
+        mkdir (QTERM_SIG_LOG_DIR, S_IRWXU | S_IRWXG | S_IRWXO);
+
+    signal (SIGSEGV, sig_fatal_handler);
+    signal (SIGBUS, sig_fatal_handler);
+    signal (SIGILL, sig_fatal_handler);
+    signal (SIGABRT, sig_fatal_handler);
+    signal (SIGFPE, sig_fatal_handler);
+}
+
+void sig_fatal_finish ()
+{
+    signal (SIGSEGV, SIG_DFL);
+    signal (SIGBUS, SIG_DFL);
+    signal (SIGILL, SIG_DFL);
+    signal (SIGABRT, SIG_DFL);
+    signal (SIGFPE, SIG_DFL);
+}
+
+#endif //Q_OS_LINUX
 
 using namespace QTerm;
 
@@ -41,19 +124,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 }
 #endif
 
-static void qtMessageHandler(QtMsgType type, const char *msg)
-{
-        fprintf(stderr, "%s\n", msg);
-        if (type == QtFatalMsg)
-                abort();
-}
-
 int main( int argc, char ** argv )
 {
 
     QApplication a( argc, argv );
     a.setApplicationName("QTerm");
-    qInstallMsgHandler(qtMessageHandler);
+
+#ifdef Q_OS_LINUX
+    sig_fatal_init();
+#endif
 
     if( !Global::instance()->isOK() )
     {
