@@ -65,8 +65,9 @@ public:
 
     void setSchema();
 
-    QFont getDispFont();
-    void setDispFont(const QFont&);
+    QFont asciiFont();
+    QFont generalFont();
+    int fontSize();
 
     void setBgPxm(const QPixmap& pixmap, int nType = 0);
 
@@ -93,6 +94,9 @@ public slots:
     void bufferSizeChanged();
     void bossColor();
     void updateScrollBar();
+    void asciiFontChanged(const QFont & font);
+    void generalFontChanged(const QFont & font);
+    void fontSizeChanged(int size);
 
 protected:
     void initFontMetrics();
