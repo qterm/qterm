@@ -367,9 +367,9 @@ void Screen::getFontMetrics()
         m_nCharWidth = (qMax(en, cn) + 1) / 2;
 
     m_nCharDelta = m_nCharWidth - cn/2;
-    m_nCharHeight = general_fm.height();
-    m_nCharAscent = general_fm.ascent();
-    m_nCharDescent = general_fm.descent();
+    m_nCharHeight = ascii_fm.height();
+    m_nCharAscent = ascii_fm.ascent();
+    m_nCharDescent = ascii_fm.descent();
 }
 
 void Screen::asciiFontChanged(const QFont & font)
@@ -1058,12 +1058,12 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
         if (GETBG(cp) != 0 || m_ePaintState == Cursor)
             painter.fillRect(mapToRect(x, y, length, 1), QBrush(m_color[GETBG(cp)]));
         if (flags == RenderAll) {
-            painter.drawText(pt.x()+m_nCharDelta, pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignLeft, str);
+            painter.drawText(pt.x()+m_nCharDelta, pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignLeft|Qt::AlignBottom, str);
         } else if (flags == RenderLeft) {
-            painter.drawText(pt.x()+m_nCharDelta, pt.y(), m_nCharWidth-m_nCharDelta, m_nCharHeight, Qt::AlignLeft, str);
+            painter.drawText(pt.x()+m_nCharDelta, pt.y(), m_nCharWidth-m_nCharDelta, m_nCharHeight, Qt::AlignLeft|Qt::AlignBottom, str);
         } else if (flags == RenderRight) {
             int width = painter.fontMetrics().width(str[0])-m_nCharWidth+m_nCharDelta;
-            painter.drawText(pt.x(), pt.y(), width, m_nCharHeight, Qt::AlignRight, str);
+            painter.drawText(pt.x(), pt.y(), width, m_nCharHeight, Qt::AlignRight|Qt::AlignBottom, str);
         }
     }
     painter.setBackground(QBrush(m_color[0]));
