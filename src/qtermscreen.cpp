@@ -889,7 +889,8 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
     QByteArray color = pTextLine->getColor();
     QByteArray attr = pTextLine->getAttr();
     int linelength = pTextLine->getLength();
-    char tempcp, tempea;
+    char tempcp = 0;
+    char tempea = 0;
     short tempattr;
     bool bSelected;
     bool bReverse = false;
