@@ -49,7 +49,31 @@ QTerm.setPageState = function()
     return QTerm.pageState;
 }
 
-QTerm.isLineClickable = function(x, y)
+QTerm.setSelectRect = function(x, y)
+{
+    var rect = [0,0,0,0];
+    if (QTerm.pageState == QTerm.SMTH.List && QTerm.isListLineClickable(x,y)) {
+        QTerm.accepted = true;
+        rect[0] = 0;
+        rect[1] = y;
+        rect[2] = QTerm.columns();
+        rect[3] = 1;
+    } else if (QTerm.pageState == QTerm.SMTH.Menu) {
+        QTerm.accepted = true;
+        var item = QTerm.getMenuItem(x, y);
+        var line = QTerm.getLine(y);
+        if (item.length > 0) {
+            var index = line.getText().indexOf(item);
+            rect[0] = line.beginIndex(index);
+            rect[1] = y
+            rect[2] = line.beginIndex(index+item.length) - rect[0];
+            rect[3] = 1;
+        }
+    }
+    return rect;
+}
+
+QTerm.isListLineClickable = function(x, y)
 {
     // Copied from the source code of QTerm
     if (QTerm.pageState == QTerm.SMTH.List) {
@@ -62,7 +86,7 @@ QTerm.isLineClickable = function(x, y)
     return false
 }
 
-QTerm.getClickableString = function(x, y)
+QTerm.getMenuItem= function(x, y)
 {
     QTerm.accepted = true;
     if (QTerm.pageState != QTerm.SMTH.Menu) {
@@ -100,7 +124,7 @@ QTerm.sendKey = function(x, y)
 {
     // Only handle the menu case
     if (QTerm.pageState == QTerm.SMTH.Menu) {
-        str = QTerm.getClickableString(x,y);
+        str = QTerm.getMenuItem(x,y);
         if (str == "") {
             return false;
         }
