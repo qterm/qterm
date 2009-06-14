@@ -17,52 +17,52 @@ namespace QTerm
 class Config;
 
 class addrDialog : public QDialog
-{ 
+{
     Q_OBJECT
 
 public:
-    addrDialog( QWidget* parent = 0, bool partial = false, Qt::WFlags fl = 0 );
+    addrDialog(QWidget* parent = 0, bool partial = false, Qt::WFlags fl = 0);
     ~addrDialog();
-	
-	Param param;
-	void updateData(bool save);
+
+    Param param;
+    void updateData(bool save);
 
 protected slots:
-	void onNamechange(int);
-	void onAdd();
-	void onDelete();
-	void onApply();
-	void onConnect();
-	void onClose();
-	void onReset();
-	void onFont();
-	void onFgcolor();
-	void onBgcolor();
-	void onSchema();
-	void onProtocol(int);
-	void onChooseScript();
-	void onMenuColor();
-	
+    void onNamechange(int);
+    void onAdd();
+    void onDelete();
+    void onApply();
+    void onConnect();
+    void onClose();
+    void onReset();
+    void onFont();
+    void onFgcolor();
+    void onBgcolor();
+    void onSchema();
+    void onProtocol(int);
+    void onChooseScript();
+    void onMenuColor();
+
 protected:
-	void connectSlots();
-	bool isChanged();
-	void setLabelPixmap();
-	void setMenuPixmap();
+    void connectSlots();
+    bool isChanged();
+    void setLabelPixmap();
+    void setMenuPixmap();
 
 
-	bool bPartial;
-	QString strFontName;
-	int nFontSize;
-	QColor clrFg;
-	QColor clrBg;
-	QString strSchemaFile;	
-	QColor clrMenu;
-	QButtonGroup bgMenu;
+    bool bPartial;
+    QString strFontName;
+    int nFontSize;
+    QColor clrFg;
+    QColor clrBg;
+    QString strSchemaFile;
+    QColor clrMenu;
+    QButtonGroup bgMenu;
 
-	int nLastItem;
-	
+    int nLastItem;
+
 public:
-	Ui::addrDialog ui;	
+    Ui::addrDialog ui;
 };
 
 } // namespace QTerm
