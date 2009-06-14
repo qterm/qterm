@@ -1049,7 +1049,6 @@ void Screen::bossColor()
 void Screen::drawMenuSelect(QPainter& painter, int index)
 {
     QRect rcSelect, rcMenu, rcInter;
-//  FIXME: what is this for
     if (m_pBuffer->isSelected(index)) {
         rcSelect = mapToRect(m_pBuffer->getSelectRect(index, m_pWindow->m_bCopyRect));
         if (Global::instance()->isBossColor())
@@ -1059,47 +1058,12 @@ void Screen::drawMenuSelect(QPainter& painter, int index)
     }
 
     if (m_pBBS->isSelected(index)) {
-        rcMenu = mapToRect(m_pBBS->getSelectRect());
-//   m_pBand->setGeometry(rcMenu);
-//   m_pBand->show();
+        rcMenu = mapToRect(m_pBBS->getSelectRect().intersected(QRect(0,index,m_pBuffer->columns(), 1)));
         switch (m_pParam->m_nMenuType) {
         case 0: // underline
-//     m_pBand->setGeometry(rcMenu.x(), rcMenu.y()+10*m_nCharHeight/11,
-//           rcMenu.width(), m_nCharHeight/11);
-//     m_pBand->show();
-//     pxm = new QPixmap( rcMenu.width(), m_nCharHeight/11);
-//     pxm->fill(m_color[7]);
-//     bitBlt(this, rcMenu.x(), rcMenu.y()+10*m_nCharHeight/11, pxm, 0, 0,
-//          rcMenu.width(), m_nCharHeight/11, Qt::NotROP);
-//     delete pxm;
             painter.fillRect(rcMenu.x(), rcMenu.y() + 10*m_nCharHeight / 11, rcMenu.width(), m_nCharHeight / 11, m_color[7]);
             break;
         case 2:
-//     rcInter = rcSelect.intersect(rcMenu);
-//     if(!rcInter.isEmpty())
-//     {
-//      pxm = new QPixmap(rcInter.width(), rcInter.height());
-//      pxm->fill(m_pParam->m_clrMenu);
-//      bitBlt(this, rcInter.x(), rcInter.y(), pxm, 0, 0,
-//         rcInter.width(), rcInter.height(), Qt::XorROP );
-//      delete pxm;
-//      QRect rcTmp;
-//      rcTmp.setBottom(rcMenu.bottom());
-//      rcTmp.setTop(rcMenu.top());
-//      if(rcMenu.left()<rcSelect.left())
-//      {
-//       rcTmp.setLeft(rcMenu.left());
-//       rcTmp.setRight(rcInter.left());
-//       painter.fillRect(rcTmp, QBrush(m_pParam->m_clrMenu));
-//      }
-//      if(rcMenu.right()>rcSelect.right())
-//      {
-//       rcTmp.setLeft(rcInter.right());
-//       rcTmp.setRight(rcMenu.right());
-//       painter.fillRect(rcTmp, QBrush(m_pParam->m_clrMenu));
-//      }
-//     }
-//     else
             painter.fillRect(rcMenu, QBrush(m_pParam->m_clrMenu));
             break;
         }

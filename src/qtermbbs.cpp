@@ -219,7 +219,7 @@ bool BBS::isSelected(int index)
     if (rect.isNull())
         return false;
 
-    return (index == rect.y());
+    return (index >= rect.top() && index <= rect.bottom());
 
 }
 
@@ -231,7 +231,8 @@ bool BBS::isSelected(const QPoint& pt)
     if (rect.isNull())
         return false;
 
-    return (pt.y() == rect.y() &&
+    return (pt.y() >= rect.top() &&
+            pt.y() <= rect.bottom() &&
             pt.x() >= rect.left() &&
             pt.x() <= rect.right());
 }
