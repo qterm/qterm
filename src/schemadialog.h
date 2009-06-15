@@ -16,7 +16,8 @@ public:
     QString getSchema();
 
 protected:
-    QColor clr0, clr1, clr2, clr3, clr4, clr5, clr6, clr7, clr8, clr9, clr10, clr11, clr12, clr13, clr14, clr15;
+    //QColor clr0, clr1, clr2, clr3, clr4, clr5, clr6, clr7, clr8, clr9, clr10, clr11, clr12, clr13, clr14, clr15;
+    QColor schemaColor[16];
     QColor fade;
     float alpha;
     QString pxmBg;
@@ -42,6 +43,7 @@ protected:
 
     void updateView();
     void updateBgPreview();
+    void setBackgroundColor(QWidget * widget, const QColor & color);
 
     QImage& fadeColor(QImage&, float, const QColor&);
 

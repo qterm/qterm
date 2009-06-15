@@ -137,22 +137,10 @@ void schemaDialog::loadSchema(const QString& strSchemaFile)
     strTmp = pConf->getItemValue("image", "alpha").toString();
     alpha = strTmp.toFloat();
 
-    clr0.setNamedColor(pConf->getItemValue("color", "color0").toString());
-    clr1.setNamedColor(pConf->getItemValue("color", "color1").toString());
-    clr2.setNamedColor(pConf->getItemValue("color", "color2").toString());
-    clr3.setNamedColor(pConf->getItemValue("color", "color3").toString());
-    clr4.setNamedColor(pConf->getItemValue("color", "color4").toString());
-    clr5.setNamedColor(pConf->getItemValue("color", "color5").toString());
-    clr6.setNamedColor(pConf->getItemValue("color", "color6").toString());
-    clr7.setNamedColor(pConf->getItemValue("color", "color7").toString());
-    clr8.setNamedColor(pConf->getItemValue("color", "color8").toString());
-    clr9.setNamedColor(pConf->getItemValue("color", "color9").toString());
-    clr10.setNamedColor(pConf->getItemValue("color", "color10").toString());
-    clr11.setNamedColor(pConf->getItemValue("color", "color11").toString());
-    clr12.setNamedColor(pConf->getItemValue("color", "color12").toString());
-    clr13.setNamedColor(pConf->getItemValue("color", "color13").toString());
-    clr14.setNamedColor(pConf->getItemValue("color", "color14").toString());
-    clr15.setNamedColor(pConf->getItemValue("color", "color15").toString());
+    for (int i = 0; i < 16; i++) {
+        QString colorName = QString("color%1").arg(i);
+        schemaColor[i].setNamedColor(pConf->getItemValue("color", colorName).toString());
+    }
 
     delete pConf;
 
@@ -185,10 +173,9 @@ void schemaDialog::saveNumSchema(int n)
         fileList.append(strSchemaFile);
     }
 
-    Config *pConf = new Config(strCurrentSchema);
-
     strCurrentSchema = strSchemaFile;
 
+    Config *pConf = new Config(strCurrentSchema);
 
     pConf->setItemValue("schema", "title", title);
 
@@ -203,22 +190,10 @@ void schemaDialog::saveNumSchema(int n)
     strTmp.setNum(alpha);
     pConf->setItemValue("image", "alpha", strTmp);
 
-    pConf->setItemValue("color", "color0", clr0.name());
-    pConf->setItemValue("color", "color1", clr1.name());
-    pConf->setItemValue("color", "color2", clr2.name());
-    pConf->setItemValue("color", "color3", clr3.name());
-    pConf->setItemValue("color", "color4", clr4.name());
-    pConf->setItemValue("color", "color5", clr5.name());
-    pConf->setItemValue("color", "color6", clr6.name());
-    pConf->setItemValue("color", "color7", clr7.name());
-    pConf->setItemValue("color", "color8", clr8.name());
-    pConf->setItemValue("color", "color9", clr9.name());
-    pConf->setItemValue("color", "color10", clr10.name());
-    pConf->setItemValue("color", "color11", clr11.name());
-    pConf->setItemValue("color", "color12", clr12.name());
-    pConf->setItemValue("color", "color13", clr13.name());
-    pConf->setItemValue("color", "color14", clr14.name());
-    pConf->setItemValue("color", "color15", clr15.name());
+    for (int i = 0; i < 16; i++) {
+        QString colorName = QString("color%1").arg(i);
+        pConf->setItemValue("color", colorName, schemaColor[i].name());
+    }
 
     pConf->save(strSchemaFile);
 
@@ -228,50 +203,25 @@ void schemaDialog::saveNumSchema(int n)
 
 }
 
+void schemaDialog::setBackgroundColor(QWidget * widget, const QColor & color)
+{
+    QPalette palette;
+    palette.setColor(widget->backgroundRole(), color);
+    widget->setPalette(palette);
+}
+
 void schemaDialog::updateView()
 {
     // title
     ui.titleLineEdit->setText(title);
 
-// #if (QT_VERSION>300)
-    // color pane
 //  QPalette palette;
 //  palette.setColor(clr0Button->backgroundRole(), clr0);
-//  clr0Button->setPalette(palette);
-//  clr0Button->setPaletteBackgroundColor(clr0);
-//  clr1Button->setPaletteBackgroundColor(clr1);
-//  clr2Button->setPaletteBackgroundColor(clr2);
-//  clr3Button->setPaletteBackgroundColor(clr3);
-//  clr4Button->setPaletteBackgroundColor(clr4);
-//  clr5Button->setPaletteBackgroundColor(clr5);
-//  clr6Button->setPaletteBackgroundColor(clr6);
-//  clr7Button->setPaletteBackgroundColor(clr7);
-//  clr8Button->setPaletteBackgroundColor(clr8);
-//  clr9Button->setPaletteBackgroundColor(clr9);
-//  clr10Button->setPaletteBackgroundColor(clr10);
-//  clr11Button->setPaletteBackgroundColor(clr11);
-//  clr12Button->setPaletteBackgroundColor(clr12);
-//  clr13Button->setPaletteBackgroundColor(clr13);
-//  clr14Button->setPaletteBackgroundColor(clr14);
-//  clr15Button->setPaletteBackgroundColor(clr15);
-// #else
-//     clr0Button->setPalette(clr0);
-//     clr1Button->setPalette(clr1);
-//     clr2Button->setPalette(clr2);
-//     clr3Button->setPalette(clr3);
-//     clr4Button->setPalette(clr4);
-//     clr5Button->setPalette(clr5);
-//     clr6Button->setPalette(clr6);
-//     clr7Button->setPalette(clr7);
-//     clr8Button->setPalette(clr8);
-//     clr9Button->setPalette(clr9);
-//     clr10Button->setPalette(clr10);
-//     clr11Button->setPalette(clr11);
-//     clr12Button->setPalette(clr12);
-//     clr13Button->setPalette(clr13);
-//     clr14Button->setPalette(clr14);
-//     clr15Button->setPalette(clr15);
-// #endif
+    for (int i = 0; i < 16; i++) {
+        QString buttonName = QString("clr%1Button").arg(i);
+        setBackgroundColor(findChild<QPushButton *>(buttonName), schemaColor[i]);
+    }
+
     // bg type
     switch (type) {
     case 0: // none
@@ -321,6 +271,7 @@ void schemaDialog::updateView()
 
 void schemaDialog::updateBgPreview()
 {
+/*
 #if (QT_VERSION>300)
     QPalette palette;
     palette.setColor(ui.imagePixmapLabel->backgroundRole(), clr0);
@@ -330,6 +281,7 @@ void schemaDialog::updateBgPreview()
 #else
     ui.imagePixmapLabel->setPalette(clr0);
 #endif
+*/
     ui.imagePixmapLabel->clear();
     if (!QFile::exists(pxmBg) || type == 0)
         return;
@@ -380,245 +332,20 @@ void schemaDialog::updateBgPreview()
 void schemaDialog::buttonClicked()
 {
     QPushButton * button = (QPushButton*)sender();
+    QRegExp rx("\\d+");
+    if (rx.indexIn(button->objectName()) == -1) {
+        qDebug("object name error");
+        return;
+    }
+    int index = rx.cap().toInt();
     QColor color = QColorDialog::getColor(button->palette().color(button->backgroundRole()));
     if (color.isValid() == true) {
-        QPalette palette;
-        palette.setColor(button->backgroundRole(), color);
-        button->setPalette(palette);
+        setBackgroundColor(button,color);
+        schemaColor[index] = color;
         bModified = true;
     }
 }
-/*
-void schemaDialog::clr0Clicked()
-{
- QColor color=QColorDialog::getColor(clr0);
- if(color.isValid()==TRUE)
- {
-  clr0 = color;
-#if (QT_VERSION>300)
-  ui.clr0Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr0Button->setPalette(color);
-#endif
-  bModified = true;
- }
-}
-void schemaDialog::clr1Clicked()
-{
- QColor color=QColorDialog::getColor(clr1);
- if(color.isValid()==TRUE)
- {
-  clr1 = color;
-#if (QT_VERSION>300)
-  ui.clr1Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr1Button->setPalette(color);
-#endif
-  bModified = true;
- }
-}
-void schemaDialog::clr2Clicked()
-{
- QColor color=QColorDialog::getColor(clr2);
- if(color.isValid()==TRUE)
- {
-  clr2 = color;
-#if (QT_VERSION>300)
-  ui.clr2Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr2Button->setPalette(color);
-#endif
-  bModified = true;
-}
 
-}
-void schemaDialog::clr3Clicked()
-{
- QColor color=QColorDialog::getColor(clr3);
- if(color.isValid()==TRUE)
- {
-  clr3 = color;
-#if (QT_VERSION>300)
-  ui.clr3Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr3Button->setPalette(color);
-#endif
-  bModified = true;
- }
-
-}
-void schemaDialog::clr4Clicked()
-{
- QColor color=QColorDialog::getColor(clr4);
- if(color.isValid()==TRUE)
- {
-  clr4 = color;
-#if (QT_VERSION>300)
-  ui.clr4Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr4Button->setPalette(color);
-#endif
-  bModified = true;
- }
-
-}
-void schemaDialog::clr5Clicked()
-{
- QColor color=QColorDialog::getColor(clr5);
- if(color.isValid()==TRUE)
- {
-  clr5 = color;
-#if (QT_VERSION>300)
-  ui.clr5Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr5Button->setPalette(color);
-#endif
-  bModified = true;
- }
-}
-void schemaDialog::clr6Clicked()
-{ QColor color=QColorDialog::getColor(clr6);
- if(color.isValid()==TRUE)
- {
-  clr6 = color;
-#if (QT_VERSION>300)
-  ui.clr6Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr6Button->setPalette(color);
-#endif
-  bModified = true;
- }
-
-}
-void schemaDialog::clr7Clicked()
-{ QColor color=QColorDialog::getColor(clr7);
- if(color.isValid()==TRUE)
- {
-  clr7 = color;
-#if (QT_VERSION>300)
-  ui.clr7Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr7Button->setPalette(color);
-#endif
-  bModified = true;
- }
-
-}
-void schemaDialog::clr8Clicked()
-{ QColor color=QColorDialog::getColor(clr8);
- if(color.isValid()==TRUE)
- {
-  clr8 = color;
-#if (QT_VERSION>300)
-  ui.clr8Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr8Button->setPalette(color);
-#endif
-  bModified = true;
- }
-
-}
-void schemaDialog::clr9Clicked()
-{ QColor color=QColorDialog::getColor(clr9);
- if(color.isValid()==TRUE)
- {
-  clr9 = color;
-#if (QT_VERSION>300)
-  ui.clr9Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr9Button->setPalette(color);
-#endif
-  bModified = true;
- }
-
-}
-void schemaDialog::clr10Clicked()
-{ QColor color=QColorDialog::getColor(clr10);
- if(color.isValid()==TRUE)
- {
-  clr10 = color;
-#if (QT_VERSION>300)
-  ui.clr10Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr10Button->setPalette(color);
-#endif
-  bModified = true;
- }
-
-}
-void schemaDialog::clr11Clicked()
-{ QColor color=QColorDialog::getColor(clr11);
- if(color.isValid()==TRUE)
- {
-  clr11 = color;
-#if (QT_VERSION>300)
-  ui.clr11Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr11Button->setPalette(color);
-#endif
-  bModified = true;
- }
-
-}
-void schemaDialog::clr12Clicked()
-{ QColor color=QColorDialog::getColor(clr12);
- if(color.isValid()==TRUE)
- {
-  clr12 = color;
-#if (QT_VERSION>300)
-  ui.clr12Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr12Button->setPalette(color);
-#endif
-  bModified = true;
- }
-
-}
-void schemaDialog::clr13Clicked()
-{ QColor color=QColorDialog::getColor(clr13);
- if(color.isValid()==TRUE)
- {
-  clr13 = color;
-#if (QT_VERSION>300)
-  ui.clr13Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr13Button->setPalette(color);
-#endif
-  bModified = true;
- }
-
-}
-
-void schemaDialog::clr14Clicked()
-{ QColor color=QColorDialog::getColor(clr14);
- if(color.isValid()==TRUE)
- {
-  clr14 = color;
-#if (QT_VERSION>300)
-  ui.clr14Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr14Button->setPalette(color);
-#endif
-  bModified = true;
- }
-
-}
-
-void schemaDialog::clr15Clicked()
-{ QColor color=QColorDialog::getColor(clr15);
- if(color.isValid()==TRUE)
- {
-  clr15 = color;
-#if (QT_VERSION>300)
-  ui.clr15Button->setPaletteBackgroundColor(color);
-#else
-  ui.clr15Button->setPalette(color);
-#endif
-  bModified = true;
- }
-
-}
-*/
 void schemaDialog::nameChanged(int item)
 {
     if (bModified) {
