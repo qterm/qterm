@@ -795,16 +795,16 @@ p, li { white-space: pre-wrap; }
       </rect>
      </property>
      <property name="text">
-      <string>Scheme:</string>
+      <string>Color Scheme:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="buddy">
-      <cstring>comboBox</cstring>
+      <cstring>schemeComboBox</cstring>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox">
+    <widget class="QComboBox" name="schemeComboBox">
      <property name="geometry">
       <rect>
        <x>150</x>
@@ -813,31 +813,6 @@ p, li { white-space: pre-wrap; }
        <height>32</height>
       </rect>
      </property>
-     <item>
-      <property name="text">
-       <string>default</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>VIM</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>XTerm</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Linux</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Softness</string>
-      </property>
-     </item>
     </widget>
     <widget class="QPushButton" name="schemePushButton">
      <property name="geometry">
@@ -1848,7 +1823,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>asciiFontComboBox</tabstop>
   <tabstop>generalFontComboBox</tabstop>
   <tabstop>fontSizeSpinBox</tabstop>
-  <tabstop>comboBox</tabstop>
+  <tabstop>schemeComboBox</tabstop>
   <tabstop>schemePushButton</tabstop>
   <tabstop>autofontCheckBox</tabstop>
   <tabstop>highlightCheckBox</tabstop>

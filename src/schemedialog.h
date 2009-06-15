@@ -14,6 +14,7 @@ public:
 
     void setScheme(const QString&);
     QString getScheme();
+    static QStringList loadSchemeList();
 
 protected:
     //QColor clr0, clr1, clr2, clr3, clr4, clr5, clr6, clr7, clr8, clr9, clr10, clr11, clr12, clr13, clr14, clr15;
@@ -37,7 +38,7 @@ private:
 protected:
     void connectSlots();
 
-    void loadList();
+    void updateList();
     void loadScheme(const QString& strSchemeFile);
     void saveNumScheme(int n = -1);
 

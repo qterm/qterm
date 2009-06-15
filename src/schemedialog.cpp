@@ -30,7 +30,8 @@ schemeDialog::schemeDialog(QWidget* parent, Qt::WFlags fl)
 //  ui.bgButtonGroup->setRadioButtonExclusive(true);
 
     connectSlots();
-    loadList();
+    fileList = loadSchemeList();
+    updateList();
 }
 
 
@@ -88,11 +89,11 @@ void schemeDialog::connectSlots()
     connect(ui.imageLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
 }
 
-void schemeDialog::loadList()
+QStringList schemeDialog::loadSchemeList()
 {
     QDir dir;
     QFileInfoList lstFile;
-    //QFileInfo *fi;
+    QStringList schemeList;
 
     dir.setNameFilters(QStringList("*.scheme"));
 
@@ -102,10 +103,7 @@ void schemeDialog::loadList()
     //if( lstFile.count()!=0 )
     {
         foreach(QFileInfo fi, lstFile) {
-            Config *pConf = new Config(fi.absoluteFilePath());
-            ui.nameListWidget->addItem(pConf->getItemValue("scheme", "title").toString());
-            delete pConf;
-            fileList.append(fi.absoluteFilePath());
+            schemeList.append(fi.absoluteFilePath());
         }
     }
 #endif
@@ -115,11 +113,18 @@ void schemeDialog::loadList()
     //if(lstFile != NULL)
     {
         foreach(QFileInfo fi, lstFile) {
-            Config *pConf = new Config(fi.absoluteFilePath());
-            ui.nameListWidget->addItem(pConf->getItemValue("scheme", "title").toString());
-            delete pConf;
-            fileList.append(fi.absoluteFilePath());
+            schemeList.append(fi.absoluteFilePath());
         }
+    }
+    return schemeList;
+}
+
+void schemeDialog::updateList()
+{
+    foreach (QString file, fileList) {
+        Config *pConf = new Config(file);
+        ui.nameListWidget->addItem(pConf->getItemValue("scheme", "title").toString());
+        delete pConf;
     }
 }
 

@@ -43,6 +43,7 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WFlags fl)
     foreach(codecName, codecList) {
         ui.bbscodeComboBox->addItem(QString::fromLatin1(codecName));
     }
+    updateSchemeList();
     if (bPartial) {
         ui.nameListWidget->hide();
         ui.Line->hide();
@@ -84,6 +85,16 @@ addrDialog::~addrDialog()
 {
 }
 
+void addrDialog::updateSchemeList()
+{
+    ui.schemeComboBox->clear();
+    schemeFileList = schemeDialog::loadSchemeList();
+    foreach (QString file, schemeFileList) {
+        Config *pConf = new Config(file);
+        ui.schemeComboBox->addItem(pConf->getItemValue("scheme", "title").toString());
+        delete pConf;
+    }
+}
 
 void addrDialog::onNamechange(int item)
 {
@@ -223,17 +234,25 @@ void addrDialog::onFontSize(int size)
     nFontSize = size;
 }
 
-void addrDialog::onScheme()
+void addrDialog::onConfigScheme()
 {
     schemeDialog scheme(this);
 
     scheme.setScheme(strSchemeFile);
 
     if (scheme.exec() == 1) {
+        updateSchemeList();
         strSchemeFile = scheme.getScheme();
         if (strSchemeFile.isEmpty())
             strSchemeFile = "";
     }
+    ui.schemeComboBox->setCurrentIndex(schemeFileList.indexOf(strSchemeFile));
+}
+
+void addrDialog::onScheme(int i)
+{
+    if (i >=0 && i < schemeFileList.size())
+        strSchemeFile = schemeFileList[i];
 }
 
 void addrDialog::onProtocol(int n)
@@ -287,7 +306,7 @@ void addrDialog::connectSlots()
     connect(ui.connectPushButton, SIGNAL(clicked()), this, SLOT(onConnect()));
     connect(ui.resetPushButton, SIGNAL(clicked()), this, SLOT(onReset()));
 
-    connect(ui.schemePushButton, SIGNAL(clicked()), this, SLOT(onScheme()));
+    connect(ui.schemePushButton, SIGNAL(clicked()), this, SLOT(onConfigScheme()));
 
     connect(ui.protocolComboBox, SIGNAL(activated(int)), this, SLOT(onProtocol(int)));
 
@@ -297,6 +316,7 @@ void addrDialog::connectSlots()
     connect(ui.asciiFontComboBox, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(onASCIIFont(const QFont &)));
     connect(ui.generalFontComboBox, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(onGeneralFont(const QFont &)));
     connect(ui.fontSizeSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onFontSize(int)));
+    connect(ui.schemeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onScheme(int)));
 }
 
 bool addrDialog::isChanged()
