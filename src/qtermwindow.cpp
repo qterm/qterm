@@ -1279,7 +1279,8 @@ void Window::copyArticle()
 void Window::appearance()
 {
     addrDialog set(this, true);
-    int fontSize = m_pScreen->fontSize();
+    int fontSize = m_param.m_nFontSize;
+    QString schemeFile = m_param.m_strSchemeFile;
 
     set.param = m_param;
     set.updateData(false);
@@ -1287,14 +1288,16 @@ void Window::appearance()
     connect(set.ui.asciiFontComboBox, SIGNAL(currentFontChanged(const QFont &)), m_pScreen, SLOT(asciiFontChanged(const QFont &)));
     connect(set.ui.generalFontComboBox, SIGNAL(currentFontChanged(const QFont &)), m_pScreen, SLOT(generalFontChanged(const QFont &)));
     connect(set.ui.fontSizeSpinBox, SIGNAL(valueChanged(int)), m_pScreen, SLOT(fontSizeChanged(int)));
+    connect(set.ui.schemeComboBox, SIGNAL(currentIndexChanged(int)), m_pScreen, SLOT(schemeChanged(int)));
 
     if (set.exec() == 1) {
         m_param = set.param;
         m_bSetChanged = true;
-        m_pScreen->setScheme();
     } else {
         m_pScreen->fontSizeChanged(fontSize);
+        m_param.m_strSchemeFile = schemeFile;
     }
+    m_pScreen->setScheme();
     m_pScreen->initFontMetrics();
     QResizeEvent* re = new QResizeEvent(m_pScreen->size(), m_pScreen->size());
     QApplication::postEvent(m_pScreen, re);

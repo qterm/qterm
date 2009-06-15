@@ -22,6 +22,7 @@ AUTHOR:        kingson fiasco
 #include "qtermtelnet.h"
 #include "qtermconfig.h"
 #include "qtermglobal.h"
+#include "schemedialog.h"
 
 #include <QApplication>
 #include <QPainter>
@@ -475,6 +476,18 @@ void Screen::setScheme()
 
         delete pConf;
     }
+}
+
+void Screen::schemeChanged(int index)
+{
+    if (index == -1) {
+        return;
+    }
+    QStringList schemeList = schemeDialog::loadSchemeList();
+    m_pParam->m_strSchemeFile = schemeList[index];
+    setScheme();
+    QResizeEvent* re = new QResizeEvent(size(), size());
+    resizeEvent(re);
 }
 
 

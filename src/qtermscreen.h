@@ -97,6 +97,7 @@ public slots:
     void asciiFontChanged(const QFont & font);
     void generalFontChanged(const QFont & font);
     void fontSizeChanged(int size);
+    void schemeChanged(int index);
 
 protected:
     void initFontMetrics();
