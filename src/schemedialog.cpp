@@ -11,23 +11,12 @@ namespace QTerm
 {
 
 schemeDialog::schemeDialog(QWidget* parent, Qt::WFlags fl)
-        : QDialog(parent, fl), bgBackground(this)
+        : QDialog(parent, fl)
 {
     ui.setupUi(this);
-    bgBackground.addButton(ui.noneRadioButton, 0);
-    bgBackground.addButton(ui.imageRadioButton, 1);
-    bgBackground.addButton(ui.transpRadioButton, 2);
 
     nLastItem = -1;
     bModified = false;
-
-    ui.alphaSlider->setMinimum(0);
-    ui.alphaSlider->setMaximum(100);
-    ui.alphaSlider->setSingleStep(1);
-    ui.alphaSlider->setPageStep(10);
-
-    ui.imagePixmapLabel->setScaledContents(false);
-//  ui.bgButtonGroup->setRadioButtonExclusive(true);
 
     connectSlots();
     fileList = loadSchemeList();
@@ -79,14 +68,7 @@ void schemeDialog::connectSlots()
 
     connect(ui.nameListWidget, SIGNAL(currentRowChanged(int)), this, SLOT(nameChanged(int)));
 
-    connect(&bgBackground, SIGNAL(clicked(int)), this, SLOT(bgType(int)));
-    connect(ui.typeComboBox, SIGNAL(activated(int)), this, SLOT(imageType(int)));
-    connect(ui.chooseButton, SIGNAL(clicked()), this, SLOT(chooseImage()));
-    connect(ui.fadeButton, SIGNAL(clicked()), this, SLOT(fadeClicked()));
-    connect(ui.alphaSlider, SIGNAL(valueChanged(int)), this, SLOT(alphaChanged(int)));
-
     connect(ui.titleLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    connect(ui.imageLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
 }
 
 QStringList schemeDialog::loadSchemeList()
@@ -135,12 +117,6 @@ void schemeDialog::loadScheme(const QString& strSchemeFile)
     strCurrentScheme = strSchemeFile;
 
     title = pConf->getItemValue("scheme", "title").toString();
-    pxmBg = pConf->getItemValue("image", "name").toString();
-    QString strTmp = pConf->getItemValue("image", "type").toString();
-    type = strTmp.toInt();
-    fade.setNamedColor(pConf->getItemValue("image", "fade").toString());
-    strTmp = pConf->getItemValue("image", "alpha").toString();
-    alpha = strTmp.toFloat();
 
     for (int i = 0; i < 16; i++) {
         QString colorName = QString("color%1").arg(i);
@@ -161,7 +137,6 @@ void schemeDialog::saveNumScheme(int n)
         it++;
 
     title = ui.titleLineEdit->text();
-    pxmBg = ui.imageLineEdit->text();
 
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
     QDir dir(Global::instance()->pathLib());
@@ -183,17 +158,6 @@ void schemeDialog::saveNumScheme(int n)
     Config *pConf = new Config(strCurrentScheme);
 
     pConf->setItemValue("scheme", "title", title);
-
-    pConf->setItemValue("image", "name", pxmBg);
-
-    QString strTmp;
-    strTmp.setNum(type);
-    pConf->setItemValue("image", "type", strTmp);
-
-    pConf->setItemValue("image", "fade", fade.name());
-
-    strTmp.setNum(alpha);
-    pConf->setItemValue("image", "alpha", strTmp);
 
     for (int i = 0; i < 16; i++) {
         QString colorName = QString("color%1").arg(i);
@@ -220,118 +184,14 @@ void schemeDialog::updateView()
     // title
     ui.titleLineEdit->setText(title);
 
-//  QPalette palette;
-//  palette.setColor(clr0Button->backgroundRole(), clr0);
     for (int i = 0; i < 16; i++) {
         QString buttonName = QString("clr%1Button").arg(i);
         setBackgroundColor(findChild<QPushButton *>(buttonName), schemeColor[i]);
     }
 
-    // bg type
-    switch (type) {
-    case 0: // none
-        bgBackground.button(0)->setChecked(true);
-        bgType(2);
-        break;
-    case 1: // transparent
-        bgBackground.button(2)->setChecked(true);
-        bgType(3);
-        break;
-    case 2: // tile
-        bgBackground.button(1)->setChecked(true);
-        bgType(1);
-        break;
-    case 3: // center
-        bgBackground.button(1)->setChecked(true);
-        bgType(1);
-        break;
-    case 4: // stretch
-        bgBackground.button(1)->setChecked(true);
-        bgType(1);
-        break;
-    default:
-        bgBackground.button(0)->setChecked(true);
-        break;
-    }
-    // image type
-
-    // image file
-    ui.imageLineEdit->setText(pxmBg);
-    // fade color
-#if (QT_VERSION>300)
-    QPalette palette;
-    palette.setColor(ui.fadeButton->backgroundRole(), fade);
-    ui.fadeButton->setPalette(palette);
-
-//  ui.fadeButton->setPaletteBackgroundColor(fade);
-#else
-    ui.fadeButton->setPalette(fade);
-#endif
-    // alpha
-    ui.alphaSlider->setValue(alpha*100);
 
     // load from file, nothing changed
     bModified = false;
-}
-
-void schemeDialog::updateBgPreview()
-{
-/*
-#if (QT_VERSION>300)
-    QPalette palette;
-    palette.setColor(ui.imagePixmapLabel->backgroundRole(), clr0);
-    ui.imagePixmapLabel->setPalette(palette);
-
-//  ui.imagePixmapLabel->setPaletteBackgroundColor(clr0);
-#else
-    ui.imagePixmapLabel->setPalette(clr0);
-#endif
-*/
-    ui.imagePixmapLabel->clear();
-    if (!QFile::exists(pxmBg) || type == 0)
-        return;
-
-    QPixmap pixmap;
-    QImage img(pxmBg);
-    img = fadeColor(img, alpha, fade);
-    pixmap = QPixmap::fromImage(img.scaled(ui.imagePixmapLabel->width(), ui.imagePixmapLabel->height()));
-    /*
-     switch(type)
-     {
-      case 2: // tile
-       if( !pixmap.isNull() )
-       {
-        imagePixmapLabel->setPixmap( pixmap );
-        break;
-       }
-      case 3: // center
-       if( !pixmap.isNull() )
-       {
-        QPixmap pxm;
-        pxm.resize(size());
-        pxm.fill( clr0 );
-        bitBlt( &pxm,
-        ( size().width() - pixmap.width() ) / 2,
-        ( size().height() - pixmap.height() ) / 2,
-         &pixmap, 0, 0,
-         pixmap.width(), pixmap.height() );
-        imagePixmapLabel->setPixmap(pxm);
-        break;
-       }
-      case 4: // stretch
-       if( !pixmap.isNull() )
-       {
-        float sx = (float)size().width() / pixmap.width();
-        float sy = (float)size().height() /pixmap.height();
-        QWMatrix matrix;
-        matrix.scale( sx, sy );
-        imagePixmapLabel->setPixmap(pixmap.xForm( matrix ));
-        break;
-       }
-     }
-    */
-    ui.imagePixmapLabel->setPixmap(pixmap);
-
 }
 
 void schemeDialog::buttonClicked()
@@ -373,84 +233,6 @@ void schemeDialog::nameChanged(int item)
     while (n--)
         it++;
     loadScheme(*it);
-}
-
-void schemeDialog::bgType(int n)
-{
-    switch (n) {
-    case 1: // image
-//    typeComboBox->setEnabled(true);
-//    imageLineEdit->setEnabled(true);
-//    chooseButton->setEnabled(true);
-        if (type == 0)
-            type = 2;
-        ui.typeComboBox->setCurrentIndex(type - 2);
-        break;
-
-    case 2: // none
-//    typeComboBox->setEnabled(false);
-//    imageLineEdit->setEnabled(false);
-//    chooseButton->setEnabled(false);
-        type = 0;
-        break;
-    case 3: // transparent
-        QMessageBox::information(this, "sorry", "We are trying to bring you this function soon :)");
-//   typeComboBox->setEnabled(false);
-//   imageLineEdit->setEnabled(false);
-//   chooseButton->setEnabled(false);
-//   type = 1;
-//    bgButtonGroup->setButton(2);
-        bgBackground.button(2)->setChecked(true);
-        break;
-    }
-    bModified = true;
-    updateBgPreview();
-}
-
-void schemeDialog::imageType(int n)
-{
-    type = n + 2;
-    bModified = true;
-    updateBgPreview();
-}
-
-void schemeDialog::chooseImage()
-{
-    QString img = QFileDialog::getOpenFileName(this, "Choose an image", QDir::currentPath());
-    if (!img.isNull()) {
-        ui.imageLineEdit->setText(img);
-        pxmBg = img;
-        type = 2 + ui.typeComboBox->currentIndex();
-        bModified = true;
-        updateBgPreview();
-    }
-}
-
-void schemeDialog::fadeClicked()
-{
-    QColor color = QColorDialog::getColor(fade);
-    if (color.isValid() == TRUE) {
-        fade = color;
-#if (QT_VERSION>300)
-        QPalette palette;
-        palette.setColor(ui.fadeButton->backgroundRole(), color);
-        ui.fadeButton->setPalette(palette);
-
-//   ui.fadeButton->setPaletteBackgroundColor(color);
-#else
-        ui.fadeButton->setPalette(color);
-#endif
-
-        bModified = true;
-        updateBgPreview();
-    }
-}
-
-void schemeDialog::alphaChanged(int value)
-{
-    alpha = float(value) / 100;
-    bModified = true;
-    updateBgPreview();
 }
 
 void schemeDialog::saveScheme()
@@ -515,74 +297,6 @@ void schemeDialog::onCancel()
 void schemeDialog::textChanged(const QString&)
 {
     bModified = true;
-}
-
-// from KImageEffect::fade
-QImage& schemeDialog::fadeColor(QImage& img, float val, const QColor& color)
-{
-    if (img.width() == 0 || img.height() == 0)
-        return img;
-
-    // We don't handle bitmaps
-    if (img.depth() == 1)
-        return img;
-
-    unsigned char tbl[256];
-    for (int i = 0; i < 256; i++)
-        tbl[i] = (int)(val * i + 0.5);
-
-    int red = color.red();
-    int green = color.green();
-    int blue = color.blue();
-
-    QRgb col;
-    int r, g, b, cr, cg, cb;
-
-    if (img.depth() <= 8) {
-        // pseudo color
-        for (int i = 0; i < img.numColors(); i++) {
-            col = img.color(i);
-            cr = qRed(col); cg = qGreen(col); cb = qBlue(col);
-            if (cr > red)
-                r = cr - tbl[cr - red];
-            else
-                r = cr + tbl[red - cr];
-            if (cg > green)
-                g = cg - tbl[cg - green];
-            else
-                g = cg + tbl[green - cg];
-            if (cb > blue)
-                b = cb - tbl[cb - blue];
-            else
-                b = cb + tbl[blue - cb];
-            img.setColor(i, qRgba(r, g, b, qAlpha(col)));
-        }
-
-    } else {
-        // truecolor
-        for (int y = 0; y < img.height(); y++) {
-            QRgb *data = (QRgb *) img.scanLine(y);
-            for (int x = 0; x < img.width(); x++) {
-                col = *data;
-                cr = qRed(col); cg = qGreen(col); cb = qBlue(col);
-                if (cr > Qt::red)
-                    r = cr - tbl[cr - Qt::red];
-                else
-                    r = cr + tbl[Qt::red - cr];
-                if (cg > Qt::green)
-                    g = cg - tbl[cg - Qt::green];
-                else
-                    g = cg + tbl[Qt::green - cg];
-                if (cb > Qt::blue)
-                    b = cb - tbl[cb - Qt::blue];
-                else
-                    b = cb + tbl[Qt::blue - cb];
-                *data++ = qRgba(r, g, b, qAlpha(col));
-            }
-        }
-    }
-
-    return img;
 }
 
 } // namespace QTerm

@@ -4,12 +4,6 @@ version=1.7
 [scheme]
 title=XTerm
 
-[image]
-name=
-type=0
-fade=#000000
-alpha=0
-
 [color]
 color0=#000000
 color1=#cd0000

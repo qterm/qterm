@@ -473,24 +473,6 @@ void Screen::setScheme()
         m_color[14].setNamedColor(pConf->getItemValue("color", "color14").toString());
         m_color[15].setNamedColor(pConf->getItemValue("color", "color15").toString());
 
-        // bg type
-        QString strTmp = pConf->getItemValue("image", "type").toString();
-        m_nPxmType = strTmp.toInt();
-
-        // fade effect
-        QColor fadecolor;
-        fadecolor.setNamedColor(pConf->getItemValue("image", "fade").toString());
-        strTmp = pConf->getItemValue("image", "alpha").toString();
-        float alpha = strTmp.toFloat();
-
-        // get the image name
-        if (QFile::exists(pConf->getItemValue("image", "name").toString()) && m_nPxmType > 1) { // valid image name and type
-            m_pxmBg = QPixmap(pConf->getItemValue("image", "name").toString());
-            QImage ima(m_pxmBg.toImage());
-            ima = fade(ima, alpha, fadecolor);
-            m_pxmBg = QPixmap::fromImage(ima);
-
-        }
         delete pConf;
     }
 }
