@@ -318,8 +318,6 @@ bool addrDialog::isChanged()
            param.m_strASCIIFontName != strASCIIFontName ||
            param.m_strGeneralFontName != strGeneralFontName||
            param.m_nFontSize != nFontSize ||
-           param.m_clrBg != clrBg ||
-           param.m_clrFg != clrFg ||
            param.m_strSchemaFile != strSchemaFile ||
            param.m_strTerm != ui.termtypeLineEdit->text() ||
            param.m_nKey != ui.keytypeComboBox->currentIndex() ||
@@ -370,8 +368,6 @@ void addrDialog::updateData(bool save)
         param.m_strASCIIFontName = strASCIIFontName;
         param.m_strGeneralFontName = strGeneralFontName;
         param.m_nFontSize = nFontSize;
-        param.m_clrBg = clrBg;
-        param.m_clrFg = clrFg;
         param.m_strSchemaFile = strSchemaFile;
         param.m_strTerm = ui.termtypeLineEdit->text();
         param.m_nKey = ui.keytypeComboBox->currentIndex();
@@ -428,8 +424,6 @@ void addrDialog::updateData(bool save)
         ui.generalFontComboBox->setCurrentFont(QFont(strGeneralFontName));
         nFontSize = param.m_nFontSize ;
         ui.fontSizeSpinBox->setValue(nFontSize);
-        clrBg = param.m_clrBg;
-        clrFg = param.m_clrFg;
         strSchemaFile = param.m_strSchemaFile;
         ui.termtypeLineEdit->setText(param.m_strTerm);
         ui.keytypeComboBox->setCurrentIndex(param.m_nKey);

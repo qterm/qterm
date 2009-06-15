@@ -190,8 +190,6 @@ bool Global::loadAddress(int n, Param& param)
     param.m_strGeneralFontName = m_address->getItemValue(strSection, "generalfont").toString();
     strTmp = m_address->getItemValue(strSection, "fontsize").toString();
     param.m_nFontSize = strTmp.toInt();
-    param.m_clrFg.setNamedColor(m_address->getItemValue(strSection, "fgcolor").toString());
-    param.m_clrBg.setNamedColor(m_address->getItemValue(strSection, "bgcolor").toString());
     param.m_strSchemaFile = m_address->getItemValue(strSection, "schemafile").toString();
 
     param.m_strTerm = m_address->getItemValue(strSection, "termtype").toString();
@@ -289,8 +287,6 @@ void Global::saveAddress(int n, const Param& param)
     m_address->setItemValue(strSection, "generalfont", param.m_strGeneralFontName);
     strTmp.setNum(param.m_nFontSize);
     m_address->setItemValue(strSection, "fontsize", strTmp);
-    m_address->setItemValue(strSection, "fgcolor", param.m_clrFg.name());
-    m_address->setItemValue(strSection, "bgcolor", param.m_clrBg.name());
     m_address->setItemValue(strSection, "schemafile", param.m_strSchemaFile);
 
     m_address->setItemValue(strSection, "termtype", param.m_strTerm);

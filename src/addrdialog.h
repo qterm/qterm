@@ -54,8 +54,6 @@ protected:
     QString strASCIIFontName;
     QString strGeneralFontName;
     int nFontSize;
-    QColor clrFg;
-    QColor clrBg;
     QString strSchemaFile;
     QColor clrMenu;
     QButtonGroup bgMenu;

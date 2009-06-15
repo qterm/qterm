@@ -54,10 +54,6 @@ public:
 	QString m_strGeneralFontName;
 	// Font Size
 	int m_nFontSize;
-	// Background Color
-	QColor m_clrBg;
-	// Foreground Color
-	QColor m_clrFg;
 	// Schema File
 	QString m_strSchemaFile;
 // Terminal

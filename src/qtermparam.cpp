@@ -31,8 +31,6 @@ Param::Param()
 	m_strASCIIFontName = "Nsimsun";
 	m_strGeneralFontName = "Nsimsun";
 	m_nFontSize = 14;
-	m_clrBg = QColor(0,0,0);
-	m_clrFg = QColor(198,195,198);
 	m_strSchemaFile = "";
 // Terminal
 	m_strTerm = "vt102";
@@ -86,8 +84,6 @@ Param::Param( const Param & param )
 	m_strASCIIFontName = param.m_strASCIIFontName;
 	m_strGeneralFontName = param.m_strGeneralFontName;
 	m_nFontSize = param.m_nFontSize;
-	m_clrBg = param.m_clrBg;
-	m_clrFg = param.m_clrFg;
 	m_strSchemaFile = param.m_strSchemaFile;
 // Terminal
 	m_strTerm = param.m_strTerm;
@@ -145,8 +141,6 @@ Param& Param::operator=(const Param& param)
 	m_strASCIIFontName = param.m_strASCIIFontName;
 	m_strGeneralFontName = param.m_strGeneralFontName;
 	m_nFontSize = param.m_nFontSize;
-	m_clrBg = param.m_clrBg;
-	m_clrFg = param.m_clrFg;
 	m_strSchemaFile = param.m_strSchemaFile;
 // Terminal
 	m_strTerm = param.m_strTerm;

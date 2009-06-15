@@ -493,10 +493,6 @@ void Screen::setSchema()
         }
         delete pConf;
     }
-
-// override schema using user defined Fg/Bg color
-    m_color[0]  = m_pParam->m_clrBg;
-    m_color[7]  = m_pParam->m_clrFg;
 }
 
 
