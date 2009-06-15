@@ -108,359 +108,354 @@ please close all windows and restart.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="715"/>
+        <location filename="../qtermframe.cpp" line="710"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="769"/>
+        <location filename="../qtermframe.cpp" line="764"/>
         <source>You need to enable the script engine debugger to use this feature. Please recompile QTerm with the debugger enabled (need Qt 4.5 or newer version)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="879"/>
+        <location filename="../qtermframe.cpp" line="874"/>
         <source>&amp;Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="881"/>
+        <location filename="../qtermframe.cpp" line="876"/>
         <source>&amp;Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="883"/>
+        <location filename="../qtermframe.cpp" line="878"/>
         <source>&amp;Address Book</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="885"/>
+        <location filename="../qtermframe.cpp" line="880"/>
         <source>&amp;Quick Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="887"/>
+        <location filename="../qtermframe.cpp" line="882"/>
         <source>&amp;Print...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="889"/>
-        <location filename="../qtermframe.cpp" line="1415"/>
+        <location filename="../qtermframe.cpp" line="884"/>
+        <location filename="../qtermframe.cpp" line="1404"/>
         <source>&amp;Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="892"/>
+        <location filename="../qtermframe.cpp" line="887"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="894"/>
+        <location filename="../qtermframe.cpp" line="889"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="896"/>
+        <location filename="../qtermframe.cpp" line="891"/>
         <source>C&amp;opy With Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="899"/>
+        <location filename="../qtermframe.cpp" line="894"/>
         <source>&amp;Rectangle Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="902"/>
+        <location filename="../qtermframe.cpp" line="897"/>
         <source>Auto Copy &amp;Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="905"/>
+        <location filename="../qtermframe.cpp" line="900"/>
         <source>P&amp;aste With Wordwrap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="910"/>
+        <location filename="../qtermframe.cpp" line="905"/>
         <source>&amp;None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="913"/>
+        <location filename="../qtermframe.cpp" line="908"/>
         <source>&amp;ESC ESC [</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="916"/>
+        <location filename="../qtermframe.cpp" line="911"/>
         <source>Ctrl+&amp;U [</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="919"/>
+        <location filename="../qtermframe.cpp" line="914"/>
         <source>&amp;Custom...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="928"/>
+        <location filename="../qtermframe.cpp" line="923"/>
         <source>&amp;No Conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="931"/>
+        <location filename="../qtermframe.cpp" line="926"/>
         <source>&amp;Simplified to Traditional</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="934"/>
+        <location filename="../qtermframe.cpp" line="929"/>
         <source>&amp;Traditional to Simplified</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="941"/>
-        <source>&amp;Font...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="943"/>
-        <source>&amp;Color...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="965"/>
+        <location filename="../qtermframe.cpp" line="958"/>
         <source>&amp;UI Font...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="999"/>
+        <location filename="../qtermframe.cpp" line="992"/>
         <source>&amp;Setting For Currrent Session...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1001"/>
+        <location filename="../qtermframe.cpp" line="994"/>
         <source>&amp;Default Setting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1003"/>
+        <location filename="../qtermframe.cpp" line="996"/>
         <source>&amp;Preference...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1006"/>
+        <location filename="../qtermframe.cpp" line="999"/>
         <source>&amp;Copy Article...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1014"/>
+        <location filename="../qtermframe.cpp" line="1007"/>
         <source>&amp;View Messages...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1022"/>
+        <location filename="../qtermframe.cpp" line="1015"/>
         <source>&amp;Image Viewer...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="945"/>
+        <location filename="../qtermframe.cpp" line="938"/>
         <source>&amp;Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="949"/>
+        <location filename="../qtermframe.cpp" line="936"/>
+        <source>&amp;Appearance...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="942"/>
         <source>&amp;English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="953"/>
+        <location filename="../qtermframe.cpp" line="946"/>
         <source>&amp;Simplified Chinese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="957"/>
+        <location filename="../qtermframe.cpp" line="950"/>
         <source>&amp;Traditional Chinese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="967"/>
+        <location filename="../qtermframe.cpp" line="960"/>
         <source>&amp;Full Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="971"/>
+        <location filename="../qtermframe.cpp" line="964"/>
         <source>&amp;Hide Menu Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="975"/>
+        <location filename="../qtermframe.cpp" line="968"/>
         <source>Boss &amp;Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="979"/>
-        <location filename="../qtermframe.cpp" line="1412"/>
+        <location filename="../qtermframe.cpp" line="972"/>
+        <location filename="../qtermframe.cpp" line="1401"/>
         <source>&amp;Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="982"/>
+        <location filename="../qtermframe.cpp" line="975"/>
         <source>&amp;Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="985"/>
+        <location filename="../qtermframe.cpp" line="978"/>
         <source>&amp;Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="992"/>
+        <location filename="../qtermframe.cpp" line="985"/>
         <source>Status &amp;Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="995"/>
+        <location filename="../qtermframe.cpp" line="988"/>
         <source>S&amp;witch Bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1008"/>
+        <location filename="../qtermframe.cpp" line="1001"/>
         <source>Anti &amp;Idle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1011"/>
+        <location filename="../qtermframe.cpp" line="1004"/>
         <source>Auto &amp;Reply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1016"/>
+        <location filename="../qtermframe.cpp" line="1009"/>
         <source>&amp;Beep </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1019"/>
+        <location filename="../qtermframe.cpp" line="1012"/>
         <source>&amp;Mouse Support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1025"/>
+        <location filename="../qtermframe.cpp" line="1018"/>
         <source>&amp;Reload System Script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1028"/>
+        <location filename="../qtermframe.cpp" line="1021"/>
         <source>&amp;Run...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1031"/>
+        <location filename="../qtermframe.cpp" line="1024"/>
         <source>&amp;Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1034"/>
+        <location filename="../qtermframe.cpp" line="1027"/>
         <source>&amp;Debug...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1038"/>
+        <location filename="../qtermframe.cpp" line="1031"/>
         <source>About &amp;QTerm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1040"/>
+        <location filename="../qtermframe.cpp" line="1033"/>
         <source>QTerm&apos;s &amp;Homepage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1043"/>
+        <location filename="../qtermframe.cpp" line="1036"/>
         <source>Auto Reconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1047"/>
+        <location filename="../qtermframe.cpp" line="1040"/>
         <source>&amp;Configure Shortcuts...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1050"/>
+        <location filename="../qtermframe.cpp" line="1043"/>
         <source>Configure &amp;Toolbars...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1115"/>
+        <location filename="../qtermframe.cpp" line="1107"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1128"/>
+        <location filename="../qtermframe.cpp" line="1120"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1139"/>
+        <location filename="../qtermframe.cpp" line="1131"/>
         <source>Paste &amp;with color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1146"/>
+        <location filename="../qtermframe.cpp" line="1138"/>
         <source>Clipboard Chinese &amp;Conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1153"/>
+        <location filename="../qtermframe.cpp" line="1145"/>
         <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1162"/>
+        <location filename="../qtermframe.cpp" line="1153"/>
         <source>&amp;Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1169"/>
+        <location filename="../qtermframe.cpp" line="1160"/>
         <source>&amp;Themes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1175"/>
+        <location filename="../qtermframe.cpp" line="1166"/>
         <source>&amp;ScrollBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1188"/>
+        <location filename="../qtermframe.cpp" line="1179"/>
         <source>&amp;Option</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1200"/>
+        <location filename="../qtermframe.cpp" line="1191"/>
         <source>&amp;Special</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1212"/>
+        <location filename="../qtermframe.cpp" line="1203"/>
         <source>Scrip&amp;t</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1221"/>
+        <location filename="../qtermframe.cpp" line="1212"/>
         <source>&amp;Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1229"/>
+        <location filename="../qtermframe.cpp" line="1220"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1326"/>
+        <location filename="../qtermframe.cpp" line="1315"/>
         <source>Key Setup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1410"/>
+        <location filename="../qtermframe.cpp" line="1399"/>
         <source>&amp;Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1414"/>
+        <location filename="../qtermframe.cpp" line="1403"/>
         <source>&amp;About</source>
         <translation type="unfinished"></translation>
     </message>
@@ -468,14 +463,24 @@ please close all windows and restart.</source>
 <context>
     <name>QTerm::Global</name>
     <message>
-        <location filename="../qtermglobal.cpp" line="423"/>
-        <location filename="../qtermglobal.cpp" line="432"/>
+        <location filename="../qtermglobal.cpp" line="421"/>
+        <location filename="../qtermglobal.cpp" line="430"/>
         <source>Choose a file to save under</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermglobal.cpp" line="429"/>
+        <location filename="../qtermglobal.cpp" line="427"/>
         <source>File exists. Overwrite?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermglobal.cpp" line="427"/>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermglobal.cpp" line="427"/>
+        <source>No</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -588,108 +593,108 @@ Do you want to clear and reassign?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="440"/>
+        <location filename="../qtermwindow.cpp" line="441"/>
         <source>Connected,Do you still want to exit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="753"/>
+        <location filename="../qtermwindow.cpp" line="748"/>
         <source>Open URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1236"/>
+        <location filename="../qtermwindow.cpp" line="1100"/>
         <source>resolving host name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1240"/>
+        <location filename="../qtermwindow.cpp" line="1104"/>
         <source>host found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1244"/>
+        <location filename="../qtermwindow.cpp" line="1108"/>
         <source>host not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1249"/>
+        <location filename="../qtermwindow.cpp" line="1113"/>
         <source>connecting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1253"/>
+        <location filename="../qtermwindow.cpp" line="1117"/>
         <source>connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1261"/>
+        <location filename="../qtermwindow.cpp" line="1125"/>
         <source>connected to proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1265"/>
+        <location filename="../qtermwindow.cpp" line="1129"/>
         <source>proxy authentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1269"/>
+        <location filename="../qtermwindow.cpp" line="1133"/>
         <source>proxy failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1274"/>
+        <location filename="../qtermwindow.cpp" line="1138"/>
         <source>connection refused</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1279"/>
+        <location filename="../qtermwindow.cpp" line="1143"/>
         <source>error when reading from server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1284"/>
-        <location filename="../qtermwindow.cpp" line="1578"/>
+        <location filename="../qtermwindow.cpp" line="1148"/>
+        <location filename="../qtermwindow.cpp" line="1439"/>
         <source>connection closed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1291"/>
+        <location filename="../qtermwindow.cpp" line="1155"/>
         <source>connection close finished</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1296"/>
+        <location filename="../qtermwindow.cpp" line="1160"/>
         <source>connect to host via proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1300"/>
+        <location filename="../qtermwindow.cpp" line="1164"/>
         <source>error in gethostbyname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1305"/>
+        <location filename="../qtermwindow.cpp" line="1169"/>
         <source>error in startup winsock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1310"/>
+        <location filename="../qtermwindow.cpp" line="1174"/>
         <source>error in connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1315"/>
+        <location filename="../qtermwindow.cpp" line="1179"/>
         <source>error in proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1722"/>
+        <location filename="../qtermwindow.cpp" line="1583"/>
         <source>You have messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1731"/>
+        <location filename="../qtermwindow.cpp" line="1592"/>
         <source>Setting changed do you want to save it?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -697,33 +702,33 @@ Do you want to clear and reassign?</source>
 <context>
     <name>QTerm::addrDialog</name>
     <message>
-        <location filename="../addrdialog.cpp" line="54"/>
+        <location filename="../addrdialog.cpp" line="53"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="55"/>
+        <location filename="../addrdialog.cpp" line="54"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="63"/>
+        <location filename="../addrdialog.cpp" line="62"/>
         <source>Setting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="70"/>
+        <location filename="../addrdialog.cpp" line="67"/>
         <source>AddressBook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="99"/>
-        <location filename="../addrdialog.cpp" line="207"/>
+        <location filename="../addrdialog.cpp" line="103"/>
+        <location filename="../addrdialog.cpp" line="204"/>
         <source>Setting changed, do you want to save?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="274"/>
+        <location filename="../addrdialog.cpp" line="262"/>
         <source>SSH support is not compiled, check your OpenSSL and try to recompile QTerm</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1091,13 +1096,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../ui/addrdialog.ui" line="108"/>
-        <location filename="../ui/addrdialog.ui" line="1462"/>
+        <location filename="../ui/addrdialog.ui" line="1441"/>
         <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/addrdialog.ui" line="127"/>
-        <location filename="../ui/addrdialog.ui" line="1408"/>
+        <location filename="../ui/addrdialog.ui" line="1387"/>
         <source>Type:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1108,8 +1113,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../ui/addrdialog.ui" line="166"/>
-        <location filename="../ui/addrdialog.ui" line="906"/>
-        <location filename="../ui/addrdialog.ui" line="1089"/>
+        <location filename="../ui/addrdialog.ui" line="885"/>
+        <location filename="../ui/addrdialog.ui" line="1068"/>
         <source>BBS</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1120,82 +1125,82 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../ui/addrdialog.ui" line="185"/>
-        <location filename="../ui/addrdialog.ui" line="1491"/>
+        <location filename="../ui/addrdialog.ui" line="1470"/>
         <source>Port:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="201"/>
+        <location filename="../ui/addrdialog.ui" line="204"/>
         <source>BBS Encoding:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="230"/>
+        <location filename="../ui/addrdialog.ui" line="233"/>
         <source>Text Conversion:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="250"/>
+        <location filename="../ui/addrdialog.ui" line="253"/>
         <source>No Conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="255"/>
+        <location filename="../ui/addrdialog.ui" line="258"/>
         <source>Simplified Chinese to Traditional Chinese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="260"/>
+        <location filename="../ui/addrdialog.ui" line="263"/>
         <source>Traditional Chinese to Simplified Chinese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="275"/>
+        <location filename="../ui/addrdialog.ui" line="278"/>
         <source>Telnet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="280"/>
+        <location filename="../ui/addrdialog.ui" line="283"/>
         <source>SSH</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="294"/>
+        <location filename="../ui/addrdialog.ui" line="297"/>
         <source>Protocol:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="313"/>
+        <location filename="../ui/addrdialog.ui" line="316"/>
         <source>Load Control Script:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="336"/>
+        <location filename="../ui/addrdialog.ui" line="339"/>
         <source>System Script:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="355"/>
+        <location filename="../ui/addrdialog.ui" line="358"/>
         <source>Browse...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="377"/>
+        <location filename="../ui/addrdialog.ui" line="380"/>
         <source>General:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="418"/>
+        <location filename="../ui/addrdialog.ui" line="421"/>
         <source>Advanced Settings:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="453"/>
+        <location filename="../ui/addrdialog.ui" line="456"/>
         <source>Display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="465"/>
+        <location filename="../ui/addrdialog.ui" line="468"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1204,326 +1209,285 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="475"/>
+        <location filename="../ui/addrdialog.ui" line="478"/>
         <source>Auto Select Font Size When Resize Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="488"/>
+        <location filename="../ui/addrdialog.ui" line="491"/>
         <source>ANSI Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="501"/>
+        <location filename="../ui/addrdialog.ui" line="504"/>
         <source>Always Highlight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="514"/>
+        <location filename="../ui/addrdialog.ui" line="517"/>
         <source>Cursor Type:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="534"/>
+        <location filename="../ui/addrdialog.ui" line="537"/>
         <source>Block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="539"/>
-        <location filename="../ui/addrdialog.ui" line="630"/>
+        <location filename="../ui/addrdialog.ui" line="542"/>
+        <location filename="../ui/addrdialog.ui" line="581"/>
         <source>Underline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="544"/>
+        <location filename="../ui/addrdialog.ui" line="547"/>
         <source>I Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="558"/>
-        <source>Text Label</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="571"/>
-        <source>Font...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="584"/>
-        <source>Background...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="597"/>
-        <source>Text Color...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="610"/>
+        <location filename="../ui/addrdialog.ui" line="561"/>
         <source>Menu Type:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="635"/>
+        <location filename="../ui/addrdialog.ui" line="586"/>
         <source>Reverse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="640"/>
+        <location filename="../ui/addrdialog.ui" line="591"/>
         <source>Custom Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="654"/>
+        <location filename="../ui/addrdialog.ui" line="605"/>
         <source>Color...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="667"/>
-        <source>Menu Label</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="680"/>
-        <location filename="../ui/addrdialog.ui" line="696"/>
-        <source>Preview:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="721"/>
+        <location filename="../ui/addrdialog.ui" line="627"/>
         <source>Text and Color:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="762"/>
+        <location filename="../ui/addrdialog.ui" line="668"/>
         <source>Menu and Cursor:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="794"/>
-        <source>Scheme:</source>
+        <location filename="../ui/addrdialog.ui" line="741"/>
+        <source>ASCII Font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="814"/>
-        <source>default</source>
+        <location filename="../ui/addrdialog.ui" line="760"/>
+        <source>General Font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="819"/>
-        <source>VIM</source>
+        <location filename="../ui/addrdialog.ui" line="779"/>
+        <source>Font Size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="824"/>
-        <source>XTerm</source>
+        <location filename="../ui/addrdialog.ui" line="798"/>
+        <source>Color Scheme:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="829"/>
-        <source>Linux</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="834"/>
-        <source>Softness</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="848"/>
+        <location filename="../ui/addrdialog.ui" line="827"/>
         <source>Configure...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="854"/>
+        <location filename="../ui/addrdialog.ui" line="833"/>
         <source>Terminal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="876"/>
+        <location filename="../ui/addrdialog.ui" line="855"/>
         <source>Key Type:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="896"/>
+        <location filename="../ui/addrdialog.ui" line="875"/>
         <source>VT100</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="901"/>
+        <location filename="../ui/addrdialog.ui" line="880"/>
         <source>XTERM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="920"/>
+        <location filename="../ui/addrdialog.ui" line="899"/>
         <source>Term Type:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="939"/>
+        <location filename="../ui/addrdialog.ui" line="918"/>
         <source>Escape string (i.e. *[ ):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="968"/>
+        <location filename="../ui/addrdialog.ui" line="947"/>
         <source>Rows:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="997"/>
+        <location filename="../ui/addrdialog.ui" line="976"/>
         <source>Columns:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1026"/>
+        <location filename="../ui/addrdialog.ui" line="1005"/>
         <source>Scroll Lines:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1064"/>
+        <location filename="../ui/addrdialog.ui" line="1043"/>
         <source>Terminal Settings:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1101"/>
+        <location filename="../ui/addrdialog.ui" line="1080"/>
         <source>Max Idle Time (sec):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1120"/>
+        <location filename="../ui/addrdialog.ui" line="1099"/>
         <source>Key to reply message:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1159"/>
+        <location filename="../ui/addrdialog.ui" line="1138"/>
         <source>Auto Reply Message:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1198"/>
+        <location filename="../ui/addrdialog.ui" line="1177"/>
         <source>Anti-idle String:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1227"/>
+        <location filename="../ui/addrdialog.ui" line="1206"/>
         <source>Pre-login:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1246"/>
-        <location filename="../ui/addrdialog.ui" line="1549"/>
+        <location filename="../ui/addrdialog.ui" line="1225"/>
+        <location filename="../ui/addrdialog.ui" line="1531"/>
         <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1275"/>
-        <location filename="../ui/addrdialog.ui" line="1520"/>
+        <location filename="../ui/addrdialog.ui" line="1254"/>
+        <location filename="../ui/addrdialog.ui" line="1502"/>
         <source>User:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1317"/>
+        <location filename="../ui/addrdialog.ui" line="1296"/>
         <source>Post-login:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1336"/>
+        <location filename="../ui/addrdialog.ui" line="1315"/>
         <source>Auto Reply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1349"/>
+        <location filename="../ui/addrdialog.ui" line="1328"/>
         <source>Auto Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1371"/>
+        <location filename="../ui/addrdialog.ui" line="1350"/>
         <source>Internal Settings:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1396"/>
+        <location filename="../ui/addrdialog.ui" line="1375"/>
         <source>Misc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1428"/>
+        <location filename="../ui/addrdialog.ui" line="1407"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1433"/>
+        <location filename="../ui/addrdialog.ui" line="1412"/>
         <source>Wingate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1438"/>
+        <location filename="../ui/addrdialog.ui" line="1417"/>
         <source>SOCKS4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1443"/>
+        <location filename="../ui/addrdialog.ui" line="1422"/>
         <source>SOCKS5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1448"/>
+        <location filename="../ui/addrdialog.ui" line="1427"/>
         <source>HTTP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1507"/>
+        <location filename="../ui/addrdialog.ui" line="1489"/>
         <source>Authentication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1578"/>
+        <location filename="../ui/addrdialog.ui" line="1560"/>
         <source>Reconnect Delay (sec):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1607"/>
+        <location filename="../ui/addrdialog.ui" line="1589"/>
         <source>Auto Reconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1629"/>
+        <location filename="../ui/addrdialog.ui" line="1611"/>
         <source>Proxy:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1670"/>
+        <location filename="../ui/addrdialog.ui" line="1652"/>
         <source>Connection:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1724"/>
+        <location filename="../ui/addrdialog.ui" line="1706"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1743"/>
+        <location filename="../ui/addrdialog.ui" line="1725"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1768"/>
+        <location filename="../ui/addrdialog.ui" line="1750"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1781"/>
+        <location filename="../ui/addrdialog.ui" line="1763"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1794"/>
+        <location filename="../ui/addrdialog.ui" line="1776"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1816"/>
+        <location filename="../ui/addrdialog.ui" line="1798"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1823,151 +1787,136 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="72"/>
+        <location filename="../ui/quickdialog.ui" line="75"/>
         <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="127"/>
+        <location filename="../ui/quickdialog.ui" line="133"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="146"/>
+        <location filename="../ui/quickdialog.ui" line="152"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="165"/>
+        <location filename="../ui/quickdialog.ui" line="171"/>
         <source>Advanced...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="184"/>
+        <location filename="../ui/quickdialog.ui" line="190"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="203"/>
+        <location filename="../ui/quickdialog.ui" line="209"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="222"/>
+        <location filename="../ui/quickdialog.ui" line="228"/>
         <source>Port:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="244"/>
+        <location filename="../ui/quickdialog.ui" line="253"/>
         <source>Protocol:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="271"/>
+        <location filename="../ui/quickdialog.ui" line="283"/>
         <source>Telnet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="276"/>
+        <location filename="../ui/quickdialog.ui" line="288"/>
         <source>SSH</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>schemaDialog</name>
+    <name>schemeDialog</name>
     <message>
-        <location filename="../ui/schemadialog.ui" line="28"/>
-        <source>Schema Editor</source>
+        <location filename="../ui/schemedialog.ui" line="26"/>
+        <source>Scheme Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="40"/>
-        <source>Title</source>
+        <location filename="../ui/schemedialog.ui" line="38"/>
+        <source>Title:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="59"/>
-        <source>8-15</source>
+        <location filename="../ui/schemedialog.ui" line="272"/>
+        <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="290"/>
-        <source>0-7</source>
+        <location filename="../ui/schemedialog.ui" line="285"/>
+        <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="303"/>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/schemadialog.ui" line="316"/>
-        <source>Remove </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/schemadialog.ui" line="329"/>
+        <location filename="../ui/schemedialog.ui" line="298"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="342"/>
+        <location filename="../ui/schemedialog.ui" line="311"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="355"/>
-        <source>Background</source>
+        <location filename="../ui/schemedialog.ui" line="347"/>
+        <source>Normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="367"/>
-        <source>Fade to</source>
+        <location filename="../ui/schemedialog.ui" line="363"/>
+        <source>Bright</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="380"/>
-        <source>Min</source>
+        <location filename="../ui/schemedialog.ui" line="379"/>
+        <source>Color 1:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="393"/>
-        <source>None</source>
+        <location filename="../ui/schemedialog.ui" line="395"/>
+        <source>Color 2:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="416"/>
-        <source>Choose</source>
+        <location filename="../ui/schemedialog.ui" line="411"/>
+        <source>Color 3:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="458"/>
-        <source>Max</source>
+        <location filename="../ui/schemedialog.ui" line="427"/>
+        <source>Color 4:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="485"/>
-        <source>Tile</source>
+        <location filename="../ui/schemedialog.ui" line="443"/>
+        <source>Color 5:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="490"/>
-        <source>Center</source>
+        <location filename="../ui/schemedialog.ui" line="459"/>
+        <source>Color 6:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="495"/>
-        <source>Scale</source>
+        <location filename="../ui/schemedialog.ui" line="475"/>
+        <source>Color 7:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemadialog.ui" line="509"/>
-        <source>Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/schemadialog.ui" line="522"/>
-        <source>Transparent</source>
+        <location filename="../ui/schemedialog.ui" line="491"/>
+        <source>Color 8:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

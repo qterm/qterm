@@ -420,11 +420,11 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>&amp;Font...</source>
-        <translation>字体(&amp;F)...</translation>
+        <translation type="obsolete">字体(&amp;F)...</translation>
     </message>
     <message>
         <source>&amp;Color...</source>
-        <translation>颜色(&amp;C)...</translation>
+        <translation type="obsolete">颜色(&amp;C)...</translation>
     </message>
     <message>
         <source>&amp;Setting For Currrent Session...</source>
@@ -458,6 +458,10 @@ please close all windows and restart.</source>
         <source>&amp;Hide Menu Bar</source>
         <translation>隐藏菜单条(&amp;H)</translation>
     </message>
+    <message>
+        <source>&amp;Appearance...</source>
+        <translation>外观(&amp;A)...</translation>
+    </message>
 </context>
 <context>
     <name>QTerm::Global</name>
@@ -468,6 +472,14 @@ please close all windows and restart.</source>
     <message>
         <source>File exists. Overwrite?</source>
         <translation>文件已存在，覆盖吗?</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>是</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>否</translation>
     </message>
 </context>
 <context>
@@ -1649,19 +1661,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Text Label</source>
-        <translation>文本标签</translation>
+        <translation type="obsolete">文本标签</translation>
     </message>
     <message>
         <source>Font...</source>
-        <translation>字体...</translation>
+        <translation type="obsolete">字体...</translation>
     </message>
     <message>
         <source>Background...</source>
-        <translation>背景...</translation>
+        <translation type="obsolete">背景...</translation>
     </message>
     <message>
         <source>Text Color...</source>
-        <translation>文本颜色...</translation>
+        <translation type="obsolete">文本颜色...</translation>
     </message>
     <message>
         <source>Menu Type:</source>
@@ -1681,11 +1693,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Menu Label</source>
-        <translation>菜单类型</translation>
+        <translation type="obsolete">菜单类型</translation>
     </message>
     <message>
         <source>Preview:</source>
-        <translation>预览:</translation>
+        <translation type="obsolete">预览:</translation>
     </message>
     <message>
         <source>Text and Color:</source>
@@ -1696,28 +1708,8 @@ p, li { white-space: pre-wrap; }
         <translation>菜单与光标:</translation>
     </message>
     <message>
-        <source>Scheme:</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>default</source>
-        <translation>默认</translation>
-    </message>
-    <message>
-        <source>VIM</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>XTerm</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Linux</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Softness</source>
-        <translation></translation>
+        <translation type="obsolete">default</translation>
     </message>
     <message>
         <source>Configure...</source>
@@ -1874,6 +1866,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Close</source>
         <translation>关闭</translation>
+    </message>
+    <message>
+        <source>General Font:</source>
+        <translation>通用字体:</translation>
+    </message>
+    <message>
+        <source>Font Size:</source>
+        <translation>字体大小:</translation>
+    </message>
+    <message>
+        <source>ASCII Font:</source>
+        <translation>ASCII 字体:</translation>
+    </message>
+    <message>
+        <source>Color Scheme:</source>
+        <translation>配色方案:</translation>
     </message>
 </context>
 <context>
@@ -2749,79 +2757,63 @@ Check whether your ESD support is enabled in compile time</source>
     <name>schemaDialog</name>
     <message>
         <source>Schema Editor</source>
-        <translation>配色编辑器</translation>
+        <translation type="obsolete">配色编辑器</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation>主题</translation>
-    </message>
-    <message>
-        <source>8-15</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>0-7</source>
-        <translation></translation>
+        <translation type="obsolete">主题</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>保存</translation>
+        <translation type="obsolete">保存</translation>
     </message>
     <message>
         <source>Remove </source>
-        <translation>删除</translation>
+        <translation type="obsolete">删除</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>确定</translation>
-    </message>
-    <message>
-        <source>Background</source>
-        <translation></translation>
+        <translation type="obsolete">确定</translation>
     </message>
     <message>
         <source>Fade to</source>
-        <translation>渐变至</translation>
-    </message>
-    <message>
-        <source>Min</source>
-        <translation></translation>
+        <translation type="obsolete">渐变至</translation>
     </message>
     <message>
         <source>None</source>
-        <translation>无</translation>
+        <translation type="obsolete">无</translation>
     </message>
     <message>
         <source>Choose</source>
-        <translation>选择</translation>
+        <translation type="obsolete">选择</translation>
     </message>
     <message>
         <source>Max</source>
-        <translation>最大</translation>
+        <translation type="obsolete">最大</translation>
     </message>
     <message>
         <source>Tile</source>
-        <translation>平铺</translation>
+        <translation type="obsolete">平铺</translation>
     </message>
     <message>
         <source>Center</source>
-        <translation>居中</translation>
+        <translation type="obsolete">居中</translation>
     </message>
     <message>
         <source>Scale</source>
-        <translation>缩放</translation>
+        <translation type="obsolete">缩放</translation>
     </message>
     <message>
         <source>Image</source>
-        <translation>图片</translation>
+        <translation type="obsolete">图片</translation>
     </message>
     <message>
         <source>Transparent</source>
-        <translation>透明</translation>
+        <translation type="obsolete">透明</translation>
     </message>
 </context>
 <context>
@@ -2885,6 +2877,129 @@ Check whether your ESD support is enabled in compile time</source>
     <message>
         <source>Cancel</source>
         <translation type="obsolete">取消</translation>
+    </message>
+</context>
+<context>
+    <name>schemeDialog</name>
+    <message>
+        <source>Scheme Editor</source>
+        <translation>配色编辑器</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation type="obsolete">主题</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="obsolete">保存</translation>
+    </message>
+    <message>
+        <source>Remove </source>
+        <translation type="obsolete">删除</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <source>Background</source>
+        <translation type="obsolete">背景颜色</translation>
+    </message>
+    <message>
+        <source>Fade to</source>
+        <translation type="obsolete">渐变至</translation>
+    </message>
+    <message>
+        <source>Min</source>
+        <translation type="obsolete">最小</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="obsolete">无</translation>
+    </message>
+    <message>
+        <source>Choose</source>
+        <translation type="obsolete">选择</translation>
+    </message>
+    <message>
+        <source>Max</source>
+        <translation type="obsolete">最大</translation>
+    </message>
+    <message>
+        <source>Tile</source>
+        <translation type="obsolete">平铺</translation>
+    </message>
+    <message>
+        <source>Center</source>
+        <translation type="obsolete">居中</translation>
+    </message>
+    <message>
+        <source>Scale</source>
+        <translation type="obsolete">缩放</translation>
+    </message>
+    <message>
+        <source>Image</source>
+        <translation type="obsolete">图片</translation>
+    </message>
+    <message>
+        <source>Transparent</source>
+        <translation type="obsolete">透明</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>主题:</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>添加</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation>正常</translation>
+    </message>
+    <message>
+        <source>Bright</source>
+        <translation>高亮</translation>
+    </message>
+    <message>
+        <source>Color 1:</source>
+        <translation>颜色 1:</translation>
+    </message>
+    <message>
+        <source>Color 2:</source>
+        <translation>颜色 2:</translation>
+    </message>
+    <message>
+        <source>Color 3:</source>
+        <translation>颜色 3:</translation>
+    </message>
+    <message>
+        <source>Color 4:</source>
+        <translation>颜色 4:</translation>
+    </message>
+    <message>
+        <source>Color 5:</source>
+        <translation>颜色 5:</translation>
+    </message>
+    <message>
+        <source>Color 6:</source>
+        <translation>颜色 6:</translation>
+    </message>
+    <message>
+        <source>Color 7:</source>
+        <translation>颜色 7:</translation>
+    </message>
+    <message>
+        <source>Color 8:</source>
+        <translation>颜色 8:</translation>
     </message>
 </context>
 <context>
