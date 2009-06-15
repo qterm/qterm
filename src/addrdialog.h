@@ -35,7 +35,7 @@ protected slots:
     void onConnect();
     void onClose();
     void onReset();
-    void onSchema();
+    void onScheme();
     void onProtocol(int);
     void onChooseScript();
     void onMenuColor();
@@ -54,7 +54,7 @@ protected:
     QString strASCIIFontName;
     QString strGeneralFontName;
     int nFontSize;
-    QString strSchemaFile;
+    QString strSchemeFile;
     QColor clrMenu;
     QButtonGroup bgMenu;
 

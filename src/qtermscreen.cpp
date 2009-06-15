@@ -72,7 +72,7 @@ Screen::Screen(QWidget *parent, Buffer *buffer, Param *param, BBS *bbs)
     setAttribute(Qt::WA_InputMethodEnabled, true);
     setMouseTracking(true);
 
-    setSchema();
+    setScheme();
 
     initFontMetrics();
 
@@ -426,7 +426,7 @@ int Screen::fontSize()
 /*                                 Colors                                   */
 /*                                                                         */
 /* ------------------------------------------------------------------------ */
-void Screen::setSchema()
+void Screen::setScheme()
 {
 // the default color table
     m_color[0]  = Qt::black;
@@ -450,11 +450,11 @@ void Screen::setSchema()
 
 
 
-// if we have schema defined
-    if (QFile::exists(m_pParam->m_strSchemaFile)) {
+// if we have scheme defined
+    if (QFile::exists(m_pParam->m_strSchemeFile)) {
 
-//  printf("schema %s loaded sucessfully\n", m_pParam->m_strSchemaFile);
-        Config *pConf = new Config(m_pParam->m_strSchemaFile);
+//  printf("scheme %s loaded sucessfully\n", m_pParam->m_strSchemeFile);
+        Config *pConf = new Config(m_pParam->m_strSchemeFile);
 
         m_color[0].setNamedColor(pConf->getItemValue("color", "color0").toString());
         m_color[1].setNamedColor(pConf->getItemValue("color", "color1").toString());

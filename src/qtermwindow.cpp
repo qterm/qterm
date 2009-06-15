@@ -1291,7 +1291,7 @@ void Window::appearance()
     if (set.exec() == 1) {
         m_param = set.param;
         m_bSetChanged = true;
-        m_pScreen->setSchema();
+        m_pScreen->setScheme();
     } else {
         m_pScreen->fontSizeChanged(fontSize);
     }

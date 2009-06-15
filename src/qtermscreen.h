@@ -63,7 +63,7 @@ public:
     Screen(QWidget *parent, Buffer *buffer, Param *param, BBS *bbs);
     ~Screen();
 
-    void setSchema();
+    void setScheme();
 
     QFont asciiFont();
     QFont generalFont();

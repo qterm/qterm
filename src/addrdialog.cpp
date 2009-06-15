@@ -13,7 +13,7 @@
 #include "qtermglobal.h"
 //Added by qt3to4:
 
-#include "schemadialog.h"
+#include "schemedialog.h"
 #include <QPixmap>
 #include <QMessageBox>
 #include <QColorDialog>
@@ -223,16 +223,16 @@ void addrDialog::onFontSize(int size)
     nFontSize = size;
 }
 
-void addrDialog::onSchema()
+void addrDialog::onScheme()
 {
-    schemaDialog schema(this);
+    schemeDialog scheme(this);
 
-    schema.setSchema(strSchemaFile);
+    scheme.setScheme(strSchemeFile);
 
-    if (schema.exec() == 1) {
-        strSchemaFile = schema.getSchema();
-        if (strSchemaFile.isEmpty())
-            strSchemaFile = "";
+    if (scheme.exec() == 1) {
+        strSchemeFile = scheme.getScheme();
+        if (strSchemeFile.isEmpty())
+            strSchemeFile = "";
     }
 }
 
@@ -287,7 +287,7 @@ void addrDialog::connectSlots()
     connect(ui.connectPushButton, SIGNAL(clicked()), this, SLOT(onConnect()));
     connect(ui.resetPushButton, SIGNAL(clicked()), this, SLOT(onReset()));
 
-    connect(ui.schemaPushButton, SIGNAL(clicked()), this, SLOT(onSchema()));
+    connect(ui.schemePushButton, SIGNAL(clicked()), this, SLOT(onScheme()));
 
     connect(ui.protocolComboBox, SIGNAL(activated(int)), this, SLOT(onProtocol(int)));
 
@@ -318,7 +318,7 @@ bool addrDialog::isChanged()
            param.m_strASCIIFontName != strASCIIFontName ||
            param.m_strGeneralFontName != strGeneralFontName||
            param.m_nFontSize != nFontSize ||
-           param.m_strSchemaFile != strSchemaFile ||
+           param.m_strSchemeFile != strSchemeFile ||
            param.m_strTerm != ui.termtypeLineEdit->text() ||
            param.m_nKey != ui.keytypeComboBox->currentIndex() ||
            param.m_nCol != ui.columnLineEdit->text().toInt() ||
@@ -368,7 +368,7 @@ void addrDialog::updateData(bool save)
         param.m_strASCIIFontName = strASCIIFontName;
         param.m_strGeneralFontName = strGeneralFontName;
         param.m_nFontSize = nFontSize;
-        param.m_strSchemaFile = strSchemaFile;
+        param.m_strSchemeFile = strSchemeFile;
         param.m_strTerm = ui.termtypeLineEdit->text();
         param.m_nKey = ui.keytypeComboBox->currentIndex();
         param.m_nCol = ui.columnLineEdit->text().toInt();
@@ -424,7 +424,7 @@ void addrDialog::updateData(bool save)
         ui.generalFontComboBox->setCurrentFont(QFont(strGeneralFontName));
         nFontSize = param.m_nFontSize ;
         ui.fontSizeSpinBox->setValue(nFontSize);
-        strSchemaFile = param.m_strSchemaFile;
+        strSchemeFile = param.m_strSchemeFile;
         ui.termtypeLineEdit->setText(param.m_strTerm);
         ui.keytypeComboBox->setCurrentIndex(param.m_nKey);
         strTmp.setNum(param.m_nCol);

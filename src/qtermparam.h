@@ -54,8 +54,8 @@ public:
 	QString m_strGeneralFontName;
 	// Font Size
 	int m_nFontSize;
-	// Schema File
-	QString m_strSchemaFile;
+	// Scheme File
+	QString m_strSchemeFile;
 // Terminal
 	// Terminal Type
 	QString m_strTerm;

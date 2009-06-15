@@ -84,7 +84,7 @@ set(qterm_SRCS
    ui_msgdialog.h
    ui_prefdialog.h
    ui_quickdialog.h
-   ui_schemadialog.h
+   ui_schemedialog.h
    ui_soundconf.h
    ui_sshlogin.h
    ui_shortcutsdialog.h
@@ -124,7 +124,7 @@ set(qterm_SRCS
    qtermzmodem.cpp
    qtermglobal.cpp
    quickdialog.cpp
-   schemadialog.cpp
+   schemedialog.cpp
    shortcutsdialog.cpp
    statusBar.cpp
    toolbardialog.cpp
@@ -141,7 +141,7 @@ set(qterm_UIS
    ui/msgdialog.ui
    ui/prefdialog.ui
    ui/quickdialog.ui
-   ui/schemadialog.ui
+   ui/schemedialog.ui
    ui/shortcutsdialog.ui
    ui/soundconf.ui
    ui/sshlogin.ui
@@ -200,7 +200,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qterm.desktop DESTINATION share/applic
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/qterm.png DESTINATION share/icons)
 add_subdirectory(pic)
 add_subdirectory(cursor)
-add_subdirectory(schema)
+add_subdirectory(scheme)
 add_subdirectory(scripts)
 add_subdirectory(po)
 add_dependencies(qterm translations_target)

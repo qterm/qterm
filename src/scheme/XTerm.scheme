@@ -1,7 +1,7 @@
 [General]
 version=1.7
 
-[schema]
+[scheme]
 title=XTerm
 
 [image]

@@ -1,5 +1,5 @@
 
-#include "schemadialog.h"
+#include "schemedialog.h"
 #include "qtermconfig.h"
 #include "qtermglobal.h"
 // #include <stdio.h>
@@ -10,7 +10,7 @@
 namespace QTerm
 {
 
-schemaDialog::schemaDialog(QWidget* parent, Qt::WFlags fl)
+schemeDialog::schemeDialog(QWidget* parent, Qt::WFlags fl)
         : QDialog(parent, fl), bgBackground(this)
 {
     ui.setupUi(this);
@@ -34,27 +34,27 @@ schemaDialog::schemaDialog(QWidget* parent, Qt::WFlags fl)
 }
 
 
-schemaDialog::~schemaDialog()
+schemeDialog::~schemeDialog()
 {
 }
 
-void schemaDialog::setSchema(const QString& strSchemaFile)
+void schemeDialog::setScheme(const QString& strSchemeFile)
 {
-    if (!QFile::exists(strSchemaFile))
+    if (!QFile::exists(strSchemeFile))
         return;
-    int  n = fileList.indexOf(strSchemaFile);
+    int  n = fileList.indexOf(strSchemeFile);
     ui.nameListWidget->setCurrentRow(n);
 }
 
-QString schemaDialog::getSchema()
+QString schemeDialog::getScheme()
 {
-    return strCurrentSchema;
+    return strCurrentScheme;
 }
 
-void schemaDialog::connectSlots()
+void schemeDialog::connectSlots()
 {
-    connect(ui.saveButton, SIGNAL(clicked()), this, SLOT(saveSchema()));
-    connect(ui.removeButton, SIGNAL(clicked()), this, SLOT(removeSchema()));
+    connect(ui.saveButton, SIGNAL(clicked()), this, SLOT(saveScheme()));
+    connect(ui.removeButton, SIGNAL(clicked()), this, SLOT(removeScheme()));
     connect(ui.okButton, SIGNAL(clicked()), this, SLOT(onOK()));
     connect(ui.cancelButton, SIGNAL(clicked()), this, SLOT(onCancel()));
 
@@ -88,48 +88,48 @@ void schemaDialog::connectSlots()
     connect(ui.imageLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
 }
 
-void schemaDialog::loadList()
+void schemeDialog::loadList()
 {
     QDir dir;
     QFileInfoList lstFile;
     //QFileInfo *fi;
 
-    dir.setNameFilters(QStringList("*.schema"));
+    dir.setNameFilters(QStringList("*.scheme"));
 
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
-    dir.setPath(Global::instance()->pathCfg() + "/schema");
+    dir.setPath(Global::instance()->pathCfg() + "/scheme");
     lstFile = dir.entryInfoList();
     //if( lstFile.count()!=0 )
     {
         foreach(QFileInfo fi, lstFile) {
             Config *pConf = new Config(fi.absoluteFilePath());
-            ui.nameListWidget->addItem(pConf->getItemValue("schema", "title").toString());
+            ui.nameListWidget->addItem(pConf->getItemValue("scheme", "title").toString());
             delete pConf;
             fileList.append(fi.absoluteFilePath());
         }
     }
 #endif
 
-    dir.setPath(Global::instance()->pathLib() + "schema");
+    dir.setPath(Global::instance()->pathLib() + "scheme");
     lstFile = dir.entryInfoList();
     //if(lstFile != NULL)
     {
         foreach(QFileInfo fi, lstFile) {
             Config *pConf = new Config(fi.absoluteFilePath());
-            ui.nameListWidget->addItem(pConf->getItemValue("schema", "title").toString());
+            ui.nameListWidget->addItem(pConf->getItemValue("scheme", "title").toString());
             delete pConf;
             fileList.append(fi.absoluteFilePath());
         }
     }
 }
 
-void schemaDialog::loadSchema(const QString& strSchemaFile)
+void schemeDialog::loadScheme(const QString& strSchemeFile)
 {
-    Config *pConf = new Config(strSchemaFile);
+    Config *pConf = new Config(strSchemeFile);
 
-    strCurrentSchema = strSchemaFile;
+    strCurrentScheme = strSchemeFile;
 
-    title = pConf->getItemValue("schema", "title").toString();
+    title = pConf->getItemValue("scheme", "title").toString();
     pxmBg = pConf->getItemValue("image", "name").toString();
     QString strTmp = pConf->getItemValue("image", "type").toString();
     type = strTmp.toInt();
@@ -139,7 +139,7 @@ void schemaDialog::loadSchema(const QString& strSchemaFile)
 
     for (int i = 0; i < 16; i++) {
         QString colorName = QString("color%1").arg(i);
-        schemaColor[i].setNamedColor(pConf->getItemValue("color", colorName).toString());
+        schemeColor[i].setNamedColor(pConf->getItemValue("color", colorName).toString());
     }
 
     delete pConf;
@@ -148,7 +148,7 @@ void schemaDialog::loadSchema(const QString& strSchemaFile)
 
 }
 
-void schemaDialog::saveNumSchema(int n)
+void schemeDialog::saveNumScheme(int n)
 {
     // FIXME: ?, and there is more below
     QStringList::Iterator it = fileList.begin();
@@ -160,24 +160,24 @@ void schemaDialog::saveNumSchema(int n)
 
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
     QDir dir(Global::instance()->pathLib());
-    QString strSchemaFile = dir.absolutePath() + "/schema/" + title + ".schema";
+    QString strSchemeFile = dir.absolutePath() + "/scheme/" + title + ".scheme";
 #else
-    // save it to $HOME/.qterm/schema/ with filename=title
+    // save it to $HOME/.qterm/scheme/ with filename=title
     QFileInfo fi(*it);
-    QString strSchemaFile = QDir::homePath() + "/.qterm/schema/" + title + ".schema";
+    QString strSchemeFile = QDir::homePath() + "/.qterm/scheme/" + title + ".scheme";
 #endif
 
-    // create a new schema if title changed
-    if (strSchemaFile != strCurrentSchema) {
+    // create a new scheme if title changed
+    if (strSchemeFile != strCurrentScheme) {
         ui.nameListWidget->addItem(title);
-        fileList.append(strSchemaFile);
+        fileList.append(strSchemeFile);
     }
 
-    strCurrentSchema = strSchemaFile;
+    strCurrentScheme = strSchemeFile;
 
-    Config *pConf = new Config(strCurrentSchema);
+    Config *pConf = new Config(strCurrentScheme);
 
-    pConf->setItemValue("schema", "title", title);
+    pConf->setItemValue("scheme", "title", title);
 
     pConf->setItemValue("image", "name", pxmBg);
 
@@ -192,10 +192,10 @@ void schemaDialog::saveNumSchema(int n)
 
     for (int i = 0; i < 16; i++) {
         QString colorName = QString("color%1").arg(i);
-        pConf->setItemValue("color", colorName, schemaColor[i].name());
+        pConf->setItemValue("color", colorName, schemeColor[i].name());
     }
 
-    pConf->save(strSchemaFile);
+    pConf->save(strSchemeFile);
 
     delete pConf;
 
@@ -203,14 +203,14 @@ void schemaDialog::saveNumSchema(int n)
 
 }
 
-void schemaDialog::setBackgroundColor(QWidget * widget, const QColor & color)
+void schemeDialog::setBackgroundColor(QWidget * widget, const QColor & color)
 {
     QPalette palette;
     palette.setColor(widget->backgroundRole(), color);
     widget->setPalette(palette);
 }
 
-void schemaDialog::updateView()
+void schemeDialog::updateView()
 {
     // title
     ui.titleLineEdit->setText(title);
@@ -219,7 +219,7 @@ void schemaDialog::updateView()
 //  palette.setColor(clr0Button->backgroundRole(), clr0);
     for (int i = 0; i < 16; i++) {
         QString buttonName = QString("clr%1Button").arg(i);
-        setBackgroundColor(findChild<QPushButton *>(buttonName), schemaColor[i]);
+        setBackgroundColor(findChild<QPushButton *>(buttonName), schemeColor[i]);
     }
 
     // bg type
@@ -269,7 +269,7 @@ void schemaDialog::updateView()
     bModified = false;
 }
 
-void schemaDialog::updateBgPreview()
+void schemeDialog::updateBgPreview()
 {
 /*
 #if (QT_VERSION>300)
@@ -329,7 +329,7 @@ void schemaDialog::updateBgPreview()
 
 }
 
-void schemaDialog::buttonClicked()
+void schemeDialog::buttonClicked()
 {
     QPushButton * button = (QPushButton*)sender();
     QRegExp rx("\\d+");
@@ -341,12 +341,12 @@ void schemaDialog::buttonClicked()
     QColor color = QColorDialog::getColor(button->palette().color(button->backgroundRole()));
     if (color.isValid() == true) {
         setBackgroundColor(button,color);
-        schemaColor[index] = color;
+        schemeColor[index] = color;
         bModified = true;
     }
 }
 
-void schemaDialog::nameChanged(int item)
+void schemeDialog::nameChanged(int item)
 {
     if (bModified) {
         QMessageBox mb("QTerm",
@@ -357,7 +357,7 @@ void schemaDialog::nameChanged(int item)
                        0, this);
         if (mb.exec() == QMessageBox::Yes) {
             if (nLastItem != -1) {
-                saveNumSchema(nLastItem);
+                saveNumScheme(nLastItem);
             }
         }
     }
@@ -367,10 +367,10 @@ void schemaDialog::nameChanged(int item)
     nLastItem = n;
     while (n--)
         it++;
-    loadSchema(*it);
+    loadScheme(*it);
 }
 
-void schemaDialog::bgType(int n)
+void schemeDialog::bgType(int n)
 {
     switch (n) {
     case 1: // image
@@ -402,14 +402,14 @@ void schemaDialog::bgType(int n)
     updateBgPreview();
 }
 
-void schemaDialog::imageType(int n)
+void schemeDialog::imageType(int n)
 {
     type = n + 2;
     bModified = true;
     updateBgPreview();
 }
 
-void schemaDialog::chooseImage()
+void schemeDialog::chooseImage()
 {
     QString img = QFileDialog::getOpenFileName(this, "Choose an image", QDir::currentPath());
     if (!img.isNull()) {
@@ -421,7 +421,7 @@ void schemaDialog::chooseImage()
     }
 }
 
-void schemaDialog::fadeClicked()
+void schemeDialog::fadeClicked()
 {
     QColor color = QColorDialog::getColor(fade);
     if (color.isValid() == TRUE) {
@@ -441,25 +441,25 @@ void schemaDialog::fadeClicked()
     }
 }
 
-void schemaDialog::alphaChanged(int value)
+void schemeDialog::alphaChanged(int value)
 {
     alpha = float(value) / 100;
     bModified = true;
     updateBgPreview();
 }
 
-void schemaDialog::saveSchema()
+void schemeDialog::saveScheme()
 {
-    // get current schema file name
+    // get current scheme file name
     int n = ui.nameListWidget->currentRow();
-    saveNumSchema(n);
+    saveNumScheme(n);
 }
 
-void schemaDialog::removeSchema()
+void schemeDialog::removeScheme()
 {
-    QFileInfo fi(strCurrentSchema);
+    QFileInfo fi(strCurrentScheme);
     if (fi.isWritable()) {
-        QFile::remove(strCurrentSchema);
+        QFile::remove(strCurrentScheme);
         QStringList::Iterator it = fileList.begin();
         int n = ui.nameListWidget->currentRow();
         ui.nameListWidget->takeItem(n);
@@ -467,11 +467,11 @@ void schemaDialog::removeSchema()
             it++;
         fileList.erase(it);
     } else {
-        QMessageBox::warning(this, "Error", "This is a system schema. Permission Denied");
+        QMessageBox::warning(this, "Error", "This is a system scheme. Permission Denied");
     }
 }
 
-void schemaDialog::onOK()
+void schemeDialog::onOK()
 {
     if (bModified) {
         QMessageBox mb("QTerm",
@@ -482,14 +482,14 @@ void schemaDialog::onOK()
                        0, this);
         if (mb.exec() == QMessageBox::Yes) {
             int n = ui.nameListWidget->currentRow();
-            saveNumSchema(n);
+            saveNumScheme(n);
         }
     }
 
     done(1);
 }
 
-void schemaDialog::onCancel()
+void schemeDialog::onCancel()
 {
     if (bModified) {
         QMessageBox mb("QTerm",
@@ -500,20 +500,20 @@ void schemaDialog::onCancel()
                        0, this);
         if (mb.exec() == QMessageBox::Yes) {
             int n = ui.nameListWidget->currentRow();
-            saveNumSchema(n);
+            saveNumScheme(n);
         }
     }
 
     done(0);
 }
 
-void schemaDialog::textChanged(const QString&)
+void schemeDialog::textChanged(const QString&)
 {
     bModified = true;
 }
 
 // from KImageEffect::fade
-QImage& schemaDialog::fadeColor(QImage& img, float val, const QColor& color)
+QImage& schemeDialog::fadeColor(QImage& img, float val, const QColor& color)
 {
     if (img.width() == 0 || img.height() == 0)
         return img;
@@ -582,4 +582,4 @@ QImage& schemaDialog::fadeColor(QImage& img, float val, const QColor& color)
 
 } // namespace QTerm
 
-#include <schemadialog.moc>
+#include <schemedialog.moc>

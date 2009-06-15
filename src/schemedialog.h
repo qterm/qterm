@@ -1,23 +1,23 @@
 #ifndef SCHEMADIALOG_H
 #define SCHEMADIALOG_H
 
-#include "ui_schemadialog.h"
+#include "ui_schemedialog.h"
 namespace QTerm
 {
-class schemaDialog : public QDialog
+class schemeDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    schemaDialog(QWidget* parent = 0, Qt::WFlags fl = 0);
-    ~schemaDialog();
+    schemeDialog(QWidget* parent = 0, Qt::WFlags fl = 0);
+    ~schemeDialog();
 
-    void setSchema(const QString&);
-    QString getSchema();
+    void setScheme(const QString&);
+    QString getScheme();
 
 protected:
     //QColor clr0, clr1, clr2, clr3, clr4, clr5, clr6, clr7, clr8, clr9, clr10, clr11, clr12, clr13, clr14, clr15;
-    QColor schemaColor[16];
+    QColor schemeColor[16];
     QColor fade;
     float alpha;
     QString pxmBg;
@@ -26,20 +26,20 @@ protected:
 
     QStringList fileList;
 
-    QString strCurrentSchema;
+    QString strCurrentScheme;
 
     bool bModified;
     int nLastItem;
 private:
-    Ui::schemaDialog ui;
+    Ui::schemeDialog ui;
     QButtonGroup bgBackground;
 
 protected:
     void connectSlots();
 
     void loadList();
-    void loadSchema(const QString& strSchemaFile);
-    void saveNumSchema(int n = -1);
+    void loadScheme(const QString& strSchemeFile);
+    void saveNumScheme(int n = -1);
 
     void updateView();
     void updateBgPreview();
@@ -71,8 +71,8 @@ protected slots:
     void chooseImage();
     void fadeClicked();
     void alphaChanged(int);
-    void saveSchema();
-    void removeSchema();
+    void saveScheme();
+    void removeScheme();
     void onOK();
     void onCancel();
     void textChanged(const QString&);

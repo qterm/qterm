@@ -839,7 +839,7 @@ p, li { white-space: pre-wrap; }
       </property>
      </item>
     </widget>
-    <widget class="QPushButton" name="schemaPushButton">
+    <widget class="QPushButton" name="schemePushButton">
      <property name="geometry">
       <rect>
        <x>410</x>
@@ -1849,7 +1849,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>generalFontComboBox</tabstop>
   <tabstop>fontSizeSpinBox</tabstop>
   <tabstop>comboBox</tabstop>
-  <tabstop>schemaPushButton</tabstop>
+  <tabstop>schemePushButton</tabstop>
   <tabstop>autofontCheckBox</tabstop>
   <tabstop>highlightCheckBox</tabstop>
   <tabstop>ansicolorCheckBox</tabstop>
