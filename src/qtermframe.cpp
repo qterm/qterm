@@ -933,7 +933,7 @@ void Frame::initActions()
     codecGroup->addAction(m_S2TAction);
     codecGroup->addAction(m_T2SAction);
 
-    m_appearanceAction= new QAction(QPixmap(pathLib + "pic/color.png"), tr("&Appearance..."), this);
+    m_appearanceAction= new QAction(QPixmap(pathLib + "pic/appearance.png"), tr("&Appearance..."), this);
     m_appearanceAction->setObjectName("actionAppearance");
     m_refreshAction = new QAction(QPixmap(pathLib + "pic/refresh.png"), tr("&Refresh"), this);
     m_refreshAction->setObjectName("actionRefresh");
