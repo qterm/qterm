@@ -1294,7 +1294,7 @@ void Window::appearance()
         m_param = set.param;
         m_bSetChanged = true;
     } else {
-        m_pScreen->fontSizeChanged(fontSize);
+        m_param.m_nFontSize = fontSize;
         m_param.m_strSchemeFile = schemeFile;
     }
     m_pScreen->setScheme();
