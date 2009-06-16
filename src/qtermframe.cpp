@@ -333,11 +333,14 @@ void Frame::windowsMenuAboutToShow()
 #endif
 
     QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
+    QActionGroup * windowsGroup = new QActionGroup(this);
+    windowsGroup->setExclusive(true);
     for (int i = 0; i < int(windows.count()); ++i) {
         QAction * idAction = windowsMenu->addAction(windows.at(i)->windowTitle(),
                              this, SLOT(windowsMenuActivated()));
         idAction->setCheckable(true);
         idAction->setData(i);
+        windowsGroup->addAction(idAction);
         idAction->setChecked(m_MdiArea->activeSubWindow() == windows.at(i));
     }
 
