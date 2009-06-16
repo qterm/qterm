@@ -445,6 +445,7 @@ void addrDialog::updateData(bool save)
         nFontSize = param.m_nFontSize ;
         ui.fontSizeSpinBox->setValue(nFontSize);
         strSchemeFile = param.m_strSchemeFile;
+        ui.schemeComboBox->setCurrentIndex(schemeFileList.indexOf(strSchemeFile));
         ui.termtypeLineEdit->setText(param.m_strTerm);
         ui.keytypeComboBox->setCurrentIndex(param.m_nKey);
         strTmp.setNum(param.m_nCol);
