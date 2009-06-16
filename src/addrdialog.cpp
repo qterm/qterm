@@ -167,7 +167,7 @@ void addrDialog::onDelete()
     // change the number after that
     for (int i = index + 1; i < num; i++) {
         strSection = QString("bbs %1").arg(i);
-        strTmp = QString("bbs %1").arg(i);
+        strTmp = QString("bbs %1").arg(i-1);
 //   strSection.sprintf("bbs %d",i);
 //   strTmp.sprintf("bbs %d",i-1);
         pConf->renameSection(strSection, strTmp);
