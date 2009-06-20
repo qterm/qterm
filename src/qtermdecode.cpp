@@ -38,6 +38,7 @@ StateOption Decode::normalState[] = {
 // only for BBS, so I reduce a lots
 StateOption Decode::escState[] = {
     { '[',   &Decode::clearParam,    bracketState },
+    { ']',   &Decode::terminalAttribute,    normalState },
     // VT100
     { 'D',   &Decode::index,  normalState },
     { 'E',   &Decode::lf,  normalState },
@@ -590,6 +591,15 @@ void Decode::restoreMode()
     }
 }
 
+void Decode::terminalAttribute()
+{
+    dataIndex++;
+    int n = 0;
+    while ((inputData[dataIndex + n] != CHAR_BELL) && (dataIndex + n) < inputLength)
+        n++;
+    //QStringList attributes = m_decoder->toUnicode(inputData+dataIndex, n - 1).split(";");
+    dataIndex += n;
+}
 
 void Decode::test()
 {

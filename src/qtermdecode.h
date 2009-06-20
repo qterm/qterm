@@ -84,6 +84,8 @@ private:
     void saveMode();
     void restoreMode();
 
+    void terminalAttribute();
+
     void test();
 
 signals:
