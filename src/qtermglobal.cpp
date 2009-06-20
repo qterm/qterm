@@ -490,13 +490,16 @@ bool Global::iniWorkingDir(QString param)
     fi.setFile(param);
     m_pathLib = fi.path() + '/';
 #else
+    QString prefix = QCoreApplication::applicationDirPath();
+    prefix.chop(3); // "bin"
+    qDebug() << prefix;
     m_pathCfg = QDir::homePath() + "/.qterm/";
     if (!isPathExist(m_pathCfg))
         return false;
 
     // pathLib --- where datedir "pic", "cursor", "po"
     if (param.indexOf('/') == -1)
-        m_pathLib = QTERM_DATADIR"/";
+        m_pathLib = prefix + "share/qterm/";
     else {
         QFileInfo fi(param);
         if (fi.isSymLink())
@@ -505,9 +508,9 @@ bool Global::iniWorkingDir(QString param)
         param.truncate(param.lastIndexOf('/'));
         QString oldPath = QDir::currentPath();
         QDir::setCurrent(param);
-        dir.setPath(QTERM_BINDIR);
+        dir.setPath(QCoreApplication::applicationDirPath());
         if (dir == QDir::current())
-            m_pathLib = QTERM_DATADIR;
+            m_pathLib = prefix + "share/qterm/";
         else
             m_pathLib = QDir::currentPath();
         QDir::setCurrent(oldPath);
