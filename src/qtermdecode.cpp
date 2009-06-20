@@ -38,11 +38,15 @@ StateOption Decode::normalState[] = {
 // only for BBS, so I reduce a lots
 StateOption Decode::escState[] = {
     { '[',   &Decode::clearParam,    bracketState },
-    // VT52
+    // VT100
     { 'D',   &Decode::index,  normalState },
     { 'E',   &Decode::lf,  normalState },
     { 'M',   &Decode::reverseIndex,  normalState },
-    { 'Z',  &Decode::test,    normalState },
+    { '7',   &Decode::saveCursor,  normalState },
+    { '8',   &Decode::restoreCursor,  normalState },
+    { 'H',  &Decode::test,    normalState }, //changeTabStop
+    { 'Z',  &Decode::test,    normalState }, //reportTerminalType
+    { 'c',  &Decode::test,    normalState }, //reset
     { '>',  &Decode::test,    normalState },
     { '<',  &Decode::test,    normalState },
     { CHAR_NORMAL,  0,       normalState }
