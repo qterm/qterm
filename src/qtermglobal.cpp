@@ -492,7 +492,6 @@ bool Global::iniWorkingDir(QString param)
 #else
     QString prefix = QCoreApplication::applicationDirPath();
     prefix.chop(3); // "bin"
-    qDebug() << prefix;
     m_pathCfg = QDir::homePath() + "/.qterm/";
     if (!isPathExist(m_pathCfg))
         return false;
