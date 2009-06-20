@@ -75,6 +75,7 @@ void SSH2SocketPriv::slotAuthFinished()
 #endif
     m_channel = new SSH2Channel(m_inPacket, m_outPacket, m_hostInfo->termType(), this);
     connect(m_channel, SIGNAL(newChannel(int)), this, SLOT(slotNewChannel(int)));
+    connect(m_channel, SIGNAL(closeChannel(int)), this, SLOT(slotChannelClosed(int)));
     connect(m_channel, SIGNAL(dataReady(int)), this, SLOT(slotChannelData(int)));
     connect(m_channel, SIGNAL(channelReady()), this, SIGNAL(socketReady()));
     m_channel->openChannel();
@@ -84,6 +85,13 @@ void SSH2SocketPriv::slotNewChannel(int id)
 {
     // TODO: identify different channels
     m_channelList << id;
+}
+
+void SSH2SocketPriv::slotChannelClosed(int id)
+{
+    m_channelList.removeAll(id);
+    if (m_channelList.size() == 0)
+        emit closeConnection();
 }
 
 void SSH2SocketPriv::slotChannelData(int id)
@@ -287,6 +295,7 @@ void SSHSocket::readData()
     connect(m_priv, SIGNAL(socketReady()), this, SIGNAL(connected()));
     connect(m_priv, SIGNAL(readyRead()), this, SIGNAL(readyRead()));
     connect(m_priv, SIGNAL(error(const QString &)), this, SLOT(onError(const QString &)));
+    connect(m_priv, SIGNAL(closeConnection()), this, SLOT(close()));
 }
 
 void SSHSocket::onError(const QString & message)

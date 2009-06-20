@@ -63,6 +63,7 @@ void SSH2Channel::channelPacketReceived(int flag)
 #ifdef SSH_DEBUG
         qDebug("channel closed");
 #endif
+        channelClosed();
         break;
     case SSH2_MSG_CHANNEL_REQUEST:
         m_in->getUInt8();
@@ -125,10 +126,23 @@ void SSH2Channel::channelOpened()
     target->remoteWindow = m_in->getUInt32();
     target->remotePacketSize = m_in->getUInt32();
     m_in->atEnd();
+    emit newChannel(target->localID);
 #ifdef SSH_DEBUG
     qDebug() << "ID: " << target->localID << target->remoteID << "windows size: " << target->localWindow << target->remoteWindow << "packet size: " << target->localPacketSize << target->remotePacketSize;
 #endif
     requestPty(target->localID);
+}
+
+void SSH2Channel::channelClosed()
+{
+    m_in->getUInt8();
+    uint localID = m_in->getUInt32();
+    Channel * target = m_channelList.at(localID);
+    m_out->startPacket(SSH2_MSG_CHANNEL_CLOSE);
+    m_out->putUInt32(target->remoteID);
+    m_out->sendPacket();
+    emit closeChannel(localID);
+    m_channelList.removeAt(localID);
 }
 
 void SSH2Channel::adjustWindow(uint id, uint size)

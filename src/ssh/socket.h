@@ -49,6 +49,7 @@ signals:
     void readyRead();
     void error(const QString & message);
     void socketReady();
+    void closeConnection();
 };
 
 class SSH2SocketPriv : public SSHSocketPriv
@@ -60,11 +61,14 @@ public:
     QByteArray readData(unsigned long size);
     void writeData(const QByteArray & data);
     unsigned long bytesAvailable();
+signals:
+    void allChannelsClosed();
 private slots:
     void slotKexFinished(const QByteArray & sessionID);
     void slotAuthFinished();
     void slotNewChannel(int id);
     void slotChannelData(int id);
+    void slotChannelClosed(int id);
 private:
     enum SSHStatus
     {
@@ -122,6 +126,7 @@ public:
     long writeBlock(const QByteArray & data);
     unsigned long bytesAvailable();
     void flush();
+public slots:
     void close();
 signals:
     void readyRead();

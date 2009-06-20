@@ -32,6 +32,7 @@ public:
 
     ~SSH2Channel();
     void openChannel();
+    void channelClosed();
     QByteArray readData(int id, unsigned long size);
     void writeData(int id, const QByteArray & data);
     unsigned long bytesAvailable(int id);
@@ -40,6 +41,7 @@ signals:
     void dataReady(int id);
     void newChannel(int id);
     void channelReady();
+    void closeChannel(int id);
 private slots:
     void channelPacketReceived(int flag);
 private:
