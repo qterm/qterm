@@ -73,6 +73,7 @@ StateOption Decode::bracketState[] = {
     { 'C',   &Decode::cursorRight,  normalState },
     { 'D',   &Decode::cursorLeft,  normalState },
     { 'H',   &Decode::cursorPosition,   normalState },
+    { 'I',   &Decode::tab,   normalState },
     { 'J',   &Decode::eraseScreen,  normalState },
     { 'K',   &Decode::eraseLine,  normalState },
     { 'L',   &Decode::insertLine,  normalState },
@@ -248,7 +249,11 @@ void Decode::ff()
 
 void Decode::tab()
 {
-    m_pBuffer->tab();
+    int n = 1;
+    if (bParam)
+        n = param[0];
+    for (int i = 0; i < n; i++)
+        m_pBuffer->tab();
 }
 
 void Decode::bs()
