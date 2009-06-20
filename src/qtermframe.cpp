@@ -878,9 +878,9 @@ void Frame::initActions()
     m_connectAction->setObjectName("actionConnect");
     m_disconnectAction = new QAction(QPixmap(pathLib + "pic/disconnect.png"), tr("&Disconnect"), this);
     m_disconnectAction->setObjectName("actionDisconnect");
-    m_addressAction = new QAction(QPixmap(pathLib + "pic/addr.png"), tr("&Address Book"), this);
+    m_addressAction = new QAction(QPixmap(pathLib + "pic/addr.png"), tr("&Address Book..."), this);
     m_addressAction->setObjectName("actionAddress");
-    m_quickConnectAction = new QAction(QPixmap(pathLib + "pic/quick.png"), tr("&Quick Login"), this);
+    m_quickConnectAction = new QAction(QPixmap(pathLib + "pic/quick.png"), tr("&Quick Login..."), this);
     m_quickConnectAction->setObjectName("actionQuickConnect");
     m_printAction = new QAction(tr("&Print..."), this);
     m_printAction->setObjectName("actionPrint");

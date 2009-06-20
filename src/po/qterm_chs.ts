@@ -116,11 +116,11 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>&amp;Address Book</source>
-        <translation>地址簿(&amp;A)</translation>
+        <translation type="obsolete">地址簿(&amp;A)</translation>
     </message>
     <message>
         <source>&amp;Quick Login</source>
-        <translation>快速连接(&amp;Q)</translation>
+        <translation type="obsolete">快速连接(&amp;Q)</translation>
     </message>
     <message>
         <source>&amp;Print...</source>
@@ -461,6 +461,14 @@ please close all windows and restart.</source>
     <message>
         <source>&amp;Appearance...</source>
         <translation>外观(&amp;A)...</translation>
+    </message>
+    <message>
+        <source>&amp;Address Book...</source>
+        <translation>地址簿(&amp;A)...</translation>
+    </message>
+    <message>
+        <source>&amp;Quick Login...</source>
+        <translation>快速连接(&amp;Q)...</translation>
     </message>
 </context>
 <context>
