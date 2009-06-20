@@ -132,6 +132,7 @@ AUTHOR:		smartfish kafa
 #define CHAR_CR 	0x0d	// ^M
 #define CHAR_LF		0x0a	// ^J
 #define CHAR_FF 	0x0c	// ^L
+#define CHAR_VT 	0x0b	// ^K
 #define CHAR_TAB 	0x09	// ^I
 #define CHAR_BS		0x08	// ^H
 #define CHAR_BELL	0x07	// ^G

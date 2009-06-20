@@ -25,7 +25,8 @@ namespace QTerm
 StateOption Decode::normalState[] = {
     { CHAR_CR,   &Decode::cr,   normalState },
     { CHAR_LF,   &Decode::lf,   normalState },
-    { CHAR_FF,   &Decode::ff,   normalState },
+    { CHAR_FF,   &Decode::lf,   normalState },
+    { CHAR_VT,   &Decode::lf,   normalState },
     { CHAR_TAB,  &Decode::tab,   normalState },
     { CHAR_BS,   &Decode::bs,   normalState },
     { CHAR_BELL,   &Decode::bell,   normalState },
@@ -85,7 +86,8 @@ StateOption Decode::bracketState[] = {
 
     { CHAR_CR,   &Decode::cr,   bracketState },
     { CHAR_LF,   &Decode::lf,   bracketState },
-    { CHAR_FF,   &Decode::ff,   bracketState },
+    { CHAR_FF,   &Decode::lf,   bracketState },
+    { CHAR_VT,   &Decode::lf,   bracketState },
     { CHAR_TAB,   &Decode::tab,   bracketState },
     { CHAR_BS,    &Decode::bs,   bracketState },
     { CHAR_BELL,  &Decode::bell,   bracketState },
