@@ -263,6 +263,7 @@ void addrDialog::onProtocol(int n)
         ui.protocolComboBox->setCurrentIndex(0);
     }
 #endif
+    ui.portSpinBox->setValue(23 - n);
 }
 
 void addrDialog::onChooseScript()
