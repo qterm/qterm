@@ -172,11 +172,16 @@ void schemeDialog::saveNumScheme(int n)
 
 }
 
-void schemeDialog::setBackgroundColor(QWidget * widget, const QColor & color)
+void schemeDialog::setBackgroundColor(QPushButton * widget, const QColor & color)
 {
-    QPalette palette;
-    palette.setColor(widget->backgroundRole(), color);
-    widget->setPalette(palette);
+//    QPalette palette;
+//    palette.setColor(widget->backgroundRole(), color);
+//    widget->setPalette(palette);
+    QPixmap pixmap(widget->size());
+    pixmap.fill(color);
+    QIcon icon(pixmap);
+    widget->setIconSize(widget->size());
+    widget->setIcon(icon);
 }
 
 void schemeDialog::updateView()
@@ -203,7 +208,7 @@ void schemeDialog::buttonClicked()
         return;
     }
     int index = rx.cap().toInt();
-    QColor color = QColorDialog::getColor(button->palette().color(button->backgroundRole()));
+    QColor color = QColorDialog::getColor(schemeColor[index]);
     if (color.isValid() == true) {
         setBackgroundColor(button,color);
         schemeColor[index] = color;

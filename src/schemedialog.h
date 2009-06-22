@@ -37,7 +37,7 @@ protected:
     void saveNumScheme(int n = -1);
 
     void updateView();
-    void setBackgroundColor(QWidget * widget, const QColor & color);
+    void setBackgroundColor(QPushButton * widget, const QColor & color);
 
 protected slots:
     void buttonClicked();
