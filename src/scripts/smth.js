@@ -8,7 +8,8 @@ QTerm.SMTH= {
     Unknown : -1,
     Menu : 0,
     List : 1,
-    Article : 2
+    Article : 2,
+    Top10 : 3
 }
 
 QTerm.pageState = QTerm.SMTH.Unknown;
@@ -21,6 +22,16 @@ QTerm.init = function()
 QTerm.setCursorType = function(x,y)
 {
     QTerm.accepted = false;
+    if (QTerm.pageState == QTerm.SMTH.Top10) {
+        QTerm.accepted = true;
+        if (x < 12) {
+            return 6;
+        } else if (y >= 2 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16 && QTerm.getText(y).search(/[^\s]/)!=-1) {
+            return 7;
+        } else {
+            return 8;
+        }
+    }
     return -1;
 }
 
@@ -42,11 +53,17 @@ QTerm.setPageState = function()
         QTerm.pageState = QTerm.SMTH.List;
     else if (title.indexOf("水木社区 精华区公布栏")!=-1)
         QTerm.pageState = QTerm.SMTH.List;
+    else if (title.indexOf("本日十大热门话题")!=-1 && bottom.indexOf("查阅帮助信息")!=-1)
+        QTerm.pageState = QTerm.SMTH.Top10;
     else if (third.indexOf("编号")!=-1)
         QTerm.pageState = QTerm.SMTH.List;
     else if (bottom.startsWith(articleList))
         QTerm.pageState = QTerm.SMTH.Article;
-    return QTerm.pageState;
+
+    if (QTerm.pageState < 3)
+        return QTerm.pageState;
+    else
+        return -1;
 }
 
 QTerm.setSelectRect = function(x, y)
@@ -69,6 +86,14 @@ QTerm.setSelectRect = function(x, y)
             rect[2] = line.beginIndex(index+item.length) - rect[0];
             rect[3] = 1;
         }
+    } else if (QTerm.pageState == QTerm.SMTH.Top10) {
+        if (y >= 2 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16 && QTerm.getText(y).search(/[^\s]/)!=-1) {
+            QTerm.accepted = true;
+            rect[0] = 0;
+            rect[1] = y - y%2;
+            rect[2] = QTerm.columns();
+            rect[3] = 2;
+        }
     }
     return rect;
 }
@@ -78,6 +103,11 @@ QTerm.isListLineClickable = function(x, y)
     // Copied from the source code of QTerm
     if (QTerm.pageState == QTerm.SMTH.List) {
         if (y >= 3 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16 && QTerm.getText(y).search(/[^\s]/)!=-1) {
+            QTerm.accepted = true;
+            return true;
+        }
+    } else if (QTerm.pageState == QTerm.SMTH.Top10) {
+        if (y >= 2 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16 && y % 2 == 1 && QTerm.getText(y).search(/[^\s]/)!=-1) {
             QTerm.accepted = true;
             return true;
         }
@@ -123,6 +153,7 @@ QTerm.onMouseEvent = function(type, button, buttons, modifiers, pt_x, pt_y)
 QTerm.sendKey = function(x, y)
 {
     // Only handle the menu case
+    var result;
     if (QTerm.pageState == QTerm.SMTH.Menu) {
         str = QTerm.getMenuItem(x,y);
         if (str == "") {
@@ -132,6 +163,11 @@ QTerm.sendKey = function(x, y)
         QTerm.sendString(result[1]);
         QTerm.sendParsedString("^M");
         return true;
+    } else if (QTerm.pageState == QTerm.SMTH.Top10 && (y >= 2 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16 && QTerm.getText(y).search(/[^\s]/)!=-1)) {
+        var text = QTerm.getText(y - y%2);
+        result = QTerm.getText(y - y%2).match(/\s+(\d+)\s+/);
+        QTerm.sendString(result[1]);
+        QTerm.sendParsedString("^M");
     }
     return false;
 }
