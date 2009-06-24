@@ -3009,6 +3009,10 @@ Check whether your ESD support is enabled in compile time</source>
         <source>Color 8:</source>
         <translation>颜色 8:</translation>
     </message>
+    <message>
+        <source>Reset</source>
+        <translation>重置</translation>
+    </message>
 </context>
 <context>
     <name>soundConf</name>

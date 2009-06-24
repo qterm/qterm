@@ -43,6 +43,7 @@ protected slots:
     void buttonClicked();
     void nameChanged(int);
     void saveScheme();
+    void resetScheme();
     void removeScheme();
     void onOK();
     void onCancel();

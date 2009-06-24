@@ -1850,73 +1850,78 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="272"/>
+        <location filename="../ui/schemedialog.ui" line="275"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="285"/>
+        <location filename="../ui/schemedialog.ui" line="288"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="298"/>
+        <location filename="../ui/schemedialog.ui" line="301"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="311"/>
+        <location filename="../ui/schemedialog.ui" line="314"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="347"/>
+        <location filename="../ui/schemedialog.ui" line="350"/>
         <source>Normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="363"/>
+        <location filename="../ui/schemedialog.ui" line="369"/>
         <source>Bright</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="379"/>
+        <location filename="../ui/schemedialog.ui" line="388"/>
         <source>Color 1:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="395"/>
+        <location filename="../ui/schemedialog.ui" line="407"/>
         <source>Color 2:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="411"/>
+        <location filename="../ui/schemedialog.ui" line="426"/>
         <source>Color 3:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="427"/>
+        <location filename="../ui/schemedialog.ui" line="445"/>
         <source>Color 4:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="443"/>
+        <location filename="../ui/schemedialog.ui" line="464"/>
         <source>Color 5:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="459"/>
+        <location filename="../ui/schemedialog.ui" line="483"/>
         <source>Color 6:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="475"/>
+        <location filename="../ui/schemedialog.ui" line="502"/>
         <source>Color 7:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/schemedialog.ui" line="491"/>
+        <location filename="../ui/schemedialog.ui" line="521"/>
         <source>Color 8:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/schemedialog.ui" line="553"/>
+        <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

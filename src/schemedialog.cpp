@@ -47,7 +47,7 @@ void schemeDialog::connectSlots()
     connect(ui.removeButton, SIGNAL(clicked()), this, SLOT(removeScheme()));
     connect(ui.okButton, SIGNAL(clicked()), this, SLOT(onOK()));
     connect(ui.cancelButton, SIGNAL(clicked()), this, SLOT(onCancel()));
-
+    connect(ui.resetButton, SIGNAL(clicked()), this, SLOT(resetScheme()));
 
     connect(ui.clr0Button, SIGNAL(clicked()), this, SLOT(buttonClicked()));
     connect(ui.clr1Button, SIGNAL(clicked()), this, SLOT(buttonClicked()));
@@ -245,6 +245,11 @@ void schemeDialog::saveScheme()
     // get current scheme file name
     int n = ui.nameListWidget->currentRow();
     saveNumScheme(n);
+}
+
+void schemeDialog::resetScheme()
+{
+    loadScheme(strCurrentScheme);
 }
 
 void schemeDialog::removeScheme()

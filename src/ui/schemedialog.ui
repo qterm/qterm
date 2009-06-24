@@ -40,6 +40,9 @@
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
+   <property name="buddy">
+    <cstring>titleLineEdit</cstring>
+   </property>
   </widget>
   <widget class="QPushButton" name="clr1Button">
    <property name="geometry">
@@ -349,6 +352,9 @@
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
+   <property name="buddy">
+    <cstring>clr0Button</cstring>
+   </property>
   </widget>
   <widget class="QLabel" name="textLabel1_4">
    <property name="geometry">
@@ -364,6 +370,9 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+   <property name="buddy">
+    <cstring>clr8Button</cstring>
    </property>
   </widget>
   <widget class="QLabel" name="textLabel1_5">
@@ -381,6 +390,9 @@
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
+   <property name="buddy">
+    <cstring>clr0Button</cstring>
+   </property>
   </widget>
   <widget class="QLabel" name="textLabel1_6">
    <property name="geometry">
@@ -396,6 +408,9 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+   <property name="buddy">
+    <cstring>clr1Button</cstring>
    </property>
   </widget>
   <widget class="QLabel" name="textLabel1_7">
@@ -413,6 +428,9 @@
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
+   <property name="buddy">
+    <cstring>clr2Button</cstring>
+   </property>
   </widget>
   <widget class="QLabel" name="textLabel1_8">
    <property name="geometry">
@@ -428,6 +446,9 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+   <property name="buddy">
+    <cstring>clr3Button</cstring>
    </property>
   </widget>
   <widget class="QLabel" name="textLabel1_9">
@@ -445,6 +466,9 @@
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
+   <property name="buddy">
+    <cstring>clr4Button</cstring>
+   </property>
   </widget>
   <widget class="QLabel" name="textLabel1_10">
    <property name="geometry">
@@ -460,6 +484,9 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+   <property name="buddy">
+    <cstring>clr5Button</cstring>
    </property>
   </widget>
   <widget class="QLabel" name="textLabel1_11">
@@ -477,6 +504,9 @@
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
+   <property name="buddy">
+    <cstring>clr6Button</cstring>
+   </property>
   </widget>
   <widget class="QLabel" name="textLabel1_12">
    <property name="geometry">
@@ -493,6 +523,9 @@
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
+   <property name="buddy">
+    <cstring>clr7Button</cstring>
+   </property>
   </widget>
   <widget class="Line" name="line_2">
    <property name="geometry">
@@ -507,9 +540,47 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
+  <widget class="QPushButton" name="resetButton">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>410</y>
+     <width>80</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reset</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <tabstops>
+  <tabstop>nameListWidget</tabstop>
+  <tabstop>titleLineEdit</tabstop>
+  <tabstop>clr0Button</tabstop>
+  <tabstop>clr8Button</tabstop>
+  <tabstop>clr1Button</tabstop>
+  <tabstop>clr9Button</tabstop>
+  <tabstop>clr2Button</tabstop>
+  <tabstop>clr10Button</tabstop>
+  <tabstop>clr3Button</tabstop>
+  <tabstop>clr11Button</tabstop>
+  <tabstop>clr4Button</tabstop>
+  <tabstop>clr12Button</tabstop>
+  <tabstop>clr5Button</tabstop>
+  <tabstop>clr13Button</tabstop>
+  <tabstop>clr6Button</tabstop>
+  <tabstop>clr14Button</tabstop>
+  <tabstop>clr7Button</tabstop>
+  <tabstop>clr15Button</tabstop>
+  <tabstop>saveButton</tabstop>
+  <tabstop>removeButton</tabstop>
+  <tabstop>resetButton</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
