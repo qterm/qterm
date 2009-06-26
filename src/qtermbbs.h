@@ -38,7 +38,7 @@ public:
     void setPageState();
     void setScreenStart(int);
     int getScreenStart();
-    bool setCursorPos(const QPoint&, QRect&);
+    bool setCursorPos(const QPoint&, QRect&, QRect&);
 
     bool isSelected(int);
     bool isSelected(const QPoint&);

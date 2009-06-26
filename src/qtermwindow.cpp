@@ -666,9 +666,11 @@ void Window::mouseMoveEvent(QMouseEvent * me)
 
     if (m_bMouse && m_bConnected) {
         // set cursor pos, repaint if state changed
-        QRect rect;
-        if (m_pBBS->setCursorPos(m_pScreen->mapToChar(me->pos()), rect))
-            m_pScreen->repaint(m_pScreen->mapToRect(rect));
+        QRect rect_old, rect_new;
+        if (m_pBBS->setCursorPos(m_pScreen->mapToChar(me->pos()), rect_old, rect_new)) {
+            m_pScreen->repaint(m_pScreen->mapToRect(rect_new));
+            m_pScreen->repaint(m_pScreen->mapToRect(rect_old));
+        }
         // judge if URL
         QRect rcOld;
         QRect rcOld_IP;

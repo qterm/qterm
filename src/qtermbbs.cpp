@@ -59,7 +59,7 @@ int BBS::getScreenStart()
     return m_nScreenStart;
 }
 
-bool BBS::setCursorPos(const QPoint& pt, QRect& rc)
+bool BBS::setCursorPos(const QPoint& pt, QRect& rc_old, QRect& rc_new)
 {
     QRect rectOld = getSelectRect();
 
@@ -69,7 +69,8 @@ bool BBS::setCursorPos(const QPoint& pt, QRect& rc)
 
     QRect rectNew = getSelectRect();
 
-    rc = rectOld | rectNew;
+    rc_old = rectOld;
+    rc_new = rectNew;
 
     return rectOld != rectNew;
 }
