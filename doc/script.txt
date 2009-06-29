@@ -176,14 +176,9 @@ setPageState()
     Determine the current state of the BBS page, useful for further determine
     the mouse behavior
 
-isLineClickable(x,y)
-    Determine if the current line under mouse cursor is clickable, x and y is
-    the mouse text coordinate.
-
-getClickableString(x,y)
-    Determine if the string under mouse cursor is clickable, x and y is the
-    mouse text coordinate, the string should be returned and will be
-    highlighted by QTerm.
+setSelectRect(x,y)
+    Determine if the text under mouse cursor is clickable, x and y is
+    the mouse text coordinate. Return an 4-int array (x,y,w,h)
 
 onMouseEvent(type, button, buttons, modifiers, pt_x, pt_y)
     Handle the mouse event, type, button, buttons, modifiers follow the
