@@ -4,7 +4,11 @@
 #include <QtGui/QMessageBox>
 
 #ifdef PHONON_ENABLED
+#ifdef OLD_PHONON
+#include <phonon>
+#else
 #include <Phonon/MediaObject>
+#endif
 #endif // PHONON_ENABLED
 
 namespace QTerm
