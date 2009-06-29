@@ -1350,6 +1350,7 @@ void Window::debugConsole()
 
 void Window::runScript(const QString & filename)
 {
+#ifdef SCRIPT_ENABLED
     QString file = filename;
     if (file.isEmpty()){
         // get the previous dir
@@ -1359,6 +1360,7 @@ void Window::runScript(const QString & filename)
         return;
 
     m_scriptHelper->loadScriptFile(file);
+#endif
 }
 
 void Window::stopScript()
