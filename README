@@ -1,11 +1,11 @@
-QTerm 0.5.6
+QTerm 0.5.7
 ===============
 
 这个版本添加/修正了下面一些功能:
-1. QtScript 脚本支持
-2. QtScript 脚本支持
-3. QtScript 脚本支持
-4. QtScript 脚本支持
+1. 分别设置字体
+2. 编辑配色方案
+3. 更多脚本
+4. 再次改变地址簿格式
 5. Bug fixes
 
                                          The QTerm Team

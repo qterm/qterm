@@ -1,7 +1,6 @@
 --Next release:
     Complete Vt102 support?
 --Should be easy (but I probably will not do it in the next release):
-    Use different fonts for single width and double width char (the configure dialog need to be redesigned)
     Fix the warnings, compile time and runtime, also FIXMEs
     Fix tab and status bar
     Fix image viewer
