@@ -2,6 +2,7 @@
 #define QTERMDECODE_H
 
 #include <QtCore/QObject>
+#include <QtCore/QTextCodec>
 
 class QTextDecoder;
 
