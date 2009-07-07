@@ -368,7 +368,7 @@ void Screen::getFontMetrics()
         m_nCharWidth = (qMax(en, cn) + 1) / 2;
 
     m_nCharDelta = m_nCharWidth - cn/2;
-    m_nCharHeight = ascii_fm.height();
+    m_nCharHeight = qMax(ascii_fm.height(),general_fm.height());
     m_nCharAscent = ascii_fm.ascent();
     m_nCharDescent = ascii_fm.descent();
 }
