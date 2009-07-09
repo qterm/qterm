@@ -24,14 +24,6 @@ AUTHOR:		smartfish kafa
 #define BUFSIZE (1024)
 #endif
 
-#include <qtextcodec.h>
-//code convert
-#define G2U(s) ( QTextCodec::codecForName("GBK")->toUnicode(s) )
-#define U2G(s) ( QTextCodec::codecForName("GBK")->fromUnicode(s) )
-#define B2U(s) ( QTextCodec::codecForName("Big5")->toUnicode(s) )
-#define U2B(s) ( QTextCodec::codecForName("Big5")->fromUnicode(s) )
-
-
 // every character has a 16-bit description
 // low 	 8 for colors
 // hight 8 for attributes
