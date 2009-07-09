@@ -428,11 +428,13 @@ const char * Zmodem::hdrnames[] = {
 
 
 
-Zmodem::Zmodem(QObject *netinterface, int type)
+Zmodem::Zmodem(QObject * parent, QObject *netinterface, QTextCodec * codec, int type)
+    :QObject(parent)
 {
 
 //now set network interface Telnet
 
+    m_codec = codec;
     connectionType = type;
 
 // Get network interface
@@ -1037,7 +1039,7 @@ FILE * Zmodem::ZOpenFile(char *name, ulong crc, ZModem *info)
     //to be complete
     FILE *rval;
     int apnd = 0;
-    QString str = Global::instance()->m_pref.strZmPath + G2U(name); // lazy, should use bbs2unicode
+    QString str = Global::instance()->m_pref.strZmPath + m_codec->toUnicode(name);
     rval = fopen(str.toLocal8Bit(), apnd ? "ab" : "wb") ;
 
     if (rval == NULL)

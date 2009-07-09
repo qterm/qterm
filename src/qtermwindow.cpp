@@ -278,7 +278,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     connect(m_pBuffer, SIGNAL(windowSizeChanged(int, int)),
             m_pTelnet, SLOT(windowSizeChanged(int, int)));
     m_pZmDialog = new zmodemDialog(this);
-    m_pZmodem = new Zmodem(m_pTelnet, param.m_nProtocolType);
+    m_pZmodem = new Zmodem(this, m_pTelnet, m_codec, param.m_nProtocolType);
 
     if (m_codec == 0) {
         qDebug("Fallback to GBK codec");

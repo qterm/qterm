@@ -23,6 +23,7 @@
 #include <QTimer>
 #include <QFile>
 #include <QStringList>
+class QTextCodec;
 
 namespace QTerm
 {
@@ -373,7 +374,7 @@ class Zmodem: public QObject
 
 public:
 
-    Zmodem(QObject *netinterface, int type);
+    Zmodem(QObject * parent, QObject *netinterface, QTextCodec * codec, int type);
     ~Zmodem();
 
 //Member Function
@@ -639,7 +640,8 @@ public slots:
     void zmodemCancel();
     int ZmodemTimeout() ;
     void setFileList(const QStringList & fileList);
-
+private:
+    QTextCodec * m_codec;
 };
 
 } // namespace QTerm
