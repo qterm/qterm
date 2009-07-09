@@ -1,12 +1,9 @@
 #ifndef QTERMHTTP_H
 #define QTERMHTTP_H
 
-// #include <qobject.h>
-// #include <q3http.h>
-// #include <q3progressdialog.h>
-#include <QObject>
-#include <QHttp>
-// #include <QProgressDialog>
+#include <QtCore/QObject>
+#include <QtNetwork/QHttp>
+
 namespace QTerm
 {
 class Http : public QObject
@@ -33,7 +30,6 @@ signals:
 protected:
     QHttp m_httpDown;
     QString m_strHttpFile;
-//     Q3ProgressDialog *m_pDialog;
     bool m_bPreview;
     bool m_bExist;
     QWidget *parent;

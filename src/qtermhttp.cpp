@@ -6,30 +6,18 @@
 #include "qtermframe.h"
 #include "imageviewer.h"
 
-//Added by qt3to4:
-#include <QString>
-#include <QApplication>
-#include <QFileInfo>
-#include <QMessageBox>
-#include <QDataStream>
-#include <QUrl>
-#include <QRegExp>
+#include <QtCore/QFileInfo>
+#include <QtGui/QMessageBox>
+#include <QtCore/QDataStream>
+#include <QtCore/QUrl>
+#include <QtCore/QRegExp>
 #include <QtCore/QProcess>
 
-
-// #include <qapplication.h>
-// #include <qstring.h>
-// #include <qfileinfo.h>
-// #include <qmessagebox.h>
-// #include <qdatastream.h>
-// #include <q3url.h>
-// #include <qregexp.h>
 namespace QTerm
 {
 
 Http::Http(QWidget *p)
 {
-//  m_pDialog = NULL;
     parent = p;
     connect(&m_httpDown, SIGNAL(done(bool)), this, SLOT(httpDone(bool)));
     connect(&m_httpDown, SIGNAL(dataReadProgress(int, int)),
@@ -40,8 +28,6 @@ Http::Http(QWidget *p)
 
 Http::~Http()
 {
-//  if(m_pDialog!=NULL)
-//   delete m_pDialog;
 }
 
 void Http::cancel()
