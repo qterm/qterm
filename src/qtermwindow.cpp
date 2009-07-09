@@ -1702,7 +1702,7 @@ void Window::saveLink()
 
 void Window::getHttpHelper(const QString& strUrl, bool bPreview)
 {
-    Http *pHttp = new Http(this);
+    Http *pHttp = new Http(this, m_codec);
     connect(pHttp, SIGNAL(done(QObject*)), this, SLOT(httpDone(QObject*)));
     connect(pHttp, SIGNAL(message(const QString &)), m_pMessage, SLOT(showText(const QString &)));
     pHttp->getLink(strUrl, bPreview);

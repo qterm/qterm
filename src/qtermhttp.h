@@ -4,6 +4,9 @@
 #include <QtCore/QObject>
 #include <QtNetwork/QHttp>
 
+class QWidget;
+class QTextCodec;
+
 namespace QTerm
 {
 class Http : public QObject
@@ -11,7 +14,7 @@ class Http : public QObject
     Q_OBJECT
 
 public:
-    Http(QWidget*);
+    Http(QWidget*,QTextCodec *);
     ~Http();
 
     void getLink(const QString&, bool);
@@ -32,7 +35,7 @@ protected:
     QString m_strHttpFile;
     bool m_bPreview;
     bool m_bExist;
-    QWidget *parent;
+    QTextCodec * m_codec;
 };
 
 } // namespace QTerm

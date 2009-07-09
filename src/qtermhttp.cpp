@@ -7,18 +7,20 @@
 #include "imageviewer.h"
 
 #include <QtCore/QFileInfo>
-#include <QtGui/QMessageBox>
 #include <QtCore/QDataStream>
 #include <QtCore/QUrl>
 #include <QtCore/QRegExp>
 #include <QtCore/QProcess>
+#include <QtCore/QTextCodec>
+#include <QtGui/QMessageBox>
 
 namespace QTerm
 {
 
-Http::Http(QWidget *p)
+Http::Http(QWidget *parent, QTextCodec * codec)
+    :QObject(parent)
 {
-    parent = p;
+    m_codec = codec;
     connect(&m_httpDown, SIGNAL(done(bool)), this, SLOT(httpDone(bool)));
     connect(&m_httpDown, SIGNAL(dataReadProgress(int, int)),
             this, SLOT(httpRead(int, int)));
@@ -90,7 +92,7 @@ void Http::httpResponse(const QHttpResponseHeader& hrh)
     int pos = re.indexIn(ValueString);
     if (pos != -1)
         m_strHttpFile = ValueString.mid(pos + 9, re.matchedLength() - 10);
-    filename = m_strHttpFile = G2U(m_strHttpFile.toLatin1());
+    filename = m_strHttpFile = m_codec->toUnicode(m_strHttpFile.toLatin1());
 
     if (m_bPreview) {
         QString strPool = Global::instance()->m_pref.strPoolPath;
