@@ -12,17 +12,12 @@
 #include <sys/stat.h>
 #include <errno.h>
 
+#include <QtCore/QByteArray>
+#include <QtCore/QObject>
+#include <QtCore/QTimer>
+#include <QtCore/QFile>
+#include <QtCore/QStringList>
 
-// #include <qobject.h>
-// #include <qtimer.h>
-// #include <qfile.h>
-// #include <qstringlist.h>
-//Added by qt3to4:
-#include <QByteArray>
-#include <QObject>
-#include <QTimer>
-#include <QFile>
-#include <QStringList>
 class QTextCodec;
 
 namespace QTerm

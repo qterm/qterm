@@ -5,14 +5,10 @@
 #include "qtermconfig.h"
 #include "qtermglobal.h"
 
-#include <QApplication>
-#include <QString>
-#include <QFileDialog>
-#include <QFileInfo>
-// #include <qapplication.h>
-// #include <string.h>
-// #include <q3filedialog.h>
-// #include <qfileinfo.h>
+#include <QtCore/QString>
+#include <QtCore/QFileInfo>
+#include <QtCore/QTextCodec>
+#include <QtGui/QFileDialog>
 
 namespace QTerm
 {
