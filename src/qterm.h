@@ -165,58 +165,5 @@ AUTHOR:		smartfish kafa
 #define SOCKS5			3
 #define HTTP			4
 
-// UI ID 
-#define ID_FILE_CONNECT		0x00
-#define ID_FILE_DISCONNECT	0x01
-#define ID_FILE_ADDRESS		0x02
-#define ID_FILE_QUICK		0x03
-#define ID_FILE_EXIT		0x04
-
-#define ID_EDIT_COPY		0x10
-#define ID_EDIT_PASTE		0x11
-#define ID_EDIT_COLOR		0x12
-#define	ID_EDIT_RECT		0x13
-#define	ID_EDIT_AUTO		0x14
-#define ID_EDIT_WW			0x15
-
-#define ID_EDIT_ESC_NO		0x17
-#define ID_EDIT_ESC_ESC		0x18
-#define ID_EDIT_ESC_U		0x19
-#define ID_EDIT_ESC_CUS		0x1a
-
-#define ID_EDIT_CODEC_GBK	0x1b
-#define ID_EDIT_CODEC_BIG5	0x1c
-
-
-#define ID_VIEW_FONT		0x20
-#define	ID_VIEW_COLOR		0x21
-#define	ID_VIEW_REFRESH		0x22
-#define	ID_VIEW_LANG		0x23
-#define ID_VIEW_FULL		0x24
-#define ID_VIEW_BOSS		0x25
-#define ID_VIEW_SCROLL_HIDE	0x26
-#define ID_VIEW_SCROLL_LEFT	0x27
-#define ID_VIEW_SCROLL_RIGHT 0x28
-#define ID_VIEW_SWITCH		0x29
-#define ID_VIEW_STATUS		0x3a
-
-#define	ID_OPTION_CURRENT	0x30
-#define ID_OPTION_DEFAULT	0x31
-#define ID_OPTION_PREF		0x32
-
-#define ID_SPEC_ANTI		0x40
-#define ID_SPEC_AUTO		0x41
-#define	ID_SPEC_MESSAGE		0x42
-#define ID_SPEC_BEEP		0x43
-#define ID_SPEC_MOUSE		0x44
-#define ID_SPEC_ARTICLE		0x45
-
-#define ID_SCRIPT_RUN		0x50
-#define ID_SCRIPT_STOP		0x51
-
-#define ID_HELP_ABOUT		0x60
-#define ID_HELP_HOMEPAGE	0x61
-
-
 #endif	//QTERM_H
 
