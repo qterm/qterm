@@ -11,7 +11,7 @@ class TextLine : public QObject
 {
     Q_OBJECT
 public:
-    TextLine();
+    TextLine(QObject * parent = 0);
     ~TextLine();
 
 public slots:

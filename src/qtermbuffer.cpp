@@ -33,7 +33,7 @@ Buffer::Buffer(int line, int column, int limit)
     m_lines = 0;
 
     while (m_lineList.count() < m_lin)
-        m_lineList.append(new TextLine);
+        m_lineList.append(new TextLine(this));
 
     m_curAttr = SETCOLOR(NO_COLOR) | SETATTR(NO_ATTR);
 
@@ -73,7 +73,7 @@ void Buffer::setSize(int col, int lin)
 
     if (m_lin < lin)
         for (int i = 0; i < lin - m_lin; i++)
-            m_lineList.append(new TextLine);
+            m_lineList.append(new TextLine(this));
     else if (m_lin > lin)
         for (int i = 0; i < m_lin - lin; i++)
             delete m_lineList.takeAt(m_lines + m_top);
@@ -378,7 +378,7 @@ void Buffer::scrollLines(int startY, int num)
     if (num > 0) { // delete
         while (num) {
             delete m_lineList.takeAt(m_lines + startY);
-            m_lineList.insert(m_lines + m_bottom, new TextLine);
+            m_lineList.insert(m_lines + m_bottom, new TextLine(this));
             num--;
         }
     }
@@ -386,7 +386,7 @@ void Buffer::scrollLines(int startY, int num)
     if (num < 0) { // insert
         while (num) {
             delete m_lineList.takeAt(m_lines + m_bottom);
-            m_lineList.insert(m_lines + startY, new TextLine);
+            m_lineList.insert(m_lines + startY, new TextLine(this));
             num++;
         }
     }
@@ -464,7 +464,7 @@ void Buffer::addHistoryLine(int n)
             // m_ptSelStart=m_ptSelEnd=QPoint(-1,-1);
         }
 
-        m_lineList.append(new TextLine);
+        m_lineList.append(new TextLine(this));
         m_lines = qMin(m_lines + 1, m_limit);
         n--;
     }

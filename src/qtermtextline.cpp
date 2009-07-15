@@ -19,8 +19,8 @@ AUTHOR:        kingson fiasco
 
 namespace QTerm
 {
-TextLine::TextLine()
-        : m_text(), m_color(), m_attr()
+TextLine::TextLine(QObject * parent)
+        : QObject(parent), m_text(), m_color(), m_attr()
 {
     m_bChanged = true;
     m_start = -1;
