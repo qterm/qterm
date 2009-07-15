@@ -457,7 +457,7 @@ void Buffer::addHistoryLine(int n)
 {
     while (n) {
         if (m_lines == m_limit) {
-            m_lineList.removeFirst();
+            delete m_lineList.takeFirst();
             //m_ptSelStart.setY( m_ptSelStart.y()-1 );
             //m_ptSelEnd.setY( m_ptSelEnd.y()-1 );
             //if(m_ptSelStart.y()<0)
