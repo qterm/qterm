@@ -602,6 +602,9 @@ bool Buffer::isSelected(const QPoint& pt, bool rect)
 
 QString Buffer::getSelectText(bool rect, bool color, const QString & escape)
 {
+    if (m_ptSelStart == QPoint(-1,-1) || m_ptSelEnd == QPoint(-1,-1))
+        return "";
+
     QString strSelect = "";
 
     QRect rc;
