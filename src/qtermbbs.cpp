@@ -658,7 +658,7 @@ int BBS::checkUrlBegin( const QString & lineText, int index)
 {
     int i = 0;
     QString urlText = lineText;
-    for (i = index; i < urlText.length() && isIllChar(urlText.at(i)); i++);
+    for (i = index; i < urlText.length() && isIllChar(urlText.at(i)); i++) ;
     if (i < urlText.length()) {
         return i;
     }
@@ -672,7 +672,7 @@ int BBS::checkUrlEnd( const QString & lineText, int index)
     if (urlText.isEmpty()) {
         return 0;
     }
-    for (i = index; i< urlText.length() && !isIllChar(urlText.at(i)); i++);
+    for (i = index; i< urlText.length() && !isIllChar(urlText.at(i)); i++) ;
     if (i < urlText.length()) {
         return i;
     }
