@@ -17,9 +17,9 @@
 namespace QTerm
 {
 DBus * DBus::m_instance = 0;
-static const QString dbusServiceName = "org.kde.VisualNotifications";
-static const QString dbusInterfaceName = "org.kde.VisualNotifications";
-static const QString dbusPath = "/VisualNotifications";
+static const QString dbusServiceName = "org.freedesktop.Notifications";
+static const QString dbusInterfaceName = "org.freedesktop.Notifications";
+static const QString dbusPath = "/org/freedesktop/Notifications";
 
 DBus * DBus::instance()
 {
@@ -103,10 +103,10 @@ bool DBus::sendNotification(const QString & summary, const QString & body, QList
     QList<QVariant> args;
     args.append("QTerm");
     args.append(id); // If I send 0 directly, this will be an int32 instead of uin32, resulting an unknown method error.
-    args.append(QString());
-    args.append(QString());
-    args.append(summary);
-    args.append(body);
+//    args.append(QString());
+    args.append(QString()); // Icon name
+    args.append(summary); // Title
+    args.append(body); // Text
     QStringList actionList;
     foreach (DBus::Action action, actions) {
         if (action==DBus::Show_QTerm) {
@@ -116,7 +116,7 @@ bool DBus::sendNotification(const QString & summary, const QString & body, QList
     }
     args.append(actionList);
     args.append(QVariantMap());
-    args.append(6*1000);
+    args.append(-1);//-1 means: notification server decides
     message.setArguments(args);
     QDBusMessage replyMsg = QDBusConnection::sessionBus().call(message);
     if(replyMsg.type() == QDBusMessage::ReplyMessage) {
