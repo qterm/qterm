@@ -16,12 +16,6 @@
     <height>150</height>
    </size>
   </property>
-  <property name="font">
-   <font>
-    <family>DejaVu Sans</family>
-    <pointsize>12</pointsize>
-   </font>
-  </property>
   <property name="windowTitle">
    <string>Quick Login</string>
   </property>
@@ -33,12 +27,6 @@
      <width>91</width>
      <height>31</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>DejaVu Sans</family>
-     <pointsize>12</pointsize>
-    </font>
    </property>
    <property name="frameShape">
     <enum>QFrame::NoFrame</enum>
@@ -64,12 +52,6 @@
      <width>91</width>
      <height>31</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>DejaVu Sans</family>
-     <pointsize>12</pointsize>
-    </font>
    </property>
    <property name="text">
     <string>Address:</string>
@@ -123,12 +105,6 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>DejaVu Sans</family>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
    <property name="text">
     <string>Connect</string>
    </property>
@@ -141,12 +117,6 @@
      <width>82</width>
      <height>31</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>DejaVu Sans</family>
-     <pointsize>12</pointsize>
-    </font>
    </property>
    <property name="text">
     <string>Close</string>
@@ -161,12 +131,6 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>DejaVu Sans</family>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
    <property name="text">
     <string>Advanced...</string>
    </property>
@@ -179,12 +143,6 @@
      <width>91</width>
      <height>31</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>DejaVu Sans</family>
-     <pointsize>12</pointsize>
-    </font>
    </property>
    <property name="text">
     <string>Delete</string>
@@ -199,12 +157,6 @@
      <height>29</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>DejaVu Sans</family>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
    <property name="text">
     <string>Add</string>
    </property>
@@ -217,12 +169,6 @@
      <width>91</width>
      <height>31</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>DejaVu Sans</family>
-     <pointsize>12</pointsize>
-    </font>
    </property>
    <property name="text">
     <string>Port:</string>
@@ -242,12 +188,6 @@
      <width>91</width>
      <height>31</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>DejaVu Sans</family>
-     <pointsize>12</pointsize>
-    </font>
    </property>
    <property name="text">
     <string>Protocol:</string>
