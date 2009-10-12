@@ -207,7 +207,7 @@ QString ScriptHelper::localPath()
     return Global::instance()->pathCfg();
 }
 
-void ScriptHelper::import(const QString & filename)
+void ScriptHelper::loadScript(const QString & filename)
 {
     QFileInfo fileInfo(filename);
     if (!fileInfo.isAbsolute()) {

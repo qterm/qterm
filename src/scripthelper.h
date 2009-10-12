@@ -44,7 +44,7 @@ public slots:
     bool addUrlMenu(QString id, QString menuTitle, QString icon = "QTerm");
     void addPopupSeparator();
     void addUrlSeparator();
-    void import(const QString & filename);
+    void loadScript(const QString & filename);
     QString globalPath();
     QString localPath();
     QString getSelectedText(bool rect = false, bool color = false, const QString & escape = "");

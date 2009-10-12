@@ -1651,7 +1651,7 @@ void Window::initScript()
     if (!m_param.m_bLoadScript)
         return;
     m_pBBS->setScript(m_scriptEngine, m_scriptHelper);
-    m_scriptHelper->import(m_param.m_strScriptFile);
+    m_scriptHelper->loadScript(m_param.m_strScriptFile);
     QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("init");
     if (!func.isFunction()) {
         qDebug() << "init is not a function";

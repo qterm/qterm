@@ -1,6 +1,6 @@
 QTerm.loadExtension("qt.core");
 QTerm.loadExtension("qt.gui");
-QTerm.import("utils.js");
+QTerm.loadScript("utils.js");
 
 var SendDelay = SendDelay ? SendDelay : new Object;
 SendDelay.stringQueue = new Array;

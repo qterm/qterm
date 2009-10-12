@@ -1,8 +1,8 @@
-QTerm.import("utils.js");
-QTerm.import("highlight.js");
+QTerm.loadScript("utils.js");
+QTerm.loadScript("highlight.js");
 //Enable this if you have qt bindings installed.
-//QTerm.import("console.js");
-//QTerm.import("websnap.js");
+//QTerm.loadScript("console.js");
+//QTerm.loadScript("websnap.js");
 
 QTerm.PTT = {
     Unknown : -1,

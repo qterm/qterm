@@ -1,4 +1,4 @@
-QTerm.import("utils.js");
+QTerm.loadScript("utils.js");
 var Article = Article ? Article : new Object;
 Article.downloading = false;
 Article.textList= [];

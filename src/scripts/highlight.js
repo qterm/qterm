@@ -1,4 +1,4 @@
-QTerm.import("utils.js");
+QTerm.loadScript("utils.js");
 QTerm.highlightKeywords = function(pattern)
 {
     for (var i = 0; i < QTerm.rows(); i++) {

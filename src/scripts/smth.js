@@ -1,9 +1,9 @@
-QTerm.import("utils.js");
-QTerm.import("highlight.js");
+QTerm.loadScript("utils.js");
+QTerm.loadScript("highlight.js");
 //Enable this if you have qt bindings installed.
-//QTerm.import("console.js");
-//QTerm.import("websnap.js");
-//QTerm.import("senddelay.js");
+//QTerm.loadScript("console.js");
+//QTerm.loadScript("websnap.js");
+//QTerm.loadScript("senddelay.js");
 
 QTerm.SMTH= {
     Unknown : -1,
@@ -247,7 +247,7 @@ if (QTerm.addPopupMenu( "aboutScript", "About This Script" ) ) {
 }
 
 /*
-QTerm.import("article.js");
+QTerm.loadScript("article.js");
 
 QTerm.onArticle = function()
 {
