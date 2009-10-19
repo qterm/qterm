@@ -1882,7 +1882,7 @@ void Window::loadKeyboardTranslator(const QString & filename)
         m_translator = NULL;
         return;
     }
-    qDebug() << "translator loaded";
+    qDebug() << "Keyboard translator:" << name << "loaded";
 }
 
 }
