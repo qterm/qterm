@@ -32,10 +32,9 @@ Param::Param()
 	m_strGeneralFontName = "Nsimsun";
 	m_nFontSize = 14;
 	m_strSchemeFile = "";
-	m_strKeyboardProfile= "";
 // Terminal
 	m_strTerm = "vt102";
-	m_nKey = 0;
+	m_strKeyboardProfile= "";
 	m_nCol = 80;
 	m_nRow = 24;
 	m_nScrollLines = 240;
@@ -86,10 +85,9 @@ Param::Param( const Param & param )
 	m_strGeneralFontName = param.m_strGeneralFontName;
 	m_nFontSize = param.m_nFontSize;
 	m_strSchemeFile = param.m_strSchemeFile;
-	m_strKeyboardProfile = param.m_strKeyboardProfile;
 // Terminal
 	m_strTerm = param.m_strTerm;
-	m_nKey = param.m_nKey;
+	m_strKeyboardProfile = param.m_strKeyboardProfile;
 	m_nCol = param.m_nCol;
 	m_nRow = param.m_nRow;
 	m_nScrollLines = param.m_nScrollLines;
@@ -144,10 +142,9 @@ Param& Param::operator=(const Param& param)
 	m_strGeneralFontName = param.m_strGeneralFontName;
 	m_nFontSize = param.m_nFontSize;
 	m_strSchemeFile = param.m_strSchemeFile;
-	m_strKeyboardProfile = param.m_strKeyboardProfile;
 // Terminal
 	m_strTerm = param.m_strTerm;
-	m_nKey = param.m_nKey;
+	m_strKeyboardProfile = param.m_strKeyboardProfile;
 	m_nCol = param.m_nCol;
 	m_nRow = param.m_nRow;
 	m_nScrollLines = param.m_nScrollLines;

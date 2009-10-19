@@ -384,7 +384,6 @@ bool addrDialog::isChanged()
            param.m_strSchemeFile != strSchemeFile ||
            param.m_strKeyboardProfile != strKeyboardProfile||
            param.m_strTerm != ui.termtypeLineEdit->text() ||
-           param.m_nKey != ui.keytypeComboBox->currentIndex() ||
            param.m_nCol != ui.columnLineEdit->text().toInt() ||
            param.m_nRow != ui.rowLineEdit->text().toInt() ||
            param.m_nScrollLines != ui.scrollLineEdit->text().toInt() ||
@@ -435,7 +434,6 @@ void addrDialog::updateData(bool save)
         param.m_strSchemeFile = strSchemeFile;
         param.m_strKeyboardProfile = strKeyboardProfile;
         param.m_strTerm = ui.termtypeLineEdit->text();
-        param.m_nKey = ui.keytypeComboBox->currentIndex();
         param.m_nCol = ui.columnLineEdit->text().toInt();
         param.m_nRow = ui.rowLineEdit->text().toInt();
         param.m_nScrollLines = ui.scrollLineEdit->text().toInt();
@@ -494,7 +492,6 @@ void addrDialog::updateData(bool save)
         strKeyboardProfile = param.m_strKeyboardProfile;
         ui.keytypeComboBox->setCurrentIndex(keyboardProfileList.indexOf(strKeyboardProfile));
         ui.termtypeLineEdit->setText(param.m_strTerm);
-        ui.keytypeComboBox->setCurrentIndex(param.m_nKey);
         strTmp.setNum(param.m_nCol);
         ui.columnLineEdit->setText(strTmp);
         strTmp.setNum(param.m_nRow);

@@ -194,8 +194,6 @@ bool Global::loadAddress(int n, Param& param)
     param.m_strKeyboardProfile = m_address->getItemValue(strSection, "keyboardprofile").toString();
 
     param.m_strTerm = m_address->getItemValue(strSection, "termtype").toString();
-    strTmp = m_address->getItemValue(strSection, "keytype").toString();
-    param.m_nKey = strTmp.toInt();
     strTmp =  m_address->getItemValue(strSection, "column").toString();
     param.m_nCol = strTmp.toInt();
     strTmp =  m_address->getItemValue(strSection, "row").toString();
@@ -292,8 +290,6 @@ void Global::saveAddress(int n, const Param& param)
     m_address->setItemValue(strSection, "keyboardprofile", param.m_strKeyboardProfile);
 
     m_address->setItemValue(strSection, "termtype", param.m_strTerm);
-    strTmp.setNum(param.m_nKey);
-    m_address->setItemValue(strSection, "keytype", strTmp);
     strTmp.setNum(param.m_nCol);
     m_address->setItemValue(strSection, "column", strTmp);
     strTmp.setNum(param.m_nRow);
