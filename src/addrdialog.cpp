@@ -110,7 +110,7 @@ void addrDialog::updateKeyboardProfiles()
     //if( lstFile.count()!=0 )
     {
         foreach(QFileInfo fi, lstFile) {
-            profileList.append(fi.absoluteFilePath());
+            keyboardProfileList.append(fi.absoluteFilePath());
         }
     }
 #endif
@@ -120,10 +120,10 @@ void addrDialog::updateKeyboardProfiles()
     //if(lstFile != NULL)
     {
         foreach(QFileInfo fi, lstFile) {
-            profileList.append(fi.absoluteFilePath());
+            keyboardProfileList.append(fi.absoluteFilePath());
         }
     }
-    foreach (QString file, profileList) {
+    foreach (QString file, keyboardProfileList) {
         QFileInfo fi(file);
         QString base = fi.baseName();
         ui.keytypeComboBox->addItem(base);
@@ -291,8 +291,8 @@ void addrDialog::onScheme(int i)
 
 void addrDialog::onKeyboardProfile(int i)
 {
-    if (i >= 0 && i < profileList.size()) {
-        strKeyboardProfile = profileList[i];
+    if (i >= 0 && i < keyboardProfileList.size()) {
+        strKeyboardProfile = keyboardProfileList[i];
     }
 }
 
@@ -492,7 +492,7 @@ void addrDialog::updateData(bool save)
         strSchemeFile = param.m_strSchemeFile;
         ui.schemeComboBox->setCurrentIndex(schemeFileList.indexOf(strSchemeFile));
         strKeyboardProfile = param.m_strKeyboardProfile;
-        ui.keytypeComboBox->setCurrentIndex(profileList.indexOf(strKeyboardProfile));
+        ui.keytypeComboBox->setCurrentIndex(keyboardProfileList.indexOf(strKeyboardProfile));
         ui.termtypeLineEdit->setText(param.m_strTerm);
         ui.keytypeComboBox->setCurrentIndex(param.m_nKey);
         strTmp.setNum(param.m_nCol);

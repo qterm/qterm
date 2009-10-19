@@ -177,7 +177,7 @@ protected:
     void closeEvent(QCloseEvent *);
     void keyPressEvent(QKeyEvent *);
 
-    void loadTranslator(const QString & profile);
+    void loadKeyboardTranslator(const QString & profile);
 
     Screen * m_pScreen;
     Decode * m_pDecode;

@@ -403,7 +403,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
 
     initScript();
 
-    loadTranslator(param.m_strKeyboardProfile);
+    loadKeyboardTranslator(param.m_strKeyboardProfile);
 
     connectHost();
 }
@@ -1852,7 +1852,7 @@ void Window::updateWindow()
     m_bMessage = false;
 }
 
-void Window::loadTranslator(const QString & filename)
+void Window::loadKeyboardTranslator(const QString & filename)
 {
     //const QString& path = name + ".keytab";
     QFileInfo fi(filename);

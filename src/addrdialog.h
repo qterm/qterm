@@ -62,7 +62,7 @@ protected:
     QColor clrMenu;
     QButtonGroup bgMenu;
     QStringList schemeFileList;
-    QStringList profileList;
+    QStringList keyboardProfileList;
 
     int nLastItem;
 
