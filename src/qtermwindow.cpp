@@ -36,6 +36,7 @@ AUTHOR:        kingson fiasco
 #include "progressBar.h"
 #include "qtermglobal.h"
 #include "hostinfo.h"
+#include "keyboardtranslator.h"
 
 #ifdef SCRIPT_ENABLED
 #include "scripthelper.h"
@@ -247,6 +248,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     m_param = param;
     m_nAddrIndex = addr;
     m_hostInfo = NULL;
+    m_translator = NULL;
     QString pathLib = Global::instance()->pathLib();
     setMouseTracking(true);
 
@@ -400,6 +402,8 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     m_bPythonScriptLoaded = false;
 
     initScript();
+
+    loadTranslator(param.m_strKeyboardProfile);
 
     connectHost();
 }
@@ -867,57 +871,50 @@ void Window::keyPressEvent(QKeyEvent * e)
     if (m_replyTimer->isActive())
         m_replyTimer->stop();
 
-    if (e->modifiers() & Qt::MetaModifier) {
-        if (e->key() >= Qt::Key_A && e->key() <= Qt::Key_Z) {
-            char ch = e->key() & 0x1f;
-            m_pTelnet->write(&ch, 1);
+    Qt::KeyboardModifiers modifiers = e->modifiers();
+    KeyboardTranslator::States states = KeyboardTranslator::AnsiState;
+
+    if ( m_translator )
+    {
+    KeyboardTranslator::Entry entry = m_translator->findEntry(
+                                                e->key() ,
+                                                modifiers,
+                                                states );
+
+        // send result to terminal
+        QByteArray textToSend;
+
+        // special handling for the Alt (aka. Meta) modifier.  pressing
+        // Alt+[Character] results in Esc+[Character] being sent
+        // (unless there is an entry defined for this particular combination
+        //  in the keyboard modifier)
+        bool wantsAltModifier = entry.modifiers() & entry.modifierMask() & Qt::AltModifier;
+        bool wantsAnyModifier = entry.state() &
+                                entry.stateMask() & KeyboardTranslator::AnyModifierState;
+
+        if ( modifiers & Qt::AltModifier && !(wantsAltModifier || wantsAnyModifier)
+             && !e->text().isEmpty() )
+        {
+            textToSend.prepend("\033");
         }
-        return;
+
+        if ( entry.command() != KeyboardTranslator::NoCommand )
+        {
+            if (entry.command() & KeyboardTranslator::EraseCommand)
+                textToSend += "\x1b[3~";
+
+            // TODO command handling
+        }
+        else if ( !entry.text().isEmpty() )
+        {
+            textToSend += unicode2bbs(entry.text(true,modifiers));
+        }
+        else
+            textToSend += unicode2bbs(e->text());
+
+        m_pTelnet->write(textToSend, textToSend.length());
     }
 
-    // TODO get the input messages
-// if( m_bMessage && e->key()==Key_Return && m_pBuffer->caret().y()==1 )
-// {
-//  m_strMessage += m_pBuffer->screen(1)->getText()+"\n";
-// }
-
-    switch (e->key()) {
-    case Qt::Key_Home:
-        m_pTelnet->write(direction[0], 4);
-        return;
-    case Qt::Key_End:
-        m_pTelnet->write(direction[1], 4);
-        return;
-    case Qt::Key_PageUp:
-        m_pTelnet->write(direction[2], 4);
-        return;
-    case Qt::Key_PageDown:
-        m_pTelnet->write(direction[3], 4);
-        return;
-    case Qt::Key_Up:
-        m_pTelnet->write(direction[4], 3);
-        return;
-    case Qt::Key_Down:
-        m_pTelnet->write(direction[5], 3);
-        return;
-    case Qt::Key_Left:
-        m_pTelnet->write(direction[6], 3);
-        return;
-    case Qt::Key_Right:
-        m_pTelnet->write(direction[7], 3);
-        return;
-    case Qt::Key_Delete: // stupid
-        m_pTelnet->write("\x1b[3~", 4);
-        return;
-    default:
-        break;
-    }
-
-
-    if (e->text().length()) {
-        QByteArray cstrTmp = unicode2bbs(e->text());
-        m_pTelnet->write(cstrTmp, cstrTmp.length());
-    }
 }
 
 //connect slot
@@ -1853,6 +1850,39 @@ void Window::updateWindow()
     m_pScreen->m_ePaintState = Screen::NewData;
     m_pScreen->update();
     m_bMessage = false;
+}
+
+void Window::loadTranslator(const QString & filename)
+{
+    //const QString& path = name + ".keytab";
+    QFileInfo fi(filename);
+    QString path;
+    if (fi.exists()) {
+        path = filename;
+    } else {
+        qWarning() << "Fallback to default keyboard layout";
+        path = Global::instance()->pathLib() + "/keyboard_profiles/default.keytab";
+    }
+    fi.setFile(path);
+    QString name = fi.baseName();
+    QFile source(path);
+    if (name.isEmpty() || !source.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    m_translator = new KeyboardTranslator(name);
+    KeyboardTranslatorReader reader(&source);
+    m_translator->setDescription( reader.description() );
+    while ( reader.hasNextEntry() )
+        m_translator->addEntry(reader.nextEntry());
+
+    source.close();
+
+    if ( reader.parseError() )
+    {
+        delete m_translator;
+        m_translator = NULL;
+        return;
+    }
+    qDebug() << "translator loaded";
 }
 
 }

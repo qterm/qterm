@@ -44,6 +44,7 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WFlags fl)
         ui.bbscodeComboBox->addItem(QString::fromLatin1(codecName));
     }
     updateSchemeList();
+    updateKeyboardProfiles();
     if (bPartial) {
         ui.nameListWidget->hide();
         ui.Line->hide();
@@ -93,6 +94,39 @@ void addrDialog::updateSchemeList()
         Config *pConf = new Config(file);
         ui.schemeComboBox->addItem(pConf->getItemValue("scheme", "title").toString());
         delete pConf;
+    }
+}
+
+void addrDialog::updateKeyboardProfiles()
+{
+    QDir dir;
+    QFileInfoList lstFile;
+
+    dir.setNameFilters(QStringList("*.keytab"));
+
+#if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
+    dir.setPath(Global::instance()->pathCfg() + "/keyboard_profiles");
+    lstFile = dir.entryInfoList();
+    //if( lstFile.count()!=0 )
+    {
+        foreach(QFileInfo fi, lstFile) {
+            profileList.append(fi.absoluteFilePath());
+        }
+    }
+#endif
+
+    dir.setPath(Global::instance()->pathLib() + "/keyboard_profiles");
+    lstFile = dir.entryInfoList();
+    //if(lstFile != NULL)
+    {
+        foreach(QFileInfo fi, lstFile) {
+            profileList.append(fi.absoluteFilePath());
+        }
+    }
+    foreach (QString file, profileList) {
+        QFileInfo fi(file);
+        QString base = fi.baseName();
+        ui.keytypeComboBox->addItem(base);
     }
 }
 
@@ -255,6 +289,13 @@ void addrDialog::onScheme(int i)
         strSchemeFile = schemeFileList[i];
 }
 
+void addrDialog::onKeyboardProfile(int i)
+{
+    if (i >= 0 && i < profileList.size()) {
+        strKeyboardProfile = profileList[i];
+    }
+}
+
 void addrDialog::onProtocol(int n)
 {
 #ifndef SSH_ENABLED
@@ -318,6 +359,7 @@ void addrDialog::connectSlots()
     connect(ui.generalFontComboBox, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(onGeneralFont(const QFont &)));
     connect(ui.fontSizeSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onFontSize(int)));
     connect(ui.schemeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onScheme(int)));
+    connect(ui.keytypeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onKeyboardProfile(int)));
 }
 
 bool addrDialog::isChanged()
@@ -340,6 +382,7 @@ bool addrDialog::isChanged()
            param.m_strGeneralFontName != strGeneralFontName||
            param.m_nFontSize != nFontSize ||
            param.m_strSchemeFile != strSchemeFile ||
+           param.m_strKeyboardProfile != strKeyboardProfile||
            param.m_strTerm != ui.termtypeLineEdit->text() ||
            param.m_nKey != ui.keytypeComboBox->currentIndex() ||
            param.m_nCol != ui.columnLineEdit->text().toInt() ||
@@ -390,6 +433,7 @@ void addrDialog::updateData(bool save)
         param.m_strGeneralFontName = strGeneralFontName;
         param.m_nFontSize = nFontSize;
         param.m_strSchemeFile = strSchemeFile;
+        param.m_strKeyboardProfile = strKeyboardProfile;
         param.m_strTerm = ui.termtypeLineEdit->text();
         param.m_nKey = ui.keytypeComboBox->currentIndex();
         param.m_nCol = ui.columnLineEdit->text().toInt();
@@ -447,6 +491,8 @@ void addrDialog::updateData(bool save)
         ui.fontSizeSpinBox->setValue(nFontSize);
         strSchemeFile = param.m_strSchemeFile;
         ui.schemeComboBox->setCurrentIndex(schemeFileList.indexOf(strSchemeFile));
+        strKeyboardProfile = param.m_strKeyboardProfile;
+        ui.keytypeComboBox->setCurrentIndex(profileList.indexOf(strKeyboardProfile));
         ui.termtypeLineEdit->setText(param.m_strTerm);
         ui.keytypeComboBox->setCurrentIndex(param.m_nKey);
         strTmp.setNum(param.m_nCol);

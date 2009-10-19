@@ -32,6 +32,7 @@ Param::Param()
 	m_strGeneralFontName = "Nsimsun";
 	m_nFontSize = 14;
 	m_strSchemeFile = "";
+	m_strKeyboardProfile= "";
 // Terminal
 	m_strTerm = "vt102";
 	m_nKey = 0;
@@ -85,6 +86,7 @@ Param::Param( const Param & param )
 	m_strGeneralFontName = param.m_strGeneralFontName;
 	m_nFontSize = param.m_nFontSize;
 	m_strSchemeFile = param.m_strSchemeFile;
+	m_strKeyboardProfile = param.m_strKeyboardProfile;
 // Terminal
 	m_strTerm = param.m_strTerm;
 	m_nKey = param.m_nKey;
@@ -142,6 +144,7 @@ Param& Param::operator=(const Param& param)
 	m_strGeneralFontName = param.m_strGeneralFontName;
 	m_nFontSize = param.m_nFontSize;
 	m_strSchemeFile = param.m_strSchemeFile;
+	m_strKeyboardProfile = param.m_strKeyboardProfile;
 // Terminal
 	m_strTerm = param.m_strTerm;
 	m_nKey = param.m_nKey;

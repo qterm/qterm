@@ -56,6 +56,8 @@ public:
 	int m_nFontSize;
 	// Scheme File
 	QString m_strSchemeFile;
+	// Keyboard Profile
+	QString m_strKeyboardProfile;
 // Terminal
 	// Terminal Type
 	QString m_strTerm;

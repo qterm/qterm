@@ -37,6 +37,7 @@ protected slots:
     void onReset();
     void onConfigScheme();
     void onScheme(int);
+    void onKeyboardProfile(int);
     void onProtocol(int);
     void onChooseScript();
     void onMenuColor();
@@ -50,15 +51,18 @@ protected:
     void setLabelPixmap();
     void setMenuPixmap();
     void updateSchemeList();
+    void updateKeyboardProfiles();
 
     bool bPartial;
     QString strASCIIFontName;
     QString strGeneralFontName;
     int nFontSize;
     QString strSchemeFile;
+    QString strKeyboardProfile;
     QColor clrMenu;
     QButtonGroup bgMenu;
     QStringList schemeFileList;
+    QStringList profileList;
 
     int nLastItem;
 

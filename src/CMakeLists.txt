@@ -139,6 +139,7 @@ set(qterm_SRCS
    zmodemdialog.cpp
    hostinfo.cpp
    termstring.cpp
+   keyboardtranslator.cpp
    ${optionalSources})
 set(qterm_UIS
    ui/aboutdialog.ui
@@ -211,6 +212,7 @@ add_subdirectory(cursor)
 add_subdirectory(scheme)
 add_subdirectory(scripts)
 add_subdirectory(po)
+add_subdirectory(keyboard_profiles)
 add_dependencies(qterm translations_target)
 if(QTERM_ENABLE_TEST)
    add_subdirectory(test)

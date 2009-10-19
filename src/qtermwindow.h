@@ -52,6 +52,7 @@ class PageViewMessage;
 class ScriptHelper;
 #endif
 class HostInfo;
+class KeyboardTranslator;
 // thread copy article
 class DAThread : public QThread
 {
@@ -176,6 +177,8 @@ protected:
     void closeEvent(QCloseEvent *);
     void keyPressEvent(QKeyEvent *);
 
+    void loadTranslator(const QString & profile);
+
     Screen * m_pScreen;
     Decode * m_pDecode;
     QMenu *  m_pMenu;
@@ -240,6 +243,7 @@ protected:
     bool m_bMouseClicked;
 
     QTextCodec * m_codec;
+    KeyboardTranslator * m_translator;
 #ifdef SCRIPT_ENABLED
     QScriptEngine * m_scriptEngine;
     ScriptHelper * m_scriptHelper;
