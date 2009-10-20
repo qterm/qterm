@@ -126,7 +126,7 @@ void addPopupSeparator()
 void addUrlSeparator()
     Add separators to the popup/url menu so they will look nicer.
 
-void import(const QString & filename)
+void loadScript(const QString & filename)
     Import external javascript files, QTerm will search the file under the
     "scripts" directory under the local path (e.g.SHOME/.qterm) first and then
     search the global path (e.g. /usr/share)
