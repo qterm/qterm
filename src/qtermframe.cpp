@@ -1107,7 +1107,7 @@ void Frame::addMainMenu()
 {
     mainMenu = menuBar();
 
-    QMenu * file = mainMenu->addMenu(tr("&File"));
+    QMenu * file = mainMenu->addMenu(tr("File"));
     file->addAction(m_connectAction);
     file->addAction(m_disconnectAction);
 
@@ -1120,7 +1120,7 @@ void Frame::addMainMenu()
     file->addAction(m_exitAction);
 
     //Edit Menu
-    QMenu * edit = new QMenu(tr("&Edit"), this);
+    QMenu * edit = new QMenu(tr("Edit"), this);
     mainMenu->addMenu(edit);
 
     edit->addAction(m_copyAction);
@@ -1145,7 +1145,7 @@ void Frame::addMainMenu()
     edit->addMenu(codecMenu);
 
     //View menu
-    QMenu * view = new QMenu(tr("&View"), this);
+    QMenu * view = new QMenu(tr("View"), this);
     mainMenu->addMenu(view);
 
     view->addAction(m_appearanceAction);
@@ -1179,7 +1179,7 @@ void Frame::addMainMenu()
 
 
     // Option Menu
-    QMenu * option = new QMenu(tr("&Option"), this);
+    QMenu * option = new QMenu(tr("Option"), this);
     mainMenu->addMenu(option);
 
     option->addAction(m_currentSessionAction);
@@ -1191,7 +1191,7 @@ void Frame::addMainMenu()
     option->addAction(m_toolbarsAction);
 
     // Special
-    QMenu * spec = new QMenu(tr("&Special"), this);
+    QMenu * spec = new QMenu(tr("Special"), this);
     mainMenu->addMenu(spec);
     spec->addAction(m_copyArticleAction);
     spec->addAction(m_antiIdleAction);
@@ -1203,7 +1203,7 @@ void Frame::addMainMenu()
 
 
     //Script
-    QMenu * script = new QMenu(tr("Scrip&t"), this);
+    QMenu * script = new QMenu(tr("Script"), this);
     mainMenu->addMenu(script);
     script->addAction(m_scriptRunAction);
     script->addAction(m_scriptStopAction);
@@ -1212,7 +1212,7 @@ void Frame::addMainMenu()
     script->addAction(m_scriptReloadAction);
 
     //Window menu
-    windowsMenu = new QMenu(tr("&Windows"), this);
+    windowsMenu = new QMenu(tr("Windows"), this);
     connect(windowsMenu, SIGNAL(aboutToShow()),
             this, SLOT(windowsMenuAboutToShow()));
 
@@ -1220,7 +1220,7 @@ void Frame::addMainMenu()
     mainMenu->addSeparator();
 
     //Help menu
-    QMenu * help = new QMenu(tr("&Help"), this);
+    QMenu * help = new QMenu(tr("Help"), this);
     mainMenu->addMenu(help);
     help->addAction(m_aboutAction);
     help->addAction(m_homepageAction);

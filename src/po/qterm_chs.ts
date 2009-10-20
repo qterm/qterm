@@ -316,11 +316,11 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>&amp;File</source>
-        <translation>文件(&amp;F)</translation>
+        <translation type="obsolete">文件(&amp;F)</translation>
     </message>
     <message>
         <source>&amp;Edit</source>
-        <translation>编辑(&amp;E)</translation>
+        <translation type="obsolete">编辑(&amp;E)</translation>
     </message>
     <message>
         <source>Paste &amp;with color</source>
@@ -332,7 +332,7 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>&amp;View</source>
-        <translation>视图(&amp;V)</translation>
+        <translation type="obsolete">视图(&amp;V)</translation>
     </message>
     <message>
         <source>&amp;Language</source>
@@ -348,23 +348,23 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>&amp;Option</source>
-        <translation>选项(&amp;O)</translation>
+        <translation type="obsolete">选项(&amp;O)</translation>
     </message>
     <message>
         <source>&amp;Special</source>
-        <translation>特殊功能(&amp;S)</translation>
+        <translation type="obsolete">特殊功能(&amp;S)</translation>
     </message>
     <message>
         <source>Scrip&amp;t</source>
-        <translation>脚本(&amp;T)</translation>
+        <translation type="obsolete">脚本(&amp;T)</translation>
     </message>
     <message>
         <source>&amp;Windows</source>
-        <translation>窗口(&amp;W)</translation>
+        <translation type="obsolete">窗口(&amp;W)</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>帮助(&amp;H)</translation>
+        <translation type="obsolete">帮助(&amp;H)</translation>
     </message>
     <message>
         <source>Key Setup</source>
@@ -469,6 +469,38 @@ please close all windows and restart.</source>
     <message>
         <source>&amp;Quick Login...</source>
         <translation>快速连接(&amp;Q)...</translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation>文件</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>编辑</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation>视图</translation>
+    </message>
+    <message>
+        <source>Option</source>
+        <translation>选项</translation>
+    </message>
+    <message>
+        <source>Special</source>
+        <translation>特殊功能</translation>
+    </message>
+    <message>
+        <source>Script</source>
+        <translation>脚本</translation>
+    </message>
+    <message>
+        <source>Windows</source>
+        <translation>窗口</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>帮助</translation>
     </message>
 </context>
 <context>
@@ -1152,32 +1184,16 @@ please close all windows and restart.</source>
 <context>
     <name>QTermImage</name>
     <message>
-        <source>Form1</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>&amp;Previous</source>
-        <translation>上一个(&amp;P)</translation>
-    </message>
-    <message>
-        <source>Alt+P</source>
-        <translation></translation>
+        <translation type="obsolete">上一个(&amp;P)</translation>
     </message>
     <message>
         <source>&amp;Browser</source>
-        <translation>浏览窗口(&amp;B)</translation>
-    </message>
-    <message>
-        <source>Alt+B</source>
-        <translation></translation>
+        <translation type="obsolete">浏览窗口(&amp;B)</translation>
     </message>
     <message>
         <source>&amp;Next</source>
-        <translation>下一个(&amp;N)</translation>
-    </message>
-    <message>
-        <source>Alt+N</source>
-        <translation></translation>
+        <translation type="obsolete">下一个(&amp;N)</translation>
     </message>
 </context>
 <context>
@@ -1303,207 +1319,144 @@ please close all windows and restart.</source>
     <name>SSHLogin</name>
     <message>
         <source>Login</source>
-        <translation>登录</translation>
+        <translation type="obsolete">登录</translation>
     </message>
     <message>
         <source>Please enter your username and password</source>
-        <translation>请输入用户名和密码</translation>
+        <translation type="obsolete">请输入用户名和密码</translation>
     </message>
     <message>
         <source>UserName:</source>
-        <translation>用户名:</translation>
+        <translation type="obsolete">用户名:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation>密码:</translation>
+        <translation type="obsolete">密码:</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="obsolete">确定</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
 </context>
 <context>
     <name>ShortcutsDialog</name>
     <message>
         <source>Shortcuts Dialog</source>
-        <translation>快捷方式</translation>
+        <translation type="obsolete">快捷方式</translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation>动作</translation>
+        <translation type="obsolete">动作</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>快捷方式</translation>
+        <translation type="obsolete">快捷方式</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
     <message>
         <source>Default</source>
-        <translation>默认值</translation>
+        <translation type="obsolete">默认值</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="obsolete">确定</translation>
     </message>
     <message>
         <source>Press any key here:</source>
-        <translation>在此按任意键:</translation>
+        <translation type="obsolete">在此按任意键:</translation>
     </message>
     <message>
         <source>Assign</source>
-        <translation>设置</translation>
+        <translation type="obsolete">设置</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>清除</translation>
+        <translation type="obsolete">清除</translation>
     </message>
 </context>
 <context>
     <name>ToolbarDialog</name>
     <message>
         <source>Configure Toolbars</source>
-        <translation>配置工具条</translation>
+        <translation type="obsolete">配置工具条</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="obsolete">确定</translation>
     </message>
     <message>
         <source>Icon Only</source>
-        <translation>仅图标</translation>
+        <translation type="obsolete">仅图标</translation>
     </message>
     <message>
         <source>Text Only</source>
-        <translation>仅文本</translation>
+        <translation type="obsolete">仅文本</translation>
     </message>
     <message>
         <source>Text beside Icon</source>
-        <translation>文本在图标旁</translation>
+        <translation type="obsolete">文本在图标旁</translation>
     </message>
     <message>
         <source>Text below Icon</source>
-        <translation>文本在图标下</translation>
-    </message>
-    <message>
-        <source>16x16</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>32x32</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>48x48</source>
-        <translation></translation>
+        <translation type="obsolete">文本在图标下</translation>
     </message>
     <message>
         <source>Text Position:</source>
-        <translation>文本位置:</translation>
+        <translation type="obsolete">文本位置:</translation>
     </message>
     <message>
         <source>Icon Size:</source>
-        <translation>图标大小:</translation>
+        <translation type="obsolete">图标大小:</translation>
     </message>
     <message>
         <source>Current Actions:</source>
-        <translation>当前动作:</translation>
+        <translation type="obsolete">当前动作:</translation>
     </message>
     <message>
         <source>ToolBar:</source>
-        <translation>工具栏:</translation>
+        <translation type="obsolete">工具栏:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
     <message>
         <source>Default</source>
-        <translation>默认值</translation>
-    </message>
-    <message>
-        <source>&lt;</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>^</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>V</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>&gt;</source>
-        <translation></translation>
+        <translation type="obsolete">默认值</translation>
     </message>
     <message>
         <source>Available Actions:</source>
-        <translation>可用动作:</translation>
+        <translation type="obsolete">可用动作:</translation>
     </message>
 </context>
 <context>
     <name>aboutDialog</name>
     <message>
         <source>About QTerm</source>
-        <translation>关于 QTerm</translation>
+        <translation type="obsolete">关于 QTerm</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>关于</translation>
+        <translation type="obsolete">关于</translation>
     </message>
     <message>
         <source>Authors</source>
-        <translation>作者</translation>
+        <translation type="obsolete">作者</translation>
     </message>
     <message>
         <source>Credits</source>
-        <translation>致谢</translation>
+        <translation type="obsolete">致谢</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>关闭</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Bitstream Vera Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;QTerm 0.5.0 (QT 4.1 based)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Bitstream Vera Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;QTerm --- BBS Client for X Window&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(C) 2001-2009, The QTerm Developers&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;http://www.qterm.org&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Bitstream Vera Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;kingson  &lt;/span&gt;   &lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;        xiaokiangwang@yahoo.com.cn  &lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;fiasco &lt;/span&gt;    &lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;        yinshouyi@peoplemail.com.cn&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;hooey&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;        hephooey@fastmail.fm&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation type="obsolete">关闭</translation>
     </message>
 </context>
 <context>
@@ -1545,127 +1498,103 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>AddressBook</source>
-        <translation>地址簿</translation>
+        <translation type="obsolete">地址簿</translation>
     </message>
     <message>
         <source>General</source>
-        <translation>一般选项</translation>
+        <translation type="obsolete">一般选项</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation>地址:</translation>
+        <translation type="obsolete">地址:</translation>
     </message>
     <message>
         <source>Type:</source>
-        <translation>类型:</translation>
+        <translation type="obsolete">类型:</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>名称:</translation>
-    </message>
-    <message>
-        <source>BBS</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>*NIX</source>
-        <translation></translation>
+        <translation type="obsolete">名称:</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation>端口:</translation>
+        <translation type="obsolete">端口:</translation>
     </message>
     <message>
         <source>BBS Encoding:</source>
-        <translation>BBS 编码:</translation>
+        <translation type="obsolete">BBS 编码:</translation>
     </message>
     <message>
         <source>Text Conversion:</source>
-        <translation>繁简转换:</translation>
+        <translation type="obsolete">繁简转换:</translation>
     </message>
     <message>
         <source>No Conversion</source>
-        <translation>不转换</translation>
+        <translation type="obsolete">不转换</translation>
     </message>
     <message>
         <source>Simplified Chinese to Traditional Chinese</source>
-        <translation>简体转繁体</translation>
+        <translation type="obsolete">简体转繁体</translation>
     </message>
     <message>
         <source>Traditional Chinese to Simplified Chinese</source>
-        <translation>繁体转简体</translation>
-    </message>
-    <message>
-        <source>Telnet</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>SSH</source>
-        <translation></translation>
+        <translation type="obsolete">繁体转简体</translation>
     </message>
     <message>
         <source>Protocol:</source>
-        <translation>协议:</translation>
+        <translation type="obsolete">协议:</translation>
     </message>
     <message>
         <source>Load Control Script:</source>
-        <translation>加载控制脚本:</translation>
+        <translation type="obsolete">加载控制脚本:</translation>
     </message>
     <message>
         <source>System Script:</source>
-        <translation>系统脚本:</translation>
+        <translation type="obsolete">系统脚本:</translation>
     </message>
     <message>
         <source>Browse...</source>
-        <translation>浏览...</translation>
+        <translation type="obsolete">浏览...</translation>
     </message>
     <message>
         <source>General:</source>
-        <translation>一般选项:</translation>
+        <translation type="obsolete">一般选项:</translation>
     </message>
     <message>
         <source>Advanced Settings:</source>
-        <translation>高级设置:</translation>
+        <translation type="obsolete">高级设置:</translation>
     </message>
     <message>
         <source>Display</source>
-        <translation>显示</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Bitstream Vera Sans&apos;; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Auto Select Font Size When Resize Window&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation type="obsolete">显示</translation>
     </message>
     <message>
         <source>Auto Select Font Size When Resize Window</source>
-        <translation>调整字体大小适应窗口</translation>
+        <translation type="obsolete">调整字体大小适应窗口</translation>
     </message>
     <message>
         <source>ANSI Color</source>
-        <translation>ANSI 颜色</translation>
+        <translation type="obsolete">ANSI 颜色</translation>
     </message>
     <message>
         <source>Always Highlight</source>
-        <translation>总是高亮</translation>
+        <translation type="obsolete">总是高亮</translation>
     </message>
     <message>
         <source>Cursor Type:</source>
-        <translation>光标类型:</translation>
+        <translation type="obsolete">光标类型:</translation>
     </message>
     <message>
         <source>Block</source>
-        <translation>块状</translation>
+        <translation type="obsolete">块状</translation>
     </message>
     <message>
         <source>Underline</source>
-        <translation>下划线</translation>
+        <translation type="obsolete">下划线</translation>
     </message>
     <message>
         <source>I Type</source>
-        <translation>I 型</translation>
+        <translation type="obsolete">I 型</translation>
     </message>
     <message>
         <source>Text Label</source>
@@ -1685,19 +1614,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Menu Type:</source>
-        <translation>菜单条类型:</translation>
+        <translation type="obsolete">菜单条类型:</translation>
     </message>
     <message>
         <source>Reverse</source>
-        <translation>反显</translation>
+        <translation type="obsolete">反显</translation>
     </message>
     <message>
         <source>Custom Color</source>
-        <translation>自定义颜色</translation>
+        <translation type="obsolete">自定义颜色</translation>
     </message>
     <message>
         <source>Color...</source>
-        <translation>颜色...</translation>
+        <translation type="obsolete">颜色...</translation>
     </message>
     <message>
         <source>Menu Label</source>
@@ -1709,11 +1638,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Text and Color:</source>
-        <translation>文本与颜色:</translation>
+        <translation type="obsolete">文本与颜色:</translation>
     </message>
     <message>
         <source>Menu and Cursor:</source>
-        <translation>菜单与光标:</translation>
+        <translation type="obsolete">菜单与光标:</translation>
     </message>
     <message>
         <source>default</source>
@@ -1721,175 +1650,151 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Configure...</source>
-        <translation>配置...</translation>
+        <translation type="obsolete">配置...</translation>
     </message>
     <message>
         <source>Terminal</source>
-        <translation>终端</translation>
+        <translation type="obsolete">终端</translation>
     </message>
     <message>
         <source>Key Type:</source>
-        <translation>键盘类型:</translation>
-    </message>
-    <message>
-        <source>VT100</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>XTERM</source>
-        <translation></translation>
+        <translation type="obsolete">键盘类型:</translation>
     </message>
     <message>
         <source>Term Type:</source>
-        <translation>终端类型:</translation>
+        <translation type="obsolete">终端类型:</translation>
     </message>
     <message>
         <source>Escape string (i.e. *[ ):</source>
-        <translation>转义序列(即 *[):</translation>
+        <translation type="obsolete">转义序列(即 *[):</translation>
     </message>
     <message>
         <source>Rows:</source>
-        <translation>行数:</translation>
+        <translation type="obsolete">行数:</translation>
     </message>
     <message>
         <source>Columns:</source>
-        <translation>列数:</translation>
+        <translation type="obsolete">列数:</translation>
     </message>
     <message>
         <source>Scroll Lines:</source>
-        <translation>滚动行数:</translation>
+        <translation type="obsolete">滚动行数:</translation>
     </message>
     <message>
         <source>Terminal Settings:</source>
-        <translation>终端设置:</translation>
+        <translation type="obsolete">终端设置:</translation>
     </message>
     <message>
         <source>Max Idle Time (sec):</source>
-        <translation>最长发呆时间:</translation>
+        <translation type="obsolete">最长发呆时间:</translation>
     </message>
     <message>
         <source>Key to reply message:</source>
-        <translation>回复消息按键:</translation>
+        <translation type="obsolete">回复消息按键:</translation>
     </message>
     <message>
         <source>Auto Reply Message:</source>
-        <translation>自动回复消息:</translation>
+        <translation type="obsolete">自动回复消息:</translation>
     </message>
     <message>
         <source>Anti-idle String:</source>
-        <translation>反发呆字符串:</translation>
+        <translation type="obsolete">反发呆字符串:</translation>
     </message>
     <message>
         <source>Pre-login:</source>
-        <translation>预登录命令:</translation>
+        <translation type="obsolete">预登录命令:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation>密码:</translation>
+        <translation type="obsolete">密码:</translation>
     </message>
     <message>
         <source>User:</source>
-        <translation>用户名:</translation>
+        <translation type="obsolete">用户名:</translation>
     </message>
     <message>
         <source>Post-login:</source>
-        <translation>登录后命令:</translation>
+        <translation type="obsolete">登录后命令:</translation>
     </message>
     <message>
         <source>Auto Reply</source>
-        <translation>自动回复</translation>
+        <translation type="obsolete">自动回复</translation>
     </message>
     <message>
         <source>Auto Login</source>
-        <translation>自动登录</translation>
+        <translation type="obsolete">自动登录</translation>
     </message>
     <message>
         <source>Internal Settings:</source>
-        <translation>内部设置:</translation>
+        <translation type="obsolete">内部设置:</translation>
     </message>
     <message>
         <source>Misc</source>
-        <translation>其它</translation>
+        <translation type="obsolete">其它</translation>
     </message>
     <message>
         <source>None</source>
-        <translation>无</translation>
-    </message>
-    <message>
-        <source>Wingate</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>SOCKS4</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>SOCKS5</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>HTTP</source>
-        <translation></translation>
+        <translation type="obsolete">无</translation>
     </message>
     <message>
         <source>Authentication</source>
-        <translation>认证</translation>
+        <translation type="obsolete">认证</translation>
     </message>
     <message>
         <source>Reconnect Delay (sec):</source>
-        <translation>重新连接延迟:</translation>
+        <translation type="obsolete">重新连接延迟:</translation>
     </message>
     <message>
         <source>Auto Reconnect</source>
-        <translation>自动重新连接</translation>
+        <translation type="obsolete">自动重新连接</translation>
     </message>
     <message>
         <source>Proxy:</source>
-        <translation>代理:</translation>
+        <translation type="obsolete">代理:</translation>
     </message>
     <message>
         <source>Connection:</source>
-        <translation>连接:</translation>
+        <translation type="obsolete">连接:</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation>重置</translation>
+        <translation type="obsolete">重置</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation type="obsolete">删除</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>添加</translation>
+        <translation type="obsolete">添加</translation>
     </message>
     <message>
         <source>Apply</source>
-        <translation>应用</translation>
+        <translation type="obsolete">应用</translation>
     </message>
     <message>
         <source>Connect</source>
-        <translation>连接</translation>
+        <translation type="obsolete">连接</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>关闭</translation>
+        <translation type="obsolete">关闭</translation>
     </message>
     <message>
         <source>General Font:</source>
-        <translation>通用字体:</translation>
+        <translation type="obsolete">通用字体:</translation>
     </message>
     <message>
         <source>Font Size:</source>
-        <translation>字体大小:</translation>
+        <translation type="obsolete">字体大小:</translation>
     </message>
     <message>
         <source>ASCII Font:</source>
-        <translation>ASCII 字体:</translation>
+        <translation type="obsolete">ASCII 字体:</translation>
     </message>
     <message>
         <source>Color Scheme:</source>
-        <translation>配色方案:</translation>
+        <translation type="obsolete">配色方案:</translation>
     </message>
 </context>
 <context>
@@ -2143,23 +2048,23 @@ p, li { white-space: pre-wrap; }
     <name>articleDialog</name>
     <message>
         <source>Article Viewer</source>
-        <translation>文章浏览器</translation>
+        <translation type="obsolete">文章浏览器</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>关闭</translation>
+        <translation type="obsolete">关闭</translation>
     </message>
     <message>
         <source>Select All</source>
-        <translation>全选</translation>
+        <translation type="obsolete">全选</translation>
     </message>
     <message>
         <source>Save...</source>
-        <translation>保存为...</translation>
+        <translation type="obsolete">保存为...</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>拷贝</translation>
+        <translation type="obsolete">拷贝</translation>
     </message>
 </context>
 <context>
@@ -2277,71 +2182,71 @@ Check whether your ESD support is enabled in compile time</source>
     <name>keyDialog</name>
     <message>
         <source>Key Setup</source>
-        <translation>设置按键</translation>
+        <translation type="obsolete">设置按键</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>添加</translation>
+        <translation type="obsolete">添加</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation type="obsolete">删除</translation>
     </message>
     <message>
         <source>Update</source>
-        <translation>更新</translation>
+        <translation type="obsolete">更新</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>关闭</translation>
+        <translation type="obsolete">关闭</translation>
     </message>
     <message>
         <source>Define</source>
-        <translation>定义</translation>
+        <translation type="obsolete">定义</translation>
     </message>
     <message>
         <source>Script</source>
-        <translation>脚本</translation>
+        <translation type="obsolete">脚本</translation>
     </message>
     <message>
         <source>Program</source>
-        <translation>程序</translation>
+        <translation type="obsolete">程序</translation>
     </message>
     <message>
         <source>Enter</source>
-        <translation>回车</translation>
+        <translation type="obsolete">回车</translation>
     </message>
     <message>
         <source>Right</source>
-        <translation>右</translation>
+        <translation type="obsolete">右</translation>
     </message>
     <message>
         <source>Left</source>
-        <translation>左</translation>
+        <translation type="obsolete">左</translation>
     </message>
     <message>
         <source>Down</source>
-        <translation>下</translation>
+        <translation type="obsolete">下</translation>
     </message>
     <message>
         <source>General Keys</source>
-        <translation>常用键</translation>
+        <translation type="obsolete">常用键</translation>
     </message>
     <message>
         <source>Up</source>
-        <translation>上</translation>
+        <translation type="obsolete">上</translation>
     </message>
     <message>
         <source>Browse...</source>
-        <translation>浏览...</translation>
+        <translation type="obsolete">浏览...</translation>
     </message>
     <message>
         <source>Key</source>
-        <translation>键值</translation>
+        <translation type="obsolete">键值</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation>名称</translation>
+        <translation type="obsolete">名称</translation>
     </message>
 </context>
 <context>
@@ -2419,11 +2324,11 @@ Check whether your ESD support is enabled in compile time</source>
     <name>msgDialog</name>
     <message>
         <source>Messages Viewer</source>
-        <translation>消息查看器</translation>
+        <translation type="obsolete">消息查看器</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="obsolete">确定</translation>
     </message>
 </context>
 <context>
@@ -2441,119 +2346,119 @@ Check whether your ESD support is enabled in compile time</source>
     <name>prefDialog</name>
     <message>
         <source>Preference</source>
-        <translation>偏好</translation>
+        <translation type="obsolete">偏好</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="obsolete">确定</translation>
     </message>
     <message>
         <source>Internal Settings</source>
-        <translation>内部设置</translation>
+        <translation type="obsolete">内部设置</translation>
     </message>
     <message>
         <source>Alternative Mouse Wheel Control</source>
-        <translation>特殊鼠标滚轮</translation>
+        <translation type="obsolete">特殊鼠标滚轮</translation>
     </message>
     <message>
         <source>Anti-Aliasing</source>
-        <translation>反锯齿</translation>
+        <translation type="obsolete">反锯齿</translation>
     </message>
     <message>
         <source>Warn When Exit Connected</source>
-        <translation>在关闭连接的时候警告</translation>
+        <translation type="obsolete">在关闭连接的时候警告</translation>
     </message>
     <message>
         <source>Show System Tray Icon</source>
-        <translation>显示系统托盘图标</translation>
+        <translation type="obsolete">显示系统托盘图标</translation>
     </message>
     <message>
         <source>Paste Word-Wrap at:</source>
-        <translation>粘贴时自动换行:</translation>
+        <translation type="obsolete">粘贴时自动换行:</translation>
     </message>
     <message>
         <source>Blink Tab When Receive Message</source>
-        <translation>收到消息闪烁 Tab</translation>
+        <translation type="obsolete">收到消息闪烁 Tab</translation>
     </message>
     <message>
         <source>Clear ZModem and HTTP directory When Exit</source>
-        <translation>退出时清空 ZModem 和 HTTP 目录</translation>
+        <translation type="obsolete">退出时清空 ZModem 和 HTTP 目录</translation>
     </message>
     <message>
         <source>Detect URL When Mouse Move</source>
-        <translation>鼠标检测连接</translation>
+        <translation type="obsolete">鼠标检测连接</translation>
     </message>
     <message>
         <source>Input Conversion:</source>
-        <translation>输入繁简转换:</translation>
+        <translation type="obsolete">输入繁简转换:</translation>
     </message>
     <message>
         <source>No Conversion</source>
-        <translation>不转换</translation>
+        <translation type="obsolete">不转换</translation>
     </message>
     <message>
         <source>Simplified to Traditional</source>
-        <translation>简体转繁体</translation>
+        <translation type="obsolete">简体转繁体</translation>
     </message>
     <message>
         <source>Traditional to Simplified</source>
-        <translation>繁体转简体</translation>
+        <translation type="obsolete">繁体转简体</translation>
     </message>
     <message>
         <source>Miscellaneous Options:</source>
-        <translation>其他选项:</translation>
+        <translation type="obsolete">其他选项:</translation>
     </message>
     <message>
         <source>External Settings</source>
-        <translation>外部设置</translation>
+        <translation type="obsolete">外部设置</translation>
     </message>
     <message>
         <source>Image Viewer:</source>
-        <translation>外置图片浏览器:</translation>
+        <translation type="obsolete">外置图片浏览器:</translation>
     </message>
     <message>
         <source>Choose...</source>
-        <translation>选择...</translation>
+        <translation type="obsolete">选择...</translation>
     </message>
     <message>
         <source>HTTP Browser:</source>
-        <translation>HTTP 浏览器:</translation>
+        <translation type="obsolete">HTTP 浏览器:</translation>
     </message>
     <message>
         <source>Browse...</source>
-        <translation>浏览...</translation>
+        <translation type="obsolete">浏览...</translation>
     </message>
     <message>
         <source>Sound Player:</source>
-        <translation>声音播放器:</translation>
+        <translation type="obsolete">声音播放器:</translation>
     </message>
     <message>
         <source>External Applications:</source>
-        <translation>外部程序:</translation>
+        <translation type="obsolete">外部程序:</translation>
     </message>
     <message>
         <source>HTTP Directory:</source>
-        <translation>HTTP 目录:</translation>
+        <translation type="obsolete">HTTP 目录:</translation>
     </message>
     <message>
         <source>Zmodem Directory:</source>
-        <translation>Zmodem 目录:</translation>
+        <translation type="obsolete">Zmodem 目录:</translation>
     </message>
     <message>
         <source>Directories and Files:</source>
-        <translation>目录和文件:</translation>
+        <translation type="obsolete">目录和文件:</translation>
     </message>
     <message>
         <source>Sound File:</source>
-        <translation>声音文件:</translation>
+        <translation type="obsolete">声音文件:</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation>重置</translation>
+        <translation type="obsolete">重置</translation>
     </message>
 </context>
 <context>
@@ -2663,7 +2568,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Quick Login</source>
-        <translation>快速登录</translation>
+        <translation type="obsolete">快速登录</translation>
     </message>
     <message>
         <source>History</source>
@@ -2675,11 +2580,11 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Connect</source>
-        <translation>连接</translation>
+        <translation type="obsolete">连接</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>关闭</translation>
+        <translation type="obsolete">关闭</translation>
     </message>
     <message>
         <source>Advanced</source>
@@ -2687,7 +2592,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation type="obsolete">删除</translation>
     </message>
     <message>
         <source>Port</source>
@@ -2695,35 +2600,27 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>History:</source>
-        <translation>历史记录:</translation>
+        <translation type="obsolete">历史记录:</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation>地址:</translation>
+        <translation type="obsolete">地址:</translation>
     </message>
     <message>
         <source>Advanced...</source>
-        <translation>高级选项...</translation>
+        <translation type="obsolete">高级选项...</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>添加</translation>
+        <translation type="obsolete">添加</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation>端口:</translation>
+        <translation type="obsolete">端口:</translation>
     </message>
     <message>
         <source>Protocol:</source>
-        <translation>协议:</translation>
-    </message>
-    <message>
-        <source>Telnet</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>SSH</source>
-        <translation></translation>
+        <translation type="obsolete">协议:</translation>
     </message>
 </context>
 <context>
@@ -2891,7 +2788,7 @@ Check whether your ESD support is enabled in compile time</source>
     <name>schemeDialog</name>
     <message>
         <source>Scheme Editor</source>
-        <translation>配色编辑器</translation>
+        <translation type="obsolete">配色编辑器</translation>
     </message>
     <message>
         <source>Title</source>
@@ -2907,11 +2804,11 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="obsolete">确定</translation>
     </message>
     <message>
         <source>Background</source>
@@ -2959,129 +2856,109 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Title:</source>
-        <translation>主题:</translation>
+        <translation type="obsolete">主题:</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>添加</translation>
+        <translation type="obsolete">添加</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation type="obsolete">删除</translation>
     </message>
     <message>
         <source>Normal</source>
-        <translation>正常</translation>
+        <translation type="obsolete">正常</translation>
     </message>
     <message>
         <source>Bright</source>
-        <translation>高亮</translation>
+        <translation type="obsolete">高亮</translation>
     </message>
     <message>
         <source>Color 1:</source>
-        <translation>颜色 1:</translation>
+        <translation type="obsolete">颜色 1:</translation>
     </message>
     <message>
         <source>Color 2:</source>
-        <translation>颜色 2:</translation>
+        <translation type="obsolete">颜色 2:</translation>
     </message>
     <message>
         <source>Color 3:</source>
-        <translation>颜色 3:</translation>
+        <translation type="obsolete">颜色 3:</translation>
     </message>
     <message>
         <source>Color 4:</source>
-        <translation>颜色 4:</translation>
+        <translation type="obsolete">颜色 4:</translation>
     </message>
     <message>
         <source>Color 5:</source>
-        <translation>颜色 5:</translation>
+        <translation type="obsolete">颜色 5:</translation>
     </message>
     <message>
         <source>Color 6:</source>
-        <translation>颜色 6:</translation>
+        <translation type="obsolete">颜色 6:</translation>
     </message>
     <message>
         <source>Color 7:</source>
-        <translation>颜色 7:</translation>
+        <translation type="obsolete">颜色 7:</translation>
     </message>
     <message>
         <source>Color 8:</source>
-        <translation>颜色 8:</translation>
+        <translation type="obsolete">颜色 8:</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation>重置</translation>
+        <translation type="obsolete">重置</translation>
     </message>
 </context>
 <context>
     <name>soundConf</name>
     <message>
         <source>Configure</source>
-        <translation>配置</translation>
+        <translation type="obsolete">配置</translation>
     </message>
     <message>
         <source>Sound File:</source>
-        <translation>声音文件:</translation>
+        <translation type="obsolete">声音文件:</translation>
     </message>
     <message>
         <source>Select...</source>
-        <translation>选择...</translation>
+        <translation type="obsolete">选择...</translation>
     </message>
     <message>
         <source>External Program:</source>
-        <translation>外部程序:</translation>
+        <translation type="obsolete">外部程序:</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="obsolete">确定</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
     <message>
         <source>Play With:</source>
-        <translation>用此播放:</translation>
-    </message>
-    <message>
-        <source>ARTS</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Test</source>
-        <translation></translation>
+        <translation type="obsolete">用此播放:</translation>
     </message>
     <message>
         <source>External</source>
-        <translation>外部程序</translation>
-    </message>
-    <message>
-        <source>ESD</source>
-        <translation></translation>
+        <translation type="obsolete">外部程序</translation>
     </message>
     <message>
         <source>Internal</source>
-        <translation>内置</translation>
+        <translation type="obsolete">内置</translation>
     </message>
 </context>
 <context>
     <name>zmodemDialog</name>
     <message>
         <source>Zmodem Status</source>
-        <translation>Zmodem 状态</translation>
-    </message>
-    <message>
-        <source>textLabel1</source>
-        <translation></translation>
+        <translation type="obsolete">Zmodem 状态</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
-    </message>
-    <message>
-        <source>textLabel2</source>
-        <translation></translation>
+        <translation type="obsolete">取消</translation>
     </message>
 </context>
 <context>

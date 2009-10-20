@@ -239,6 +239,46 @@ please close all windows and restart.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qtermframe.cpp" line="1110"/>
+        <source>File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1123"/>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1148"/>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1182"/>
+        <source>Option</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1194"/>
+        <source>Special</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1206"/>
+        <source>Script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1215"/>
+        <source>Windows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtermframe.cpp" line="1223"/>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qtermframe.cpp" line="941"/>
         <source>&amp;Refresh</source>
         <translation type="unfinished"></translation>
@@ -380,16 +420,6 @@ please close all windows and restart.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermframe.cpp" line="1110"/>
-        <source>&amp;File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="1123"/>
-        <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qtermframe.cpp" line="1134"/>
         <source>Paste &amp;with color</source>
         <translation type="unfinished"></translation>
@@ -397,11 +427,6 @@ please close all windows and restart.</source>
     <message>
         <location filename="../qtermframe.cpp" line="1141"/>
         <source>Clipboard Chinese &amp;Conversion</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="1148"/>
-        <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -417,31 +442,6 @@ please close all windows and restart.</source>
     <message>
         <location filename="../qtermframe.cpp" line="1169"/>
         <source>&amp;ScrollBar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="1182"/>
-        <source>&amp;Option</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="1194"/>
-        <source>&amp;Special</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="1206"/>
-        <source>Scrip&amp;t</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="1215"/>
-        <source>&amp;Windows</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qtermframe.cpp" line="1223"/>
-        <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -463,23 +463,23 @@ please close all windows and restart.</source>
 <context>
     <name>QTerm::Global</name>
     <message>
-        <location filename="../qtermglobal.cpp" line="421"/>
-        <location filename="../qtermglobal.cpp" line="430"/>
+        <location filename="../qtermglobal.cpp" line="419"/>
+        <location filename="../qtermglobal.cpp" line="428"/>
         <source>Choose a file to save under</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermglobal.cpp" line="427"/>
+        <location filename="../qtermglobal.cpp" line="425"/>
         <source>File exists. Overwrite?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermglobal.cpp" line="427"/>
+        <location filename="../qtermglobal.cpp" line="425"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermglobal.cpp" line="427"/>
+        <location filename="../qtermglobal.cpp" line="425"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
@@ -487,12 +487,12 @@ please close all windows and restart.</source>
 <context>
     <name>QTerm::Http</name>
     <message>
-        <location filename="../qtermhttp.cpp" line="203"/>
+        <location filename="../qtermhttp.cpp" line="176"/>
         <source>Download Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermhttp.cpp" line="204"/>
+        <location filename="../qtermhttp.cpp" line="177"/>
         <source>Failed to download file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -568,133 +568,133 @@ Do you want to clear and reassign?</source>
 <context>
     <name>QTerm::Window</name>
     <message>
-        <location filename="../qtermwindow.cpp" line="269"/>
+        <location filename="../qtermwindow.cpp" line="272"/>
         <source>SSH support is not compiled, QTerm can only use Telnet!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="310"/>
+        <location filename="../qtermwindow.cpp" line="312"/>
         <source>Not Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="329"/>
+        <location filename="../qtermwindow.cpp" line="331"/>
         <source>Preview image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="330"/>
+        <location filename="../qtermwindow.cpp" line="332"/>
         <source>Open link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="331"/>
+        <location filename="../qtermwindow.cpp" line="333"/>
         <source>Copy link address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="441"/>
+        <location filename="../qtermwindow.cpp" line="445"/>
         <source>Connected,Do you still want to exit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="748"/>
+        <location filename="../qtermwindow.cpp" line="754"/>
         <source>Open URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1100"/>
+        <location filename="../qtermwindow.cpp" line="1099"/>
         <source>resolving host name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1104"/>
+        <location filename="../qtermwindow.cpp" line="1103"/>
         <source>host found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1108"/>
+        <location filename="../qtermwindow.cpp" line="1107"/>
         <source>host not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1113"/>
+        <location filename="../qtermwindow.cpp" line="1112"/>
         <source>connecting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1117"/>
+        <location filename="../qtermwindow.cpp" line="1116"/>
         <source>connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1125"/>
+        <location filename="../qtermwindow.cpp" line="1124"/>
         <source>connected to proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1129"/>
+        <location filename="../qtermwindow.cpp" line="1128"/>
         <source>proxy authentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1133"/>
+        <location filename="../qtermwindow.cpp" line="1132"/>
         <source>proxy failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1138"/>
+        <location filename="../qtermwindow.cpp" line="1137"/>
         <source>connection refused</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1143"/>
+        <location filename="../qtermwindow.cpp" line="1142"/>
         <source>error when reading from server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1148"/>
-        <location filename="../qtermwindow.cpp" line="1439"/>
+        <location filename="../qtermwindow.cpp" line="1147"/>
+        <location filename="../qtermwindow.cpp" line="1438"/>
         <source>connection closed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1155"/>
+        <location filename="../qtermwindow.cpp" line="1154"/>
         <source>connection close finished</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1160"/>
+        <location filename="../qtermwindow.cpp" line="1159"/>
         <source>connect to host via proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1164"/>
+        <location filename="../qtermwindow.cpp" line="1163"/>
         <source>error in gethostbyname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1169"/>
+        <location filename="../qtermwindow.cpp" line="1168"/>
         <source>error in startup winsock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1174"/>
+        <location filename="../qtermwindow.cpp" line="1173"/>
         <source>error in connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1179"/>
+        <location filename="../qtermwindow.cpp" line="1178"/>
         <source>error in proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1583"/>
+        <location filename="../qtermwindow.cpp" line="1582"/>
         <source>You have messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1592"/>
+        <location filename="../qtermwindow.cpp" line="1591"/>
         <source>Setting changed do you want to save it?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -702,33 +702,33 @@ Do you want to clear and reassign?</source>
 <context>
     <name>QTerm::addrDialog</name>
     <message>
-        <location filename="../addrdialog.cpp" line="53"/>
+        <location filename="../addrdialog.cpp" line="54"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="54"/>
+        <location filename="../addrdialog.cpp" line="55"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="62"/>
+        <location filename="../addrdialog.cpp" line="63"/>
         <source>Setting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="67"/>
+        <location filename="../addrdialog.cpp" line="68"/>
         <source>AddressBook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="103"/>
-        <location filename="../addrdialog.cpp" line="204"/>
+        <location filename="../addrdialog.cpp" line="137"/>
+        <location filename="../addrdialog.cpp" line="238"/>
         <source>Setting changed, do you want to save?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="262"/>
+        <location filename="../addrdialog.cpp" line="303"/>
         <source>SSH support is not compiled, check your OpenSSL and try to recompile QTerm</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1019,12 +1019,12 @@ Check whether your ESD support is enabled in compile time</source>
 <context>
     <name>aboutDialog</name>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="49"/>
+        <location filename="../ui/aboutdialog.ui" line="38"/>
         <source>About QTerm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="92"/>
+        <location filename="../ui/aboutdialog.ui" line="81"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1033,12 +1033,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="113"/>
+        <location filename="../ui/aboutdialog.ui" line="102"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="125"/>
+        <location filename="../ui/aboutdialog.ui" line="114"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1051,12 +1051,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="155"/>
+        <location filename="../ui/aboutdialog.ui" line="144"/>
         <source>Authors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="178"/>
+        <location filename="../ui/aboutdialog.ui" line="156"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1072,12 +1072,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="211"/>
+        <location filename="../ui/aboutdialog.ui" line="189"/>
         <source>Credits</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="235"/>
+        <location filename="../ui/aboutdialog.ui" line="213"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1096,13 +1096,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../ui/addrdialog.ui" line="108"/>
-        <location filename="../ui/addrdialog.ui" line="1441"/>
+        <location filename="../ui/addrdialog.ui" line="1426"/>
         <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/addrdialog.ui" line="127"/>
-        <location filename="../ui/addrdialog.ui" line="1387"/>
+        <location filename="../ui/addrdialog.ui" line="1372"/>
         <source>Type:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1113,8 +1113,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../ui/addrdialog.ui" line="166"/>
-        <location filename="../ui/addrdialog.ui" line="885"/>
-        <location filename="../ui/addrdialog.ui" line="1068"/>
+        <location filename="../ui/addrdialog.ui" line="1053"/>
         <source>BBS</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1125,7 +1124,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../ui/addrdialog.ui" line="185"/>
-        <location filename="../ui/addrdialog.ui" line="1470"/>
+        <location filename="../ui/addrdialog.ui" line="1455"/>
         <source>Port:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1310,184 +1309,174 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="875"/>
-        <source>VT100</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="880"/>
-        <source>XTERM</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="899"/>
+        <location filename="../ui/addrdialog.ui" line="884"/>
         <source>Term Type:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="918"/>
+        <location filename="../ui/addrdialog.ui" line="903"/>
         <source>Escape string (i.e. *[ ):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="947"/>
+        <location filename="../ui/addrdialog.ui" line="932"/>
         <source>Rows:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="976"/>
+        <location filename="../ui/addrdialog.ui" line="961"/>
         <source>Columns:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1005"/>
+        <location filename="../ui/addrdialog.ui" line="990"/>
         <source>Scroll Lines:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1043"/>
+        <location filename="../ui/addrdialog.ui" line="1028"/>
         <source>Terminal Settings:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1080"/>
+        <location filename="../ui/addrdialog.ui" line="1065"/>
         <source>Max Idle Time (sec):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1099"/>
+        <location filename="../ui/addrdialog.ui" line="1084"/>
         <source>Key to reply message:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1138"/>
+        <location filename="../ui/addrdialog.ui" line="1123"/>
         <source>Auto Reply Message:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1177"/>
+        <location filename="../ui/addrdialog.ui" line="1162"/>
         <source>Anti-idle String:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1206"/>
+        <location filename="../ui/addrdialog.ui" line="1191"/>
         <source>Pre-login:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1225"/>
-        <location filename="../ui/addrdialog.ui" line="1531"/>
+        <location filename="../ui/addrdialog.ui" line="1210"/>
+        <location filename="../ui/addrdialog.ui" line="1516"/>
         <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1254"/>
-        <location filename="../ui/addrdialog.ui" line="1502"/>
+        <location filename="../ui/addrdialog.ui" line="1239"/>
+        <location filename="../ui/addrdialog.ui" line="1487"/>
         <source>User:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1296"/>
+        <location filename="../ui/addrdialog.ui" line="1281"/>
         <source>Post-login:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1315"/>
+        <location filename="../ui/addrdialog.ui" line="1300"/>
         <source>Auto Reply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1328"/>
+        <location filename="../ui/addrdialog.ui" line="1313"/>
         <source>Auto Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1350"/>
+        <location filename="../ui/addrdialog.ui" line="1335"/>
         <source>Internal Settings:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1375"/>
+        <location filename="../ui/addrdialog.ui" line="1360"/>
         <source>Misc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1407"/>
+        <location filename="../ui/addrdialog.ui" line="1392"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1412"/>
+        <location filename="../ui/addrdialog.ui" line="1397"/>
         <source>Wingate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1417"/>
+        <location filename="../ui/addrdialog.ui" line="1402"/>
         <source>SOCKS4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1422"/>
+        <location filename="../ui/addrdialog.ui" line="1407"/>
         <source>SOCKS5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1427"/>
+        <location filename="../ui/addrdialog.ui" line="1412"/>
         <source>HTTP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1489"/>
+        <location filename="../ui/addrdialog.ui" line="1474"/>
         <source>Authentication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1560"/>
+        <location filename="../ui/addrdialog.ui" line="1545"/>
         <source>Reconnect Delay (sec):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1589"/>
+        <location filename="../ui/addrdialog.ui" line="1574"/>
         <source>Auto Reconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1611"/>
+        <location filename="../ui/addrdialog.ui" line="1596"/>
         <source>Proxy:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1652"/>
+        <location filename="../ui/addrdialog.ui" line="1637"/>
         <source>Connection:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1706"/>
+        <location filename="../ui/addrdialog.ui" line="1691"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1725"/>
+        <location filename="../ui/addrdialog.ui" line="1710"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1750"/>
+        <location filename="../ui/addrdialog.ui" line="1735"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1763"/>
+        <location filename="../ui/addrdialog.ui" line="1748"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1776"/>
+        <location filename="../ui/addrdialog.ui" line="1761"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1798"/>
+        <location filename="../ui/addrdialog.ui" line="1783"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1777,62 +1766,62 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>quickDialog</name>
     <message>
-        <location filename="../ui/quickdialog.ui" line="26"/>
+        <location filename="../ui/quickdialog.ui" line="20"/>
         <source>Quick Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="50"/>
+        <location filename="../ui/quickdialog.ui" line="38"/>
         <source>History:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="75"/>
+        <location filename="../ui/quickdialog.ui" line="57"/>
         <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="133"/>
+        <location filename="../ui/quickdialog.ui" line="109"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="152"/>
+        <location filename="../ui/quickdialog.ui" line="122"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="171"/>
+        <location filename="../ui/quickdialog.ui" line="135"/>
         <source>Advanced...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="190"/>
+        <location filename="../ui/quickdialog.ui" line="148"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="209"/>
+        <location filename="../ui/quickdialog.ui" line="161"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="228"/>
+        <location filename="../ui/quickdialog.ui" line="174"/>
         <source>Port:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="253"/>
+        <location filename="../ui/quickdialog.ui" line="193"/>
         <source>Protocol:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="283"/>
+        <location filename="../ui/quickdialog.ui" line="223"/>
         <source>Telnet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/quickdialog.ui" line="288"/>
+        <location filename="../ui/quickdialog.ui" line="228"/>
         <source>SSH</source>
         <translation type="unfinished"></translation>
     </message>
