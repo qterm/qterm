@@ -542,6 +542,9 @@ void BBS::updateUrlList()
                     }
                     multiline = true;
                 }
+                if (index2 == -1) {
+                    index2 = m_pBuffer->screen(i)->getText().length() - 1;
+                }
                 int urlEnd = i*m_pBuffer->columns() + m_pBuffer->screen(i)->beginIndex(index2);
                 if (verifyUrl(urlBegin, urlEnd))
                     m_urlPosList.append(qMakePair(urlBegin, urlEnd));
@@ -565,6 +568,10 @@ bool BBS::verifyUrl(int urlBegin, int urlEnd)
     int i, index, begin, end, dot, url, host, ata;
     int ip_begin = 0;
     int ip_end = 0;
+
+    if (urlEnd < urlBegin) {
+        return false;
+    }
 
     QString strText = getText(urlBegin, urlEnd);
 
