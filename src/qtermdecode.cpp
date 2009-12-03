@@ -74,7 +74,7 @@ StateOption Decode::bracketState[] = {
     { 'C',   &Decode::cursorRight,  normalState },
     { 'D',   &Decode::cursorLeft,  normalState },
     { 'H',   &Decode::cursorPosition,   normalState },
-    { 'I',   &Decode::tab,   normalState },
+//    { 'I',   &Decode::tab,   normalState },
     { 'J',   &Decode::eraseScreen,  normalState },
     { 'K',   &Decode::eraseLine,  normalState },
     { 'L',   &Decode::insertLine,  normalState },
