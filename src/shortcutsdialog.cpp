@@ -147,16 +147,9 @@ bool ShortcutsDialog::eventFilter(QObject *object, QEvent *event)
     if (key == Qt::Key_Meta || key == Qt::Key_Alt || key == Qt::Key_AltGr
             || key == Qt::Key_Shift || key == Qt::Key_Control)
         return false;
-    // TODO: Shift+1 yields Shift+!, a bit confusing
-    // because Shift+1 is translated to Qt::Key, not raw scancode
-    // I dono how to do
-    QString text = "";
-    if (mod != Qt::NoModifier) {
-        QKeySequence seqMod(mod);
-        text = seqMod.toString(QKeySequence::NativeText);
-    }
-    QKeySequence seqKey(key);
-    text += seqKey.toString(QKeySequence::NativeText);
+
+    QKeySequence seqKey(mod+key);
+    QString text = seqKey.toString(QKeySequence::NativeText);
 
     editShortcut->setText(text);
 
