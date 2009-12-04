@@ -1,7 +1,8 @@
 set(global_SRCS
    testglobal.cpp
    ../../qtermconfig.cpp
-   ../../qtermglobal.cpp)
+   ../../qtermglobal.cpp
+   ../../qtermconvert.cpp)
 qt4_automoc(${global_SRCS})
 
 include_directories(
