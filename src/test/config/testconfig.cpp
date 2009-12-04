@@ -13,11 +13,11 @@ void TestConfig::test()
 {
     QVERIFY(conf->setItemValue("section","key","test"));
     QVERIFY(conf->save("config.test"));
-    QString str = conf->getItemValue("section","key");
+    QString str = conf->getItemValue("section","key").toString();
     QVERIFY(str == "test");
     QVERIFY(conf->deleteItem("section","key"));
     QVERIFY(conf->save("config.test"));
-    str = conf->getItemValue("section","key");
+    str = conf->getItemValue("section","key").toString();
     QVERIFY(str == "");
     QVERIFY(conf->setItemValue("section","key1","test"));
     QVERIFY(conf->setItemValue("section","key2","test"));
