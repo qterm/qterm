@@ -77,6 +77,7 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WFlags fl)
         ui.nameListWidget->setFocus(Qt::OtherFocusReason);
     }
     connectSlots();
+    ui.connectPushButton->setDefault(true);
 }
 
 /*

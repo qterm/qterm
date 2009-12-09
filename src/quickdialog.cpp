@@ -36,7 +36,7 @@ quickDialog::quickDialog(QWidget* parent, Qt::WFlags fl)
 
     //ui.addPushButton->setToolTip(tr("Add To AddressBook" ));
 
-    //ui.connectPushButton->setDefault(true);
+    ui.connectPushButton->setDefault(true);
 
     connectSlots();
 
