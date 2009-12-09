@@ -21,32 +21,32 @@ namespace QTerm
 class Config;
 
 class quickDialog : public QDialog
-{ 
+{
     Q_OBJECT
 
 public:
-    quickDialog( QWidget* parent = 0, Qt::WFlags fl = 0 );
+    quickDialog(QWidget* parent = 0, Qt::WFlags fl = 0);
     ~quickDialog();
 
-	Param param;
+    Param param;
 
 protected slots:
-	void listChanged( int );
-	void addAddr();
-	void deleteAddr();
-	void advOption();
-	void connectIt();
-	void close();
-	
+    void listChanged(int);
+    void addAddr();
+    void deleteAddr();
+    void advOption();
+    void connectIt();
+    void close();
+
 protected:
-	void closeEvent( QCloseEvent *);
-	void connectSlots();
-	void loadHistory();
-	
-	Config * pConf;
-	
+    void closeEvent(QCloseEvent *);
+    void connectSlots();
+    void loadHistory();
+
+    Config * pConf;
+
 private:
-	Ui::quickDialog ui;
+    Ui::quickDialog ui;
 };
 
 } // namespace QTerm
