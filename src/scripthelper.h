@@ -14,7 +14,7 @@ class ScriptHelper : public QObject
 public:
     ScriptHelper(Window *parent, QScriptEngine *engine);
     ~ScriptHelper();
-    Q_PROPERTY(bool accepted READ accepted WRITE setAccepted);
+    Q_PROPERTY(bool accepted READ accepted WRITE setAccepted)
     void loadScriptFile(const QString&);
 public slots:
     bool accepted() const;
