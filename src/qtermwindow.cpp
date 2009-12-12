@@ -441,12 +441,11 @@ Window::~Window()
 void Window::closeEvent(QCloseEvent * clse)
 {
     if (m_bConnected && Global::instance()->m_pref.bWarn) {
-        QMessageBox mb("QTerm",
+        QMessageBox mb(QMessageBox::Warning, "QTerm",
                        tr("Connected,Do you still want to exit?"),
-                       QMessageBox::Warning,
-                       QMessageBox::Yes | QMessageBox::Default,
-                       QMessageBox::No  | QMessageBox::Escape ,
-                       0, this);
+                       QMessageBox::Yes | QMessageBox::No);
+        mb.setDefaultButton(QMessageBox::Yes);
+        mb.setEscapeButton(QMessageBox::No);
         if (mb.exec() == QMessageBox::Yes) {
             m_pTelnet->close();
             saveSetting();
@@ -1587,12 +1586,11 @@ void Window::saveSetting()
     if (m_nAddrIndex == -1 || !m_bSetChanged)
         return;
 
-    QMessageBox mb("QTerm",
+    QMessageBox mb(QMessageBox::Warning, "QTerm",
                    tr("Setting changed do you want to save it?"),
-                   QMessageBox::Warning,
-                   QMessageBox::Yes | QMessageBox::Default,
-                   QMessageBox::No  | QMessageBox::Escape ,
-                   0, this);
+                   QMessageBox::Yes | QMessageBox::No);
+    mb.setDefaultButton(QMessageBox::Yes);
+    mb.setEscapeButton(QMessageBox::No);
     if (mb.exec() == QMessageBox::Yes) {
         Global::instance()->saveAddress(m_nAddrIndex, m_param);
     }
