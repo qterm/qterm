@@ -23,7 +23,7 @@ Param::Param()
 	m_strPasswd = "";
 	m_strPostLogin = "";
 // Display
-	m_BBSCode = "UTF-8";
+	m_BBSCode = "GBK";
 	m_nDispCode = 0;
 	m_bAutoFont = 1;
 	m_bAlwaysHighlight = 0;
