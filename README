@@ -1,12 +1,10 @@
-QTerm 0.5.7
+QTerm 0.5.8
 ===============
 
 这个版本添加/修正了下面一些功能:
-1. 分别设置字体
-2. 编辑配色方案
-3. 更多脚本
-4. 再次改变地址簿格式
-5. Bug fixes
+1. 设置键盘方案
+2. Qt 4.6 下的脚本支持
+3. Bug fixes
 
                                          The QTerm Team
                                       http://www.qterm.org
