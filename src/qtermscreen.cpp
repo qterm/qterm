@@ -342,7 +342,6 @@ void Screen::updateFont()
     marginw=marginh=0;
     if (Frame::instance()->isMaximized()||Frame::instance()->isFullScreen()) {
         marginw = (m_rcClient.width() - (m_pBuffer->columns()*m_nCharWidth))/2;
-        marginh = (m_rcClient.height() - (m_pBuffer->line()*m_nCharHeight))/2;
     }
     QPoint point = m_rcClient.topLeft();
     m_rcClient = QRect(point.x()+marginw, point.y()+marginh, m_pBuffer->columns()*m_nCharWidth, m_pBuffer->line()*m_nCharHeight);
