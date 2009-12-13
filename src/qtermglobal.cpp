@@ -573,11 +573,9 @@ bool Global::iniSettings()
             font.setPointSize(pointsize.toInt());
         if (pixelsize.toInt() > 0)
             font.setPixelSize(pixelsize.toInt());
-#if (QT_VERSION>=300)
         QString bAA = m_config->getItemValue("global", "antialias").toString();
         if (bAA != "0")
             font.setStyleStrategy(QFont::PreferAntialias);
-#endif
         qApp->setFont(font);
     }
 
