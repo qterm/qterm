@@ -28,8 +28,8 @@ Param::Param()
 	m_bAutoFont = 1;
 	m_bAlwaysHighlight = 0;
 	m_bAnsiColor = 1;
-	m_strASCIIFontName = "Nsimsun";
-	m_strGeneralFontName = "Nsimsun";
+	m_strASCIIFontName = "Monospace";
+	m_strGeneralFontName = "Monospace";
 	m_nFontSize = 14;
 	m_strSchemeFile = "";
 // Terminal
