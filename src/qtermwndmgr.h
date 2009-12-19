@@ -1,14 +1,6 @@
 #ifndef QTERMWNDMGR_H
 #define QTERMWNDMGR_H
 
-// #include <qobject.h>
-// 
-// #if (QT_VERSION>=300)
-// #include <q3ptrlist.h>
-// #else
-// #include <qlist.h>
-// #endif
-
 #include <QString>
 #include <QObject>
 #include <QList>
