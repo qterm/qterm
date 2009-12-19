@@ -1859,7 +1859,7 @@ void Window::loadKeyboardTranslator(const QString & filename)
         path = filename;
     } else {
         qWarning() << "Fallback to default keyboard layout";
-        path = Global::instance()->pathLib() + "/keyboard_profiles/default.keytab";
+        path = Global::instance()->pathLib() + "/keyboard_profiles/linux.keytab";
     }
     fi.setFile(path);
     QString name = fi.baseName();
