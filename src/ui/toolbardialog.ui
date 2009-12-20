@@ -34,7 +34,7 @@
   <widget class="QPushButton" name="buttonDone">
    <property name="geometry">
     <rect>
-     <x>570</x>
+     <x>680</x>
      <y>550</y>
      <width>100</width>
      <height>31</height>
@@ -160,19 +160,6 @@
    </property>
    <property name="text">
     <string>ToolBar:</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="buttonCancel">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>550</y>
-     <width>100</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Cancel</string>
    </property>
   </widget>
   <widget class="QPushButton" name="buttonDefault">
@@ -368,7 +355,6 @@
   <tabstop>comboButtonStyle</tabstop>
   <tabstop>comboIconSize</tabstop>
   <tabstop>buttonDone</tabstop>
-  <tabstop>buttonCancel</tabstop>
   <tabstop>buttonDefault</tabstop>
  </tabstops>
  <resources/>
@@ -386,22 +372,6 @@
     <hint type="destinationlabel">
      <x>96</x>
      <y>254</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonCancel</sender>
-   <signal>clicked()</signal>
-   <receiver>ToolbarDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>742</x>
-     <y>562</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>309</x>
-     <y>555</y>
     </hint>
    </hints>
   </connection>
