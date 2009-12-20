@@ -377,8 +377,6 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     m_bConnected = false;
     m_bIdling = false;
 
-    m_bSetChanged = false;
-
     m_bMouseX11 = false;
     m_bMouseClicked = false;
 #ifdef SSH_ENABLED
@@ -448,13 +446,11 @@ void Window::closeEvent(QCloseEvent * clse)
         mb.setEscapeButton(QMessageBox::No);
         if (mb.exec() == QMessageBox::Yes) {
             m_pTelnet->close();
-            saveSetting();
             m_pFrame->wndmgr->removeWindow(this);
             clse->accept();
         } else
             clse->ignore();
     } else {
-        saveSetting();
         m_pFrame->wndmgr->removeWindow(this);
         clse->accept();
     }
@@ -1290,7 +1286,7 @@ void Window::appearance()
 
     if (set.exec() == 1) {
         m_param = set.param;
-        m_bSetChanged = true;
+        Global::instance()->saveAddress(m_nAddrIndex, m_param);
     } else {
         m_param.m_nFontSize = fontSize;
         m_param.m_strSchemeFile = schemeFile;
@@ -1396,7 +1392,7 @@ void Window::setting()
 
     if (set.exec() == 1) {
         m_param = set.param;
-        m_bSetChanged = true;
+        Global::instance()->saveAddress(m_nAddrIndex, m_param);
         m_pScreen->setScheme();
         m_pScreen->initFontMetrics();
         QResizeEvent* re = new QResizeEvent(m_pScreen->size(), m_pScreen->size());
@@ -1579,21 +1575,6 @@ void Window::replyMessage()
     cstr += '\n';
     m_pTelnet->write(cstr, cstr.length());
     m_pMessage->display(tr("You have messages"), PageViewMessage::Info, 0);
-}
-
-void Window::saveSetting()
-{
-    if (m_nAddrIndex == -1 || !m_bSetChanged)
-        return;
-
-    QMessageBox mb(QMessageBox::Warning, "QTerm",
-                   tr("Setting changed do you want to save it?"),
-                   QMessageBox::Yes | QMessageBox::No);
-    mb.setDefaultButton(QMessageBox::Yes);
-    mb.setEscapeButton(QMessageBox::No);
-    if (mb.exec() == QMessageBox::Yes) {
-        Global::instance()->saveAddress(m_nAddrIndex, m_param);
-    }
 }
 
 void Window::externInput(const QString & strText)

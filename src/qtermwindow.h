@@ -166,7 +166,6 @@ protected:
     void reconnectProcess();
     void connectionClosed();
     void doAutoLogin();
-    void saveSetting();
     void replyMessage();
 
     void pasteHelper(bool);
@@ -203,7 +202,6 @@ protected:
     QTimer * m_updateTimer;
 
     // address setting
-    bool m_bSetChanged;
     int m_nAddrIndex;
 
     bool m_bDoingLogin;
