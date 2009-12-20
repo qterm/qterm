@@ -15,21 +15,21 @@ namespace QTerm
 {
 class articleDialog : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	articleDialog( QWidget* parent = 0, Qt::WFlags fl = 0 );
-	~articleDialog();
+    articleDialog(QWidget* parent = 0, Qt::WFlags fl = 0);
+    ~articleDialog();
 
-	QString strArticle;
-	Ui::articleDialog ui;
+    QString strArticle;
+    Ui::articleDialog ui;
 protected:
-	void connectSlots();
+    void connectSlots();
 protected slots:
-	void onClose();
-	void onSave();
-	void onSelect();
-	void onCopy();
+    void onClose();
+    void onSave();
+    void onSelect();
+    void onCopy();
 };
 
 } // namespace QTerm
