@@ -24,7 +24,7 @@ articleDialog::articleDialog(QWidget* parent, Qt::WFlags fl)
 
 {
     ui.setupUi(this);
-    connectSlots();
+    connect(ui.saveButton, SIGNAL(clicked()), this, SLOT(onSave()));
 }
 
 /*
@@ -33,26 +33,6 @@ articleDialog::articleDialog(QWidget* parent, Qt::WFlags fl)
 articleDialog::~articleDialog()
 {
     // no need to delete child widgets, Qt does it all for us
-}
-
-
-void articleDialog::connectSlots()
-{
-    connect(ui.selectButton, SIGNAL(clicked()), this, SLOT(onSelect()));
-    connect(ui.copyButton, SIGNAL(clicked()), this, SLOT(onCopy()));
-    connect(ui.saveButton, SIGNAL(clicked()), this, SLOT(onSave()));
-    connect(ui.closeButton, SIGNAL(clicked()), this, SLOT(onClose()));
-}
-
-void articleDialog::onSelect()
-{
-    ui.textBrowser->selectAll();
-}
-
-void articleDialog::onCopy()
-{
-    ui.textBrowser->selectAll();
-    ui.textBrowser->copy();
 }
 
 void articleDialog::onSave()
@@ -74,11 +54,6 @@ void articleDialog::onSave()
             mb.exec();
         }
     }
-}
-
-void articleDialog::onClose()
-{
-    done(0);
 }
 
 } // namespace QTerm

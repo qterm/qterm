@@ -23,13 +23,8 @@ public:
 
     QString strArticle;
     Ui::articleDialog ui;
-protected:
-    void connectSlots();
 protected slots:
-    void onClose();
     void onSave();
-    void onSelect();
-    void onCopy();
 };
 
 } // namespace QTerm
