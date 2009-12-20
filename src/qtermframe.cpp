@@ -807,7 +807,7 @@ void Frame::addMainTool()
     mdiTools = addToolBar("Main ToolBar");
     mdiTools->setObjectName("mainToolBar");
 
-    QAction * connectAction = new QAction(QPixmap(Global::instance()->pathPic() + "pic/connect.png"), tr("Connect"), this);
+    QAction * connectAction = new QAction(QPixmap(Global::instance()->pathPic() + "pic/connect.png"), tr("&Connect"), this);
     connectAction->setObjectName("actionConnectButton");
     mdiTools->addAction(connectAction);
     connectMenu = new QMenu(this);
