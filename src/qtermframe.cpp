@@ -807,13 +807,13 @@ void Frame::addMainTool()
     mdiTools = addToolBar("Main ToolBar");
     mdiTools->setObjectName("mainToolBar");
 
-    connectButton = new QToolButton(this);
-    connectButton->setObjectName("buttonConnect");
-    connectButton->setIcon(QPixmap(Global::instance()->pathPic() + "pic/connect.png"));
-
-    QAction * connectAction = mdiTools->addWidget(connectButton);
+    QAction * connectAction = new QAction(QPixmap(Global::instance()->pathPic() + "pic/connect.png"), tr("Connect"), this);
     connectAction->setObjectName("actionConnectButton");
+    mdiTools->addAction(connectAction);
     connectMenu = new QMenu(this);
+
+    QToolButton * connectButton = qobject_cast<QToolButton *> (mdiTools->widgetForAction(connectAction));
+    connectButton->setObjectName("buttonConnect");
 
     connect(connectMenu, SIGNAL(aboutToShow()), this, SLOT(popupConnectMenu()));
     connectButton->setMenu(connectMenu);
