@@ -27,6 +27,7 @@ AUTHOR:        kingson fiasco hooey
 #include "imageviewer.h"
 #include "shortcutsdialog.h"
 #include "toolbardialog.h"
+#include "closedialog.h"
 
 #ifdef DBUS_ENABLED
 #include "dbus.h"
@@ -249,11 +250,27 @@ void Frame::quickLogin()
 
 void Frame::exitQTerm()
 {
-    while (wndmgr->count() > 0) {
-        bool closed = m_MdiArea->activeSubWindow()->close();
-        if (!closed) {
+    QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
+    QStringList titleList;
+    for (int i = 0; i < int(windows.count()); ++i) {
+        if ((qobject_cast<Window *>(windows.at(i)->widget()))->isConnected()) {
+            titleList << windows.at(i)->windowTitle();
+        }
+    }
+    if (!titleList.isEmpty()) {
+        CloseDialog close;
+        close.setSiteList(titleList);
+        if (close.exec() == 0) {
             return;
         }
+    }
+
+    while ( wndmgr->count() > 0)
+    {
+        Window * active_window = wndmgr->activeWindow();
+        active_window->disconnect();
+        wndmgr->activeNextPrev(true);
+        wndmgr->removeWindow(active_window);
     }
 
     saveSetting();
@@ -433,29 +450,8 @@ void Frame::closeEvent(QCloseEvent * clse)
             }
         }
     }
-    while (wndmgr->count() > 0) {
-        QWidget * w = m_MdiArea->activeSubWindow();
-        if (w == NULL) {
-            w = m_MdiArea->subWindowList().at(0);
-            if (w == NULL) {
-                qDebug("get mdiarea subwindow failed");
-                break;
-            }
-        }
-        bool closed = w->close();
-        if (!closed) {
-            clse->ignore();
-            return;
-        }
-    }
-
-    saveSetting();
-    Global::instance()->cleanup();
-
-    setUseTray(false);
-
-    clse->accept();
-
+    exitQTerm();
+    clse->ignore();
 }
 
 void Frame::updateLang(QAction * action)

@@ -111,6 +111,7 @@ set(qterm_SRCS
    ui_shortcutsdialog.h
    ui_toolbardialog.h
    ui_zmodemdialog.h
+   ui_closedialog.h
    aboutdialog.cpp
    addrdialog.cpp
    articledialog.cpp
@@ -153,6 +154,7 @@ set(qterm_SRCS
    hostinfo.cpp
    termstring.cpp
    keyboardtranslator.cpp
+   closedialog.cpp
    ${optionalSources})
 set(qterm_UIS
    ui/aboutdialog.ui
@@ -168,6 +170,7 @@ set(qterm_UIS
    ui/soundconf.ui
    ui/sshlogin.ui
    ui/toolbardialog.ui
+   ui/closedialog.ui
    ui/zmodemdialog.ui)
 set(qterm_MISC
    address.cfg
