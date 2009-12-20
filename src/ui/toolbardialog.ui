@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ToolbarDialog</class>
- <widget class="QDialog" name="ToolbarDialog" >
-  <property name="geometry" >
+ <widget class="QDialog" name="ToolbarDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,29 +10,29 @@
     <height>600</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="minimumSize" >
+  <property name="minimumSize">
    <size>
     <width>796</width>
     <height>600</height>
    </size>
   </property>
-  <property name="maximumSize" >
+  <property name="maximumSize">
    <size>
     <width>796</width>
     <height>600</height>
    </size>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Configure Toolbars</string>
   </property>
-  <widget class="QPushButton" name="buttonDone" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="buttonDone">
+   <property name="geometry">
     <rect>
      <x>570</x>
      <y>550</y>
@@ -39,12 +40,12 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>OK</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboButtonStyle" >
-   <property name="geometry" >
+  <widget class="QComboBox" name="comboButtonStyle">
+   <property name="geometry">
     <rect>
      <x>120</x>
      <y>440</y>
@@ -53,28 +54,28 @@
     </rect>
    </property>
    <item>
-    <property name="text" >
+    <property name="text">
      <string>Icon Only</string>
     </property>
    </item>
    <item>
-    <property name="text" >
+    <property name="text">
      <string>Text Only</string>
     </property>
    </item>
    <item>
-    <property name="text" >
+    <property name="text">
      <string>Text beside Icon</string>
     </property>
    </item>
    <item>
-    <property name="text" >
+    <property name="text">
      <string>Text below Icon</string>
     </property>
    </item>
   </widget>
-  <widget class="QComboBox" name="comboIconSize" >
-   <property name="geometry" >
+  <widget class="QComboBox" name="comboIconSize">
+   <property name="geometry">
     <rect>
      <x>120</x>
      <y>480</y>
@@ -83,23 +84,28 @@
     </rect>
    </property>
    <item>
-    <property name="text" >
+    <property name="text">
      <string>16x16</string>
     </property>
    </item>
    <item>
-    <property name="text" >
+    <property name="text">
+     <string>22x22</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
      <string>32x32</string>
     </property>
    </item>
    <item>
-    <property name="text" >
+    <property name="text">
      <string>48x48</string>
     </property>
    </item>
   </widget>
-  <widget class="QLabel" name="label" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>440</y>
@@ -107,15 +113,15 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Text Position:</string>
    </property>
-   <property name="alignment" >
+   <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>480</y>
@@ -123,15 +129,15 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Icon Size:</string>
    </property>
-   <property name="alignment" >
+   <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_4" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
     <rect>
      <x>480</x>
      <y>80</y>
@@ -139,12 +145,12 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Current Actions:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_5" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
@@ -152,12 +158,12 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>ToolBar:</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="buttonCancel" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="buttonCancel">
+   <property name="geometry">
     <rect>
      <x>680</x>
      <y>550</y>
@@ -165,12 +171,12 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Cancel</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="buttonDefault" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="buttonDefault">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>550</y>
@@ -178,12 +184,12 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Default</string>
    </property>
   </widget>
-  <widget class="Line" name="line" >
-   <property name="geometry" >
+  <widget class="Line" name="line">
+   <property name="geometry">
     <rect>
      <x>0</x>
      <y>520</y>
@@ -191,12 +197,12 @@
      <height>20</height>
     </rect>
    </property>
-   <property name="orientation" >
+   <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="buttonRemove" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="buttonRemove">
+   <property name="geometry">
     <rect>
      <x>339</x>
      <y>275</y>
@@ -204,24 +210,24 @@
      <height>29</height>
     </rect>
    </property>
-   <property name="sizePolicy" >
-    <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <property name="maximumSize" >
+   <property name="maximumSize">
     <size>
      <width>30</width>
      <height>30</height>
     </size>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>&lt;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="buttonUp" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="buttonUp">
+   <property name="geometry">
     <rect>
      <x>380</x>
      <y>240</y>
@@ -229,24 +235,24 @@
      <height>29</height>
     </rect>
    </property>
-   <property name="sizePolicy" >
-    <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <property name="maximumSize" >
+   <property name="maximumSize">
     <size>
      <width>30</width>
      <height>30</height>
     </size>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>^</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="buttonDown" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="buttonDown">
+   <property name="geometry">
     <rect>
      <x>380</x>
      <y>310</y>
@@ -254,30 +260,30 @@
      <height>29</height>
     </rect>
    </property>
-   <property name="sizePolicy" >
-    <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <property name="maximumSize" >
+   <property name="maximumSize">
     <size>
      <width>30</width>
      <height>30</height>
     </size>
    </property>
-   <property name="baseSize" >
+   <property name="baseSize">
     <size>
      <width>77</width>
      <height>27</height>
     </size>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>V</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="buttonAdd" >
-   <property name="geometry" >
+  <widget class="QPushButton" name="buttonAdd">
+   <property name="geometry">
     <rect>
      <x>421</x>
      <y>275</y>
@@ -285,30 +291,30 @@
      <height>29</height>
     </rect>
    </property>
-   <property name="sizePolicy" >
-    <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <property name="maximumSize" >
+   <property name="maximumSize">
     <size>
      <width>30</width>
      <height>30</height>
     </size>
    </property>
-   <property name="baseSize" >
+   <property name="baseSize">
     <size>
      <width>41</width>
      <height>27</height>
     </size>
    </property>
-   <property name="text" >
-    <string>></string>
+   <property name="text">
+    <string>&gt;</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboToolbars" >
-   <property name="geometry" >
+  <widget class="QComboBox" name="comboToolbars">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>40</y>
@@ -317,8 +323,8 @@
     </rect>
    </property>
   </widget>
-  <widget class="QListWidget" name="listUsedActions" >
-   <property name="geometry" >
+  <widget class="QListWidget" name="listUsedActions">
+   <property name="geometry">
     <rect>
      <x>480</x>
      <y>120</y>
@@ -327,8 +333,8 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2" >
-   <property name="geometry" >
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>80</y>
@@ -336,12 +342,12 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Available Actions:</string>
    </property>
   </widget>
-  <widget class="QListWidget" name="listAllActions" >
-   <property name="geometry" >
+  <widget class="QListWidget" name="listAllActions">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>119</y>
@@ -373,11 +379,11 @@
    <receiver>ToolbarDialog</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>278</x>
      <y>253</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>96</x>
      <y>254</y>
     </hint>
@@ -389,11 +395,11 @@
    <receiver>ToolbarDialog</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>742</x>
      <y>562</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>309</x>
      <y>555</y>
     </hint>

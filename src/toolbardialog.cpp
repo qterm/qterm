@@ -30,7 +30,7 @@ ToolbarDialog::ToolbarDialog(QWidget* parent)
     QToolBar* toolbar = NULL;
     int index = 0;
     foreach(toolbar, toolbars) {
-        index = toolbar->iconSize().height()/16-1;
+        index = (int)(toolbar->iconSize().height()/10)-1;
         if (toolbar->objectName() != "customKeyToolBar")
             comboToolbars->addItem(toolbar->windowTitle(), QVariant::fromValue((QObject*)toolbar));
     }
@@ -177,6 +177,8 @@ void ToolbarDialog::comboIconSizeCurrentIndexChanged(const QString& item)
     QSize iconSize;
     if (item == "16x16")
         iconSize = QSize(16,16);
+    else if (item == "22x22")
+        iconSize = QSize(22,22);
     else if (item == "32x32")
         iconSize = QSize(32,32);
     else if (item == "48x48")
