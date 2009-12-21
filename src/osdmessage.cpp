@@ -129,10 +129,10 @@ void PageViewMessage::display(const QString & message, Icon icon, int durationMs
 
     // draw icon if present
     if (!symbol.isNull())
-        bufferPainter.drawPixmap(5, 4, symbol, 0, 0, symbol.width(), symbol.height());
+        bufferPainter.drawPixmap(5, (geometry.height() - symbol.height())/2, symbol, 0, 0, symbol.width(), symbol.height());
 
     // draw shadow and text
-    int yText = geometry.height() - height / 2;
+    int yText = height + (geometry.height() - height) / 2 - fontMetrics().descent();
     bufferPainter.setPen(palette().color(QPalette::Window).dark(115));
     bufferPainter.drawText(5 + textXOffset + shadowOffset, yText + 1, message);
     bufferPainter.setPen(palette().color(QPalette::WindowText));
