@@ -31,6 +31,7 @@ class Window;
 class Buffer;
 class BBS;
 class Param;
+class PageViewMessage;
 // class Q3Accel;
 
 class Input : public QWidget
@@ -81,6 +82,7 @@ public:
 
     QRect mapToRect(int, int, int, int);
     QRect mapToRect(const QRect&);
+    PageViewMessage * osd();
 
     PaintState m_ePaintState;
 
@@ -197,6 +199,9 @@ protected:
     // the range of the buffer to be displayed
     int m_nStart;
     int m_nEnd;
+
+    //osd
+    PageViewMessage * m_pMessage;
 
 //  Q3Accel * m_pAccel;
     QShortcut * m_scPrevPage;

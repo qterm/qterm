@@ -156,7 +156,6 @@ protected:
     void wheelEvent(QWheelEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    void resizeEvent(QResizeEvent *);
 
 //   void customEvent( QCustomEvent * );
     /*

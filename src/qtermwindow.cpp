@@ -292,7 +292,6 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     m_pScreen = new Screen(this, m_pBuffer, &m_param, m_pBBS);
 
     m_pIPLocation = new IPLocation(pathLib);
-    m_pMessage = new PageViewMessage(this);
     m_bCheckIP = m_pIPLocation->haveFile();
     m_pSound = NULL;
 
@@ -309,7 +308,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
 
     m_popWin = new popWidget(this, m_pFrame);
 
-    m_pMessage->display(tr("Not Connected"));
+    m_pScreen->osd()->display(tr("Not Connected"));
     statusBar()->setSizeGripEnabled(false);
 
     if (Global::instance()->showStatusBar())
@@ -403,7 +402,6 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
 
     loadKeyboardTranslator(param.m_strKeyboardProfile);
 
-    m_pMessage->setFont(m_pScreen->generalFont());
     connectHost();
 }
 
@@ -427,7 +425,6 @@ Window::~Window()
     delete m_pScreen;
     delete m_reconnectTimer;
     delete m_pIPLocation;
-    delete m_pMessage;
     delete m_pSound;
     delete m_hostInfo;
 #ifdef SCRIPTTOOLS_ENABLED
@@ -517,11 +514,6 @@ void Window::blinkTab()
     static bool bVisible = TRUE;
     m_pFrame->wndmgr->blinkTheTab(this, bVisible);
     bVisible = !bVisible;
-}
-
-void Window::resizeEvent(QResizeEvent *)
-{
-    m_pMessage->setFont(m_pScreen->generalFont());
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1097,24 +1089,24 @@ void Window::TelnetState(int state)
     switch (state) {
     case TSRESOLVING:
         //statusBar()->message( tr("resolving host name") );
-        m_pMessage->display(tr("resolving host name"));
+        m_pScreen->osd()->display(tr("resolving host name"));
         break;
     case TSHOSTFOUND:
         //statusBar()->message( tr("host found") );
-        m_pMessage->display(tr("host found"));
+        m_pScreen->osd()->display(tr("host found"));
         break;
     case TSHOSTNOTFOUND:
         //statusBar()->message( tr("host not found") );
-        m_pMessage->display(tr("host not found"));
+        m_pScreen->osd()->display(tr("host not found"));
         connectionClosed();
         break;
     case TSCONNECTING:
         //statusBar()->message( tr("connecting...") );
-        m_pMessage->display(tr("connecting..."));
+        m_pScreen->osd()->display(tr("connecting..."));
         break;
     case TSHOSTCONNECTED:
         //statusBar()->message( tr("connected") );
-        m_pMessage->display(tr("connected"));
+        m_pScreen->osd()->display(tr("connected"));
         m_bConnected = true;
         m_pFrame->updateMenuToolBar();
         if (m_param.m_bAutoLogin)
@@ -1122,61 +1114,61 @@ void Window::TelnetState(int state)
         break;
     case TSPROXYCONNECTED:
         //statusBar()->message( tr("connected to proxy" ) );
-        m_pMessage->display(tr("connected to proxy"));
+        m_pScreen->osd()->display(tr("connected to proxy"));
         break;
     case TSPROXYAUTH:
         //statusBar()->message( tr("proxy authentation") );
-        m_pMessage->display(tr("proxy authentation"));
+        m_pScreen->osd()->display(tr("proxy authentation"));
         break;
     case TSPROXYFAIL:
         //statusBar()->message( tr("proxy failed") );
-        m_pMessage->display(tr("proxy failed"));
+        m_pScreen->osd()->display(tr("proxy failed"));
         disconnect();
         break;
     case TSREFUSED:
         //statusBar()->message( tr("connection refused") );
-        m_pMessage->display(tr("connection refused"));
+        m_pScreen->osd()->display(tr("connection refused"));
         connectionClosed();
         break;
     case TSREADERROR:
         //statusBar()->message( tr("error when reading from server") );
-        m_pMessage->display(tr("error when reading from server"), PageViewMessage::Error);
+        m_pScreen->osd()->display(tr("error when reading from server"), PageViewMessage::Error);
         disconnect();
         break;
     case TSCLOSED:
         //statusBar()->message( tr("connection closed") );
-        m_pMessage->display(tr("connection closed"));
+        m_pScreen->osd()->display(tr("connection closed"));
         connectionClosed();
         if (m_param.m_bReconnect && m_bReconnect)
             reconnectProcess();
         break;
     case TSCLOSEFINISH:
         //statusBar()->message( tr("connection close finished") );
-        m_pMessage->display(tr("connection close finished"));
+        m_pScreen->osd()->display(tr("connection close finished"));
         //connectionClosed();
         break;
     case TSCONNECTVIAPROXY:
         //statusBar()->message( tr("connect to host via proxy") );
-        m_pMessage->display(tr("connect to host via proxy"));
+        m_pScreen->osd()->display(tr("connect to host via proxy"));
         break;
     case TSEGETHOSTBYNAME:
         //statusBar()->message( tr("error in gethostbyname") );
-        m_pMessage->display(tr("error in gethostbyname"), PageViewMessage::Error);
+        m_pScreen->osd()->display(tr("error in gethostbyname"), PageViewMessage::Error);
         connectionClosed();
         break;
     case TSEINIWINSOCK:
         //statusBar()->message( tr("error in startup winsock") );
-        m_pMessage->display(tr("error in startup winsock"), PageViewMessage::Error);
+        m_pScreen->osd()->display(tr("error in startup winsock"), PageViewMessage::Error);
         connectionClosed();
         break;
     case TSERROR:
         //statusBar()->message( tr("error in connection") );
-        m_pMessage->display(tr("error in connection"), PageViewMessage::Error);
+        m_pScreen->osd()->display(tr("error in connection"), PageViewMessage::Error);
         disconnect();
         break;
     case TSPROXYERROR:
         //statusBar()->message( tr("eoor in proxy") );
-        m_pMessage->display(tr("error in proxy"), PageViewMessage::Error);
+        m_pScreen->osd()->display(tr("error in proxy"), PageViewMessage::Error);
         disconnect();
         break;
     case TSWRITED:
@@ -1301,7 +1293,6 @@ void Window::appearance()
     m_pScreen->initFontMetrics();
     QResizeEvent* re = new QResizeEvent(m_pScreen->size(), m_pScreen->size());
     QApplication::postEvent(m_pScreen, re);
-    m_pMessage->setFont(m_pScreen->generalFont());
 }
 
 void Window::disconnect()
@@ -1321,7 +1312,7 @@ void Window::showIP()
     QString country, city;
     QString url = m_pBBS->getIP();
     if (m_pIPLocation->getLocation(url, country, city)) {
-        m_pMessage->display(m_codec->toUnicode((country + city).toLatin1()), PageViewMessage::Info, 100);
+        m_pScreen->osd()->display(m_codec->toUnicode((country + city).toLatin1()), PageViewMessage::Info, 100);
     }
 }
 
@@ -1404,7 +1395,7 @@ void Window::setting()
         m_pScreen->initFontMetrics();
         QResizeEvent* re = new QResizeEvent(m_pScreen->size(), m_pScreen->size());
         QApplication::postEvent(m_pScreen, re);
-        m_pMessage->setFont(m_pScreen->generalFont());
+        m_pScreen->osd()->setFont(m_pScreen->generalFont());
     }
 }
 
@@ -1438,7 +1429,7 @@ void Window::connectionClosed()
         m_idleTimer->stop();
 
     //statusBar()->message( tr("connection closed") );
-    m_pMessage->display(tr("connection closed"));
+    m_pScreen->osd()->display(tr("connection closed"));
 
     m_pFrame->updateMenuToolBar();
 
@@ -1582,7 +1573,7 @@ void Window::replyMessage()
 
     cstr += '\n';
     m_pTelnet->write(cstr, cstr.length());
-    m_pMessage->display(tr("You have messages"), PageViewMessage::Info, 0);
+    m_pScreen->osd()->display(tr("You have messages"), PageViewMessage::Info, 0);
 }
 
 void Window::externInput(const QString & strText)
@@ -1688,7 +1679,7 @@ void Window::getHttpHelper(const QString& strUrl, bool bPreview)
 {
     Http *pHttp = new Http(this, m_codec);
     connect(pHttp, SIGNAL(done(QObject*)), this, SLOT(httpDone(QObject*)));
-    connect(pHttp, SIGNAL(message(const QString &)), m_pMessage, SLOT(showText(const QString &)));
+    connect(pHttp, SIGNAL(message(const QString &)), m_pScreen->osd(), SLOT(showText(const QString &)));
     pHttp->getLink(strUrl, bPreview);
 }
 
@@ -1699,7 +1690,7 @@ void Window::httpDone(QObject *pHttp)
 
 void Window::showMessage(const QString & message, int type, int duration)
 {
-    m_pMessage->display(message, (PageViewMessage::Icon)type, duration);
+    m_pScreen->osd()->display(message, (PageViewMessage::Icon)type, duration);
 }
 
 QMenu * Window::popupMenu()

@@ -23,6 +23,7 @@ AUTHOR:        kingson fiasco
 #include "qtermconfig.h"
 #include "qtermglobal.h"
 #include "schemedialog.h"
+#include "osdmessage.h"
 
 #include <QApplication>
 #include <QPainter>
@@ -68,6 +69,7 @@ Screen::Screen(QWidget *parent, Buffer *buffer, Param *param, BBS *bbs)
     m_inputContent = NULL;
     m_pASCIIFont = NULL;
     m_pGeneralFont = NULL;
+    m_pMessage = new PageViewMessage(this);
 
     setFocusPolicy(Qt::ClickFocus);
     setAttribute(Qt::WA_InputMethodEnabled, true);
@@ -111,6 +113,11 @@ Screen::Screen(QWidget *parent, Buffer *buffer, Param *param, BBS *bbs)
     m_blinkScreen = false;
     m_blinkCursor = true;
 
+}
+
+PageViewMessage * Screen::osd()
+{
+    return m_pMessage;
 }
 
 Screen::~Screen()
@@ -310,6 +317,7 @@ void Screen::initFontMetrics()
 
     m_pASCIIFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
     m_pGeneralFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+    m_pMessage->setFont(*m_pGeneralFont);
 }
 
 void Screen::updateFont()
@@ -353,6 +361,7 @@ void Screen::updateFont()
         delete m_inputContent;
         m_inputContent = NULL;
     }
+    m_pMessage->setFont(*m_pGeneralFont);
 }
 
 void Screen::getFontMetrics()
@@ -393,6 +402,7 @@ void Screen::generalFontChanged(const QFont & font)
     m_pGeneralFont = new QFont(font);
     m_pASCIIFont->setPixelSize(qMax(8,m_pParam->m_nFontSize));
     m_pGeneralFont->setPixelSize(qMax(8,m_pParam->m_nFontSize));
+    m_pMessage->setFont(*m_pGeneralFont);
     QResizeEvent* re = new QResizeEvent(size(), size());
     resizeEvent(re);
 }
