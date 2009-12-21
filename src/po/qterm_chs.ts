@@ -80,6 +80,13 @@
     </message>
 </context>
 <context>
+    <name>QTerm::CloseDialog</name>
+    <message>
+        <source>QTerm will quit in %1 seconds</source>
+        <translation>QTerm 将在 %1 秒后退出</translation>
+    </message>
+</context>
+<context>
     <name>QTerm::Frame</name>
     <message>
         <source>Cascade</source>
@@ -699,7 +706,7 @@ Do you want to clear and reassign?</source>
     </message>
     <message>
         <source>Setting changed do you want to save it?</source>
-        <translation>设置已更改，你要保存吗?</translation>
+        <translation type="obsolete">设置已更改，你要保存吗?</translation>
     </message>
 </context>
 <context>
@@ -2171,7 +2178,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Select All</source>
-        <translation>全选</translation>
+        <translation type="obsolete">全选</translation>
     </message>
     <message>
         <source>Save...</source>
@@ -2179,7 +2186,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Copy</source>
-        <translation>拷贝</translation>
+        <translation type="obsolete">拷贝</translation>
     </message>
 </context>
 <context>
@@ -2203,6 +2210,25 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Close</source>
         <translation type="obsolete">关闭</translation>
+    </message>
+</context>
+<context>
+    <name>closeDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>The following sites are connected:</source>
+        <translation>已经连接到下列站点:</translation>
+    </message>
+    <message>
+        <source>Quit</source>
+        <translation>退出</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
