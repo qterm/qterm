@@ -109,7 +109,7 @@ public:
     void externInput(const QString &);
     void getHttpHelper(const QString&, bool);
     void showMessage(const QString &, int type, int duration);
-    Screen * getScreen()
+    Screen * screen()
     {
         return m_pScreen;
     }

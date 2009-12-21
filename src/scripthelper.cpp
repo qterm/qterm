@@ -49,13 +49,13 @@ int ScriptHelper::caretY()
 
 int ScriptHelper::charX(int x, int y)
 {
-    QPoint pt = m_window->getScreen()->mapToChar(QPoint(x,y));
+    QPoint pt = m_window->screen()->mapToChar(QPoint(x,y));
     return pt.x();
 }
 
 int ScriptHelper::charY(int x, int y)
 {
-    QPoint pt = m_window->getScreen()->mapToChar(QPoint(x,y));
+    QPoint pt = m_window->screen()->mapToChar(QPoint(x,y));
     return pt.y() - m_window->m_pBBS->getScreenStart();
 }
 
