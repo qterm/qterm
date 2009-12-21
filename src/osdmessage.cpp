@@ -124,6 +124,7 @@ void PageViewMessage::display(const QString & message, Icon icon, int durationMs
     // draw background
     QPainter bufferPainter(&m_pixmap);
     bufferPainter.setPen(Qt::black);
+    bufferPainter.setFont(font());
     bufferPainter.setBrush(palette().brush(QPalette::Window));
     bufferPainter.drawRoundRect(geometry, 1600 / geometry.width(), 1600 / geometry.height());
 

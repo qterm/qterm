@@ -403,6 +403,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
 
     loadKeyboardTranslator(param.m_strKeyboardProfile);
 
+    m_pMessage->setFont(m_pScreen->generalFont());
     connectHost();
 }
 
@@ -516,6 +517,11 @@ void Window::blinkTab()
     static bool bVisible = TRUE;
     m_pFrame->wndmgr->blinkTheTab(this, bVisible);
     bVisible = !bVisible;
+}
+
+void Window::resizeEvent(QResizeEvent *)
+{
+    m_pMessage->setFont(m_pScreen->generalFont());
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1295,6 +1301,7 @@ void Window::appearance()
     m_pScreen->initFontMetrics();
     QResizeEvent* re = new QResizeEvent(m_pScreen->size(), m_pScreen->size());
     QApplication::postEvent(m_pScreen, re);
+    m_pMessage->setFont(m_pScreen->generalFont());
 }
 
 void Window::disconnect()
@@ -1397,6 +1404,7 @@ void Window::setting()
         m_pScreen->initFontMetrics();
         QResizeEvent* re = new QResizeEvent(m_pScreen->size(), m_pScreen->size());
         QApplication::postEvent(m_pScreen, re);
+        m_pMessage->setFont(m_pScreen->generalFont());
     }
 }
 
