@@ -127,6 +127,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 int main( int argc, char ** argv )
 {
 
+    QApplication::setGraphicsSystem("raster");
+
     QApplication a( argc, argv );
     a.setApplicationName("QTerm");
 
