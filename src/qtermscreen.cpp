@@ -317,6 +317,7 @@ void Screen::initFontMetrics()
 
     m_pASCIIFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
     m_pGeneralFont->setStyleStrategy(Global::instance()->m_pref.bAA ? QFont::PreferAntialias : QFont::NoAntialias);
+    getFontMetrics();
     m_pMessage->setFont(*m_pGeneralFont);
 }
 
