@@ -5,9 +5,6 @@
 #include <stdlib.h>
 //Added by qt3to4:
 
-
-#define DEFAULT_IP_LOCATION_FILE "QQWry.dat"
-
 class QString;
 typedef unsigned long uint32;
 namespace QTerm

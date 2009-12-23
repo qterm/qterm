@@ -10,7 +10,6 @@
 #include <QDir>
 #include <QStringList>
 #include <ctype.h>
-// #include <qregexp.h>
 
 #ifdef Q_OS_WIN32
 #include <winsock2.h>
@@ -18,10 +17,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #endif
-
-// #include <qstring.h>
-// #include <qdir.h>
-// #include <qstringlist.h>
 
 namespace QTerm
 {
@@ -44,13 +39,6 @@ IPLocation::IPLocation(QString & pathLib)
         }
     } else
         fileExist =  false;
-
-//  if( ( f->ipfp = fopen( pathLib + DEFAULT_IP_LOCATION_FILE, "r" ) ) == NULL )
-//      if( ( f->ipfp = fopen( pathCfg + DEFAULT_IP_LOCATION_FILE, "r" ) ) == NULL ){
-//          qDebug( "can't open ipfile !" );
-//          fileExist = false;
-//      }
-
 }
 
 IPLocation::~IPLocation()
