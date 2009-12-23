@@ -77,7 +77,7 @@ void PageViewMessage::display(const QString & message, Icon icon, int durationMs
     textRect.translate(-textRect.left(), -textRect.top());
     textRect.adjust(0, 0, 2, 2);
     int width = textRect.width(),
-                height = textRect.height(),
+                height = fontMetrics().ascent()+fontMetrics().descent(),
                          textXOffset = 0,
                                        shadowOffset = message.isRightToLeft() ? -1 : 1;
 
@@ -133,7 +133,7 @@ void PageViewMessage::display(const QString & message, Icon icon, int durationMs
         bufferPainter.drawPixmap(5, (geometry.height() - symbol.height())/2, symbol, 0, 0, symbol.width(), symbol.height());
 
     // draw shadow and text
-    int yText = height + (geometry.height() - height) / 2 - fontMetrics().descent();
+    int yText = (geometry.height() - height)/2 + fontMetrics().ascent();
     bufferPainter.setPen(palette().color(QPalette::Window).dark(115));
     bufferPainter.drawText(5 + textXOffset + shadowOffset, yText + 1, message);
     bufferPainter.setPen(palette().color(QPalette::WindowText));
