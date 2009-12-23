@@ -80,7 +80,6 @@ protected slots:
     void updateScroll(QAction*);
     void updateSwitchBar(bool);
     void updateStatusBar(bool);
-    void appearance();
     void refresh();
     void triggerFullScreen(bool isFullScreen);
     void hideMenuBar(bool hide);
@@ -158,7 +157,6 @@ protected:
     QAction * m_S2TAction;
     QAction * m_T2SAction;
 
-    QAction * m_appearanceAction;
     QAction * m_refreshAction;
     QAction * m_engAction;
     QAction * m_chsAction;

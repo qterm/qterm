@@ -542,11 +542,6 @@ void Frame::updateCodec(QAction * action)
     }
 }
 
-void Frame::appearance()
-{
-    wndmgr->activeWindow()->appearance();
-
-}
 void Frame::refresh()
 {
     wndmgr->activeWindow()->refresh();
@@ -930,8 +925,6 @@ void Frame::initActions()
     codecGroup->addAction(m_S2TAction);
     codecGroup->addAction(m_T2SAction);
 
-    m_appearanceAction= new QAction(QPixmap(pathLib + "pic/appearance.png"), tr("&Appearance..."), this);
-    m_appearanceAction->setObjectName("actionAppearance");
     m_refreshAction = new QAction(QPixmap(pathLib + "pic/refresh.png"), tr("&Refresh"), this);
     m_refreshAction->setObjectName("actionRefresh");
 
@@ -1057,7 +1050,6 @@ void Frame::initActions()
     connect(escapeGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateESC(QAction*)));
     connect(codecGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateCodec(QAction*)));
 
-    connect(m_appearanceAction, SIGNAL(triggered()), this, SLOT(appearance()));
     connect(m_refreshAction, SIGNAL(triggered()), this, SLOT(refresh()));
 
     connect(langGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateLang(QAction*)));
@@ -1142,7 +1134,6 @@ void Frame::addMainMenu()
     QMenu * view = new QMenu(tr("View"), this);
     mainMenu->addMenu(view);
 
-    view->addAction(m_appearanceAction);
     view->addAction(m_refreshAction);
     view->addSeparator();
 
@@ -1231,8 +1222,6 @@ QMenu * Frame::genPopupMenu(QWidget * owner)
     popupMenu->addAction(m_pasteAction);
     popupMenu->addAction(m_copyArticleAction);
     popupMenu->addSeparator();
-    popupMenu->addAction(m_appearanceAction);
-    popupMenu->addSeparator();
     popupMenu->addAction(m_currentSessionAction);
     return popupMenu;
 }
@@ -1273,7 +1262,6 @@ void Frame::enableMenuToolBar(bool enable)
     m_autoCopyAction->setEnabled(enable);
     m_wwrapAction->setEnabled(enable);
 
-    m_appearanceAction->setEnabled(enable);
     m_refreshAction->setEnabled(enable);
 
     m_currentSessionAction->setEnabled(enable);

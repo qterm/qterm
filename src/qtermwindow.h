@@ -89,7 +89,6 @@ public slots:
     void paste();
     void copyArticle();
     void setting();
-    void appearance();
     void runScript(const QString & filename="");
     void stopScript();
     void debugConsole();

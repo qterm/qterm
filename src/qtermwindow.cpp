@@ -1268,7 +1268,7 @@ void Window::copyArticle()
 
 }
 
-void Window::appearance()
+void Window::setting()
 {
     addrDialog set(this, true);
     int fontSize = m_param.m_nFontSize;
@@ -1379,24 +1379,6 @@ void Window::viewMessages()
 //    Global::instance()->fileCfg()->setItemValue("global", "msgdialog", strSize);
 //    Global::instance()->fileCfg()->save();
 
-}
-
-void Window::setting()
-{
-    addrDialog set(this, true);
-
-    set.param = m_param;
-    set.updateData(false);
-
-    if (set.exec() == 1) {
-        m_param = set.param;
-        Global::instance()->saveAddress(m_nAddrIndex, m_param);
-        m_pScreen->setScheme();
-        m_pScreen->initFontMetrics();
-        QResizeEvent* re = new QResizeEvent(m_pScreen->size(), m_pScreen->size());
-        QApplication::postEvent(m_pScreen, re);
-        m_pScreen->osd()->setFont(m_pScreen->generalFont());
-    }
 }
 
 void Window::antiIdle(bool isEnabled)
