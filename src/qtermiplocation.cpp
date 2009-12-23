@@ -9,6 +9,7 @@
 #include <QRegExp>
 #include <QDir>
 #include <QStringList>
+#include <QTextCodec>
 #include <ctype.h>
 
 #ifdef Q_OS_WIN32
@@ -39,6 +40,7 @@ IPLocation::IPLocation(QString & pathLib)
         }
     } else
         fileExist =  false;
+    m_codec = QTextCodec::codecForName("GB18030");
 }
 
 IPLocation::~IPLocation()
@@ -95,7 +97,7 @@ int IPLocation::readLineFrom(FILE *fp, uint32 offset, QString& ret_str)
         ret_str = QString();
         return -1;
     }
-    ret_str = QString::fromLatin1(str);
+    ret_str = m_codec->toUnicode(str);
     return(ret_str.length());
 }
 

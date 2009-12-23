@@ -1312,7 +1312,7 @@ void Window::showIP()
     QString country, city;
     QString url = m_pBBS->getIP();
     if (m_pIPLocation->getLocation(url, country, city)) {
-        m_pScreen->osd()->display(m_codec->toUnicode((country + city).toLatin1()), PageViewMessage::Info, 100);
+        m_pScreen->osd()->display((country + city), PageViewMessage::Info, 100);
     }
 }
 

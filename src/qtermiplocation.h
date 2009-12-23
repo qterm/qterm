@@ -6,6 +6,7 @@
 //Added by qt3to4:
 
 class QString;
+class QTextCodec;
 typedef unsigned long uint32;
 namespace QTerm
 {
@@ -34,6 +35,7 @@ protected:
     uint32 getString(FILE *fp, uint32 offset, uint32 lastoffset, QString& str, unsigned int flag);
     void getCountryCity(FILE *fp, uint32 offset, QString& country, QString& city);
     void setIpRange(int rec_no, _ip_finder *f);
+    QTextCodec * m_codec;
 };
 
 } // namespace QTerm
