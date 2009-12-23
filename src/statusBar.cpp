@@ -48,12 +48,13 @@ StatusBar::StatusBar( QWidget *parent, const char *name )
 	setObjectName(name);
 	s_instance = this;
 	QBoxLayout *mainlayout = new QHBoxLayout( this );//, 2, /*spacing*/5 );
-	mainlayout->setMargin(2);
+	mainlayout->setContentsMargins(0,0,0,0);
 	mainlayout->setSpacing(5);
 
     //we need extra spacing due to the way we paint the surrounding boxes
 	QBoxLayout *layout = new QHBoxLayout;//, /*spacing*/5 );
 	layout->setSpacing(5);
+	layout->setContentsMargins(0,0,0,0);
 	mainlayout->addLayout(layout);
 
 	m_mainTextLabel = new QLabel( this );
@@ -62,6 +63,7 @@ StatusBar::StatusBar( QWidget *parent, const char *name )
 	QWidget * mainProgressBarBox = new QWidget(this);
 	mainProgressBarBox->setObjectName("progressBox");
     QHBoxLayout *mainProgressBarLayout = new QHBoxLayout( mainProgressBarBox );
+	mainProgressBarLayout->setContentsMargins(0,0,0,0);
 	QToolButton *b1 = new QToolButton( mainProgressBarBox );//, "cancelButton" );
 	b1->setObjectName("cancelButton");
 	mainProgressBarLayout->addWidget(b1);
@@ -80,6 +82,7 @@ StatusBar::StatusBar( QWidget *parent, const char *name )
     layout->setStretchFactor( mainProgressBarBox, 1 );
 
 	m_otherWidgetLayout = new QHBoxLayout;//, /*spacing*/0 );
+	mainProgressBarLayout->setContentsMargins(0,0,0,0);
 	m_otherWidgetLayout->setSpacing(0);
 	mainlayout->addLayout(m_otherWidgetLayout);
 	
