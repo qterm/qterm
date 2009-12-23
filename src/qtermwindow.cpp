@@ -1271,8 +1271,8 @@ void Window::copyArticle()
 void Window::setting()
 {
     addrDialog set(this, true);
-    int fontSize = m_param.m_nFontSize;
-    QString schemeFile = m_param.m_strSchemeFile;
+
+    Param backup = m_param;
 
     set.param = m_param;
     set.updateData(false);
@@ -1281,13 +1281,14 @@ void Window::setting()
     connect(set.ui.generalFontComboBox, SIGNAL(currentFontChanged(const QFont &)), m_pScreen, SLOT(generalFontChanged(const QFont &)));
     connect(set.ui.fontSizeSpinBox, SIGNAL(valueChanged(int)), m_pScreen, SLOT(fontSizeChanged(int)));
     connect(set.ui.schemeComboBox, SIGNAL(currentIndexChanged(int)), m_pScreen, SLOT(schemeChanged(int)));
+    set.ui.asciiFontComboBox->setCurrentFont(m_pScreen->asciiFont());
+    set.ui.generalFontComboBox->setCurrentFont(m_pScreen->generalFont());
 
     if (set.exec() == 1) {
         m_param = set.param;
         Global::instance()->saveAddress(m_nAddrIndex, m_param);
     } else {
-        m_param.m_nFontSize = fontSize;
-        m_param.m_strSchemeFile = schemeFile;
+        m_param = backup;
     }
     m_pScreen->setScheme();
     m_pScreen->initFontMetrics();
