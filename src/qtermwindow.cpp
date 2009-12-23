@@ -745,7 +745,7 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
     if (!m_pBBS->getUrl().isEmpty()) {
         bool ok;
         QString caption = tr("Open URL");
-        QString hint = "url";
+        QString hint = tr("URL:");
         QString strUrl = QInputDialog::getText(this, caption, hint,
                                                QLineEdit::Normal, QString(m_pBBS->getUrl()), &ok);
         if (ok) {
