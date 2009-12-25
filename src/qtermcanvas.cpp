@@ -70,7 +70,7 @@ void Canvas::oriSize()
 {
     bFitWin = false;
     szImage = img.size();
-    adjustSize(QSize(width(), height()));
+    adjustSize(viewport()->size());
 }
 
 void Canvas::zoomIn()
@@ -88,7 +88,7 @@ void Canvas::zoomOut()
 void Canvas::fitWin()
 {
     bFitWin = true;
-    adjustSize(QSize(width(), height()));
+    adjustSize(viewport()->size());
 }
 
 void Canvas::cwRotate()
@@ -157,7 +157,7 @@ void Canvas::resizeImage(float ratio)
     if (!isFullScreen() && !bEmbed)
         resize(szImage*1.1);
     else
-        adjustSize(QSize(width(), height()));
+        adjustSize(viewport()->size());
 }
 
 void Canvas::rotateImage(float ang)
@@ -170,7 +170,7 @@ void Canvas::rotateImage(float ang)
 
     szImage = img.size();
 
-    adjustSize(QSize(width(), height()));
+    adjustSize(viewport()->size());
 }
 
 void Canvas::copyImage()
