@@ -852,6 +852,16 @@ void Global::saveState(const QByteArray state)
     m_config->setItemValue("global", "state", state);
 }
 
+void Global::saveSession(const QList<QVariant>& sites)
+{
+    m_config->setItemValue("global", "sites", sites);
+}
+
+QList<QVariant> Global::loadSession()
+{
+    return m_config->getItemValue("global", "sites").toList();
+}
+
 void Global::cleanup()
 {
 #ifdef KWALLET_ENABLED

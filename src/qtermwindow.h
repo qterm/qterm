@@ -83,6 +83,10 @@ public:
         return m_bConnected;
     }
 
+    int index() {
+        return m_nAddrIndex;
+    }
+
 public slots:
     // ui
     void copy();

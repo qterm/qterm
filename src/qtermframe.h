@@ -211,6 +211,7 @@ protected:
     //function
     void newWindow(const Param& param, int index = -1);
     void closeEvent(QCloseEvent *);
+    void keyPressEvent(QKeyEvent *);
     void selectStyleMenu(int , int);
     void iniSetting();
     void initActions();

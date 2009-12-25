@@ -265,15 +265,18 @@ void Frame::exitQTerm()
         }
     }
 
+    QList<QVariant> sites;
     while ( wndmgr->count() > 0)
     {
         Window * active_window = wndmgr->activeWindow();
+        sites << active_window->index();
         active_window->disconnect();
         wndmgr->activeNextPrev(true);
         wndmgr->removeWindow(active_window);
     }
 
-    saveSetting();
+    Global::instance()->saveSession(sites);
+    Global::instance()->saveConfig();
     // clear zmodem and pool if needed
     if (Global::instance()->m_pref.bClearPool) {
         Global::instance()->clearDir(Global::instance()->m_pref.strZmPath);
@@ -1559,6 +1562,24 @@ void Frame::configToolbars()
 void Frame::slotShowQTerm()
 {
     popupFocusIn(NULL);
+}
+
+void Frame::keyPressEvent(QKeyEvent * e)
+{
+    if (wndmgr->count() == 0 && (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)) {
+        QList<QVariant> sites = Global::instance()->loadSession();
+        if (sites.empty()) {
+            connectMenuActivated(0);
+        } else {
+            for (int i = sites.size() - 1; i >= 0; i--) {
+                int index = sites.at(i).toInt();
+                connectMenuActivated(index);
+            }
+        }
+        e->accept();
+    } else {
+        e->ignore();
+    }
 }
 
 }
