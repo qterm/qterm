@@ -277,13 +277,11 @@ void Canvas::resizeEvent(QResizeEvent *re)
 
 void Canvas::mousePressEvent(QMouseEvent *me)
 {
-    /* remove this to avoid click by mistake
-        if(me->button()&LeftButton)
-        {
-            close();
-            return;
-        }
-    */
+    if(me->button()&Qt::LeftButton)
+    {
+        close();
+        return;
+    }
     if (me->button()&Qt::RightButton) {
         m_pMenu->popup(me->globalPos());
     }
