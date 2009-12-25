@@ -127,7 +127,7 @@ void Canvas::loadImage(QString name)
         setWindowTitle(QFileInfo(name).fileName());
 
         QSize szView(img.size());
-        szView.scale(640, 480, Qt::KeepAspectRatio);
+        szView.scale(1024, 768, Qt::KeepAspectRatio);
 
         if (szView.width() < img.width()) {
             szImage = szView;
