@@ -134,13 +134,13 @@ void Canvas::loadImage(QString name)
             label->resize(szImage);
             label->setPixmap(scaleImage(szImage));
             if (!bEmbed)
-                resize(szView*1.1);
+                resize(szView+QSize(frameWidth()*2,frameWidth()*2));
         } else {
             szImage = img.size();
             label->resize(szImage);
             label->setPixmap(QPixmap::fromImage(img));
             if (!bEmbed)
-                resize(szImage + QSize(5, 5));
+                resize(szImage+QSize(frameWidth()*2,frameWidth()*2));
         }
         if (bEmbed)
             fitWin(true);
