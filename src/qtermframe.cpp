@@ -274,7 +274,7 @@ void Frame::exitQTerm()
     }
 
     Global::instance()->saveSession(sites);
-    Global::instance()->saveConfig();
+    saveSetting();
     // clear zmodem and pool if needed
     if (Global::instance()->m_pref.bClearPool) {
         Global::instance()->clearDir(Global::instance()->m_pref.strZmPath);
