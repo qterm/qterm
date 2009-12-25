@@ -21,6 +21,7 @@ Canvas::Canvas(QWidget *parent, Qt::WFlags f)
         : QScrollArea(parent)
 {
 
+    setWindowFlags(f);
     //dirty trick
     if (f == 0)
         bEmbed = true;

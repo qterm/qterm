@@ -196,7 +196,7 @@ void Http::previewImage(const QString& filename)
     QString strViewer = Global::instance()->fileCfg()->getItemValue("preference", "image").toString();
 
     if (strViewer.isEmpty()) {
-        Canvas *pCanvas = new Canvas();
+        Canvas *pCanvas = new Canvas(qobject_cast<QWidget*>(parent()),Qt::Dialog);
         pCanvas->loadImage(filename);
         pCanvas->show();
     } else {
