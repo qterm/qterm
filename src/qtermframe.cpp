@@ -257,7 +257,7 @@ void Frame::exitQTerm()
             sites << qobject_cast<Window *>(windows.at(i)->widget())->index();
         }
     }
-    if (!titleList.isEmpty()) {
+    if ((!titleList.isEmpty())&&(Global::instance()->m_pref.bWarn)) {
         CloseDialog close(this);
         close.setSiteList(titleList);
         if (close.exec() == 0) {
