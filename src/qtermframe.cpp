@@ -864,7 +864,7 @@ void Frame::initShortcuts()
 
 void Frame::initActions()
 {
-    QString pathLib = Global::instance()->pathLib();
+    QString pathLib = Global::instance()->pathPic();
 
     m_connectAction = new QAction(QPixmap(pathLib + "pic/connect.png"), tr("&Connect"), this);
     m_connectAction->setObjectName("actionConnect");
