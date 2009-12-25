@@ -90,7 +90,7 @@ void Canvas::zoomOut()
 void Canvas::fitWin()
 {
     bFitWin = true;
-    adjustSize(viewport()->size());
+    adjustSize(maximumViewportSize());
 }
 
 void Canvas::cwRotate()
