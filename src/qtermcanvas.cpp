@@ -263,7 +263,7 @@ void Canvas::closeEvent(QCloseEvent *ce)
         delete this;
 }
 
-void Canvas::viewportResizeEvent(QResizeEvent *re)
+void Canvas::resizeEvent(QResizeEvent *re)
 {
     adjustSize(re->size());
 }

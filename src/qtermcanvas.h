@@ -46,7 +46,7 @@ protected:
     void closeEvent(QCloseEvent *);
     void mousePressEvent(QMouseEvent*);
     void keyPressEvent(QKeyEvent *ke);
-    void viewportResizeEvent(QResizeEvent *re);
+    void resizeEvent(QResizeEvent *re);
     void adjustSize(const QSize&);
     QPixmap scaleImage(const QSize&);
 protected:
