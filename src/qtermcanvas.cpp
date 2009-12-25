@@ -58,6 +58,7 @@ Canvas::Canvas(QWidget *parent, Qt::WFlags f)
     label->setText("No Preview Available");
     setWidget(label);
     resize(200, 100);
+    setAlignment(Qt::AlignCenter);
 
 }
 Canvas::~Canvas()
@@ -325,17 +326,8 @@ void Canvas::adjustSize(const QSize& szView)
         szImg = szImg.boundedTo(img.size());
     }
 
-    int x = szView.width() - szImg.width();
-    int y = szView.height() - szImg.height();
-
     szImage = szImg;
 
-//  if(bFitWin)
-//      resizeContents(szView.width(), szView.height());
-//  else
-//      resizeContents(szImage.width()*1.1,szImage.height()*1.1);
-//
-//  moveChild(label, x>0?x/2:0, y>0?y/2:0);
     label->resize(szImage);
 
     label->setPixmap(scaleImage(szImage));
