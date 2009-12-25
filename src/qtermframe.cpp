@@ -258,7 +258,7 @@ void Frame::exitQTerm()
         }
     }
     if (!titleList.isEmpty()) {
-        CloseDialog close;
+        CloseDialog close(this);
         close.setSiteList(titleList);
         if (close.exec() == 0) {
             return;
