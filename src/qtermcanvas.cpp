@@ -71,6 +71,7 @@ void Canvas::oriSize()
 {
     bFitWin = false;
     szImage = img.size();
+    resize(img.size()+QSize(frameWidth()*2,frameWidth()*2));
     adjustSize(viewport()->size());
 }
 
@@ -156,7 +157,7 @@ void Canvas::resizeImage(float ratio)
     szImage = szImg;
 
     if (!isFullScreen() && !bEmbed)
-        resize(szImage*1.1);
+        resize(szImage+QSize(frameWidth()*2,frameWidth()*2));
     else
         adjustSize(viewport()->size());
 }
