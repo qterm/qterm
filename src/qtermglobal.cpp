@@ -496,6 +496,7 @@ bool Global::iniWorkingDir(QString param)
         m_pathLib = path;
         m_pathPic = path;
         m_pathCfg = path;
+        return true;
     }
 
     prefix.chop(3); // "bin"
