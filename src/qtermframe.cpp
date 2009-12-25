@@ -1567,18 +1567,33 @@ void Frame::slotShowQTerm()
 void Frame::keyPressEvent(QKeyEvent * e)
 {
     if (wndmgr->count() == 0 && (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)) {
-        QList<QVariant> sites = Global::instance()->loadSession();
-        if (sites.empty()) {
-            connectMenuActivated(0);
-        } else {
-            for (int i = 0; i < sites.size(); i++) {
-                int index = sites.at(i).toInt();
-                connectMenuActivated(index);
-            }
-        }
+        loadSession();
         e->accept();
     } else {
         e->ignore();
+    }
+}
+
+void Frame::mouseReleaseEvent(QMouseEvent * e)
+{
+    if (wndmgr->count() == 0 && (e->button() == Qt::LeftButton)) {
+        loadSession();
+        e->accept();
+    } else {
+        e->ignore();
+    }
+
+}
+void Frame::loadSession()
+{
+    QList<QVariant> sites = Global::instance()->loadSession();
+    if (sites.empty()) {
+        connectMenuActivated(0);
+    } else {
+        for (int i = 0; i < sites.size(); i++) {
+            int index = sites.at(i).toInt();
+            connectMenuActivated(index);
+        }
     }
 }
 

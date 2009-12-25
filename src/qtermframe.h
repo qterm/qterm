@@ -212,6 +212,7 @@ protected:
     void newWindow(const Param& param, int index = -1);
     void closeEvent(QCloseEvent *);
     void keyPressEvent(QKeyEvent *);
+    void mouseReleaseEvent(QMouseEvent *);
     void selectStyleMenu(int , int);
     void iniSetting();
     void initActions();
@@ -222,6 +223,7 @@ protected:
     void loadShortcuts();
     void saveToolbars();
     void loadToolbars();
+    void loadSession();
 
     void addMainMenu();
     void addMainTool();
