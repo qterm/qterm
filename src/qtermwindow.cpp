@@ -1482,18 +1482,11 @@ void Window::jobDone(int e)
 {
     if (e == DAE_FINISH) {
         articleDialog article(this);
-        const char * size = Global::instance()->fileCfg()->getItemValue("global", "articledialog").toString().toLatin1().data();
-        if (size != NULL) {
-            int x, y, cx, cy;
-            sscanf(size, "%d %d %d %d", &x, &y, &cx, &cy);
-            article.resize(QSize(cx, cy));
-            article.move(QPoint(x, y));
-        }
+        article.restoreGeometry(Global::instance()->fileCfg()->getItemValue("global", "articledialog").toByteArray());
         article.strArticle = m_pDAThread->strArticle;
         article.ui.textBrowser->setPlainText(article.strArticle);
         article.exec();
-        QString strSize = QString("%1 %2 %3 %4").arg(article.x()).arg(article.y()).arg(article.width()).arg(article.height());
-        Global::instance()->fileCfg()->setItemValue("global", "articledialog", strSize);
+        Global::instance()->fileCfg()->setItemValue("global", "articledialog", article.saveGeometry());
         Global::instance()->fileCfg()->save();
     } else if (e == DAE_TIMEOUT) {
         QMessageBox::warning(this, "timeout", "download article timeout, aborted");
