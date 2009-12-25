@@ -489,6 +489,15 @@ bool Global::iniWorkingDir(QString param)
     m_pathLib = fi.path() + '/';
 #else
     QString prefix = QCoreApplication::applicationDirPath();
+
+    QFileInfo conf(prefix+"/qterm.cfg");
+    if (conf.exists()) {
+        QString path= QCoreApplication::applicationDirPath()+"/";
+        m_pathLib = path;
+        m_pathPic = path;
+        m_pathCfg = path;
+    }
+
     prefix.chop(3); // "bin"
     m_pathCfg = QDir::homePath() + "/.qterm/";
     if (!isPathExist(m_pathCfg))
