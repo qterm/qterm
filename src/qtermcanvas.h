@@ -30,7 +30,7 @@ protected slots:
     void oriSize();
     void zoomIn();
     void zoomOut();
-    void fitWin();
+    void fitWin(bool);
     void fullScreen();
     void saveImage();
     void copyImage();
@@ -56,6 +56,7 @@ protected:
     QString strFileName;
     QImage img;
     QMenu *m_pMenu;
+    QAction * m_fitAction;
 
 //Very dirty trick, I hate it
     bool bEmbed;

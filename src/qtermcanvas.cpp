@@ -29,7 +29,12 @@ Canvas::Canvas(QWidget *parent, Qt::WFlags f)
 
     m_pMenu = new QMenu(this);
     addAction(m_pMenu->addAction(tr("Original Size"), this, SLOT(oriSize()), Qt::Key_Z));
-    addAction(m_pMenu->addAction(tr("Fit Window"), this, SLOT(fitWin()), Qt::Key_X));
+    m_fitAction = m_pMenu->addAction(tr("Fit Window"));
+    m_fitAction->setCheckable(true);
+    m_fitAction->setShortcut(Qt::Key_X);
+    m_fitAction->setChecked(true);
+    connect(m_fitAction, SIGNAL(toggled(bool)), this, SLOT(fitWin(bool)));
+    addAction(m_fitAction);
     m_pMenu->addSeparator();
     addAction(m_pMenu->addAction(tr("Zoom In"), this, SLOT(zoomIn()), Qt::Key_Equal));
     addAction(m_pMenu->addAction(tr("Zoom Out"), this, SLOT(zoomOut()), Qt::Key_Minus));
@@ -69,7 +74,7 @@ Canvas::~Canvas()
 
 void Canvas::oriSize()
 {
-    bFitWin = false;
+    m_fitAction->setChecked(false);
     szImage = img.size();
     resize(img.size()+QSize(frameWidth()*2,frameWidth()*2));
     adjustSize(viewport()->size());
@@ -77,20 +82,21 @@ void Canvas::oriSize()
 
 void Canvas::zoomIn()
 {
-    bFitWin = false;
+    m_fitAction->setChecked(false);
     resizeImage(0.05);
 }
 
 void Canvas::zoomOut()
 {
-    bFitWin = false;
+    m_fitAction->setChecked(false);
     resizeImage(-0.05);
 }
 
-void Canvas::fitWin()
+void Canvas::fitWin(bool checked)
 {
-    bFitWin = true;
-    adjustSize(maximumViewportSize());
+    bFitWin = checked;
+    if (bFitWin)
+        adjustSize(maximumViewportSize());
 }
 
 void Canvas::cwRotate()
@@ -119,8 +125,6 @@ void Canvas::loadImage(QString name)
         strFileName = name;
         setWindowTitle(QFileInfo(name).fileName());
 
-        bFitWin = true;
-
         QSize szView(img.size());
         szView.scale(640, 480, Qt::KeepAspectRatio);
 
@@ -138,7 +142,7 @@ void Canvas::loadImage(QString name)
                 resize(szImage + QSize(5, 5));
         }
         if (bEmbed)
-            fitWin();
+            fitWin(true);
 
     } else
         qWarning("cant load image");
