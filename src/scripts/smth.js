@@ -236,6 +236,16 @@ QTerm.onZmodemState = function(type, value, state)
 
 QTerm.addPopupSeparator();
 
+QTerm.onGoogle= function()
+{
+    url = "http://www.google.com/search?q="+QTerm.getSelectedText()+"&ie=UTF-8&oe=UTF-8";
+    QTerm.openUrl(url);
+}
+
+if (QTerm.addPopupMenu( "googleSearch", "Search Selected Text in Google" ) ) {
+        QTerm.googleSearch.triggered.connect(QTerm.onGoogle);
+}
+
 QTerm.onAbout = function()
 {
     msg = "You are using smth.js in QTerm " + QTerm.version() + " (C) 2009 QTerm Developers";
