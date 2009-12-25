@@ -332,8 +332,6 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
             this, SLOT(readReady(int)));
     connect(m_pTelnet, SIGNAL(TelnetState(int)),
             this, SLOT(TelnetState(int)));
-    connect(m_pFrame, SIGNAL(statusBarChanged(bool)),
-            this, SLOT(showStatusBar(bool)));
 // timers
     m_idleTimer = new QTimer;
     connect(m_idleTimer, SIGNAL(timeout()), this, SLOT(idleProcess()));

@@ -667,11 +667,6 @@ Global::Language Global::language() const
     return m_language;
 }
 
-bool Global::showStatusBar() const
-{
-    return m_statusBar;
-}
-
 Global::Position Global::scrollPosition() const
 {
     return m_scrollPos;
@@ -834,7 +829,6 @@ void Global::saveConfig()
     strTmp.setNum(scrollPosition());
     m_config->setItemValue("global", "vscrollpos", strTmp);
 
-    m_config->setItemValue("global", "statusbar", showStatusBar() ? "1" : "0");
     m_config->setItemValue("global", "switchbar", showSwitchBar() ? "1" : "0");
     saveShowToolBar();
     m_config->save();

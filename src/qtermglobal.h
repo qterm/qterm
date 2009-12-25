@@ -88,7 +88,6 @@ public:
     const QString & escapeString() const;
     Conversion clipConversion() const;
     Language language() const;
-    bool showStatusBar() const;
     Position scrollPosition() const;
     bool isFullScreen() const;
     bool showSwitchBar() const;
