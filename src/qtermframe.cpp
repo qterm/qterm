@@ -250,11 +250,13 @@ void Frame::quickLogin()
 
 void Frame::exitQTerm()
 {
+    QList<QVariant> sites;
     QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
     QStringList titleList;
     for (int i = 0; i < int(windows.count()); ++i) {
         if ((qobject_cast<Window *>(windows.at(i)->widget()))->isConnected()) {
             titleList << windows.at(i)->windowTitle();
+            sites << qobject_cast<Window *>(windows.at(i)->widget())->index();
         }
     }
     if (!titleList.isEmpty()) {
@@ -265,11 +267,9 @@ void Frame::exitQTerm()
         }
     }
 
-    QList<QVariant> sites;
     while ( wndmgr->count() > 0)
     {
         Window * active_window = wndmgr->activeWindow();
-        sites << active_window->index();
         active_window->disconnect();
         wndmgr->activeNextPrev(true);
         wndmgr->removeWindow(active_window);
@@ -1571,7 +1571,7 @@ void Frame::keyPressEvent(QKeyEvent * e)
         if (sites.empty()) {
             connectMenuActivated(0);
         } else {
-            for (int i = sites.size() - 1; i >= 0; i--) {
+            for (int i = 0; i < sites.size(); i++) {
                 int index = sites.at(i).toInt();
                 connectMenuActivated(index);
             }
