@@ -1,10 +1,10 @@
-QTerm 0.5.8
+QTerm 0.5.9
 ===============
 
 这个版本添加/修正了下面一些功能:
-1. 设置键盘方案
-2. Qt 4.6 下的脚本支持
-3. Bug fixes
+1. 新的关闭对话框
+2. 优先使用当前目录下的资源文件
+3. 各种 Bug fixes
 
                                          The QTerm Team
                                       http://www.qterm.org
