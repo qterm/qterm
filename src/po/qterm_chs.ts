@@ -20,51 +20,51 @@
     <name>QTerm::Canvas</name>
     <message>
         <source>zoom 1:1</source>
-        <translation>1:1</translation>
+        <translation type="obsolete">1:1</translation>
     </message>
     <message>
         <source>fit window</source>
-        <translation>适应窗口大小</translation>
+        <translation type="obsolete">适应窗口大小</translation>
     </message>
     <message>
         <source>zoom in</source>
-        <translation>放大</translation>
+        <translation type="obsolete">放大</translation>
     </message>
     <message>
         <source>zoom out</source>
-        <translation>缩小</translation>
+        <translation type="obsolete">缩小</translation>
     </message>
     <message>
         <source>fullscreen</source>
-        <translation>全屏显示</translation>
+        <translation type="obsolete">全屏显示</translation>
     </message>
     <message>
         <source>rotate CW 90</source>
-        <translation>顺时针旋转90</translation>
+        <translation type="obsolete">顺时针旋转90</translation>
     </message>
     <message>
         <source>rotate CCW 90</source>
-        <translation>逆时针旋转90</translation>
+        <translation type="obsolete">逆时针旋转90</translation>
     </message>
     <message>
         <source>save as</source>
-        <translation>保存</translation>
+        <translation type="obsolete">保存</translation>
     </message>
     <message>
         <source>copy to</source>
-        <translation>拷贝</translation>
+        <translation type="obsolete">拷贝</translation>
     </message>
     <message>
         <source>silent copy</source>
-        <translation>自动拷贝</translation>
+        <translation type="obsolete">自动拷贝</translation>
     </message>
     <message>
         <source>delete</source>
-        <translation>删除</translation>
+        <translation type="obsolete">删除</translation>
     </message>
     <message>
         <source>exit</source>
-        <translation>退出</translation>
+        <translation type="obsolete">退出</translation>
     </message>
     <message>
         <source>Choose a filename to save under</source>
@@ -77,6 +77,54 @@
     <message>
         <source>Cant save file, maybe format not supported</source>
         <translation>无法保存文件，可能是不支持的格式</translation>
+    </message>
+    <message>
+        <source>Original Size</source>
+        <translation>原始大小</translation>
+    </message>
+    <message>
+        <source>Fit Window</source>
+        <translation>适应窗口大小</translation>
+    </message>
+    <message>
+        <source>Zoom In</source>
+        <translation>放大</translation>
+    </message>
+    <message>
+        <source>Zoom Out</source>
+        <translation>缩小</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>全屏显示</translation>
+    </message>
+    <message>
+        <source>Rotate CW 90</source>
+        <translation>顺时针旋转90</translation>
+    </message>
+    <message>
+        <source>Rotate CCW 90</source>
+        <translation>逆时针旋转90</translation>
+    </message>
+    <message>
+        <source>Save As...</source>
+        <translation>保存为...</translation>
+    </message>
+    <message>
+        <source>Copy To...</source>
+        <translation>拷贝到...</translation>
+    </message>
+    <message>
+        <source>Silent Copy</source>
+        <translation>自动拷贝</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>退出</translation>
     </message>
 </context>
 <context>
@@ -467,7 +515,7 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>&amp;Appearance...</source>
-        <translation>外观(&amp;A)...</translation>
+        <translation type="obsolete">外观(&amp;A)...</translation>
     </message>
     <message>
         <source>&amp;Address Book...</source>
@@ -707,6 +755,10 @@ Do you want to clear and reassign?</source>
     <message>
         <source>Setting changed do you want to save it?</source>
         <translation type="obsolete">设置已更改，你要保存吗?</translation>
+    </message>
+    <message>
+        <source>URL:</source>
+        <translation>连接:</translation>
     </message>
 </context>
 <context>
