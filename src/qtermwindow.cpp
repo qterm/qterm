@@ -309,12 +309,6 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     m_popWin = new popWidget(this, m_pFrame);
 
     m_pScreen->osd()->display(tr("Not Connected"));
-    statusBar()->setSizeGripEnabled(false);
-
-    if (Global::instance()->showStatusBar())
-        statusBar()->show();
-    else
-        statusBar()->hide();
 
     // disable the dock menu
 //  setDockMenuEnabled(false);
@@ -1088,24 +1082,19 @@ void Window::TelnetState(int state)
 #endif
     switch (state) {
     case TSRESOLVING:
-        //statusBar()->message( tr("resolving host name") );
         m_pScreen->osd()->display(tr("resolving host name"));
         break;
     case TSHOSTFOUND:
-        //statusBar()->message( tr("host found") );
         m_pScreen->osd()->display(tr("host found"));
         break;
     case TSHOSTNOTFOUND:
-        //statusBar()->message( tr("host not found") );
         m_pScreen->osd()->display(tr("host not found"));
         connectionClosed();
         break;
     case TSCONNECTING:
-        //statusBar()->message( tr("connecting...") );
         m_pScreen->osd()->display(tr("connecting..."));
         break;
     case TSHOSTCONNECTED:
-        //statusBar()->message( tr("connected") );
         m_pScreen->osd()->display(tr("connected"));
         m_bConnected = true;
         m_pFrame->updateMenuToolBar();
@@ -1113,61 +1102,49 @@ void Window::TelnetState(int state)
             m_bDoingLogin = true;
         break;
     case TSPROXYCONNECTED:
-        //statusBar()->message( tr("connected to proxy" ) );
         m_pScreen->osd()->display(tr("connected to proxy"));
         break;
     case TSPROXYAUTH:
-        //statusBar()->message( tr("proxy authentation") );
         m_pScreen->osd()->display(tr("proxy authentation"));
         break;
     case TSPROXYFAIL:
-        //statusBar()->message( tr("proxy failed") );
         m_pScreen->osd()->display(tr("proxy failed"));
         disconnect();
         break;
     case TSREFUSED:
-        //statusBar()->message( tr("connection refused") );
         m_pScreen->osd()->display(tr("connection refused"));
         connectionClosed();
         break;
     case TSREADERROR:
-        //statusBar()->message( tr("error when reading from server") );
         m_pScreen->osd()->display(tr("error when reading from server"), PageViewMessage::Error);
         disconnect();
         break;
     case TSCLOSED:
-        //statusBar()->message( tr("connection closed") );
         m_pScreen->osd()->display(tr("connection closed"));
         connectionClosed();
         if (m_param.m_bReconnect && m_bReconnect)
             reconnectProcess();
         break;
     case TSCLOSEFINISH:
-        //statusBar()->message( tr("connection close finished") );
         m_pScreen->osd()->display(tr("connection close finished"));
         //connectionClosed();
         break;
     case TSCONNECTVIAPROXY:
-        //statusBar()->message( tr("connect to host via proxy") );
         m_pScreen->osd()->display(tr("connect to host via proxy"));
         break;
     case TSEGETHOSTBYNAME:
-        //statusBar()->message( tr("error in gethostbyname") );
         m_pScreen->osd()->display(tr("error in gethostbyname"), PageViewMessage::Error);
         connectionClosed();
         break;
     case TSEINIWINSOCK:
-        //statusBar()->message( tr("error in startup winsock") );
         m_pScreen->osd()->display(tr("error in startup winsock"), PageViewMessage::Error);
         connectionClosed();
         break;
     case TSERROR:
-        //statusBar()->message( tr("error in connection") );
         m_pScreen->osd()->display(tr("error in connection"), PageViewMessage::Error);
         disconnect();
         break;
     case TSPROXYERROR:
-        //statusBar()->message( tr("eoor in proxy") );
         m_pScreen->osd()->display(tr("error in proxy"), PageViewMessage::Error);
         disconnect();
         break;
@@ -1324,14 +1301,6 @@ void Window::refresh()
     m_pScreen->update();
 }
 
-void Window::showStatusBar(bool bShow)
-{
-    if (bShow)
-        statusBar()->show();
-    else
-        statusBar()->hide();
-}
-
 void Window::debugConsole()
 {
 #ifdef SCRIPTTOOLS_ENABLED
@@ -1411,7 +1380,6 @@ void Window::connectionClosed()
     if (m_idleTimer->isActive())
         m_idleTimer->stop();
 
-    //statusBar()->message( tr("connection closed") );
     m_pScreen->osd()->display(tr("connection closed"));
 
     m_pFrame->updateMenuToolBar();

@@ -167,7 +167,6 @@ protected:
     QAction * m_scrollHideAction;
     QAction * m_scrollLeftAction;
     QAction * m_scrollRightAction;
-    QAction * m_statusAction;
     QAction * m_switchAction;
 
 //  View

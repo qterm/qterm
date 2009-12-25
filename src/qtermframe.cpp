@@ -205,8 +205,6 @@ void Frame::iniSetting()
         m_scrollRightAction->setChecked(true);
     }
 
-    m_statusAction->setChecked(Global::instance()->showStatusBar());
-
     m_switchAction->setChecked(Global::instance()->showSwitchBar());
 
     if (Global::instance()->showSwitchBar())
@@ -975,9 +973,6 @@ void Frame::initActions()
     scrollGroup->addAction(m_scrollLeftAction);
     scrollGroup->addAction(m_scrollRightAction);
 
-    m_statusAction = new QAction(tr("Status &Bar"), this);
-    m_statusAction->setObjectName("actionStatus");
-    m_statusAction->setCheckable(true);
     m_switchAction = new QAction(tr("S&witch Bar"), this);
     m_switchAction->setObjectName("actionSwitch");
     m_switchAction->setCheckable(true);
@@ -1064,7 +1059,6 @@ void Frame::initActions()
 
     connect(scrollGroup, SIGNAL(triggered(QAction*)), this, SLOT(updateScroll(QAction*)));
 
-    connect(m_statusAction, SIGNAL(toggled(bool)), this, SLOT(updateStatusBar(bool)));
     connect(m_switchAction, SIGNAL(toggled(bool)), this, SLOT(updateSwitchBar(bool)));
 
     connect(m_currentSessionAction, SIGNAL(triggered()), this, SLOT(setting()));
@@ -1159,7 +1153,6 @@ void Frame::addMainMenu()
     scrollMenu->addAction(m_scrollLeftAction);
     scrollMenu->addAction(m_scrollRightAction);
     view->addMenu(scrollMenu);
-    view->addAction(m_statusAction);
     view->addAction(m_switchAction);
     view->addSeparator();
     view->addAction(m_menuBarAction);

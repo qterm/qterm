@@ -96,7 +96,6 @@ public slots:
     void runScript(const QString & filename="");
     void stopScript();
     void debugConsole();
-    void showStatusBar(bool);
     void reconnect();
     void sendParsedString(const QString &);
     void showIP();
