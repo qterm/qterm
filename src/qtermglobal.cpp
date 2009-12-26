@@ -576,13 +576,10 @@ bool Global::iniSettings()
     //set font
     QString family = m_config->getItemValue("global", "font").toString();
     QString pointsize = m_config->getItemValue("global", "pointsize").toString();
-    QString pixelsize = m_config->getItemValue("global", "pixelsize").toString();
     if (!family.isEmpty()) {
         QFont font(family);
         if (pointsize.toInt() > 0)
             font.setPointSize(pointsize.toInt());
-        if (pixelsize.toInt() > 0)
-            font.setPixelSize(pixelsize.toInt());
         QString bAA = m_config->getItemValue("global", "antialias").toString();
         if (bAA != "0")
             font.setStyleStrategy(QFont::PreferAntialias);
@@ -811,8 +808,6 @@ void Global::saveConfig()
     m_config->setItemValue("global", "font", qApp->font().family());
     strTmp.setNum(QFontInfo(qApp->font()).pointSize());
     m_config->setItemValue("global", "pointsize", strTmp);
-    strTmp.setNum(QFontInfo(qApp->font()).pixelSize());
-    m_config->setItemValue("global", "pixelsize", strTmp);
 
     if (isFullScreen())
         m_config->setItemValue("global", "fullscreen", "1");
