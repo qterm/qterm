@@ -341,8 +341,6 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     connect(m_tabTimer, SIGNAL(timeout()), this, SLOT(blinkTab()));
     m_reconnectTimer = new QTimer;
     connect(m_reconnectTimer, SIGNAL(timeout()), this, SLOT(reconnect()));
-    m_ipTimer = new QTimer;
-    connect(m_ipTimer, SIGNAL(timeout()), this, SLOT(showIP()));
     m_updateTimer = new QTimer;
     m_updateTimer->setSingleShot(true);
     connect(m_updateTimer, SIGNAL(timeout()), this, SLOT(updateWindow()));
@@ -667,15 +665,11 @@ void Window::mouseMoveEvent(QMouseEvent * me)
         bool bUrl = false;
         if (Global::instance()->m_pref.bUrl) {
             if (m_pBBS->isIP(rcUrl_IP, rcOld_IP) && m_bCheckIP) {
-                if (rcUrl_IP != rcOld_IP) {
-                    if (!m_ipTimer->isActive()) {
-                        m_ipTimer->setSingleShot(false);
-                        m_ipTimer->start(100);
-                    }
+                if (rcUrl_IP != rcOld_IP && !m_pScreen->osd()->isVisible()) {
+                    showIP();
                 }
             } else {
-                if (m_ipTimer->isActive())
-                    m_ipTimer->stop();
+                m_pScreen->osd()->hide();
             }
 
             if (m_pBBS->isUrl(m_rcUrl, rcOld)) {
@@ -1288,7 +1282,7 @@ void Window::showIP()
     QString country, city;
     QString url = m_pBBS->getIP();
     if (m_pIPLocation->getLocation(url, country, city)) {
-        m_pScreen->osd()->display((country + city), PageViewMessage::Info, 100);
+        m_pScreen->osd()->display((country + city), PageViewMessage::Info, 0);
     }
 }
 
