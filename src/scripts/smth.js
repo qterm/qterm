@@ -155,7 +155,14 @@ QTerm.sendKey = function(x, y)
 {
     // Only handle the menu case
     var result;
-    if (QTerm.pageState == QTerm.SMTH.Menu) {
+    if (QTerm.pageState == QTerm.SMTH.Article && x < 12) {
+            if( QTerm.getText(QTerm.rows()-1).indexOf("%") != -1 ) {
+                QTerm.sendParsedString("^[[D");
+                QTerm.sendParsedString("^[[D");
+            } else
+                QTerm.sendParsedString("^[[D");
+            return true;
+    } else if (QTerm.pageState == QTerm.SMTH.Menu) {
         str = QTerm.getMenuItem(x,y);
         if (str == "") {
             return false;
