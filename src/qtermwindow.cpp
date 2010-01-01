@@ -1199,9 +1199,9 @@ void Window::pasteHelper(bool clip)
 
     if (m_bWordWrap) {
         // insert '\n' as needed
-        for (uint i = 0; i < strText.length(); i++) {
-            uint j = i;
-            uint k = 0, l = 0;
+        for (int i = 0; i < strText.length(); i++) {
+            int j = i;
+            int k = 0, l = 0;
             while (strText.at(j) != QChar('\n') && j < strText.length()) {
                 if (Global::instance()->m_pref.nWordWrap - (l - k) >= 0 &&
                         Global::instance()->m_pref.nWordWrap - (l - k) < 2) {
@@ -1466,7 +1466,7 @@ QByteArray  Window::parseString(const QByteArray& cstr, int *len)
     if (len != 0)
         *len = 0;
 
-    for (uint i = 0; i < cstr.length(); i++) {
+    for (int i = 0; i < cstr.length(); i++) {
         if (cstr.at(i) == '^') {
             i++;
             if (i < cstr.length()) {
