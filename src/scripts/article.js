@@ -98,9 +98,3 @@ Article.downloadArticle = function(message)
 
 QTerm.Article = Article;
 
-QTerm.onCopyArticle = function()
-{
-    text = QTerm.Article.getArticle();
-    QTerm.accepted = true;
-    return text;
-}

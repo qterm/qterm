@@ -255,6 +255,23 @@ if (QTerm.qtbindingsAvailable) {
     QTerm.loadScript("websnap.js");
     QTerm.loadScript("senddelay.js");
     QTerm.loadScript("article.js");
+    QTerm.onCopyArticle = function()
+    {
+        var text = ""
+        if (QTerm.pageState != QTerm.SMTH.Article)
+            QTerm.showMessage("No article to download.", QTerm.OSDType.Warning, 5000);
+        else
+            text = QTerm.Article.getArticle();
+        QTerm.accepted = true;
+        return text;
+    }
+} else {
+    QTerm.onCopyArticle = function()
+    {
+        QTerm.accepted = false;
+        return "";
+    }
+
 }
 
 QTerm.addPopupSeparator();
