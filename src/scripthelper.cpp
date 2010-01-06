@@ -49,7 +49,7 @@ bool ScriptHelper::accepted() const
     return m_accepted;
 }
 
-bool ScriptHelper::qtbindingAvailable() const
+bool ScriptHelper::qtbindingsAvailable() const
 {
     return m_qtbindingsAvailable;
 }

@@ -15,11 +15,11 @@ public:
     ScriptHelper(Window *parent, QScriptEngine *engine);
     ~ScriptHelper();
     Q_PROPERTY(bool accepted READ accepted WRITE setAccepted)
-    Q_PROPERTY(bool qtbindingAvailable READ qtbindingAvailable)
+    Q_PROPERTY(bool qtbindingsAvailable READ qtbindingsAvailable)
     void loadScriptFile(const QString&);
 public slots:
     bool accepted() const;
-    bool qtbindingAvailable() const;
+    bool qtbindingsAvailable() const;
     void setAccepted(bool);
     int caretX();
     int caretY();
