@@ -44,7 +44,7 @@ QTerm.onSendDelay = function()
     var text = QInputDialog.getText(this, "Send String With Delay", "String:", QLineEdit.Normal, "", Qt.WindowFlags(0));
     var times = QInputDialog.getInteger(this, "Send String With Delay", "Times:", 1, 1, 10000, 1, Qt.WindowFlags(0));
     var delay= QInputDialog.getInteger(this, "Send String With Delay", "Delay(s):", 1, 1, 10000, 1, Qt.WindowFlags(0)) * 1000;
-    QTerm.showMessage("send \""+text+"\" "+times+" times with "+delay+" ms delay", 1, 2000);
+    QTerm.showMessage("send \""+text+"\" "+times+" times with "+delay+" ms delay", QTerm.OSDType.Info, 2000);
     QTerm.SendDelay.send(text,times,delay);
 }
 
