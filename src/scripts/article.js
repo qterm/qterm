@@ -13,7 +13,8 @@ Article.getArticle = function()
     QTerm.scriptEvent.connect(this, this.downloadArticle);
     this.downloadArticle("Article: start");
     QTerm.eventFinished.connect(this,this.q.quit);
-    this.q.exec();
+    if (this.downloading)
+        this.q.exec();
     QTerm.eventFinished.disconnect(this,this.q.quit);
     return Article.articleText;
 }
