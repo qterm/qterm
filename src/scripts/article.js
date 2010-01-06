@@ -24,24 +24,34 @@ Article.getArticle = function()
 // so this is a non-greedy match
 Article.checkDuplicate = function()
 {
-    var strTemp = QTerm.getText(0).rtrim();
-    var i=0;
-    var start=0;
     if (this.textList.length == 0) {
         return 0;
     }
+    var i=0;
+    var emptyLines = 0
+    var start=0;
+    var strTemp = QTerm.getText(0).rtrim();
+    var size = strTemp.length
+    while ( emptyLines < QTerm.rows() -1 && strTemp.length == 0) {
+        emptyLines++;
+        strTemp = QTerm.getText(emptyLines).rtrim();
+    }
+
+    if (strTemp.length == 0) {
+        return 0;
+    }
+
     for(var index = this.textList.length -1; index > 0, i < QTerm.rows()-1; // not exceeeding the last screen
             --index, i++)
     {
-        var text = this.textList[index];
         if(this.textList[index] != strTemp)
             continue;
         var index2 = index;
         var dup=true;
         // match more to see if its duplicated
-        for(var j=0; j<=i; j++, index2++)
+        for(var j=emptyLines; j<=i; j++, index2++)
         {
-            str1 = QTerm.getText(j).rtrim();
+            var str1 = QTerm.getText(j).rtrim();
             if(this.textList[index2]!=str1)
             {
                 dup = false;
