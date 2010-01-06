@@ -251,7 +251,7 @@ void ScriptHelper::loadScript(const QString & filename)
     addImportedScript(fileInfo.absoluteFilePath());
 }
 
-void ScriptHelper::loadExtension(const QString & extension)
+bool ScriptHelper::loadExtension(const QString & extension)
 {
     QScriptValue ret = m_scriptEngine->importExtension(extension);
     if (ret.isError()) {
