@@ -198,10 +198,8 @@ QTerm.onNewData = function()
 {
     QTerm.accepted = false;
     // This will highlight qterm and kde, function defined in highlight.js
+    QTerm.scriptEvent("QTerm: new data");
     QTerm.highlightKeywords(/qterm|kde/ig);
-// This is a ugly way to download article
-//    if (QTerm.Article.downloading)
-//        QTerm.Article.downloadArticle();
     return false;
 }
 
@@ -259,6 +257,21 @@ if (QTerm.addPopupMenu( "googleSearch", "Search Selected Text in Google" ) ) {
         QTerm.googleSearch.triggered.connect(QTerm.onGoogle);
 }
 
+QTerm.loadScript("article.js");
+
+QTerm.onArticle = function()
+{
+    text = QTerm.Article.getArticle();
+    browser = new QTextBrowser();
+    browser.setText(text);
+    browser.show();
+}
+
+if (QTerm.addPopupMenu( "article", "Download Article" ) ) {
+        QTerm.article.triggered.connect(QTerm.onArticle);
+}
+
+
 QTerm.onAbout = function()
 {
     msg = "You are using smth.js in QTerm " + QTerm.version() + " (C) 2009 QTerm Developers";
@@ -269,15 +282,3 @@ if (QTerm.addPopupMenu( "aboutScript", "About This Script" ) ) {
         QTerm.aboutScript.triggered.connect(QTerm.onAbout);
 }
 
-/*
-QTerm.loadScript("article.js");
-
-QTerm.onArticle = function()
-{
-    QTerm.Article.getArticle();
-}
-
-if (QTerm.addPopupMenu( "article", "Download Article" ) ) {
-        QTerm.article.triggered.connect(QTerm.onArticle);
-}
-*/

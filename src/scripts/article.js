@@ -4,11 +4,18 @@ Article.downloading = false;
 Article.textList= [];
 Article.articleText = "";
 
+Article.q = new QEventLoop;
+
 Article.getArticle = function()
 {
     this.textList = [];
     this.downloading = true;
-    this.downloadArticle();
+    QTerm.scriptEvent.connect(this, this.downloadArticle);
+    this.downloadArticle("Article: start");
+    QTerm.eventFinished.connect(this,this.q.quit);
+    this.q.exec();
+    QTerm.eventFinished.disconnect(this,this.q.quit);
+    return Article.articleText;
 }
 
 // check it there is duplicated string
@@ -58,31 +65,34 @@ Article.pageComplete = function()
     }
 }
 
-Article.downloadArticle = function()
+Article.downloadArticle = function(message)
 {
-    if (!this.pageComplete())
-        return;
-    var start = this.checkDuplicate();
-    // add new lines
-    for(i=start;i<QTerm.rows()-1;i++)
-        this.textList[this.textList.length]=QTerm.getText(i).rtrim();
+    if ((message == "QTerm: new data")||(message == "Article: start"))
+    {
+        if (!this.pageComplete())
+            return;
+        var start = this.checkDuplicate();
+        // add new lines
+        for(i=start;i<QTerm.rows()-1;i++)
+            this.textList[this.textList.length]=QTerm.getText(i).rtrim();
 
-    // the end of article
-    if( QTerm.getText(QTerm.rows()-1).indexOf("%") == -1 ) {
-        QTerm.showMessage("Download Complete",1,0);
-        this.downloading = false;
-        this.articleText = this.textList.join("\n");
-        var file = new QFile("test.txt");
-        file.open(QIODevice.OpenMode(QIODevice.WriteOnly, QIODevice.Text));
-        var stream = new QTextStream(file);
-        stream.writeString(this.articleText);
-        file.close();
-        //QTerm.scriptEvent("downloadFinished");
-        return;
+        // the end of article
+        if( QTerm.getText(QTerm.rows()-1).indexOf("%") == -1 ) {
+            this.downloading = false;
+            this.articleText = this.textList.join("\n");
+//            var file = new QFile("test.txt");
+//            file.open(QIODevice.OpenMode(QIODevice.WriteOnly, QIODevice.Text));
+//            var stream = new QTextStream(file);
+//            stream.writeString(this.articleText);
+//            file.close();
+            QTerm.scriptEvent.disconnect(this, this.downloadArticle);
+            QTerm.eventFinished();
+            return;
+        }
+
+        // continue
+        QTerm.sendString(" ");
     }
-
-    // continue
-    QTerm.sendString(" ");
 }
 
 QTerm.Article = Article;
