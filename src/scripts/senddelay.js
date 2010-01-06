@@ -14,11 +14,11 @@ SendDelay.send = function(text, times, delay)
     }
     this.t.start(delay);
     this.t.timeout.connect(this,this.sendOneChar);
-    QTerm.scriptEvent.connect(this,this.q.quit);
+    QTerm.eventFinished.connect(this,this.q.quit);
     this.q.exec();
     QTerm.showMessage("Send String Finished", QTerm.OSDType.Info, 2000);
     this.t.timeout.disconnect(this,this.sendOneChar);
-    QTerm.scriptEvent.disconnect(this,this.q.quit);
+    QTerm.eventFinished.disconnect(this,this.q.quit);
 }
 
 SendDelay.addSendString = function(str)
@@ -30,7 +30,7 @@ SendDelay.sendOneChar = function()
 {
     if (this.stringQueue.length == 0) {
         this.t.stop();
-        QTerm.scriptEvent("Finished");
+        QTerm.eventFinished();
         return;
     }
     var text = this.stringQueue.shift();
