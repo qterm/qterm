@@ -15,9 +15,11 @@ public:
     ScriptHelper(Window *parent, QScriptEngine *engine);
     ~ScriptHelper();
     Q_PROPERTY(bool accepted READ accepted WRITE setAccepted)
+    Q_PROPERTY(bool qtbindingAvailable READ qtbindingAvailable)
     void loadScriptFile(const QString&);
 public slots:
     bool accepted() const;
+    bool qtbindingAvailable() const;
     void setAccepted(bool);
     int caretX();
     int caretY();
@@ -59,6 +61,7 @@ private:
     Window * m_window;
     QScriptEngine * m_scriptEngine;
     bool m_accepted;
+    bool m_qtbindingsAvailable;
     QStringList m_scriptList;
     QStringList m_popupActionList;
     QStringList m_urlActionList;

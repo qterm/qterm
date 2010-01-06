@@ -17,10 +17,27 @@
 namespace QTerm
 {
 ScriptHelper::ScriptHelper(Window * parent, QScriptEngine * engine)
-    :QObject(parent),m_accepted(false),m_scriptList(),m_popupActionList(),m_urlActionList()
+    :QObject(parent),m_accepted(false),m_qtbindingsAvailable(true),m_scriptList(),m_popupActionList(),m_urlActionList()
 {
     m_window = parent;
     m_scriptEngine = engine;
+    QStringList allowedBindings;
+    allowedBindings << "qt.core" << "qt.gui" << "qt.sql" << "qt.xml" << "qt.uitools" << "qt.network";
+    foreach( QString binding, allowedBindings )
+    {
+        QScriptValue error = engine->importExtension( binding );
+        if( error.isUndefined() )
+        { // undefined indiciates success
+            continue;
+        }
+
+        qDebug() << "Extension" << binding <<  "not found:" << error.toString();
+        qDebug() << "Available extensions:" << engine->availableExtensions();
+        qDebug() << "Some script functions will be disabled, considering install QtScriptBindings!";
+        m_qtbindingsAvailable = false;
+    }
+    if (m_qtbindingsAvailable)
+        qDebug() << "QtScriptBindings loaded, enjoy scripting!";
 }
 
 ScriptHelper::~ScriptHelper()
@@ -30,6 +47,11 @@ ScriptHelper::~ScriptHelper()
 bool ScriptHelper::accepted() const
 {
     return m_accepted;
+}
+
+bool ScriptHelper::qtbindingAvailable() const
+{
+    return m_qtbindingsAvailable;
 }
 
 void ScriptHelper::setAccepted(bool accepted)
