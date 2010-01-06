@@ -241,7 +241,6 @@ QTerm.onZmodemState = function(type, value, state)
 
 // Here is an example about how to add item to the popup menu.
 
-QTerm.addPopupSeparator();
 
 QTerm.onGoogle= function()
 {
@@ -271,6 +270,7 @@ if (QTerm.addPopupMenu( "article", "Download Article" ) ) {
         QTerm.article.triggered.connect(QTerm.onArticle);
 }
 
+QTerm.addPopupSeparator();
 
 QTerm.onAbout = function()
 {
