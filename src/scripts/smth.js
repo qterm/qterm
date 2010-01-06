@@ -1,12 +1,6 @@
 QTerm.loadScript("utils.js");
 QTerm.loadScript("highlight.js");
 
-if (QTerm.qtbindingsAvailable) {
-    QTerm.loadScript("console.js");
-    QTerm.loadScript("websnap.js");
-    QTerm.loadScript("senddelay.js");
-}
-
 QTerm.SMTH= {
     Unknown : -1,
     Menu : 0,
@@ -256,18 +250,11 @@ if (QTerm.addPopupMenu( "googleSearch", "Search Selected Text in Google" ) ) {
         QTerm.googleSearch.triggered.connect(QTerm.onGoogle);
 }
 
-QTerm.loadScript("article.js");
-
-QTerm.onArticle = function()
-{
-    text = QTerm.Article.getArticle();
-    browser = new QTextBrowser();
-    browser.setText(text);
-    browser.show();
-}
-
-if (QTerm.addPopupMenu( "article", "Download Article" ) ) {
-        QTerm.article.triggered.connect(QTerm.onArticle);
+if (QTerm.qtbindingsAvailable) {
+    QTerm.loadScript("console.js");
+    QTerm.loadScript("websnap.js");
+    QTerm.loadScript("senddelay.js");
+    QTerm.loadScript("article.js");
 }
 
 QTerm.addPopupSeparator();
