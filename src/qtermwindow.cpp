@@ -1442,16 +1442,21 @@ void Window::reconnectProcess()
 void Window::jobDone(int e)
 {
     if (e == DAE_FINISH) {
-        articleDialog article(this);
-        article.restoreGeometry(Global::instance()->fileCfg()->getItemValue("global", "articledialog").toByteArray());
-        article.strArticle = m_pDAThread->strArticle;
-        article.ui.textBrowser->setPlainText(article.strArticle);
-        article.exec();
-        Global::instance()->fileCfg()->setItemValue("global", "articledialog", article.saveGeometry());
-        Global::instance()->fileCfg()->save();
+        showArticle(m_pDAThread->strArticle);
     } else if (e == DAE_TIMEOUT) {
         QMessageBox::warning(this, "timeout", "download article timeout, aborted");
     }
+}
+
+void Window::showArticle(const QString text)
+{
+    articleDialog article(this);
+    article.restoreGeometry(Global::instance()->fileCfg()->getItemValue("global", "articledialog").toByteArray());
+    article.strArticle = text;
+    article.ui.textBrowser->setPlainText(article.strArticle);
+    article.exec();
+    Global::instance()->fileCfg()->setItemValue("global", "articledialog", article.saveGeometry());
+    Global::instance()->fileCfg()->save();
 }
 
 /* ------------------------------------------------------------------------ */

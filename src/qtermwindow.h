@@ -149,6 +149,7 @@ protected slots:
     // decode
     void setMouseMode(bool);
     void jobDone(int);
+    void showArticle(const QString text);
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *);
