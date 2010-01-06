@@ -55,6 +55,7 @@ public slots:
     QString version();
 signals:
     void scriptEvent(const QString & type);
+    void eventFinished();
 private:
     bool isScriptLoaded(const QString & filename);
     void addImportedScript(const QString & filename);
