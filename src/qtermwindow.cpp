@@ -669,7 +669,8 @@ void Window::mouseMoveEvent(QMouseEvent * me)
                     showIP();
                 }
             } else {
-                m_pScreen->osd()->hide();
+                if (m_pScreen->osd()->isVisible() && m_pScreen->osd()->type() == PageViewMessage::IP)
+                    m_pScreen->osd()->hide();
             }
 
             if (m_pBBS->isUrl(m_rcUrl, rcOld)) {
@@ -1282,7 +1283,7 @@ void Window::showIP()
     QString country, city;
     QString url = m_pBBS->getIP();
     if (m_pIPLocation->getLocation(url, country, city)) {
-        m_pScreen->osd()->display((country + city), PageViewMessage::Info, 0);
+        m_pScreen->osd()->display((country + city), PageViewMessage::Info, 0, PageViewMessage::IP);
     }
 }
 

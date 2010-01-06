@@ -30,7 +30,9 @@ public:
     PageViewMessage(QWidget * parent);
 
     enum Icon { None = 0, Info, Warning, Error, Find };
-    void display(const QString & message, Icon icon = Info, int durationMs = 4000);
+    enum Type { Normal = 0, IP };
+    void display(const QString & message, Icon icon = Info, int durationMs = 4000, Type type = Normal);
+    Type type();
 public slots:
     void showText(const QString &);
 
@@ -42,6 +44,7 @@ private:
     QPixmap m_pixmap;
     QTimer * m_timer;
     QString m_message;
+    Type m_type;
 };
 
 } // namespace QTerm

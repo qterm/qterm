@@ -54,7 +54,7 @@ void PageViewMessage::showText(const QString & message)
     display(message);
 }
 
-void PageViewMessage::display(const QString & message, Icon icon, int durationMs)
+void PageViewMessage::display(const QString & message, Icon icon, int durationMs, Type type)
 // give to Caesar what Caesar owns: code taken from Amarok's osd.h/.cpp
 // "redde (reddite, pl.) cesari quae sunt cesaris", just btw. ;)
 {
@@ -73,6 +73,7 @@ void PageViewMessage::display(const QString & message, Icon icon, int durationMs
         return;
     }
     m_message = message;
+    m_type = type;
     QRect textRect = fontMetrics().boundingRect(message);
     textRect.translate(-textRect.left(), -textRect.top());
     textRect.adjust(0, 0, 2, 2);
@@ -153,6 +154,11 @@ void PageViewMessage::display(const QString & message, Icon icon, int durationMs
         m_timer->start(durationMs);
     } else if (m_timer)
         m_timer->stop();
+}
+
+PageViewMessage::Type PageViewMessage::type()
+{
+    return m_type;
 }
 
 void PageViewMessage::paintEvent(QPaintEvent * e)
