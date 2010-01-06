@@ -286,3 +286,12 @@ if (QTerm.addPopupMenu( "aboutScript", "About This Script" ) ) {
         QTerm.aboutScript.triggered.connect(QTerm.onAbout);
 }
 
+QTerm.EndOfArticle = function()
+{
+    if( QTerm.getText(QTerm.rows()-1).indexOf("%") == -1 ) {
+        return true;
+    } else {
+        return false;
+    }
+
+}

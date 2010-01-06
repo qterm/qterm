@@ -78,14 +78,9 @@ Article.downloadArticle = function(message)
             this.textList[this.textList.length]=QTerm.getText(i).rtrim();
 
         // the end of article
-        if( QTerm.getText(QTerm.rows()-1).indexOf("%") == -1 ) {
+        if( QTerm.EndOfArticle() ) {
             this.downloading = false;
             this.articleText = this.textList.join("\n");
-//            var file = new QFile("test.txt");
-//            file.open(QIODevice.OpenMode(QIODevice.WriteOnly, QIODevice.Text));
-//            var stream = new QTextStream(file);
-//            stream.writeString(this.articleText);
-//            file.close();
             QTerm.scriptEvent.disconnect(this, this.downloadArticle);
             QTerm.eventFinished();
             return;
