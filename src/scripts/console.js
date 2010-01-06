@@ -1,6 +1,4 @@
 // Shamelessly stole from Amarok.
-QTerm.loadExtension("qt.core");
-QTerm.loadExtension("qt.gui");
 
 function globalScopeEval( inputCode )
 {

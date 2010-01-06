@@ -1,5 +1,3 @@
-QTerm.loadExtension("qt.core");
-QTerm.loadExtension("qt.gui");
 QTerm.loadScript("utils.js");
 
 var SendDelay = SendDelay ? SendDelay : new Object;

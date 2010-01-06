@@ -1,9 +1,11 @@
 QTerm.loadScript("utils.js");
 QTerm.loadScript("highlight.js");
-//Enable this if you have qt bindings installed.
-//QTerm.loadScript("console.js");
-//QTerm.loadScript("websnap.js");
-//QTerm.loadScript("senddelay.js");
+
+if (QTerm.qtbindingsAvailable) {
+    QTerm.loadScript("console.js");
+    QTerm.loadScript("websnap.js");
+    QTerm.loadScript("senddelay.js");
+}
 
 QTerm.SMTH= {
     Unknown : -1,
