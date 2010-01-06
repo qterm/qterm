@@ -98,14 +98,9 @@ Article.downloadArticle = function(message)
 
 QTerm.Article = Article;
 
-QTerm.onArticle = function()
+QTerm.onCopyArticle = function()
 {
     text = QTerm.Article.getArticle();
-    browser = new QTextBrowser();
-    browser.setText(text);
-    browser.show();
-}
-
-if (QTerm.addPopupMenu( "article", "Download Article" ) ) {
-        QTerm.article.triggered.connect(QTerm.onArticle);
+    QTerm.accepted = true;
+    return text;
 }

@@ -1232,6 +1232,26 @@ void Window::copyArticle()
     if (!m_bConnected)
         return;
 
+#ifdef SCRIPT_ENABLED
+    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+        m_scriptHelper->setAccepted(false);
+        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onCopyArticle");
+        if (func.isFunction()) {
+            QScriptValue text = func.call();
+            if (m_scriptHelper->accepted()) {
+                showArticle(text.toString());
+                return;
+            }
+        } else {
+            qDebug("onCopyArticle is not a function");
+        }
+        if (m_scriptEngine->hasUncaughtException()) {
+            QScriptValue exception = m_scriptEngine->uncaughtException();
+            qDebug() << "Exception: " << exception.toString();
+        }
+    }
+#endif
+
     m_pDAThread = new DAThread(this);
     connect(m_pDAThread, SIGNAL(done(int)), this, SLOT(jobDone(int)));
     m_pDAThread->start();
