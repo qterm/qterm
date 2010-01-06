@@ -1470,6 +1470,9 @@ void Window::jobDone(int e)
 
 void Window::showArticle(const QString text)
 {
+    if (text.isEmpty()) {
+        return;
+    }
     articleDialog article(this);
     article.restoreGeometry(Global::instance()->fileCfg()->getItemValue("global", "articledialog").toByteArray());
     article.strArticle = text;
