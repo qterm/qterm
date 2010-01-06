@@ -157,6 +157,7 @@ QTerm.onWheelEvent = function(delta, buttons, modifiers, pt_x, pt_y, orientation
 QTerm.onNewData = function()
 {
     QTerm.accepted = false;
+    QTerm.scriptEvent("QTerm: new data");
     QTerm.highlightKeywords(/qterm|kde/ig);
     return false;
 }
@@ -197,6 +198,29 @@ QTerm.onZmodemState = function(type, value, state)
     return;
 }
 
+if (QTerm.qtbindingsAvailable) {
+    QTerm.loadScript("console.js");
+    QTerm.loadScript("websnap.js");
+    QTerm.loadScript("senddelay.js");
+    QTerm.loadScript("article.js");
+    QTerm.onCopyArticle = function()
+    {
+        var text = ""
+        if (QTerm.pageState != QTerm.PTT.Article)
+            QTerm.showMessage("No article to download.", QTerm.OSDType.Warning, 5000);
+        else
+            text = QTerm.Article.getArticle();
+        QTerm.accepted = true;
+        return text;
+    }
+} else {
+    QTerm.onCopyArticle = function()
+    {
+        QTerm.accepted = false;
+        return "";
+    }
+}
+
 // Here is an example about how to add item to the popup menu.
 
 QTerm.addPopupSeparator();
@@ -211,3 +235,12 @@ if (QTerm.addPopupMenu( "aboutScript", "About This Script" ) ) {
         QTerm.aboutScript.triggered.connect(QTerm.onAbout);
 }
 
+QTerm.EndOfArticle = function()
+{
+    if( QTerm.getText(QTerm.rows()-1).indexOf("100%") != -1 ) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
