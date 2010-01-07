@@ -290,8 +290,12 @@ void Screen::wheelEvent(QWheelEvent * we)
 {
     if (Global::instance()->m_pref.bWheel)
         QApplication::sendEvent(m_pWindow, we);
-    else
-        QApplication::sendEvent(m_scrollBar, we);
+    else {
+        int old_value = m_scrollBar->value();
+        int step = m_scrollBar->singleStep()*we->delta()/8/15;
+        m_scrollBar->setValue(old_value-step);
+        we->accept();
+    }
 }
 
 
