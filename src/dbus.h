@@ -43,9 +43,11 @@ private:
     DBus();
     void createConnection();
     void closeNotification(uint id);
+    void checkCapabilities();
     static DBus * m_instance;
     bool m_notificationAvailable;
     QList<uint> m_idList;
+    QStringList m_serverCapabilities;
 };
 
 }

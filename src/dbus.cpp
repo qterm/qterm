@@ -38,7 +38,7 @@ DBus * DBus::instance()
 }
 
 DBus::DBus()
-    :m_notificationAvailable(false),m_idList()
+    :m_notificationAvailable(false),m_idList(),m_serverCapabilities()
 {
     m_idList.clear();
     QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
@@ -74,6 +74,14 @@ void DBus::createConnection()
     if (!connected) {
         qDebug() << "warning: failed to connect to NotificationClosed dbus signal";
     }
+    checkCapabilities();
+}
+
+void DBus::checkCapabilities()
+{
+    QDBusMessage message = QDBusMessage::createMethodCall( dbusServiceName, dbusPath, dbusInterfaceName, "GetCapabilities" );
+    QDBusReply<QStringList> replyMsg = QDBusConnection::sessionBus().call(message);
+    m_serverCapabilities = replyMsg.value();
 }
 
 void DBus::slotServiceOwnerChanged( const QString & serviceName, const QString & oldOwner, const QString & newOwner )
@@ -109,10 +117,12 @@ bool DBus::sendNotification(const QString & summary, const QString & body, const
     args.append(summary); // Title
     args.append(body); // Text
     QStringList actionList;
-    foreach (DBus::Action action, actions) {
-        if (action==DBus::Show_QTerm) {
-            actionList.append(QString::number(DBus::Show_QTerm));
-            actionList.append("Show QTerm");
+    if (m_serverCapabilities.contains("actions")) {
+        foreach (DBus::Action action, actions) {
+            if (action==DBus::Show_QTerm) {
+                actionList.append(QString::number(DBus::Show_QTerm));
+                actionList.append("Show QTerm");
+            }
         }
     }
     args.append(actionList);
