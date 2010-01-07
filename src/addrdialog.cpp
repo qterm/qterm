@@ -351,7 +351,7 @@ void addrDialog::connectSlots()
 
     connect(ui.schemePushButton, SIGNAL(clicked()), this, SLOT(onConfigScheme()));
 
-    connect(ui.protocolComboBox, SIGNAL(activated(int)), this, SLOT(onProtocol(int)));
+    connect(ui.protocolComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onProtocol(int)));
 
     connect(ui.scriptPushButton, SIGNAL(clicked()), this, SLOT(onChooseScript()));
 
@@ -462,6 +462,7 @@ void addrDialog::updateData(bool save)
         param.m_nMenuType = ui.menuTypeComboBox->currentIndex();
         param.m_clrMenu = clrMenu;
     } else { // from param to display
+        disconnect(ui.protocolComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onProtocol(int)));
         QString strTmp;
         ui.nameLineEdit->setText(param.m_strName);
         ui.addrLineEdit->setText(param.m_strAddr);
@@ -511,7 +512,6 @@ void addrDialog::updateData(bool save)
         ui.proxyuserLineEdit->setText(param.m_strProxyUser);
         ui.proxypasswdLineEdit->setText(param.m_strProxyPasswd);
         ui.protocolComboBox->setCurrentIndex(param.m_nProtocolType);
-        onProtocol(param.m_nProtocolType);
         strTmp.setNum(param.m_nMaxIdle);
         ui.idletimeLineEdit->setText(strTmp);
         ui.replykeyLineEdit->setText(param.m_strReplyKey);
@@ -535,6 +535,7 @@ void addrDialog::updateData(bool save)
         //QRadioButton * rbMenu = qobject_cast<QRadioButton*>(bgMenu.button(param.m_nMenuType));
         //rbMenu->setChecked(true);
         clrMenu = param.m_clrMenu;
+        connect(ui.protocolComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onProtocol(int)));
     }
 }
 
