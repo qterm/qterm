@@ -243,7 +243,7 @@ QTerm.onGoogle= function()
         url = "http://www.google.com/search?q="+QTerm.getSelectedText()+"&ie=UTF-8&oe=UTF-8";
         QTerm.openUrl(url);
     } else
-        QTerm.showMessage("No text is selected to search for.", QTerm.OSDType.Warning, 5000);
+        QTerm.showMessage("No text is selected to search for", QTerm.OSDType.Warning, 5000);
 }
 
 if (QTerm.addPopupMenu( "googleSearch", "Search Selected Text in Google" ) ) {
@@ -259,7 +259,7 @@ if (QTerm.qtbindingsAvailable) {
     {
         var text = ""
         if (QTerm.pageState != QTerm.SMTH.Article)
-            QTerm.showMessage("No article to download.", QTerm.OSDType.Warning, 5000);
+            QTerm.showMessage("No article to download", QTerm.OSDType.Warning, 5000);
         else
             text = QTerm.Article.getArticle();
         QTerm.accepted = true;
