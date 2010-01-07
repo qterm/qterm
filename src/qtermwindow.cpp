@@ -1747,7 +1747,7 @@ void Window::updateWindow()
                 if (DBus::instance()->notificationAvailable()) {
                     QList<DBus::Action> actions;
                     actions.append(DBus::Show_QTerm);
-                    DBus::instance()->sendNotification("New Message in QTerm", strMsg, actions);
+                    DBus::instance()->sendNotification("New Message in QTerm", strMsg, QImage(), actions);
                 } else
 #endif //DBUS_ENABLED
                 {

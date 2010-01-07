@@ -11,6 +11,7 @@
 //
 
 #include "dbus.h"
+#include "imageconverter.h"
 #include <QtDBus>
 #include <QtDebug>
 
@@ -96,7 +97,7 @@ void DBus::slotServiceOwnerChanged( const QString & serviceName, const QString &
     }
 }
 
-bool DBus::sendNotification(const QString & summary, const QString & body, QList<DBus::Action> actions)
+bool DBus::sendNotification(const QString & summary, const QString & body, const QImage & image, QList<DBus::Action> actions)
 {
     QDBusMessage message = QDBusMessage::createMethodCall( dbusServiceName, dbusPath, dbusInterfaceName, "Notify" );
     uint id = 0;
@@ -104,7 +105,7 @@ bool DBus::sendNotification(const QString & summary, const QString & body, QList
     args.append("QTerm");
     args.append(id); // If I send 0 directly, this will be an int32 instead of uin32, resulting an unknown method error.
 //    args.append(QString());
-    args.append(QString()); // Icon name
+    args.append("qterm"); // Icon name
     args.append(summary); // Title
     args.append(body); // Text
     QStringList actionList;
@@ -115,7 +116,10 @@ bool DBus::sendNotification(const QString & summary, const QString & body, QList
         }
     }
     args.append(actionList);
-    args.append(QVariantMap());
+    QVariantMap map;
+    if (!image.isNull())
+        map["image_data"] = ImageConverter::variantForImage(image);
+    args.append(map);
     args.append(-1);//-1 means: notification server decides
     message.setArguments(args);
     QDBusMessage replyMsg = QDBusConnection::sessionBus().call(message);

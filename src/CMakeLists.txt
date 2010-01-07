@@ -155,6 +155,7 @@ set(qterm_SRCS
    termstring.cpp
    keyboardtranslator.cpp
    closedialog.cpp
+   imageconverter.cpp
    ${optionalSources})
 set(qterm_UIS
    ui/aboutdialog.ui

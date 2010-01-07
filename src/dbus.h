@@ -18,6 +18,8 @@
 #include <QtCore/QString>
 #include <QtCore/QMap>
 #include <QtCore/QObject>
+#include <QtGui/QImage>
+
 
 namespace QTerm
 {
@@ -30,7 +32,7 @@ public:
     };
     static DBus * instance();
     bool notificationAvailable() const;
-    bool sendNotification(const QString & summary, const QString & body, QList<DBus::Action> actions);
+    bool sendNotification(const QString & summary, const QString & body, const QImage & image=QImage(), QList<DBus::Action> actions = QList<DBus::Action>() );
 signals:
     void showQTerm();
 private slots:
