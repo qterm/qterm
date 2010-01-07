@@ -229,20 +229,33 @@ void Decode::normalInput()
 
 }
 
+void Decode::cleanupState()
+{
+    delete m_state;
+    m_state = new QTextCodec::ConverterState;
+    m_attrHack = false;
+}
+
 // non-printing characters functions
 void Decode::cr()
 {
+    if (m_attrHack == true)
+        cleanupState();
     // FIXME: dirty
     m_pBuffer->cr();
 }
 
 void Decode::lf()
 {
+    if (m_attrHack == true)
+        cleanupState();
     m_pBuffer->newLine();
 }
 
 void Decode::ff()
 {
+    if (m_attrHack == true)
+        cleanupState();
     m_pBuffer->eraseEntireScreen();
 
     m_pBuffer->moveCursor(0, 0);

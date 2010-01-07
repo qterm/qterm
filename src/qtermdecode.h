@@ -79,6 +79,8 @@ private:
     // non-printing characters
     void cr(), lf(), ff(), bell(), tab(), bs();
 
+    void cleanupState();
+
     void setMode();
     void resetMode();
 
