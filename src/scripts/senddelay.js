@@ -41,11 +41,22 @@ QTerm.SendDelay = SendDelay;
 
 QTerm.onSendDelay = function()
 {
-    var text = QInputDialog.getText(this, "Send String With Delay", "String:", QLineEdit.Normal, "", Qt.WindowFlags(0));
-    var times = QInputDialog.getInteger(this, "Send String With Delay", "Times:", 1, 1, 10000, 1, Qt.WindowFlags(0));
-    var delay= QInputDialog.getInteger(this, "Send String With Delay", "Delay(s):", 1, 1, 10000, 1, Qt.WindowFlags(0)) * 1000;
-    QTerm.showMessage("send \""+text+"\" "+times+" times with "+delay+" ms delay", QTerm.OSDType.Info, 2000);
-    QTerm.SendDelay.send(text,times,delay);
+    var UIloader = new QUiLoader(this);
+    var uifile = new QFile(QTerm.findFile("ui/senddelay.ui"));
+    uifile.open(QIODevice.ReadOnly);
+    var dialog = UIloader.load(uifile, this);
+    uifile.close();
+    if ( dialog.exec() == 0 )
+        return;
+
+    var text = dialog.stringLineEdit.text;
+    var times = dialog.repeatingSpinBox.value;
+    var delay = dialog.delaySpinBox.value*1000;
+
+    if (text.length != 0 && times != 0) {
+        QTerm.showMessage("send \""+text+"\" "+times+" times with "+delay+" ms delay", QTerm.OSDType.Info, 2000);
+        QTerm.SendDelay.send(text,times,delay);
+    }
 }
 
 if (QTerm.addPopupMenu( "sendDelay", "Send String With Delay..." ) ) {
