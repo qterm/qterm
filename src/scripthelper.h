@@ -53,6 +53,7 @@ public slots:
     void openUrl(const QString & url);
     bool loadExtension(const QString & extension);
     QString version();
+    QString findFile(const QString & filename);
 signals:
     void scriptEvent(const QString & type);
     void eventFinished();
