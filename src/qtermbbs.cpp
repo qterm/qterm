@@ -87,7 +87,7 @@ QString BBS::getMessage()
     message = (m_pBuffer->screen(0)->getText().simplified());
     line = m_pBuffer->screen(i);
     while (isUnicolor(line)) {
-        message += "\n" + (line->getText());
+        message += "\n" + (line->getText().simplified());
         i++;
         line = m_pBuffer->screen(i);
     }
