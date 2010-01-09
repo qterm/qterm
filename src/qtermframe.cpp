@@ -466,7 +466,7 @@ void Frame::closeEvent(QCloseEvent * clse)
         }
     }
     confirmExitQTerm();
-    clse->ignore();
+    clse->accept();
 }
 
 void Frame::updateLang(QAction * action)
