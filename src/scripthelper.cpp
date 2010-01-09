@@ -22,7 +22,7 @@ ScriptHelper::ScriptHelper(Window * parent, QScriptEngine * engine)
     m_window = parent;
     m_scriptEngine = engine;
     QStringList allowedBindings;
-    allowedBindings << "qt.core" << "qt.gui" << "qt.sql" << "qt.xml" << "qt.uitools" << "qt.network";
+    allowedBindings << "qt.core" << "qt.gui" << "qt.sql" << "qt.xml" << "qt.uitools" << "qt.network" << "qt.webkit";
     foreach( QString binding, allowedBindings )
     {
         QScriptValue error = engine->importExtension( binding );
