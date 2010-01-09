@@ -42,6 +42,11 @@ public:
     void popupFocusIn(Window * window = 0);
     void buzz();
     QMenu * genPopupMenu(QWidget * owner);
+
+public slots:
+    void confirmExitQTerm();
+    void exitQTerm();
+
 signals:
     void bossColor();
     void scrollChanged();
@@ -52,7 +57,6 @@ protected slots:
     // Menu
     void addressBook();
     void quickLogin();
-    void exitQTerm();
 
     void selectionChanged(int);
     void aboutQTerm();

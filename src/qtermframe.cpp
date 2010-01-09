@@ -246,7 +246,7 @@ void Frame::quickLogin()
     }
 }
 
-void Frame::exitQTerm()
+void Frame::confirmExitQTerm()
 {
     QList<QVariant> sites;
     QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
@@ -262,6 +262,20 @@ void Frame::exitQTerm()
         close.setSiteList(titleList);
         if (close.exec() == 0) {
             return;
+        }
+    }
+    exitQTerm();
+}
+
+void Frame::exitQTerm()
+{
+    QList<QVariant> sites;
+    QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
+    QStringList titleList;
+    for (int i = 0; i < int(windows.count()); ++i) {
+        if ((qobject_cast<Window *>(windows.at(i)->widget()))->isConnected()) {
+            titleList << windows.at(i)->windowTitle();
+            sites << qobject_cast<Window *>(windows.at(i)->widget())->index();
         }
     }
 
@@ -451,7 +465,7 @@ void Frame::closeEvent(QCloseEvent * clse)
             }
         }
     }
-    exitQTerm();
+    confirmExitQTerm();
     clse->ignore();
 }
 
@@ -1036,7 +1050,7 @@ void Frame::initActions()
     connect(m_addressAction, SIGNAL(triggered()), this, SLOT(addressBook()));
     connect(m_quickConnectAction, SIGNAL(triggered()), this, SLOT(quickLogin()));
     connect(m_printAction, SIGNAL(triggered()), this, SLOT(printScreen()));
-    connect(m_exitAction, SIGNAL(triggered()), this, SLOT(exitQTerm()));
+    connect(m_exitAction, SIGNAL(triggered()), this, SLOT(confirmExitQTerm()));
 
     connect(m_copyAction, SIGNAL(triggered()), this, SLOT(copy()));
     connect(m_pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
@@ -1365,7 +1379,6 @@ void Frame::setUseTray(bool use)
     tray->setContextMenu(trayMenu);
     connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)));
-//  connect(tray, SIGNAL(closed()), this, SLOT(exitQTerm()));
 
     tray->show();
 }
@@ -1382,7 +1395,7 @@ void Frame::buildTrayMenu()
         trayMenu->addAction(tr("&Hide"), this, SLOT(trayHide()));
     trayMenu->addSeparator();
     trayMenu->addAction(tr("&About"), this, SLOT(aboutQTerm()));
-    trayMenu->addAction(tr("&Exit"), this, SLOT(exitQTerm()));
+    trayMenu->addAction(tr("&Exit"), this, SLOT(confirmExitQTerm()));
 }
 
 void Frame::trayActivated(QSystemTrayIcon::ActivationReason reason)
