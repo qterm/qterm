@@ -7,8 +7,15 @@ SendDelay.t = new QTimer;
 
 SendDelay.q = new QEventLoop;
 
+SendDelay.text = "";
+SendDelay.times = 0;
+SendDelay.delay = 0;
+
 SendDelay.send = function(text, times, delay)
 {
+    SendDelay.text = text;
+    SendDelay.times = times;
+    SendDelay.delay = delay;
     for (var i = 0; i < times; i++) {
         this.addSendString(text);
     }
@@ -46,6 +53,11 @@ QTerm.onSendDelay = function()
     uifile.open(QIODevice.ReadOnly);
     var dialog = UIloader.load(uifile, this);
     uifile.close();
+
+    dialog.stringLineEdit.text = QTerm.SendDelay.text;
+    dialog.repeatingSpinBox.value = QTerm.SendDelay.times;
+    dialog.delaySpinBox.value = QTerm.SendDelay.delay/1000;
+
     if ( dialog.exec() == 0 )
         return;
 
