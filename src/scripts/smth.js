@@ -149,7 +149,9 @@ QTerm.onMouseEvent = function(type, button, buttons, modifiers, pt_x, pt_y)
 
 QTerm.sendKey = function(x, y)
 {
-    // Only handle the menu case
+    if (QTerm.getUrl().length > 0)
+        return false;
+
     var result;
     if (QTerm.pageState == QTerm.SMTH.Article && x < 12) {
             if( QTerm.getText(QTerm.rows()-1).indexOf("%") != -1 ) {
