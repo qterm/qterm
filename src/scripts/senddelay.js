@@ -28,13 +28,13 @@ SendDelay.addSendString = function(str)
 
 SendDelay.sendOneChar = function()
 {
+    var text = this.stringQueue.shift();
+    QTerm.sendParsedString(text);
     if (this.stringQueue.length == 0) {
         this.t.stop();
         QTerm.eventFinished();
         return;
     }
-    var text = this.stringQueue.shift();
-    QTerm.sendParsedString(text);
 }
 
 QTerm.SendDelay = SendDelay;
