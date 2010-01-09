@@ -264,10 +264,13 @@ void Frame::confirmExitQTerm()
             return;
         }
     }
-    exitQTerm();
+    saveAndDisconnect();
+
+    setUseTray(false);
+    qApp->quit();
 }
 
-void Frame::exitQTerm()
+void Frame::saveAndDisconnect()
 {
     QList<QVariant> sites;
     QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
@@ -295,9 +298,6 @@ void Frame::exitQTerm()
         Global::instance()->clearDir(Global::instance()->m_pref.strPoolPath);
         Global::instance()->clearDir(Global::instance()->m_pref.strPoolPath + "shadow-cache/");
     }
-
-    setUseTray(false);
-    qApp->quit();
 }
 
 //create a new display window

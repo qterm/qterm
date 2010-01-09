@@ -45,7 +45,7 @@ public:
 
 public slots:
     void confirmExitQTerm();
-    void exitQTerm();
+    void saveAndDisconnect();
 
 signals:
     void bossColor();

@@ -149,7 +149,7 @@ int main( int argc, char ** argv )
     mw->setWindowIcon( QPixmap(Global::instance()->pathLib()+"pic/qterm.png") );
     mw->show();
     a.connect( &a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()) );
-    a.connect( &a, SIGNAL(commitDataRequest(QSessionManager &)), mw, SLOT(exitQTerm()), Qt::DirectConnection);
+    a.connect( &a, SIGNAL(saveStateRequest(QSessionManager &)), mw, SLOT(saveAndDisconnect()), Qt::DirectConnection);
     int res = a.exec();
 
     return res;
