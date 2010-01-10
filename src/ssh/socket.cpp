@@ -179,6 +179,7 @@ SSHSocket::SSHSocket(QObject * parent)
 {
     m_socket = new SocketPrivate(this);
     m_version = SSHUnknown;
+    m_priv = NULL;
     connect(m_socket, SIGNAL(hostFound()), this, SIGNAL(hostFound()));
     //connect(m_socket, SIGNAL(connected()), this, SIGNAL(connected()));
     connect(m_socket, SIGNAL(connectionClosed()), this, SIGNAL(connectionClosed()));
@@ -220,17 +221,26 @@ void SSHSocket::connectToHost(HostInfo * hostInfo)
 
 QByteArray SSHSocket::readBlock(unsigned long size)
 {
-    return m_priv->readData(size);
+    if (m_priv != NULL) {
+        return m_priv->readData(size);
+    }
+    return QByteArray();
 }
 
 long SSHSocket::writeBlock(const QByteArray & data)
 {
+    if (m_priv == NULL) {
+        return 0;
+    }
     m_priv->writeData(data);
     return data.size();
 }
 
 unsigned long SSHSocket::bytesAvailable()
 {
+    if (m_priv == NULL) {
+        return 0;
+    }
     return m_priv->bytesAvailable();
 }
 
