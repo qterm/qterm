@@ -38,6 +38,9 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WFlags fl)
     ui.setupUi(this);
     ui.portSpinBox->setRange(0, 65535);
     ui.proxyportSpinBox->setRange(0, 65535);
+    ui.rowSpinBox->setRange(5,500);
+    ui.columnSpinBox->setRange(5,500);
+    ui.scrollSpinBox->setRange(0,1000000);
     QList<QByteArray> codecList = QTextCodec::availableCodecs();
     QByteArray codecName;
     foreach(codecName, codecList) {
@@ -385,9 +388,9 @@ bool addrDialog::isChanged()
            param.m_strSchemeFile != strSchemeFile ||
            param.m_strKeyboardProfile != strKeyboardProfile||
            param.m_strTerm != ui.termtypeLineEdit->text() ||
-           param.m_nCol != ui.columnLineEdit->text().toInt() ||
-           param.m_nRow != ui.rowLineEdit->text().toInt() ||
-           param.m_nScrollLines != ui.scrollLineEdit->text().toInt() ||
+           param.m_nCol != ui.columnSpinBox->value() ||
+           param.m_nRow != ui.rowSpinBox->value() ||
+           param.m_nScrollLines != ui.scrollSpinBox->value() ||
            param.m_nCursorType != ui.cursorTypeComboBox->currentIndex() ||
            param.m_strEscape != ui.escapeLineEdit->text() ||
            param.m_nProxyType != ui.proxytypeComboBox->currentIndex() ||
@@ -435,9 +438,9 @@ void addrDialog::updateData(bool save)
         param.m_strSchemeFile = strSchemeFile;
         param.m_strKeyboardProfile = strKeyboardProfile;
         param.m_strTerm = ui.termtypeLineEdit->text();
-        param.m_nCol = ui.columnLineEdit->text().toInt();
-        param.m_nRow = ui.rowLineEdit->text().toInt();
-        param.m_nScrollLines = ui.scrollLineEdit->text().toInt();
+        param.m_nCol = ui.columnSpinBox->value();
+        param.m_nRow = ui.rowSpinBox->value();
+        param.m_nScrollLines = ui.scrollSpinBox->value();
         param.m_nCursorType = ui.cursorTypeComboBox->currentIndex();
         param.m_strEscape = ui.escapeLineEdit->text();
         param.m_nProxyType = ui.proxytypeComboBox->currentIndex();
@@ -494,12 +497,9 @@ void addrDialog::updateData(bool save)
         strKeyboardProfile = param.m_strKeyboardProfile;
         ui.keytypeComboBox->setCurrentIndex(keyboardProfileList.indexOf(strKeyboardProfile));
         ui.termtypeLineEdit->setText(param.m_strTerm);
-        strTmp.setNum(param.m_nCol);
-        ui.columnLineEdit->setText(strTmp);
-        strTmp.setNum(param.m_nRow);
-        ui.rowLineEdit->setText(strTmp);
-        strTmp.setNum(param.m_nScrollLines);
-        ui.scrollLineEdit->setText(strTmp);
+        ui.columnSpinBox->setValue(param.m_nCol);
+        ui.rowSpinBox->setValue(param.m_nRow);
+        ui.scrollSpinBox->setValue(param.m_nScrollLines);
         ui.cursorTypeComboBox->setCurrentIndex(param.m_nCursorType);
         ui.escapeLineEdit->setText(param.m_strEscape);
         ui.proxytypeComboBox->setCurrentIndex(param.m_nProxyType);
