@@ -266,7 +266,9 @@ bool ScriptHelper::loadExtension(const QString & extension)
     if (ret.isError()) {
         showMessage("Fail to load extension: "+extension);
         qDebug() << "Fail to load extension: " << extension;
+        return false;
     }
+    return true;
 }
 
 void ScriptHelper::openUrl(const QString & url)
