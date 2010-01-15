@@ -47,7 +47,9 @@ if(QTERM_ENABLE_DBUS)
       add_definitions(-DDBUS_ENABLED)
       include_directories(${QT_QTDBUS_INCLUDE_DIR})
       set(optionalLibs ${optionalLibs} ${QT_QTDBUS_LIBRARY})
-      set(optionalSources ${optionalSources} dbus.cpp)
+      set(optionalSources ${optionalSources}
+      imageconverter.cpp
+      dbus.cpp)
       find_file(KWALLET_XML org.kde.KWallet.xml ${KDE4_DBUS_INTERFACES_DIR} ${DBUS_INTERFACES_INSTALL_DIR})
       if(KWALLET_XML)
          message(STATUS "KWallet found, enable KWallet support")
@@ -156,7 +158,6 @@ set(qterm_SRCS
    termstring.cpp
    keyboardtranslator.cpp
    closedialog.cpp
-   imageconverter.cpp
    ${optionalSources})
 set(qterm_UIS
    ui/aboutdialog.ui
