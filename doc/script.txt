@@ -97,6 +97,10 @@ void osdMessage(const QString & message, int icon = 1, int duration = 0)
     Show message in the osd, icon = 0, 1, 2, 3 means No/Info/Warning/Error
     icon. Duration is in the unit of ms, 0 means forever.
 
+void showMessage(const QString & message, int duration = -1)
+    Show message in the notification area or system tray. duration is not
+    really useful for now.
+
 void cancelZmodem()
     Cancel the current zmodem transfer.
 
@@ -218,6 +222,9 @@ onTelnetState(int state)
 
 onZmodemState(int type, int value, const QString& msg)
     Handle zmodem events
+
+endOfArticle()
+    Implement this to check the end of articles for downloading articles
 
 There is also a signal: scriptEvent(const QString& type) which can be used by
 the script to emit and handle signals
