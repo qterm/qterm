@@ -37,7 +37,7 @@ public slots:
     void buzz();
     void sendString(const QString & string);
     void sendParsedString(const QString & string);
-    void showMessage(const QString & message, int type = 1, int duration = 0);
+    void osdMessage(const QString & message, int type = 1, int duration = 0);
     void cancelZmodem();
     void setZmodemFileList(const QStringList & fileList);
     QScriptValue getLine(int line);

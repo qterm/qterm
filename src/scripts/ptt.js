@@ -15,7 +15,7 @@ QTerm.pageState = QTerm.PTT.Unknown;
 
 QTerm.init = function()
 {
-    QTerm.showMessage("system script loaded", QTerm.OSDType.Info, 10000);
+    QTerm.osdMessage("system script loaded", QTerm.OSDType.Info, 10000);
 }
 
 QTerm.setCursorType = function(x,y)
@@ -145,7 +145,7 @@ QTerm.sendKey = function(x, y)
 QTerm.onKeyPressEvent = function(key, modifiers, text)
 {
 //    var msg = "The key pressed is: " + text;
-//    QTerm.showMessage(msg,1,1000);
+//    QTerm.osdMessage(msg,1,1000);
     QTerm.accepted = false;
 }
 
@@ -207,7 +207,7 @@ if (QTerm.qtbindingsAvailable) {
     {
         var text = ""
         if (QTerm.pageState != QTerm.PTT.Article)
-            QTerm.showMessage("No article to download.", QTerm.OSDType.Warning, 5000);
+            QTerm.osdMessage("No article to download.", QTerm.OSDType.Warning, 5000);
         else
             text = QTerm.Article.getArticle();
         QTerm.accepted = true;
@@ -228,7 +228,7 @@ QTerm.addPopupSeparator();
 QTerm.onAbout = function()
 {
     msg = "You are using ptt.js in QTerm " + QTerm.version() + " (C) 2009 QTerm Developers";
-    QTerm.showMessage(msg, QTerm.OSDType.Info, 10000);
+    QTerm.osdMessage(msg, QTerm.OSDType.Info, 10000);
 }
 
 if (QTerm.addPopupMenu( "aboutScript", "About This Script" ) ) {

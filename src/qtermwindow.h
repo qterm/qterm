@@ -110,7 +110,7 @@ public:
     void initScript();
     void externInput(const QString &);
     void getHttpHelper(const QString&, bool);
-    void showMessage(const QString &, int type, int duration);
+    void osdMessage(const QString &, int type, int duration);
     Screen * screen()
     {
         return m_pScreen;

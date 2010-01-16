@@ -1653,7 +1653,7 @@ void Window::httpDone(QObject *pHttp)
     pHttp->deleteLater();
 }
 
-void Window::showMessage(const QString & message, int type, int duration)
+void Window::osdMessage(const QString & message, int type, int duration)
 {
     m_pScreen->osd()->display(message, (PageViewMessage::Icon)type, duration);
 }

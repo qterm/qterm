@@ -93,7 +93,7 @@ void sendParsedString(const QString & string)
     Send parsed string to the BBS server. you can use '^M' to represent the
     return key for example.
 
-void showMessage(const QString & message, int icon = 1, int duration = 0)
+void osdMessage(const QString & message, int icon = 1, int duration = 0)
     Show message in the osd, icon = 0, 1, 2, 3 means No/Info/Warning/Error
     icon. Duration is in the unit of ms, 0 means forever.
 

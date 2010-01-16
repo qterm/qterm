@@ -141,9 +141,9 @@ void ScriptHelper::sendParsedString(const QString & string)
     m_window->sendParsedString(string);
 }
 
-void ScriptHelper::showMessage(const QString & message, int type, int duration)
+void ScriptHelper::osdMessage(const QString & message, int type, int duration)
 {
-    m_window->showMessage(message, type, duration);
+    m_window->osdMessage(message, type, duration);
 }
 
 void ScriptHelper::cancelZmodem()
@@ -264,7 +264,7 @@ bool ScriptHelper::loadExtension(const QString & extension)
 {
     QScriptValue ret = m_scriptEngine->importExtension(extension);
     if (ret.isError()) {
-        showMessage("Fail to load extension: "+extension);
+        osdMessage("Fail to load extension: "+extension);
         qDebug() << "Fail to load extension: " << extension;
         return false;
     }

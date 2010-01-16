@@ -12,7 +12,7 @@ WebSnap.loading = false;
 WebSnap.showSnap = function(ok)
 {
     if (!ok) {
-        QTerm.showMessage("cannot download the webpage");
+        QTerm.osdMessage("cannot download the webpage");
         return;
     }
     this.loading = false;
@@ -31,14 +31,14 @@ WebSnap.showSnap = function(ok)
     this.webPage.mainFrame().render(p);
     p.end();
     image = image.scaled(target, Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation);
-//    QTerm.showMessage("generating finished", 1, 0);
+//    QTerm.osdMessage("generating finished", 1, 0);
     this.label.size = target;
     this.label.pixmap = image;
 }
 
 WebSnap.getWebsnap = function( urlStr )
 {
-//    QTerm.showMessage("generating websnap", 1, 0);
+//    QTerm.osdMessage("generating websnap", 1, 0);
     var url = new QUrl(urlStr, QUrl.TolerantMode);
 //    this.webPage = new QWebPage;
 //    this.label = new QLabel;

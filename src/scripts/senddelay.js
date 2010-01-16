@@ -23,7 +23,7 @@ SendDelay.send = function(text, times, delay)
     this.t.timeout.connect(this,this.sendOneChar);
     QTerm.eventFinished.connect(this,this.q.quit);
     this.q.exec();
-    QTerm.showMessage("Send String Finished", QTerm.OSDType.Info, 2000);
+    QTerm.osdMessage("Send String Finished", QTerm.OSDType.Info, 2000);
     this.t.timeout.disconnect(this,this.sendOneChar);
     QTerm.eventFinished.disconnect(this,this.q.quit);
 }
@@ -66,7 +66,7 @@ QTerm.onSendDelay = function()
     var delay = dialog.delaySpinBox.value*1000;
 
     if (text.length != 0 && times != 0) {
-        QTerm.showMessage("send \""+text+"\" "+times+" times with "+delay+" ms delay", QTerm.OSDType.Info, 2000);
+        QTerm.osdMessage("send \""+text+"\" "+times+" times with "+delay+" ms delay", QTerm.OSDType.Info, 2000);
         QTerm.SendDelay.send(text,times,delay);
     }
 }
