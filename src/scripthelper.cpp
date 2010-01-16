@@ -146,9 +146,9 @@ void ScriptHelper::osdMessage(const QString & message, int type, int duration)
     m_window->osdMessage(message, type, duration);
 }
 
-void ScriptHelper::showMessage(const QString & message, int duration)
+void ScriptHelper::showMessage(const QString & title, const QString & message, int duration)
 {
-    m_window->showMessage(message, duration);
+    m_window->showMessage(title, message, duration);
 }
 
 void ScriptHelper::cancelZmodem()

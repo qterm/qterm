@@ -23,7 +23,7 @@ SendDelay.send = function(text, times, delay)
     this.t.timeout.connect(this,this.sendOneChar);
     QTerm.eventFinished.connect(this,this.q.quit);
     this.q.exec();
-    QTerm.showMessage("Send String Finished");
+    QTerm.showMessage("QTerm","Send String Finished");
     this.t.timeout.disconnect(this,this.sendOneChar);
     QTerm.eventFinished.disconnect(this,this.q.quit);
 }
