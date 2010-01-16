@@ -254,7 +254,6 @@ if (QTerm.addPopupMenu( "googleSearch", "Search Selected Text in Google" ) ) {
 
 if (QTerm.qtbindingsAvailable) {
     QTerm.loadScript("console.js");
-    QTerm.loadScript("websnap.js");
     QTerm.loadScript("senddelay.js");
     QTerm.loadScript("article.js");
     QTerm.onCopyArticle = function()
