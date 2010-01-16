@@ -235,7 +235,7 @@ if (QTerm.addPopupMenu( "aboutScript", "About This Script" ) ) {
         QTerm.aboutScript.triggered.connect(QTerm.onAbout);
 }
 
-QTerm.EndOfArticle = function()
+QTerm.endOfArticle = function()
 {
     if( QTerm.getText(QTerm.rows()-1).indexOf("100%") != -1 ) {
         return true;

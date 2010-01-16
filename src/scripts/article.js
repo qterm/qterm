@@ -88,7 +88,7 @@ Article.downloadArticle = function(message)
             this.textList[this.textList.length]=QTerm.getText(i).rtrim();
 
         // the end of article
-        if( QTerm.EndOfArticle() ) {
+        if( QTerm.endOfArticle() ) {
             this.downloading = false;
             this.articleText = this.textList.join("\n");
             QTerm.scriptEvent.disconnect(this, this.downloadArticle);
