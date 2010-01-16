@@ -1658,6 +1658,23 @@ void Window::osdMessage(const QString & message, int type, int duration)
     m_pScreen->osd()->display(message, (PageViewMessage::Icon)type, duration);
 }
 
+void Window::showMessage(const QString & message, int duration)
+{
+#ifdef DBUS_ENABLED
+    if (DBus::instance()->notificationAvailable()) {
+        QList<DBus::Action> actions;
+        actions.append(DBus::Show_QTerm);
+        DBus::instance()->sendNotification("New Message in QTerm", message, QImage(), actions);
+    } else
+#endif //DBUS_ENABLED
+    {
+        if (!m_pFrame->showMessage(message)) {
+            m_popWin->setText(message);
+            m_popWin->popup();
+        }
+    }
+}
+
 QMenu * Window::popupMenu()
 {
     return m_pMenu;
@@ -1743,17 +1760,7 @@ void Window::updateWindow()
 
             if (!isActiveWindow() || m_pFrame->wndmgr->activeWindow() != this)
             {
-#ifdef DBUS_ENABLED
-                if (DBus::instance()->notificationAvailable()) {
-                    QList<DBus::Action> actions;
-                    actions.append(DBus::Show_QTerm);
-                    DBus::instance()->sendNotification("New Message in QTerm", strMsg, QImage(), actions);
-                } else
-#endif //DBUS_ENABLED
-                {
-                    m_popWin->setText(strMsg);
-                    m_popWin->popup();
-                }
+                showMessage(strMsg, -1);
             }
         if (m_bAutoReply) {
 #ifdef SCRIPT_ENABLED

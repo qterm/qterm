@@ -111,6 +111,7 @@ public:
     void externInput(const QString &);
     void getHttpHelper(const QString&, bool);
     void osdMessage(const QString &, int type, int duration);
+    void showMessage(const QString & message, int duration = -1);
     Screen * screen()
     {
         return m_pScreen;

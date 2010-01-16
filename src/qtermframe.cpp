@@ -1603,6 +1603,15 @@ void Frame::loadSession()
     }
 }
 
+bool Frame::showMessage(const QString & message, int millisecondsTimeoutHint)
+{
+    if (tray == 0 || !QSystemTrayIcon::isSystemTrayAvailable() || !QSystemTrayIcon::supportsMessages()) {
+        return false;
+    }
+    tray->showMessage("QTerm", message, QSystemTrayIcon::Information, millisecondsTimeoutHint);
+    return true;
+}
+
 }
 
 #include <qtermframe.moc>

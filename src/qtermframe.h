@@ -42,6 +42,7 @@ public:
     void popupFocusIn(Window * window = 0);
     void buzz();
     QMenu * genPopupMenu(QWidget * owner);
+    bool showMessage(const QString & message, int millisecondsTimeoutHint = 10000);
 
 public slots:
     void confirmExitQTerm();
