@@ -306,10 +306,13 @@ void Frame::newWindow(const Param&  param, int index)
     Window * window = new Window(this, param, index, m_MdiArea,
                                  0);
     QString pathLib = Global::instance()->pathLib();
-    m_MdiArea->addSubWindow(window);
+    QMdiSubWindow * w =  m_MdiArea->addSubWindow(window);
     window->setWindowTitle(param.m_strName);
     window->setWindowIcon(QPixmap(pathLib + "pic/tabpad.png"));
     window->setAttribute(Qt::WA_DeleteOnClose);
+    if (m_menuBarAction->isChecked()) {
+        w->setWindowFlags(Qt::FramelessWindowHint);
+    }
 
     QIcon* icon = new QIcon(QPixmap(pathLib + "pic/tabpad.png"));
     QString qtab = window->windowTitle();
@@ -577,10 +580,20 @@ void Frame::uiFont()
 
 void Frame::hideMenuBar(bool hide)
 {
-    if (hide)
+    if (hide) {
         menuBar()->hide();
-    else
+        QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
+        foreach (QMdiSubWindow * window, windows) {
+            window->setWindowFlags(Qt::FramelessWindowHint);
+        }
+    }
+    else {
+        QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
+        foreach (QMdiSubWindow * window, windows) {
+            window->setWindowFlags(Qt::SubWindow);
+        }
         menuBar()->show();
+    }
 }
 
 void Frame::triggerFullScreen(bool isFullScreen)
