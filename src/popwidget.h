@@ -18,8 +18,7 @@ class popWidget : public QWidget
 	Q_OBJECT
 
 public:
-	popWidget(Window * win, QWidget *parent = 0, const char *name=0, 
-					Qt::WFlags f= Qt::WindowStaysOnTopHint|Qt::X11BypassWindowManagerHint|Qt::Tool);
+	popWidget(Window * win, QWidget *parent = 0, const char *name=0);
 	~popWidget();
 	
 	void popup();

@@ -25,9 +25,10 @@ AUTHOR:        kingson fiasco
 namespace QTerm
 {
 
-popWidget::popWidget( Window *win, QWidget *parent, const char *name, Qt::WFlags f )
-		: QWidget(parent,f)
+popWidget::popWidget( Window *win, QWidget *parent, const char *name)
+		: QWidget(parent)
 {
+	setWindowFlags(Qt::WindowStaysOnTopHint|Qt::X11BypassWindowManagerHint|Qt::Tool);
 	QPixmap pxm(QPixmap(Global::instance()->pathLib()+"pic/popwidget.png") );
 	if(!pxm.isNull())
 	{

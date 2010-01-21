@@ -427,12 +427,11 @@ Window::~Window()
 void Window::closeEvent(QCloseEvent * clse)
 {
     if (m_bConnected && Global::instance()->m_pref.bWarn) {
-        QMessageBox mb(QMessageBox::Warning, "QTerm",
+        QMessageBox::StandardButton ret;
+        ret = QMessageBox::warning(this, "QTerm",
                        tr("Connected,Do you still want to exit?"),
-                       QMessageBox::Yes | QMessageBox::No);
-        mb.setDefaultButton(QMessageBox::Yes);
-        mb.setEscapeButton(QMessageBox::No);
-        if (mb.exec() == QMessageBox::Yes) {
+                       QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+        if (ret == QMessageBox::Yes) {
             m_pTelnet->close();
             m_pFrame->wndmgr->removeWindow(this);
             clse->accept();
