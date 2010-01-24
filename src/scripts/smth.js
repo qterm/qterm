@@ -14,7 +14,11 @@ QTerm.pageState = QTerm.SMTH.Unknown;
 
 QTerm.init = function()
 {
-    QTerm.osdMessage("system script loaded", QTerm.OSDType.Info, 10000);
+    QTerm.osdMessage(qsTr("System script loaded"), QTerm.OSDType.Info, 10000);
+    if (QTerm.addPopupMenu( "aboutScript", qsTr("About This Script") ) ) {
+        QTerm.aboutScript.triggered.connect(QTerm.onAbout);
+    }
+
 }
 
 QTerm.setCursorType = function(x,y)
@@ -246,7 +250,7 @@ if (QTerm.qtbindingsAvailable) {
     {
         var text = ""
         if (QTerm.pageState != QTerm.SMTH.Article)
-            QTerm.osdMessage("No article to download", QTerm.OSDType.Warning, 5000);
+            QTerm.osdMessage(qsTr("No article to download"), QTerm.OSDType.Warning, 5000);
         else
             text = QTerm.Article.getArticle();
         QTerm.accepted = true;
@@ -265,12 +269,8 @@ QTerm.addPopupSeparator();
 
 QTerm.onAbout = function()
 {
-    msg = "You are using smth.js in QTerm " + QTerm.version() + " (C) 2009 QTerm Developers";
+    msg = qsTr("You are using smth.js in QTerm %1 (C) 2009-2010 QTerm Developers").arg(QTerm.version());;
     QTerm.osdMessage(msg, QTerm.OSDType.Info, 10000);
-}
-
-if (QTerm.addPopupMenu( "aboutScript", "About This Script" ) ) {
-        QTerm.aboutScript.triggered.connect(QTerm.onAbout);
 }
 
 QTerm.endOfArticle = function()

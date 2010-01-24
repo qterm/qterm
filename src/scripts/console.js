@@ -102,7 +102,7 @@ ScriptConsoleMainWindow.prototype.forwardHistory = function()
 }
 
 scriptConsoleMainWindow = new ScriptConsoleMainWindow();
-if (QTerm.addPopupMenu( "scriptConsole", "Script Console" ) ) {
+if (QTerm.addPopupMenu( "scriptConsole", qsTr("Script Console") ) ) {
         QTerm.scriptConsole.triggered.connect(scriptConsoleMainWindow.show);
 }
 

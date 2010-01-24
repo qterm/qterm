@@ -21,6 +21,7 @@ ScriptHelper::ScriptHelper(Window * parent, QScriptEngine * engine)
 {
     m_window = parent;
     m_scriptEngine = engine;
+    m_scriptEngine->installTranslatorFunctions();
     QStringList allowedBindings;
     allowedBindings << "qt.core" << "qt.gui" << "qt.sql" << "qt.xml" << "qt.uitools" << "qt.network" << "qt.webkit";
     foreach( QString binding, allowedBindings )

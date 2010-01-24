@@ -71,7 +71,7 @@ QTerm.onSendDelay = function()
     }
 }
 
-if (QTerm.addPopupMenu( "sendDelay", "Send String With Delay..." ) ) {
+if (QTerm.addPopupMenu( "sendDelay", qsTr("Send String With Delay...") ) ) {
         QTerm.sendDelay.triggered.connect(QTerm.onSendDelay);
 }
 
