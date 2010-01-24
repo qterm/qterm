@@ -45,7 +45,7 @@ public:
     bool showMessage(const QString & title, const QString & message, int millisecondsTimeoutHint = 10000);
 
 public slots:
-    void confirmExitQTerm();
+    bool confirmExitQTerm();
     void saveAndDisconnect();
 
 signals:

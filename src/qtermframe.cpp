@@ -246,7 +246,7 @@ void Frame::quickLogin()
     }
 }
 
-void Frame::confirmExitQTerm()
+bool Frame::confirmExitQTerm()
 {
     QList<QVariant> sites;
     QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
@@ -261,13 +261,15 @@ void Frame::confirmExitQTerm()
         CloseDialog close(this);
         close.setSiteList(titleList);
         if (close.exec() == 0) {
-            return;
+            return false;
         }
     }
     saveAndDisconnect();
 
     setUseTray(false);
     qApp->quit();
+    // We should never reach here;
+    return true;
 }
 
 void Frame::saveAndDisconnect()
@@ -468,8 +470,11 @@ void Frame::closeEvent(QCloseEvent * clse)
             }
         }
     }
-    confirmExitQTerm();
-    clse->accept();
+    if (confirmExitQTerm()) {
+        clse->accept();
+    } else {
+        clse->ignore();
+    }
 }
 
 void Frame::updateLang(QAction * action)
