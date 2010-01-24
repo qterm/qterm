@@ -24,6 +24,7 @@
 #include <QtCore/QVariant>
 #include <QtCore/QUrl>
 #include <QtCore/QProcess>
+#include <QtCore/QLibraryInfo>
 #include <QtGui/QApplication>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QFileDialog>
@@ -566,11 +567,21 @@ bool Global::iniSettings()
     }
     if (lang != "eng" && !lang.isEmpty()) {
         // look in $HOME/.qterm/po/ first
-        QString qm = QDir::homePath() + "/.qterm/po/qterm_" + lang + ".qm";
-        if (!QFile::exists(qm))
-            qm = m_pathLib + "po/qterm_" + lang + ".qm";
+        QString qterm_qm = QDir::homePath() + "/.qterm/po/qterm_" + lang + ".qm";
+        if (!QFile::exists(qterm_qm))
+            qterm_qm = m_pathLib + "po/qterm_" + lang + ".qm";
         static QTranslator * translator = new QTranslator(0);
-        translator->load(qm);
+        translator->load(qterm_qm);
+        qApp->installTranslator(translator);
+
+        QString qt_qm;
+        if (lang == "chs")
+            qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_CN.qm";
+        else
+            qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_TW.qm";
+
+        translator = new QTranslator(0);
+        translator->load(qt_qm);
         qApp->installTranslator(translator);
     }
     //set font
