@@ -2,6 +2,25 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="zh_CN">
 <context>
+    <name>Dialog</name>
+    <message>
+        <source>Send string with delay</source>
+        <translation>延迟发送字符串</translation>
+    </message>
+    <message>
+        <source>String:</source>
+        <translation>字符串:</translation>
+    </message>
+    <message>
+        <source>Repeating:</source>
+        <translation>重复次数:</translation>
+    </message>
+    <message>
+        <source>Delay(s):</source>
+        <translation>延迟(秒):</translation>
+    </message>
+</context>
+<context>
     <name>Form</name>
     <message>
         <source>Font Configuration</source>
@@ -287,7 +306,7 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>Status &amp;Bar</source>
-        <translation>状态栏(&amp;B)</translation>
+        <translation type="obsolete">状态栏(&amp;B)</translation>
     </message>
     <message>
         <source>S&amp;witch Bar</source>
@@ -2284,6 +2303,13 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>console</name>
+    <message>
+        <source>Script Console</source>
+        <translation>脚本终端</translation>
+    </message>
+</context>
+<context>
     <name>fSSHLoginUI</name>
     <message>
         <source>Login</source>
@@ -2369,6 +2395,17 @@ Check whether your ESD support is enabled in compile time</source>
     <message>
         <source>Cancel</source>
         <translation type="obsolete">取消</translation>
+    </message>
+</context>
+<context>
+    <name>google</name>
+    <message>
+        <source>No text is selected to search for</source>
+        <translation>没有文字被选中</translation>
+    </message>
+    <message>
+        <source>Search Selected Text in Google</source>
+        <translation>用 Google 搜索选中文字</translation>
     </message>
 </context>
 <context>
@@ -3110,6 +3147,44 @@ Check whether your ESD support is enabled in compile time</source>
     <message>
         <source>Reset</source>
         <translation>重置</translation>
+    </message>
+</context>
+<context>
+    <name>senddelay</name>
+    <message>
+        <source>Send String With Delay...</source>
+        <translation>延迟发送字符串...</translation>
+    </message>
+</context>
+<context>
+    <name>smth</name>
+    <message>
+        <source>System script loaded</source>
+        <translation>系统脚本加载成功</translation>
+    </message>
+    <message>
+        <source>No text is selected to search for</source>
+        <translation type="obsolete">没有文字被选中</translation>
+    </message>
+    <message>
+        <source>Search Selected Text in Google</source>
+        <translation type="obsolete">用 Google 搜索选中文字</translation>
+    </message>
+    <message>
+        <source>No article to download</source>
+        <translation>没有文章可下载</translation>
+    </message>
+    <message>
+        <source>You are using smth.js in QTerm %1 (C) 2009 QTerm Developers</source>
+        <translation type="obsolete">你当前使用 QTerm %1 中的 smth.js 脚本 (C) 2009 QTerm Developers</translation>
+    </message>
+    <message>
+        <source>About This Script</source>
+        <translation>关于当前脚本</translation>
+    </message>
+    <message>
+        <source>You are using smth.js in QTerm %1 (C) 2009-2010 QTerm Developers</source>
+        <translation>你当前使用 QTerm %1 中的 smth.js 脚本 (C) 2009-2010 QTerm Developers</translation>
     </message>
 </context>
 <context>
