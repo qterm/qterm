@@ -27,8 +27,8 @@ function ScriptConsoleMainWindow()
   this.commandArray = [];
   this.commandPos = -1;
   this.executeButton.clicked.connect( this, this.executeLine );
-  this.executeButton.text = "Execute Code";
-  this.windowTitle = "QTerm Script Console";
+  this.executeButton.text = qsTr("Execute Code");
+  this.windowTitle = qsTr("QTerm Script Console");
   //the following line doesn't work for some reason:
   //executeButton.shortcut = new QKeySequence( "CTRL+Return" );
 
@@ -44,7 +44,8 @@ function ScriptConsoleMainWindow()
   forwardHistoryShortcut.key = new QKeySequence( QKeySequence.StandardKey( QKeySequence.MoveToNextPage ) );
   forwardHistoryShortcut.activated.connect( this, this.forwardHistory );
 
-  var explanationItem = new QListWidgetItem("The QTerm Script Console allows you to easily execute JavaScript with access to all functions\nand methods you would have in an QTerm script.\nInformation on scripting for QTerm can be found in the doc directory of the QTerm source code.\nExecute code: CTRL-Enter\nBack in code history: Page Up\nForward in code history: Page Down");
+  var explanationItem = new QListWidgetItem(qsTr(
+"The QTerm Script Console allows you to easily execute JavaScript with access to\nall functions and methods you would have in an QTerm script.Information on\nscripting for QTerm can be found in the doc directory of the QTerm source code.\nExecute code: CTRL-Enter\nBack in code history: Page Up\nForward in code history: Page Down"));
   //explanationItem.setForeground( new QBrush( new QColor(Qt.darkGray) ) );
   explanationItem.setFlags( !Qt.ItemIsSelectable );
   this.historyList.addItem( explanationItem );
@@ -102,7 +103,7 @@ ScriptConsoleMainWindow.prototype.forwardHistory = function()
 }
 
 scriptConsoleMainWindow = new ScriptConsoleMainWindow();
-if (QTerm.addPopupMenu( "scriptConsole", qsTr("Script Console") ) ) {
+if (QTerm.addPopupMenu( "scriptConsole", qsTr("Script Console...") ) ) {
         QTerm.scriptConsole.triggered.connect(scriptConsoleMainWindow.show);
 }
 

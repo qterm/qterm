@@ -2306,7 +2306,42 @@ p, li { white-space: pre-wrap; }
     <name>console</name>
     <message>
         <source>Script Console</source>
-        <translation>脚本终端</translation>
+        <translation type="obsolete">脚本终端</translation>
+    </message>
+    <message>
+        <source>Execute Code</source>
+        <translation>执行代码</translation>
+    </message>
+    <message>
+        <source>QTerm Script Console</source>
+        <translation>QTerm 脚本终端</translation>
+    </message>
+    <message>
+        <source>The QTerm Script Console allows you to easily execute JavaScript with access to all functions
+and methods you would have in an QTerm script.
+Information on scripting for QTerm can be found in the doc directory of the QTerm source code.
+Execute code: CTRL-Enter
+Back in code history: Page Up
+Forward in code history: Page Down</source>
+        <translation type="obsolete">QTerm 脚本终端允许你轻松运行 JavaScript 脚本并调用所有你需要的 QTerm 函数和方法
+</translation>
+    </message>
+    <message>
+        <source>The QTerm Script Console allows you to easily execute JavaScript with access to
+all functions and methods you would have in an QTerm script.Information on
+scripting for QTerm can be found in the doc directory of the QTerm source code.
+Execute code: CTRL-Enter
+Back in code history: Page Up
+Forward in code history: Page Down</source>
+        <translation>QTerm 脚本终端允许你轻松运行 JavaScript 脚本并调用所有你需要的 QTerm 函数和方法。
+QTerm 脚本的相关文档可以在 QTerm 的源代码的 doc 目录下找到。
+执行代码: CTRL-Enter
+在代码历史中前进: Page Up
+在代码历史中后退: Page Down</translation>
+    </message>
+    <message>
+        <source>Script Console...</source>
+        <translation type="unfinished">脚本终端...</translation>
     </message>
 </context>
 <context>
