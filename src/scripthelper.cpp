@@ -299,7 +299,7 @@ void ScriptHelper::loadScriptFile(const QString & filename)
     file.close();
     if (!m_scriptEngine->canEvaluate(scripts))
         qDebug() << "Cannot evaluate this script";
-    m_scriptEngine->evaluate(scripts);
+    m_scriptEngine->evaluate(scripts, filename);
     if (m_scriptEngine->hasUncaughtException()) {
         qDebug() << "Exception: " << m_scriptEngine->uncaughtExceptionBacktrace();
     }
