@@ -566,22 +566,22 @@ bool Global::iniSettings()
         m_language = Global::English;
     }
     if (lang != "eng" && !lang.isEmpty()) {
-        // look in $HOME/.qterm/po/ first
-        QString qterm_qm = QDir::homePath() + "/.qterm/po/qterm_" + lang + ".qm";
-        if (!QFile::exists(qterm_qm))
-            qterm_qm = m_pathLib + "po/qterm_" + lang + ".qm";
-        static QTranslator * translator = new QTranslator(0);
-        translator->load(qterm_qm);
-        qApp->installTranslator(translator);
-
         QString qt_qm;
         if (lang == "chs")
             qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_CN.qm";
         else
             qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_TW.qm";
 
-        translator = new QTranslator(0);
+        static QTranslator * translator = new QTranslator(0);
         translator->load(qt_qm);
+        qApp->installTranslator(translator);
+
+        // look in $HOME/.qterm/po/ first
+        QString qterm_qm = QDir::homePath() + "/.qterm/po/qterm_" + lang + ".qm";
+        if (!QFile::exists(qterm_qm))
+            qterm_qm = m_pathLib + "po/qterm_" + lang + ".qm";
+        translator = new QTranslator(0);
+        translator->load(qterm_qm);
         qApp->installTranslator(translator);
     }
     //set font
