@@ -550,9 +550,11 @@ void Window::mousePressEvent(QMouseEvent * me)
     // Left Button for selecting
     if (me->button()&Qt::LeftButton && !(me->modifiers())) {
         // clear the selected before
-        m_pBuffer->clearSelect();
-        m_pScreen->m_ePaintState = Screen::NewData;
-        m_pScreen->update();
+        if (m_ptSelStart != m_ptSelEnd) {
+            m_pBuffer->clearSelect();
+            m_pScreen->m_ePaintState = Screen::NewData;
+            m_pScreen->update();
+        }
 
         // set the selecting flag
         m_bSelecting = true;
