@@ -1799,7 +1799,7 @@ void Window::updateWindow()
     //m_updateTimer->start(100);
     //refresh screen
     m_pScreen->m_ePaintState = Screen::NewData;
-    m_pScreen->update();
+    m_pScreen->repaint();
     m_bMessage = false;
 }
 
