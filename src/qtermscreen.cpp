@@ -451,7 +451,7 @@ void Screen::setScheme()
     m_color[4]  = Qt::darkBlue;
     m_color[5]  = Qt::darkMagenta;
     m_color[6]  = Qt::darkCyan;
-    m_color[7]  = Qt::darkGray;
+    m_color[7]  = Qt::lightGray;
     m_color[8]  = Qt::gray;
     m_color[9]  = Qt::red;
     m_color[10] = Qt::green;
