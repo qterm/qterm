@@ -39,7 +39,7 @@ class Input : public QWidget
     Q_OBJECT
 public:
     Input(QWidget * parent, int width, int height, int ascent)
-        :QWidget(parent),d_text(0),d_pos(0),d_height(height), d_width(width), d_ascent(ascent)
+        :QWidget(parent),d_text(),d_pos(0),d_height(height), d_width(width), d_ascent(ascent)
     {
     }
     ~Input()
