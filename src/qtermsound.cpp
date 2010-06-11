@@ -7,7 +7,7 @@
 #ifdef OLD_PHONON
 #include <phonon>
 #else
-#include <Phonon/MediaObject>
+#include <phonon/MediaObject>
 #endif
 #endif // PHONON_ENABLED
 
