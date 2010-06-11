@@ -183,8 +183,6 @@ void Http::httpDone(bool err)
     if (m_bPreview) {
         QString strPool = Global::instance()->m_pref.strPoolPath;
         previewImage(m_strHttpFile);
-        QFileInfo fi = QFileInfo(m_strHttpFile);
-        ImageViewer::genThumb(Global::instance()->pathPic() + "pic/shadow.png", strPool, fi.fileName());
     } else
         emit message("Download one file successfully");
 

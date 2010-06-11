@@ -3,10 +3,11 @@
 
 #include "ui_imageviewer.h"
 
-//Added by qt3to4:
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QTreeWidget>
+#include <QFileSystemModel>
+#include <QStringList>
+
 
 class QString;
 class QPushButton;
@@ -16,52 +17,26 @@ class QHBoxLayout;
 namespace QTerm
 {
 class Canvas;
+class ImageListViewer;
 
-class ImageViewer : public QTreeWidget
+class Image : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	ImageViewer(const QString &, const QString &, QWidget * parent=0);
-	~ImageViewer();
-	
-	QSize sizeHint() const {
-		return QSize(300,10);//Tell me how to do it correctly :(
-	}
-	static void genThumb(const QString &, const QString &, const QString &);
-
+    Image(const QString &, const QString &, QWidget * parent=0);
+    ~Image();
+    
 public slots:
-	void viewImage(int n);
-	void imageChanged(const QString &);
+    void next();
+    void previous();
+    void browser();
+    void onChange(const QString &);
 signals:
-	void selectedFileChanged(const QString &);
+    void changeImage(const QString &);
 private:
-	static const int thumbSize = 100;
-	static const QString thumbDir;
-	QString d_path;
-};
-
-class Image : public QDialog
-{
-	Q_OBJECT
-public:
-	Image(const QString &, const QString &, QWidget * parent=0);
-	~Image();
-	
-public slots:
-	void next();
-	void previous();
-	void browser();
-	void onChange(const QString &);
-signals:
-	void changeImage(const QString &);
-private:
-	Ui::QTermImage ui;
-	ImageViewer * d_viewer;
-	QString d_path;
-	QString d_shadow;
-	QStringList * d_list;
-	int d_index;
-	bool d_extensionShown;
+    Ui::QTermImage ui;
+    int d_index;
+    bool d_extensionShown;
 };
 
 } // namespace QTerm

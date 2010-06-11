@@ -119,6 +119,7 @@ set(qterm_SRCS
    addrdialog.cpp
    articledialog.cpp
    imageviewer.cpp
+   imagelistviewer.cpp
    keydialog.cpp
    main.cpp
    msgdialog.cpp
