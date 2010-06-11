@@ -12,6 +12,7 @@ AUTHOR:        kingson fiasco
 
 // remove this when use configure
 
+#include "uao.h"
 #include "qtermframe.h"
 #include "qtermconfig.h"
 #include "qtermglobal.h"
@@ -143,6 +144,9 @@ int main( int argc, char ** argv )
     {
         return -1;
     }
+
+    // Registrate the new codec
+    UAOCodec hackCodec;
 
     QTerm::Frame * mw = new QTerm::Frame();
     mw->setWindowTitle( "QTerm "+QString(QTERM_VERSION) );
