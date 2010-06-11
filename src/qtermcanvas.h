@@ -39,9 +39,9 @@ protected slots:
     void ccwRotate();
     void deleteImage();
 protected:
-    void moveImage(float, float);
-    void resizeImage(float);
-    void rotateImage(float);
+    void moveImage(double, double);
+    void resizeImage(double);
+    void rotateImage(double);
 
     void closeEvent(QCloseEvent *);
     void mousePressEvent(QMouseEvent*);
