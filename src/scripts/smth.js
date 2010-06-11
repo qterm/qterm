@@ -84,7 +84,7 @@ QTerm.setSelectRect = function(x, y)
         if (item.length > 0) {
             var index = line.getText().indexOf(item);
             rect[0] = line.beginIndex(index);
-            rect[1] = y
+            rect[1] = y;
             rect[2] = line.beginIndex(index+item.length) - rect[0];
             rect[3] = 1;
         }
