@@ -92,9 +92,9 @@ QTerm.setSelectRect = function(x, y)
         if (y >= 2 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16 && QTerm.getText(y).search(/[^\s]/)!=-1) {
             QTerm.accepted = true;
             rect[0] = 0;
-            rect[1] = y - y%2;
+            rect[1] = y;
             rect[2] = QTerm.columns();
-            rect[3] = 2;
+            rect[3] = 1;
         }
     }
     return rect;
@@ -178,7 +178,11 @@ QTerm.sendKey = function(x, y)
         var text = QTerm.getText(y - y%2);
         result = QTerm.getText(y - y%2).match(/\s+(\d+)\s+/);
         QTerm.sendString(result[1]);
-        QTerm.sendParsedString("^M");
+        if (y%2 == 0) {
+            QTerm.sendParsedString("s");
+        } else {
+            QTerm.sendParsedString("^M");
+        }
     }
     return false;
 }
