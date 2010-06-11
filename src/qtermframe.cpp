@@ -767,8 +767,8 @@ void Frame::updateMouse(bool isEnabled)
 
 void Frame::viewImages()
 {
-    Image viewer(Global::instance()->pathPic() + "pic/shadow.png", Global::instance()->m_pref.strPoolPath, this);
-    viewer.show();
+    Image *pViewer = new Image(Global::instance()->pathPic() + "pic/shadow.png", Global::instance()->m_pref.strPoolPath);
+    pViewer->show();
 }
 
 void Frame::updateBeep(bool isEnabled)

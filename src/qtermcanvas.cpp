@@ -77,7 +77,8 @@ void Canvas::oriSize()
 {
     m_fitAction->setChecked(false);
     szImage = img.size();
-    resize(img.size()+QSize(frameWidth()*2,frameWidth()*2));
+	if (!bEmbed)
+		resize(img.size()+QSize(frameWidth()*2,frameWidth()*2));
     adjustSize(viewport()->size());
 }
 
@@ -149,7 +150,7 @@ void Canvas::loadImage(QString name)
         qWarning("cant load image");
 }
 
-void Canvas::resizeImage(float ratio)
+void Canvas::resizeImage(double ratio)
 {
     if (label->pixmap() == NULL)
         return;
@@ -167,7 +168,7 @@ void Canvas::resizeImage(float ratio)
         adjustSize(viewport()->size());
 }
 
-void Canvas::rotateImage(float ang)
+void Canvas::rotateImage(double ang)
 {
     QMatrix wm;
 
@@ -241,7 +242,7 @@ QPixmap Canvas::scaleImage(const QSize& sz)
     return QPixmap::fromImage(img.scaled(sz));
 }
 
-void Canvas::moveImage(float dx, float dy)
+void Canvas::moveImage(double dx, double dy)
 {
     scrollContentsBy(widget()->width()*dx, widget()->height()*dy);
 }
@@ -277,7 +278,7 @@ void Canvas::resizeEvent(QResizeEvent *re)
 
 void Canvas::mousePressEvent(QMouseEvent *me)
 {
-    if(me->button()&Qt::LeftButton)
+    if(me->button()&Qt::LeftButton && !bEmbed)
     {
         close();
         return;
