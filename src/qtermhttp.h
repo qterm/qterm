@@ -9,6 +9,7 @@ class QTextCodec;
 
 namespace QTerm
 {
+class Canvas;
 class Http : public QObject
 {
     Q_OBJECT
@@ -36,6 +37,7 @@ protected:
     bool m_bPreview;
     bool m_bExist;
     QTextCodec * m_codec;
+    Canvas * m_pCanvas;
 };
 
 } // namespace QTerm

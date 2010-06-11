@@ -21,6 +21,7 @@ Http::Http(QWidget *parent, QTextCodec * codec)
     :QObject(parent)
 {
     m_codec = codec;
+    m_pCanvas = NULL;
     connect(&m_httpDown, SIGNAL(done(bool)), this, SLOT(httpDone(bool)));
     connect(&m_httpDown, SIGNAL(dataReadProgress(int, int)),
             this, SLOT(httpRead(int, int)));
@@ -194,9 +195,10 @@ void Http::previewImage(const QString& filename)
     QString strViewer = Global::instance()->fileCfg()->getItemValue("preference", "image").toString();
 
     if (strViewer.isEmpty()) {
-        Canvas *pCanvas = new Canvas(qobject_cast<QWidget*>(parent()),Qt::Dialog);
-        pCanvas->loadImage(filename);
-        pCanvas->show();
+        delete m_pCanvas;
+        m_pCanvas = new Canvas(qobject_cast<QWidget*>(parent()),Qt::Dialog);
+        m_pCanvas->loadImage(filename);
+        m_pCanvas->show();
     } else {
         QString strCmd = strViewer + " \"" + filename + "\"";
         QProcess::startDetached(strCmd);
