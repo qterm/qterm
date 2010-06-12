@@ -1,9 +1,11 @@
-QTerm 0.5.10
+QTerm 0.5.11
 ===============
 
 这个版本添加/修正了下面一些功能:
-1. 增强脚本支持
-2. 各种 Bug fixes
+1. 支持 Unicode 补完计划 (UAO)
+2. 重写了图片浏览器
+3. 增强脚本支持
+4. 各种 Bug fixes
 
                                          The QTerm Team
                                       http://www.qterm.org
