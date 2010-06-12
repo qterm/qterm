@@ -111,7 +111,7 @@ ImageListViewer::ImageListViewer(QWidget * parent)
     d_delegate = new ImageDelegate();
     setItemDelegate(d_delegate);
 
-    connect(this, SIGNAL(activated(const QModelIndex&)), this, SLOT(viewImage(const QModelIndex&)));
+    //connect(this, SIGNAL(activated(const QModelIndex&)), this, SLOT(viewImage(const QModelIndex&)));
 }
 
 ImageListViewer::~ImageListViewer()
@@ -131,6 +131,11 @@ void ImageListViewer::viewImage(const QModelIndex &index)
     emit selectedFileChanged(filename);
 }
 
+void ImageListViewer::currentChanged(const QModelIndex &current, const QModelIndex &previous)
+{
+    viewImage(current);
+    QListView::currentChanged(current, previous);
+}
 
 } // namespace QTerm
 

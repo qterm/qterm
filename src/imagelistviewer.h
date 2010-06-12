@@ -54,6 +54,9 @@ public:
 public slots:
     void viewImage(const QModelIndex&);
     void imageChanged(const QString &);
+protected slots:
+    virtual void currentChanged(const QModelIndex & current, const QModelIndex & previous);
+
 signals:
     void selectedFileChanged(const QString &);
 private:
