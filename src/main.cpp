@@ -12,7 +12,7 @@ AUTHOR:        kingson fiasco
 
 // remove this when use configure
 
-#include "uao.h"
+#include "uaocodec.h"
 #include "qtermframe.h"
 #include "qtermconfig.h"
 #include "qtermglobal.h"
