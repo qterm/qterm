@@ -611,11 +611,22 @@ please close all windows and restart.</source>
     <name>QTerm::Image</name>
     <message>
         <source>Hide &amp;Browser</source>
-        <translation>隐藏浏览窗口(&amp;B)</translation>
+        <translation type="obsolete">隐藏浏览窗口(&amp;B)</translation>
     </message>
     <message>
         <source>Show &amp;Browser</source>
-        <translation>显示浏览窗口(&amp;B)</translation>
+        <translation type="obsolete">显示浏览窗口(&amp;B)</translation>
+    </message>
+</context>
+<context>
+    <name>QTerm::ImageFileModel</name>
+    <message>
+        <source>Name: %1
+Type: %2
+Size: %3 KB</source>
+        <translation>名称: %1
+类型: %2
+大小: %3 KB</translation>
     </message>
 </context>
 <context>
@@ -778,6 +789,10 @@ Do you want to clear and reassign?</source>
     <message>
         <source>URL:</source>
         <translation>连接:</translation>
+    </message>
+    <message>
+        <source>IP database not found</source>
+        <translation>找不到 IP 数据库</translation>
     </message>
 </context>
 <context>
@@ -1263,31 +1278,19 @@ please close all windows and restart.</source>
     <name>QTermImage</name>
     <message>
         <source>&amp;Previous</source>
-        <translation>上一个(&amp;P)</translation>
+        <translation type="obsolete">上一个(&amp;P)</translation>
     </message>
     <message>
         <source>&amp;Browser</source>
-        <translation>浏览窗口(&amp;B)</translation>
+        <translation type="obsolete">浏览窗口(&amp;B)</translation>
     </message>
     <message>
         <source>&amp;Next</source>
-        <translation>下一个(&amp;N)</translation>
+        <translation type="obsolete">下一个(&amp;N)</translation>
     </message>
     <message>
-        <source>Form1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Alt+P</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Alt+B</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Alt+N</source>
-        <translation></translation>
+        <source>Image Viewer</source>
+        <translation>外置图片浏览器</translation>
     </message>
 </context>
 <context>
@@ -2310,11 +2313,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute Code</source>
-        <translation>执行代码</translation>
+        <translation type="obsolete">执行代码</translation>
     </message>
     <message>
         <source>QTerm Script Console</source>
-        <translation>QTerm 脚本终端</translation>
+        <translation type="obsolete">QTerm 脚本终端</translation>
     </message>
     <message>
         <source>The QTerm Script Console allows you to easily execute JavaScript with access to all functions
@@ -2333,7 +2336,7 @@ scripting for QTerm can be found in the doc directory of the QTerm source code.
 Execute code: CTRL-Enter
 Back in code history: Page Up
 Forward in code history: Page Down</source>
-        <translation>QTerm 脚本终端允许你轻松运行 JavaScript 脚本并调用所有你需要的 QTerm 函数和方法。
+        <translation type="obsolete">QTerm 脚本终端允许你轻松运行 JavaScript 脚本并调用所有你需要的 QTerm 函数和方法。
 QTerm 脚本的相关文档可以在 QTerm 的源代码的 doc 目录下找到。
 执行代码: CTRL-Enter
 在代码历史中前进: Page Up
@@ -2341,7 +2344,7 @@ QTerm 脚本的相关文档可以在 QTerm 的源代码的 doc 目录下找到�
     </message>
     <message>
         <source>Script Console...</source>
-        <translation type="unfinished">脚本终端...</translation>
+        <translation type="obsolete">脚本终端...</translation>
     </message>
 </context>
 <context>
@@ -2436,11 +2439,11 @@ Check whether your ESD support is enabled in compile time</source>
     <name>google</name>
     <message>
         <source>No text is selected to search for</source>
-        <translation>没有文字被选中</translation>
+        <translation type="obsolete">没有文字被选中</translation>
     </message>
     <message>
         <source>Search Selected Text in Google</source>
-        <translation>用 Google 搜索选中文字</translation>
+        <translation type="obsolete">用 Google 搜索选中文字</translation>
     </message>
 </context>
 <context>
@@ -3188,14 +3191,14 @@ Check whether your ESD support is enabled in compile time</source>
     <name>senddelay</name>
     <message>
         <source>Send String With Delay...</source>
-        <translation>延迟发送字符串...</translation>
+        <translation type="obsolete">延迟发送字符串...</translation>
     </message>
 </context>
 <context>
     <name>smth</name>
     <message>
         <source>System script loaded</source>
-        <translation>系统脚本加载成功</translation>
+        <translation type="obsolete">系统脚本加载成功</translation>
     </message>
     <message>
         <source>No text is selected to search for</source>
@@ -3207,7 +3210,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>No article to download</source>
-        <translation>没有文章可下载</translation>
+        <translation type="obsolete">没有文章可下载</translation>
     </message>
     <message>
         <source>You are using smth.js in QTerm %1 (C) 2009 QTerm Developers</source>
@@ -3215,11 +3218,11 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>About This Script</source>
-        <translation>关于当前脚本</translation>
+        <translation type="obsolete">关于当前脚本</translation>
     </message>
     <message>
         <source>You are using smth.js in QTerm %1 (C) 2009-2010 QTerm Developers</source>
-        <translation>你当前使用 QTerm %1 中的 smth.js 脚本 (C) 2009-2010 QTerm Developers</translation>
+        <translation type="obsolete">你当前使用 QTerm %1 中的 smth.js 脚本 (C) 2009-2010 QTerm Developers</translation>
     </message>
 </context>
 <context>
