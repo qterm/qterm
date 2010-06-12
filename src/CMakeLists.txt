@@ -159,7 +159,7 @@ set(qterm_SRCS
    termstring.cpp
    keyboardtranslator.cpp
    closedialog.cpp
-   uao.cpp
+   uaocodec.cpp
    ${optionalSources})
 set(qterm_UIS
    ui/aboutdialog.ui
