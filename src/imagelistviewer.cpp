@@ -29,7 +29,7 @@ QVariant ImageFileModel::data(const QModelIndex &index, int role) const {
         return QVariant();
 
     switch (role) {
-        case Qt::ToolTipRole: return QString("Name: %1\nType: %2\nSize: %3 KB")
+        case Qt::ToolTipRole: return QString(tr("Name: %1\nType: %2\nSize: %3 KB"))
                                         .arg(fileName(index))
                                         .arg(type(index))
                                         .arg(size(index)/1024);
