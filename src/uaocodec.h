@@ -39,8 +39,8 @@
 **
 ****************************************************************************/
 
-// Most of the code here was originally written by UAO project (uao-051123-src.tar.gz)
-// Ported to Qt by hooey <hephooey@gmail.com>
+// Most of the code here was originally written by UAO project (http://uao.cpatch.org/)
+// Ported to Qt by hooey <hephooey@gmail.com> (from uao-051123-src.tar.gz)
 
 #ifndef UAOCODEC_H
 #define UAOCODEC_H
