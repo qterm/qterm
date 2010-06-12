@@ -665,7 +665,7 @@ void Window::mouseMoveEvent(QMouseEvent * me)
         QRect rcUrl_IP = m_rcUrl;
         bool bUrl = false;
         if (Global::instance()->m_pref.bUrl) {
-            if (m_pBBS->isIP(rcUrl_IP, rcOld_IP) && m_bCheckIP) {
+            if (m_pBBS->isIP(rcUrl_IP, rcOld_IP)) {
                 if (rcUrl_IP != rcOld_IP && !m_pScreen->osd()->isVisible()) {
                     showIP();
                 }
@@ -1301,6 +1301,10 @@ void Window::reconnect()
 
 void Window::showIP()
 {
+    if (!m_bCheckIP) {
+        m_pScreen->osd()->display(tr("IP database not found"), PageViewMessage::Warning, 0, PageViewMessage::IP);
+        return;
+    }
     QString country, city;
     QString url = m_pBBS->getIP();
     if (m_pIPLocation->getLocation(url, country, city)) {
