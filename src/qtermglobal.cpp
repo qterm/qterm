@@ -31,11 +31,11 @@
 #include <QtGui/QMessageBox>
 
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
+#include <windows.h>
+#include <shellapi.h>
 #ifndef MAX_PATH
 #define MAX_PATH 128
 #endif
-#include <windows.h>
-#include <shellapi.h>
 #endif
 
 namespace QTerm

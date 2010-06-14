@@ -585,7 +585,7 @@ bool BBS::verifyUrl(int urlBegin, int urlEnd)
             if ((ata = strText.indexOf('@', begin + 1)) == -1)
                 host = url + (ata - begin) + 1;
             else
-                return -1;
+                return false;
         } else {
             host = url+urlRe.matchedLength();
         }

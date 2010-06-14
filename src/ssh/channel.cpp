@@ -89,8 +89,8 @@ void SSH2Channel::receiveData()
     qDebug() << "===remote ID " << target->remoteID << target->remoteWindow;
 #endif
     // TODO: wait for window adjust?
-    if (target->localWindow >= data.size())
-        target->localWindow -= data.size();
+    if (target->localWindow >= (size_t) data.size())
+        target->localWindow -= (size_t) data.size();
     else
         qDebug("local window size is too small");
 #ifdef SSH_DEBUG
@@ -107,7 +107,7 @@ void SSH2Channel::receiveData()
 
 void SSH2Channel::writeData(int id, const QByteArray & data)
 {
-    if (m_channelList.at(id)->remoteWindow < data.size()) {
+    if (m_channelList.at(id)->remoteWindow < (size_t) data.size()) {
         qDebug("remote window too small");
         return;
     }

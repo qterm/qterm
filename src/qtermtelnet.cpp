@@ -560,7 +560,7 @@ int Telnet::do_echo(int c)
 void Telnet::putc_down(u_char c)
 {
     // check overflow
-    if ((wsize + 1) > to_socket.size()) {
+    if ((wsize + 1) > (uint) to_socket.size()) {
         qWarning("putc_down : to_socket buffer overflow");
         return;
     }
@@ -841,7 +841,7 @@ int Telnet::xputc_up(char ch)
     /*if (scrfp)
      (void) putc(ch, scrfp);*/
 
-    if ((rsize + 1) > to_ansi.size()) {
+    if ((rsize + 1) > (uint) to_ansi.size()) {
         qWarning("xputc_up : Buffer to_ansi overflow");
         return -1;
     }

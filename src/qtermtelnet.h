@@ -216,7 +216,7 @@ private:
     int done_naws;
     bool d_isSSH;
     bool bConnected;
-    int raw_size;
+    uint raw_size;
 };
 
 } // namespace QTerm
