@@ -76,6 +76,18 @@ void Http::getLink(const QString& url, bool preview)
 
 void Http::httpResponse(const QHttpResponseHeader& hrh)
 {
+    int code = hrh.statusCode();
+
+    if (code >=300 && code < 400 && hrh.hasKey("Location")) {
+        m_httpDown.get(hrh.value("Location"));
+        return;
+    }
+
+    if (code != 200) {
+        m_httpDown.abort();
+        return;
+    }
+
     QString ValueString;
     QString filename;
 
