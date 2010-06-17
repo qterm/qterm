@@ -36,7 +36,6 @@ public:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 private:
     static const int thumbSize = 100;
-    QString d_shadow;
 };
 
 class ImageListViewer : public QListView

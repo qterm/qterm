@@ -52,6 +52,9 @@
    <property name="text">
     <string/>
    </property>
+   <property name="pixmap">
+    <pixmap resource="../frame.qrc">:/pic/qterm_32x32.png</pixmap>
+   </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
@@ -95,7 +98,7 @@ p, li { white-space: pre-wrap; }
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab1">
     <attribute name="title">
@@ -133,6 +136,9 @@ p, li { white-space: pre-wrap; }
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="../frame.qrc">:/pic/qterm.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -179,6 +185,9 @@ p, li { white-space: pre-wrap; }
      <property name="text">
       <string/>
      </property>
+     <property name="pixmap">
+      <pixmap resource="../frame.qrc">:/pic/qterm.png</pixmap>
+     </property>
      <property name="scaledContents">
       <bool>true</bool>
      </property>
@@ -219,7 +228,10 @@ p, li { white-space: pre-wrap; }
   <tabstop>closeButton</tabstop>
   <tabstop>mainTabWidget</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../frame.qrc"/>
+  <include location="../frame.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>closeButton</sender>

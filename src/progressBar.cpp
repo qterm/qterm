@@ -39,7 +39,7 @@ ProgressBar::ProgressBar( QWidget *parent, QLabel *label )
     m_abort->setObjectName("Abort");
     m_abort->hide();
     //m_abort->setText( tr("Abort") );
-    m_abort->setIcon( QPixmap( Global::instance()->pathPic() + "pic/messagebox_critical.png" ));
+    m_abort->setIcon( QIcon( ":/pic/messagebox_critical.png" ));
     m_label->show();
     show();
 }

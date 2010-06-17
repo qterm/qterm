@@ -40,7 +40,6 @@ QVariant ImageFileModel::data(const QModelIndex &index, int role) const {
 
 ImageDelegate::ImageDelegate(QObject *parent)
         : QStyledItemDelegate(parent) {
-    d_shadow = Global::instance()->pathPic() + "pic/shadow.png";
 }
 
 QSize ImageDelegate::sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index ) const {
@@ -61,7 +60,7 @@ QString ImageDelegate::genThumb(const QString & path, const QString & filename) 
     // scale original and shadow images
     QImage original(path+"/"+filename);
     original = original.scaled(thumbSize, thumbSize, Qt::KeepAspectRatio);
-    QImage shadow(d_shadow);
+    QImage shadow(":/pic/shadow.png");
     uint shadowSize;
     if (original.width() > original.height())
         shadowSize = static_cast<uint>(original.width()/100.0*6.0);

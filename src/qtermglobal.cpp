@@ -59,7 +59,7 @@ Global * Global::instance()
 }
 
 Global::Global()
-        : m_fileCfg("./qterm.cfg"), m_addrCfg("./address.cfg"), m_pathLib("./"), m_pathPic("./"), m_pathCfg("./"), m_windowState(), m_status(INIT_OK), m_style(), m_fullScreen(false), m_language(Global::English), m_showToolBar()
+        : m_fileCfg("./qterm.cfg"), m_addrCfg("./address.cfg"), m_pathLib("./"), m_pathCfg("./"), m_windowState(), m_status(INIT_OK), m_style(), m_fullScreen(false), m_language(Global::English), m_showToolBar()
 {
     if (!iniWorkingDir(qApp->arguments()[0])) {
         m_status = INIT_ERROR;
@@ -103,11 +103,6 @@ Config * Global::addrCfg()
 const QString & Global::pathLib()
 {
     return m_pathLib;
-}
-
-const QString & Global::pathPic()
-{
-    return m_pathPic;
 }
 
 const QString & Global::pathCfg()
@@ -459,7 +454,6 @@ bool Global::iniWorkingDir(QString param)
     }
     ExeNamePath[LastSlash+1] = '\0';
     m_pathLib = QString::fromLocal8Bit(ExeNamePath);
-    m_pathPic = QString::fromLocal8Bit(ExeNamePath);
     m_pathCfg = QString::fromLocal8Bit(ExeNamePath);
     strcpy(_fileCfg, ExeNamePath);
     strcat(_fileCfg, "qterm.cfg");
@@ -495,7 +489,6 @@ bool Global::iniWorkingDir(QString param)
     if (conf.exists()) {
         QString path= QCoreApplication::applicationDirPath()+"/";
         m_pathLib = path;
-        m_pathPic = path;
         m_pathCfg = path;
         return true;
     }
@@ -530,14 +523,6 @@ bool Global::iniWorkingDir(QString param)
     if (!isPathExist(pathScheme))
         return false;
 
-
-    // picPath --- $HOME/.qterm/pic prefered
-    m_pathPic = m_pathCfg + "pic";
-    dir.setPath(m_pathPic);
-    if (!dir.exists())
-        m_pathPic = m_pathLib;
-    else
-        m_pathPic = m_pathCfg;
 
     // copy configuration files
     m_fileCfg = m_pathCfg + "qterm.cfg";

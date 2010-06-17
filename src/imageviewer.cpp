@@ -11,7 +11,7 @@
 
 namespace QTerm
 {
-Image::Image(const QString & image, const QString & path, QWidget * parent)
+Image::Image(const QString & path, QWidget * parent)
     :QWidget(parent), d_index(0)
 {
     ui.setupUi(this);

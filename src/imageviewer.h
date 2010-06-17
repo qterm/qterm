@@ -23,7 +23,7 @@ class Image : public QWidget
 {
     Q_OBJECT
 public:
-    Image(const QString &, const QString &, QWidget * parent=0);
+    Image(const QString &, QWidget * parent=0);
     ~Image();
     
 public slots:

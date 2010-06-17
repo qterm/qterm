@@ -307,21 +307,17 @@ void Frame::newWindow(const Param&  param, int index)
 {
     Window * window = new Window(this, param, index, m_MdiArea,
                                  0);
-    QString pathLib = Global::instance()->pathLib();
     QMdiSubWindow * w =  m_MdiArea->addSubWindow(window);
     window->setWindowTitle(param.m_strName);
-    window->setWindowIcon(QPixmap(pathLib + "pic/tabpad.png"));
+    window->setWindowIcon(QIcon(":/pic/tabpad.png"));
     window->setAttribute(Qt::WA_DeleteOnClose);
     if (m_menuBarAction->isChecked()) {
         w->setWindowFlags(Qt::FramelessWindowHint);
     }
 
-    QIcon* icon = new QIcon(QPixmap(pathLib + "pic/tabpad.png"));
-    QString qtab = window->windowTitle();
-
     //add window-tab-icon to window manager
     wndmgr->addWindow(window);
-    tabBar->addTab(*icon, qtab);
+    tabBar->addTab(QIcon(":/pic/tabpad.png"),window->windowTitle());
 
     window->setFocus();
     window->showMaximized();
@@ -767,7 +763,7 @@ void Frame::updateMouse(bool isEnabled)
 
 void Frame::viewImages()
 {
-    Image *pViewer = new Image(Global::instance()->pathPic() + "pic/shadow.png", Global::instance()->m_pref.strPoolPath);
+    Image *pViewer = new Image(Global::instance()->m_pref.strPoolPath);
     pViewer->show();
 }
 
@@ -831,7 +827,7 @@ void Frame::addMainTool()
     mdiTools = addToolBar("Main ToolBar");
     mdiTools->setObjectName("mainToolBar");
 
-    QAction * connectAction = new QAction(QPixmap(Global::instance()->pathPic() + "pic/connect.png"), tr("&Connect"), this);
+    QAction * connectAction = new QAction(QIcon(":/pic/connect.png"), tr("&Connect"), this);
     connectAction->setObjectName("actionConnectButton");
     mdiTools->addAction(connectAction);
     connectMenu = new QMenu(this);
@@ -894,29 +890,27 @@ void Frame::initShortcuts()
 
 void Frame::initActions()
 {
-    QString pathLib = Global::instance()->pathPic();
-
-    m_connectAction = new QAction(QPixmap(pathLib + "pic/connect.png"), tr("&Connect"), this);
+    m_connectAction = new QAction(QIcon(":/pic/connect.png"), tr("&Connect"), this);
     m_connectAction->setObjectName("actionConnect");
-    m_disconnectAction = new QAction(QPixmap(pathLib + "pic/disconnect.png"), tr("&Disconnect"), this);
+    m_disconnectAction = new QAction(QIcon(":/pic/disconnect.png"), tr("&Disconnect"), this);
     m_disconnectAction->setObjectName("actionDisconnect");
-    m_addressAction = new QAction(QPixmap(pathLib + "pic/addr.png"), tr("&Address Book..."), this);
+    m_addressAction = new QAction(QIcon(":/pic/addr.png"), tr("&Address Book..."), this);
     m_addressAction->setObjectName("actionAddress");
-    m_quickConnectAction = new QAction(QPixmap(pathLib + "pic/quick.png"), tr("&Quick Login..."), this);
+    m_quickConnectAction = new QAction(QIcon(":/pic/quick.png"), tr("&Quick Login..."), this);
     m_quickConnectAction->setObjectName("actionQuickConnect");
     m_printAction = new QAction(tr("&Print..."), this);
     m_printAction->setObjectName("actionPrint");
     m_exitAction = new QAction(tr("&Exit"), this);
     m_exitAction->setObjectName("actionExit");
 
-    m_copyAction = new QAction(QPixmap(pathLib + "pic/copy.png"), tr("&Copy"), this);
+    m_copyAction = new QAction(QIcon(":/pic/copy.png"), tr("&Copy"), this);
     m_copyAction->setObjectName("actionCopy");
-    m_pasteAction = new QAction(QPixmap(pathLib + "pic/paste.png"), tr("&Paste"), this);
+    m_pasteAction = new QAction(QIcon(":/pic/paste.png"), tr("&Paste"), this);
     m_pasteAction->setObjectName("actionPaste");
-    m_colorCopyAction = new QAction(QPixmap(pathLib + "pic/color-copy.png"), tr("C&opy With Color"), this);
+    m_colorCopyAction = new QAction(QIcon(":/pic/color-copy.png"), tr("C&opy With Color"), this);
     m_colorCopyAction->setObjectName("actionColorCopy");
     m_colorCopyAction->setCheckable(true);
-    m_rectAction = new QAction(QPixmap(pathLib + "pic/rect.png"), tr("&Rectangle Select"), this);
+    m_rectAction = new QAction(QIcon(":/pic/rect.png"), tr("&Rectangle Select"), this);
     m_rectAction->setObjectName("actionRect");
     m_rectAction->setCheckable(true);
     m_autoCopyAction = new QAction(tr("Auto Copy &Select"), this);
@@ -958,7 +952,7 @@ void Frame::initActions()
     codecGroup->addAction(m_S2TAction);
     codecGroup->addAction(m_T2SAction);
 
-    m_refreshAction = new QAction(QPixmap(pathLib + "pic/refresh.png"), tr("&Refresh"), this);
+    m_refreshAction = new QAction(QIcon(":/pic/refresh.png"), tr("&Refresh"), this);
     m_refreshAction->setObjectName("actionRefresh");
 
     QActionGroup * langGroup = new QActionGroup(this);
@@ -1009,27 +1003,27 @@ void Frame::initActions()
     m_switchAction->setObjectName("actionSwitch");
     m_switchAction->setCheckable(true);
 
-    m_currentSessionAction = new QAction(QPixmap(pathLib + "pic/pref.png"), tr("&Setting For Currrent Session..."), this);
+    m_currentSessionAction = new QAction(QIcon(":/pic/pref.png"), tr("&Setting For Currrent Session..."), this);
     m_currentSessionAction->setObjectName("actionCurrentSession");
     m_defaultAction = new QAction(tr("&Default Setting..."), this);
     m_defaultAction->setObjectName("actionDefault");
     m_prefAction = new QAction(tr("&Preference..."), this);
     m_prefAction->setObjectName("actionPref");
 
-    m_copyArticleAction = new QAction(QPixmap(pathLib + "pic/article.png"), tr("&Copy Article..."), this);
+    m_copyArticleAction = new QAction(QIcon(":/pic/article.png"), tr("&Copy Article..."), this);
     m_copyArticleAction->setObjectName("actionCopyArticle");
-    m_antiIdleAction = new QAction(QPixmap(pathLib + "pic/anti-idle.png"), tr("Anti &Idle"), this);
+    m_antiIdleAction = new QAction(QIcon(":/pic/anti-idle.png"), tr("Anti &Idle"), this);
     m_antiIdleAction->setObjectName("actionAntiIdle");
     m_antiIdleAction->setCheckable(true);
-    m_autoReplyAction = new QAction(QPixmap(pathLib + "pic/auto-reply.png"), tr("Auto &Reply"), this);
+    m_autoReplyAction = new QAction(QIcon(":/pic/auto-reply.png"), tr("Auto &Reply"), this);
     m_autoReplyAction->setObjectName("actionAutoReply");
     m_autoReplyAction->setCheckable(true);
-    m_viewMessageAction = new QAction(QPixmap(pathLib + "pic/message.png"), tr("&View Messages..."), this);
+    m_viewMessageAction = new QAction(QIcon(":/pic/message.png"), tr("&View Messages..."), this);
     m_viewMessageAction->setObjectName("actionViewMessage");
-    m_beepAction = new QAction(QPixmap(pathLib + "pic/sound.png"), tr("&Beep "), this);
+    m_beepAction = new QAction(QIcon(":/pic/sound.png"), tr("&Beep "), this);
     m_beepAction->setObjectName("actionBeep");
     m_beepAction->setCheckable(true);
-    m_mouseAction = new QAction(QPixmap(pathLib + "pic/mouse.png"), tr("&Mouse Support"), this);
+    m_mouseAction = new QAction(QIcon(":/pic/mouse.png"), tr("&Mouse Support"), this);
     m_mouseAction->setObjectName("actionMouse");
     m_mouseAction->setCheckable(true);
     m_viewImageAction = new QAction(tr("&Image Viewer..."), this);
@@ -1053,7 +1047,7 @@ void Frame::initActions()
     m_homepageAction = new QAction(tr("QTerm's &Homepage"), this);
     m_homepageAction->setObjectName("actionHomepage");
 
-    m_reconnectAction = new QAction(QPixmap(Global::instance()->pathPic() + "pic/reconnect.png"), tr("Auto Reconnect"), this);
+    m_reconnectAction = new QAction(QIcon(":/pic/reconnect.png"), tr("Auto Reconnect"), this);
     m_reconnectAction->setObjectName("actionReconnect");
     m_reconnectAction->setCheckable(true);
 
@@ -1325,7 +1319,7 @@ void Frame::enableMenuToolBar(bool enable)
 void Frame::updateKeyToolBar()
 {
     key->clear();
-    key->addAction(QPixmap(Global::instance()->pathPic() + "pic/keys.png"), tr("Key Setup"), this, SLOT(keySetup()));
+    key->addAction(QIcon(":/pic/keys.png"), tr("Key Setup"), this, SLOT(keySetup()));
 
     Config * conf = Global::instance()->fileCfg();
     QString strItem, strTmp;
@@ -1392,8 +1386,8 @@ void Frame::setUseTray(bool use)
     connect(trayMenu, SIGNAL(aboutToShow()), SLOT(buildTrayMenu()));
 
 
-    tray = new QSystemTrayIcon(this);   //pathLib+"pic/qterm_tray.png", "QTerm", trayMenu, this);
-    tray->setIcon(QPixmap(Global::instance()->pathPic() + "pic/qterm_tray.png"));
+    tray = new QSystemTrayIcon(this);
+    tray->setIcon(QIcon(":/pic/qterm_tray.png"));
     tray->setContextMenu(trayMenu);
     connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)));

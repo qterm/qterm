@@ -375,14 +375,14 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
 #endif
         m_bDoingLogin = false;
 
-    cursor[0] = QCursor(QPixmap(pathLib + "cursor/home.xpm"));
-    cursor[1] = QCursor(QPixmap(pathLib + "cursor/end.xpm"));
-    cursor[2] = QCursor(QPixmap(pathLib + "cursor/pageup.xpm"));
-    cursor[3] = QCursor(QPixmap(pathLib + "cursor/pagedown.xpm"));
-    cursor[4] = QCursor(QPixmap(pathLib + "cursor/prev.xpm"));
-    cursor[5] = QCursor(QPixmap(pathLib + "cursor/next.xpm"));
-    cursor[6] = QCursor(QPixmap(pathLib + "cursor/exit.xpm"), 0, 10);
-    cursor[7] = QCursor(QPixmap(pathLib + "cursor/hand.xpm"));
+    cursor[0] = QCursor(QPixmap(":/cursor/home.xpm"));
+    cursor[1] = QCursor(QPixmap(":/cursor/end.xpm"));
+    cursor[2] = QCursor(QPixmap(":/cursor/pageup.xpm"));
+    cursor[3] = QCursor(QPixmap(":/cursor/pagedown.xpm"));
+    cursor[4] = QCursor(QPixmap(":/cursor/prev.xpm"));
+    cursor[5] = QCursor(QPixmap(":/cursor/next.xpm"));
+    cursor[6] = QCursor(QPixmap(":/cursor/exit.xpm"), 0, 10);
+    cursor[7] = QCursor(QPixmap(":/cursor/hand.xpm"));
     cursor[8] = Qt::ArrowCursor;
 
     // the system wide script

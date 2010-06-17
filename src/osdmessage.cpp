@@ -86,20 +86,19 @@ void PageViewMessage::display(const QString & message, Icon icon, int durationMs
     // [QTerm], we don't have a icon at this time.
 
     QPixmap symbol;
-    QString pathPic = Global::instance()->pathPic();
     if (icon != None) {
         switch (icon) {
             //case Find:
             //symbol = SmallIcon( "viewmag" );
             //break;
         case Error:
-            symbol = QPixmap(pathPic + "pic/messagebox_critical.png");
+            symbol = QPixmap(":/pic/messagebox_critical.png");
             break;
         case Warning:
-            symbol = QPixmap(pathPic + "pic/messagebox_warning.png");
+            symbol = QPixmap(":/pic/messagebox_warning.png");
             break;
         default:
-            symbol = QPixmap(pathPic + "pic/messagebox_info.png");
+            symbol = QPixmap(":/pic/messagebox_info.png");
             break;
         }
         textXOffset = 2 + symbol.width();

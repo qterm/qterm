@@ -181,6 +181,9 @@ set(qterm_MISC
    address.cfg
    credits
    qterm.cfg)
+set(qterm_RCCS
+    frame.qrc)
+
 if(WIN32)
   if(MINGW)
     # resource compilation for mingw
@@ -197,6 +200,7 @@ if(WIN32)
     set(optionalLibs ${optionalLibs} ${WIN32_WS2_LIBRARY})
   endif(WIN32_WS2_LIBRARY)
 endif(WIN32)
+qt4_add_resources(qterm_RCCS_SRCS ${qterm_RCCS})
 qt4_wrap_ui(qterm_UIS_H ${qterm_UIS})
 qt4_automoc(${qterm_SRCS})
 add_definitions( -DHAVE_CONFIG_H )
@@ -210,9 +214,9 @@ include_directories(
    ${CMAKE_CURRENT_BINARY_DIR}
    ${CMAKE_CURRENT_SOURCE_DIR})
 if(WIN32)
-   add_executable(qterm WIN32 ${qterm_SRCS})
+   add_executable(qterm WIN32 ${qterm_SRCS} ${qterm_RCCS_SRCS})
 else(WIN32)
-   add_executable(qterm ${qterm_SRCS})
+   add_executable(qterm ${qterm_SRCS} ${qterm_RCCS_SRCS})
 endif(WIN32)
 target_link_libraries(qterm
    ${QT_LIBRARIES}
@@ -226,8 +230,6 @@ endif(WIN32 AND MINGW)
 install(TARGETS qterm DESTINATION bin)
 install(FILES ${qterm_MISC} DESTINATION share/qterm)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/qterm.desktop DESTINATION share/applications)
-add_subdirectory(pic)
-add_subdirectory(cursor)
 add_subdirectory(scheme)
 add_subdirectory(scripts)
 add_subdirectory(po)

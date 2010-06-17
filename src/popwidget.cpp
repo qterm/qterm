@@ -29,7 +29,7 @@ popWidget::popWidget( Window *win, QWidget *parent, const char *name)
 		: QWidget(parent)
 {
 	setWindowFlags(Qt::WindowStaysOnTopHint|Qt::X11BypassWindowManagerHint|Qt::Tool);
-	QPixmap pxm(QPixmap(Global::instance()->pathLib()+"pic/popwidget.png") );
+	QPixmap pxm(":/pic/popwidget.png");
 	if(!pxm.isNull())
 	{
 		resize(pxm.width(), pxm.height());
