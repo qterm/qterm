@@ -137,7 +137,6 @@ protected slots:
     void idleProcess();
     void replyProcess();
     void updateWindow();
-    void blinkTab();
 
     //http menu
     void previewLink();
@@ -203,7 +202,7 @@ protected:
 
     // timer
     bool m_bIdling;
-    QTimer *m_idleTimer, *m_replyTimer, *m_tabTimer, *m_reconnectTimer, * m_ipTimer;
+    QTimer *m_idleTimer, *m_replyTimer, *m_reconnectTimer, * m_ipTimer;
     QTimer * m_updateTimer;
 
     // address setting

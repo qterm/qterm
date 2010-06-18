@@ -335,8 +335,6 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     connect(m_idleTimer, SIGNAL(timeout()), this, SLOT(idleProcess()));
     m_replyTimer = new QTimer;
     connect(m_replyTimer, SIGNAL(timeout()), this, SLOT(replyProcess()));
-    m_tabTimer = new QTimer;
-    connect(m_tabTimer, SIGNAL(timeout()), this, SLOT(blinkTab()));
     m_reconnectTimer = new QTimer;
     connect(m_reconnectTimer, SIGNAL(timeout()), this, SLOT(reconnect()));
     m_updateTimer = new QTimer;
@@ -406,7 +404,6 @@ Window::~Window()
 
     delete m_idleTimer;
     delete m_replyTimer;
-    delete m_tabTimer;
     delete m_updateTimer;
 
     delete m_pUrl;
@@ -448,9 +445,6 @@ void Window::idleProcess()
     // do as autoreply when it is enabled
     if (m_replyTimer->isActive() && m_bAutoReply) {
         replyMessage();
-        if (m_tabTimer->isActive()) {
-            m_tabTimer->stop();
-        }
         return;
     }
 
@@ -486,16 +480,6 @@ void Window::replyProcess()
         replyMessage();
     else // else just stop the timer
         m_replyTimer->stop();
-
-    if (m_tabTimer->isActive()) {
-        m_tabTimer->stop();
-    }
-}
-
-void Window::blinkTab()
-{
-    static bool bVisible = TRUE;
-    bVisible = !bVisible;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -534,11 +518,6 @@ void Window::mouseDoubleClickEvent(QMouseEvent * me)
 
 void Window::mousePressEvent(QMouseEvent * me)
 {
-    // stop  the tab blinking
-    if (m_tabTimer->isActive()) {
-        m_tabTimer->stop();
-    }
-
     // Left Button for selecting
     if (me->button()&Qt::LeftButton && !(me->modifiers())) {
         // clear the selected before
@@ -832,11 +811,6 @@ void Window::keyPressEvent(QKeyEvent * e)
         if (e->key() == Qt::Key_Return)
             reconnect();
         return;
-    }
-
-    // stop  the tab blinking
-    if (m_tabTimer->isActive()) {
-        m_tabTimer->stop();
     }
 
     // message replying
@@ -1746,8 +1720,6 @@ void Window::updateWindow()
                 delete m_pSound;
                 m_pSound = NULL;
             }
-            if (Global::instance()->m_pref.bBlinkTab)
-                m_tabTimer->start(500);
 
             QString strMsg = m_pBBS->getMessage();
             if (!strMsg.isEmpty())
