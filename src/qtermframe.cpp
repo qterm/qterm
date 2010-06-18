@@ -11,7 +11,6 @@ AUTHOR:        kingson fiasco hooey
 
 #include "qtermwindow.h"
 #include "qtermframe.h"
-#include "qtermwndmgr.h"
 #include "qtermtimelabel.h"
 #include "qtermconfig.h"
 #include "qtermglobal.h"
@@ -89,7 +88,10 @@ Frame::Frame()
     setAttribute(Qt::WA_DeleteOnClose);
 
     m_MdiArea = new QMdiArea(this);
+    m_MdiArea->setViewMode(QMdiArea::TabbedView);
+
     setCentralWidget(m_MdiArea);
+    
 
     tray = 0;
     trayMenu = 0;
@@ -100,22 +102,10 @@ Frame::Frame()
     connect(DBus::instance(), SIGNAL(showQTerm()), this, SLOT(slotShowQTerm()));
 #endif //DBUS_ENABLED
 
-//create a tabbar in the hbox
-    tabBar = new QTabBar(statusBar());
-    tabBar->setExpanding(false);
-    statusBar()->addWidget(tabBar, 90);
-    connect(tabBar, SIGNAL(selected(int)), this, SLOT(selectionChanged(int)));
-    //tabBar->setShape(QTabBar::TriangularBelow);
-    tabBar->setShape(QTabBar:: RoundedSouth);
-    tabBar->setDrawBase(false);
 
 //create a progress bar to notify the download process
     m_pStatusBar = new QTerm::StatusBar(statusBar(), "mainStatusBar");
     statusBar()->addWidget(m_pStatusBar, 0);
-
-//create the window manager to deal with the window-tab-icon pairs
-    wndmgr = new WndMgr(this);
-
 
     initShortcuts();
 
@@ -146,7 +136,6 @@ Frame::Frame()
 //destructor
 Frame::~Frame()
 {
-    delete wndmgr;
 }
 
 //initialize setting from qterm.cfg
@@ -284,14 +273,6 @@ void Frame::saveAndDisconnect()
         }
     }
 
-    while ( wndmgr->count() > 0)
-    {
-        Window * active_window = wndmgr->activeWindow();
-        active_window->disconnect();
-        wndmgr->activeNextPrev(true);
-        wndmgr->removeWindow(active_window);
-    }
-
     Global::instance()->saveSession(sites);
     saveSetting();
     // clear zmodem and pool if needed
@@ -314,20 +295,7 @@ void Frame::newWindow(const Param&  param, int index)
     if (m_menuBarAction->isChecked()) {
         w->setWindowFlags(Qt::FramelessWindowHint);
     }
-
-    //add window-tab-icon to window manager
-    wndmgr->addWindow(window);
-    tabBar->addTab(QIcon(":/pic/tabpad.png"),window->windowTitle());
-
-    window->setFocus();
-    window->showMaximized();
-
-}
-
-//the tabbar selection changed
-void Frame::selectionChanged(int n)
-{
-    wndmgr->activateTheWindow(n);
+    m_MdiArea->setActiveSubWindow(window);
 }
 
 //slot Help->About QTerm
@@ -428,20 +396,17 @@ void Frame::switchWin(int id)
         return;
 
     if (id == 200) {
-        wndmgr->activeNextPrev(false);
+        m_MdiArea->activatePreviousSubWindow();
         return;
     }
     if (id == 201 || id == 202) {
-        wndmgr->activeNextPrev(true);
+        m_MdiArea->activateNextSubWindow();
         return;
     }
 
-    QWidget *w = windows.at(id);
-    if (w == m_MdiArea->activeSubWindow())
-        return;
-
+    QMdiSubWindow *w = windows.at(id);
     if (w != NULL) {
-        w->setFocus();
+        m_MdiArea->setActiveSubWindow(w);
     }
 }
 
@@ -484,50 +449,50 @@ void Frame::updateLang(QAction * action)
 
 void Frame::connectIt()
 {
-    if (wndmgr->activeWindow() == NULL) {
+    if (m_MdiArea->activeSubWindow() == NULL) {
         Param param;
         Global::instance()->loadAddress(-1, param);
         newWindow(param);
     } else
-        if (!wndmgr->activeWindow()->isConnected())
-            wndmgr->activeWindow()->reconnect();
+        if (!qobject_cast<Window *>(m_MdiArea->activeSubWindow())->isConnected())
+            qobject_cast<Window *>(m_MdiArea->activeSubWindow())->reconnect();
 }
 void Frame::disconnect()
 {
-    wndmgr->activeWindow()->disconnect();
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->disconnect();
 }
 
 void Frame::copy()
 {
-    wndmgr->activeWindow()->copy();
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->copy();
 }
 void Frame::paste()
 {
-    wndmgr->activeWindow()->paste();
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->paste();
 }
 void Frame::copyRect(bool isEnabled)
 {
-    wndmgr->activeWindow()->m_bCopyRect = isEnabled;
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->m_bCopyRect = isEnabled;
 }
 
 void Frame::copyColor(bool isEnabled)
 {
-    wndmgr->activeWindow()->m_bCopyColor = isEnabled;
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->m_bCopyColor = isEnabled;
 }
 
 void Frame::copyArticle()
 {
-    wndmgr->activeWindow()->copyArticle();
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->copyArticle();
 }
 
 void Frame::autoCopy(bool isEnabled)
 {
-    wndmgr->activeWindow()->m_bAutoCopy = isEnabled;
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->m_bAutoCopy = isEnabled;
 }
 
 void Frame::wordWrap(bool isEnabled)
 {
-    wndmgr->activeWindow()->m_bWordWrap = isEnabled;
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->m_bWordWrap = isEnabled;
 }
 
 void Frame::updateESC(QAction * action)
@@ -563,7 +528,7 @@ void Frame::updateCodec(QAction * action)
 
 void Frame::refresh()
 {
-    wndmgr->activeWindow()->refresh();
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->refresh();
 }
 
 void Frame::uiFont()
@@ -689,7 +654,7 @@ void Frame::updateStatusBar(bool isEnabled)
 
 void Frame::setting()
 {
-    wndmgr->activeWindow()->setting();
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->setting();
 }
 void Frame::defaultSetting()
 {
@@ -733,7 +698,7 @@ void Frame::printScreen()
          return;
      QPainter painter;
      painter.begin(&printer);
-     QPixmap screen = QPixmap::grabWidget(wndmgr->activeWindow());
+     QPixmap screen = QPixmap::grabWidget(qobject_cast<Window *>(m_MdiArea->activeSubWindow()));
      QPixmap target = screen.scaled(printer.pageRect().width(),printer.pageRect().height(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
      painter.drawPixmap(0,0,target);
      painter.end();
@@ -742,23 +707,23 @@ void Frame::printScreen()
 
 void Frame::antiIdle(bool isEnabled)
 {
-    wndmgr->activeWindow()->antiIdle(isEnabled);
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->antiIdle(isEnabled);
 }
 
 void Frame::autoReply(bool isEnabled)
 {
-    wndmgr->activeWindow()->autoReply(isEnabled);
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->autoReply(isEnabled);
 }
 
 void Frame::viewMessages()
 {
-    wndmgr->activeWindow()->viewMessages();
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->viewMessages();
 }
 
 void Frame::updateMouse(bool isEnabled)
 {
-    wndmgr->activeWindow()->m_bMouse = isEnabled;
-    m_mouseAction->setChecked(wndmgr->activeWindow()->m_bMouse);
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->m_bMouse = isEnabled;
+    m_mouseAction->setChecked(qobject_cast<Window *>(m_MdiArea->activeSubWindow())->m_bMouse);
 }
 
 void Frame::viewImages()
@@ -769,13 +734,13 @@ void Frame::viewImages()
 
 void Frame::updateBeep(bool isEnabled)
 {
-    wndmgr->activeWindow()->m_bBeep = isEnabled;
-    m_beepAction->setChecked(wndmgr->activeWindow()->m_bBeep);
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->m_bBeep = isEnabled;
+    m_beepAction->setChecked(qobject_cast<Window *>(m_MdiArea->activeSubWindow())->m_bBeep);
 }
 
 void Frame::reconnect(bool isEnabled)
 {
-    wndmgr->activeWindow()->m_bReconnect = isEnabled;
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->m_bReconnect = isEnabled;
 }
 
 void Frame::debugConsole()
@@ -784,27 +749,27 @@ void Frame::debugConsole()
     QMessageBox::information(this, "QTerm",
                              tr("You need to enable the script engine debugger to use this feature. Please recompile QTerm with the debugger enabled (need Qt 4.5 or newer version)"));
 #else
-    wndmgr->activeWindow()->debugConsole();
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->debugConsole();
 #endif
 }
 
 void Frame::reloadScript()
 {
-    wndmgr->activeWindow()->initScript();
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->initScript();
 }
 
 void Frame::runScript()
 {
-    wndmgr->activeWindow()->runScript();
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->runScript();
 }
 void Frame::stopScript()
 {
-    wndmgr->activeWindow()->stopScript();
+    qobject_cast<Window *>(m_MdiArea->activeSubWindow())->stopScript();
 }
 
 void Frame::keyClicked(int id)
 {
-    if (wndmgr->activeWindow() == NULL)
+    if (qobject_cast<Window *>(m_MdiArea->activeSubWindow()) == NULL)
         return;
 
     Config * conf = Global::instance()->fileCfg();
@@ -814,9 +779,9 @@ void Frame::keyClicked(int id)
     QString strTmp = conf->getItemValue("key", strItem).toString();
 
     if (strTmp[0] == '0') { // key
-        wndmgr->activeWindow()->externInput(strTmp.mid(1));
+        qobject_cast<Window *>(m_MdiArea->activeSubWindow())->externInput(strTmp.mid(1));
     } else if (strTmp[0] == '1') { // script
-        wndmgr->activeWindow()->runScript(strTmp.mid(1));
+        qobject_cast<Window *>(m_MdiArea->activeSubWindow())->runScript(strTmp.mid(1));
     } else if (strTmp[0] == '2') { // program
         system((strTmp.mid(1) + " &").toLocal8Bit());
     }
@@ -1249,7 +1214,7 @@ QMenu * Frame::genPopupMenu(QWidget * owner)
 
 void Frame::updateMenuToolBar()
 {
-    Window * window = wndmgr->activeWindow();
+    Window * window = qobject_cast<Window *>(m_MdiArea->activeSubWindow());
 
     if (window == NULL)
         return;
@@ -1592,7 +1557,7 @@ void Frame::slotShowQTerm()
 
 void Frame::keyPressEvent(QKeyEvent * e)
 {
-    if (wndmgr->count() == 0 && (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)) {
+    if (m_MdiArea->subWindowList().count() == 0 && (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)) {
         loadSession();
         e->accept();
     } else {
@@ -1602,7 +1567,7 @@ void Frame::keyPressEvent(QKeyEvent * e)
 
 void Frame::mouseReleaseEvent(QMouseEvent * e)
 {
-    if (wndmgr->count() == 0 && (e->button() == Qt::LeftButton)) {
+    if (m_MdiArea->subWindowList().count() == 0 && (e->button() == Qt::LeftButton)) {
         loadSession();
         e->accept();
     } else {

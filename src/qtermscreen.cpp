@@ -17,7 +17,6 @@ AUTHOR:        kingson fiasco
 #include "qtermbuffer.h"
 #include "qtermbbs.h"
 #include "qtermframe.h"
-#include "qtermwndmgr.h"
 #include "qtermparam.h"
 #include "qtermtelnet.h"
 #include "qtermconfig.h"
@@ -132,12 +131,10 @@ Screen::~Screen()
 // focus event received
 void Screen::focusInEvent(QFocusEvent *)
 {
-    if (m_pWindow->isMaximized() && m_pWindow->m_pFrame->wndmgr->afterRemove()) {
+    if (m_pWindow->isMaximized()) {
         m_pWindow->showNormal();
         m_pWindow->showMaximized();
     }
-
-    m_pWindow->m_pFrame->wndmgr->activateTheTab(m_pWindow);
 
     m_scPrevPage->setEnabled(true);
     m_scNextPage->setEnabled(true);

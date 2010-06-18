@@ -59,7 +59,6 @@ protected slots:
     void addressBook();
     void quickLogin();
 
-    void selectionChanged(int);
     void aboutQTerm();
     void homepage();
     void updateLang(QAction*);
@@ -121,9 +120,6 @@ protected slots:
     void configToolbars();
     void slotShowQTerm();
 public:
-    QTabBar *tabBar;
-    WndMgr * wndmgr;
-
     QMdiArea * m_MdiArea;
 protected:
     //variables

@@ -12,8 +12,6 @@ AUTHOR:        kingson fiasco
 #include "qterm.h"
 #include "qtermwindow.h"
 #include "qtermframe.h"
-#include "qtermwndmgr.h"
-
 #include "qtermscreen.h"
 #include "qtermdecode.h"
 #include "qtermtelnet.h"
@@ -433,12 +431,10 @@ void Window::closeEvent(QCloseEvent * clse)
                        QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
         if (ret == QMessageBox::Yes) {
             m_pTelnet->close();
-            m_pFrame->wndmgr->removeWindow(this);
             clse->accept();
         } else
             clse->ignore();
     } else {
-        m_pFrame->wndmgr->removeWindow(this);
         clse->accept();
     }
 }
@@ -454,7 +450,6 @@ void Window::idleProcess()
         replyMessage();
         if (m_tabTimer->isActive()) {
             m_tabTimer->stop();
-            m_pFrame->wndmgr->blinkTheTab(this, TRUE);
         }
         return;
     }
@@ -494,14 +489,12 @@ void Window::replyProcess()
 
     if (m_tabTimer->isActive()) {
         m_tabTimer->stop();
-        m_pFrame->wndmgr->blinkTheTab(this, TRUE);
     }
 }
 
 void Window::blinkTab()
 {
     static bool bVisible = TRUE;
-    m_pFrame->wndmgr->blinkTheTab(this, bVisible);
     bVisible = !bVisible;
 }
 
@@ -544,7 +537,6 @@ void Window::mousePressEvent(QMouseEvent * me)
     // stop  the tab blinking
     if (m_tabTimer->isActive()) {
         m_tabTimer->stop();
-        m_pFrame->wndmgr->blinkTheTab(this, TRUE);
     }
 
     // Left Button for selecting
@@ -845,7 +837,6 @@ void Window::keyPressEvent(QKeyEvent * e)
     // stop  the tab blinking
     if (m_tabTimer->isActive()) {
         m_tabTimer->stop();
-        m_pFrame->wndmgr->blinkTheTab(this, TRUE);
     }
 
     // message replying
@@ -1763,7 +1754,7 @@ void Window::updateWindow()
                 m_strMessage += strMsg + "\n\n";
 
 
-            if (!isActiveWindow() || m_pFrame->wndmgr->activeWindow() != this)
+            if (!isActiveWindow()) 
             {
                 showMessage("New Message in QTerm", strMsg, -1);
             }
