@@ -147,7 +147,6 @@ set(qterm_SRCS
    qtermtoolbutton.cpp
    qtermwindow.cpp
    qtermwindowbase.cpp
-   qtermwndmgr.cpp
    qtermzmodem.cpp
    qtermglobal.cpp
    quickdialog.cpp
