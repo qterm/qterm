@@ -212,7 +212,7 @@
   </widget>
   <action name="actionQuick_Login">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/quick.png</normaloff>:/pic/quick.png</iconset>
    </property>
    <property name="text">
@@ -224,7 +224,7 @@
   </action>
   <action name="actionAddressBook">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/addr.png</normaloff>:/pic/addr.png</iconset>
    </property>
    <property name="text">
@@ -272,7 +272,7 @@
   </action>
   <action name="actionCopy">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/copy.png</normaloff>:/pic/copy.png</iconset>
    </property>
    <property name="text">
@@ -281,7 +281,7 @@
   </action>
   <action name="actionPaste">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/paste.png</normaloff>:/pic/paste.png</iconset>
    </property>
    <property name="text">
@@ -290,7 +290,7 @@
   </action>
   <action name="actionCopy_w_Color">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/color-copy.png</normaloff>:/pic/color-copy.png</iconset>
    </property>
    <property name="text">
@@ -304,7 +304,7 @@
   </action>
   <action name="actionRectangle_Selection">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/rect.png</normaloff>:/pic/rect.png</iconset>
    </property>
    <property name="text">
@@ -339,7 +339,7 @@
   </action>
   <action name="actionPreference">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/pref.png</normaloff>:/pic/pref.png</iconset>
    </property>
    <property name="text">
@@ -372,7 +372,7 @@
   </action>
   <action name="actionSupport_Mouse">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/mouse.png</normaloff>:/pic/mouse.png</iconset>
    </property>
    <property name="text">
@@ -381,7 +381,7 @@
   </action>
   <action name="actionBeep_on_message">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/sound.png</normaloff>:/pic/sound.png</iconset>
    </property>
    <property name="text">
@@ -395,7 +395,7 @@
   </action>
   <action name="actionView_Message">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/message.png</normaloff>:/pic/message.png</iconset>
    </property>
    <property name="text">
@@ -444,7 +444,7 @@
   </action>
   <action name="actionAnti_idle">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/anti-idle.png</normaloff>:/pic/anti-idle.png</iconset>
    </property>
    <property name="text">
@@ -483,7 +483,7 @@
   </action>
   <action name="actionFont">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/fonts.png</normaloff>:/pic/fonts.png</iconset>
    </property>
    <property name="text">
@@ -511,7 +511,7 @@
   </action>
   <action name="actionRefresh">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/refresh.png</normaloff>:/pic/refresh.png</iconset>
    </property>
    <property name="text">
@@ -601,7 +601,7 @@
   </action>
   <action name="actionKey_Setup">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/keys.png</normaloff>:/pic/keys.png</iconset>
    </property>
    <property name="text">
@@ -613,7 +613,7 @@
   </action>
   <action name="actionDisconnect">
    <property name="icon">
-    <iconset resource="../frame.qrc">
+    <iconset resource="../qterm.qrc">
      <normaloff>:/pic/disconnect.png</normaloff>:/pic/disconnect.png</iconset>
    </property>
    <property name="text">
@@ -625,7 +625,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../frame.qrc"/>
+  <include location="../qterm.qrc"/>
  </resources>
  <connections/>
 </ui>

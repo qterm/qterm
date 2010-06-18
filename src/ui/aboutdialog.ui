@@ -53,7 +53,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="../frame.qrc">:/pic/qterm_32x32.png</pixmap>
+    <pixmap resource="../qterm.qrc">:/pic/qterm_32x32.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -138,7 +138,7 @@ p, li { white-space: pre-wrap; }
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../frame.qrc">:/pic/qterm.png</pixmap>
+      <pixmap resource="../qterm.qrc">:/pic/qterm.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -186,7 +186,7 @@ p, li { white-space: pre-wrap; }
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../frame.qrc">:/pic/qterm.png</pixmap>
+      <pixmap resource="../qterm.qrc">:/pic/qterm.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -229,8 +229,8 @@ p, li { white-space: pre-wrap; }
   <tabstop>mainTabWidget</tabstop>
  </tabstops>
  <resources>
-  <include location="../frame.qrc"/>
-  <include location="../frame.qrc"/>
+  <include location="../qterm.qrc"/>
+  <include location="../qterm.qrc"/>
  </resources>
  <connections>
   <connection>

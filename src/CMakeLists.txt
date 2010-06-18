@@ -165,8 +165,10 @@ set(qterm_UIS
    ui/aboutdialog.ui
    ui/addrdialog.ui
    ui/articledialog.ui
+   ui/closedialog.ui
    ui/imageviewer.ui
    ui/keydialog.ui
+   ui/mainframe.ui
    ui/msgdialog.ui
    ui/prefdialog.ui
    ui/quickdialog.ui
@@ -175,14 +177,13 @@ set(qterm_UIS
    ui/soundconf.ui
    ui/sshlogin.ui
    ui/toolbardialog.ui
-   ui/closedialog.ui
    ui/zmodemdialog.ui)
 set(qterm_MISC
    address.cfg
    credits
    qterm.cfg)
 set(qterm_RCCS
-    frame.qrc)
+    qterm.qrc)
 
 if(WIN32)
   if(MINGW)
