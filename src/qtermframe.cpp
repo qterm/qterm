@@ -854,37 +854,36 @@ void Frame::initShortcuts()
 {
     int i = 0;
     QShortcut * shortcut = NULL;
+
+    // shortcuts to addressbook entries
     QSignalMapper * addrMapper = new QSignalMapper(this);
     for (i = 0; i < 9; i++) {
         shortcut = new QShortcut(Qt::CTRL + Qt::ALT + 0x30 + 1 + i, this);
+        shortcut->setObjectName(QString("Open addressbook enetry %1").arg(i+1));
         connect(shortcut, SIGNAL(activated()), addrMapper, SLOT(map()));
         addrMapper->setMapping(shortcut, i);
     }
     connect(addrMapper, SIGNAL(mapped(int)), this, SLOT(connectMenuActivated(int)));
+
+    // shortcuts to swtch windows
     QSignalMapper * windowMapper = new QSignalMapper(this);
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < 9; i++) {
         shortcut = new QShortcut(Qt::ALT + 0x30 + 1 + i, this);
+        shortcut->setObjectName(QString("Switch to window %1").arg(i+1));
         connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
         windowMapper->setMapping(shortcut, i);
     }
-    shortcut = new QShortcut(QKeySequence::PreviousChild, this);
-    connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
-    windowMapper->setMapping(shortcut, 200);
+    
     shortcut = new QShortcut(Qt::ALT + Qt::Key_Left, this);
+    shortcut->setObjectName("Previous window");
     connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
     windowMapper->setMapping(shortcut, 200);
-    shortcut = new QShortcut(Qt::ALT + Qt::Key_Up, this);
-    connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
-    windowMapper->setMapping(shortcut, 200);
-    shortcut = new QShortcut(QKeySequence::NextChild, this);
-    connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
-    windowMapper->setMapping(shortcut, 201);
+
     shortcut = new QShortcut(Qt::ALT + Qt::Key_Right, this);
+    shortcut->setObjectName("Next window");
     connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
     windowMapper->setMapping(shortcut, 201);
-    shortcut = new QShortcut(Qt::ALT + Qt::Key_Down, this);
-    connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
-    windowMapper->setMapping(shortcut, 201);
+
     connect(windowMapper, SIGNAL(mapped(int)), this, SLOT(switchWin(int)));
 }
 
@@ -1486,6 +1485,10 @@ void Frame::saveShortcuts()
     foreach (QAction* action, actions) {
         conf->setItemValue("Shortcuts", action->objectName(), action->shortcut().toString());
     }
+    QList<QShortcut*> shortcuts = findChildren<QShortcut*>();
+    foreach (QShortcut* shortcut, shortcuts) {
+        conf->setItemValue("Shortcuts", shortcut->objectName(), shortcut->key().toString());
+    }
     conf->save();
 }
 
@@ -1495,18 +1498,23 @@ void Frame::loadShortcuts()
     QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
     foreach(QAction* action, actions)
     {
-        QString shortcut=conf->getItemValue("Shortcuts", action->objectName()).toString();
-        if (!shortcut.isEmpty())
-            action->setShortcut(QKeySequence(shortcut));
+        QString keyseq=conf->getItemValue("Shortcuts", action->objectName()).toString();
+        if (!keyseq.isEmpty())
+            action->setShortcut(QKeySequence(keyseq));
     }
-
+    QList<QShortcut*> shortcuts = findChildren<QShortcut*>();
+    foreach (QShortcut* shortcut, shortcuts) {
+        QString keyseq=conf->getItemValue("Shortcuts", shortcut->objectName()).toString();
+        if (!keyseq.isEmpty())
+            shortcut->setKey(QKeySequence(keyseq));
+    }
 }
 
 void Frame::configShortcuts()
 {
     QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
-    QList<QShortcut*> shortcutsList;
-    ShortcutsDialog sd(this,actions,shortcutsList);
+    QList<QShortcut*> shortcuts = findChildren<QShortcut*>();
+    ShortcutsDialog sd(this,actions,shortcuts);
     sd.exec();
     saveShortcuts();
 }
@@ -1623,7 +1631,6 @@ bool Frame::showMessage(const QString & title, const QString & message, int mill
     tray->showMessage(title, message, QSystemTrayIcon::Information, millisecondsTimeoutHint);
     return true;
 }
-
 }
 
 #include <qtermframe.moc>
