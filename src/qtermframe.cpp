@@ -295,6 +295,7 @@ void Frame::newWindow(const Param&  param, int index)
     if (m_menuBarAction->isChecked()) {
         w->setWindowFlags(Qt::FramelessWindowHint);
     }
+    window->showMaximized();
     m_MdiArea->setActiveSubWindow(window);
 }
 
