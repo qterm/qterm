@@ -5,6 +5,7 @@
 #include <config.h>
 #endif
 
+#include "qtermwindowbase.h"
 #include "qtermparam.h"
 #include "qtermconvert.h"
 #include "qtermsound.h"
@@ -70,7 +71,7 @@ private:
     Window *pWin;
 };
 
-class Window: public QMainWindow
+class Window: public WindowBase
 {
     Q_OBJECT
 public:

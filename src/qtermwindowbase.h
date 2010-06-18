@@ -1,31 +1,26 @@
 #ifndef QTERMWINDOWBASE_H
 #define QTERMWINDOWBASE_H
 
-#include <QWidget>
-class QTermWindowBase;
+#include <QMdiSubWindow>
 
-class QTermWindowBase : public QWidget
+namespace QTerm
+{
+class WindowBase : public QMdiSubWindow
 {
     Q_OBJECT
 
 public:
-	QTermWindowBase(QWidget *parent=0):QWidget(parent,Qt::Window) {}
-	virtual ~QTermWindowBase() {}
+	WindowBase(QWidget *parent=0, Qt::WindowFlags flags = 0):QMdiSubWindow(parent, flags) {
+       		setAttribute(Qt::WA_DeleteOnClose); 
+    }
+	virtual ~WindowBase() {}
 
     bool hasAction(const QString& act){return listActions.contains(act);}
     
-signals:
-    void windowClosed(QTermWindowBase*);
-    
-
 protected:
-    void closeEvent(QCloseEvent*e)
-    {
-        emit windowClosed(this);
-    }
-    
     QStringList listActions;
 };
 
+} // namespace QTerm
 
 #endif // QTERMWINDOWBASE_H

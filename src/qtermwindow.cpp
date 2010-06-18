@@ -241,7 +241,7 @@ char Window::direction[][5] = {
 
 //constructor
 Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const char * name, Qt::WFlags wflags)
-        : QMainWindow(parent, wflags), m_strMessage(), location()
+        : WindowBase(parent, wflags), m_strMessage(), location()
 {
 
     m_pFrame = frame;
@@ -296,7 +296,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     m_pSound = NULL;
 
     setFocusProxy(m_pScreen);
-    setCentralWidget(m_pScreen);
+    setWidget(m_pScreen);
     connect(m_pFrame, SIGNAL(bossColor()), m_pScreen, SLOT(bossColor()));
     connect(m_pFrame, SIGNAL(scrollChanged()), m_pScreen, SLOT(updateScrollBar()));
     connect(m_pScreen, SIGNAL(inputEvent(const QString &)), this, SLOT(inputHandle(const QString &)));

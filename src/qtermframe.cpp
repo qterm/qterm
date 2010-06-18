@@ -252,9 +252,9 @@ bool Frame::confirmExitQTerm()
     QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
     QStringList titleList;
     for (int i = 0; i < int(windows.count()); ++i) {
-        if ((qobject_cast<Window *>(windows.at(i)->widget()))->isConnected()) {
+        if ((qobject_cast<Window *>(windows.at(i)))->isConnected()) {
             titleList << windows.at(i)->windowTitle();
-            sites << qobject_cast<Window *>(windows.at(i)->widget())->index();
+            sites << qobject_cast<Window *>(windows.at(i))->index();
         }
     }
     if ((!titleList.isEmpty())&&(Global::instance()->m_pref.bWarn)) {
@@ -278,9 +278,9 @@ void Frame::saveAndDisconnect()
     QList<QMdiSubWindow *> windows = m_MdiArea->subWindowList();
     QStringList titleList;
     for (int i = 0; i < int(windows.count()); ++i) {
-        if ((qobject_cast<Window *>(windows.at(i)->widget()))->isConnected()) {
+        if ((qobject_cast<Window *>(windows.at(i)))->isConnected()) {
             titleList << windows.at(i)->windowTitle();
-            sites << qobject_cast<Window *>(windows.at(i)->widget())->index();
+            sites << qobject_cast<Window *>(windows.at(i))->index();
         }
     }
 
@@ -385,7 +385,7 @@ void Frame::windowsMenuActivated()
         return;
     }
     int id = qobject_cast<QAction *>(action)->data().toInt();
-    Window * w = qobject_cast<Window *>(m_MdiArea->subWindowList().at(id)->widget());
+    Window * w = qobject_cast<Window *>(m_MdiArea->subWindowList().at(id));
     if (w) {
         w->setFocus();
         w->showMaximized();
