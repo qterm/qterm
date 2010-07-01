@@ -105,6 +105,7 @@ set(qterm_SRCS
    ui_articledialog.h
    ui_imageviewer.h
    ui_keydialog.h
+   ui_mainframe.h
    ui_msgdialog.h
    ui_prefdialog.h
    ui_quickdialog.h

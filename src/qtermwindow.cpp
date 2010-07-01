@@ -241,6 +241,7 @@ char Window::direction[][5] = {
 Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const char * name, Qt::WFlags wflags)
         : WindowBase(parent, wflags), m_strMessage(), location()
 {
+	groupActions();
 
     m_pFrame = frame;
     m_param = param;
@@ -295,7 +296,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
 
     setFocusProxy(m_pScreen);
     setWidget(m_pScreen);
-    connect(m_pFrame, SIGNAL(bossColor()), m_pScreen, SLOT(bossColor()));
+
     connect(m_pFrame, SIGNAL(scrollChanged()), m_pScreen, SLOT(updateScrollBar()));
     connect(m_pScreen, SIGNAL(inputEvent(const QString &)), this, SLOT(inputHandle(const QString &)));
     connect(m_pZmodem, SIGNAL(ZmodemState(int, int, const QString&)),
@@ -343,8 +344,8 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
 
 
 // initial varibles
-    m_bCopyColor = false;
-    m_bCopyRect = false;
+    m_bColorCopy = false;
+    m_bRectCopy = false;
     m_bAntiIdle = true;
     m_bAutoReply = m_param.m_bAutoReply;
     m_bBeep  = !(
@@ -599,7 +600,7 @@ void Window::mouseMoveEvent(QMouseEvent * me)
         m_ptSelEnd = me->pos();
         QPoint point = m_ptSelEnd - m_ptSelStart;
         if (point.manhattanLength() > 3) {
-            m_pBuffer->setSelect(m_pScreen->mapToChar(m_ptSelStart), m_pScreen->mapToChar(m_ptSelEnd), m_bCopyRect);
+            m_pBuffer->setSelect(m_pScreen->mapToChar(m_ptSelStart), m_pScreen->mapToChar(m_ptSelEnd), m_bRectCopy);
             m_pScreen->m_ePaintState = Screen::NewData;
             m_pScreen->update();
         }
@@ -668,11 +669,11 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
     // Left Button for selecting
     m_ptSelEnd = me->pos();
     if (m_ptSelEnd != m_ptSelStart && m_bSelecting) {
-        m_pBuffer->setSelect(m_pScreen->mapToChar(m_ptSelStart), m_pScreen->mapToChar(m_ptSelEnd), m_bCopyRect);
+        m_pBuffer->setSelect(m_pScreen->mapToChar(m_ptSelStart), m_pScreen->mapToChar(m_ptSelEnd), m_bRectCopy);
         m_pScreen->m_ePaintState = Screen::NewData;
         m_pScreen->update();
         if (m_bAutoCopy)
-            copy();
+            on_actionCopy_triggered();
         m_bSelecting = false;
         return;
     }
@@ -1056,7 +1057,6 @@ void Window::TelnetState(int state)
     case TSHOSTCONNECTED:
         m_pScreen->osd()->display(tr("connected"));
         m_bConnected = true;
-        m_pFrame->updateMenuToolBar();
         if (m_param.m_bAutoLogin)
             m_bDoingLogin = true;
         break;
@@ -1068,7 +1068,7 @@ void Window::TelnetState(int state)
         break;
     case TSPROXYFAIL:
         m_pScreen->osd()->display(tr("proxy failed"));
-        disconnect();
+        on_actionDisconnect_triggered();
         break;
     case TSREFUSED:
         m_pScreen->osd()->display(tr("connection refused"));
@@ -1076,7 +1076,7 @@ void Window::TelnetState(int state)
         break;
     case TSREADERROR:
         m_pScreen->osd()->display(tr("error when reading from server"), PageViewMessage::Error);
-        disconnect();
+        on_actionDisconnect_triggered();
         break;
     case TSCLOSED:
         m_pScreen->osd()->display(tr("connection closed"));
@@ -1101,11 +1101,11 @@ void Window::TelnetState(int state)
         break;
     case TSERROR:
         m_pScreen->osd()->display(tr("error in connection"), PageViewMessage::Error);
-        disconnect();
+        on_actionDisconnect_triggered();
         break;
     case TSPROXYERROR:
         m_pScreen->osd()->display(tr("error in proxy"), PageViewMessage::Error);
-        disconnect();
+        on_actionDisconnect_triggered();
         break;
     case TSWRITED:
         // restart the idle timer
@@ -1127,19 +1127,19 @@ void Window::TelnetState(int state)
 /* ------------------------------------------------------------------------ */
 
 
-void Window::copy()
+void Window::on_actionCopy_triggered()
 {
     QClipboard *clipboard = QApplication::clipboard();
 
-    clipboard->setText(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor,
+    clipboard->setText(m_pBuffer->getSelectText(m_bRectCopy, m_bColorCopy,
                        parseString((const char *)m_param.m_strEscape.toLatin1())),
                        QClipboard::Clipboard);
-    clipboard->setText(m_pBuffer->getSelectText(m_bCopyRect, m_bCopyColor,
+    clipboard->setText(m_pBuffer->getSelectText(m_bRectCopy, m_bColorCopy,
                        parseString((const char *)m_param.m_strEscape.toLatin1())),
                        QClipboard::Selection);
 }
 
-void Window::paste()
+void Window::on_actionPaste_triggered()
 {
     pasteHelper(true);
 }
@@ -1191,7 +1191,7 @@ void Window::pasteHelper(bool clip)
     cstrText = m_codec->fromUnicode(strText);
     m_pTelnet->write(cstrText, cstrText.length());
 }
-void Window::copyArticle()
+void Window::on_actionCopy_Article_triggered()
 {
     //return;
 
@@ -1224,7 +1224,7 @@ void Window::copyArticle()
 
 }
 
-void Window::setting()
+void Window::on_actionCurrent_Session_Setting_triggered()
 {
     addrDialog set(this, true);
 
@@ -1252,7 +1252,7 @@ void Window::setting()
     QApplication::postEvent(m_pScreen, re);
 }
 
-void Window::disconnect()
+void Window::on_actionDisconnect_triggered()
 {
     m_pTelnet->close();
 }
@@ -1277,64 +1277,55 @@ void Window::showIP()
     }
 }
 
-void Window::refresh()
+void Window::on_actionBoss_Color_toggled(bool boss)
+{
+	Global::instance()->setBossColor(boss);
+	m_pScreen->bossColor();
+}
+
+void Window::on_actionRefresh_triggered()
 {
     //m_pScreen->repaint(true);
     m_pScreen->m_ePaintState = Screen::Show;
     m_pScreen->update();
 }
 
-void Window::debugConsole()
+void Window::on_actionDebug_Console_triggered()
 {
 #ifdef SCRIPTTOOLS_ENABLED
     m_scriptDebugger->action(QScriptEngineDebugger::InterruptAction)->trigger();
+#else
+	QMessageBox::information(this, "QTerm",
+                             tr("You need to enable the script engine debugger to use this feature. \
+								Please recompile QTerm with the debugger enabled (need Qt 4.5 or newer version)"));
 #endif
 }
 
-void Window::runScript(const QString & filename)
+void Window::on_actionRun_triggered()
 {
-#ifdef SCRIPT_ENABLED
-    QString file = filename;
-    if (file.isEmpty()){
-        // get the previous dir
-        file= Global::instance()->getOpenFileName("Script Files (*.js *.txt)", this);
-    }
-    if (file.isEmpty())
-        return;
-
-    m_scriptHelper->loadScriptFile(file);
-#endif
+	runScript();
 }
 
-void Window::stopScript()
+void Window::on_actionStop_triggered()
 {
 #ifdef SCRIPT_ENABLED
     m_scriptEngine->abortEvaluation();
 #endif
 }
 
-void Window::viewMessages()
+void Window::on_actionReload_Script_triggered()
 {
-    msgDialog msg(this);
-
-//    const char * size = Global::instance()->fileCfg()->getItemValue("global", "msgdialog").toString().toLatin1();
-//    if (size != NULL) {
-//        int x, y, cx, cy;
-//        sscanf(size, "%d %d %d %d", &x, &y, &cx, &cy);
-//        msg.resize(QSize(cx, cy));
-//        msg.move(QPoint(x, y));
-//    }
-
-    msg.ui.msgBrowser->setPlainText(m_strMessage);
-    msg.exec();
-
-//    QString strSize = QString("%1 %2 %3 %4").arg(msg.x()).arg(msg.y()).arg(msg.width()).arg(msg.height());
-//    Global::instance()->fileCfg()->setItemValue("global", "msgdialog", strSize);
-//    Global::instance()->fileCfg()->save();
-
+	initScript();
 }
 
-void Window::antiIdle(bool isEnabled)
+void Window::on_actionView_Message_triggered()
+{
+    msgDialog msg(this);
+    msg.ui.msgBrowser->setPlainText(m_strMessage);
+    msg.exec();
+}
+
+void Window::on_actionAnti_Idle_toggled(bool isEnabled)
 {
     m_bAntiIdle = isEnabled;
     // disabled
@@ -1345,7 +1336,7 @@ void Window::antiIdle(bool isEnabled)
         m_idleTimer->start(m_param.m_nMaxIdle*1000);
 }
 
-void Window::autoReply(bool isEnabled)
+void Window::on_actionAuto_Reply_toggled(bool isEnabled)
 {
     m_bAutoReply = isEnabled;
     // disabled
@@ -1364,8 +1355,6 @@ void Window::connectionClosed()
         m_idleTimer->stop();
 
     m_pScreen->osd()->display(tr("connection closed"));
-
-    m_pFrame->updateMenuToolBar();
 
     setCursor(cursor[8]);
 
@@ -1533,12 +1522,6 @@ void Window::sendParsedString(const QString& str)
     m_pTelnet->write(cstr, length);
 }
 
-void Window::setMouseMode(bool on)
-{
-    m_bMouseX11 = on;
-}
-
-
 void Window::initScript()
 {
 #ifdef SCRIPT_ENABLED
@@ -1570,6 +1553,20 @@ void Window::initScript()
 #endif // SCRIPT_ENABLED
 }
 
+void Window::runScript(const QString & filename)
+{
+#ifdef SCRIPT_ENABLED
+    QString file = filename;
+    if (file.isEmpty()){
+        // get the previous dir
+        file= Global::instance()->getOpenFileName("Script Files (*.js *.txt)", this);
+    }
+    if (file.isEmpty())
+        return;
+
+    m_scriptHelper->loadScriptFile(file);
+#endif
+}
 void Window::inputHandle(const QString & text)
 {
     if (text.length() > 0) {
@@ -1801,6 +1798,24 @@ void Window::loadKeyboardTranslator(const QString & filename)
         return;
     }
     qDebug() << "Keyboard translator:" << name << "loaded";
+}
+
+void Window :: groupActions() 
+{
+	listActions << "actionSave" << "actionSave_As"
+        << "actionPrint" << "actionPrint_Preview"
+        << "actionCopy" << "actionPaste" 
+        << "actionAuto_Copy" << "actionCopy_w_Color"
+		<< "actionRectangle_Selection" << "actionPaste_w_Wordwrap"
+		<< "actionAnti_idle" << "actionAuto_Reply"
+        << "actionView_Message" << "actionBoss_Color"
+		<< "actionCurrent_Session_Setting";
+	mapToggleStates["actionAuto_Copy"]    = &m_bAutoCopy;
+	mapToggleStates["actionCopy_w_Color"] = &m_bColorCopy;
+	mapToggleStates["actionRectangle_Selection"] = &m_bRectCopy;
+	mapToggleStates["actionPast_w_Wordwrap"] = &m_bWordWrap;
+	mapToggleStates["actionAnti_Idle"]  = &m_bAntiIdle;
+	mapToggleStates["actionAuto_Reply"] = &m_bAutoReply;
 }
 
 }

@@ -939,7 +939,7 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
             tempcp = color.at(i);
         if (i < attr.size())
             tempea = attr.at(i);
-        bSelected = m_pBuffer->isSelected(QPoint(i, index), m_pWindow->m_bCopyRect);
+        bSelected = m_pBuffer->isSelected(QPoint(i, index), m_pWindow->m_bRectCopy);
         len = pTextLine->size(i);
         if ( (i+1) >= linelength) {
             len = 1;
@@ -980,7 +980,7 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
             flags = RenderRight;
             charWidth = 1;
         } else if ( charWidth == 2) {
-            if (tempcp != color.at(i+1) || tempea != attr.at(i+1) || bSelected != m_pBuffer->isSelected(QPoint(i+1, index), m_pWindow->m_bCopyRect)) {
+            if (tempcp != color.at(i+1) || tempea != attr.at(i+1) || bSelected != m_pBuffer->isSelected(QPoint(i+1, index), m_pWindow->m_bRectCopy)) {
                 charWidth = 1;
                 flags = RenderLeft;
             } else {
@@ -1090,7 +1090,7 @@ void Screen::drawMenuSelect(QPainter& painter, int index)
 {
     QRect rcSelect, rcMenu, rcInter;
     if (m_pBuffer->isSelected(index)) {
-        rcSelect = mapToRect(m_pBuffer->getSelectRect(index, m_pWindow->m_bCopyRect));
+        rcSelect = mapToRect(m_pBuffer->getSelectRect(index, m_pWindow->m_bRectCopy));
         if (Global::instance()->isBossColor())
             painter.fillRect(rcSelect, Qt::black);
         else

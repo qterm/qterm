@@ -59,14 +59,20 @@ Global * Global::instance()
 }
 
 Global::Global()
-        : m_fileCfg("./qterm.cfg"), m_addrCfg("./address.cfg"), m_pathLib("./"), m_pathCfg("./"), m_windowState(), m_status(INIT_OK), m_style(), m_fullScreen(false), m_language(Global::English), m_showToolBar()
+        : m_fileCfg("./qterm.cfg"), m_addrCfg("./address.cfg"), 
+		m_pathLib("./"), m_pathCfg("./"), 
+		m_windowState(), m_status(INIT_OK), m_style(), 
+		m_fullScreen(false), m_language(Global::English)
 {
     if (!iniWorkingDir(qApp->arguments()[0])) {
         m_status = INIT_ERROR;
         return;
     }
-    m_config = new Config(m_fileCfg);
-    m_address = new Config(m_addrCfg);
+	m_translatorQT    = new QTranslator(0);
+	m_translatorQTerm = new QTranslator(0);
+    
+	m_config    = new Config(m_fileCfg);
+    m_address   = new Config(m_addrCfg);
     m_converter = new Convert();
 #ifdef KWALLET_ENABLED
     if (Wallet::isWalletAvailable()) {
@@ -352,42 +358,33 @@ void Global::removeAddress(int n)
 void Global::loadPrefence()
 {
     QString strTmp;
-    strTmp = m_config->getItemValue("preference", "xim").toString();
-    m_pref.XIM = (Global::Conversion)strTmp.toInt();
-    strTmp = m_config->getItemValue("preference", "wordwrap").toString();
-    m_pref.nWordWrap = strTmp.toInt();
-    strTmp = m_config->getItemValue("preference", "wheel").toString();
-    m_pref.bWheel = (strTmp != "0");
-    strTmp = m_config->getItemValue("preference", "url").toString();
-    m_pref.bUrl = (strTmp != "0");
-    strTmp = m_config->getItemValue("preference", "blinktab").toString();
-    m_pref.bBlinkTab = (strTmp != "0");
-    strTmp = m_config->getItemValue("preference", "warn").toString();
-    m_pref.bWarn = (strTmp != "0");
-    strTmp = m_config->getItemValue("preference", "beep").toString();
-    m_pref.nBeep = strTmp.toInt();
-    m_pref.strWave = m_config->getItemValue("preference", "wavefile").toString();
-    strTmp = m_config->getItemValue("preference", "http").toString();
-    m_pref.strHttp = strTmp;
-    strTmp = m_config->getItemValue("preference", "antialias").toString();
-    m_pref.bAA = (strTmp != "0");
-    strTmp = m_config->getItemValue("preference", "tray").toString();
-    m_pref.bTray = (strTmp != "0");
-    strTmp = m_config->getItemValue("preference", "externalplayer").toString();
-    m_pref.strPlayer = strTmp;
 
-    strTmp = m_config->getItemValue("preference", "clearpool").toString();
-    m_pref.bClearPool = (strTmp != "0");
+    m_pref.XIM = (Global::Conversion)m_config->getItemValue("preference", "xim").toInt();
+    m_pref.nWordWrap = m_config->getItemValue("preference", "wordwrap").toInt();
+	m_pref.bWheel = m_config->getItemValue("preference", "wheel").toBool();
+	m_pref.bUrl = m_config->getItemValue("preference", "url").toBool();
+	m_pref.bBlinkTab = m_config->getItemValue("preference", "blinktab").toBool();
+	m_pref.bWarn = m_config->getItemValue("preference", "warn").toBool();
+    m_pref.nBeep = m_config->getItemValue("preference", "beep").toInt();
+    m_pref.strWave = m_config->getItemValue("preference", "wavefile").toString();
+    m_pref.strHttp = m_config->getItemValue("preference", "http").toString();
+	m_pref.bAA = m_config->getItemValue("preference", "antialias").toBool();
+	m_pref.bTray = m_config->getItemValue("preference", "tray").toBool();
+    m_pref.strPlayer = m_config->getItemValue("preference", "externalplayer").toString();
+	m_pref.strImageViewer = m_config->getItemValue("preference", "image").toString();
+	m_pref.bClearPool = m_config->getItemValue("preference", "clearpool").toBool();
+
     strTmp = m_config->getItemValue("preference", "pool").toString();
     m_pref.strPoolPath = strTmp.isEmpty() ? Global::instance()->pathCfg() + "pool/" : strTmp;
     if (m_pref.strPoolPath.right(1) != "/")
         m_pref.strPoolPath.append('/');
-    strTmp = m_config->getItemValue("preference", "zmodem").toString();
-    m_pref.strZmPath = strTmp.isEmpty() ? Global::instance()->pathCfg() + "zmodem/" : strTmp;
+    
+	strTmp = m_config->getItemValue("preference", "zmodem").toString();
+	m_pref.strZmPath = strTmp.isEmpty() ? Global::instance()->pathCfg() + "zmodem/" : strTmp;
     if (m_pref.strZmPath.right(1) != "/")
         m_pref.strZmPath.append('/');
-    strTmp = m_config->getItemValue("preference", "image").toString();
-    m_pref.strImageViewer = strTmp;
+    
+    
 }
 
 QString Global::getOpenFileName(const QString & filter, QWidget * widget)
@@ -540,35 +537,12 @@ bool Global::iniSettings()
 {
     //install the translator
     QString lang = m_config->getItemValue("global", "language").toString();
-    if (lang == "eng")
-        m_language = Global::English;
-    else if (lang == "chs")
-        m_language = Global::SimpilifiedChinese;
+	Global::Language language = Global::English;
+    if (lang == "chs")
+        language = Global::SimplifiedChinese;
     else if (lang == "cht")
-        m_language = Global::TraditionalChinese;
-    else {
-        qDebug("Language setting is not correct");
-        m_language = Global::English;
-    }
-    if (lang != "eng" && !lang.isEmpty()) {
-        QString qt_qm;
-        if (lang == "chs")
-            qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_CN.qm";
-        else
-            qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_TW.qm";
-
-        static QTranslator * translator = new QTranslator(0);
-        translator->load(qt_qm);
-        qApp->installTranslator(translator);
-
-        // look in $HOME/.qterm/po/ first
-        QString qterm_qm = QDir::homePath() + "/.qterm/po/qterm_" + lang + ".qm";
-        if (!QFile::exists(qterm_qm))
-            qterm_qm = m_pathLib + "po/qterm_" + lang + ".qm";
-        translator = new QTranslator(0);
-        translator->load(qterm_qm);
-        qApp->installTranslator(translator);
-    }
+        language = Global::TraditionalChinese;
+	setLanguage(language);
     //set font
     QString family = m_config->getItemValue("global", "font").toString();
     QString pointsize = m_config->getItemValue("global", "pointsize").toString();
@@ -590,10 +564,8 @@ bool Global::iniSettings()
         return false;
 
     QString pathPool = m_config->getItemValue("preference", "pool").toString();
-
     if (pathPool.isEmpty())
         pathPool = m_pathCfg + "pool/";
-
     if (pathPool.right(1) != "/")
         pathPool.append('/');
 
@@ -676,6 +648,16 @@ bool Global::showSwitchBar() const
     return m_switchBar;
 }
 
+bool Global::showStatusBar() const
+{
+    return m_statusBar;
+}
+
+bool Global::showMenuBar() const
+{
+    return m_menuBar;
+}
+
 void Global::setClipConversion(Global::Conversion conversionId)
 {
     m_clipConversion = conversionId;
@@ -696,6 +678,11 @@ void Global::setStatusBar(bool isShow)
     m_statusBar = isShow;
 }
 
+void Global::setMenuBar(bool isShow)
+{
+	m_menuBar = isShow;
+}
+
 void Global::setBossColor(bool isBossColor)
 {
     m_bossColor = isBossColor;
@@ -714,6 +701,37 @@ void Global::setSwitchBar(bool isShow)
 void Global::setLanguage(Global::Language language)
 {
     m_language = language;
+	// unload previous translation
+	if (!m_translatorQT->isEmpty())
+		qApp->removeTranslator(m_translatorQT);
+	if (!m_translatorQTerm->isEmpty())
+		qApp->removeTranslator(m_translatorQTerm);
+	// check new translation files
+	QString qt_qm, qterm_qm;
+	switch(language)
+	{
+	case Global::SimplifiedChinese:
+		qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_CN.qm";
+		qterm_qm = m_pathCfg + "/po/qterm_chs.qm";
+		if (!QFile::exists(qterm_qm))
+			qterm_qm = m_pathLib + "po/qterm_chs.qm";
+
+		break;
+	case Global::TraditionalChinese:
+		qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_TW.qm";
+		qterm_qm = m_pathCfg + "/po/qterm_cht.qm";
+		if (!QFile::exists(qterm_qm))
+			qterm_qm = m_pathLib + "po/qterm_cht.qm";
+		break;
+	case Global::English:
+		return;
+	}
+	// load qt library translation
+	if (m_translatorQT->load(qt_qm))
+		qApp->installTranslator(m_translatorQT);
+	// load qterm translation
+	if (m_translatorQTerm->load(qterm_qm))
+		qApp->installTranslator(m_translatorQTerm);
 }
 
 const QString & Global::style() const
@@ -728,101 +746,41 @@ void Global::setStyle(const QString & style)
 
 void Global::loadConfig()
 {
-    QString strTmp;
-    strTmp = m_config->getItemValue("global", "fullscreen").toString();
-
-    if (strTmp == "1") {
-        setFullScreen(true);
-    } else {
-        setFullScreen(false);
-    }
-
+	setFullScreen(m_config->getItemValue("global", "fullscreen").toBool());
     setStyle(m_config->getItemValue("global", "theme").toString());
-
-    setEscapeString("");
-
-    strTmp = m_config->getItemValue("global", "clipcodec").toString();
-    setClipConversion((Global::Conversion)strTmp.toInt());
-
-    strTmp = m_config->getItemValue("global", "vscrollpos").toString();
-    if (strTmp == "0") {
-        setScrollPosition(Global::Hide);
-    } else if (strTmp == "1") {
-        setScrollPosition(Global::Left);
-    } else {
-        setScrollPosition(Global::Right);
-    }
-
-    strTmp = m_config->getItemValue("global", "statusbar").toString();
-    setStatusBar((strTmp != "0"));
-
-    strTmp = m_config->getItemValue("global", "switchbar").toString();
-    setSwitchBar((strTmp != "0"));
+    setClipConversion((Conversion)m_config->getItemValue("global", "clipcodec").toInt());
+	setScrollPosition((Position)m_config->getItemValue("global", "vscrollpos").toInt());
+    setMenuBar(m_config->getItemValue("global", "menubar").toBool());
+    setStatusBar(m_config->getItemValue("global", "statusbar").toBool());
+    setSwitchBar( m_config->getItemValue("global", "switchbar").toBool());
 
     setBossColor(false);
+    setEscapeString("");
 
     loadPrefence();
-
-}
-
-bool Global::showToolBar(const QString & toolbar)
-{
-    if (m_showToolBar.contains(toolbar)) {
-        return m_showToolBar.value(toolbar);
-    } else {
-        if (m_config->hasItem("ToolBars", toolbar+"Shown")) {
-            bool isShown = m_config->getItemValue("ToolBars", toolbar+"Shown").toBool();
-            m_showToolBar.insert(toolbar, isShown);
-            return isShown;
-        } else {
-            // Show toolbar by default
-            m_showToolBar.insert(toolbar, true);
-            return true;
-        }
-    }
-}
-
-void Global::setShowToolBar(const QString & toolbar, bool isShown)
-{
-    m_showToolBar.insert(toolbar, isShown);
-}
-
-void Global::saveShowToolBar()
-{
-    QMapIterator<QString, bool> i(m_showToolBar);
-    while (i.hasNext()) {
-        i.next();
-        m_config->setItemValue("ToolBars",i.key()+"Shown", i.value());
-    }
 }
 
 void Global::saveConfig()
 {
 
-    QString strTmp;
-    //save font
+    QString lang;
+	//language
+	switch (m_language)
+	{
+	case English:            lang = "eng"; break;
+	case SimplifiedChinese:  lang = "chs"; break;
+	case TraditionalChinese: lang = "cht"; break;
+	}
+	m_config->setItemValue("global", "language", lang);
     m_config->setItemValue("global", "font", qApp->font().family());
-    strTmp.setNum(QFontInfo(qApp->font()).pointSize());
-    m_config->setItemValue("global", "pointsize", strTmp);
-
-    if (isFullScreen())
-        m_config->setItemValue("global", "fullscreen", "1");
-    else
-        m_config->setItemValue("global", "fullscreen", "0");
-
-    // cstrTmp.setNum(theme);
+    m_config->setItemValue("global", "pointsize", QFontInfo(qApp->font()).pointSize());
+	m_config->setItemValue("global", "fullscreen", isFullScreen());
     m_config->setItemValue("global", "theme", style());
-
-
-    // Should we convert the numbers to strings like "GBK" and "Big5";
-    strTmp.setNum(clipConversion());
-    m_config->setItemValue("global", "clipcodec", strTmp);
-
-    strTmp.setNum(scrollPosition());
-    m_config->setItemValue("global", "vscrollpos", strTmp);
-
-    m_config->setItemValue("global", "switchbar", showSwitchBar() ? "1" : "0");
-    saveShowToolBar();
+    m_config->setItemValue("global", "clipcodec", clipConversion());
+    m_config->setItemValue("global", "vscrollpos", scrollPosition());
+	m_config->setItemValue("global", "menubar", showMenuBar());
+	m_config->setItemValue("global", "statusbar", showStatusBar());
+    m_config->setItemValue("global", "switchbar", showSwitchBar());
     m_config->save();
 
 }

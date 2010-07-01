@@ -59,14 +59,29 @@
       <string>Theme</string>
      </property>
     </widget>
+    <widget class="QMenu" name="menuToolbar">
+     <property name="title">
+      <string>Toolbar</string>
+     </property>
+    </widget>
+    <widget class="QMenu" name="menuScrollbar">
+     <property name="title">
+      <string>Scrollbar</string>
+     </property>
+     <addaction name="actionScroll_Hide"/>
+     <addaction name="actionScroll_Left"/>
+     <addaction name="actionScroll_Right"/>
+    </widget>
     <addaction name="actionFont"/>
-    <addaction name="separator"/>
-    <addaction name="actionStatusbar"/>
-    <addaction name="actionRuler"/>
-    <addaction name="actionFullscreen"/>
-    <addaction name="actionRefresh"/>
     <addaction name="menuLanguage"/>
     <addaction name="menuTheme"/>
+    <addaction name="separator"/>
+    <addaction name="actionStatusbar"/>
+    <addaction name="menuToolbar"/>
+    <addaction name="menuScrollbar"/>
+    <addaction name="actionFullscreen"/>
+    <addaction name="actionRefresh"/>
+    <addaction name="actionBoss_Color"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -116,8 +131,8 @@
      <string>&amp;BBS </string>
     </property>
     <addaction name="actionCopy_Article"/>
-    <addaction name="actionAnti_idle"/>
     <addaction name="actionAuto_Reply"/>
+    <addaction name="actionAnti_idle"/>
     <addaction name="actionSupport_Mouse"/>
     <addaction name="actionBeep_on_message"/>
     <addaction name="actionView_Message"/>
@@ -128,6 +143,7 @@
     <property name="title">
      <string>&amp;Options</string>
     </property>
+    <addaction name="actionCurrent_Session_Setting"/>
     <addaction name="actionDefault_Session_Setting"/>
     <addaction name="actionPreference"/>
     <addaction name="separator"/>
@@ -145,7 +161,7 @@
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>&amp;Help</string>
     </property>
     <addaction name="actionQTerm_Online"/>
     <addaction name="actionContents"/>
@@ -156,13 +172,13 @@
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
-     <string>Window</string>
+     <string>&amp;Window</string>
     </property>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
-   <addaction name="menuBBS"/>
    <addaction name="menuView"/>
+   <addaction name="menuBBS"/>
    <addaction name="menuFavatite"/>
    <addaction name="menuOptions"/>
    <addaction name="menuScript"/>
@@ -183,11 +199,12 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionConnect"/>
    <addaction name="actionDisconnect"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>Main</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -195,12 +212,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionAddressBook"/>
    <addaction name="actionQuick_Login"/>
   </widget>
   <widget class="QToolBar" name="keyToolBar">
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>Key Setup</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -289,6 +305,9 @@
    </property>
   </action>
   <action name="actionCopy_w_Color">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../qterm.qrc">
      <normaloff>:/pic/color-copy.png</normaloff>:/pic/color-copy.png</iconset>
@@ -298,6 +317,9 @@
    </property>
   </action>
   <action name="actionPaste_w_Wordwrap">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Paste w Wordwrap</string>
    </property>
@@ -328,6 +350,9 @@
    </property>
   </action>
   <action name="actionFullscreen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>&amp;Fullscreen</string>
    </property>
@@ -366,11 +391,17 @@
    </property>
   </action>
   <action name="actionAuto_Reply">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>&amp;Auto Reply</string>
    </property>
   </action>
   <action name="actionSupport_Mouse">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../qterm.qrc">
      <normaloff>:/pic/mouse.png</normaloff>:/pic/mouse.png</iconset>
@@ -380,6 +411,9 @@
    </property>
   </action>
   <action name="actionBeep_on_message">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../qterm.qrc">
      <normaloff>:/pic/sound.png</normaloff>:/pic/sound.png</iconset>
@@ -443,6 +477,9 @@
    </property>
   </action>
   <action name="actionAnti_idle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../qterm.qrc">
      <normaloff>:/pic/anti-idle.png</normaloff>:/pic/anti-idle.png</iconset>
@@ -476,18 +513,13 @@
     <string>Cu&amp;t</string>
    </property>
   </action>
-  <action name="actionRuler">
-   <property name="text">
-    <string>Ruler</string>
-   </property>
-  </action>
   <action name="actionFont">
    <property name="icon">
     <iconset resource="../qterm.qrc">
      <normaloff>:/pic/fonts.png</normaloff>:/pic/fonts.png</iconset>
    </property>
    <property name="text">
-    <string>Font</string>
+    <string>UI Font</string>
    </property>
   </action>
   <action name="actionStatusbar">
@@ -553,6 +585,9 @@
    </property>
   </action>
   <action name="actionEnglish">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>English</string>
    </property>
@@ -590,11 +625,17 @@
    </property>
   </action>
   <action name="actionSimplified_Chinese">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Simplified Chinese</string>
    </property>
   </action>
   <action name="actionTraditional_Chinese">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Traditional Chinese</string>
    </property>
@@ -621,6 +662,66 @@
    </property>
    <property name="toolTip">
     <string>Disconnect</string>
+   </property>
+  </action>
+  <action name="actionConnect">
+   <property name="icon">
+    <iconset resource="../qterm.qrc">
+     <normaloff>:/pic/connect.png</normaloff>:/pic/connect.png</iconset>
+   </property>
+   <property name="text">
+    <string>Connect</string>
+   </property>
+   <property name="toolTip">
+    <string>Connect</string>
+   </property>
+  </action>
+  <action name="actionScroll_Hide">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide</string>
+   </property>
+   <property name="toolTip">
+    <string>Hide Scrollbar</string>
+   </property>
+  </action>
+  <action name="actionScroll_Left">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Left</string>
+   </property>
+  </action>
+  <action name="actionScroll_Right">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Right</string>
+   </property>
+  </action>
+  <action name="actionCurrent_Session_Setting">
+   <property name="text">
+    <string>Current Session Setting</string>
+   </property>
+  </action>
+  <action name="actionMenubar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>MenuBar</string>
+   </property>
+  </action>
+  <action name="actionBoss_Color">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Boss Color</string>
    </property>
   </action>
  </widget>
