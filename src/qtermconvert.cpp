@@ -15,10 +15,10 @@
 #include <QtCore/QTextCodec>
 #include <QtCore/QByteArray>
 
-#define BtoG_bad1 0xa1
-#define BtoG_bad2 0xf5
-#define GtoB_bad1 0xa1
-#define GtoB_bad2 0xbc
+#define BtoG_bad1 '\xa1'
+#define BtoG_bad2 '\xf5'
+#define GtoB_bad1 '\xa1'
+#define GtoB_bad2 '\xbc'
 
 #define HIGHBYTE(word) (word)>>8 & 0x00ff
 #define LOWBYTE(word) (word) & 0x00ff
