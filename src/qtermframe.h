@@ -1,7 +1,9 @@
 #ifndef QTERMFRAME_H
 #define QTERMFRAME_H
 
+#include "ui_mainframe.h"
 
+#include "assistantclient.h"
 #include "statusBar.h"
 #include <QPixmap>
 #include <QByteArray>
@@ -21,13 +23,12 @@ class QFontDialog;
 
 namespace QTerm
 {
-class WndMgr;
 class Window;
 class QTermTimeLabel;
 class Param;
 class Config;
 
-class Frame : public QMainWindow
+class Frame : public QMainWindow, public Ui::Frame
 {
     Q_OBJECT
 public:
@@ -36,9 +37,7 @@ public:
     static Frame * instance() {
         return s_instance;
     }
-
-    void updateMenuToolBar();
-    void enableMenuToolBar(bool);
+	QMenu * createPopupMenu();
     void popupFocusIn(Window * window = 0);
     void buzz();
     QMenu * genPopupMenu(QWidget * owner);
@@ -49,64 +48,56 @@ public slots:
     void saveAndDisconnect();
 
 signals:
-    void bossColor();
     void scrollChanged();
     void statusBarChanged(bool);
 
 protected slots:
+	// custum key
+    void on_actionKey_Setup_triggered();
     void keyClicked(int);
-    // Menu
-    void addressBook();
-    void quickLogin();
+	// theme submenu
+	void initThemeMenu();
+    void themesMenuActivated(QAction *);
+	// toolbar submenu
+	void initToolbarMenu();
+	// File
+	void on_actionAddressBook_triggered();
+	void on_actionQuick_Login_triggered();
+	void on_actionPrint_triggered();
+	// View
+	void on_actionFont_triggered();
+	void on_actionMenubar_toggled(bool);
+	void on_actionStatusbar_toggled(bool);
+	void on_actionFullscreen_triggered(bool);
+	// BBS
+	void on_actionImage_Viewer_triggered();
+	// Options
+	void on_actionDefault_Session_Setting_triggered();
+	void on_actionPreference_triggered();
+	void on_actionConfigure_Shortcuts_triggered();
+	void on_actionConfigure_Toolbars_triggered();
+    // Help
+	void on_actionAbout_QTerm_triggered();
+	void on_actionQTerm_Online_triggered();
+	void on_actionAbout_Qt_triggered();
+	void on_actionContents_triggered();
 
-    void aboutQTerm();
-    void homepage();
-    void updateLang(QAction*);
-    void defaultSetting();
-    void preference();
-    void reloadScript();
-    void runScript();
-    void stopScript();
-    void debugConsole();
-
-    // Toolbar
+protected slots:
+    // Action groups
     void connectIt();
-    void disconnect();
-    void copy();
-    void paste();
-    void copyRect(bool);
-    void copyColor(bool);
-    void copyArticle();
-    void autoCopy(bool);
-    void wordWrap(bool);
     void updateESC(QAction*);
     void updateCodec(QAction*);
     void updateScroll(QAction*);
-    void updateSwitchBar(bool);
-    void updateStatusBar(bool);
-    void refresh();
-    void triggerFullScreen(bool isFullScreen);
-    void hideMenuBar(bool hide);
-    void bosscolor();
-    void uiFont();
-    void antiIdle(bool);
-    void autoReply(bool);
-    void setting();
-    void viewMessages();
-    void updateMouse(bool);
-    void updateBeep(bool);
-    void reconnect(bool);
-    void keySetup();
-    void printScreen();
+	void updateLang(QAction*);
 
-    void viewImages();
-
-    void initThemesMenu();
-    void themesMenuActivated(QAction *);
     void windowsMenuAboutToShow();
     void windowsMenuActivated();
+    void connectMenuAboutToShow();
     void connectMenuActivated(int);
-    void popupConnectMenu();
+
+	void windowActivated(QMdiSubWindow*);
+    void windowClosed(QObject*);
+    void actionsDispatcher(QAction*);
 
     void trayActivated(QSystemTrayIcon::ActivationReason reason);
     void trayHide();
@@ -114,99 +105,18 @@ protected slots:
     void buildTrayMenu();
 
     void switchWin(int);
-    void paintEvent(QPaintEvent *);
 
-    void configShortcuts();
-    void configToolbars();
     void slotShowQTerm();
-public:
-    QMdiArea * m_MdiArea;
+
 protected:
     //variables
-    //QTermTimeLabel *labelTime;
-    QMenu *windowsMenu;
-    QMenu *themesMenu;
-
-    QString theme;
-
-    QToolBar * key;
-
-    QMenu * escapeMenu;
-    QMenu * langMenu;
     QMenu * connectMenu;
-
-//  File
-    QAction * m_connectAction;
-    QAction * m_disconnectAction;
-    QAction * m_addressAction;
-    QAction * m_quickConnectAction;
-    QAction * m_printAction;
-    QAction * m_exitAction;
-
-//  Edit
-    QAction * m_copyAction;
-    QAction * m_pasteAction;
-    QAction * m_colorCopyAction;
-    QAction * m_rectAction;
-    QAction * m_autoCopyAction;
-    QAction * m_wwrapAction;
-    QAction * m_noescAction;
-    QAction * m_escescAction;
-    QAction * m_uescAction;
-    QAction * m_customescAction;
-    QAction * m_NoConvAction;
-    QAction * m_S2TAction;
-    QAction * m_T2SAction;
-
-    QAction * m_refreshAction;
-    QAction * m_engAction;
-    QAction * m_chsAction;
-    QAction * m_chtAction;
-    QAction * m_uiFontAction;
-    QAction * m_fullAction;
-    QAction * m_bossAction;
-    QAction * m_scrollHideAction;
-    QAction * m_scrollLeftAction;
-    QAction * m_scrollRightAction;
-    QAction * m_switchAction;
-
-//  View
-    QAction * m_currentSessionAction;
-    QAction * m_defaultAction;
-    QAction * m_prefAction;
-    QAction * m_copyArticleAction;
-    QAction * m_antiIdleAction;
-    QAction * m_autoReplyAction;
-    QAction * m_viewMessageAction;
-    QAction * m_beepAction;
-    QAction * m_mouseAction;
-    QAction * m_viewImageAction;
-    QAction * m_menuBarAction;
-
-    QAction * m_scriptReloadAction;
-    QAction * m_scriptRunAction;
-    QAction * m_scriptStopAction;
-    QAction * m_scriptDebugAction;
-
-    QAction * m_aboutAction;
-    QAction * m_homepageAction;
-
-    QAction * m_reconnectAction;
-    QAction * m_shortcutsAction;
-    QAction * m_toolbarsAction;
-
-    StatusBar * m_pStatusBar;
-
     QToolButton *connectButton;
 
-    QMenuBar * mainMenu;
-    QToolBar *mdiconnectTools, *mdiTools;
-
-//    bool m_bFullScreen;
-//    bool m_bSwitchBar;
-
+	QMenu *trayMenu;
     QSystemTrayIcon *tray;
-    QMenu *trayMenu;
+
+	StatusBar *m_pStatusBar;
 
     //function
     void newWindow(const Param& param, int index = -1);
@@ -215,9 +125,11 @@ protected:
     void mouseReleaseEvent(QMouseEvent *);
     void selectStyleMenu(int , int);
     void iniSetting();
-    void initActions();
+
     void initShortcuts();
-    //void loadPref(Config *);
+
+	void groupActions();
+
     void saveSetting();
     void saveShortcuts();
     void loadShortcuts();
@@ -225,18 +137,18 @@ protected:
     void loadToolbars();
     void loadSession();
 
-    void addMainMenu();
-    void addMainTool();
-
     void updateKeyToolBar();
 
     QAction * insertThemeItem(const QString &);
     void setUseTray(bool);
 private:
-    static Frame * s_instance;
+    static Frame * s_instance;  
+    AssistantClient m_assistant;
+
+	QStringList listBasicActions;
+    QActionGroup* actionsExtra;
 };
 
 } // namespace QTerm
 
 #endif //QTERMFRAME_H
-

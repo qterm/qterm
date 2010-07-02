@@ -119,6 +119,7 @@ set(qterm_SRCS
    aboutdialog.cpp
    addrdialog.cpp
    articledialog.cpp
+   assistantclient.cpp
    imageviewer.cpp
    imagelistviewer.cpp
    keydialog.cpp
@@ -236,6 +237,7 @@ add_subdirectory(scheme)
 add_subdirectory(scripts)
 add_subdirectory(po)
 add_subdirectory(keyboard_profiles)
+add_subdirectory(doc)
 add_dependencies(qterm translations_target)
 if(QTERM_ENABLE_TEST)
    add_subdirectory(test)

@@ -14,6 +14,7 @@
 
 #include "qtermparam.h"
 
+#include <QtCore/QTranslator>
 #include <QtCore/QMutex>
 #include <QtCore/QString>
 #include <QtCore/QMap>
@@ -31,7 +32,7 @@ class Global : public QObject
     Q_OBJECT
 public:
     enum Language {
-        SimpilifiedChinese,
+        SimplifiedChinese,
         TraditionalChinese,
         English
     };
@@ -48,6 +49,13 @@ public:
         Simplified_To_Traditional,
         Traditional_To_Simplified
     };
+
+	enum Position {
+		Hide = 0, 
+		Left, 
+		Right
+	};
+
     struct Pref {
         Conversion XIM;
         int  nWordWrap;
@@ -83,7 +91,6 @@ public:
     bool isOK();
     Pref m_pref;
     void loadPrefence();
-    enum Position {Hide, Left, Right};
     bool isBossColor() const;
     const QString & escapeString() const;
     Conversion clipConversion() const;
@@ -91,20 +98,21 @@ public:
     Position scrollPosition() const;
     bool isFullScreen() const;
     bool showSwitchBar() const;
-    bool showToolBar(const QString & toolbar);
-    const QString & style() const;
+    bool showStatusBar() const;
+	bool showMenuBar() const;
+
+	const QString & style() const;
 
     void setClipConversion(Conversion conversionId);
     void setEscapeString(const QString & escapeString);
     void setScrollPosition(Position position);
     void setStatusBar(bool isShow); //Better name?
+	void setMenuBar(bool isShow);
     void setBossColor(bool isBossColor);
     void setFullScreen(bool isFullscreen);
     void setSwitchBar(bool isShow);
     void setLanguage(const Language language);
     void setStyle(const QString & style);
-    void setShowToolBar(const QString & toolbar, bool isShown);
-    void saveShowToolBar();
     void loadConfig(); //TODO: Merge with iniSettings
     void saveConfig();
     QByteArray loadGeometry();
@@ -143,8 +151,10 @@ private:
     Position m_scrollPos;
     bool m_fullScreen;
     bool m_switchBar;
+	bool m_menuBar;
     Language m_language;
-    QMap<QString, bool> m_showToolBar;
+	QTranslator *m_translatorQT;
+	QTranslator *m_translatorQTerm;
 #ifdef KWALLET_ENABLED
     Wallet * m_wallet;
 #endif // KWALLET_ENABLED

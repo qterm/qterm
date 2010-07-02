@@ -336,6 +336,14 @@ void Frame::on_actionQTerm_Online_triggered()
     Global::instance()->openUrl(strUrl);
 }
 
+//slot Help->Contents
+void Frame::on_actionContents_triggered()
+{
+	QString errorMessage;
+    if (!m_assistant.showPage("qthelp://org.qterm/doc/index.html", &errorMessage))
+        QMessageBox::warning(this, tr("Assistant"), errorMessage);
+}
+
 //slot Windows menu aboutToShow
 void Frame::windowsMenuAboutToShow()
 {

@@ -2,6 +2,7 @@
 #define QTERMWINDOWBASE_H
 
 #include <QMdiSubWindow>
+#include <QMap>
 
 namespace QTerm
 {
@@ -16,9 +17,15 @@ public:
 	virtual ~WindowBase() {}
 
     bool hasAction(const QString& act){return listActions.contains(act);}
-    
+	bool isActionChecked(const QString& act) { 
+		if (mapToggleStates.contains(act))
+			return *mapToggleStates[act];
+		else
+			return false;
+	}
 protected:
     QStringList listActions;
+	QMap<QString, bool*> mapToggleStates;
 };
 
 } // namespace QTerm

@@ -88,27 +88,46 @@ public:
         return m_nAddrIndex;
     }
 
+
+
+public slots:
+	// File
+	void on_actionDisconnect_triggered();
+	// Edit
+    void on_actionCopy_triggered();
+	void on_actionPaste_triggered();
+	void on_actionRectangle_Selection_toggled(bool rect) { m_bRectCopy = rect; }
+	void on_actionCopy_w_Color_toggled(bool color) { m_bColorCopy = color; }
+	void on_actionAuto_Copy_toggled(bool automatic) { m_bAutoCopy = automatic; }
+	void on_actionPaste_w_Wrodwrap(bool wordwrap) { m_bWordWrap = wordwrap; }
+	// View
+	void on_actionRefresh_triggered();
+	void on_actionBoss_Color_toggled(bool);
+	// BBS
+	void on_actionAuto_Reply_toggled(bool);
+	void on_actionAnti_Idle_toggled(bool);
+	void on_actionCopy_Article_triggered();
+	void on_actionView_Message_triggered();
+	void on_actionBeep_on_message_toggled(bool beep) { m_bBeep = beep; }
+	void on_actionSupport_Mouse_toggled(bool mouse) { m_bMouse = mouse; }
+
+	// Option
+	void on_actionCurrent_Session_Setting_triggered();
+	// Script
+	void on_actionRun_triggered();
+	void on_actionStop_triggered();
+	void on_actionDebug_Console_triggered();
+	void on_actionReload_Script_triggered();
+
 public slots:
     // ui
-    void copy();
-    void paste();
-    void copyArticle();
-    void setting();
-    void runScript(const QString & filename="");
-    void stopScript();
-    void debugConsole();
     void reconnect();
     void sendParsedString(const QString &);
     void showIP();
     void inputHandle(const QString & text);
 public:
-    void disconnect();
-    void refresh();
-    void viewMessages();
-    void autoReply(bool);
-    void antiIdle(bool);
-
     void initScript();
+	void runScript(const QString & filename="");
     void externInput(const QString &);
     void getHttpHelper(const QString&, bool);
     void osdMessage(const QString &, int type, int duration);
@@ -148,11 +167,12 @@ protected slots:
     void httpDone(QObject*);
 
     // decode
-    void setMouseMode(bool);
+	void setMouseMode(bool on ) { m_bMouseX11 = on; }
     void jobDone(int);
     void showArticle(const QString text);
 
 protected:
+	// Mouse Events
     void mouseDoubleClickEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
@@ -161,12 +181,6 @@ protected:
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
 
-//   void customEvent( QCustomEvent * );
-    /*
-    void imStartEvent (QIMEvent *);
-    void imComposeEvent (QIMEvent *);
-    void imEndEvent (QIMEvent *);
-    */
     void reconnectProcess();
     void connectionClosed();
     void doAutoLogin();
@@ -181,6 +195,8 @@ protected:
     void keyPressEvent(QKeyEvent *);
 
     void loadKeyboardTranslator(const QString & profile);
+	
+	void groupActions();
 
     Screen * m_pScreen;
     Decode * m_pDecode;
@@ -261,8 +277,8 @@ public:
     BBS * m_pBBS;
     HostInfo * m_hostInfo;
     // menu and toolbar state
-    bool m_bCopyColor;
-    bool m_bCopyRect;
+    bool m_bColorCopy;
+    bool m_bRectCopy;
     bool m_bAutoCopy;
     bool m_bWordWrap;
     bool m_bAntiIdle;
