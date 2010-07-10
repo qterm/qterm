@@ -3,14 +3,14 @@
     <assistant>
         <title>QTerm Help</title>
         <startPage>qthelp://org.qterm/doc/index.html</startPage>
-        <applicationIcon>../pic/qterm.png</applicationIcon>
+        <applicationIcon>qterm.png</applicationIcon>
         <aboutMenuText>
             <text>About QTerm</text>
         </aboutMenuText>
         <aboutDialog>
             <file>about.txt</file>
-            <icon>../pic/qterm.png</icon>
-        </aboutDialog>        
+            <icon>qterm.png</icon>
+        </aboutDialog>
     </assistant>
     <docFiles>
         <generate>
