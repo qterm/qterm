@@ -177,7 +177,7 @@ void Screen::updateCursor()
         int linelength = m_pBuffer->at(m_pBuffer->caretY())->getLength();
         int startx = m_pBuffer->caretX();
 
-        switch (m_pParam->m_nCursorType) {
+		switch (m_pParam->m_mapParam["cursor"].toInt()) {
         case 0: // block
             if (startx < linelength) {
                 drawLine(painter, m_pBuffer->caretY(), startx, startx, false);
@@ -231,7 +231,7 @@ void Screen::resizeEvent(QResizeEvent *)
 //  }
 //  m_pCanvas = new QPixmap(width(), height());
 
-    if (m_pParam->m_bAutoFont) {
+	if (m_pParam->m_mapParam["autofont"].toBool()) {
         updateFont();
     } else {
         int cx = m_rcClient.width() / m_nCharWidth;
@@ -310,8 +310,10 @@ void Screen::initFontMetrics()
     if (m_pGeneralFont != NULL) {
         delete m_pGeneralFont;
     }
-    m_pASCIIFont = new QFont(m_pParam->m_strASCIIFontName, qMax(8, m_pParam->m_nFontSize));
-    m_pGeneralFont = new QFont(m_pParam->m_strGeneralFontName, qMax(8, m_pParam->m_nFontSize));
+	m_pASCIIFont = new QFont(m_pParam->m_mapParam["asciifont"].toString(), 
+						qMax(8, m_pParam->m_mapParam["fontsize"].toInt()));
+    m_pGeneralFont = new QFont(m_pParam->m_mapParam["generalfont"].toString(), 
+						qMax(8, m_pParam->m_mapParam["fontsize"].toInt()));
 
     m_pASCIIFont->setWeight(QFont::Normal);
     m_pGeneralFont->setWeight(QFont::Normal);
@@ -390,8 +392,8 @@ void Screen::asciiFontChanged(const QFont & font)
         delete m_pASCIIFont;
     }
     m_pASCIIFont = new QFont(font);
-    m_pASCIIFont->setPixelSize(qMax(8,m_pParam->m_nFontSize));
-    m_pGeneralFont->setPixelSize(qMax(8,m_pParam->m_nFontSize));
+    m_pASCIIFont->setPixelSize(qMax(8,m_pParam->m_mapParam["fontsize"].toInt()));
+    m_pGeneralFont->setPixelSize(qMax(8,m_pParam->m_mapParam["fontsize"].toInt()));
     QResizeEvent* re = new QResizeEvent(size(), size());
     resizeEvent(re);
 }
@@ -402,8 +404,8 @@ void Screen::generalFontChanged(const QFont & font)
         delete m_pGeneralFont;
     }
     m_pGeneralFont = new QFont(font);
-    m_pASCIIFont->setPixelSize(qMax(8,m_pParam->m_nFontSize));
-    m_pGeneralFont->setPixelSize(qMax(8,m_pParam->m_nFontSize));
+    m_pASCIIFont->setPixelSize(qMax(8,m_pParam->m_mapParam["fontsize"].toInt()));
+    m_pGeneralFont->setPixelSize(qMax(8,m_pParam->m_mapParam["fontsize"].toInt()));
     m_pMessage->setFont(*m_pGeneralFont);
     QResizeEvent* re = new QResizeEvent(size(), size());
     resizeEvent(re);
@@ -411,9 +413,9 @@ void Screen::generalFontChanged(const QFont & font)
 
 void Screen::fontSizeChanged(int value)
 {
-    m_pParam->m_nFontSize = value;
-    m_pASCIIFont->setPixelSize(qMax(8,m_pParam->m_nFontSize));
-    m_pGeneralFont->setPixelSize(qMax(8,m_pParam->m_nFontSize));
+    m_pParam->m_mapParam["fontsize"] = value;
+    m_pASCIIFont->setPixelSize(qMax(8,value));
+    m_pGeneralFont->setPixelSize(qMax(8,value));
     QResizeEvent* re = new QResizeEvent(size(), size());
     resizeEvent(re);
 }
@@ -430,7 +432,7 @@ QFont Screen::generalFont()
 
 int Screen::fontSize()
 {
-    return m_pParam->m_nFontSize;
+    return m_pParam->m_mapParam["fontsize"].toInt();
 }
 
 /* ------------------------------------------------------------------------ */
@@ -461,12 +463,12 @@ void Screen::setScheme()
     m_nPxmType = 0;
 
 
-
+	QString strSchemeFile = m_pParam->m_mapParam["schemefile"].toString();
 // if we have scheme defined
-    if (QFile::exists(m_pParam->m_strSchemeFile)) {
+    if (QFile::exists(strSchemeFile)) {
 
-//  printf("scheme %s loaded sucessfully\n", m_pParam->m_strSchemeFile);
-        Config *pConf = new Config(m_pParam->m_strSchemeFile);
+//  printf("scheme %s loaded sucessfully\n", strSchemeFile);
+        Config *pConf = new Config(strSchemeFile);
 
         m_color[0].setNamedColor(pConf->getItemValue("color", "color0").toString());
         m_color[1].setNamedColor(pConf->getItemValue("color", "color1").toString());
@@ -495,7 +497,7 @@ void Screen::schemeChanged(int index)
         return;
     }
     QStringList schemeList = schemeDialog::loadSchemeList();
-    m_pParam->m_strSchemeFile = schemeList[index];
+    m_pParam->m_mapParam["schemefile"] = schemeList[index];
     setScheme();
     QResizeEvent* re = new QResizeEvent(size(), size());
     resizeEvent(re);
@@ -866,7 +868,7 @@ void Screen::repaintScreen(QPaintEvent * pe)
 
     for (int y = tlPoint.y(); y <= brPoint.y(); y++) {
         drawLine(painter, y);
-        //if( m_pBBS->isSelected(y)&&m_pParam->m_nMenuType==1 )
+        //if( m_pBBS->isSelected(y)&&m_pParam->m_mapParam["menutype"].toInt()==1 )
         //{
         // QRect rcMenu = mapToRect(m_pBBS->getSelectRect());
         // QPixmap pxm(rcMenu.width(), rcMenu.height());
@@ -918,7 +920,7 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
 
     if (complete == true && m_pBBS->isSelected(index)) {
         drawMenuSelect(painter, index);
-        if (m_pParam -> m_nMenuType == 1) {
+        if (m_pParam->m_mapParam["menutype"].toInt() == 1) {
             bReverse = true;
         }
         beginx = 0;
@@ -959,7 +961,7 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
         //qDebug() << "startx: " << startx << " i: " << i << " string: " << strShow;
         // There should be only one.
         // TODO: Rewrite this when we want to do more than char to char convert
-        strShow = Global::instance()->convert(pTextLine->getText(startx, len), (Global::Conversion)m_pParam->m_nDispCode);
+        strShow = Global::instance()->convert(pTextLine->getText(startx, len), (Global::Conversion)m_pParam->m_mapParam["displaycode"].toInt());
 
         if (strShow.isEmpty()) {
             qDebug("drawLine: empty string?");
@@ -1001,7 +1003,7 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
     char ea = GETATTR(attribute);
 
     // test bold mask or always highlighted
-    if (GETBOLD(ea) || m_pParam->m_bAlwaysHighlight)
+    if (GETBOLD(ea) || m_pParam->m_mapParam["alwayshighlight"].toBool())
         cp = SETHIGHLIGHT(cp);             // use 8-15 color
     // test dim mask
     if (GETDIM(ea)) {
@@ -1042,11 +1044,11 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
         return;
     }
 
-    painter.setPen(m_color[m_pParam->m_bAnsiColor||GETFG(cp)==0?GETFG(cp):7]);
+    painter.setPen(m_color[m_pParam->m_mapParam["ansicolor"].toBool()||GETFG(cp)==0?GETFG(cp):7]);
 
     if (GETBG(cp) != 0 && !transparent) {
         painter.setBackgroundMode(Qt::OpaqueMode);
-        painter.setBackground(m_color[m_pParam->m_bAnsiColor||GETBG(cp)==7?GETBG(cp):0]);
+        painter.setBackground(m_color[m_pParam->m_mapParam["ansicolor"].toBool()||GETBG(cp)==7?GETBG(cp):0]);
 
     } else
         painter.setBackgroundMode(Qt::TransparentMode);
@@ -1099,12 +1101,12 @@ void Screen::drawMenuSelect(QPainter& painter, int index)
 
     if (m_pBBS->isSelected(index)) {
         rcMenu = mapToRect(m_pBBS->getSelectRect().intersected(QRect(0,index,m_pBuffer->columns(), 1)));
-        switch (m_pParam->m_nMenuType) {
+        switch (m_pParam->m_mapParam["menutype"].toInt()) {
         case 0: // underline
             painter.fillRect(rcMenu.x(), rcMenu.y() + 10*m_nCharHeight / 11, rcMenu.width(), m_nCharHeight / 11, m_color[7]);
             break;
         case 2:
-            painter.fillRect(rcMenu, QBrush(m_pParam->m_clrMenu));
+            painter.fillRect(rcMenu, QBrush(m_pParam->m_mapParam["menucolor"].value<QColor>()));
             break;
         }
     }

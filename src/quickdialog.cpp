@@ -109,10 +109,11 @@ void quickDialog::addAddr()
     strTmp.setNum(num + 1);
     Global::instance()->addrCfg()->setItemValue("bbs list", "num", strTmp);
 
-    param.m_strName = ui.addrLineEdit->text();
-    param.m_strAddr = ui.addrLineEdit->text();
-    param.m_uPort = ui.portSpinBox->value();
-    param.m_nProtocolType = ui.protocolComboBox->currentIndex();
+    param.m_mapParam["name"] = ui.addrLineEdit->text();
+    param.m_mapParam["addr"] = ui.addrLineEdit->text();
+    param.m_mapParam["port"] = ui.portSpinBox->value();
+    param.m_mapParam["protocol"] = ui.protocolComboBox->currentIndex();
+
     Global::instance()->saveAddress(num, param);
 }
 
@@ -157,19 +158,19 @@ void quickDialog::advOption()
 {
     addrDialog set(this, true);
 
-    param.m_strName = ui.addrLineEdit->text();
-    param.m_strAddr = ui.addrLineEdit->text();
-    param.m_uPort = ui.portSpinBox->value();
-    param.m_nProtocolType = ui.protocolComboBox->currentIndex();
+    param.m_mapParam["name"] = ui.addrLineEdit->text();
+    param.m_mapParam["addr"] = ui.addrLineEdit->text();
+    param.m_mapParam["port"] = ui.portSpinBox->value();
+    param.m_mapParam["protocol"] = ui.protocolComboBox->currentIndex();
 
     set.param = param;
     set.updateData(false);
 
     if (set.exec() == 1) {
         param = set.param;
-        ui.addrLineEdit->setText(param.m_strAddr);
-        ui.portSpinBox->setValue(param.m_uPort);
-        ui.protocolComboBox->setCurrentIndex(param.m_nProtocolType);
+		ui.addrLineEdit->setText(param.m_mapParam["addr"].toString());
+		ui.portSpinBox->setValue(param.m_mapParam["port"].toInt());
+		ui.protocolComboBox->setCurrentIndex(param.m_mapParam["protocol"].toInt());
     }
 }
 void quickDialog::connectIt()
@@ -233,10 +234,10 @@ void quickDialog::connectIt()
     strTmp = QString("quick %1").arg(0);
     pConf->renameSection(strSection, strTmp);
 
-    param.m_strName = ui.addrLineEdit->text();
-    param.m_strAddr = ui.addrLineEdit->text();
-    param.m_uPort = ui.portSpinBox->value();
-    param.m_nProtocolType = ui.protocolComboBox->currentIndex();
+    param.m_mapParam["name"] = ui.addrLineEdit->text();
+    param.m_mapParam["addr"] = ui.addrLineEdit->text();
+    param.m_mapParam["port"] = ui.portSpinBox->value();
+    param.m_mapParam["protocol"] = ui.protocolComboBox->currentIndex();
 
     pConf->save();
     done(1);

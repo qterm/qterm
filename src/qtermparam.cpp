@@ -13,108 +13,64 @@ namespace QTerm
 {
 Param::Param()
 {
-	m_strName = "SMTH";
-	m_strAddr = "smth.org";
-	m_uPort = 23;
-	m_nHostType = 0;		// 0--BBS 1--*NIX	
-	m_bAutoLogin = false;
-	m_strPreLogin = "";
-	m_strUser = "";
-	m_strPasswd = "";
-	m_strPostLogin = "";
-// Display
-	m_BBSCode = "GBK";
-	m_nDispCode = 0;
-	m_bAutoFont = 1;
-	m_bAlwaysHighlight = 0;
-	m_bAnsiColor = 1;
-	m_strASCIIFontName = "Monospace";
-	m_strGeneralFontName = "Monospace";
-	m_nFontSize = 14;
-	m_strSchemeFile = "";
-// Terminal
-	m_strTerm = "vt102";
-	m_strKeyboardProfile= "";
-	m_nCol = 80;
-	m_nRow = 24;
-	m_nScrollLines = 240;
-	m_nCursorType = 0; // 0--Block 1--Underline 2--I Type
-	m_strEscape = "^[^[[";
-// Connection
-	m_nProxyType = 0; // 0--None 1--Wingate 2--SOCKS4 3--SOCKS5 4--HTTP
-	m_strProxyHost = "";
-	m_uProxyPort = 0;
-	m_bAuth = false;
-	m_strProxyUser = "";
-	m_strProxyPasswd = "";
-	m_nProtocolType = 0; // 0--Telnet 1--SSH1 2--SSH2
-// Misc
-	m_nMaxIdle = 180;
-	m_strReplyKey = "^Z";
-	m_strAntiString = "^@";
-	m_bAutoReply = false;
-	m_strAutoReply = "(QTerm) Sorry, I am not around";
-	m_bReconnect = false;
-	m_nReconnectInterval = 3;
-	m_nRetry = 0;
-	m_bLoadScript = false;
-	m_strScriptFile = "";
-// Mouse
-	m_nMenuType=2;
-	m_clrMenu = QColor(0,65,132);
+	m_mapParam["name"] = "SMTH";
+	m_mapParam["addr"] = "smth.org";
+	m_mapParam["port"] = 23;
+	m_mapParam["hosttype"] = 0; // 0--BBS 1--*NIX	
+	m_mapParam["autologin"] = false;
+	m_mapParam["prelogin"] = "";
+	m_mapParam["user"] = "";
+	m_mapParam["password"] = "";
+	m_mapParam["postlogin"] = "";
+	
+	m_mapParam["bbscode"] = "GBK";
+	m_mapParam["displaycode"] = 0;
+	m_mapParam["autofont"] = true;
+	m_mapParam["alwayshighlight"] = false;
+	m_mapParam["ansicolor"] = true;
+	m_mapParam["asciifont"] = "Monospace";
+	m_mapParam["generalfont"] = "Monospace";
+	m_mapParam["fontsize"] = 14;
+	m_mapParam["schemefile"] = "";
+	
+	m_mapParam["termtype"] = "vt102";
+	m_mapParam["keytype"] = 0;
+	m_mapParam["keyboardprofile"] = "";
+	m_mapParam["column"] = 80;
+	m_mapParam["row"] = 24;
+	m_mapParam["scroll"] = 240;
+	m_mapParam["cursor"] = 0; // 0--Block 1--Underline 2--I Type
+	m_mapParam["escape"] = "^[^[[";
+	
+	m_mapParam["protocol"] = 0; // 0--Telnet 1--SSH1 2--SSH2
+	m_mapParam["sshuser"] = "";
+	m_mapParam["sshpassword"] = "";
+	m_mapParam["proxytype"] = 0; // 0--None 1--Wingate 2--SOCKS4 3--SOCKS5 4--HTTP
+	m_mapParam["proxyaddr"] = "";
+	m_mapParam["proxyport"] = 0;
+	m_mapParam["proxyauth"] = false;
+	m_mapParam["proxyuser"] = "";
+	m_mapParam["proxypassword"] = "";
+
+	m_mapParam["maxidle"] = 180;
+	m_mapParam["antiidlestring"] = "^@";
+	m_mapParam["bautoreply"] = true;
+	m_mapParam["replykey"] = "^Z";
+	m_mapParam["autoreply"] = "(QTerm) Sorry, I am not around";
+	m_mapParam["reconnect"] = false;
+	m_mapParam["interval"] = 2;
+	m_mapParam["retrytimes"] = -1;
+	m_mapParam["loadscript"] = false;
+	m_mapParam["scriptfile"] = "";
+	
+	m_mapParam["menutype"] = 2;
+	m_mapParam["menucolor"] = QColor(0,65,132);
+
 }
 
 Param::Param( const Param & param )
 {
-	m_strName = param.m_strName;
-	m_strAddr = param.m_strAddr;
-	m_uPort = param.m_uPort;
-	m_nHostType = param.m_nHostType; // 0--BBS 1--*NIX
-	m_bAutoLogin = param.m_bAutoLogin;
-	m_strPreLogin = param.m_strPreLogin;
-	m_strUser = param.m_strUser;
-	m_strPasswd = param.m_strPasswd;
-	m_strPostLogin = param.m_strPostLogin;
-// Display
-	m_BBSCode = param.m_BBSCode;
-	m_nDispCode = param.m_nDispCode; 
-	m_bAutoFont = param.m_bAutoFont;
-	m_bAlwaysHighlight = param.m_bAlwaysHighlight;
-	m_bAnsiColor = param.m_bAnsiColor;
-	m_strASCIIFontName = param.m_strASCIIFontName;
-	m_strGeneralFontName = param.m_strGeneralFontName;
-	m_nFontSize = param.m_nFontSize;
-	m_strSchemeFile = param.m_strSchemeFile;
-// Terminal
-	m_strTerm = param.m_strTerm;
-	m_strKeyboardProfile = param.m_strKeyboardProfile;
-	m_nCol = param.m_nCol;
-	m_nRow = param.m_nRow;
-	m_nScrollLines = param.m_nScrollLines;
-	m_nCursorType = param.m_nCursorType; // 0--Block 1--Underline 2--I Type
-	m_strEscape = param.m_strEscape;	// 0--ESC ESC 1--Ctrl+u
-// Connection
-	m_nProxyType = param.m_nProxyType; // 0--None 1--Wingate 2--SOCKS4 3--SOCKS5 4--HTTP
-	m_strProxyHost = param.m_strProxyHost;
-	m_uProxyPort = param.m_uProxyPort;
-	m_bAuth = param.m_bAuth;
-	m_strProxyUser = param.m_strProxyUser;
-	m_strProxyPasswd = param.m_strProxyPasswd;
-	m_nProtocolType = param.m_nProtocolType; // 0--Telnet 1--SSH1 2--SSH2
-// Misc
-	m_nMaxIdle = param.m_nMaxIdle;
-	m_strReplyKey = param.m_strReplyKey;
-	m_strAntiString = param.m_strAntiString;
-	m_bAutoReply = param.m_bAutoReply;
-	m_strAutoReply = param.m_strAutoReply;
-	m_bReconnect = param.m_bReconnect;
-	m_nReconnectInterval = param.m_nReconnectInterval;
-	m_nRetry = param.m_nRetry;
-	m_bLoadScript = param.m_bLoadScript;
-	m_strScriptFile = param.m_strScriptFile;
-// Mouse
-	m_nMenuType = param.m_nMenuType;
-	m_clrMenu = param.m_clrMenu;
+	m_mapParam = param.m_mapParam;
 }
 
 Param::~Param()
@@ -123,56 +79,7 @@ Param::~Param()
 
 Param& Param::operator=(const Param& param)
 {
-	m_strName = param.m_strName;
-	m_strAddr = param.m_strAddr;
-	m_uPort = param.m_uPort;
-	m_nHostType = param.m_nHostType; // 0--BBS 1--*NIX
-	m_bAutoLogin = param.m_bAutoLogin;
-	m_strPreLogin = param.m_strPreLogin;
-	m_strUser = param.m_strUser;
-	m_strPasswd = param.m_strPasswd;
-	m_strPostLogin = param.m_strPostLogin;
-// Display
-	m_BBSCode = param.m_BBSCode; 
-	m_nDispCode = param.m_nDispCode; 
-	m_bAutoFont = param.m_bAutoFont;
-	m_bAlwaysHighlight = param.m_bAlwaysHighlight;
-	m_bAnsiColor = param.m_bAnsiColor;
-	m_strASCIIFontName = param.m_strASCIIFontName;
-	m_strGeneralFontName = param.m_strGeneralFontName;
-	m_nFontSize = param.m_nFontSize;
-	m_strSchemeFile = param.m_strSchemeFile;
-// Terminal
-	m_strTerm = param.m_strTerm;
-	m_strKeyboardProfile = param.m_strKeyboardProfile;
-	m_nCol = param.m_nCol;
-	m_nRow = param.m_nRow;
-	m_nScrollLines = param.m_nScrollLines;
-	m_nCursorType = param.m_nCursorType; // 0--Block 1--Underline 2--I Type
-	m_strEscape = param.m_strEscape;	// 0--ESC ESC 1--Ctrl+u
-// Connection
-	m_nProxyType = param.m_nProxyType; // 0--None 1--Wingate 2--SOCKS4 3--SOCKS5 4--HTTP
-	m_strProxyHost = param.m_strProxyHost;
-	m_uProxyPort = param.m_uProxyPort;
-	m_bAuth = param.m_bAuth;
-	m_strProxyUser = param.m_strProxyUser;
-	m_strProxyPasswd = param.m_strProxyPasswd;
-	m_nProtocolType = param.m_nProtocolType; // 0--Telnet 1--SSH1 2--SSH2
-// Misc
-	m_nMaxIdle = param.m_nMaxIdle;
-	m_strReplyKey = param.m_strReplyKey;
-	m_strAntiString = param.m_strAntiString;
-	m_bAutoReply = param.m_bAutoReply;
-	m_strAutoReply = param.m_strAutoReply;
-	m_bReconnect = param.m_bReconnect;
-	m_nReconnectInterval = param.m_nReconnectInterval;
-	m_nRetry = param.m_nRetry;
-	m_bLoadScript = param.m_bLoadScript;
-	m_strScriptFile = param.m_strScriptFile;
-// Mouse
-	m_nMenuType = param.m_nMenuType;
-	m_clrMenu = param.m_clrMenu;
-
+	m_mapParam = param.m_mapParam;
 	return *this;
 }
 

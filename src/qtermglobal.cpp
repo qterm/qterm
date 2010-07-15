@@ -29,6 +29,9 @@
 #include <QtGui/QDesktopServices>
 #include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
+#include <QtXml/QDomDocument>
+#include <QtCore/QUuid>
+#include <QtCore/QTextStream>
 
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 #include <windows.h>
@@ -59,7 +62,7 @@ Global * Global::instance()
 }
 
 Global::Global()
-        : m_fileCfg("./qterm.cfg"), m_addrCfg("./address.cfg"), 
+        : m_fileCfg("./qterm.cfg"), m_addrCfg("./address.cfg"), m_addrXml("./address.xml"),
 		m_pathLib("./"), m_pathCfg("./"), 
 		m_windowState(), m_status(INIT_OK), m_style(), 
 		m_fullScreen(false), m_language(Global::English)
@@ -128,6 +131,40 @@ void Global::clearDir(const QString & path)
     }
 }
 
+QMap<QString,QString> Global::getFavoriteSiteList()
+{
+	QMap<QString,QString> listSite;
+	// import xml address book
+    QDomDocument doc;
+	QFile file(m_addrXml);
+	if (file.open(QIODevice::ReadOnly)) {
+		if (doc.setContent(&file)) {
+			QDomElement favorite;
+			QDomNodeList nodeList = doc.elementsByTagName("folder");
+			for (int i=0; i<nodeList.count(); i++) {
+				QDomElement node = nodeList.at(i).toElement();
+				if (node.attribute("name") == "favorite") {
+					favorite = node;
+					break;
+				}
+			}
+			QStringList listUuid;
+			nodeList = favorite.elementsByTagName("addsite");
+			for (int i=0; i<nodeList.count(); i++) {
+				QDomElement node = nodeList.at(i).toElement();
+				listUuid << node.attribute("uuid");
+			}
+			nodeList = doc.elementsByTagName("site");
+			for (int i=0; i<nodeList.count(); i++) {
+				QDomElement node = nodeList.at(i).toElement();
+				if (listUuid.contains(node.attribute("uuid")))
+					listSite[node.attribute("uuid")] = node.attribute("name");
+			}
+		}
+	}
+	file.close();
+	return listSite;
+}
 QStringList Global::loadNameList()
 {
     QStringList listName;
@@ -159,93 +196,18 @@ bool Global::loadAddress(int n, Param& param)
     strTmp = m_address->getItemValue("bbs list", "num").toString();
     if (n >= strTmp.toInt())
         return false;
-    param.m_strName = m_address->getItemValue(strSection, "name").toString();
-    param.m_strAddr = m_address->getItemValue(strSection, "addr").toString();
-    strTmp = m_address->getItemValue(strSection, "port").toString();
-    param.m_uPort = strTmp.toUShort();
-    strTmp = m_address->getItemValue(strSection, "hosttype").toString();
-    param.m_nHostType = strTmp.toInt();
-    strTmp = m_address->getItemValue(strSection, "autologin").toString();
-    param.m_bAutoLogin = (strTmp != "0");
-    param.m_strPreLogin = m_address->getItemValue(strSection, "prelogin").toString();
-    param.m_strUser = m_address->getItemValue(strSection, "user").toString();
-#ifdef KWALLET_ENABLED
-    if (m_wallet != NULL) {
-        m_wallet->open();
-        param.m_strPasswd = m_wallet->readPassword(param.m_strName, param.m_strUser);
-    } else
-#endif // KWALLET_ENABLED
-        param.m_strPasswd = m_address->getItemValue(strSection, "password").toString();
-    param.m_strPostLogin = m_address->getItemValue(strSection, "postlogin").toString();
 
-    strTmp = m_address->getItemValue(strSection, "bbscode").toString();
-    param.m_BBSCode = strTmp;
-    strTmp = m_address->getItemValue(strSection, "displaycode").toString();
-    param.m_nDispCode = strTmp.toInt();
-    strTmp = m_address->getItemValue(strSection, "autofont").toString();
-    param.m_bAutoFont = (strTmp != "0");
-    strTmp = m_address->getItemValue(strSection, "alwayshighlight").toString();
-    param.m_bAlwaysHighlight = (strTmp != "0");
-    strTmp = m_address->getItemValue(strSection, "ansicolor").toString();
-    param.m_bAnsiColor = (strTmp != "0");
-    param.m_strASCIIFontName = m_address->getItemValue(strSection, "asciifont").toString();
-    param.m_strGeneralFontName = m_address->getItemValue(strSection, "generalfont").toString();
-    strTmp = m_address->getItemValue(strSection, "fontsize").toString();
-    param.m_nFontSize = strTmp.toInt();
-    param.m_strSchemeFile = m_address->getItemValue(strSection, "schemefile").toString();
-    param.m_strKeyboardProfile = m_address->getItemValue(strSection, "keyboardprofile").toString();
-
-    param.m_strTerm = m_address->getItemValue(strSection, "termtype").toString();
-    strTmp =  m_address->getItemValue(strSection, "column").toString();
-    param.m_nCol = strTmp.toInt();
-    strTmp =  m_address->getItemValue(strSection, "row").toString();
-    param.m_nRow = strTmp.toInt();
-    strTmp =  m_address->getItemValue(strSection, "scroll").toString();
-    param.m_nScrollLines = strTmp.toInt();
-    strTmp =  m_address->getItemValue(strSection, "cursor").toString();
-    param.m_nCursorType = strTmp.toInt();
-    param.m_strEscape = m_address->getItemValue(strSection, "escape").toString();
-
-    strTmp =  m_address->getItemValue(strSection, "proxytype").toString();
-    param.m_nProxyType = strTmp.toInt();
-    strTmp = m_address->getItemValue(strSection, "proxyauth").toString();
-    param.m_bAuth = (strTmp != "0");
-    param.m_strProxyHost = m_address->getItemValue(strSection, "proxyaddr").toString();
-    strTmp = m_address->getItemValue(strSection, "proxyport").toString();
-    param.m_uProxyPort = strTmp.toInt();
-    param.m_strProxyUser = m_address->getItemValue(strSection, "proxyuser").toString();
-    param.m_strProxyPasswd = m_address->getItemValue(strSection, "proxypassword").toString();
-    strTmp = m_address->getItemValue(strSection, "protocol").toString();
-    param.m_nProtocolType = strTmp.toInt();
-
-    strTmp = m_address->getItemValue(strSection, "maxidle").toString();
-    param.m_nMaxIdle = strTmp.toInt();
-    param.m_strReplyKey = m_address->getItemValue(strSection, "replykey").toString();
-    if (param.m_strReplyKey.isNull())
-        qDebug("loading null\n");
-
-    param.m_strAntiString = m_address->getItemValue(strSection, "antiidlestring").toString();
-    param.m_strAutoReply = m_address->getItemValue(strSection, "autoreply").toString();
-    strTmp = m_address->getItemValue(strSection, "bautoreply").toString();
-    param.m_bAutoReply = (strTmp != "0");
-
-    strTmp = m_address->getItemValue(strSection, "reconnect").toString();
-    param.m_bReconnect = (strTmp != "0");
-    strTmp = m_address->getItemValue(strSection, "interval").toString();
-    param.m_nReconnectInterval = strTmp.toInt();
-    strTmp = m_address->getItemValue(strSection, "retrytimes").toString();
-    param.m_nRetry = strTmp.toInt();
-
-    strTmp = m_address->getItemValue(strSection, "loadscript").toString();
-    param.m_bLoadScript = (strTmp != "0");
-    param.m_strScriptFile = m_address->getItemValue(strSection, "scriptfile").toString();
-    if (param.m_strScriptFile.isEmpty()) {
-        param.m_bLoadScript = false;
-    }
-
-    strTmp = m_address->getItemValue(strSection, "menutype").toString();
-    param.m_nMenuType = strTmp.toInt();
-    param.m_clrMenu.setNamedColor(m_address->getItemValue(strSection, "menucolor").toString());
+	foreach(QString key,param.m_mapParam.keys()) {
+		#ifdef KWALLET_ENABLED
+		if (key == "password" && m_wallet != NULL) {
+			m_wallet->open();
+			param.m_mapParam["password"] = m_wallet->readPassword(
+				param.m_mapParam["name"], 
+				param.m_mapParam["user"]);
+		} else
+		#endif // KWALLET_ENABLED
+			param.m_mapParam[key] = m_address->getItemValue(strSection,key);
+	}
 
     return true;
 }
@@ -258,79 +220,18 @@ void Global::saveAddress(int n, const Param& param)
     else
         strSection.sprintf("bbs %d", n);
 
-    m_address->setItemValue(strSection, "name", param.m_strName);
-    m_address->setItemValue(strSection, "addr", param.m_strAddr);
-    strTmp.setNum(param.m_uPort);
-    m_address->setItemValue(strSection, "port", strTmp);
-    strTmp.setNum(param.m_nHostType);
-    m_address->setItemValue(strSection, "hosttype", strTmp);
-    m_address->setItemValue(strSection, "autologin", param.m_bAutoLogin ? "1" : "0");
-    m_address->setItemValue(strSection, "prelogin", param.m_strPreLogin);
-    m_address->setItemValue(strSection, "user", param.m_strUser);
-
-#ifdef KWALLET_ENABLED
-    if (m_wallet != NULL) {
+	foreach(QString key,param.m_mapParam.keys()) {
+	#ifdef KWALLET_ENABLED
+    if (key == "password" && m_wallet != NULL) {
         m_wallet->open();
-        m_wallet->writePassword(param.m_strName, param.m_strUser, param.m_strPasswd);
+        m_wallet->writePassword(
+			param.m_mapParam["name"], 
+			param.m_mapParam["user"], 
+			param.m_mapParam["password"]);
     } else
-#endif // KWALLET_ENABLED
-        m_address->setItemValue(strSection, "password", param.m_strPasswd);
-    m_address->setItemValue(strSection, "postlogin", param.m_strPostLogin);
-
-    strTmp=param.m_BBSCode;
-    m_address->setItemValue(strSection, "bbscode", strTmp);
-    strTmp.setNum(param.m_nDispCode);
-    m_address->setItemValue(strSection, "displaycode", strTmp);
-    m_address->setItemValue(strSection, "autofont", param.m_bAutoFont ? "1" : "0");
-    m_address->setItemValue(strSection, "alwayshighlight", param.m_bAlwaysHighlight ? "1" : "0");
-    m_address->setItemValue(strSection, "ansicolor", param.m_bAnsiColor ? "1" : "0");
-    m_address->setItemValue(strSection, "asciifont", param.m_strASCIIFontName);
-    m_address->setItemValue(strSection, "generalfont", param.m_strGeneralFontName);
-    strTmp.setNum(param.m_nFontSize);
-    m_address->setItemValue(strSection, "fontsize", strTmp);
-    m_address->setItemValue(strSection, "schemefile", param.m_strSchemeFile);
-    m_address->setItemValue(strSection, "keyboardprofile", param.m_strKeyboardProfile);
-
-    m_address->setItemValue(strSection, "termtype", param.m_strTerm);
-    strTmp.setNum(param.m_nCol);
-    m_address->setItemValue(strSection, "column", strTmp);
-    strTmp.setNum(param.m_nRow);
-    m_address->setItemValue(strSection, "row", strTmp);
-    strTmp.setNum(param.m_nScrollLines);
-    m_address->setItemValue(strSection, "scroll", strTmp);
-    strTmp.setNum(param.m_nCursorType);
-    m_address->setItemValue(strSection, "cursor", strTmp);
-    m_address->setItemValue(strSection, "escape", param.m_strEscape);
-
-    strTmp.setNum(param.m_nProxyType);
-    m_address->setItemValue(strSection, "proxytype", strTmp);
-    m_address->setItemValue(strSection, "proxyauth", param.m_bAuth ? "1" : "0");
-    m_address->setItemValue(strSection, "proxyaddr", param.m_strProxyHost);
-    strTmp.setNum(param.m_uProxyPort);
-    m_address->setItemValue(strSection, "proxyport", strTmp);
-    m_address->setItemValue(strSection, "proxyuser", param.m_strProxyUser);
-    m_address->setItemValue(strSection, "proxypassword", param.m_strProxyPasswd);
-    strTmp.setNum(param.m_nProtocolType);
-    m_address->setItemValue(strSection, "protocol", strTmp);
-
-    strTmp.setNum(param.m_nMaxIdle);
-    m_address->setItemValue(strSection, "maxidle", strTmp);
-    m_address->setItemValue(strSection, "replykey", param.m_strReplyKey);
-    m_address->setItemValue(strSection, "antiidlestring", param.m_strAntiString);
-    m_address->setItemValue(strSection, "bautoreply", param.m_bAutoReply ? "1" : "0");
-    m_address->setItemValue(strSection, "autoreply", param.m_strAutoReply);
-    m_address->setItemValue(strSection, "reconnect", param.m_bReconnect ? "1" : "0");
-    strTmp.setNum(param.m_nReconnectInterval);
-    m_address->setItemValue(strSection, "interval", strTmp);
-    strTmp.setNum(param.m_nRetry);
-    m_address->setItemValue(strSection, "retrytimes", strTmp);
-
-    m_address->setItemValue(strSection, "loadscript", param.m_bLoadScript ? "1" : "0");
-    m_address->setItemValue(strSection, "scriptfile", param.m_strScriptFile);
-
-    strTmp.setNum(param.m_nMenuType);
-    m_address->setItemValue(strSection, "menutype", strTmp);
-    m_address->setItemValue(strSection, "menucolor", param.m_clrMenu.name());
+	#endif
+		m_address->setItemValue(strSection, key, param.m_mapParam[key]);
+	}
     m_address->save();
 
 }
@@ -353,6 +254,84 @@ void Global::removeAddress(int n)
     }
 #endif // KWALLET_ENABLED
     m_address->deleteSection(strSection);
+}
+
+bool Global::convertAddressBook2XML()
+{
+	QDir dir;
+	if (dir.exists(m_addrXml))
+		return true;
+	else {
+		if (!dir.exists(m_addrCfg))
+			return createLocalFile(m_addrXml, m_pathLib + "address.xml");
+	}
+	// import xml address book
+    QDomDocument doc;
+	QFile file(m_addrXml);
+	if (!file.open(QIODevice::ReadOnly))
+		return false;
+	if (!doc.setContent(&file)) {
+		file.close();
+		return false;
+	}
+	file.close();
+
+	// Combine cfg address book
+	m_address = new Config(m_addrCfg);
+    int num = m_address->getItemValue("bbs list", "num").toInt();
+
+	//QDomProcessingInstruction instr = 
+	//	doc.createProcessingInstruction("xml","version=\"1.0\" encoding=\"UTF-8\"");
+	//doc.appendChild(instr);
+
+	//QDomElement addresses = doc.createElement("addresses");
+	//doc.appendChild(addresses);
+
+    //QDomElement favorite = doc.createElement("folder");
+    //favorite.setAttribute("name", "favorite");
+	//addresses.appendChild(favorite);
+    
+	QDomElement addresses = doc.documentElement();
+
+	QDomElement favorite;
+	QDomNodeList nodeList = doc.elementsByTagName("folder");
+	for (int i=0; i<nodeList.count(); i++) {
+		QDomElement node = nodeList.at(i).toElement();
+		if (node.attribute("name") == "favorite") {
+			favorite = node;
+			break;
+		}
+	}
+
+    for (int i = -1; i < num; i++) {
+        Param param;
+        loadAddress(i, param);
+        QDomElement site = doc.createElement("site");
+		if (i==-1)
+			site.setAttribute("uuid", QUuid().toString());
+		else 
+		{
+			QString uuid = QUuid::createUuid().toString();
+			site.setAttribute("uuid", uuid);
+			QDomElement addsite = doc.createElement("addsite");
+			addsite.setAttribute("uuid", uuid);
+			favorite.appendChild(addsite);
+		}
+		foreach(QString key,param.m_mapParam.keys())
+			site.setAttribute(key, param.m_mapParam[key].toString());
+
+		addresses.appendChild(site);
+	}
+	QFile ofile(m_addrXml);
+	if (!ofile.open(QIODevice::WriteOnly))
+		return false;
+	QByteArray xml = doc.toByteArray();
+	QTextStream stream(&ofile);
+	stream << xml;
+	ofile.close();
+
+	delete m_address;
+	return true;
 }
 
 void Global::loadPrefence()
@@ -435,7 +414,7 @@ QString Global::getSaveFileName(const QString& filename, QWidget* widget)
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 bool Global::iniWorkingDir(QString param)
 {
-    char ExeNamePath[MAX_PATH], _fileCfg[MAX_PATH], _addrCfg[MAX_PATH];
+    char ExeNamePath[MAX_PATH], _fileCfg[MAX_PATH], _addrCfg[MAX_PATH], _addrXml[MAX_PATH];
     size_t LastSlash = 0;
 
     if (0 == GetModuleFileNameA(NULL, ExeNamePath, MAX_PATH)) {
@@ -458,6 +437,11 @@ bool Global::iniWorkingDir(QString param)
     strcpy(_addrCfg, ExeNamePath);
     strcat(_addrCfg, "address.cfg");
     m_addrCfg = QString::fromLocal8Bit(_addrCfg);
+    strcpy(_addrXml, ExeNamePath);
+    strcat(_addrXml, "address.xml");	
+	m_addrXml = QString::fromLocal8Bit(_addrXml);
+	if (!convertAddressBook2XML())
+		return false;
 
     QString pathScheme = m_pathCfg + "scheme";
     if (!isPathExist(pathScheme))
@@ -525,10 +509,14 @@ bool Global::iniWorkingDir(QString param)
     m_fileCfg = m_pathCfg + "qterm.cfg";
     if (!createLocalFile(m_fileCfg, m_pathLib + "qterm.cfg"))
         return false;
-    m_addrCfg = m_pathCfg + "address.cfg";
-    if (!createLocalFile(m_addrCfg, m_pathLib + "address.cfg"))
-        return false;
-
+    //m_addrCfg = m_pathCfg + "address.cfg";
+    //if (!createLocalFile(m_addrCfg, m_pathLib + "address.cfg"))
+    //    return false;
+	m_addrXml = m_pathCfg + "address.xml";
+    //if (!createLocalFile(m_addrXml, m_pathLib + "address.xml"))
+    //    return false;
+	if (!convertAddressBook2XML())
+		return false;
     return true;
 }
 #endif

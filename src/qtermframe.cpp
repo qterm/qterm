@@ -306,7 +306,7 @@ void Frame::saveAndDisconnect()
 void Frame::newWindow(const Param&  param, int index)
 {
     Window * window = new Window(this, param, index, mdiArea, 0);
-	window->setWindowTitle(param.m_strName);
+	window->setWindowTitle(param.m_mapParam["name"].toString());
     window->setWindowIcon(QIcon(":/pic/tabpad.png"));
     window->setAttribute(Qt::WA_DeleteOnClose);
     window->showMaximized();

@@ -260,26 +260,28 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
 #endif // SCRIPT_ENABLED
 //init the textline list
 
-    m_codec = QTextCodec::codecForName(param.m_BBSCode.toLatin1());
-    m_pBuffer = new Buffer(m_param.m_nRow, m_param.m_nCol, m_param.m_nScrollLines);
-    if (param.m_nProtocolType == 0)
-        m_pTelnet = new Telnet(m_param.m_strTerm,
-                               m_param.m_nRow, m_param.m_nCol, false);
+	QString strTerm = m_param.m_mapParam["termtype"].toString();
+	int nColumn = m_param.m_mapParam["column"].toInt();
+	int nRow = m_param.m_mapParam["row"].toInt();
+	int nScroll = m_param.m_mapParam["scroll"].toInt();
+
+    m_codec = QTextCodec::codecForName(param.m_mapParam["bbscode"].toString().toLatin1());
+    m_pBuffer = new Buffer(nRow, nColumn, nScroll);
+    if (param.m_mapParam["protocol"] == 0)
+        m_pTelnet = new Telnet(strTerm, nRow, nColumn, false);
     else {
 #ifndef SSH_ENABLED
         QMessageBox::warning(this, "QTerm",
                              tr("SSH support is not compiled, QTerm can only use Telnet!"));
-        m_pTelnet = new Telnet(m_param.m_strTerm,
-                               m_param.m_nRow, m_param.m_nCol, false);
+        m_pTelnet = new Telnet(strTerm, nRow, nColumn, false);
 #else
-        m_pTelnet = new Telnet(m_param.m_strTerm,
-                               m_param.m_nRow, m_param.m_nCol, true);
+        m_pTelnet = new Telnet(strTerm, nRow, nColumn, true);
 #endif
     }
     connect(m_pBuffer, SIGNAL(windowSizeChanged(int, int)),
             m_pTelnet, SLOT(windowSizeChanged(int, int)));
     m_pZmDialog = new zmodemDialog(this);
-    m_pZmodem = new Zmodem(this, m_pTelnet, m_codec, param.m_nProtocolType);
+	m_pZmodem = new Zmodem(this, m_pTelnet, m_codec, param.m_mapParam["protocol"].toInt());
 
     if (m_codec == 0) {
         qDebug("Fallback to GBK codec");
@@ -347,7 +349,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     m_bColorCopy = false;
     m_bRectCopy = false;
     m_bAntiIdle = true;
-    m_bAutoReply = m_param.m_bAutoReply;
+	m_bAutoReply = m_param.m_mapParam["bautoreply"].toBool();
     m_bBeep  = !(
 #ifndef PHONON_ENABLED
                    Global::instance()->m_pref.strPlayer.isEmpty() ||
@@ -357,7 +359,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     m_bWordWrap = false;
     m_bAutoCopy = true;
     m_bMessage = false;
-    m_bReconnect = m_param.m_bReconnect;
+	m_bReconnect = m_param.m_mapParam["reconnect"].toBool();
 
     m_pDAThread = 0;
     m_bConnected = false;
@@ -366,7 +368,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
     m_bMouseX11 = false;
     m_bMouseClicked = false;
 #ifdef SSH_ENABLED
-    if (param.m_nProtocolType != 0)
+    if (param.m_mapParam["protocol"].toInt() != 0)
         m_bDoingLogin = true;
     else
 #endif
@@ -387,7 +389,7 @@ Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const cha
 
     initScript();
 
-    loadKeyboardTranslator(param.m_strKeyboardProfile);
+    loadKeyboardTranslator(param.m_mapParam["keyboardprofile"].toString());
 
     connectHost();
 }
@@ -452,7 +454,7 @@ void Window::idleProcess()
     m_bIdling = true;
     // system script can handle that
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("antiIdle");
         if (func.isFunction()) {
             func.call();
@@ -470,7 +472,7 @@ void Window::idleProcess()
 #endif
     // the default function
     int length;
-    QByteArray cstr = parseString(m_param.m_strAntiString.toLocal8Bit(), &length);
+    QByteArray cstr = parseString(m_param.m_mapParam["antiidlestring"].toString().toLocal8Bit(), &length);
     m_pTelnet->write(cstr, length);
 }
 
@@ -499,7 +501,7 @@ void Window::leaveEvent(QEvent *)
 void Window::mouseDoubleClickEvent(QMouseEvent * me)
 {
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << 3 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
@@ -535,7 +537,7 @@ void Window::mousePressEvent(QMouseEvent * me)
     }
 
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+    if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << 0 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
@@ -607,7 +609,7 @@ void Window::mouseMoveEvent(QMouseEvent * me)
     }
 
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << 2 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
@@ -681,7 +683,7 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
 
 
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
         if (func.isFunction()) {
             func.call(QScriptValue(), QScriptValueList() << 1 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
@@ -762,7 +764,7 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
 void Window::wheelEvent(QWheelEvent *we)
 {
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onWheelEvent");
         if (func.isFunction()) {
@@ -791,7 +793,7 @@ void Window::wheelEvent(QWheelEvent *we)
 void Window::keyPressEvent(QKeyEvent * e)
 {
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onKeyPressEvent");
         if (func.isFunction()) {
@@ -867,27 +869,38 @@ void Window::keyPressEvent(QKeyEvent * e)
 //connect slot
 void Window::connectHost()
 {
+	int nProtocol = m_param.m_mapParam["protocol"].toInt();
+	bool bAutoLogin = m_param.m_mapParam["autologin"].toBool();
+	QString strAddr = m_param.m_mapParam["addr"].toString();
+	int nPort = m_param.m_mapParam["port"].toInt();
+	QString strUser = m_param.m_mapParam["user"].toString();
+	QString strPasswd = m_param.m_mapParam["password"].toString();
+	QString strTerm = m_param.m_mapParam["termtype"].toString();
+
     if (m_hostInfo == NULL) {
-        if (m_param.m_nProtocolType == 0)
-            m_hostInfo = new TelnetInfo(m_param.m_strAddr , m_param.m_uPort);
+        if (nProtocol == 0)
+            m_hostInfo = new TelnetInfo(strAddr, nPort);
         else {
 #ifndef SSH_ENABLED
-            m_hostInfo = new TelnetInfo(m_param.m_strAddr , m_param.m_uPort);
+            m_hostInfo = new TelnetInfo(strAddr, nPort);
 #else
-            SSHInfo * sshInfo = new SSHInfo(m_param.m_strAddr , m_param.m_uPort);
-            if (m_param.m_bAutoLogin) {
-                sshInfo->setUserName(m_param.m_strUser);
-                sshInfo->setPassword(m_param.m_strPasswd);
+            SSHInfo * sshInfo = new SSHInfo(strAddr , nPort);
+            if (bAutoLogin) {
+                sshInfo->setUserName(strUser);
+                sshInfo->setPassword(strPasswd);
             }
             m_hostInfo = sshInfo;
 #endif
         }
     }
-    m_hostInfo->setTermType(m_param.m_strTerm);
+    m_hostInfo->setTermType(strTerm);
 
-    m_pTelnet->setProxy(m_param.m_nProxyType, m_param.m_bAuth,
-                        m_param.m_strProxyHost, m_param.m_uProxyPort,
-                        m_param.m_strProxyUser, m_param.m_strProxyPasswd);
+	m_pTelnet->setProxy(m_param.m_mapParam["proxytype"].toInt(),
+						m_param.m_mapParam["proxyauth"].toBool(),
+						m_param.m_mapParam["proxyaddr"].toString(), 
+						m_param.m_mapParam["proxyport"].toInt(),
+						m_param.m_mapParam["proxyuser"].toString(), 
+						m_param.m_mapParam["proxypassword"].toString());
 
     m_pTelnet->connectHost(m_hostInfo);
 }
@@ -935,7 +948,7 @@ void Window::ZmodemState(int type, int value, const QString& msg)
 {
     QString status = m_codec->toUnicode(msg.toLatin1());
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onZmodemState");
         if (func.isFunction()) {
@@ -1023,7 +1036,7 @@ void Window::ZmodemState(int type, int value, const QString& msg)
 void Window::TelnetState(int state)
 {
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+    if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onTelnetState");
         if (func.isFunction()) {
@@ -1057,7 +1070,7 @@ void Window::TelnetState(int state)
     case TSHOSTCONNECTED:
         m_pScreen->osd()->display(tr("connected"));
         m_bConnected = true;
-        if (m_param.m_bAutoLogin)
+        if (m_param.m_mapParam["autologin"].toBool())
             m_bDoingLogin = true;
         break;
     case TSPROXYCONNECTED:
@@ -1081,7 +1094,7 @@ void Window::TelnetState(int state)
     case TSCLOSED:
         m_pScreen->osd()->display(tr("connection closed"));
         connectionClosed();
-        if (m_param.m_bReconnect && m_bReconnect)
+        if (m_param.m_mapParam["reconnect"].toBool() && m_bReconnect)
             reconnectProcess();
         break;
     case TSCLOSEFINISH:
@@ -1112,7 +1125,7 @@ void Window::TelnetState(int state)
         if (m_idleTimer->isActive())
             m_idleTimer->stop();
         if (m_bAntiIdle)
-            m_idleTimer->start(m_param.m_nMaxIdle*1000);
+            m_idleTimer->start(m_param.m_mapParam["maxidle"].toInt()*1000);
         m_bIdling = false;
         break;
     default:
@@ -1131,11 +1144,13 @@ void Window::on_actionCopy_triggered()
 {
     QClipboard *clipboard = QApplication::clipboard();
 
+	QString strEscape = m_param.m_mapParam["escape"].toString();
+
     clipboard->setText(m_pBuffer->getSelectText(m_bRectCopy, m_bColorCopy,
-                       parseString((const char *)m_param.m_strEscape.toLatin1())),
+                       parseString((const char *)strEscape.toLatin1())),
                        QClipboard::Clipboard);
     clipboard->setText(m_pBuffer->getSelectText(m_bRectCopy, m_bColorCopy,
-                       parseString((const char *)m_param.m_strEscape.toLatin1())),
+                       parseString((const char *)strEscape.toLatin1())),
                        QClipboard::Selection);
 }
 
@@ -1162,7 +1177,7 @@ void Window::pasteHelper(bool clip)
 
     if (!Global::instance()->escapeString().isEmpty())
         strText.replace(parseString(Global::instance()->escapeString().toLatin1()),
-                         parseString((const char *)m_param.m_strEscape.toLatin1()));
+                         parseString((const char *)m_param.m_mapParam["escape"].toString().toLatin1()));
 
     if (m_bWordWrap) {
         // insert '\n' as needed
@@ -1199,7 +1214,7 @@ void Window::on_actionCopy_Article_triggered()
         return;
 
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+    if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onCopyArticle");
         if (func.isFunction()) {
@@ -1333,7 +1348,7 @@ void Window::on_actionAnti_Idle_toggled(bool isEnabled)
         m_idleTimer->stop();
     // enabled
     if (m_bAntiIdle && !m_idleTimer->isActive())
-        m_idleTimer->start(m_param.m_nMaxIdle*1000);
+        m_idleTimer->start(m_param.m_mapParam["maxidle"].toInt()*1000);
 }
 
 void Window::on_actionAuto_Reply_toggled(bool isEnabled)
@@ -1344,7 +1359,7 @@ void Window::on_actionAuto_Reply_toggled(bool isEnabled)
         m_replyTimer->stop();
     // enabled
 // if( m_bAutoReply && !m_replyTimer->isActive() )
-//  m_replyTimer->start(m_param.m_nMaxIdle*1000/2);
+//  m_replyTimer->start(m_param.m_mapParam["maxidle"].toInt()*1000/2);
 }
 
 void Window::connectionClosed()
@@ -1371,18 +1386,24 @@ void Window::connectionClosed()
 
 void Window::doAutoLogin()
 {
-    if (!m_param.m_strPreLogin.isEmpty()) {
-        QByteArray temp = parseString(m_param.m_strPreLogin.toLatin1());
+	QString strPreLogin = m_param.m_mapParam["prelogin"].toString();
+	QString strUser = m_param.m_mapParam["user"].toString();
+	QString strPasswd = m_param.m_mapParam["password"].toString();
+
+	QString strPostLogin = m_param.m_mapParam["postlogin"].toString();
+
+    if (!strPreLogin.isEmpty()) {
+        QByteArray temp = parseString(strPreLogin.toLatin1());
         m_pTelnet->write((const char *)(temp), temp.length());
     }
-    if (!m_param.m_strUser.isEmpty()) {
-        QByteArray temp = m_param.m_strUser.toLocal8Bit();
+    if (!strUser.isEmpty()) {
+        QByteArray temp = strUser.toLocal8Bit();
         m_pTelnet->write((const char *)(temp), temp.length());
         char ch = CHAR_CR;
         m_pTelnet->write(&ch, 1);
     }
-    if (!m_param.m_strPasswd.isEmpty()) {
-        QByteArray temp = m_param.m_strPasswd.toLocal8Bit();
+    if (!strPasswd.isEmpty()) {
+        QByteArray temp = strPasswd.toLocal8Bit();
         m_pTelnet->write((const char *)(temp), temp.length());
         char ch = CHAR_CR;
         m_pTelnet->write(&ch, 1);
@@ -1394,8 +1415,8 @@ void Window::doAutoLogin()
     sleep(1);
 #endif
 
-    if (!m_param.m_strPostLogin.isEmpty()) {
-        QByteArray temp = parseString(m_param.m_strPostLogin.toLatin1());
+    if (!strPostLogin.isEmpty()) {
+        QByteArray temp = parseString(strPostLogin.toLatin1());
         m_pTelnet->write((const char *)(temp), temp.length());
     }
     m_bDoingLogin = false;
@@ -1403,12 +1424,14 @@ void Window::doAutoLogin()
 
 void Window::reconnectProcess()
 {
+	int nRetry = m_param.m_mapParam["retrytimes"].toInt();
+	int nReconnectInterval = m_param.m_mapParam["interval"].toInt();
     static int retry = 0;
-    if (retry < m_param.m_nRetry || m_param.m_nRetry == -1) {
-        if (m_param.m_nReconnectInterval <= 0)
+    if (retry < nRetry || nRetry == -1) {
+        if (nReconnectInterval <= 0)
             reconnect();
         else
-            m_reconnectTimer->start(m_param.m_nReconnectInterval*1000);
+            m_reconnectTimer->start(nReconnectInterval*1000);
         retry++;
     }
 }
@@ -1491,9 +1514,9 @@ void Window::replyMessage()
     if (m_replyTimer->isActive())
         m_replyTimer->stop();
 
-    QByteArray cstrTmp = m_param.m_strReplyKey.toLocal8Bit();
+	QByteArray cstrTmp = m_param.m_mapParam["replykey"].toString().toLocal8Bit();
     QByteArray cstr = parseString(cstrTmp.isEmpty() ? QByteArray("^Z") : cstrTmp);
-    cstr += m_codec->fromUnicode(m_param.m_strAutoReply);
+	cstr += m_codec->fromUnicode(m_param.m_mapParam["autoreply"].toString());
 
     cstr += '\n';
     m_pTelnet->write(cstr, cstr.length());
@@ -1541,10 +1564,10 @@ void Window::initScript()
 
     QScriptValue scriptHelper = m_scriptEngine->newQObject(m_scriptHelper);
     m_scriptEngine->globalObject().setProperty("QTerm", scriptHelper);
-    if (!m_param.m_bLoadScript)
+	if (!m_param.m_mapParam["loadscript"].toBool())
         return;
     m_pBBS->setScript(m_scriptEngine, m_scriptHelper);
-    m_scriptHelper->loadScript(m_param.m_strScriptFile);
+    m_scriptHelper->loadScript(m_param.m_mapParam["scriptfile"].toString());
     QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("init");
     if (!func.isFunction()) {
         qDebug() << "init is not a function";
@@ -1655,7 +1678,7 @@ QMenu * Window::urlMenu()
 void Window::updateWindow()
 {
 #ifdef SCRIPT_ENABLED
-    if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+    if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onNewData");
         if (func.isFunction()) {
@@ -1729,7 +1752,7 @@ void Window::updateWindow()
             }
         if (m_bAutoReply) {
 #ifdef SCRIPT_ENABLED
-            if (m_scriptEngine != NULL && m_param.m_bLoadScript) {
+            if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
                 m_scriptHelper->setAccepted(false);
                 QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("autoReply");
                 if (func.isFunction()) {
@@ -1741,7 +1764,7 @@ void Window::updateWindow()
                         if (m_bIdling)
                             replyMessage();
                         else
-                            m_replyTimer->start(m_param.m_nMaxIdle*1000 / 2);
+                            m_replyTimer->start(m_param.m_mapParam["maxidle"].toInt()*1000 / 2);
                     }
                 } else {
                     qDebug("autoReply is not a function");

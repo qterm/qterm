@@ -144,6 +144,7 @@ int main( int argc, char ** argv )
         return -1;
     }
 
+
     // Registrate the new codec
     UAOCodec hackCodec;
 

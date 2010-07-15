@@ -226,6 +226,7 @@ target_link_libraries(qterm
    ${QT_QTCORE_LIBRARY}
    ${QT_QTGUI_LIBRARY}
    ${QT_QTNETWORK_LIBRARY}
+   ${QT_QTXML_LIBRARY}
    ${optionalLibs})
 if(WIN32 AND MINGW)
    target_link_libraries(qterm ${win32Libs})

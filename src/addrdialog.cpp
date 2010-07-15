@@ -147,7 +147,7 @@ void addrDialog::onNamechange(int item)
             updateData(true);
             if (nLastItem != -1) {
                 Global::instance()->saveAddress(nLastItem, param);
-                ui.nameListWidget->item(nLastItem)->setText(param.m_strName);
+				ui.nameListWidget->item(nLastItem)->setText(param.m_mapParam["name"].toString());
                 ui.nameListWidget->setCurrentRow(item);
                 return;
             }
@@ -184,7 +184,7 @@ void addrDialog::onAdd()
     Global::instance()->saveAddress(index + 1, param);
 
     // insert it to the listbox
-    ui.nameListWidget->insertItem(index + 1, param.m_strName);
+	ui.nameListWidget->insertItem(index + 1, param.m_mapParam["name"].toString());
     ui.nameListWidget->setItemSelected(ui.nameListWidget->item(index + 1), true);
 }
 void addrDialog::onDelete()
@@ -225,7 +225,7 @@ void addrDialog::onApply()
     if (!bPartial) {
         Global::instance()->saveAddress(ui.nameListWidget->currentRow(), param);
         if (ui.nameListWidget->count() != 0)
-            ui.nameListWidget->item(ui.nameListWidget->currentRow())->setText(param.m_strName);
+            ui.nameListWidget->item(ui.nameListWidget->currentRow())->setText(param.m_mapParam["name"].toString());
     } else
         done(1);
 }
@@ -368,173 +368,168 @@ void addrDialog::connectSlots()
 
 bool addrDialog::isChanged()
 {
-    return(param.m_strName != ui.nameLineEdit->text() ||
-           param.m_strAddr != ui.addrLineEdit->text() ||
-           param.m_uPort != ui.portSpinBox->value() ||
-           param.m_nHostType != ui.hostTypeComboBox->currentIndex() ||
-           param.m_bAutoLogin != ui.autoLoginCheckBox->isChecked() ||
-           param.m_strPreLogin != ui.preloginLineEdit->text() ||
-           param.m_strUser != ui.userLineEdit->text() ||
-           param.m_strPasswd != ui.passwdLineEdit->text() ||
-           param.m_strPostLogin != ui.postloginLineEdit->text() ||
-           param.m_BBSCode != ui.bbscodeComboBox->currentText() ||
-           param.m_nDispCode != ui.displaycodeComboBox->currentIndex() ||
-           param.m_bAutoFont != ui.autofontCheckBox->isChecked() ||
-           param.m_bAlwaysHighlight != ui.highlightCheckBox->isChecked() ||
-           param.m_bAnsiColor != ui.ansicolorCheckBox->isChecked() ||
-           param.m_strASCIIFontName != strASCIIFontName ||
-           param.m_strGeneralFontName != strGeneralFontName||
-           param.m_nFontSize != nFontSize ||
-           param.m_strSchemeFile != strSchemeFile ||
-           param.m_strKeyboardProfile != strKeyboardProfile||
-           param.m_strTerm != ui.termtypeLineEdit->text() ||
-           param.m_nCol != ui.columnSpinBox->value() ||
-           param.m_nRow != ui.rowSpinBox->value() ||
-           param.m_nScrollLines != ui.scrollSpinBox->value() ||
-           param.m_nCursorType != ui.cursorTypeComboBox->currentIndex() ||
-           param.m_strEscape != ui.escapeLineEdit->text() ||
-           param.m_nProxyType != ui.proxytypeComboBox->currentIndex() ||
-           param.m_strProxyHost != ui.proxyaddrLineEdit->text() ||
-           param.m_uProxyPort != ui.proxyportSpinBox->value() ||
-           param.m_bAuth != ui.authCheckBox->isChecked() ||
-           param.m_strProxyUser != ui.proxyuserLineEdit->text() ||
-           param.m_strProxyPasswd != ui.proxypasswdLineEdit->text() ||
-           param.m_nProtocolType != ui.protocolComboBox->currentIndex() ||
-           param.m_nMaxIdle != ui.idletimeLineEdit->text().toInt() ||
-           param.m_strAntiString != ui.antiLineEdit->text() ||
-           param.m_strReplyKey != ui.replykeyLineEdit->text() ||
-           param.m_strAutoReply != ui.replyLineEdit->text()) ||
-          param.m_bAutoReply != ui.replyCheckBox->isChecked() ||
-          param.m_bReconnect != ui.reconnectCheckBox->isChecked() ||
-          param.m_nReconnectInterval != ui.reconnectLineEdit->text().toInt() ||
-//  param.m_nRetry != ui.retryLineEdit->text().toInt() ||
-          param.m_bLoadScript != ui.scriptCheckBox->isChecked() ||
-          param.m_strScriptFile != ui.scriptLineEdit->text() ||
-          param.m_nMenuType != ui.menuTypeComboBox->currentIndex() ||
-          param.m_clrMenu != clrMenu;
+    return(param.m_mapParam["name"].toString() != ui.nameLineEdit->text() ||
+           param.m_mapParam["addr"].toString() != ui.addrLineEdit->text() ||
+		   param.m_mapParam["port"].toInt() != ui.portSpinBox->value() ||
+		   param.m_mapParam["hosttype"].toInt() != ui.hostTypeComboBox->currentIndex() ||
+           param.m_mapParam["autologin"].toBool() != ui.autoLoginCheckBox->isChecked() ||
+           param.m_mapParam["prelogin"].toString() != ui.preloginLineEdit->text() ||
+           param.m_mapParam["user"].toString() != ui.userLineEdit->text() ||
+           param.m_mapParam["password"].toString() != ui.passwdLineEdit->text() ||
+           param.m_mapParam["postlogin"].toString() != ui.postloginLineEdit->text() ||
+           param.m_mapParam["bbscode"].toString() != ui.bbscodeComboBox->currentText() ||
+           param.m_mapParam["displaycode"].toInt() != ui.displaycodeComboBox->currentIndex() ||
+           param.m_mapParam["autofont"].toBool() != ui.autofontCheckBox->isChecked() ||
+           param.m_mapParam["alwayshighlight"].toBool() != ui.highlightCheckBox->isChecked() ||
+           param.m_mapParam["ansicolor"].toBool() != ui.ansicolorCheckBox->isChecked() ||
+           param.m_mapParam["asciifont"].toString() != strASCIIFontName ||
+           param.m_mapParam["generalfont"].toString() != strGeneralFontName||
+           param.m_mapParam["fontsize"].toInt() != nFontSize ||
+           param.m_mapParam["schemefile"].toString() != strSchemeFile ||
+           param.m_mapParam["keyboardprofile"].toString() != strKeyboardProfile||
+           param.m_mapParam["termtype"].toString() != ui.termtypeLineEdit->text() ||
+           param.m_mapParam["column"].toInt() != ui.columnSpinBox->value() ||
+           param.m_mapParam["row"].toInt() != ui.rowSpinBox->value() ||
+           param.m_mapParam["scroll"].toInt() != ui.scrollSpinBox->value() ||
+           param.m_mapParam["cursor"].toInt() != ui.cursorTypeComboBox->currentIndex() ||
+           param.m_mapParam["escape"].toString() != ui.escapeLineEdit->text() ||
+           param.m_mapParam["proxytype"].toInt() != ui.proxytypeComboBox->currentIndex() ||
+           param.m_mapParam["proxyaddr"].toString() != ui.proxyaddrLineEdit->text() ||
+           param.m_mapParam["proxyport"].toInt() != ui.proxyportSpinBox->value() ||
+           param.m_mapParam["proxyauth"].toBool() != ui.authCheckBox->isChecked() ||
+           param.m_mapParam["proxyuser"].toString() != ui.proxyuserLineEdit->text() ||
+           param.m_mapParam["proxypassword"].toString() != ui.proxypasswdLineEdit->text() ||
+           param.m_mapParam["protocol"].toInt() != ui.protocolComboBox->currentIndex() ||
+           param.m_mapParam["maxidle"].toInt() != ui.idletimeLineEdit->text().toInt() ||
+           param.m_mapParam["antiidlestring"].toString() != ui.antiLineEdit->text() ||
+           param.m_mapParam["replykey"].toString() != ui.replykeyLineEdit->text() ||
+           param.m_mapParam["autoreply"].toString() != ui.replyLineEdit->text()) ||
+           param.m_mapParam["bautoreply"].toBool() != ui.replyCheckBox->isChecked() ||
+           param.m_mapParam["reconnect"].toBool() != ui.reconnectCheckBox->isChecked() ||
+           param.m_mapParam["interval"].toInt() != ui.reconnectLineEdit->text().toInt() ||
+//  param.m_mapParam["retrytimes"].toInt() != ui.retryLineEdit->text().toInt() ||
+           param.m_mapParam["loadscript"].toBool() != ui.scriptCheckBox->isChecked() ||
+           param.m_mapParam["scriptfile"].toString() != ui.scriptLineEdit->text() ||
+           param.m_mapParam["menutype"].toInt() != ui.menuTypeComboBox->currentIndex() ||
+           param.m_mapParam["menucolor"] != clrMenu;
 
 }
 
 void addrDialog::updateData(bool save)
 {
     if (save) { // from display to param
-        param.m_strName = ui.nameLineEdit->text();
-        param.m_strAddr = ui.addrLineEdit->text();
-        param.m_uPort = ui.portSpinBox->value();
-        param.m_nHostType = ui.hostTypeComboBox->currentIndex();
-        param.m_bAutoLogin = ui.autoLoginCheckBox->isChecked();
-        param.m_strPreLogin = ui.preloginLineEdit->text();
-        param.m_strUser = ui.userLineEdit->text();
-        param.m_strPasswd = ui.passwdLineEdit->text();
-        param.m_strPostLogin = ui.postloginLineEdit->text();
-        param.m_BBSCode = ui.bbscodeComboBox->currentText();
-        param.m_nDispCode = ui.displaycodeComboBox->currentIndex();
-        param.m_bAutoFont = ui.autofontCheckBox->isChecked();
-        param.m_bAlwaysHighlight = ui.highlightCheckBox->isChecked();
-        param.m_bAnsiColor = ui.ansicolorCheckBox->isChecked();
-        param.m_strASCIIFontName = strASCIIFontName;
-        param.m_strGeneralFontName = strGeneralFontName;
-        param.m_nFontSize = nFontSize;
-        param.m_strSchemeFile = strSchemeFile;
-        param.m_strKeyboardProfile = strKeyboardProfile;
-        param.m_strTerm = ui.termtypeLineEdit->text();
-        param.m_nCol = ui.columnSpinBox->value();
-        param.m_nRow = ui.rowSpinBox->value();
-        param.m_nScrollLines = ui.scrollSpinBox->value();
-        param.m_nCursorType = ui.cursorTypeComboBox->currentIndex();
-        param.m_strEscape = ui.escapeLineEdit->text();
-        param.m_nProxyType = ui.proxytypeComboBox->currentIndex();
-        param.m_strProxyHost = ui.proxyaddrLineEdit->text();
-        param.m_uProxyPort = ui.proxyportSpinBox->value();
-        param.m_bAuth = ui.authCheckBox->isChecked();
-        param.m_strProxyUser = ui.proxyuserLineEdit->text();
-        param.m_strProxyPasswd = ui.proxypasswdLineEdit->text();
-        param.m_nProtocolType = ui.protocolComboBox->currentIndex();
-        param.m_nMaxIdle = ui.idletimeLineEdit->text().toInt();
-        param.m_strReplyKey = ui.replykeyLineEdit->text();
-        if (param.m_strReplyKey.isNull())
+        param.m_mapParam["name"] = ui.nameLineEdit->text();
+        param.m_mapParam["addr"] = ui.addrLineEdit->text();
+        param.m_mapParam["port"] = ui.portSpinBox->value();
+        param.m_mapParam["hosttype"] = ui.hostTypeComboBox->currentIndex();
+        param.m_mapParam["autologin"] = ui.autoLoginCheckBox->isChecked();
+        param.m_mapParam["prelogin"] = ui.preloginLineEdit->text();
+        param.m_mapParam["user"] = ui.userLineEdit->text();
+        param.m_mapParam["password"] = ui.passwdLineEdit->text();
+        param.m_mapParam["postlogin"] = ui.postloginLineEdit->text();
+        param.m_mapParam["bbscode"] = ui.bbscodeComboBox->currentText();
+        param.m_mapParam["displaycode"] = ui.displaycodeComboBox->currentIndex();
+        param.m_mapParam["autofont"] = ui.autofontCheckBox->isChecked();
+        param.m_mapParam["alwayshighlight"] = ui.highlightCheckBox->isChecked();
+        param.m_mapParam["ansicolor"] = ui.ansicolorCheckBox->isChecked();
+        param.m_mapParam["asciifont"] = strASCIIFontName;
+        param.m_mapParam["generalfont"] = strGeneralFontName;
+        param.m_mapParam["fontsize"] = nFontSize;
+        param.m_mapParam["schemefile"] = strSchemeFile;
+        param.m_mapParam["keyboardprofile"] = strKeyboardProfile;
+        param.m_mapParam["termtype"] = ui.termtypeLineEdit->text();
+        param.m_mapParam["column"] = ui.columnSpinBox->value();
+        param.m_mapParam["row"] = ui.rowSpinBox->value();
+        param.m_mapParam["scroll"] = ui.scrollSpinBox->value();
+        param.m_mapParam["cursor"] = ui.cursorTypeComboBox->currentIndex();
+        param.m_mapParam["escape"] = ui.escapeLineEdit->text();
+        param.m_mapParam["proxytype"] = ui.proxytypeComboBox->currentIndex();
+        param.m_mapParam["proxyhost"] = ui.proxyaddrLineEdit->text();
+        param.m_mapParam["proxyport"] = ui.proxyportSpinBox->value();
+        param.m_mapParam["proxyauth"] = ui.authCheckBox->isChecked();
+        param.m_mapParam["proxyuser"] = ui.proxyuserLineEdit->text();
+        param.m_mapParam["proxypassword"] = ui.proxypasswdLineEdit->text();
+        param.m_mapParam["protocol"] = ui.protocolComboBox->currentIndex();
+        param.m_mapParam["maxidle"] = ui.idletimeLineEdit->text().toInt();
+        param.m_mapParam["replykey"] = ui.replykeyLineEdit->text();
+		if (param.m_mapParam["replykey"].toString().isNull())
             qDebug("saving null");
-        param.m_strAntiString = ui.antiLineEdit->text();
-        param.m_bAutoReply = ui.replyCheckBox->isChecked();
-        param.m_strAutoReply = ui.replyLineEdit->text();
-        param.m_bReconnect = ui.reconnectCheckBox->isChecked();
-        param.m_nReconnectInterval = ui.reconnectLineEdit->text().toInt();
-//  param.m_nRetry = ui.retryLineEdit->text().toInt();
-        param.m_bLoadScript = ui.scriptCheckBox->isChecked();
-        param.m_strScriptFile = ui.scriptLineEdit->text();
-        param.m_nMenuType = ui.menuTypeComboBox->currentIndex();
-        param.m_clrMenu = clrMenu;
+        param.m_mapParam["antiidlestring"] = ui.antiLineEdit->text();
+        param.m_mapParam["bautoreply"] = ui.replyCheckBox->isChecked();
+        param.m_mapParam["autoreply"] = ui.replyLineEdit->text();
+        param.m_mapParam["reconnect"] = ui.reconnectCheckBox->isChecked();
+        param.m_mapParam["interval"] = ui.reconnectLineEdit->text().toInt();
+//  param.m_mapParam["retrytimes"] = ui.retryLineEdit->text().toInt();
+        param.m_mapParam["loadscript"] = ui.scriptCheckBox->isChecked();
+        param.m_mapParam["scriptfile"] = ui.scriptLineEdit->text();
+        param.m_mapParam["menutype"] = ui.menuTypeComboBox->currentIndex();
+        param.m_mapParam["menucolor"] = clrMenu;
     } else { // from param to display
         disconnect(ui.protocolComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onProtocol(int)));
         QString strTmp;
-        ui.nameLineEdit->setText(param.m_strName);
-        ui.addrLineEdit->setText(param.m_strAddr);
-        strTmp.setNum(param.m_uPort);
-        ui.portSpinBox->setValue(strTmp.toUInt());
-        ui.hostTypeComboBox->setCurrentIndex(param.m_nHostType);
-        ui.autoLoginCheckBox->setChecked(param.m_bAutoLogin);
-        ui.preloginLineEdit->setEnabled(param.m_bAutoLogin);
-        ui.userLineEdit->setEnabled(param.m_bAutoLogin);
-        ui.passwdLineEdit->setEnabled(param.m_bAutoLogin);
-        ui.postloginLineEdit->setEnabled(param.m_bAutoLogin);
-        ui.preloginLineEdit->setText(param.m_strPreLogin);
-        ui.userLineEdit->setText(param.m_strUser);
-        ui.passwdLineEdit->setText(param.m_strPasswd);
-        ui.postloginLineEdit->setText(param.m_strPostLogin);
-        ui.bbscodeComboBox->setCurrentIndex(ui.bbscodeComboBox->findText(param.m_BBSCode));
-        ui.displaycodeComboBox->setCurrentIndex(param.m_nDispCode);
-        ui.autofontCheckBox->setChecked(param.m_bAutoFont);
-        ui.highlightCheckBox->setChecked(param.m_bAlwaysHighlight);
-        ui.ansicolorCheckBox->setChecked(param.m_bAnsiColor);
-        strASCIIFontName = param.m_strASCIIFontName;
+        ui.nameLineEdit->setText(param.m_mapParam["name"].toString());
+        ui.addrLineEdit->setText(param.m_mapParam["addr"].toString());
+        ui.portSpinBox->setValue(param.m_mapParam["port"].toInt());
+        ui.hostTypeComboBox->setCurrentIndex(param.m_mapParam["hosttype"].toInt());
+        ui.autoLoginCheckBox->setChecked(param.m_mapParam["autologin"].toBool());
+        ui.preloginLineEdit->setEnabled(param.m_mapParam["autologin"].toBool());
+        ui.userLineEdit->setEnabled(param.m_mapParam["autologin"].toBool());
+        ui.passwdLineEdit->setEnabled(param.m_mapParam["autologin"].toBool());
+        ui.postloginLineEdit->setEnabled(param.m_mapParam["autologin"].toBool());
+        ui.preloginLineEdit->setText(param.m_mapParam["prelogin"].toString());
+        ui.userLineEdit->setText(param.m_mapParam["user"].toString());
+        ui.passwdLineEdit->setText(param.m_mapParam["password"].toString());
+        ui.postloginLineEdit->setText(param.m_mapParam["postlogin"].toString());
+        ui.bbscodeComboBox->setCurrentIndex(ui.bbscodeComboBox->findText(param.m_mapParam["bbscode"].toString()));
+        ui.displaycodeComboBox->setCurrentIndex(param.m_mapParam["displaycode"].toInt());
+        ui.autofontCheckBox->setChecked(param.m_mapParam["autofont"].toBool());
+        ui.highlightCheckBox->setChecked(param.m_mapParam["alwayshighlight"].toBool());
+        ui.ansicolorCheckBox->setChecked(param.m_mapParam["ansicolor"].toBool());
+        strASCIIFontName = param.m_mapParam["asciifont"].toString();
         ui.asciiFontComboBox->setCurrentFont(QFont(strASCIIFontName));
-        strGeneralFontName = param.m_strGeneralFontName;
+        strGeneralFontName = param.m_mapParam["generalfont"].toString();
         ui.generalFontComboBox->setCurrentFont(QFont(strGeneralFontName));
-        nFontSize = param.m_nFontSize ;
+        nFontSize = param.m_mapParam["fontsize"].toInt();
         ui.fontSizeSpinBox->setValue(nFontSize);
-        strSchemeFile = param.m_strSchemeFile;
+        strSchemeFile = param.m_mapParam["schemefile"].toString();
         ui.schemeComboBox->setCurrentIndex(schemeFileList.indexOf(strSchemeFile));
-        strKeyboardProfile = param.m_strKeyboardProfile;
+        strKeyboardProfile = param.m_mapParam["keyboardprofile"].toString();
         ui.keytypeComboBox->setCurrentIndex(keyboardProfileList.indexOf(strKeyboardProfile));
-        ui.termtypeLineEdit->setText(param.m_strTerm);
-        ui.columnSpinBox->setValue(param.m_nCol);
-        ui.rowSpinBox->setValue(param.m_nRow);
-        ui.scrollSpinBox->setValue(param.m_nScrollLines);
-        ui.cursorTypeComboBox->setCurrentIndex(param.m_nCursorType);
-        ui.escapeLineEdit->setText(param.m_strEscape);
-        ui.proxytypeComboBox->setCurrentIndex(param.m_nProxyType);
-        ui.proxyaddrLineEdit->setText(param.m_strProxyHost);
-        strTmp.setNum(param.m_uProxyPort);
-        ui.proxyportSpinBox->setValue(strTmp.toUInt());
-        ui.authCheckBox->setChecked(param.m_bAuth);
-        ui.proxyuserLineEdit->setEnabled(param.m_bAuth);
-        ui.proxypasswdLineEdit->setEnabled(param.m_bAuth);
-        ui.proxyuserLineEdit->setText(param.m_strProxyUser);
-        ui.proxypasswdLineEdit->setText(param.m_strProxyPasswd);
-        ui.protocolComboBox->setCurrentIndex(param.m_nProtocolType);
-        strTmp.setNum(param.m_nMaxIdle);
-        ui.idletimeLineEdit->setText(strTmp);
-        ui.replykeyLineEdit->setText(param.m_strReplyKey);
-        ui.antiLineEdit->setText(param.m_strAntiString);
-        ui.replyCheckBox->setChecked(param.m_bAutoReply);
-        ui.replyLineEdit->setEnabled(param.m_bAutoReply);
-        ui.replyLineEdit->setText(param.m_strAutoReply);
-        ui.reconnectCheckBox->setChecked(param.m_bReconnect);
-        ui.reconnectLineEdit->setEnabled(param.m_bReconnect);
-//  ui.retryLineEdit->setEnabled(param.m_bReconnect);
-        strTmp.setNum(param.m_nReconnectInterval);
-        ui.reconnectLineEdit->setText(strTmp);
-        strTmp.setNum(param.m_nRetry);
-//  ui.retryLineEdit->setText(strTmp);
-        ui.scriptCheckBox->setChecked(param.m_bLoadScript);
-        ui.scriptLineEdit->setEnabled(param.m_bLoadScript);
-        ui.scriptPushButton->setEnabled(param.m_bLoadScript);
-        ui.scriptLineEdit->setText(param.m_strScriptFile);
-        ui.menuTypeComboBox->setCurrentIndex(param.m_nMenuType);
+        ui.termtypeLineEdit->setText(param.m_mapParam["termtype"].toString());
+        ui.columnSpinBox->setValue(param.m_mapParam["column"].toInt());
+        ui.rowSpinBox->setValue(param.m_mapParam["row"].toInt());
+        ui.scrollSpinBox->setValue(param.m_mapParam["scroll"].toInt());
+        ui.cursorTypeComboBox->setCurrentIndex(param.m_mapParam["cursor"].toInt());
+        ui.escapeLineEdit->setText(param.m_mapParam["escape"].toString());
+        ui.proxytypeComboBox->setCurrentIndex(param.m_mapParam["proxytype"].toInt());
+        ui.proxyaddrLineEdit->setText(param.m_mapParam["proxyaddr"].toString());
+        ui.proxyportSpinBox->setValue(param.m_mapParam["proxyport"].toInt());
+        ui.authCheckBox->setChecked(param.m_mapParam["proxyauth"].toBool());
+        ui.proxyuserLineEdit->setEnabled(param.m_mapParam["proxyauth"].toBool());
+        ui.proxypasswdLineEdit->setEnabled(param.m_mapParam["proxyauth"].toBool());
+        ui.proxyuserLineEdit->setText(param.m_mapParam["proxyuser"].toString());
+        ui.proxypasswdLineEdit->setText(param.m_mapParam["proxypassword"].toString());
+        ui.protocolComboBox->setCurrentIndex(param.m_mapParam["protocol"].toInt());
+        ui.idletimeLineEdit->setText(param.m_mapParam["maxidle"].toString());
+        ui.replykeyLineEdit->setText(param.m_mapParam["replykey"].toString());
+        ui.antiLineEdit->setText(param.m_mapParam["antiidlestring"].toString());
+        ui.replyCheckBox->setChecked(param.m_mapParam["bautoreply"].toBool());
+        ui.replyLineEdit->setEnabled(param.m_mapParam["bautoreply"].toBool());
+        ui.replyLineEdit->setText(param.m_mapParam["autoreply"].toString());
+        ui.reconnectCheckBox->setChecked(param.m_mapParam["reconnect"].toBool());
+        ui.reconnectLineEdit->setEnabled(param.m_mapParam["reconnect"].toBool());
+//  ui.retryLineEdit->setEnabled(param.m_mapParam["reconnect"].toBool());
+        ui.reconnectLineEdit->setText(param.m_mapParam["interval"].toString());
+//  ui.retryLineEdit->setText(param.m_mapParam["retrytimes"].toString());
+        ui.scriptCheckBox->setChecked(param.m_mapParam["loadscript"].toBool());
+        ui.scriptLineEdit->setEnabled(param.m_mapParam["loadscript"].toBool());
+        ui.scriptPushButton->setEnabled(param.m_mapParam["loadscript"].toBool());
+        ui.scriptLineEdit->setText(param.m_mapParam["scriptfile"].toString());
+        ui.menuTypeComboBox->setCurrentIndex(param.m_mapParam["menutype"].toInt());
         //ui.menuGroup->setButton(param.m_nMenuType);
         //QRadioButton * rbMenu = qobject_cast<QRadioButton*>(bgMenu.button(param.m_nMenuType));
         //rbMenu->setChecked(true);
-        clrMenu = param.m_clrMenu;
+        clrMenu = param.m_mapParam["menucolor"].toString();
         connect(ui.protocolComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onProtocol(int)));
     }
 }
