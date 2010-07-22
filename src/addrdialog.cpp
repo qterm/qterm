@@ -8,6 +8,7 @@
 ****************************************************************************/
 #include "addrdialog.h"
 
+#include "dommodel.h"
 #include "qtermparam.h"
 #include "qtermconfig.h"
 #include "qtermglobal.h"
@@ -21,7 +22,10 @@
 #include <QPainter>
 #include <QFileDialog>
 #include <QPalette>
+#include <QMenu>
 #include <QtCore/QTextCodec>
+#include <QtCore/QUuid>
+#include <QtCore/QTextStream>
 namespace QTerm
 {
 
@@ -33,14 +37,9 @@ namespace QTerm
  *  TRUE to construct a modal dialog.
  */
 addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WFlags fl)
-        : QDialog(parent, fl), bPartial(partial), bgMenu(this), nLastItem(-1)
+        : QDialog(parent, fl), bPartial(partial), bgMenu(this)
 {
     ui.setupUi(this);
-    ui.portSpinBox->setRange(0, 65535);
-    ui.proxyportSpinBox->setRange(0, 65535);
-    ui.rowSpinBox->setRange(5,500);
-    ui.columnSpinBox->setRange(5,500);
-    ui.scrollSpinBox->setRange(0,1000000);
     QList<QByteArray> codecList = QTextCodec::availableCodecs();
     QByteArray codecName;
     foreach(codecName, codecList) {
@@ -49,9 +48,10 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WFlags fl)
     updateSchemeList();
     updateKeyboardProfiles();
     if (bPartial) {
-        ui.nameListWidget->hide();
+        ui.nameTreeView->hide();
         ui.Line->hide();
-        ui.addPushButton->hide();
+        ui.addSitePushButton->hide();
+		ui.addFolderPushButton->hide();
         ui.deletePushButton->hide();
         ui.connectPushButton->hide();
         ui.closePushButton->setText(tr("Cancel"));
@@ -69,18 +69,21 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WFlags fl)
         setMinimumSize(QSize(800, 600));
         setMaximumSize(QSize(800, 600));
         setWindowTitle(tr("AddressBook"));
-        ui.nameListWidget->addItems(Global::instance()->loadNameList());
-        if (ui.nameListWidget->count() > 0) {
-            Global::instance()->loadAddress(0, param);
-            ui.nameListWidget->setCurrentRow(0);
+		
+		QDomDocument doc = Global::instance()->addrXml();
+		domModel = new DomModel(doc);
+		ui.nameTreeView->setModel(domModel);
+
+		QMap<QString, QString> listFavorite = Global::instance()->loadFavoriteList(doc);
+        if (listFavorite.count() > 0) {
+			Global::instance()->loadAddress(doc, listFavorite.keys().at(0), param);
+            ui.nameTreeView->setCurrentIndex(domModel->index(0,0,domModel->index(0,0)));
         } else // the default
-            if (Global::instance()->addrCfg()->hasSection("default"))
-                Global::instance()->loadAddress(-1, param);
+			Global::instance()->loadAddress(doc, QUuid().toString(), param);
         updateData(false);
-        ui.nameListWidget->setFocus(Qt::OtherFocusReason);
+        ui.nameTreeView->setFocus(Qt::OtherFocusReason);
     }
     connectSlots();
-    ui.connectPushButton->setDefault(true);
 }
 
 /*
@@ -134,7 +137,39 @@ void addrDialog::updateKeyboardProfiles()
     }
 }
 
-void addrDialog::onNamechange(int item)
+void addrDialog::onPopupTreeContextMenu(const QPoint& point)
+{
+	QModelIndex index = ui.nameTreeView->indexAt(point);
+	DomModel::ItemType type = domModel->type(index);
+	DomModel::ItemType parentType = domModel->type(index.parent());
+
+	QMenu menu;
+	QAction *actionFolder=0, *actionFavorite=0, *actionRemove=0, *actionSite;
+	if (type != DomModel::Favorite) {
+		actionFolder = menu.addAction("New Folder");
+		if (type != DomModel::Unknown) {
+			actionSite = menu.addAction("New Site");
+			actionRemove = menu.addAction("Remove");
+		}
+	}
+	if (type == DomModel::Site && parentType != DomModel::Favorite) {
+		actionFavorite = menu.addAction("Add to favorite");
+	}
+	
+	QAction *actionActive = menu.exec(mapToGlobal(point));
+	if (actionActive != 0) {
+		if (actionActive == actionFolder)
+			domModel->addFolder(index);
+		else if (actionActive == actionFavorite)
+			domModel->addFavorite(index);
+		else if (actionActive == actionSite)
+			domModel->addSite(index);
+		else if (actionActive == actionRemove)
+			domModel->removeItem(index);
+	}
+}
+
+void addrDialog::onNamechange(const QModelIndex & index)
 {
     if (isChanged()) {
         QMessageBox mb("QTerm",
@@ -145,87 +180,28 @@ void addrDialog::onNamechange(int item)
                        0, this, 0);
         if (mb.exec() == QMessageBox::Yes) {
             updateData(true);
-            if (nLastItem != -1) {
-                Global::instance()->saveAddress(nLastItem, param);
-				ui.nameListWidget->item(nLastItem)->setText(param.m_mapParam["name"].toString());
-                ui.nameListWidget->setCurrentRow(item);
-                return;
+			if (lastIndex.isValid()) {
+				QString uuid = domModel->data(lastIndex,Qt::UserRole).toString();
+				if (!QUuid(uuid).isNull())
+					Global::instance()->saveAddress(domModel->document(), uuid, param);
             }
         }
     }
-    nLastItem = item;
-    Global::instance()->loadAddress(item, param);
+    lastIndex = index;
+	QString uuid = domModel->data(index, Qt::UserRole).toString();
+	if (!uuid.isEmpty())
+		Global::instance()->loadAddress(domModel->document(), uuid, param);
     updateData(false);
 }
 
-void addrDialog::onAdd()
-{
-    QString strTmp;
-    Config * pConf = Global::instance()->addrCfg();
-    strTmp = pConf->getItemValue("bbs list", "num").toString();
-    int num = strTmp.toInt();
-
-    int index = ui.nameListWidget->currentRow();
-
-    // change section names after the insert point
-    QString strSection;
-    for (int i = num - 1; i > index; i--) {
-        strSection = QString("bbs %1").arg(i);
-        strTmp = QString("bbs %1").arg(i + 1);
-        //strSection.sprintf("bbs %d",i);
-        //strTmp.sprintf("bbs %d",i+1);
-        pConf->renameSection(strSection, strTmp);
-    }
-    // add list number by one
-    strTmp.setNum(num + 1);
-    pConf->setItemValue("bbs list", "num", strTmp);
-    // update the data
-    updateData(true);
-    Global::instance()->saveAddress(index + 1, param);
-
-    // insert it to the listbox
-	ui.nameListWidget->insertItem(index + 1, param.m_mapParam["name"].toString());
-    ui.nameListWidget->setItemSelected(ui.nameListWidget->item(index + 1), true);
-}
-void addrDialog::onDelete()
-{
-    QString strTmp;
-    Config * pConf = Global::instance()->addrCfg();
-    strTmp = pConf->getItemValue("bbs list", "num").toString();
-    int num = strTmp.toInt();
-
-    if (ui.nameListWidget->count() == 0)
-        return;
-    int index = ui.nameListWidget->currentRow();
-
-    // delete the section
-    QString strSection = QString("bbs %1").arg(index);
-//  strSection.sprintf("bbs %d",index);
-    Global::instance()->removeAddress(index);
-    // change the number after that
-    for (int i = index + 1; i < num; i++) {
-        strSection = QString("bbs %1").arg(i);
-        strTmp = QString("bbs %1").arg(i-1);
-//   strSection.sprintf("bbs %d",i);
-//   strTmp.sprintf("bbs %d",i-1);
-        pConf->renameSection(strSection, strTmp);
-    }
-    // ass list number by one
-    strTmp.setNum(qMax(0, num - 1));
-    pConf->setItemValue("bbs list", "num", strTmp);
-    // delete it from name listbox
-    Global::instance()->loadAddress(qMin(index, num - 2), param);
-    updateData(false);
-    ui.nameListWidget->takeItem(index);
-    ui.nameListWidget->setItemSelected(ui.nameListWidget->item(qMin(index, ui.nameListWidget->count() - 1)), true);
-}
 void addrDialog::onApply()
 {
     updateData(true);
     if (!bPartial) {
-        Global::instance()->saveAddress(ui.nameListWidget->currentRow(), param);
-        if (ui.nameListWidget->count() != 0)
-            ui.nameListWidget->item(ui.nameListWidget->currentRow())->setText(param.m_mapParam["name"].toString());
+		QString uuid = domModel->data(lastIndex,Qt::UserRole).toString();
+		if (!uuid.isEmpty())
+			Global::instance()->saveAddress(domModel->document(), uuid, param);
+		Global::instance()->saveAddressXml(domModel->document());
     } else
         done(1);
 }
@@ -235,7 +211,7 @@ void addrDialog::onClose()
         Global::instance()->addrCfg()->save();
     done(0);
 }
-void addrDialog::onConnect()
+void addrDialog::onConnect(const QModelIndex & index)
 {
     if (isChanged()) {
         QMessageBox mb("QTerm",
@@ -342,11 +318,13 @@ void addrDialog::onMenuColor()
 
 void addrDialog::connectSlots()
 {
-    connect(ui.nameListWidget, SIGNAL(currentRowChanged(int)), this, SLOT(onNamechange(int)));
-    connect(ui.nameListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(onConnect()));
+    connect(ui.nameTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onNamechange(QModelIndex)));
+    connect(ui.nameTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onConnect(QModelIndex)));
+	connect(ui.nameTreeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onPopupTreeContextMenu(QPoint)));
 
-    connect(ui.addPushButton, SIGNAL(clicked()), this, SLOT(onAdd()));
-    connect(ui.deletePushButton, SIGNAL(clicked()), this, SLOT(onDelete()));
+    connect(ui.addFolderPushButton, SIGNAL(clicked()), this, SLOT(onAddFolder()));
+    connect(ui.addSitePushButton, SIGNAL(clicked()), this, SLOT(onAddSite()));
+	connect(ui.deletePushButton, SIGNAL(clicked()), this, SLOT(onDelete()));
     connect(ui.applyPushButton, SIGNAL(clicked()), this, SLOT(onApply()));
     connect(ui.closePushButton, SIGNAL(clicked()), this, SLOT(onClose()));
     connect(ui.connectPushButton, SIGNAL(clicked()), this, SLOT(onConnect()));

@@ -162,6 +162,7 @@ set(qterm_SRCS
    keyboardtranslator.cpp
    closedialog.cpp
    uaocodec.cpp
+   dommodel.cpp
    ${optionalSources})
 set(qterm_UIS
    ui/aboutdialog.ui

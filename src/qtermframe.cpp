@@ -238,7 +238,7 @@ void Frame::on_actionAddressBook_triggered()
     addrDialog addr(this, false);
 
     if (addr.exec() == 1) {
-        newWindow(addr.param, addr.ui.nameListWidget->currentRow());
+        newWindow(addr.param);//, addr.ui.nameListWidget->currentRow());
     }
 }
 

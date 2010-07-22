@@ -19,6 +19,7 @@
 #include <QtCore/QString>
 #include <QtCore/QMap>
 #include <QtCore/QObject>
+#include <QtXml/QDomDocument>
 
 namespace QTerm
 {
@@ -78,14 +79,21 @@ public:
     static Global * instance();
     Config * fileCfg();
     Config * addrCfg();
+	QDomDocument addrXml();
     const QString & pathLib();
     const QString & pathPic();
     const QString & pathCfg();
     void clearDir(const QString & path);
+	QMap<QString,QString> loadFavoriteList(QDomDocument);
     QStringList loadNameList();
+	bool loadAddress(QDomDocument doc, QString uuid, Param & param);
     bool loadAddress(int n, Param & param);
     void saveAddress(int n, const Param & param);
+    void saveAddress(QDomDocument doc, QString uuid, const Param & param);
     void removeAddress(int n);
+	void removeAddress(QDomDocument doc, QString uuid);
+	void saveAddressXml(const QDomDocument& doc);
+	bool convertAddressBook2XML();
     QString getOpenFileName(const QString & filter, QWidget * widget);
     QString getSaveFileName(const QString & filename, QWidget * widget);
     bool isOK();
@@ -135,6 +143,7 @@ private:
     void closeNotification(uint id);
     QString m_fileCfg;
     QString m_addrCfg;
+	QString m_addrXml;
     QString m_pathLib;
     QString m_pathPic;
     QString m_pathCfg;

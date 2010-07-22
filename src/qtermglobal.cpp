@@ -109,6 +109,20 @@ Config * Global::addrCfg()
     return m_address;
 }
 
+QDomDocument Global::addrXml()
+{
+	QDomDocument doc;
+	QFile file(m_addrXml);
+	if (file.open(QIODevice::ReadOnly)) {
+		QTextStream in;
+		in.setCodec("UTF-8");
+		in.setDevice(&file);
+		doc.setContent(in.readAll());
+		file.close();
+	}
+	return doc;
+}
+
 const QString & Global::pathLib()
 {
     return m_pathLib;
@@ -131,38 +145,32 @@ void Global::clearDir(const QString & path)
     }
 }
 
-QMap<QString,QString> Global::getFavoriteSiteList()
+QMap<QString,QString> Global::loadFavoriteList(QDomDocument doc)
 {
 	QMap<QString,QString> listSite;
 	// import xml address book
-    QDomDocument doc;
-	QFile file(m_addrXml);
-	if (file.open(QIODevice::ReadOnly)) {
-		if (doc.setContent(&file)) {
-			QDomElement favorite;
-			QDomNodeList nodeList = doc.elementsByTagName("folder");
-			for (int i=0; i<nodeList.count(); i++) {
-				QDomElement node = nodeList.at(i).toElement();
-				if (node.attribute("name") == "favorite") {
-					favorite = node;
-					break;
-				}
-			}
-			QStringList listUuid;
-			nodeList = favorite.elementsByTagName("addsite");
-			for (int i=0; i<nodeList.count(); i++) {
-				QDomElement node = nodeList.at(i).toElement();
-				listUuid << node.attribute("uuid");
-			}
-			nodeList = doc.elementsByTagName("site");
-			for (int i=0; i<nodeList.count(); i++) {
-				QDomElement node = nodeList.at(i).toElement();
-				if (listUuid.contains(node.attribute("uuid")))
-					listSite[node.attribute("uuid")] = node.attribute("name");
-			}
+	QDomElement favorite;
+	QDomNodeList nodeList = doc.elementsByTagName("folder");
+	for (int i=0; i<nodeList.count(); i++) {
+		QDomElement node = nodeList.at(i).toElement();
+		if (node.attribute("name") == "favorite") {
+			favorite = node;
+			break;
 		}
 	}
-	file.close();
+	QStringList listUuid;
+	nodeList = favorite.elementsByTagName("addsite");
+	for (int i=0; i<nodeList.count(); i++) {
+		QDomElement node = nodeList.at(i).toElement();
+		listUuid << node.attribute("uuid");
+	}
+	nodeList = doc.elementsByTagName("site");
+	for (int i=0; i<nodeList.count(); i++) {
+		QDomElement node = nodeList.at(i).toElement();
+		if (listUuid.contains(node.attribute("uuid")))
+			listSite[node.attribute("uuid")] = node.attribute("name");
+	}
+
 	return listSite;
 }
 QStringList Global::loadNameList()
@@ -179,6 +187,18 @@ QStringList Global::loadNameList()
     }
 
     return listName;
+}
+
+bool Global::loadAddress(QDomDocument doc, QString uuid, Param& param)
+{
+	QDomNodeList nodeList = doc.elementsByTagName("site");
+	for (int i=0; i<nodeList.count(); i++) {
+		QDomElement node = nodeList.at(i).toElement();
+		if (uuid == node.attribute("uuid"))
+			foreach (QString key, param.m_mapParam.keys()) 
+				param.m_mapParam[key] = node.attribute(key);
+	}
+	return true;
 }
 
 bool Global::loadAddress(int n, Param& param)
@@ -236,6 +256,36 @@ void Global::saveAddress(int n, const Param& param)
 
 }
 
+void Global::saveAddress(QDomDocument doc, QString uuid, const Param& param)
+{
+	bool result = false;
+	// find and replace existing site
+	QDomNodeList nodeList = doc.elementsByTagName("site");
+	for (int i=0; i<nodeList.count(); i++) {
+		QDomElement node = nodeList.at(i).toElement();
+		if (uuid == node.attribute("uuid")) {
+			foreach (QString key, param.m_mapParam.keys()) 
+				node.setAttribute(key, 
+					param.m_mapParam[key].toString());
+			result = true;
+			break;
+		}
+	}
+	// create new site otherwise
+	if (!result) {
+		QDomElement site = doc.createElement("site");
+		site.setAttribute("uuid", uuid);
+		foreach (QString key, param.m_mapParam.keys()) 
+				site.setAttribute(key, 
+					param.m_mapParam[key].toString());
+		doc.appendChild(site);
+		result = true;
+	}
+
+	if (!result) return;
+
+}
+
 void Global::removeAddress(int n)
 {
     if (n < 0)
@@ -254,6 +304,33 @@ void Global::removeAddress(int n)
     }
 #endif // KWALLET_ENABLED
     m_address->deleteSection(strSection);
+}
+
+void Global::removeAddress(QDomDocument doc, QString uuid)
+{
+	QDomNodeList nodeList;
+	// remove the actual site
+	nodeList = doc.elementsByTagName("site");
+	for (int i=0; i<nodeList.count(); i++) {
+		QDomElement node = nodeList.at(i).toElement();
+		if (uuid == node.attribute("uuid")) {
+			doc.removeChild(node);
+		}
+	}
+	// and its reference in favorite
+	QDomElement favorite;
+	nodeList = doc.elementsByTagName("folder");
+	for (int i=0; i<nodeList.count(); i++) {
+		QDomElement node = nodeList.at(i).toElement();
+		if (node.attribute("name") == "favorite")
+			favorite = node;
+	}
+	nodeList = favorite.elementsByTagName("addsite");
+	for (int i=0; i<nodeList.count(); i++) {
+		QDomElement node = nodeList.at(i).toElement();
+		if (node.attribute("uuid") == uuid)
+			favorite.removeChild(node);
+	}
 }
 
 bool Global::convertAddressBook2XML()
@@ -332,6 +409,17 @@ bool Global::convertAddressBook2XML()
 
 	delete m_address;
 	return true;
+}
+
+void Global::saveAddressXml(const QDomDocument& doc)
+{
+	QFile ofile(m_addrXml);
+	if (ofile.open(QIODevice::WriteOnly)) {
+		QTextStream out(&ofile);
+		out.setCodec("UTF-8");
+		out << doc.toString();
+		ofile.close();
+	}
 }
 
 void Global::loadPrefence()

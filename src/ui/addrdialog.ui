@@ -449,6 +449,9 @@
        <height>32</height>
       </rect>
      </property>
+     <property name="maximum">
+      <number>65535</number>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="tab1">
@@ -709,9 +712,7 @@
       <set>QFontComboBox::AllFonts</set>
      </property>
      <property name="currentFont">
-      <font>
-       <family>Andale Mono</family>
-      </font>
+      <font/>
      </property>
     </widget>
     <widget class="QSpinBox" name="fontSizeSpinBox">
@@ -1022,6 +1023,12 @@
        <height>32</height>
       </rect>
      </property>
+     <property name="minimum">
+      <number>5</number>
+     </property>
+     <property name="maximum">
+      <number>500</number>
+     </property>
     </widget>
     <widget class="QSpinBox" name="rowSpinBox">
      <property name="geometry">
@@ -1032,6 +1039,12 @@
        <height>32</height>
       </rect>
      </property>
+     <property name="minimum">
+      <number>5</number>
+     </property>
+     <property name="maximum">
+      <number>500</number>
+     </property>
     </widget>
     <widget class="QSpinBox" name="scrollSpinBox">
      <property name="geometry">
@@ -1041,6 +1054,9 @@
        <width>331</width>
        <height>32</height>
       </rect>
+     </property>
+     <property name="maximum">
+      <number>10000</number>
      </property>
     </widget>
    </widget>
@@ -1661,10 +1677,13 @@
        <height>32</height>
       </rect>
      </property>
+     <property name="maximum">
+      <number>65535</number>
+     </property>
     </widget>
    </widget>
   </widget>
-  <widget class="QListWidget" name="nameListWidget">
+  <widget class="QTreeView" name="nameTreeView">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -1673,6 +1692,24 @@
      <height>541</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::CustomContextMenu</enum>
+   </property>
+   <property name="dragEnabled">
+    <bool>true</bool>
+   </property>
+   <property name="dragDropMode">
+    <enum>QAbstractItemView::DragDrop</enum>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::ExtendedSelection</enum>
+   </property>
+   <attribute name="headerVisible">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="headerVisible">
+    <bool>false</bool>
+   </attribute>
   </widget>
   <widget class="QPushButton" name="resetPushButton">
    <property name="geometry">
@@ -1690,9 +1727,9 @@
   <widget class="QPushButton" name="deletePushButton">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>150</x>
      <y>562</y>
-     <width>91</width>
+     <width>61</width>
      <height>31</height>
     </rect>
    </property>
@@ -1712,12 +1749,12 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="addPushButton">
+  <widget class="QPushButton" name="addSitePushButton">
    <property name="geometry">
     <rect>
      <x>12</x>
      <y>562</y>
-     <width>72</width>
+     <width>51</width>
      <height>31</height>
     </rect>
    </property>
@@ -1728,7 +1765,7 @@
     </sizepolicy>
    </property>
    <property name="text">
-    <string>Add</string>
+    <string>Add Site</string>
    </property>
   </widget>
   <widget class="QPushButton" name="applyPushButton">
@@ -1785,11 +1822,30 @@
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QPushButton" name="addFolderPushButton">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>562</y>
+     <width>72</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text">
+    <string>Add Folder</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
-  <tabstop>nameListWidget</tabstop>
+  <tabstop>nameTreeView</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>nameLineEdit</tabstop>
   <tabstop>addrLineEdit</tabstop>
@@ -1840,7 +1896,7 @@
   <tabstop>applyPushButton</tabstop>
   <tabstop>closePushButton</tabstop>
   <tabstop>resetPushButton</tabstop>
-  <tabstop>addPushButton</tabstop>
+  <tabstop>addSitePushButton</tabstop>
   <tabstop>deletePushButton</tabstop>
  </tabstops>
  <resources/>

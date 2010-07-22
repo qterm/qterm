@@ -15,6 +15,7 @@
 namespace QTerm
 {
 class Config;
+class DomModel;
 
 class addrDialog : public QDialog
 {
@@ -28,11 +29,9 @@ public:
     void updateData(bool save);
 
 protected slots:
-    void onNamechange(int);
-    void onAdd();
-    void onDelete();
+    void onNamechange(const QModelIndex & index);
     void onApply();
-    void onConnect();
+    void onConnect(const QModelIndex & index);
     void onClose();
     void onReset();
     void onConfigScheme();
@@ -44,7 +43,7 @@ protected slots:
     void onASCIIFont(const QFont & font);
     void onGeneralFont(const QFont & font);
     void onFontSize(int size);
-
+	void onPopupTreeContextMenu(const QPoint& point);
 protected:
     void connectSlots();
     bool isChanged();
@@ -64,8 +63,8 @@ protected:
     QStringList schemeFileList;
     QStringList keyboardProfileList;
 
-    int nLastItem;
-
+	QModelIndex lastIndex;
+	DomModel *domModel;
 public:
     Ui::addrDialog ui;
 };
