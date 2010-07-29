@@ -27,6 +27,7 @@ public:
 
     Param param;
     void updateData(bool save);
+	QString uuid();
 
 protected slots:
     void onNamechange(const QModelIndex & index);

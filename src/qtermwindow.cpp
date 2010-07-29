@@ -238,14 +238,14 @@ char Window::direction[][5] = {
 };
 
 //constructor
-Window::Window(Frame * frame, Param param, int addr, QWidget * parent, const char * name, Qt::WFlags wflags)
+Window::Window(Frame * frame, Param param, const QString &uuid, QWidget * parent, const char * name, Qt::WFlags wflags)
         : WindowBase(parent, wflags), m_strMessage(), location()
 {
 	groupActions();
 
     m_pFrame = frame;
     m_param = param;
-    m_nAddrIndex = addr;
+    m_strUuid = uuid;
     m_hostInfo = NULL;
     m_translator = NULL;
     QString pathLib = Global::instance()->pathLib();
@@ -1257,7 +1257,9 @@ void Window::on_actionCurrent_Session_Setting_triggered()
 
     if (set.exec() == 1) {
         m_param = set.param;
-        Global::instance()->saveAddress(m_nAddrIndex, m_param);
+		QDomDocument doc = Global::instance()->addrXml();
+		Global::instance()->saveAddress(doc,m_strUuid, m_param);
+		Global::instance()->saveAddressXml(doc);
     } else {
         m_param = backup;
     }
@@ -1825,7 +1827,8 @@ void Window::loadKeyboardTranslator(const QString & filename)
 
 void Window :: groupActions() 
 {
-	listActions << "actionSave" << "actionSave_As"
+	listActions << "actionDisconnect"
+		<< "actionSave" << "actionSave_As"
         << "actionPrint" << "actionPrint_Preview"
         << "actionCopy" << "actionPaste" 
         << "actionAuto_Copy" << "actionCopy_w_Color"

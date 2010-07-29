@@ -93,7 +93,7 @@ protected slots:
     void windowsMenuAboutToShow();
     void windowsMenuActivated();
     void connectMenuAboutToShow();
-    void connectMenuActivated(int);
+    void connectMenuActivated(const QString &uuid);
 
 	void windowActivated(QMdiSubWindow*);
     void windowClosed(QObject*);
@@ -119,7 +119,7 @@ protected:
 	StatusBar *m_pStatusBar;
 
     //function
-    void newWindow(const Param& param, int index = -1);
+    void newWindow(const Param& param, const QString& uuid="");
     void closeEvent(QCloseEvent *);
     void keyPressEvent(QKeyEvent *);
     void mouseReleaseEvent(QMouseEvent *);

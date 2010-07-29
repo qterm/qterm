@@ -74,6 +74,7 @@ AUTHOR:        kingson fiasco hooey
 #include <QtGui/QPrintDialog>
 #include <QtGui/QPainter>
 #include <QtDebug>
+#include <QUuid>
 
 namespace QTerm
 {
@@ -238,7 +239,7 @@ void Frame::on_actionAddressBook_triggered()
     addrDialog addr(this, false);
 
     if (addr.exec() == 1) {
-        newWindow(addr.param);//, addr.ui.nameListWidget->currentRow());
+        newWindow(addr.param, addr.uuid());
     }
 }
 
@@ -247,7 +248,7 @@ void Frame::on_actionQuick_Login_triggered()
 {
     quickDialog quick(this);
 
-    Global::instance()->loadAddress(-2, quick.param);
+	Global::instance()->loadAddress(Global::instance()->addrXml(), QUuid().toString(), quick.param);
 
     if (quick.exec() == 1) {
         newWindow(quick.param);
@@ -263,7 +264,7 @@ bool Frame::confirmExitQTerm()
     for (int i = 0; i < int(windows.count()); ++i) {
         if ((qobject_cast<Window *>(windows.at(i)))->isConnected()) {
             titleList << windows.at(i)->windowTitle();
-            sites << qobject_cast<Window *>(windows.at(i))->index();
+            sites << qobject_cast<Window *>(windows.at(i))->uuid();
         }
     }
     if ((!titleList.isEmpty())&&(Global::instance()->m_pref.bWarn)) {
@@ -288,7 +289,7 @@ void Frame::saveAndDisconnect()
     for (int i = 0; i < int(windows.count()); ++i) {
         if ((qobject_cast<Window *>(windows.at(i)))->isConnected()) {
             titleList << windows.at(i)->windowTitle();
-            sites << qobject_cast<Window *>(windows.at(i))->index();
+            sites << qobject_cast<Window *>(windows.at(i))->uuid();
         }
     }
 
@@ -303,9 +304,9 @@ void Frame::saveAndDisconnect()
 }
 
 //create a new display window
-void Frame::newWindow(const Param&  param, int index)
+void Frame::newWindow(const Param&  param, const QString& uuid)
 {
-    Window * window = new Window(this, param, index, mdiArea, 0);
+    Window * window = new Window(this, param, uuid, mdiArea, 0);
 	window->setWindowTitle(param.m_mapParam["name"].toString());
     window->setWindowIcon(QIcon(":/pic/tabpad.png"));
     window->setAttribute(Qt::WA_DeleteOnClose);
@@ -397,27 +398,32 @@ void Frame::connectMenuAboutToShow()
 {
     connectMenu->clear();
 
-    connectMenu->addAction(tr("Quick Login"), this, SLOT(quickLogin()));
+    connectMenu->addAction(actionQuick_Login);
     connectMenu->addSeparator();
 
-    QStringList listName = Global::instance()->loadNameList();
-    QSignalMapper * connectMapper = new QSignalMapper(this);
+	QMap<QString,QString> listSite = Global::instance()->loadFavoriteList(
+		 Global::instance()->addrXml());
+    QMapIterator<QString,QString> i(listSite);
 
-    for (int i = 0; i < listName.count(); i++) {
-        QAction * idAction = new QAction(listName[i], connectMenu);
+	QSignalMapper * connectMapper = new QSignalMapper(this);
+
+	while (i.hasNext()) {
+		i.next();
+		QAction * idAction = new QAction(i.value(), connectMenu);
         connectMenu->addAction(idAction);
         connect(idAction, SIGNAL(triggered()), connectMapper, SLOT(map()));
-        connectMapper->setMapping(idAction, i);
-    }
-    connect(connectMapper, SIGNAL(mapped(int)), this, SLOT(connectMenuActivated(int)));
+		connectMapper->setMapping(idAction, i.key());
+	}
+    connect(connectMapper, SIGNAL(mapped(QString)), this, SLOT(connectMenuActivated(QString)));
 }
 
-void Frame::connectMenuActivated(int id)
+void Frame::connectMenuActivated(const QString& uuid)
 {
     Param param;
-    // FIXME: don't know the relation with id and param setted by setItemParameter
-    if (Global::instance()->loadAddress(id, param))
-        newWindow(param, id);
+    if (Global::instance()->loadAddress(
+		Global::instance()->addrXml(),
+		uuid, param))
+        newWindow(param, uuid);
 }
 
 /*********************************************************
@@ -542,7 +548,7 @@ void Frame::connectIt()
 {
     if (mdiArea->activeSubWindow() == NULL) {
         Param param;
-        Global::instance()->loadAddress(-1, param);
+        Global::instance()->loadAddress(Global::instance()->addrXml(), QUuid().toString(), param);
         newWindow(param);
     } else
         if (!qobject_cast<Window *>(mdiArea->activeSubWindow())->isConnected())
@@ -683,16 +689,14 @@ void Frame::on_actionStatusbar_toggled(bool isEnabled)
 void Frame::on_actionDefault_Session_Setting_triggered()
 {
     addrDialog set(this, true);
-
-    if (Global::instance()->addrCfg()->hasSection("default"))
-        Global::instance()->loadAddress(-1, set.param);
-
+	// load default
+	Global::instance()->loadAddress(Global::instance()->addrXml(),QUuid().toString(), set.param);
     set.updateData(false);
-
     if (set.exec() == 1) {
-        Global::instance()->saveAddress(-1, set.param);
-        Global::instance()->addrCfg()->save();
-    }
+		QDomDocument doc = Global::instance()->addrXml();
+        Global::instance()->saveAddress(doc, QUuid().toString(), set.param);
+		Global::instance()->saveAddressXml(doc);
+	}
 }
 
 void Frame::on_actionPreference_triggered()
@@ -759,32 +763,33 @@ void Frame::initShortcuts()
     int i = 0;
     QShortcut * shortcut = NULL;
 
+	// FIXME: map number to favorite site list
     // shortcuts to addressbook entries
-    QSignalMapper * addrMapper = new QSignalMapper(this);
-    for (i = 0; i < 9; i++) {
-        shortcut = new QShortcut(Qt::CTRL + Qt::ALT + 0x30 + 1 + i, this);
-        shortcut->setObjectName(QString("Open addressbook enetry %1").arg(i+1));
-        connect(shortcut, SIGNAL(activated()), addrMapper, SLOT(map()));
-        addrMapper->setMapping(shortcut, i);
-    }
-    connect(addrMapper, SIGNAL(mapped(int)), this, SLOT(connectMenuActivated(int)));
+    //QSignalMapper * addrMapper = new QSignalMapper(this);
+    //for (i = 0; i < 9; i++) {
+    //    shortcut = new QShortcut(Qt::CTRL + Qt::ALT + 0x30 + 1 + i, this);
+    //    shortcut->setObjectName(QString(tr("Open addressbook enetry %1")).arg(i+1));
+    //    connect(shortcut, SIGNAL(activated()), addrMapper, SLOT(map()));
+    //    addrMapper->setMapping(shortcut, i);
+    //}
+    //connect(addrMapper, SIGNAL(mapped(int)), this, SLOT(connectMenuActivated(int)));
 
     // shortcuts to swtch windows
     QSignalMapper * windowMapper = new QSignalMapper(this);
     for (i = 0; i < 9; i++) {
         shortcut = new QShortcut(Qt::ALT + 0x30 + 1 + i, this);
-        shortcut->setObjectName(QString("Switch to window %1").arg(i+1));
+        shortcut->setObjectName(QString(tr("Switch to window %1")).arg(i+1));
         connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
         windowMapper->setMapping(shortcut, i);
     }
     
     shortcut = new QShortcut(Qt::ALT + Qt::Key_Left, this);
-    shortcut->setObjectName("Previous window");
+    shortcut->setObjectName(tr("Previous window"));
     connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
     windowMapper->setMapping(shortcut, 200);
 
     shortcut = new QShortcut(Qt::ALT + Qt::Key_Right, this);
-    shortcut->setObjectName("Next window");
+    shortcut->setObjectName(tr("Next window"));
     connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
     windowMapper->setMapping(shortcut, 201);
 
@@ -1090,11 +1095,11 @@ void Frame::loadSession()
 {
     QList<QVariant> sites = Global::instance()->loadSession();
     if (sites.empty()) {
-        connectMenuActivated(0);
+        connectMenuActivated("");
     } else {
         for (int i = 0; i < sites.size(); i++) {
-            int index = sites.at(i).toInt();
-            connectMenuActivated(index);
+            QString uuid = sites.at(i).toString();
+            connectMenuActivated(uuid);
         }
     }
 }
@@ -1112,7 +1117,7 @@ void Frame::groupActions()
 {
 	// These are actions which are enabled without any subwindow
 	listBasicActions 
-		<< "actionNew_Console" 
+		<< "actionNew_Console" << "actionConnect"
 		<< "actionQuick_Login" << "actionAddressBook"  << "actionQuit"
 		<< "actionNew_ANSI"     << "actionOpen_ANSI"
 		<< "actionFont" << "actionStatusbar" << "actionMenubar" << "actionFullscreen"

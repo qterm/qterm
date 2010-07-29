@@ -76,7 +76,7 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WFlags fl)
 
 		QMap<QString, QString> listFavorite = Global::instance()->loadFavoriteList(doc);
         if (listFavorite.count() > 0) {
-			Global::instance()->loadAddress(doc, listFavorite.keys().at(0), param);
+			//Global::instance()->loadAddress(doc, listFavorite.keys().at(0), param);
             ui.nameTreeView->setCurrentIndex(domModel->index(0,0,domModel->index(0,0)));
         } else // the default
 			Global::instance()->loadAddress(doc, QUuid().toString(), param);
@@ -91,6 +91,11 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WFlags fl)
  */
 addrDialog::~addrDialog()
 {
+}
+
+QString addrDialog :: uuid() 
+{ 
+	return domModel->data(lastIndex, Qt::UserRole).toString(); 
 }
 
 void addrDialog::updateSchemeList()
@@ -145,23 +150,25 @@ void addrDialog::onPopupTreeContextMenu(const QPoint& point)
 
 	QMenu menu;
 	QAction *actionFolder=0, *actionFavorite=0, *actionRemove=0, *actionSite;
-	if (type != DomModel::Favorite) {
-		actionFolder = menu.addAction("New Folder");
-		if (type != DomModel::Unknown) {
-			actionSite = menu.addAction("New Site");
-			actionRemove = menu.addAction("Remove");
-		}
-	}
-	if (type == DomModel::Site && parentType != DomModel::Favorite) {
-		actionFavorite = menu.addAction("Add to favorite");
-	}
 	
-	QAction *actionActive = menu.exec(mapToGlobal(point));
+	actionFolder = menu.addAction(tr("New Folder"));
+	actionSite = menu.addAction(tr("New Site"));
+
+	if (type != DomModel::Unknown) {
+		actionRemove = menu.addAction(tr("Remove"));
+	}
+	if (type == DomModel::Site ) {
+		actionFavorite = menu.addAction(tr("Add Favorite"));
+	}
+	if (type == DomModel::Favorite) {
+		actionFavorite = menu.addAction(tr("Clear Favorite"));
+	}
+	QAction *actionActive = menu.exec(mapToGlobal(point),actionFolder);
 	if (actionActive != 0) {
 		if (actionActive == actionFolder)
 			domModel->addFolder(index);
 		else if (actionActive == actionFavorite)
-			domModel->addFavorite(index);
+			domModel->toggleFavorite(index);
 		else if (actionActive == actionSite)
 			domModel->addSite(index);
 		else if (actionActive == actionRemove)
@@ -171,6 +178,9 @@ void addrDialog::onPopupTreeContextMenu(const QPoint& point)
 
 void addrDialog::onNamechange(const QModelIndex & index)
 {
+	if (domModel->type(index) == DomModel::Folder)
+		return;
+
     if (isChanged()) {
         QMessageBox mb("QTerm",
                        tr("Setting changed, do you want to save?"),
@@ -208,11 +218,14 @@ void addrDialog::onApply()
 void addrDialog::onClose()
 {
     if (!bPartial)
-        Global::instance()->addrCfg()->save();
+        Global::instance()->saveAddressXml(domModel->document());
     done(0);
 }
 void addrDialog::onConnect(const QModelIndex & index)
 {
+	if (domModel->type(index) == DomModel::Folder)
+		return;
+
     if (isChanged()) {
         QMessageBox mb("QTerm",
                        tr("Setting changed, do you want to save?"),
@@ -224,7 +237,7 @@ void addrDialog::onConnect(const QModelIndex & index)
             onApply();
     }
     if (!bPartial)
-        Global::instance()->addrCfg()->save();
+		Global::instance()->saveAddressXml(domModel->document());
     done(1);
 }
 

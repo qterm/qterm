@@ -149,25 +149,10 @@ QMap<QString,QString> Global::loadFavoriteList(QDomDocument doc)
 {
 	QMap<QString,QString> listSite;
 	// import xml address book
-	QDomElement favorite;
-	QDomNodeList nodeList = doc.elementsByTagName("folder");
+	QDomNodeList nodeList = doc.elementsByTagName("site");
 	for (int i=0; i<nodeList.count(); i++) {
 		QDomElement node = nodeList.at(i).toElement();
-		if (node.attribute("name") == "favorite") {
-			favorite = node;
-			break;
-		}
-	}
-	QStringList listUuid;
-	nodeList = favorite.elementsByTagName("addsite");
-	for (int i=0; i<nodeList.count(); i++) {
-		QDomElement node = nodeList.at(i).toElement();
-		listUuid << node.attribute("uuid");
-	}
-	nodeList = doc.elementsByTagName("site");
-	for (int i=0; i<nodeList.count(); i++) {
-		QDomElement node = nodeList.at(i).toElement();
-		if (listUuid.contains(node.attribute("uuid")))
+		if (node.attribute("favor") == "1")
 			listSite[node.attribute("uuid")] = node.attribute("name");
 	}
 
@@ -191,6 +176,8 @@ QStringList Global::loadNameList()
 
 bool Global::loadAddress(QDomDocument doc, QString uuid, Param& param)
 {
+	if (uuid.isEmpty())
+		uuid = QUuid().toString();
 	QDomNodeList nodeList = doc.elementsByTagName("site");
 	for (int i=0; i<nodeList.count(); i++) {
 		QDomElement node = nodeList.at(i).toElement();
@@ -278,7 +265,7 @@ void Global::saveAddress(QDomDocument doc, QString uuid, const Param& param)
 		foreach (QString key, param.m_mapParam.keys()) 
 				site.setAttribute(key, 
 					param.m_mapParam[key].toString());
-		doc.appendChild(site);
+		doc.documentElement().appendChild(site);
 		result = true;
 	}
 
@@ -317,20 +304,6 @@ void Global::removeAddress(QDomDocument doc, QString uuid)
 			doc.removeChild(node);
 		}
 	}
-	// and its reference in favorite
-	QDomElement favorite;
-	nodeList = doc.elementsByTagName("folder");
-	for (int i=0; i<nodeList.count(); i++) {
-		QDomElement node = nodeList.at(i).toElement();
-		if (node.attribute("name") == "favorite")
-			favorite = node;
-	}
-	nodeList = favorite.elementsByTagName("addsite");
-	for (int i=0; i<nodeList.count(); i++) {
-		QDomElement node = nodeList.at(i).toElement();
-		if (node.attribute("uuid") == uuid)
-			favorite.removeChild(node);
-	}
 }
 
 bool Global::convertAddressBook2XML()
@@ -364,21 +337,10 @@ bool Global::convertAddressBook2XML()
 	//QDomElement addresses = doc.createElement("addresses");
 	//doc.appendChild(addresses);
 
-    //QDomElement favorite = doc.createElement("folder");
-    //favorite.setAttribute("name", "favorite");
-	//addresses.appendChild(favorite);
-    
 	QDomElement addresses = doc.documentElement();
 
-	QDomElement favorite;
-	QDomNodeList nodeList = doc.elementsByTagName("folder");
-	for (int i=0; i<nodeList.count(); i++) {
-		QDomElement node = nodeList.at(i).toElement();
-		if (node.attribute("name") == "favorite") {
-			favorite = node;
-			break;
-		}
-	}
+	QDomElement imported = doc.createElement("folder");
+	imported.setAttribute("name", tr("imported sites"));
 
     for (int i = -1; i < num; i++) {
         Param param;
@@ -392,7 +354,7 @@ bool Global::convertAddressBook2XML()
 			site.setAttribute("uuid", uuid);
 			QDomElement addsite = doc.createElement("addsite");
 			addsite.setAttribute("uuid", uuid);
-			favorite.appendChild(addsite);
+			imported.appendChild(addsite);
 		}
 		foreach(QString key,param.m_mapParam.keys())
 			site.setAttribute(key, param.m_mapParam[key].toString());

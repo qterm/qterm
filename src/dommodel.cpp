@@ -170,13 +170,13 @@ QVariant DomModel::data(const QModelIndex &index, int role) const
             return item->name();
         break;
         case Qt::DecorationRole:
-            if (item->isFolder()) {
-                if (item->name() == "favorite")
-                    return QVariant(QIcon(":/pic/folder_favorite.png"));
-                else
+			switch (type(index)) {
+			case Folder:
                     return QVariant(QIcon(":/pic/folder.png"));
-            } else if (item->isSiteReference()) {
-                return QVariant(QIcon(":/pic/tabpad.png"));
+			case Favorite:
+                    return QVariant(QIcon(":/pic/folder_favorite.png"));
+			case Site:
+					return QVariant(QIcon(":/pic/tabpad.png"));
             }
         default:
             return QVariant();
@@ -189,14 +189,13 @@ Qt::ItemFlags DomModel::flags(const QModelIndex &index) const
     DomItem *item = static_cast<DomItem*>(index.internalPointer());
 	ItemType itemType = type(index);
 
+	defaultFlags |= Qt::ItemIsDragEnabled;
     if (itemType == Folder)
-		return Qt::ItemIsDropEnabled | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | defaultFlags;
-	else if (itemType == Favorite) // Favorite is special thus not editable
-        return defaultFlags;
+		return Qt::ItemIsDropEnabled | Qt::ItemIsEditable | defaultFlags;
     else if (itemType == Site)
-        return Qt::ItemIsDragEnabled | defaultFlags;
+        return defaultFlags;
     else
-        return defaultFlags | Qt::ItemIsDragEnabled | Qt::ItemIsDragEnabled;
+        return Qt::ItemIsDropEnabled | defaultFlags;
 }
 
 QVariant DomModel::headerData(int section, Qt::Orientation orientation,
@@ -247,14 +246,22 @@ DomModel::ItemType DomModel::type(const QModelIndex &index) const
 		return Unknown;
 
     DomItem *item = static_cast<DomItem*>(index.internalPointer());
-	if (item->isFolder()) {
-		if (item->name() == "favorite")
-			return Favorite;
-		else
-			return Folder;
-	} else
-		return Site;
-	
+	if (item->isFolder())
+		return Folder;
+	else if (item->isSiteReference()) {
+		QString uuid = data(index, Qt::UserRole).toString();
+		// get favor attributes
+		QDomNodeList siteList = domDocument.elementsByTagName("site");
+		for (int i=0; i<siteList.count(); i++) {
+			QDomElement element = siteList.item(i).toElement();
+			if (element.attribute("uuid") == uuid)
+				if (element.attribute("favor") == "1")
+					return Favorite;
+				else
+					return Site;
+		}
+	}
+	return Unknown;
 }
 
 int DomModel::rowCount(const QModelIndex &parent) const
@@ -434,17 +441,21 @@ void DomModel::addFolder(const QModelIndex &index)
 	insertRow(row, parentIndex, item);
 }
 
-void DomModel::addFavorite(const QModelIndex &index)
+void DomModel::toggleFavorite(const QModelIndex &index)
 {
 	QString uuid = data(index, Qt::UserRole).toString();
 	if (QUuid(uuid).isNull())
 		return;
-	// Create favorite element
-	QDomElement favorite = domDocument.createElement("addsite");
-	favorite.setAttribute("uuid", uuid);
-	// Create and insert
-	DomItem *item = new DomItem(favorite, 0);
-	insertRow(-1, DomModel::index(0,0,QModelIndex()), item);
+	// toggle favor attributes
+	QDomNodeList siteList = domDocument.elementsByTagName("site");
+	for (int i=0; i<siteList.count(); i++) {
+		QDomElement element = siteList.item(i).toElement();
+		if (element.attribute("uuid") == uuid)
+			if (element.attribute("favor") == "1")
+				element.setAttribute("favor", 0);
+			else
+				element.setAttribute("favor", 1);
+	}
 }
 
 void DomModel::addSite(const QModelIndex &index)
@@ -463,7 +474,6 @@ void DomModel::addSite(const QModelIndex &index)
 			QDomElement newSite = site.cloneNode().toElement();
 			newSite.setAttribute("uuid", newUuid);
 			QDomElement root = domDocument.documentElement();
-			QMessageBox::information(0,root.nodeName(),QString::number(root.childNodes().count()));
 			root.appendChild(newSite);
 			break;
 		}
@@ -487,13 +497,14 @@ void DomModel::addSite(const QModelIndex &index)
 
 void DomModel::removeItem(const QModelIndex &index)
 {
-	if (type(index) == Folder)
-		for (int n=0; n<rowCount(index); n++) {
+	if (type(index) == Folder) {
+		// recursively remove all children
+		for (int n=0; n<rowCount(index); n++)
 			removeItem(index.child(n,0));
-		}
-	else if (type(index.parent()) == Favorite) {
+		// remove folder itself, should be empty now
 		removeRows(index.row(), 1, index.parent());
-	} else {
+	}
+	else {
 		QString uuid = data(index, Qt::UserRole).toString();
 		QDomNodeList nodeList;
 		// remove the actual site
@@ -504,7 +515,6 @@ void DomModel::removeItem(const QModelIndex &index)
 				domDocument.removeChild(node);
 			}
 		}
-		// and its reference in favorite
 		// and its reference in folder
 		removeRows(index.row(), 1, index.parent());
 	}

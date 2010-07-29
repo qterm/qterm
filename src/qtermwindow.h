@@ -75,7 +75,7 @@ class Window: public WindowBase
 {
     Q_OBJECT
 public:
-    Window(Frame * frame, Param param, int addr = -1, QWidget* parent = 0,
+    Window(Frame * frame, Param param, const QString& uuid, QWidget* parent = 0,
            const char* name = 0, Qt::WFlags wflags = Qt::Window);
     ~Window();
 
@@ -84,8 +84,8 @@ public:
         return m_bConnected;
     }
 
-    int index() {
-        return m_nAddrIndex;
+    QString uuid() {
+        return m_strUuid;
     }
 
 
@@ -222,7 +222,7 @@ protected:
     QTimer * m_updateTimer;
 
     // address setting
-    int m_nAddrIndex;
+    QString m_strUuid;
 
     bool m_bDoingLogin;
     bool m_bCheckIP;

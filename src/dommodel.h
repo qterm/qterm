@@ -73,7 +73,7 @@ public:
 
 	void addSite(const QModelIndex &position);
 	void addFolder(const QModelIndex &position);
-	void addFavorite(const QModelIndex &position);
+	void toggleFavorite(const QModelIndex &position);
 	void removeItem(const QModelIndex &index);
 
 	QDomDocument document() { return domDocument; }

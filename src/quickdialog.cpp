@@ -16,6 +16,7 @@
 #include <QComboBox>
 #include <QPixmap>
 #include <QMessageBox>
+#include <QUuid>
 
 namespace QTerm
 {
@@ -102,19 +103,21 @@ void quickDialog::listChanged(int index)
 }
 void quickDialog::addAddr()
 {
-    QString strTmp;
-    strTmp = Global::instance()->addrCfg()->getItemValue("bbs list", "num").toString();
-    int num = strTmp.toInt();
-
-    strTmp.setNum(num + 1);
-    Global::instance()->addrCfg()->setItemValue("bbs list", "num", strTmp);
-
+	// Update param
     param.m_mapParam["name"] = ui.addrLineEdit->text();
     param.m_mapParam["addr"] = ui.addrLineEdit->text();
     param.m_mapParam["port"] = ui.portSpinBox->value();
     param.m_mapParam["protocol"] = ui.protocolComboBox->currentIndex();
-
-    Global::instance()->saveAddress(num, param);
+	// Create new site and reference in top level
+	QDomDocument doc = Global::instance()->addrXml();
+	QString uuid = QUuid::createUuid().toString();
+	Global::instance()->saveAddress(doc,uuid,param);
+	// Create site reference
+	QDomElement newSiteRef = doc.createElement("addsite");
+	newSiteRef.setAttribute("uuid", uuid);
+	doc.documentElement().insertBefore(newSiteRef,QDomNode());
+	// Save
+	Global::instance()->saveAddressXml(doc);
 }
 
 void quickDialog::deleteAddr()
