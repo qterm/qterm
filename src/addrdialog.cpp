@@ -50,9 +50,6 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WFlags fl)
     if (bPartial) {
         ui.nameTreeView->hide();
         ui.Line->hide();
-        ui.addSitePushButton->hide();
-		ui.addFolderPushButton->hide();
-        ui.deletePushButton->hide();
         ui.connectPushButton->hide();
         ui.closePushButton->setText(tr("Cancel"));
         ui.applyPushButton->setText(tr("OK"));
@@ -335,9 +332,6 @@ void addrDialog::connectSlots()
     connect(ui.nameTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onConnect(QModelIndex)));
 	connect(ui.nameTreeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onPopupTreeContextMenu(QPoint)));
 
-    connect(ui.addFolderPushButton, SIGNAL(clicked()), this, SLOT(onAddFolder()));
-    connect(ui.addSitePushButton, SIGNAL(clicked()), this, SLOT(onAddSite()));
-	connect(ui.deletePushButton, SIGNAL(clicked()), this, SLOT(onDelete()));
     connect(ui.applyPushButton, SIGNAL(clicked()), this, SLOT(onApply()));
     connect(ui.closePushButton, SIGNAL(clicked()), this, SLOT(onClose()));
     connect(ui.connectPushButton, SIGNAL(clicked()), this, SLOT(onConnect()));
