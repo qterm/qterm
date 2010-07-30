@@ -182,7 +182,7 @@ set(qterm_UIS
    ui/toolbardialog.ui
    ui/zmodemdialog.ui)
 set(qterm_MISC
-   address.cfg
+   address.xml
    credits
    qterm.cfg)
 set(qterm_RCCS
