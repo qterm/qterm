@@ -139,7 +139,7 @@ int DomItem::row()
 DomModel::DomModel(QDomDocument document, QObject *parent)
     : QAbstractItemModel(parent), domDocument(document)
 {
-    rootItem = new DomItem(document.documentElement(), 0);
+    rootItem = new DomItem(document.documentElement());
 }
 
 DomModel::~DomModel()
@@ -386,7 +386,7 @@ bool DomModel::dropMimeData(const QMimeData *data,
 		for (int i=0; i<count; i++) {    
 			DomItem *item = newItems.at(i);
 			QDomElement node = item->element().cloneNode().toElement();
-			DomItem *newItem = new DomItem(node, 0);
+			DomItem *newItem = new DomItem(node);
 			insertRow(beginRow, parent, newItem);
 		}
         break;
@@ -437,7 +437,7 @@ void DomModel::addFolder(const QModelIndex &index)
 	QDomElement folder = domDocument.createElement("folder");
 	folder.setAttribute("name", "New Folder");
 	// Create and insert
-	DomItem *item = new DomItem(folder, 0);
+	DomItem *item = new DomItem(folder);
 	insertRow(row, parentIndex, item);
 }
 
@@ -491,7 +491,7 @@ void DomModel::addSite(const QModelIndex &index)
 		parentIndex = index.parent();
 		row = index.row();
 	}
-	DomItem *item = new DomItem(newSiteRef, 0);
+	DomItem *item = new DomItem(newSiteRef);
 	insertRow(row, parentIndex, item);
 }
 
