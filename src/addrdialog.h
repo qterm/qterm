@@ -32,7 +32,7 @@ public:
 protected slots:
     void onNamechange(const QModelIndex & index);
     void onApply();
-    void onConnect(const QModelIndex & index);
+    void onConnect(const QModelIndex & index = QModelIndex());
     void onClose();
     void onReset();
     void onConfigScheme();

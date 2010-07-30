@@ -1257,9 +1257,11 @@ void Window::on_actionCurrent_Session_Setting_triggered()
 
     if (set.exec() == 1) {
         m_param = set.param;
-		QDomDocument doc = Global::instance()->addrXml();
-		Global::instance()->saveAddress(doc,m_strUuid, m_param);
-		Global::instance()->saveAddressXml(doc);
+        if (!m_strUuid.isEmpty()) {
+            QDomDocument doc = Global::instance()->addrXml();
+            Global::instance()->saveAddress(doc,m_strUuid, m_param);
+            Global::instance()->saveAddressXml(doc);
+        }
     } else {
         m_param = backup;
     }

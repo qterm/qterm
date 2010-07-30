@@ -67,16 +67,12 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WFlags fl)
         setMaximumSize(QSize(800, 600));
         setWindowTitle(tr("AddressBook"));
 		
-		QDomDocument doc = Global::instance()->addrXml();
-		domModel = new DomModel(doc);
-		ui.nameTreeView->setModel(domModel);
+        QDomDocument doc = Global::instance()->addrXml();
+        domModel = new DomModel(doc);
+        ui.nameTreeView->setModel(domModel);
 
-		QMap<QString, QString> listFavorite = Global::instance()->loadFavoriteList(doc);
-        if (listFavorite.count() > 0) {
-			//Global::instance()->loadAddress(doc, listFavorite.keys().at(0), param);
-            ui.nameTreeView->setCurrentIndex(domModel->index(0,0,domModel->index(0,0)));
-        } else // the default
-			Global::instance()->loadAddress(doc, QUuid().toString(), param);
+        // load the default
+        Global::instance()->loadAddress(doc, QUuid().toString(), param);
         updateData(false);
         ui.nameTreeView->setFocus(Qt::OtherFocusReason);
     }
@@ -175,10 +171,10 @@ void addrDialog::onPopupTreeContextMenu(const QPoint& point)
 
 void addrDialog::onNamechange(const QModelIndex & index)
 {
-	if (domModel->type(index) == DomModel::Folder)
+    if (domModel->type(index) == DomModel::Folder)
 		return;
 
-    if (isChanged()) {
+    if (lastIndex.isValid() && isChanged()) {
         QMessageBox mb("QTerm",
                        tr("Setting changed, do you want to save?"),
                        QMessageBox::Warning,
@@ -220,7 +216,7 @@ void addrDialog::onClose()
 }
 void addrDialog::onConnect(const QModelIndex & index)
 {
-	if (domModel->type(index) == DomModel::Folder)
+    if (domModel->type(index) == DomModel::Folder)
 		return;
 
     if (isChanged()) {
@@ -355,8 +351,8 @@ bool addrDialog::isChanged()
 {
     return(param.m_mapParam["name"].toString() != ui.nameLineEdit->text() ||
            param.m_mapParam["addr"].toString() != ui.addrLineEdit->text() ||
-		   param.m_mapParam["port"].toInt() != ui.portSpinBox->value() ||
-		   param.m_mapParam["hosttype"].toInt() != ui.hostTypeComboBox->currentIndex() ||
+                   param.m_mapParam["port"].toInt() != ui.portSpinBox->value() ||
+                   param.m_mapParam["hosttype"].toInt() != ui.hostTypeComboBox->currentIndex() ||
            param.m_mapParam["autologin"].toBool() != ui.autoLoginCheckBox->isChecked() ||
            param.m_mapParam["prelogin"].toString() != ui.preloginLineEdit->text() ||
            param.m_mapParam["user"].toString() != ui.userLineEdit->text() ||
@@ -388,7 +384,7 @@ bool addrDialog::isChanged()
            param.m_mapParam["maxidle"].toInt() != ui.idletimeLineEdit->text().toInt() ||
            param.m_mapParam["antiidlestring"].toString() != ui.antiLineEdit->text() ||
            param.m_mapParam["replykey"].toString() != ui.replykeyLineEdit->text() ||
-           param.m_mapParam["autoreply"].toString() != ui.replyLineEdit->text()) ||
+           param.m_mapParam["autoreply"].toString() != ui.replyLineEdit->text() ||
            param.m_mapParam["bautoreply"].toBool() != ui.replyCheckBox->isChecked() ||
            param.m_mapParam["reconnect"].toBool() != ui.reconnectCheckBox->isChecked() ||
            param.m_mapParam["interval"].toInt() != ui.reconnectLineEdit->text().toInt() ||
@@ -396,7 +392,7 @@ bool addrDialog::isChanged()
            param.m_mapParam["loadscript"].toBool() != ui.scriptCheckBox->isChecked() ||
            param.m_mapParam["scriptfile"].toString() != ui.scriptLineEdit->text() ||
            param.m_mapParam["menutype"].toInt() != ui.menuTypeComboBox->currentIndex() ||
-           param.m_mapParam["menucolor"] != clrMenu;
+           param.m_mapParam["menucolor"] != clrMenu);
 
 }
 
@@ -470,10 +466,13 @@ void addrDialog::updateData(bool save)
         ui.autofontCheckBox->setChecked(param.m_mapParam["autofont"].toBool());
         ui.highlightCheckBox->setChecked(param.m_mapParam["alwayshighlight"].toBool());
         ui.ansicolorCheckBox->setChecked(param.m_mapParam["ansicolor"].toBool());
+        // We take whatever the matched font name
         strASCIIFontName = param.m_mapParam["asciifont"].toString();
         ui.asciiFontComboBox->setCurrentFont(QFont(strASCIIFontName));
+        param.m_mapParam["asciifont"] = strASCIIFontName;
         strGeneralFontName = param.m_mapParam["generalfont"].toString();
         ui.generalFontComboBox->setCurrentFont(QFont(strGeneralFontName));
+        param.m_mapParam["generalfont"] = strGeneralFontName;
         nFontSize = param.m_mapParam["fontsize"].toInt();
         ui.fontSizeSpinBox->setValue(nFontSize);
         strSchemeFile = param.m_mapParam["schemefile"].toString();

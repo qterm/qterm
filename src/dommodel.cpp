@@ -463,7 +463,7 @@ void DomModel::addSite(const QModelIndex &index)
 	QString newUuid = QUuid::createUuid().toString();
 	// Clone current site or default site
 	QString uuid;
-	if (type(index) == Site)
+        if (type(index) == Site || type(index) == Favorite)
 		uuid = data(index, Qt::UserRole).toString();
 	else
 		uuid = QUuid().toString();
@@ -508,11 +508,11 @@ void DomModel::removeItem(const QModelIndex &index)
 		QString uuid = data(index, Qt::UserRole).toString();
 		QDomNodeList nodeList;
 		// remove the actual site
-		nodeList = domDocument.elementsByTagName("site");
+                nodeList = domDocument.documentElement().elementsByTagName("site");
 		for (int i=0; i<nodeList.count(); i++) {
 			QDomElement node = nodeList.at(i).toElement();
 			if (uuid == node.attribute("uuid")) {
-				domDocument.removeChild(node);
+                                domDocument.documentElement().removeChild(node);
 			}
 		}
 		// and its reference in folder
