@@ -98,13 +98,14 @@ int IPLocation::readLineFrom(FILE *fp, uint32 offset, QString& ret_str)
         return -1;
     }
     ret_str = m_codec->toUnicode(str);
-    return(ret_str.length());
+    return strlen(str);
 }
 
 uint32 IPLocation::getString(FILE *fp, uint32 offset, uint32 lastoffset, QString& ret, unsigned int flag)
 {
     char *buf;
     unsigned int fg;
+    int len;
     if (fp == NULL) return 0;
     buf = (char *) calloc(3, sizeof(char));
     readFrom(fp, offset, buf , 1);
@@ -113,12 +114,12 @@ uint32 IPLocation::getString(FILE *fp, uint32 offset, uint32 lastoffset, QString
         readFrom(fp, offset + 1, buf, 3);
         return getString(fp, byteArrayToInt(buf, 3), offset, ret, fg);
     } else {
-        readLineFrom(fp, offset, ret);
+        len = readLineFrom(fp, offset, ret);
     }
     switch (flag) {
     case 0x01:  return 0;
     case 0x02:  return lastoffset + 4;
-    default:   return offset + strlen(ret.toLatin1()) + 1;
+    default:   return offset + len + 1;
     }// switch
 }
 
