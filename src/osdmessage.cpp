@@ -67,20 +67,20 @@ void PageViewMessage::display(const QString & message, Icon icon, int durationMs
         }
     */
     // determine text rectangle
-    if (!isHidden() && message == m_message) {
+    if (!isHidden() && message.trimmed() == m_message) {
         m_timer->setSingleShot(true);
         m_timer->start(durationMs);
         return;
     }
-    m_message = message;
+    m_message = message.trimmed();
     m_type = type;
-    QRect textRect = fontMetrics().boundingRect(message);
+    QRect textRect = fontMetrics().boundingRect(m_message);
     textRect.translate(-textRect.left(), -textRect.top());
     textRect.adjust(0, 0, 2, 2);
     int width = textRect.width(),
                 height = fontMetrics().ascent()+fontMetrics().descent(),
                          textXOffset = 0,
-                                       shadowOffset = message.isRightToLeft() ? -1 : 1;
+                                       shadowOffset = m_message.isRightToLeft() ? -1 : 1;
 
     // load icon (if set) and update geometry
     // [QTerm], we don't have a icon at this time.
@@ -135,9 +135,9 @@ void PageViewMessage::display(const QString & message, Icon icon, int durationMs
     // draw shadow and text
     int yText = (geometry.height() - height)/2 + fontMetrics().ascent();
     bufferPainter.setPen(palette().color(QPalette::Window).dark(115));
-    bufferPainter.drawText(5 + textXOffset + shadowOffset, yText + 1, message);
+    bufferPainter.drawText(5 + textXOffset + shadowOffset, yText + 1, m_message);
     bufferPainter.setPen(palette().color(QPalette::WindowText));
-    bufferPainter.drawText(5 + textXOffset, yText, message);
+    bufferPainter.drawText(5 + textXOffset, yText, m_message);
 
     // show widget and schedule a repaint
     show();
