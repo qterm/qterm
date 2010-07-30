@@ -315,32 +315,28 @@ bool Global::convertAddressBook2XML()
 		if (!dir.exists(m_addrCfg))
 			return createLocalFile(m_addrXml, m_pathLib + "address.xml");
 	}
-	// import xml address book
+        // try import xml address book
     QDomDocument doc;
+    QDomElement addresses;
 	QFile file(m_addrXml);
-	if (!file.open(QIODevice::ReadOnly))
-		return false;
-	if (!doc.setContent(&file)) {
-		file.close();
-		return false;
-	}
-	file.close();
+        if (file.open(QIODevice::ReadOnly) && doc.setContent(&file)) {
+                addresses = doc.documentElement();
+            } else {
+                QDomProcessingInstruction instr =
+                doc.createProcessingInstruction("xml","version=\"1.0\" encoding=\"UTF-8\"");
+                doc.appendChild(instr);
 
+                addresses = doc.createElement("addresses");
+               doc.appendChild(addresses);
+        }
 	// Combine cfg address book
 	m_address = new Config(m_addrCfg);
     int num = m_address->getItemValue("bbs list", "num").toInt();
 
-	//QDomProcessingInstruction instr = 
-	//	doc.createProcessingInstruction("xml","version=\"1.0\" encoding=\"UTF-8\"");
-	//doc.appendChild(instr);
-
-	//QDomElement addresses = doc.createElement("addresses");
-	//doc.appendChild(addresses);
-
-	QDomElement addresses = doc.documentElement();
 
 	QDomElement imported = doc.createElement("folder");
 	imported.setAttribute("name", tr("imported sites"));
+        addresses.insertBefore(imported, QDomNode());
 
     for (int i = -1; i < num; i++) {
         Param param;
@@ -361,14 +357,14 @@ bool Global::convertAddressBook2XML()
 
 		addresses.appendChild(site);
 	}
-	QFile ofile(m_addrXml);
-	if (!ofile.open(QIODevice::WriteOnly))
-		return false;
-	QByteArray xml = doc.toByteArray();
-	QTextStream stream(&ofile);
-	stream << xml;
-	ofile.close();
-
+//	QFile ofile(m_addrXml);
+//	if (!ofile.open(QIODevice::WriteOnly))
+//		return false;
+//	QByteArray xml = doc.toByteArray();
+//	QTextStream stream(&ofile);
+//	stream << xml;
+//	ofile.close();
+    saveAddressXml(doc);
 	delete m_address;
 	return true;
 }
@@ -559,12 +555,13 @@ bool Global::iniWorkingDir(QString param)
     m_fileCfg = m_pathCfg + "qterm.cfg";
     if (!createLocalFile(m_fileCfg, m_pathLib + "qterm.cfg"))
         return false;
-    //m_addrCfg = m_pathCfg + "address.cfg";
+    m_addrCfg = m_pathCfg + "address.cfg";
     //if (!createLocalFile(m_addrCfg, m_pathLib + "address.cfg"))
     //    return false;
 	m_addrXml = m_pathCfg + "address.xml";
     //if (!createLocalFile(m_addrXml, m_pathLib + "address.xml"))
     //    return false;
+
 	if (!convertAddressBook2XML())
 		return false;
     return true;
