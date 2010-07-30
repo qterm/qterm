@@ -209,8 +209,8 @@ bool Global::loadAddress(int n, Param& param)
 		if (key == "password" && m_wallet != NULL) {
 			m_wallet->open();
 			param.m_mapParam["password"] = m_wallet->readPassword(
-				param.m_mapParam["name"], 
-				param.m_mapParam["user"]);
+				param.m_mapParam["name"].toString(),
+				param.m_mapParam["user"].toString());
 		} else
 		#endif // KWALLET_ENABLED
 			param.m_mapParam[key] = m_address->getItemValue(strSection,key);
@@ -232,9 +232,9 @@ void Global::saveAddress(int n, const Param& param)
     if (key == "password" && m_wallet != NULL) {
         m_wallet->open();
         m_wallet->writePassword(
-			param.m_mapParam["name"], 
-			param.m_mapParam["user"], 
-			param.m_mapParam["password"]);
+			param.m_mapParam["name"].toString(),
+			param.m_mapParam["user"].toString(),
+			param.m_mapParam["password"].toString());
     } else
 	#endif
 		m_address->setItemValue(strSection, key, param.m_mapParam[key]);
