@@ -11,7 +11,7 @@
 namespace QTerm
 {
 
-DomItem::DomItem(QDomElement &element, DomItem *parent)
+DomItem::DomItem(QDomElement element, DomItem *parent)
 {
     domElement = element;
 	parentItem = parent;

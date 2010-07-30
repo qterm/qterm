@@ -13,7 +13,7 @@ namespace QTerm
 class DomItem
 {
 public:
-    DomItem(QDomElement &element, DomItem *parent = 0);
+    DomItem(QDomElement element, DomItem *parent = 0);
     ~DomItem();
     DomItem *child(int i);
 	void insertChild(int i, DomItem *item);
