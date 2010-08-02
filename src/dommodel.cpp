@@ -112,7 +112,10 @@ void DomItem::insertChild(int i, DomItem* item)
         return;
 
 	QDomNode node = domElement.childNodes().item(i);
-	domElement.insertBefore(item->element(),node);
+	if (node.isNull())
+		domElement.appendChild(item->element());
+	else
+		domElement.insertBefore(item->element(),node);
 	item->reparent(this);
 	childItems.insert(i, item);
 }
