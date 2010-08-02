@@ -114,10 +114,7 @@ QDomDocument Global::addrXml()
 	QDomDocument doc;
 	QFile file(m_addrXml);
 	if (file.open(QIODevice::ReadOnly)) {
-		QTextStream in;
-		in.setCodec("UTF-8");
-		in.setDevice(&file);
-		doc.setContent(in.readAll());
+		doc.setContent(&file);
 		file.close();
 	}
 	return doc;
