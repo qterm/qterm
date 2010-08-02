@@ -200,6 +200,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionConnect"/>
+   <addaction name="actionQuick_Login"/>
    <addaction name="actionDisconnect"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -212,7 +213,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionQuick_Login"/>
   </widget>
   <widget class="QToolBar" name="keyToolBar">
    <property name="windowTitle">
