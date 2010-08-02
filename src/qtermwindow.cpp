@@ -1831,12 +1831,14 @@ void Window :: groupActions()
 {
 	listActions << "actionDisconnect"
         << "actionPrint" << "actionPrint_Preview"
+		<< "actionRefresh"
         << "actionCopy" << "actionPaste" 
         << "actionAuto_Copy" << "actionCopy_w_Color"
 		<< "actionRectangle_Selection" << "actionPaste_w_Wordwrap"
 		<< "actionAnti_idle" << "actionAuto_Reply"
 		<< "actionCopy_Article"
         << "actionView_Message" << "actionBoss_Color"
+		<< "actionDebug_Console" << "actionRun" << "actionStop" << "actionReload_Script"
 		<< "actionCurrent_Session_Setting";
 	mapToggleStates["actionAuto_Copy"]    = &m_bAutoCopy;
 	mapToggleStates["actionCopy_w_Color"] = &m_bColorCopy;
