@@ -1830,7 +1830,6 @@ void Window::loadKeyboardTranslator(const QString & filename)
 void Window :: groupActions() 
 {
 	listActions << "actionDisconnect"
-		<< "actionSave" << "actionSave_As"
         << "actionPrint" << "actionPrint_Preview"
         << "actionCopy" << "actionPaste" 
         << "actionAuto_Copy" << "actionCopy_w_Color"
