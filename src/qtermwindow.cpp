@@ -1835,6 +1835,7 @@ void Window :: groupActions()
         << "actionAuto_Copy" << "actionCopy_w_Color"
 		<< "actionRectangle_Selection" << "actionPaste_w_Wordwrap"
 		<< "actionAnti_idle" << "actionAuto_Reply"
+		<< "actionCopy_Article"
         << "actionView_Message" << "actionBoss_Color"
 		<< "actionCurrent_Session_Setting";
 	mapToggleStates["actionAuto_Copy"]    = &m_bAutoCopy;
