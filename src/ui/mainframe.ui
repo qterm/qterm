@@ -226,6 +226,19 @@
    </attribute>
    <addaction name="actionKey_Setup"/>
   </widget>
+  <widget class="QToolBar" name="ansiToolBar">
+   <property name="windowTitle">
+    <string>ANSI Edit</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionUnderline"/>
+   <addaction name="actionBlink"/>
+  </widget>
   <action name="actionQuick_Login">
    <property name="icon">
     <iconset resource="../qterm.qrc">
@@ -722,6 +735,28 @@
    </property>
    <property name="text">
     <string>Boss Color</string>
+   </property>
+  </action>
+  <action name="actionUnderline">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Underline</string>
+   </property>
+   <property name="toolTip">
+    <string>Underline</string>
+   </property>
+  </action>
+  <action name="actionBlink">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Blink</string>
+   </property>
+   <property name="toolTip">
+    <string>Blink</string>
    </property>
   </action>
  </widget>

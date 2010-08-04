@@ -100,6 +100,9 @@ public slots:
 	void on_actionCopy_w_Color_toggled(bool color) { m_bColorCopy = color; }
 	void on_actionAuto_Copy_toggled(bool automatic) { m_bAutoCopy = automatic; }
 	void on_actionPaste_w_Wrodwrap(bool wordwrap) { m_bWordWrap = wordwrap; }
+	void on_actionUnderline_toggled(bool underline);
+	void on_actionBlink_toggled(bool blink);
+	void on_actionPallete_triggered(const QVariant& data);
 	// View
 	void on_actionRefresh_triggered();
 	void on_actionBoss_Color_toggled(bool);

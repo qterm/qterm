@@ -1309,6 +1309,50 @@ void Window::on_actionRefresh_triggered()
     m_pScreen->update();
 }
 
+void Window::on_actionUnderline_toggled(bool underline)
+{
+	QString strEscape = m_param.m_mapParam["escape"].toString();
+	if (underline)
+		strEscape += "4m";
+	else
+		strEscape += "0m";
+	QByteArray sequence = parseString(strEscape.toLocal8Bit());
+	m_pTelnet->write(sequence,sequence.length());
+}
+void Window::on_actionBlink_toggled(bool blink)
+{
+	QString strEscape = m_param.m_mapParam["escape"].toString();
+	if (blink)
+		strEscape += "5m";
+	else
+		strEscape += "0m";
+	QByteArray sequence = parseString(strEscape.toLocal8Bit());
+	m_pTelnet->write(sequence,sequence.length());
+}
+void Window::on_actionPallete_triggered(const QVariant& data)
+{
+	if (data.isNull())
+		return;
+	int index = data.toInt() >> 4;
+	int role  = data.toInt() & 0x0f;
+	int color = index;
+	QString strEscape = m_param.m_mapParam["escape"].toString();
+	// highlight
+	if (index > 7) {
+		strEscape += "1;";
+		color = index - 8;
+	}
+	// fg or bg
+	if (role == 0) //fg
+		strEscape += QString::number(30+color);
+	else // bg
+		strEscape += QString::number(40+color);
+	strEscape += "m";
+	// write to server
+	QByteArray sequence = parseString(strEscape.toLocal8Bit());
+	m_pTelnet->write(sequence,sequence.length());
+}
+
 void Window::on_actionDebug_Console_triggered()
 {
 #ifdef SCRIPTTOOLS_ENABLED
@@ -1832,6 +1876,7 @@ void Window :: groupActions()
 	listActions << "actionDisconnect"
         << "actionPrint" << "actionPrint_Preview"
 		<< "actionRefresh"
+		<< "actionPallete" << "actionUnderline" << "actionBlink" << "actionBold"
         << "actionCopy" << "actionPaste" 
         << "actionAuto_Copy" << "actionCopy_w_Color"
 		<< "actionRectangle_Selection" << "actionPaste_w_Wordwrap"

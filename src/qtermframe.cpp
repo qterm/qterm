@@ -27,6 +27,7 @@ AUTHOR:        kingson fiasco hooey
 #include "shortcutsdialog.h"
 #include "toolbardialog.h"
 #include "closedialog.h"
+#include "pallete.h"
 
 #ifdef DBUS_ENABLED
 #include "dbus.h"
@@ -105,6 +106,11 @@ Frame::Frame()
     connect(DBus::instance(), SIGNAL(showQTerm()), this, SLOT(slotShowQTerm()));
 #endif //DBUS_ENABLED
 
+	// pallete box
+	Pallete * pallete = new Pallete(ansiToolBar);
+	actionPallete = ansiToolBar->addWidget(pallete);
+	actionPallete->setObjectName(QString::fromUtf8("actionPallete"));
+	connect(pallete, SIGNAL(colorChanged(int,int)), SLOT(palleteColorChanged(int,int)));
 
 //create a progress bar to notify the download process
     m_pStatusBar = new QTerm::StatusBar(statusBar(), "mainStatusBar");
@@ -233,6 +239,13 @@ void Frame::saveSetting()
 /*********************************************************
  *                       SLOTS                           *
  *********************************************************/
+// pallete box delegate
+void Frame::palleteColorChanged(int index, int role)
+{
+	actionPallete->setData((index << 4) + role);
+	actionPallete->trigger();
+}
+
 //addressbook
 void Frame::on_actionAddressBook_triggered()
 {
@@ -482,8 +495,14 @@ void Frame :: actionsDispatcher(QAction* action)
         QString nameSlot="on_"+action->objectName()+"_triggered";
         if(wb->hasAction(action->objectName()))
         {
-            bool ret=QMetaObject::invokeMethod(wb, 
-                nameSlot.toLatin1().constData());
+			bool ret = false;
+			QVariant data = action->data();
+			if (data.isNull())
+				ret=QMetaObject::invokeMethod(wb, 
+					nameSlot.toLatin1().constData());
+			else 
+				ret=QMetaObject::invokeMethod(wb, 
+					nameSlot.toLatin1().constData(), Q_ARG(QVariant, data));
             if(!ret)
                 qWarning("Failed to execute %s",
                 nameSlot.toLatin1().constData());

@@ -116,6 +116,7 @@ set(qterm_SRCS
    ui_toolbardialog.h
    ui_zmodemdialog.h
    ui_closedialog.h
+   ui_pallete.h
    aboutdialog.cpp
    addrdialog.cpp
    articledialog.cpp
@@ -163,6 +164,7 @@ set(qterm_SRCS
    closedialog.cpp
    uaocodec.cpp
    dommodel.cpp
+   pallete.cpp
    ${optionalSources})
 set(qterm_UIS
    ui/aboutdialog.ui
@@ -180,7 +182,8 @@ set(qterm_UIS
    ui/soundconf.ui
    ui/sshlogin.ui
    ui/toolbardialog.ui
-   ui/zmodemdialog.ui)
+   ui/zmodemdialog.ui
+   ui/pallete.ui)
 set(qterm_MISC
    address.xml
    credits
