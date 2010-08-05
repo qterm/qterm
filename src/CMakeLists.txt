@@ -165,6 +165,7 @@ set(qterm_SRCS
    uaocodec.cpp
    dommodel.cpp
    pallete.cpp
+   chartable.cpp
    ${optionalSources})
 set(qterm_UIS
    ui/aboutdialog.ui
