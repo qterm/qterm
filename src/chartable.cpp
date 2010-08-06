@@ -33,10 +33,15 @@ CharTable :: CharTable(QWidget *parent)
               "▁▂▃▄▅▆▇█▉▊"
               "▋▌▍▎▏▓╱╲╳※"
               "─│┌┐└┘├┤┬┴"
+			  "═║╣╔╗╚╝╠╣╦╩"
               "┼↖↗↘↙→←↑↓√"
               "▼▽◢◣◥◤╭╮╯╰"
               "♂♀☉⊕〇◎〓℉℃㊣"
               "☆★◇◆□■△▲○●"
+			  "☜☞♨☼☎☏◐◑↔↕"
+			  "♫♬♩♭♪☀☁☂◕✟"
+			  "☺☻۩۞✲❈✿✪✣✤✥✦❉❥❦❧❃❂❁❀✄☪☣☢☠☭卐"
+			  "﹌﹏►◄▧▨№♠❤♣◊♦"
               "⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑"
               "⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛"
               "⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽"
@@ -94,7 +99,7 @@ void CharTable :: paintEvent(QPaintEvent *pe)
     QFont font("SimSun",20);
 
     for (int row = beginRow; row <= endRow; ++row) {
-        for (int column = beginColumn; column <= endColumn; ++column) {
+        for (int column = beginColumn; column <= endColumn && column < maxColumn; ++column) {
             int n = row*maxColumn + column;
             QString text;
             if (n < symbols.length())
