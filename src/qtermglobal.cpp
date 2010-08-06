@@ -67,6 +67,14 @@ Global::Global()
 		m_windowState(), m_status(INIT_OK), m_style(), 
 		m_fullScreen(false), m_language(Global::English)
 {
+#ifdef KWALLET_ENABLED
+    if (Wallet::isWalletAvailable()) {
+        qDebug() << "KWallet service found";
+        m_wallet = new Wallet(this);
+    } else {
+        m_wallet = NULL;
+    }
+#endif // KWALLET_ENABLED
     if (!iniWorkingDir(qApp->arguments()[0])) {
         m_status = INIT_ERROR;
         return;
@@ -77,14 +85,6 @@ Global::Global()
 	m_config    = new Config(m_fileCfg);
     m_address   = new Config(m_addrCfg);
     m_converter = new Convert();
-#ifdef KWALLET_ENABLED
-    if (Wallet::isWalletAvailable()) {
-        qDebug() << "KWallet service found";
-        m_wallet = new Wallet(this);
-    } else {
-        m_wallet = NULL;
-    }
-#endif // KWALLET_ENABLED
     if (!iniSettings()) {
         m_status = INIT_ERROR;
         return;
