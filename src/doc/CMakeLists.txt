@@ -25,7 +25,7 @@ ADD_CUSTOM_TARGET(help_target
   DEPENDS qterm.qhc)
 
 INSTALL(
-    FILES qterm.qhc
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/qterm.qhc
     DESTINATION share/qterm/doc
 )
 
