@@ -1352,6 +1352,12 @@ void Window::on_actionPallete_triggered(const QVariant& data)
 	QByteArray sequence = parseString(strEscape.toLocal8Bit());
 	m_pTelnet->write(sequence,sequence.length());
 }
+void Window::on_actionSymbols_triggered(const QVariant& data)
+{
+	setFocus(); // steal back focus from symbol table
+	QByteArray text = m_codec->fromUnicode(data.toString());
+	m_pTelnet->write(text,text.length());
+}
 
 void Window::on_actionDebug_Console_triggered()
 {
@@ -1876,7 +1882,7 @@ void Window :: groupActions()
 	listActions << "actionDisconnect"
         << "actionPrint" << "actionPrint_Preview"
 		<< "actionRefresh"
-		<< "actionPallete" << "actionUnderline" << "actionBlink" << "actionBold"
+		<< "actionPallete" << "actionUnderline" << "actionBlink" << "actionSymbols"
         << "actionCopy" << "actionPaste" 
         << "actionAuto_Copy" << "actionCopy_w_Color"
 		<< "actionRectangle_Selection" << "actionPaste_w_Wordwrap"

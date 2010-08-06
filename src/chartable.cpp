@@ -5,6 +5,7 @@
 #include <QPainter>
 
 #include <QtDebug>
+#include <QMessageBox>
 
 namespace QTerm
 {
@@ -48,6 +49,14 @@ CharTable :: CharTable(QWidget *parent)
 void CharTable ::resizeEvent(QResizeEvent *re)
 {
     maxColumn = re->size().width()/square;
+    setMinimumHeight((symbols.length()/maxColumn + 1)*square);
+}
+
+QSize CharTable :: sizeHint() const
+{
+	int x = maxColumn*square;
+	int y = (symbols.length()/maxColumn + 1)*square;
+	return QSize(x, y);
 }
 
 void CharTable :: mouseMoveEvent(QMouseEvent *me)

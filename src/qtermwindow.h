@@ -103,6 +103,7 @@ public slots:
 	void on_actionUnderline_toggled(bool underline);
 	void on_actionBlink_toggled(bool blink);
 	void on_actionPallete_triggered(const QVariant& data);
+	void on_actionSymbols_triggered(const QVariant& data);
 	// View
 	void on_actionRefresh_triggered();
 	void on_actionBoss_Color_toggled(bool);

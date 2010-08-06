@@ -112,6 +112,11 @@ Frame::Frame()
 	actionPallete->setObjectName(QString::fromUtf8("actionPallete"));
 	connect(pallete, SIGNAL(colorChanged(int,int)), SLOT(palleteColorChanged(int,int)));
 
+	// symbols table input
+	actionSymbols = new QAction(this);
+	actionSymbols->setObjectName(QString::fromUtf8("actionSymbols"));
+	connect(scrollArea->widget(), SIGNAL(characterSelected(QString)), SLOT(characterSelected(QString)));
+
 //create a progress bar to notify the download process
     m_pStatusBar = new QTerm::StatusBar(statusBar(), "mainStatusBar");
     statusBar()->addWidget(m_pStatusBar, 0);
@@ -244,6 +249,13 @@ void Frame::palleteColorChanged(int index, int role)
 {
 	actionPallete->setData((index << 4) + role);
 	actionPallete->trigger();
+}
+
+// symbol table delegate
+void Frame::characterSelected(QString str) 
+{
+	actionSymbols->setData(str);
+	actionSymbols->trigger();
 }
 
 //addressbook

@@ -108,6 +108,8 @@ protected slots:
 
     void slotShowQTerm();
 	void palleteColorChanged(int index, int role);
+	void characterSelected(QString str);
+
 protected:
     //variables
     QMenu * connectMenu;
@@ -117,6 +119,7 @@ protected:
     QSystemTrayIcon *tray;
 
 	QAction *actionPallete;
+	QAction *actionSymbols;
 
 	StatusBar *m_pStatusBar;
 

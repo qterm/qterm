@@ -11,6 +11,7 @@ class CharTable : public QWidget
     Q_OBJECT
 public:
     CharTable (QWidget *parent = 0);
+	QSize sizeHint() const;
 
 signals:
     void characterSelected(QString);
