@@ -83,7 +83,6 @@ Global::Global()
     m_translatorQTerm = new QTranslator(0);
     
     m_config    = new Config(m_fileCfg);
-    m_address   = new Config(m_addrCfg);
     m_converter = new Convert();
     if (!iniSettings()) {
         m_status = INIT_ERROR;
@@ -102,11 +101,6 @@ bool Global::isOK()
 Config * Global::fileCfg()
 {
     return m_config;
-}
-
-Config * Global::addrCfg()
-{
-    return m_address;
 }
 
 QDomDocument Global::addrXml()
@@ -155,21 +149,6 @@ QMap<QString,QString> Global::loadFavoriteList(QDomDocument doc)
 
     return listSite;
 }
-QStringList Global::loadNameList()
-{
-    QStringList listName;
-
-    QString strTmp = m_address->getItemValue("bbs list", "num").toString();
-
-    QString strSection;
-
-    for (int i = 0; i < strTmp.toInt(); i++) {
-        strSection.sprintf("bbs %d", i);
-        listName.append(m_address->getItemValue(strSection, "name").toString());
-    }
-
-    return listName;
-}
 
 bool Global::loadAddress(QDomDocument doc, QString uuid, Param& param)
 {
@@ -185,10 +164,10 @@ bool Global::loadAddress(QDomDocument doc, QString uuid, Param& param)
     return true;
 }
 
-bool Global::loadAddress(int n, Param& param)
+bool Global::loadAddress(Config& addrCfg, int n, Param& param)
 {
     QString strTmp, strSection;
-    strTmp = m_address->getItemValue("bbs list", "num").toString();
+    strTmp = addrCfg.getItemValue("bbs list", "num").toString();
     if ((n < 0 && strTmp.toInt() <= 0) || n < -1)
         strSection = "default";
     else {
@@ -197,7 +176,7 @@ bool Global::loadAddress(int n, Param& param)
     }
 
     // check if larger than existence
-    strTmp = m_address->getItemValue("bbs list", "num").toString();
+    strTmp = addrCfg.getItemValue("bbs list", "num").toString();
     if (n >= strTmp.toInt())
         return false;
 
@@ -210,34 +189,10 @@ bool Global::loadAddress(int n, Param& param)
                 param.m_mapParam["user"].toString());
         } else
         #endif // KWALLET_ENABLED
-            param.m_mapParam[key] = m_address->getItemValue(strSection,key);
+            param.m_mapParam[key] = addrCfg.getItemValue(strSection,key);
     }
 
     return true;
-}
-
-void Global::saveAddress(int n, const Param& param)
-{
-    QString strTmp, strSection;
-    if (n < 0)
-        strSection = "default";
-    else
-        strSection.sprintf("bbs %d", n);
-
-    foreach(QString key,param.m_mapParam.keys()) {
-    #ifdef KWALLET_ENABLED
-    if (key == "password" && m_wallet != NULL) {
-        m_wallet->open();
-        m_wallet->writePassword(
-            param.m_mapParam["name"].toString(),
-            param.m_mapParam["user"].toString(),
-            param.m_mapParam["password"].toString());
-    } else
-    #endif
-        m_address->setItemValue(strSection, key, param.m_mapParam[key]);
-    }
-    m_address->save();
-
 }
 
 void Global::saveAddress(QDomDocument doc, QString uuid, const Param& param)
@@ -268,26 +223,6 @@ void Global::saveAddress(QDomDocument doc, QString uuid, const Param& param)
 
     if (!result) return;
 
-}
-
-void Global::removeAddress(int n)
-{
-    if (n < 0)
-        return;
-    QString strSection = QString("bbs %1").arg(n);
-#ifdef KWALLET_ENABLED
-    // check if larger than existence
-    QString strTmp = m_address->getItemValue("bbs list", "num").toString();
-    if (n >= strTmp.toInt())
-        return;
-    QString site = m_address->getItemValue(strSection, "name").toString();
-    QString username = m_address->getItemValue(strSection, "user").toString();
-    if (m_wallet != NULL) {
-        m_wallet->open();
-        m_wallet->removePassword(site, username);
-    }
-#endif // KWALLET_ENABLED
-    m_address->deleteSection(strSection);
 }
 
 void Global::removeAddress(QDomDocument doc, QString uuid)
@@ -327,8 +262,8 @@ bool Global::convertAddressBook2XML()
         doc.appendChild(addresses);
     }
     // Combine cfg address book
-    m_address = new Config(m_addrCfg);
-    int num = m_address->getItemValue("bbs list", "num").toInt();
+    Config addrCfg(m_addrCfg);
+    int num = addrCfg.getItemValue("bbs list", "num").toInt();
 
 
     QDomElement imported = doc.createElement("folder");
@@ -337,7 +272,7 @@ bool Global::convertAddressBook2XML()
 
     for (int i = -1; i < num; i++) {
         Param param;
-        loadAddress(i, param);
+        loadAddress(addrCfg, i, param);
         QDomElement site = doc.createElement("site");
         if (i==-1)
             site.setAttribute("uuid", QUuid().toString());
@@ -355,7 +290,6 @@ bool Global::convertAddressBook2XML()
         addresses.appendChild(site);
     }
     saveAddressXml(doc);
-    delete m_address;
     return true;
 }
 

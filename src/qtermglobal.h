@@ -78,22 +78,21 @@ public:
     };
     static Global * instance();
     Config * fileCfg();
-    Config * addrCfg();
     QDomDocument addrXml();
     const QString & pathLib();
     const QString & pathPic();
     const QString & pathCfg();
     void clearDir(const QString & path);
+    // XML address book
     QMap<QString,QString> loadFavoriteList(QDomDocument);
-    QStringList loadNameList();
     bool loadAddress(QDomDocument doc, QString uuid, Param & param);
-    bool loadAddress(int n, Param & param);
-    void saveAddress(int n, const Param & param);
     void saveAddress(QDomDocument doc, QString uuid, const Param & param);
-    void removeAddress(int n);
     void removeAddress(QDomDocument doc, QString uuid);
     void saveAddressXml(const QDomDocument& doc);
     bool convertAddressBook2XML();
+    // deprecated cfg address book, here only for conversion reason
+    bool loadAddress(Config &addrCfg, int n, Param & param);
+
     QString getOpenFileName(const QString & filter, QWidget * widget);
     QString getSaveFileName(const QString & filename, QWidget * widget);
     bool isOK();
@@ -148,7 +147,6 @@ private:
     QString m_pathPic;
     QString m_pathCfg;
     Config * m_config;
-    Config * m_address;
     QByteArray * m_windowState;
     Status m_status;
     QString m_style;
