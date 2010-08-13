@@ -306,26 +306,26 @@ void Global::removeAddress(QDomDocument doc, QString uuid)
 bool Global::convertAddressBook2XML()
 {
     QDir dir;
-    if (dir.exists(m_addrXml))
+    if (dir.exists(m_addrXml))// do nothing if address.xml existed
         return true;
     else {
-        if (!dir.exists(m_addrCfg))
+        if (!dir.exists(m_addrCfg)) // simply copy from system if even address.cfg not existed
             return createLocalFile(m_addrXml, m_pathLib + "address.xml");
     }
-        // try import xml address book
+    // import system address.xml or create new one
     QDomDocument doc;
     QDomElement addresses;
-    QFile file(m_addrXml);
-        if (file.open(QIODevice::ReadOnly) && doc.setContent(&file)) {
-                addresses = doc.documentElement();
-            } else {
-                QDomProcessingInstruction instr =
+    QFile file(m_pathLib + "address.xml");
+    if (file.open(QIODevice::ReadOnly) && doc.setContent(&file)) {
+        addresses = doc.documentElement();
+    } else {
+        QDomProcessingInstruction instr =
                 doc.createProcessingInstruction("xml","version=\"1.0\" encoding=\"UTF-8\"");
-                doc.appendChild(instr);
+        doc.appendChild(instr);
 
-                addresses = doc.createElement("addresses");
-               doc.appendChild(addresses);
-        }
+        addresses = doc.createElement("addresses");
+        doc.appendChild(addresses);
+    }
     // Combine cfg address book
     m_address = new Config(m_addrCfg);
     int num = m_address->getItemValue("bbs list", "num").toInt();
@@ -354,13 +354,6 @@ bool Global::convertAddressBook2XML()
 
         addresses.appendChild(site);
     }
-//  QFile ofile(m_addrXml);
-//  if (!ofile.open(QIODevice::WriteOnly))
-//      return false;
-//  QByteArray xml = doc.toByteArray();
-//  QTextStream stream(&ofile);
-//  stream << xml;
-//  ofile.close();
     saveAddressXml(doc);
     delete m_address;
     return true;
