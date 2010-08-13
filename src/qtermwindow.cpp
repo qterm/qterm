@@ -296,7 +296,6 @@ Window::Window(Frame * frame, Param param, const QString &uuid, QWidget * parent
     m_bCheckIP = m_pIPLocation->haveFile();
     m_pSound = NULL;
 
-    setFocusProxy(m_pScreen);
     setWidget(m_pScreen);
 
     connect(m_pFrame, SIGNAL(scrollChanged()), m_pScreen, SLOT(updateScrollBar()));
@@ -781,12 +780,16 @@ void Window::wheelEvent(QWheelEvent *we)
         }
     }
 #endif
-    int j = we->delta() > 0 ? 4 : 5;
-    if (!(we->modifiers())) {
-        if (Global::instance()->m_pref.bWheel && m_bConnected)
-            m_pTelnet->write(direction[j], sizeof(direction[j]));
-        return;
-    }
+        if (Global::instance()->m_pref.bWheel) {
+            int j = we->delta() > 0 ? 4 : 5;
+            if (!(we->modifiers())) {
+                if (Global::instance()->m_pref.bWheel && m_bConnected)
+                    m_pTelnet->write(direction[j], sizeof(direction[j]));
+            }
+        }
+        else {
+            m_pScreen->scrollLine(-we->delta()/8/15);
+        }
 }
 
 //keyboard input event

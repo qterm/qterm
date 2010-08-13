@@ -104,7 +104,6 @@ public slots:
 protected:
     void initFontMetrics();
 
-    void moveEvent(QMoveEvent *);
     void resizeEvent(QResizeEvent *);
     void focusInEvent(QFocusEvent *);
     void focusOutEvent(QFocusEvent *);
@@ -112,14 +111,6 @@ protected:
     bool event(QEvent *);
 
     void paintEvent(QPaintEvent *);
-
-    // mouse
-    void enterEvent(QEvent *);
-    void leaveEvent(QEvent *);
-    void mousePressEvent(QMouseEvent *);
-    void mouseMoveEvent(QMouseEvent*);
-    void mouseReleaseEvent(QMouseEvent*);
-    void wheelEvent(QWheelEvent *);
 
     // display
     void eraseRect(QPainter& , int, int, int, int, short);

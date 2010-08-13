@@ -216,10 +216,6 @@ void Screen::blinkEvent()
     }
 }
 
-void Screen::moveEvent(QMoveEvent *)
-{
-// setBgPxm( m_pxmBg, m_nPxmType );
-}
 void Screen::resizeEvent(QResizeEvent *)
 {
     updateScrollBar();
@@ -243,58 +239,6 @@ void Screen::resizeEvent(QResizeEvent *)
     m_ePaintState = Show;
     update();
 }
-
-/* ------------------------------------------------------------------------ */
-/*                                                                         */
-/*                           Mouse                                          */
-/*                                                                          */
-/* ------------------------------------------------------------------------ */
-void Screen::enterEvent(QEvent * e)
-{
-    QApplication::sendEvent(m_pWindow, e);
-}
-
-void Screen::leaveEvent(QEvent * e)
-{
-    QApplication::sendEvent(m_pWindow, e);
-}
-
-void Screen::mousePressEvent(QMouseEvent * me)
-{
-    setFocus();
-
-    m_pWindow->mousePressEvent(me);
-    //QApplication::sendEvent(m_pWindow, me);
-
-}
-void Screen::mouseMoveEvent(QMouseEvent * me)
-{
-#ifdef Q_OS_MACX
-    m_pWindow->mouseMoveEvent(me);
-#else
-    m_pWindow->mouseMoveEvent(me);
-    //QApplication::sendEvent(m_pWindow, me);
-#endif
-}
-
-void Screen::mouseReleaseEvent(QMouseEvent * me)
-{
-    m_pWindow->mouseReleaseEvent(me);
-    //QApplication::sendEvent(m_pWindow, me);
-}
-
-void Screen::wheelEvent(QWheelEvent * we)
-{
-    if (Global::instance()->m_pref.bWheel)
-        QApplication::sendEvent(m_pWindow, we);
-    else {
-        int old_value = m_scrollBar->value();
-        int step = m_scrollBar->singleStep()*we->delta()/8/15;
-        m_scrollBar->setValue(old_value-step);
-        we->accept();
-    }
-}
-
 
 /* ------------------------------------------------------------------------ */
 /*                                                                         */
@@ -512,29 +456,24 @@ void Screen::schemeChanged(int index)
 void Screen::prevPage()
 {
     scrollLine(-m_pBuffer->line());
-    m_ePaintState = NewData;
-    update();
 }
 
 void Screen::nextPage()
 {
     scrollLine(m_pBuffer->line());
-    m_ePaintState = NewData;
-    update();
+
 }
 
 void Screen::prevLine()
 {
     scrollLine(-1);
-    m_ePaintState = NewData;
-    update();
+
 }
 
 void Screen::nextLine()
 {
     scrollLine(1);
-    m_ePaintState = NewData;
-    update();
+
 }
 
 void Screen::scrollLine(int delta)
@@ -559,6 +498,8 @@ void Screen::scrollLine(int delta)
     for (int i = m_nStart; i <= m_nEnd; i++)
         m_pBuffer->at(i)->setChanged(-1, -1);
 
+    m_ePaintState = NewData;
+    update();
 }
 void Screen::scrollChanged(int value)
 {
