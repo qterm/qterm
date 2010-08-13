@@ -51,11 +51,11 @@ public:
         Traditional_To_Simplified
     };
 
-	enum Position {
-		Hide = 0, 
-		Left, 
-		Right
-	};
+    enum Position {
+        Hide = 0, 
+        Left, 
+        Right
+    };
 
     struct Pref {
         Conversion XIM;
@@ -79,21 +79,21 @@ public:
     static Global * instance();
     Config * fileCfg();
     Config * addrCfg();
-	QDomDocument addrXml();
+    QDomDocument addrXml();
     const QString & pathLib();
     const QString & pathPic();
     const QString & pathCfg();
     void clearDir(const QString & path);
-	QMap<QString,QString> loadFavoriteList(QDomDocument);
+    QMap<QString,QString> loadFavoriteList(QDomDocument);
     QStringList loadNameList();
-	bool loadAddress(QDomDocument doc, QString uuid, Param & param);
+    bool loadAddress(QDomDocument doc, QString uuid, Param & param);
     bool loadAddress(int n, Param & param);
     void saveAddress(int n, const Param & param);
     void saveAddress(QDomDocument doc, QString uuid, const Param & param);
     void removeAddress(int n);
-	void removeAddress(QDomDocument doc, QString uuid);
-	void saveAddressXml(const QDomDocument& doc);
-	bool convertAddressBook2XML();
+    void removeAddress(QDomDocument doc, QString uuid);
+    void saveAddressXml(const QDomDocument& doc);
+    bool convertAddressBook2XML();
     QString getOpenFileName(const QString & filter, QWidget * widget);
     QString getSaveFileName(const QString & filename, QWidget * widget);
     bool isOK();
@@ -107,15 +107,15 @@ public:
     bool isFullScreen() const;
     bool showSwitchBar() const;
     bool showStatusBar() const;
-	bool showMenuBar() const;
+    bool showMenuBar() const;
 
-	const QString & style() const;
+    const QString & style() const;
 
     void setClipConversion(Conversion conversionId);
     void setEscapeString(const QString & escapeString);
     void setScrollPosition(Position position);
     void setStatusBar(bool isShow); //Better name?
-	void setMenuBar(bool isShow);
+    void setMenuBar(bool isShow);
     void setBossColor(bool isBossColor);
     void setFullScreen(bool isFullscreen);
     void setSwitchBar(bool isShow);
@@ -143,7 +143,7 @@ private:
     void closeNotification(uint id);
     QString m_fileCfg;
     QString m_addrCfg;
-	QString m_addrXml;
+    QString m_addrXml;
     QString m_pathLib;
     QString m_pathPic;
     QString m_pathCfg;
@@ -160,10 +160,10 @@ private:
     Position m_scrollPos;
     bool m_fullScreen;
     bool m_switchBar;
-	bool m_menuBar;
+    bool m_menuBar;
     Language m_language;
-	QTranslator *m_translatorQT;
-	QTranslator *m_translatorQTerm;
+    QTranslator *m_translatorQT;
+    QTranslator *m_translatorQTerm;
 #ifdef KWALLET_ENABLED
     Wallet * m_wallet;
 #endif // KWALLET_ENABLED

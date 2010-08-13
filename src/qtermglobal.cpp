@@ -63,9 +63,9 @@ Global * Global::instance()
 
 Global::Global()
         : m_fileCfg("./qterm.cfg"), m_addrCfg("./address.cfg"), m_addrXml("./address.xml"),
-		m_pathLib("./"), m_pathCfg("./"), 
-		m_windowState(), m_status(INIT_OK), m_style(), 
-		m_fullScreen(false), m_language(Global::English)
+        m_pathLib("./"), m_pathCfg("./"), 
+        m_windowState(), m_status(INIT_OK), m_style(), 
+        m_fullScreen(false), m_language(Global::English)
 {
 #ifdef KWALLET_ENABLED
     if (Wallet::isWalletAvailable()) {
@@ -79,10 +79,10 @@ Global::Global()
         m_status = INIT_ERROR;
         return;
     }
-	m_translatorQT    = new QTranslator(0);
-	m_translatorQTerm = new QTranslator(0);
+    m_translatorQT    = new QTranslator(0);
+    m_translatorQTerm = new QTranslator(0);
     
-	m_config    = new Config(m_fileCfg);
+    m_config    = new Config(m_fileCfg);
     m_address   = new Config(m_addrCfg);
     m_converter = new Convert();
     if (!iniSettings()) {
@@ -111,13 +111,13 @@ Config * Global::addrCfg()
 
 QDomDocument Global::addrXml()
 {
-	QDomDocument doc;
-	QFile file(m_addrXml);
-	if (file.open(QIODevice::ReadOnly)) {
-		doc.setContent(&file);
-		file.close();
-	}
-	return doc;
+    QDomDocument doc;
+    QFile file(m_addrXml);
+    if (file.open(QIODevice::ReadOnly)) {
+        doc.setContent(&file);
+        file.close();
+    }
+    return doc;
 }
 
 const QString & Global::pathLib()
@@ -144,16 +144,16 @@ void Global::clearDir(const QString & path)
 
 QMap<QString,QString> Global::loadFavoriteList(QDomDocument doc)
 {
-	QMap<QString,QString> listSite;
-	// import xml address book
-	QDomNodeList nodeList = doc.elementsByTagName("site");
-	for (int i=0; i<nodeList.count(); i++) {
-		QDomElement node = nodeList.at(i).toElement();
-		if (node.attribute("favor") == "1")
-			listSite[node.attribute("uuid")] = node.attribute("name");
-	}
+    QMap<QString,QString> listSite;
+    // import xml address book
+    QDomNodeList nodeList = doc.elementsByTagName("site");
+    for (int i=0; i<nodeList.count(); i++) {
+        QDomElement node = nodeList.at(i).toElement();
+        if (node.attribute("favor") == "1")
+            listSite[node.attribute("uuid")] = node.attribute("name");
+    }
 
-	return listSite;
+    return listSite;
 }
 QStringList Global::loadNameList()
 {
@@ -173,16 +173,16 @@ QStringList Global::loadNameList()
 
 bool Global::loadAddress(QDomDocument doc, QString uuid, Param& param)
 {
-	if (uuid.isEmpty())
-		uuid = QUuid().toString();
-	QDomNodeList nodeList = doc.elementsByTagName("site");
-	for (int i=0; i<nodeList.count(); i++) {
-		QDomElement node = nodeList.at(i).toElement();
-		if (uuid == node.attribute("uuid"))
-			foreach (QString key, param.m_mapParam.keys()) 
-				param.m_mapParam[key] = node.attribute(key);
-	}
-	return true;
+    if (uuid.isEmpty())
+        uuid = QUuid().toString();
+    QDomNodeList nodeList = doc.elementsByTagName("site");
+    for (int i=0; i<nodeList.count(); i++) {
+        QDomElement node = nodeList.at(i).toElement();
+        if (uuid == node.attribute("uuid"))
+            foreach (QString key, param.m_mapParam.keys()) 
+                param.m_mapParam[key] = node.attribute(key);
+    }
+    return true;
 }
 
 bool Global::loadAddress(int n, Param& param)
@@ -201,17 +201,17 @@ bool Global::loadAddress(int n, Param& param)
     if (n >= strTmp.toInt())
         return false;
 
-	foreach(QString key,param.m_mapParam.keys()) {
-		#ifdef KWALLET_ENABLED
-		if (key == "password" && m_wallet != NULL) {
-			m_wallet->open();
-			param.m_mapParam["password"] = m_wallet->readPassword(
-				param.m_mapParam["name"].toString(),
-				param.m_mapParam["user"].toString());
-		} else
-		#endif // KWALLET_ENABLED
-			param.m_mapParam[key] = m_address->getItemValue(strSection,key);
-	}
+    foreach(QString key,param.m_mapParam.keys()) {
+        #ifdef KWALLET_ENABLED
+        if (key == "password" && m_wallet != NULL) {
+            m_wallet->open();
+            param.m_mapParam["password"] = m_wallet->readPassword(
+                param.m_mapParam["name"].toString(),
+                param.m_mapParam["user"].toString());
+        } else
+        #endif // KWALLET_ENABLED
+            param.m_mapParam[key] = m_address->getItemValue(strSection,key);
+    }
 
     return true;
 }
@@ -224,49 +224,49 @@ void Global::saveAddress(int n, const Param& param)
     else
         strSection.sprintf("bbs %d", n);
 
-	foreach(QString key,param.m_mapParam.keys()) {
-	#ifdef KWALLET_ENABLED
+    foreach(QString key,param.m_mapParam.keys()) {
+    #ifdef KWALLET_ENABLED
     if (key == "password" && m_wallet != NULL) {
         m_wallet->open();
         m_wallet->writePassword(
-			param.m_mapParam["name"].toString(),
-			param.m_mapParam["user"].toString(),
-			param.m_mapParam["password"].toString());
+            param.m_mapParam["name"].toString(),
+            param.m_mapParam["user"].toString(),
+            param.m_mapParam["password"].toString());
     } else
-	#endif
-		m_address->setItemValue(strSection, key, param.m_mapParam[key]);
-	}
+    #endif
+        m_address->setItemValue(strSection, key, param.m_mapParam[key]);
+    }
     m_address->save();
 
 }
 
 void Global::saveAddress(QDomDocument doc, QString uuid, const Param& param)
 {
-	bool result = false;
-	// find and replace existing site
-	QDomNodeList nodeList = doc.elementsByTagName("site");
-	for (int i=0; i<nodeList.count(); i++) {
-		QDomElement node = nodeList.at(i).toElement();
-		if (uuid == node.attribute("uuid")) {
-			foreach (QString key, param.m_mapParam.keys()) 
-				node.setAttribute(key, 
-					param.m_mapParam[key].toString());
-			result = true;
-			break;
-		}
-	}
-	// create new site otherwise
-	if (!result) {
-		QDomElement site = doc.createElement("site");
-		site.setAttribute("uuid", uuid);
-		foreach (QString key, param.m_mapParam.keys()) 
-				site.setAttribute(key, 
-					param.m_mapParam[key].toString());
-		doc.documentElement().appendChild(site);
-		result = true;
-	}
+    bool result = false;
+    // find and replace existing site
+    QDomNodeList nodeList = doc.elementsByTagName("site");
+    for (int i=0; i<nodeList.count(); i++) {
+        QDomElement node = nodeList.at(i).toElement();
+        if (uuid == node.attribute("uuid")) {
+            foreach (QString key, param.m_mapParam.keys()) 
+                node.setAttribute(key, 
+                    param.m_mapParam[key].toString());
+            result = true;
+            break;
+        }
+    }
+    // create new site otherwise
+    if (!result) {
+        QDomElement site = doc.createElement("site");
+        site.setAttribute("uuid", uuid);
+        foreach (QString key, param.m_mapParam.keys()) 
+                site.setAttribute(key, 
+                    param.m_mapParam[key].toString());
+        doc.documentElement().appendChild(site);
+        result = true;
+    }
 
-	if (!result) return;
+    if (!result) return;
 
 }
 
@@ -292,30 +292,30 @@ void Global::removeAddress(int n)
 
 void Global::removeAddress(QDomDocument doc, QString uuid)
 {
-	QDomNodeList nodeList;
-	// remove the actual site
-	nodeList = doc.elementsByTagName("site");
-	for (int i=0; i<nodeList.count(); i++) {
-		QDomElement node = nodeList.at(i).toElement();
-		if (uuid == node.attribute("uuid")) {
-			doc.removeChild(node);
-		}
-	}
+    QDomNodeList nodeList;
+    // remove the actual site
+    nodeList = doc.elementsByTagName("site");
+    for (int i=0; i<nodeList.count(); i++) {
+        QDomElement node = nodeList.at(i).toElement();
+        if (uuid == node.attribute("uuid")) {
+            doc.removeChild(node);
+        }
+    }
 }
 
 bool Global::convertAddressBook2XML()
 {
-	QDir dir;
-	if (dir.exists(m_addrXml))
-		return true;
-	else {
-		if (!dir.exists(m_addrCfg))
-			return createLocalFile(m_addrXml, m_pathLib + "address.xml");
-	}
+    QDir dir;
+    if (dir.exists(m_addrXml))
+        return true;
+    else {
+        if (!dir.exists(m_addrCfg))
+            return createLocalFile(m_addrXml, m_pathLib + "address.xml");
+    }
         // try import xml address book
     QDomDocument doc;
     QDomElement addresses;
-	QFile file(m_addrXml);
+    QFile file(m_addrXml);
         if (file.open(QIODevice::ReadOnly) && doc.setContent(&file)) {
                 addresses = doc.documentElement();
             } else {
@@ -326,55 +326,55 @@ bool Global::convertAddressBook2XML()
                 addresses = doc.createElement("addresses");
                doc.appendChild(addresses);
         }
-	// Combine cfg address book
-	m_address = new Config(m_addrCfg);
+    // Combine cfg address book
+    m_address = new Config(m_addrCfg);
     int num = m_address->getItemValue("bbs list", "num").toInt();
 
 
-	QDomElement imported = doc.createElement("folder");
-	imported.setAttribute("name", tr("imported sites"));
+    QDomElement imported = doc.createElement("folder");
+    imported.setAttribute("name", tr("imported sites"));
         addresses.insertBefore(imported, QDomNode());
 
     for (int i = -1; i < num; i++) {
         Param param;
         loadAddress(i, param);
         QDomElement site = doc.createElement("site");
-		if (i==-1)
-			site.setAttribute("uuid", QUuid().toString());
-		else 
-		{
-			QString uuid = QUuid::createUuid().toString();
-			site.setAttribute("uuid", uuid);
-			QDomElement addsite = doc.createElement("addsite");
-			addsite.setAttribute("uuid", uuid);
-			imported.appendChild(addsite);
-		}
-		foreach(QString key,param.m_mapParam.keys())
-			site.setAttribute(key, param.m_mapParam[key].toString());
+        if (i==-1)
+            site.setAttribute("uuid", QUuid().toString());
+        else 
+        {
+            QString uuid = QUuid::createUuid().toString();
+            site.setAttribute("uuid", uuid);
+            QDomElement addsite = doc.createElement("addsite");
+            addsite.setAttribute("uuid", uuid);
+            imported.appendChild(addsite);
+        }
+        foreach(QString key,param.m_mapParam.keys())
+            site.setAttribute(key, param.m_mapParam[key].toString());
 
-		addresses.appendChild(site);
-	}
-//	QFile ofile(m_addrXml);
-//	if (!ofile.open(QIODevice::WriteOnly))
-//		return false;
-//	QByteArray xml = doc.toByteArray();
-//	QTextStream stream(&ofile);
-//	stream << xml;
-//	ofile.close();
+        addresses.appendChild(site);
+    }
+//  QFile ofile(m_addrXml);
+//  if (!ofile.open(QIODevice::WriteOnly))
+//      return false;
+//  QByteArray xml = doc.toByteArray();
+//  QTextStream stream(&ofile);
+//  stream << xml;
+//  ofile.close();
     saveAddressXml(doc);
-	delete m_address;
-	return true;
+    delete m_address;
+    return true;
 }
 
 void Global::saveAddressXml(const QDomDocument& doc)
 {
-	QFile ofile(m_addrXml);
-	if (ofile.open(QIODevice::WriteOnly)) {
-		QTextStream out(&ofile);
-		out.setCodec("UTF-8");
-		out << doc.toString();
-		ofile.close();
-	}
+    QFile ofile(m_addrXml);
+    if (ofile.open(QIODevice::WriteOnly)) {
+        QTextStream out(&ofile);
+        out.setCodec("UTF-8");
+        out << doc.toString();
+        ofile.close();
+    }
 }
 
 void Global::loadPrefence()
@@ -383,26 +383,26 @@ void Global::loadPrefence()
 
     m_pref.XIM = (Global::Conversion)m_config->getItemValue("preference", "xim").toInt();
     m_pref.nWordWrap = m_config->getItemValue("preference", "wordwrap").toInt();
-	m_pref.bWheel = m_config->getItemValue("preference", "wheel").toBool();
-	m_pref.bUrl = m_config->getItemValue("preference", "url").toBool();
-	m_pref.bBlinkTab = m_config->getItemValue("preference", "blinktab").toBool();
-	m_pref.bWarn = m_config->getItemValue("preference", "warn").toBool();
+    m_pref.bWheel = m_config->getItemValue("preference", "wheel").toBool();
+    m_pref.bUrl = m_config->getItemValue("preference", "url").toBool();
+    m_pref.bBlinkTab = m_config->getItemValue("preference", "blinktab").toBool();
+    m_pref.bWarn = m_config->getItemValue("preference", "warn").toBool();
     m_pref.nBeep = m_config->getItemValue("preference", "beep").toInt();
     m_pref.strWave = m_config->getItemValue("preference", "wavefile").toString();
     m_pref.strHttp = m_config->getItemValue("preference", "http").toString();
-	m_pref.bAA = m_config->getItemValue("preference", "antialias").toBool();
-	m_pref.bTray = m_config->getItemValue("preference", "tray").toBool();
+    m_pref.bAA = m_config->getItemValue("preference", "antialias").toBool();
+    m_pref.bTray = m_config->getItemValue("preference", "tray").toBool();
     m_pref.strPlayer = m_config->getItemValue("preference", "externalplayer").toString();
-	m_pref.strImageViewer = m_config->getItemValue("preference", "image").toString();
-	m_pref.bClearPool = m_config->getItemValue("preference", "clearpool").toBool();
+    m_pref.strImageViewer = m_config->getItemValue("preference", "image").toString();
+    m_pref.bClearPool = m_config->getItemValue("preference", "clearpool").toBool();
 
     strTmp = m_config->getItemValue("preference", "pool").toString();
     m_pref.strPoolPath = strTmp.isEmpty() ? Global::instance()->pathCfg() + "pool/" : strTmp;
     if (m_pref.strPoolPath.right(1) != "/")
         m_pref.strPoolPath.append('/');
     
-	strTmp = m_config->getItemValue("preference", "zmodem").toString();
-	m_pref.strZmPath = strTmp.isEmpty() ? Global::instance()->pathCfg() + "zmodem/" : strTmp;
+    strTmp = m_config->getItemValue("preference", "zmodem").toString();
+    m_pref.strZmPath = strTmp.isEmpty() ? Global::instance()->pathCfg() + "zmodem/" : strTmp;
     if (m_pref.strZmPath.right(1) != "/")
         m_pref.strZmPath.append('/');
     
@@ -481,10 +481,10 @@ bool Global::iniWorkingDir(QString param)
     strcat(_addrCfg, "address.cfg");
     m_addrCfg = QString::fromLocal8Bit(_addrCfg);
     strcpy(_addrXml, ExeNamePath);
-    strcat(_addrXml, "address.xml");	
-	m_addrXml = QString::fromLocal8Bit(_addrXml);
-	if (!convertAddressBook2XML())
-		return false;
+    strcat(_addrXml, "address.xml");    
+    m_addrXml = QString::fromLocal8Bit(_addrXml);
+    if (!convertAddressBook2XML())
+        return false;
 
     QString pathScheme = m_pathCfg + "scheme";
     if (!isPathExist(pathScheme))
@@ -555,12 +555,12 @@ bool Global::iniWorkingDir(QString param)
     m_addrCfg = m_pathCfg + "address.cfg";
     //if (!createLocalFile(m_addrCfg, m_pathLib + "address.cfg"))
     //    return false;
-	m_addrXml = m_pathCfg + "address.xml";
+    m_addrXml = m_pathCfg + "address.xml";
     //if (!createLocalFile(m_addrXml, m_pathLib + "address.xml"))
     //    return false;
 
-	if (!convertAddressBook2XML())
-		return false;
+    if (!convertAddressBook2XML())
+        return false;
     return true;
 }
 #endif
@@ -569,12 +569,12 @@ bool Global::iniSettings()
 {
     //install the translator
     QString lang = m_config->getItemValue("global", "language").toString();
-	Global::Language language = Global::English;
+    Global::Language language = Global::English;
     if (lang == "chs")
         language = Global::SimplifiedChinese;
     else if (lang == "cht")
         language = Global::TraditionalChinese;
-	setLanguage(language);
+    setLanguage(language);
     //set font
     QString family = m_config->getItemValue("global", "font").toString();
     QString pointsize = m_config->getItemValue("global", "pointsize").toString();
@@ -712,7 +712,7 @@ void Global::setStatusBar(bool isShow)
 
 void Global::setMenuBar(bool isShow)
 {
-	m_menuBar = isShow;
+    m_menuBar = isShow;
 }
 
 void Global::setBossColor(bool isBossColor)
@@ -733,37 +733,37 @@ void Global::setSwitchBar(bool isShow)
 void Global::setLanguage(Global::Language language)
 {
     m_language = language;
-	// unload previous translation
-	if (!m_translatorQT->isEmpty())
-		qApp->removeTranslator(m_translatorQT);
-	if (!m_translatorQTerm->isEmpty())
-		qApp->removeTranslator(m_translatorQTerm);
-	// check new translation files
-	QString qt_qm, qterm_qm;
-	switch(language)
-	{
-	case Global::SimplifiedChinese:
-		qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_CN.qm";
-		qterm_qm = m_pathCfg + "/po/qterm_chs.qm";
-		if (!QFile::exists(qterm_qm))
-			qterm_qm = m_pathLib + "po/qterm_chs.qm";
+    // unload previous translation
+    if (!m_translatorQT->isEmpty())
+        qApp->removeTranslator(m_translatorQT);
+    if (!m_translatorQTerm->isEmpty())
+        qApp->removeTranslator(m_translatorQTerm);
+    // check new translation files
+    QString qt_qm, qterm_qm;
+    switch(language)
+    {
+    case Global::SimplifiedChinese:
+        qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_CN.qm";
+        qterm_qm = m_pathCfg + "/po/qterm_chs.qm";
+        if (!QFile::exists(qterm_qm))
+            qterm_qm = m_pathLib + "po/qterm_chs.qm";
 
-		break;
-	case Global::TraditionalChinese:
-		qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_TW.qm";
-		qterm_qm = m_pathCfg + "/po/qterm_cht.qm";
-		if (!QFile::exists(qterm_qm))
-			qterm_qm = m_pathLib + "po/qterm_cht.qm";
-		break;
-	case Global::English:
-		return;
-	}
-	// load qt library translation
-	if (m_translatorQT->load(qt_qm))
-		qApp->installTranslator(m_translatorQT);
-	// load qterm translation
-	if (m_translatorQTerm->load(qterm_qm))
-		qApp->installTranslator(m_translatorQTerm);
+        break;
+    case Global::TraditionalChinese:
+        qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_TW.qm";
+        qterm_qm = m_pathCfg + "/po/qterm_cht.qm";
+        if (!QFile::exists(qterm_qm))
+            qterm_qm = m_pathLib + "po/qterm_cht.qm";
+        break;
+    case Global::English:
+        return;
+    }
+    // load qt library translation
+    if (m_translatorQT->load(qt_qm))
+        qApp->installTranslator(m_translatorQT);
+    // load qterm translation
+    if (m_translatorQTerm->load(qterm_qm))
+        qApp->installTranslator(m_translatorQTerm);
 }
 
 const QString & Global::style() const
@@ -778,10 +778,10 @@ void Global::setStyle(const QString & style)
 
 void Global::loadConfig()
 {
-	setFullScreen(m_config->getItemValue("global", "fullscreen").toBool());
+    setFullScreen(m_config->getItemValue("global", "fullscreen").toBool());
     setStyle(m_config->getItemValue("global", "theme").toString());
     setClipConversion((Conversion)m_config->getItemValue("global", "clipcodec").toInt());
-	setScrollPosition((Position)m_config->getItemValue("global", "vscrollpos").toInt());
+    setScrollPosition((Position)m_config->getItemValue("global", "vscrollpos").toInt());
     setMenuBar(m_config->getItemValue("global", "menubar").toBool());
     setStatusBar(m_config->getItemValue("global", "statusbar").toBool());
     setSwitchBar( m_config->getItemValue("global", "switchbar").toBool());
@@ -796,22 +796,22 @@ void Global::saveConfig()
 {
 
     QString lang;
-	//language
-	switch (m_language)
-	{
-	case English:            lang = "eng"; break;
-	case SimplifiedChinese:  lang = "chs"; break;
-	case TraditionalChinese: lang = "cht"; break;
-	}
-	m_config->setItemValue("global", "language", lang);
+    //language
+    switch (m_language)
+    {
+    case English:            lang = "eng"; break;
+    case SimplifiedChinese:  lang = "chs"; break;
+    case TraditionalChinese: lang = "cht"; break;
+    }
+    m_config->setItemValue("global", "language", lang);
     m_config->setItemValue("global", "font", qApp->font().family());
     m_config->setItemValue("global", "pointsize", QFontInfo(qApp->font()).pointSize());
-	m_config->setItemValue("global", "fullscreen", isFullScreen());
+    m_config->setItemValue("global", "fullscreen", isFullScreen());
     m_config->setItemValue("global", "theme", style());
     m_config->setItemValue("global", "clipcodec", clipConversion());
     m_config->setItemValue("global", "vscrollpos", scrollPosition());
-	m_config->setItemValue("global", "menubar", showMenuBar());
-	m_config->setItemValue("global", "statusbar", showStatusBar());
+    m_config->setItemValue("global", "menubar", showMenuBar());
+    m_config->setItemValue("global", "statusbar", showStatusBar());
     m_config->setItemValue("global", "switchbar", showSwitchBar());
     m_config->save();
 
