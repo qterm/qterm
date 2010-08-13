@@ -192,6 +192,8 @@ set(qterm_MISC
 set(qterm_RCCS
     qterm.qrc)
 
+file(COPY ${qterm_MISC} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 if(WIN32)
   if(MINGW)
     # resource compilation for mingw

@@ -1,3 +1,4 @@
 file(GLOB scriptFiles "${CMAKE_CURRENT_SOURCE_DIR}/*.js")
+file(COPY ${scriptFiles} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 install(FILES ${scriptFiles} DESTINATION share/qterm/scripts)
 add_subdirectory(ui)
