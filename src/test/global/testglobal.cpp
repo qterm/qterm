@@ -6,7 +6,8 @@ using namespace QTerm;
 
 void TestGlobal::testGlobal()
 {
-    qDebug() << Global::instance()->loadNameList();
+    QDomDocument doc = Global::instance()->addrXml();
+    qDebug() << Global::instance()->loadFavoriteList(doc);
 }
 
 QTEST_MAIN(TestGlobal)
