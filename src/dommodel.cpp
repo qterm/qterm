@@ -195,7 +195,7 @@ Qt::ItemFlags DomModel::flags(const QModelIndex &index) const
     defaultFlags |= Qt::ItemIsDragEnabled;
     if (itemType == Folder)
         return Qt::ItemIsDropEnabled | Qt::ItemIsEditable | defaultFlags;
-    else if (itemType == Site)
+    else if (itemType == Site || itemType == Favorite)
         return defaultFlags;
     else
         return Qt::ItemIsDropEnabled | defaultFlags;
