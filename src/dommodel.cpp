@@ -14,10 +14,10 @@ namespace QTerm
 DomItem::DomItem(QDomElement element, DomItem *parent)
 {
     domElement = element;
-	parentItem = parent;
-	// Populate child items
-	QDomNodeList nodeList = domElement.childNodes();
-	for (int i=0; i<nodeList.count(); i++) {
+    parentItem = parent;
+    // Populate child items
+    QDomNodeList nodeList = domElement.childNodes();
+    for (int i=0; i<nodeList.count(); i++) {
         QDomElement childElement = domElement.childNodes().item(i).toElement();
         DomItem *childItem = new DomItem(childElement, this);
         childItems << childItem;
@@ -26,8 +26,8 @@ DomItem::DomItem(QDomElement element, DomItem *parent)
 
 DomItem::~DomItem()
 {
-	foreach(DomItem *item, childItems)
-		delete item;
+    foreach(DomItem *item, childItems)
+        delete item;
 }
 
 QString DomItem::name()
@@ -58,15 +58,15 @@ bool DomItem::setName(const QString& name)
 
 QString DomItem::uuid()
 {
-	return domElement.attribute("uuid");
+    return domElement.attribute("uuid");
 }
 
 bool DomItem::setUuid(const QString & uuid)
 {
     if (!domElement.hasAttribute("uuid"))
         return false;
-	domElement.setAttribute("uuid", uuid);
-	return true;
+    domElement.setAttribute("uuid", uuid);
+    return true;
 }
 
 bool DomItem::isSite()
@@ -96,7 +96,7 @@ DomItem *DomItem::parent()
 
 void DomItem::reparent(DomItem *parent)
 {
-	parentItem = parent;
+    parentItem = parent;
 }
 
 DomItem *DomItem::child(int i)
@@ -111,32 +111,32 @@ void DomItem::insertChild(int i, DomItem* item)
     if (i<0 || i>childItems.count())
         return;
 
-	QDomNode node = domElement.childNodes().item(i);
-	if (node.isNull())
-		domElement.appendChild(item->element());
-	else
-		domElement.insertBefore(item->element(),node);
-	item->reparent(this);
-	childItems.insert(i, item);
+    QDomNode node = domElement.childNodes().item(i);
+    if (node.isNull())
+        domElement.appendChild(item->element());
+    else
+        domElement.insertBefore(item->element(),node);
+    item->reparent(this);
+    childItems.insert(i, item);
 }
 
 void DomItem::removeChild(int i)
 {
-	if (i<0 || i>=childItems.count())
-		return;
+    if (i<0 || i>=childItems.count())
+        return;
 
-	QDomNode node = domElement.childNodes().item(i);
-	domElement.removeChild(node);
+    QDomNode node = domElement.childNodes().item(i);
+    domElement.removeChild(node);
 
-	delete childItems.takeAt(i);
+    delete childItems.takeAt(i);
 }
 
 int DomItem::row()
 {
-	if (parentItem)
-		return parentItem->childItems.indexOf(this);
+    if (parentItem)
+        return parentItem->childItems.indexOf(this);
 
-	return 0;
+    return 0;
 }
 
 DomModel::DomModel(QDomDocument document, QObject *parent)
@@ -162,24 +162,24 @@ QVariant DomModel::data(const QModelIndex &index, int role) const
     DomItem *item = static_cast<DomItem*>(index.internalPointer());
 
     switch (role) {
-		case Qt::UserRole:
-			if (item->isFolder()) {
-				return item->name();
-			} else {
-				return item->uuid();
-			}
-		break;
+        case Qt::UserRole:
+            if (item->isFolder()) {
+                return item->name();
+            } else {
+                return item->uuid();
+            }
+        break;
         case Qt::DisplayRole:
             return item->name();
         break;
         case Qt::DecorationRole:
-			switch (type(index)) {
-			case Folder:
+            switch (type(index)) {
+            case Folder:
                     return QVariant(QIcon(":/pic/folder.png"));
-			case Favorite:
+            case Favorite:
                     return QVariant(QIcon(":/pic/folder_favorite.png"));
-			case Site:
-					return QVariant(QIcon(":/pic/tabpad.png"));
+            case Site:
+                    return QVariant(QIcon(":/pic/tabpad.png"));
             }
         default:
             return QVariant();
@@ -190,11 +190,11 @@ Qt::ItemFlags DomModel::flags(const QModelIndex &index) const
     Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
 
     DomItem *item = static_cast<DomItem*>(index.internalPointer());
-	ItemType itemType = type(index);
+    ItemType itemType = type(index);
 
-	defaultFlags |= Qt::ItemIsDragEnabled;
+    defaultFlags |= Qt::ItemIsDragEnabled;
     if (itemType == Folder)
-		return Qt::ItemIsDropEnabled | Qt::ItemIsEditable | defaultFlags;
+        return Qt::ItemIsDropEnabled | Qt::ItemIsEditable | defaultFlags;
     else if (itemType == Site)
         return defaultFlags;
     else
@@ -245,26 +245,26 @@ QModelIndex DomModel::parent(const QModelIndex &child) const
 
 DomModel::ItemType DomModel::type(const QModelIndex &index) const
 {
-	if (!index.isValid())
-		return Unknown;
+    if (!index.isValid())
+        return Unknown;
 
     DomItem *item = static_cast<DomItem*>(index.internalPointer());
-	if (item->isFolder())
-		return Folder;
-	else if (item->isSiteReference()) {
-		QString uuid = data(index, Qt::UserRole).toString();
-		// get favor attributes
-		QDomNodeList siteList = domDocument.elementsByTagName("site");
-		for (int i=0; i<siteList.count(); i++) {
-			QDomElement element = siteList.item(i).toElement();
-			if (element.attribute("uuid") == uuid)
-				if (element.attribute("favor") == "1")
-					return Favorite;
-				else
-					return Site;
-		}
-	}
-	return Unknown;
+    if (item->isFolder())
+        return Folder;
+    else if (item->isSiteReference()) {
+        QString uuid = data(index, Qt::UserRole).toString();
+        // get favor attributes
+        QDomNodeList siteList = domDocument.elementsByTagName("site");
+        for (int i=0; i<siteList.count(); i++) {
+            QDomElement element = siteList.item(i).toElement();
+            if (element.attribute("uuid") == uuid)
+                if (element.attribute("favor") == "1")
+                    return Favorite;
+                else
+                    return Site;
+        }
+    }
+    return Unknown;
 }
 
 int DomModel::rowCount(const QModelIndex &parent) const
@@ -286,7 +286,7 @@ int DomModel::rowCount(const QModelIndex &parent) const
 
 bool DomModel::removeRows(int row, int count, const QModelIndex &parent)
 {
-	DomItem *parentItem;
+    DomItem *parentItem;
 
     if (!parent.isValid())
         parentItem = rootItem;
@@ -295,13 +295,13 @@ bool DomModel::removeRows(int row, int count, const QModelIndex &parent)
 
     if (row < 0 || row >= rowCount(parent))
         return false;
-	
-	beginRemoveRows(parent, row, row+count-1);
-	for (int n=0; n<count; n++)
-		parentItem->removeChild(row);
-	endRemoveRows();
+    
+    beginRemoveRows(parent, row, row+count-1);
+    for (int n=0; n<count; n++)
+        parentItem->removeChild(row);
+    endRemoveRows();
 
-	return true;
+    return true;
 }
 
 bool DomModel::insertRow(int row, const QModelIndex &parent, DomItem *item)
@@ -335,12 +335,12 @@ bool DomModel::setData(const QModelIndex &index,
         case Qt::EditRole:
             item->setName(value.toString());
             break;
-		case Qt::UserRole:
-			if (item->isFolder())
-				item->setName(value.toString());
-			else if (item->isSiteReference())
-				item->setUuid(value.toString());
-			break;
+        case Qt::UserRole:
+            if (item->isFolder())
+                item->setName(value.toString());
+            else if (item->isSiteReference())
+                item->setUuid(value.toString());
+            break;
         default:
             return false;
     }
@@ -367,7 +367,7 @@ bool DomModel::dropMimeData(const QMimeData *data,
     else // last of the root item
         beginRow = rowCount(QModelIndex());
 
-	DomItem *parentItem;
+    DomItem *parentItem;
     if (!parent.isValid())
         parentItem = rootItem;
     else
@@ -382,16 +382,18 @@ bool DomModel::dropMimeData(const QMimeData *data,
         stream >> p;
         newItems << static_cast<DomItem*>((void *)p);
     }
-	int count = newItems.count();
+    int count = newItems.count();
 
     switch(action) {
     case Qt::MoveAction:
-		for (int i=0; i<count; i++) {    
-			DomItem *item = newItems.at(i);
-			QDomElement node = item->element().cloneNode().toElement();
-			DomItem *newItem = new DomItem(node);
-			insertRow(beginRow, parent, newItem);
-		}
+        if (parentItem == rootItem)
+            return false;
+        for (int i=0; i<count; i++) {    
+            DomItem *item = newItems.at(i);
+            QDomElement node = item->element().cloneNode().toElement();
+            DomItem *newItem = new DomItem(node);
+            insertRow(beginRow, parent, newItem);
+        }
         break;
     default:
         return false;
@@ -426,101 +428,101 @@ Qt::DropActions DomModel::supportedDropActions() const
 
 void DomModel::addFolder(const QModelIndex &index)
 {
-	// New folder is either subfolder or sibyling
-	QModelIndex parentIndex;
-	int row;
-	if (type(index) == Folder) {
-		parentIndex = index;
-		row = -1;
-	} else {
-		parentIndex = index.parent();
-		row = index.row();
-	}
-	// Create folder element
-	QDomElement folder = domDocument.createElement("folder");
-	folder.setAttribute("name", "New Folder");
-	// Create and insert
-	DomItem *item = new DomItem(folder);
-	insertRow(row, parentIndex, item);
+    // New folder is either subfolder or sibyling
+    QModelIndex parentIndex;
+    int row;
+    if (type(index) == Folder) {
+        parentIndex = index;
+        row = -1;
+    } else {
+        parentIndex = index.parent();
+        row = index.row();
+    }
+    // Create folder element
+    QDomElement folder = domDocument.createElement("folder");
+    folder.setAttribute("name", "New Folder");
+    // Create and insert
+    DomItem *item = new DomItem(folder);
+    insertRow(row, parentIndex, item);
 }
 
 void DomModel::toggleFavorite(const QModelIndex &index)
 {
-	QString uuid = data(index, Qt::UserRole).toString();
-	if (QUuid(uuid).isNull())
-		return;
-	// toggle favor attributes
-	QDomNodeList siteList = domDocument.elementsByTagName("site");
-	for (int i=0; i<siteList.count(); i++) {
-		QDomElement element = siteList.item(i).toElement();
-		if (element.attribute("uuid") == uuid)
-			if (element.attribute("favor") == "1")
-				element.setAttribute("favor", 0);
-			else
-				element.setAttribute("favor", 1);
-	}
+    QString uuid = data(index, Qt::UserRole).toString();
+    if (QUuid(uuid).isNull())
+        return;
+    // toggle favor attributes
+    QDomNodeList siteList = domDocument.elementsByTagName("site");
+    for (int i=0; i<siteList.count(); i++) {
+        QDomElement element = siteList.item(i).toElement();
+        if (element.attribute("uuid") == uuid)
+            if (element.attribute("favor") == "1")
+                element.setAttribute("favor", 0);
+            else
+                element.setAttribute("favor", 1);
+    }
 }
 
 void DomModel::addSite(const QModelIndex &index)
 {
-	QString newUuid = QUuid::createUuid().toString();
-	// Clone current site or default site
-	QString uuid;
+    QString newUuid = QUuid::createUuid().toString();
+    // Clone current site or default site
+    QString uuid;
         if (type(index) == Site || type(index) == Favorite)
-		uuid = data(index, Qt::UserRole).toString();
-	else
-		uuid = QUuid().toString();
-	QDomNodeList siteList = domDocument.elementsByTagName("site");
+        uuid = data(index, Qt::UserRole).toString();
+    else
+        uuid = QUuid().toString();
+    QDomNodeList siteList = domDocument.elementsByTagName("site");
     for (int i=0; i<siteList.count(); i++) {
-		QDomElement site = siteList.item(i).toElement();
+        QDomElement site = siteList.item(i).toElement();
         if (site.attribute("uuid") == uuid) {
-			QDomElement newSite = site.cloneNode().toElement();
-			newSite.setAttribute("uuid", newUuid);
-			QDomElement root = domDocument.documentElement();
-			root.appendChild(newSite);
-			break;
-		}
-	}
-	// Create site reference
-	QDomElement newSiteRef = domDocument.createElement("addsite");
-	newSiteRef.setAttribute("uuid", newUuid);
-	// New site reference is either child or sibyling
-	QModelIndex parentIndex;
-	int row;
-	if (type(index) == Folder) {
-		parentIndex = index;
-		row = -1;
-	} else {
-		parentIndex = index.parent();
-		row = index.row();
-	}
-	DomItem *item = new DomItem(newSiteRef);
-	insertRow(row, parentIndex, item);
+            QDomElement newSite = site.cloneNode().toElement();
+            newSite.setAttribute("uuid", newUuid);
+            QDomElement root = domDocument.documentElement();
+            root.appendChild(newSite);
+            break;
+        }
+    }
+    // Create site reference
+    QDomElement newSiteRef = domDocument.createElement("addsite");
+    newSiteRef.setAttribute("uuid", newUuid);
+    // New site reference is either child or sibyling
+    QModelIndex parentIndex;
+    int row;
+    if (type(index) == Folder) {
+        parentIndex = index;
+        row = -1;
+    } else {
+        parentIndex = index.parent();
+        row = index.row();
+    }
+    DomItem *item = new DomItem(newSiteRef);
+    insertRow(row, parentIndex, item);
 }
 
 void DomModel::removeItem(const QModelIndex &index)
 {
-	if (type(index) == Folder) {
-		// recursively remove all children
-		for (int n=0; n<rowCount(index); n++)
-			removeItem(index.child(n,0));
-		// remove folder itself, should be empty now
-		removeRows(index.row(), 1, index.parent());
-	}
-	else {
-		QString uuid = data(index, Qt::UserRole).toString();
-		QDomNodeList nodeList;
-		// remove the actual site
+    if (type(index) == Folder) {
+        // recursively remove all children
+        for (int n=0; n<rowCount(index); n++)
+            removeItem(index.child(n,0));
+        // remove folder itself, should be empty now
+        removeRows(index.row(), 1, index.parent());
+    }
+    else {
+        QString uuid = data(index, Qt::UserRole).toString();
+        QDomNodeList nodeList;
+        // remove the actual site
                 nodeList = domDocument.documentElement().elementsByTagName("site");
-		for (int i=0; i<nodeList.count(); i++) {
-			QDomElement node = nodeList.at(i).toElement();
-			if (uuid == node.attribute("uuid")) {
+        for (int i=0; i<nodeList.count(); i++) {
+            QDomElement node = nodeList.at(i).toElement();
+            if (uuid == node.attribute("uuid")) {
                                 domDocument.documentElement().removeChild(node);
-			}
-		}
-		// and its reference in folder
-		removeRows(index.row(), 1, index.parent());
-	}
+            }
+        }
+        // and its reference in folder
+        removeRows(index.row(), 1, index.parent());
+    }
 }
 
 } //namespace QTerm

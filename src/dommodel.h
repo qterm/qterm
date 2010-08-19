@@ -16,9 +16,9 @@ public:
     DomItem(QDomElement element, DomItem *parent = 0);
     ~DomItem();
     DomItem *child(int i);
-	void insertChild(int i, DomItem *item);
-	void removeChild(int i);
-	void reparent(DomItem *parent);
+    void insertChild(int i, DomItem *item);
+    void removeChild(int i);
+    void reparent(DomItem *parent);
     DomItem *parent();
     QDomElement element() const;
     int row();
@@ -26,8 +26,8 @@ public:
     QString name();
     bool setName(const QString& name);
 
-	QString uuid();
-	bool setUuid(const QString& uuid);
+    QString uuid();
+    bool setUuid(const QString& uuid);
 
     bool isFolder();
     bool isSite();
@@ -43,7 +43,7 @@ class DomModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-	enum ItemType {Unknown, Folder, Site, Favorite};
+    enum ItemType {Unknown, Folder, Site, Favorite};
 
     DomModel(QDomDocument document, QObject *parent = 0);
     ~DomModel();
@@ -58,7 +58,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
-	bool removeRows(int row, int count, const QModelIndex &parent);
+    bool removeRows(int row, int count, const QModelIndex &parent);
     bool insertRow(int row, const QModelIndex &parent, DomItem *item);
     bool setData(const QModelIndex &index, const QVariant &value,
                  int role = Qt::EditRole);
@@ -69,14 +69,14 @@ public:
     QStringList mimeTypes() const;
     Qt::DropActions supportedDropActions() const;
 
-	ItemType type(const QModelIndex & index) const;
+    ItemType type(const QModelIndex & index) const;
 
-	void addSite(const QModelIndex &position);
-	void addFolder(const QModelIndex &position);
-	void toggleFavorite(const QModelIndex &position);
-	void removeItem(const QModelIndex &index);
+    void addSite(const QModelIndex &position);
+    void addFolder(const QModelIndex &position);
+    void toggleFavorite(const QModelIndex &position);
+    void removeItem(const QModelIndex &index);
 
-	QDomDocument document() { return domDocument; }
+    QDomDocument document() { return domDocument; }
 
 private:
     QDomDocument domDocument;
