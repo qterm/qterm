@@ -89,7 +89,7 @@ Frame::Frame()
     s_instance = this;
     setAttribute(Qt::WA_DeleteOnClose);
 
-	setupUi(this);
+    setupUi(this);
 
     mdiArea->setViewMode(QMdiArea::TabbedView);
     connect(mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)),
@@ -106,16 +106,16 @@ Frame::Frame()
     connect(DBus::instance(), SIGNAL(showQTerm()), this, SLOT(slotShowQTerm()));
 #endif //DBUS_ENABLED
 
-	// pallete box
-	Pallete * pallete = new Pallete(ansiToolBar);
-	actionPallete = ansiToolBar->addWidget(pallete);
-	actionPallete->setObjectName(QString::fromUtf8("actionPallete"));
-	connect(pallete, SIGNAL(colorChanged(int,int)), SLOT(palleteColorChanged(int,int)));
+    // pallete box
+    Pallete * pallete = new Pallete(ansiToolBar);
+    actionPallete = ansiToolBar->addWidget(pallete);
+    actionPallete->setObjectName(QString::fromUtf8("actionPallete"));
+    connect(pallete, SIGNAL(colorChanged(int,int)), SLOT(palleteColorChanged(int,int)));
 
-	// symbols table input
-	actionSymbols = new QAction(this);
-	actionSymbols->setObjectName(QString::fromUtf8("actionSymbols"));
-	connect(scrollArea->widget(), SIGNAL(characterSelected(QString)), SLOT(characterSelected(QString)));
+    // symbols table input
+    actionSymbols = new QAction(this);
+    actionSymbols->setObjectName(QString::fromUtf8("actionSymbols"));
+    connect(scrollArea->widget(), SIGNAL(characterSelected(QString)), SLOT(characterSelected(QString)));
 
 //create a progress bar to notify the download process
     m_pStatusBar = new QTerm::StatusBar(statusBar(), "mainStatusBar");
@@ -135,15 +135,15 @@ Frame::Frame()
     loadShortcuts();
 
     initThemeMenu();
-	initToolbarMenu();
+    initToolbarMenu();
 
     connect(menuWindow, SIGNAL(aboutToShow()), 
             this, SLOT(windowsMenuAboutToShow()));
 
-	connect(actionQuit, SIGNAL(triggered()), 
-		    this, SLOT(confirmExitQTerm()));
+    connect(actionQuit, SIGNAL(triggered()), 
+            this, SLOT(confirmExitQTerm()));
 
-	connectMenu = new QMenu(this);
+    connectMenu = new QMenu(this);
     QToolButton * connectButton = qobject_cast<QToolButton *> (terminalToolBar->widgetForAction(actionConnect));
     connectButton->setObjectName("buttonConnect");
 
@@ -151,7 +151,7 @@ Frame::Frame()
     connectButton->setMenu(connectMenu);
     connectButton->setPopupMode(QToolButton::InstantPopup);
 
-	groupActions();
+    groupActions();
 
     installEventFilter(this);
 }
@@ -163,9 +163,9 @@ Frame::~Frame()
 
 QMenu * Frame::createPopupMenu()
 {
-	QMenu * menuContext = QMainWindow::createPopupMenu();
-	menuContext->addAction(actionMenubar);
-	return menuContext;
+    QMenu * menuContext = QMainWindow::createPopupMenu();
+    menuContext->addAction(actionMenubar);
+    return menuContext;
 }
 
 /*********************************************************
@@ -223,11 +223,11 @@ void Frame::iniSetting()
     }
 
 
-	actionStatusbar->setChecked(Global::instance()->showStatusBar());
-	statusBar()->setVisible(Global::instance()->showStatusBar());
-	
-	actionMenubar->setChecked(Global::instance()->showMenuBar());
-	menuBar()->setVisible(Global::instance()->showMenuBar());
+    actionStatusbar->setChecked(Global::instance()->showStatusBar());
+    statusBar()->setVisible(Global::instance()->showStatusBar());
+    
+    actionMenubar->setChecked(Global::instance()->showMenuBar());
+    menuBar()->setVisible(Global::instance()->showMenuBar());
 
     setUseTray(Global::instance()->m_pref.bTray);
 }
@@ -247,15 +247,15 @@ void Frame::saveSetting()
 // pallete box delegate
 void Frame::palleteColorChanged(int index, int role)
 {
-	actionPallete->setData((index << 4) + role);
-	actionPallete->trigger();
+    actionPallete->setData((index << 4) + role);
+    actionPallete->trigger();
 }
 
 // symbol table delegate
 void Frame::characterSelected(QString str) 
 {
-	actionSymbols->setData(str);
-	actionSymbols->trigger();
+    actionSymbols->setData(str);
+    actionSymbols->trigger();
 }
 
 //addressbook
@@ -273,7 +273,7 @@ void Frame::on_actionQuick_Login_triggered()
 {
     quickDialog quick(this);
 
-	Global::instance()->loadAddress(Global::instance()->addrXml(), QUuid().toString(), quick.param);
+    Global::instance()->loadAddress(Global::instance()->addrXml(), QUuid().toString(), quick.param);
 
     if (quick.exec() == 1) {
         newWindow(quick.param);
@@ -332,13 +332,13 @@ void Frame::saveAndDisconnect()
 void Frame::newWindow(const Param&  param, const QString& uuid)
 {
     Window * window = new Window(this, param, uuid, mdiArea, 0);
-	window->setWindowTitle(param.m_mapParam["name"].toString());
+    window->setWindowTitle(param.m_mapParam["name"].toString());
     window->setWindowIcon(QIcon(":/pic/tabpad.png"));
     window->setAttribute(Qt::WA_DeleteOnClose);
     window->showMaximized();
-	mdiArea->addSubWindow(window);
-	mdiArea->setActiveSubWindow(window);
-	connect(window, SIGNAL(destroyed(QObject*)),
+    mdiArea->addSubWindow(window);
+    mdiArea->setActiveSubWindow(window);
+    connect(window, SIGNAL(destroyed(QObject*)),
             this, SLOT(windowClosed(QObject*)));
 }
 
@@ -352,7 +352,7 @@ void Frame::on_actionAbout_QTerm_triggered()
 //slot Help->About Qt
 void Frame::on_actionAbout_Qt_triggered()
 {
-	qApp->aboutQt();
+    qApp->aboutQt();
 }
 
 //slot Help->Homepage
@@ -365,7 +365,7 @@ void Frame::on_actionQTerm_Online_triggered()
 //slot Help->Contents
 void Frame::on_actionContents_triggered()
 {
-	QString errorMessage;
+    QString errorMessage;
     if (!m_assistant.showPage("qthelp://org.qterm/doc/index.html", &errorMessage))
         QMessageBox::warning(this, tr("Assistant"), errorMessage);
 }
@@ -426,19 +426,19 @@ void Frame::connectMenuAboutToShow()
     connectMenu->addAction(actionQuick_Login);
     connectMenu->addSeparator();
 
-	QMap<QString,QString> listSite = Global::instance()->loadFavoriteList(
-		 Global::instance()->addrXml());
+    QMap<QString,QString> listSite = Global::instance()->loadFavoriteList(
+         Global::instance()->addrXml());
     QMapIterator<QString,QString> i(listSite);
 
-	QSignalMapper * connectMapper = new QSignalMapper(this);
+    QSignalMapper * connectMapper = new QSignalMapper(this);
 
-	while (i.hasNext()) {
-		i.next();
-		QAction * idAction = new QAction(i.value(), connectMenu);
+    while (i.hasNext()) {
+        i.next();
+        QAction * idAction = new QAction(i.value(), connectMenu);
         connectMenu->addAction(idAction);
         connect(idAction, SIGNAL(triggered()), connectMapper, SLOT(map()));
-		connectMapper->setMapping(idAction, i.key());
-	}
+        connectMapper->setMapping(idAction, i.key());
+    }
     connect(connectMapper, SIGNAL(mapped(QString)), this, SLOT(connectMenuActivated(QString)));
 }
 
@@ -446,8 +446,8 @@ void Frame::connectMenuActivated(const QString& uuid)
 {
     Param param;
     if (Global::instance()->loadAddress(
-		Global::instance()->addrXml(),
-		uuid, param))
+        Global::instance()->addrXml(),
+        uuid, param))
         newWindow(param, uuid);
 }
 
@@ -462,27 +462,27 @@ void Frame::windowClosed(QObject*w)
         QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
         foreach(QAction* action, actions)
             action->setVisible(listBasicActions.contains(action->objectName())
-					|| action->actionGroup()!=actionsExtra);
+                    || action->actionGroup()!=actionsExtra);
     }
 }
 
 void Frame::windowActivated(QMdiSubWindow * w)
 {
-	WindowBase * wb=qobject_cast<WindowBase*>(w);
-	if(wb==0)
+    WindowBase * wb=qobject_cast<WindowBase*>(w);
+    if(wb==0)
         return;
 
     QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
     foreach(QAction* action, actions)
     {
-		// only show actions belonging to BasicActions or WindowActions
-		action->setVisible(listBasicActions.contains(action->objectName())
-					|| action->actionGroup()!=actionsExtra
-					|| wb->hasAction(action->objectName()));
-		// update checkable actions status
-		if (wb->hasAction(action->objectName()) && action->isCheckable())
-			action->setChecked(wb->isActionChecked(action->objectName()));
-	}
+        // only show actions belonging to BasicActions or WindowActions
+        action->setVisible(listBasicActions.contains(action->objectName())
+                    || action->actionGroup()!=actionsExtra
+                    || wb->hasAction(action->objectName()));
+        // update checkable actions status
+        if (wb->hasAction(action->objectName()) && action->isCheckable())
+            action->setChecked(wb->isActionChecked(action->objectName()));
+    }
 }
 
 void Frame :: actionsDispatcher(QAction* action)
@@ -507,14 +507,14 @@ void Frame :: actionsDispatcher(QAction* action)
         QString nameSlot="on_"+action->objectName()+"_triggered";
         if(wb->hasAction(action->objectName()))
         {
-			bool ret = false;
-			QVariant data = action->data();
-			if (data.isNull())
-				ret=QMetaObject::invokeMethod(wb, 
-					nameSlot.toLatin1().constData());
-			else 
-				ret=QMetaObject::invokeMethod(wb, 
-					nameSlot.toLatin1().constData(), Q_ARG(QVariant, data));
+            bool ret = false;
+            QVariant data = action->data();
+            if (data.isNull())
+                ret=QMetaObject::invokeMethod(wb, 
+                    nameSlot.toLatin1().constData());
+            else 
+                ret=QMetaObject::invokeMethod(wb, 
+                    nameSlot.toLatin1().constData(), Q_ARG(QVariant, data));
             if(!ret)
                 qWarning("Failed to execute %s",
                 nameSlot.toLatin1().constData());
@@ -567,12 +567,12 @@ void Frame::closeEvent(QCloseEvent * clse)
 
 void Frame::updateLang(QAction * action)
 {
-	if (action == actionEnglish)
-		Global::instance()->setLanguage(Global::English);
-	else if (action == actionSimplified_Chinese)
-		Global::instance()->setLanguage(Global::SimplifiedChinese);
-	else if (action == actionTraditional_Chinese)
-		Global::instance()->setLanguage(Global::TraditionalChinese);
+    if (action == actionEnglish)
+        Global::instance()->setLanguage(Global::English);
+    else if (action == actionSimplified_Chinese)
+        Global::instance()->setLanguage(Global::SimplifiedChinese);
+    else if (action == actionTraditional_Chinese)
+        Global::instance()->setLanguage(Global::TraditionalChinese);
 }
 
 void Frame::connectIt()
@@ -633,8 +633,8 @@ void Frame::on_actionFont_triggered()
 
 void Frame::on_actionMenubar_toggled(bool show)
 {
-	Global::instance()->setMenuBar(show);
-	menuBar()->setVisible(show);
+    Global::instance()->setMenuBar(show);
+    menuBar()->setVisible(show);
 }
 
 void Frame::on_actionFullscreen_triggered(bool isFullScreen)
@@ -662,9 +662,9 @@ void Frame::on_actionFullscreen_triggered(bool isFullScreen)
 
 void Frame::initToolbarMenu()
 {
-	menuToolbar->clear();
-	foreach(QToolBar *toolbar, findChildren<QToolBar *>())
-		menuToolbar->addAction(toolbar->toggleViewAction());
+    menuToolbar->clear();
+    foreach(QToolBar *toolbar, findChildren<QToolBar *>())
+        menuToolbar->addAction(toolbar->toggleViewAction());
 }
 
 void Frame::initThemeMenu()
@@ -675,14 +675,14 @@ void Frame::initThemeMenu()
     for (QStringList::ConstIterator it = styles.begin(); it != styles.end(); it++)
         themesGroup->addAction(insertThemeItem(*it));
     connect(themesGroup, SIGNAL(triggered(QAction*)), 
-		this, SLOT(themesMenuActivated(QAction*)));
+        this, SLOT(themesMenuActivated(QAction*)));
 }
 QAction * Frame::insertThemeItem(const QString & themeitem)
 {
     QAction * idAction = new QAction(themeitem, this);
     menuTheme->addAction(idAction);
     idAction->setCheckable(true);
-	idAction->setChecked(
+    idAction->setChecked(
         themeitem.compare(qApp->style()->objectName(), Qt::CaseInsensitive)==0);
     return idAction;
 }
@@ -713,21 +713,21 @@ void Frame::updateScroll(QAction * action)
 void Frame::on_actionStatusbar_toggled(bool isEnabled)
 {
     Global::instance()->setStatusBar(isEnabled);
-	statusBar()->setVisible(isEnabled);
+    statusBar()->setVisible(isEnabled);
     emit statusBarChanged(isEnabled);
 }
 
 void Frame::on_actionDefault_Session_Setting_triggered()
 {
     addrDialog set(this, true);
-	// load default
-	Global::instance()->loadAddress(Global::instance()->addrXml(),QUuid().toString(), set.param);
+    // load default
+    Global::instance()->loadAddress(Global::instance()->addrXml(),QUuid().toString(), set.param);
     set.updateData(false);
     if (set.exec() == 1) {
-		QDomDocument doc = Global::instance()->addrXml();
+        QDomDocument doc = Global::instance()->addrXml();
         Global::instance()->saveAddress(doc, QUuid().toString(), set.param);
-		Global::instance()->saveAddressXml(doc);
-	}
+        Global::instance()->saveAddressXml(doc);
+    }
 }
 
 void Frame::on_actionPreference_triggered()
@@ -794,7 +794,7 @@ void Frame::initShortcuts()
     int i = 0;
     QShortcut * shortcut = NULL;
 
-	// FIXME: map number to favorite site list
+    // FIXME: map number to favorite site list
     // shortcuts to addressbook entries
     //QSignalMapper * addrMapper = new QSignalMapper(this);
     //for (i = 0; i < 9; i++) {
@@ -1146,44 +1146,44 @@ bool Frame::showMessage(const QString & title, const QString & message, int mill
 
 void Frame::groupActions()
 {
-	// These are actions which are enabled without any subwindow
-	listBasicActions 
-		<< "actionNew_Console" << "actionConnect"
-		<< "actionQuick_Login" << "actionAddressBook"  << "actionQuit"
-		<< "actionNew_ANSI"     << "actionOpen_ANSI"
-		<< "actionFont" << "actionStatusbar" << "actionMenubar" << "actionFullscreen"
-		<< "actionImage_Viewer"
-		<< "actionManage_Favarites" << "actionArticle_Manager" 
-		<< "actionDefault_Session_Setting" << "actionPreference"
-		<< "actionConfigure_Toolbars" << "actionConfigure_Shortcuts" << "actionKey_Setup"
-		<< "actionQTerm_Online" << "actionContents" <<"actionWhat_s_this"
-		<< "actionAbout_QTerm" << "actionAbout_Qt";
-	QActionGroup *group;
-	// These actions belong to Edit->Past with Color submenu
-	group = new QActionGroup(this);
-	group->addAction(actionNone_Color);
-	group->addAction(actionESC_ESC);
-	group->addAction(actionCtrl_U);
-	group->addAction(actionCustom);
-	connect(group, SIGNAL(triggered(QAction*)), this, SLOT(updateESC(QAction*)));
-	// These actions belong to Edit->Clipboard Conversion submenu
-	group = new QActionGroup(this);
-	group->addAction(actionNone);
-	group->addAction(actionCHS_CHT);
-	group->addAction(actionCHT_CHS);
-	connect(group, SIGNAL(triggered(QAction*)), this, SLOT(updateCodec(QAction*)));
-	// These actions belong to View->Scrollbar submenu
-	group = new QActionGroup(this);
-	group->addAction(actionScroll_Hide);
-	group->addAction(actionScroll_Left);
-	group->addAction(actionScroll_Right);
-	connect(group, SIGNAL(triggered(QAction*)), this, SLOT(updateScroll(QAction*)));
-	// These actions belong to View->Language submenu
-	group = new QActionGroup(this);
-	group->addAction(actionEnglish);
-	group->addAction(actionSimplified_Chinese);
-	group->addAction(actionTraditional_Chinese);
-	connect(group, SIGNAL(triggered(QAction*)), this, SLOT(updateLang(QAction*)));
+    // These are actions which are enabled without any subwindow
+    listBasicActions 
+        << "actionNew_Console" << "actionConnect"
+        << "actionQuick_Login" << "actionAddressBook"  << "actionQuit"
+        << "actionNew_ANSI"     << "actionOpen_ANSI"
+        << "actionFont" << "actionStatusbar" << "actionMenubar" << "actionFullscreen"
+        << "actionImage_Viewer"
+        << "actionManage_Favarites" << "actionArticle_Manager" 
+        << "actionDefault_Session_Setting" << "actionPreference"
+        << "actionConfigure_Toolbars" << "actionConfigure_Shortcuts" << "actionKey_Setup"
+        << "actionQTerm_Online" << "actionContents" <<"actionWhat_s_this"
+        << "actionAbout_QTerm" << "actionAbout_Qt";
+    QActionGroup *group;
+    // These actions belong to Edit->Past with Color submenu
+    group = new QActionGroup(this);
+    group->addAction(actionNone_Color);
+    group->addAction(actionESC_ESC);
+    group->addAction(actionCtrl_U);
+    group->addAction(actionCustom);
+    connect(group, SIGNAL(triggered(QAction*)), this, SLOT(updateESC(QAction*)));
+    // These actions belong to Edit->Clipboard Conversion submenu
+    group = new QActionGroup(this);
+    group->addAction(actionNone);
+    group->addAction(actionCHS_CHT);
+    group->addAction(actionCHT_CHS);
+    connect(group, SIGNAL(triggered(QAction*)), this, SLOT(updateCodec(QAction*)));
+    // These actions belong to View->Scrollbar submenu
+    group = new QActionGroup(this);
+    group->addAction(actionScroll_Hide);
+    group->addAction(actionScroll_Left);
+    group->addAction(actionScroll_Right);
+    connect(group, SIGNAL(triggered(QAction*)), this, SLOT(updateScroll(QAction*)));
+    // These actions belong to View->Language submenu
+    group = new QActionGroup(this);
+    group->addAction(actionEnglish);
+    group->addAction(actionSimplified_Chinese);
+    group->addAction(actionTraditional_Chinese);
+    connect(group, SIGNAL(triggered(QAction*)), this, SLOT(updateLang(QAction*)));
 
     // The other actions are grouped and redirected to subwindow
     QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
@@ -1191,14 +1191,14 @@ void Frame::groupActions()
     actionsExtra = new QActionGroup(this);
     actionsExtra->setExclusive(false);
     connect(actionsExtra, SIGNAL(triggered(QAction*)),
-		this, SLOT(actionsDispatcher(QAction*)));
+        this, SLOT(actionsDispatcher(QAction*)));
 
     foreach(QAction* action, actions) {
-		action->setVisible(listBasicActions.contains(action->objectName())
-			|| action->actionGroup() != 0);
-		if (action->actionGroup() == 0)
-			actionsExtra->addAction(action);
-	}
+        action->setVisible(listBasicActions.contains(action->objectName())
+            || action->actionGroup() != 0);
+        if (action->actionGroup() == 0)
+            actionsExtra->addAction(action);
+    }
 }
 
 }
