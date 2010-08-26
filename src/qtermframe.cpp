@@ -91,7 +91,14 @@ Frame::Frame()
 
     setupUi(this);
 
-    mdiArea->setViewMode(QMdiArea::TabbedView);
+    foreach(QTabBar* tabBar, findChildren<QTabBar*>()) {
+        tabBar->setTabsClosable(true);
+        tabBar->setMovable(true);
+        tabBar->setExpanding(false);
+        connect(tabBar, SIGNAL(tabCloseRequested(int)),
+                this, SLOT(closeWindowByIndex(int)));
+    }
+
     connect(mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)),
                 this, SLOT(windowActivated(QMdiSubWindow*)) );
     setCentralWidget(mdiArea);
@@ -454,6 +461,15 @@ void Frame::connectMenuActivated(const QString& uuid)
 /*********************************************************
  *              Window Switch Management                 *
  *********************************************************/
+void Frame::closeWindowByIndex(int index)
+{
+    QList<QMdiSubWindow *> listWindow = mdiArea->subWindowList();
+    if (index < listWindow.count()) {
+        QMdiSubWindow *window = listWindow.at(index);
+        window->close();
+    }
+}
+
 void Frame::windowClosed(QObject*w)
 {
     QList<QMdiSubWindow *> listWindow = mdiArea->subWindowList();

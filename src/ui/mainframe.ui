@@ -13,7 +13,14 @@
   <property name="windowTitle">
    <string>QTerm</string>
   </property>
-  <widget class="QMdiArea" name="mdiArea"/>
+  <widget class="QMdiArea" name="mdiArea">
+   <property name="viewMode">
+    <enum>QMdiArea::TabbedView</enum>
+   </property>
+   <property name="documentMode">
+    <bool>true</bool>
+   </property>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -258,7 +265,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>254</width>
+          <width>60</width>
           <height>280</height>
          </rect>
         </property>

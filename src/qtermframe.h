@@ -95,6 +95,7 @@ protected slots:
     void connectMenuAboutToShow();
     void connectMenuActivated(const QString &uuid);
 
+    void closeWindowByIndex(int index);
 	void windowActivated(QMdiSubWindow*);
     void windowClosed(QObject*);
     void actionsDispatcher(QAction*);
