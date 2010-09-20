@@ -392,7 +392,7 @@ void Frame::windowsMenuAboutToShow()
 #ifdef Q_OS_MACX
     // used to dock the programe
     if (isHidden())
-        windowsMenu->addAction(tr("&Main Window"), this, SLOT(trayShow()));
+        menuWindow->addAction(tr("&Main Window"), this, SLOT(trayShow()));
 #endif
 
     QList<QMdiSubWindow *> windows = mdiArea->subWindowList();
