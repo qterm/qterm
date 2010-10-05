@@ -21,6 +21,6 @@ ELSE(WIN32 AND NOT UNIX)
 ENDIF(WIN32 AND NOT UNIX)
 
 # Functions to install qt, ssl libraries
-FUNCTION(install_libs, lib
+#FUNCTION(install_libs, lib
 INCLUDE(CPack)
 
