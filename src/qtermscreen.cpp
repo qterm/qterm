@@ -1004,12 +1004,21 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
         if (GETBG(cp) != 0 || m_ePaintState == Cursor)
             painter.fillRect(mapToRect(x, y, length, 1), QBrush(m_color[GETBG(cp)]));
         if (flags == RenderAll) {
-            painter.drawText(pt.x()+m_nCharDelta, pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignLeft|Qt::AlignBottom, str);
-        } else if (flags == RenderLeft) {
-            painter.drawText(pt.x()+m_nCharDelta, pt.y(), m_nCharWidth-m_nCharDelta, m_nCharHeight, Qt::AlignLeft|Qt::AlignBottom, str);
-        } else if (flags == RenderRight) {
-            int width = painter.fontMetrics().width(str[0])-m_nCharWidth+m_nCharDelta;
-            painter.drawText(pt.x(), pt.y(), width, m_nCharHeight, Qt::AlignRight|Qt::AlignBottom, str);
+            painter.drawText(pt.x(), pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignCenter, str);
+        } else {
+            QPixmap pm = QPixmap(m_nCharWidth*2, m_nCharHeight);
+            QPainter p(&pm);
+            p.fillRect(0, 0, pm.width(), pm.height(), m_color[GETBG(cp)]);
+            p.setPen(m_color[GETFG(cp)]);
+            p.setFont(painter.font());
+            p.drawText(0, 0, m_nCharWidth*2, m_nCharHeight, Qt::AlignCenter, str);
+            p.end();
+            if (flags == RenderLeft) {
+                painter.drawPixmap(pt.x(), pt.y(), pm, 0, 0, m_nCharWidth, m_nCharHeight);
+            }
+            if (flags == RenderRight) {
+                painter.drawPixmap(pt.x(), pt.y(), pm, m_nCharWidth, 0, m_nCharWidth, m_nCharHeight);
+            }
         }
     }
     painter.setBackground(QBrush(m_color[0]));
@@ -1090,9 +1099,9 @@ QRect Screen::mapToRect(int x, int y, int width, int height)
     QPoint pt = mapToPixel(QPoint(x, y));
 
     if (width == -1)  // to the end
-        return QRect(pt.x()+m_nCharDelta, pt.y(), size().width() , m_nCharHeight*height);
+        return QRect(pt.x(), pt.y(), size().width() , m_nCharHeight*height);
     else
-        return QRect(pt.x()+m_nCharDelta, pt.y(), width*m_nCharWidth, m_nCharHeight*height);
+        return QRect(pt.x(), pt.y(), width*m_nCharWidth, m_nCharHeight*height);
 }
 
 QRect Screen::mapToRect(const QRect& rect)
