@@ -913,10 +913,6 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
         if (charWidth <= 0) {
             qDebug("drawLine: non printable char");
             continue;
-        } else if (charWidth == 1) {
-            painter.setFont(*m_pASCIIFont);
-        } else if (charWidth == 2) {
-            painter.setFont(*m_pGeneralFont);
         }
         CharFlags flags = RenderAll;
         if ( pTextLine->isPartial(startx) ) {
@@ -950,12 +946,16 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
     if (GETDIM(ea)) {
     };
     // test underline mask
+    QFont asciiFont = *m_pASCIIFont;
+    QFont generalFont = *m_pGeneralFont;
     if (GETUNDERLINE(ea)) {
-        m_pASCIIFont->setUnderline(true);
-        m_pGeneralFont->setUnderline(true);
-    } else {
-        m_pASCIIFont->setUnderline(false);
-        m_pGeneralFont->setUnderline(false);
+        asciiFont.setUnderline(true);
+        generalFont.setUnderline(true);
+    }
+    if (length == 1) {
+       painter.setFont(asciiFont);
+    } else if (length == 2) {
+       painter.setFont(generalFont);
     }
     // test blink mask
     if (GETBLINK(ea)) {
