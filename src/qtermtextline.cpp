@@ -73,19 +73,19 @@ void TextLine::insertText(const QString & str, short attribute, int index)
             tmp.fill(NO_COLOR, index - m_length);
             m_color.append(tmp);
             tmp.fill(m_curColor, len);
-            m_color.insert(index, tmp.data());
+            m_color.insert(index, tmp);
 
             tmp.fill(NO_ATTR, index - m_length);
             m_attr.append(tmp);
             tmp.fill(m_curAttr, len);
-            m_attr.insert(index, tmp.data());
+            m_attr.insert(index, tmp);
         } else {
             m_text.insert(index, str);
             m_length = m_text.length();
             tmp.fill(m_curColor, len);
-            m_color.insert(index, tmp.data());
+            m_color.insert(index, tmp);
             tmp.fill(m_curAttr, len);
-            m_attr.insert(index, tmp.data());
+            m_attr.insert(index, tmp);
 
         }
         start = index;
