@@ -231,7 +231,7 @@ QString TextLine::getAttrText(int index, int len, const QString & escape)
 
 
     if (index >= m_length)
-        return (char *)NULL;
+        return QString();
 
     //qDebug("index=%d len=%d m_length=%d", index, len, m_length);
 
@@ -248,9 +248,7 @@ QString TextLine::getAttrText(int index, int len, const QString & escape)
 
         int fg = GETFG(tempcp) + 30;
         int bg = GETBG(tempcp) + 40;
-        QString strAttr = QString("%1;%2").arg(fg).arg(bg).toLatin1();//QByteArray::setNum(fg)+';'+QByteArray::setNum(bg)+';';
-//   cstrAttr.sprintf("%d;%d;", fg, bg );
-        strAttr = escape + strAttr;
+        QString strAttr = escape;
 
         if (GETBOLD(tempea))
             strAttr += "1;";
@@ -266,17 +264,15 @@ QString TextLine::getAttrText(int index, int len, const QString & escape)
             strAttr += "7;";
         if (GETINVISIBLE(tempea))
             strAttr += "8;";
-        strAttr.remove(strAttr.length() - 1, 1);
-        strAttr += "m";
+        strAttr += QString("%1;%2m").arg(fg).arg(bg);
         str += strAttr; // set attr
+
         // the text
         str += getText(startx, i - startx);
-        // reset attr
-        strAttr = escape + "0m";
-        str += strAttr;
         i--;
     }
 
+    str += escape + "m";
     return str;
 }
 
