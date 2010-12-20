@@ -102,7 +102,8 @@ Frame::Frame()
     connect(mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)),
                 this, SLOT(windowActivated(QMdiSubWindow*)) );
     setCentralWidget(mdiArea);
-    
+
+    mdiArea->setTabPosition(QTabWidget::South);
 
     tray = 0;
     trayMenu = 0;
