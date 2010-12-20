@@ -158,8 +158,16 @@ bool Global::loadAddress(QDomDocument doc, QString uuid, Param& param)
     for (int i=0; i<nodeList.count(); i++) {
         QDomElement node = nodeList.at(i).toElement();
         if (uuid == node.attribute("uuid"))
-            foreach (QString key, param.m_mapParam.keys()) 
+            foreach (QString key, param.m_mapParam.keys())  {
+                #ifdef KWALLET_ENABLED
+                if (key == "password" && m_wallet != NULL) {
+                    m_wallet->open();
+                    param.m_mapParam["password"] = m_wallet->readPassword(
+                        node.attribute("name"), node.attribute("user"));
+                } else
+                #endif // KWALLET_ENABLED
                 param.m_mapParam[key] = node.attribute(key);
+            }
     }
     return true;
 }
