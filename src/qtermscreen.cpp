@@ -163,7 +163,23 @@ void Screen::cursorEvent()
     if (m_blinkCursor) {
         m_ePaintState = Cursor;
         m_bCursor = !m_bCursor;
-        update();
+        QRect cursorRect;
+        QPoint pt = mapToPixel(QPoint(m_pBuffer->caretX(), m_pBuffer->caretY()));
+        switch (m_pParam->m_mapParam["cursor"].toInt()) {
+        case 0:
+            cursorRect.setRect(pt.x(), pt.y(), m_nCharWidth, m_nCharHeight);
+            break;
+        case 1:
+            cursorRect.setRect(pt.x(), pt.y() + 9*m_nCharHeight / 10, m_nCharWidth, m_nCharHeight / 10);
+            break;
+        case 2:
+            cursorRect.setRect(pt.x(), pt.y(), m_nCharWidth / 9, m_nCharHeight);
+            break;
+        default:
+            qDebug("Unknown cursor type");
+            break;
+        }
+        update(cursorRect);
     }
 }
 
@@ -212,7 +228,7 @@ void Screen::blinkEvent()
     if (m_hasBlink) {
         m_blinkScreen = !m_blinkScreen;
         m_ePaintState = Blink;
-        update();
+        update(m_blinkRegion);
     }
 }
 
@@ -498,8 +514,7 @@ void Screen::scrollLine(int delta)
     for (int i = m_nStart; i <= m_nEnd; i++)
         m_pBuffer->at(i)->setChanged(-1, -1);
 
-    m_ePaintState = NewData;
-    update();
+    updateRegion();
 }
 void Screen::scrollChanged(int value)
 {
@@ -519,9 +534,7 @@ void Screen::scrollChanged(int value)
     for (int i = m_nStart; i <= m_nEnd; i++)
         m_pBuffer->at(i)->setChanged(-1, -1);
 
-    m_ePaintState = NewData;
-    update();
-
+    updateRegion();
 }
 
 void Screen::updateScrollBar()
@@ -694,6 +707,8 @@ void Screen::refreshScreen()
     int startx, endx;
 
     QPainter painter;
+    QRegion blinkRegion;
+
     painter.begin(this);
     //qDebug("size: %d, %d", width(),height());
     if (m_ePaintState == Show)
@@ -715,6 +730,16 @@ void Screen::refreshScreen()
         if (pTextLine->hasBlink()) {
             m_hasBlink = true;
             m_pBlinkLine[index - m_nStart] = true;
+            uint linelength = pTextLine->getLength();
+            QByteArray attr = pTextLine->getAttr();
+            for (uint i = 0; i < linelength; ++i) {
+                if (GETBLINK(attr.at(i))) {
+                    startx = i;
+                    while (i < linelength && GETBLINK(attr.at(i)))
+                        ++i;
+                    blinkRegion += mapToRect(startx, index, i-startx, 1);
+                }
+            }
         } else
             m_pBlinkLine[index - m_nStart] = false;
         if (!pTextLine->isChanged(startx, endx))
@@ -730,6 +755,7 @@ void Screen::refreshScreen()
         pTextLine->clearChange();
     }
     painter.end();
+    m_blinkRegion = blinkRegion;
 
     updateMicroFocus();
     if (m_pWindow->isConnected()) {
@@ -1060,6 +1086,25 @@ void Screen::drawMenuSelect(QPainter& painter, int index)
             break;
         }
     }
+}
+
+void Screen::updateRegion()
+{
+    int startx, endx;
+
+    m_ePaintState = NewData;
+    QRegion paintRegion;
+    for (int index = m_nStart; index <= m_nEnd; index++) {
+        TextLine *pTextLine = m_pBuffer->at(index);
+        if (!pTextLine->isChanged(startx, endx))
+            continue;
+        if (startx > 0 && pTextLine->isPartial(startx)) {
+            startx -= 1;
+        }
+
+        paintRegion += mapToRect(startx, index, -1, 1);
+    }
+    update(paintRegion);
 }
 
 /* ------------------------------------------------------------------------ */

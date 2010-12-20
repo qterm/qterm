@@ -525,8 +525,7 @@ void Window::mousePressEvent(QMouseEvent * me)
         // clear the selected before
         if (m_ptSelStart != m_ptSelEnd) {
             m_pBuffer->clearSelect();
-            m_pScreen->m_ePaintState = Screen::NewData;
-            m_pScreen->update();
+            m_pScreen->updateRegion();
         }
 
         // set the selecting flag
@@ -602,8 +601,7 @@ void Window::mouseMoveEvent(QMouseEvent * me)
         QPoint point = m_ptSelEnd - m_ptSelStart;
         if (point.manhattanLength() > 3) {
             m_pBuffer->setSelect(m_pScreen->mapToChar(m_ptSelStart), m_pScreen->mapToChar(m_ptSelEnd), m_bRectCopy);
-            m_pScreen->m_ePaintState = Screen::NewData;
-            m_pScreen->update();
+            m_pScreen->updateRegion();
         }
     }
 
@@ -671,8 +669,7 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
     m_ptSelEnd = me->pos();
     if (m_ptSelEnd != m_ptSelStart && m_bSelecting) {
         m_pBuffer->setSelect(m_pScreen->mapToChar(m_ptSelStart), m_pScreen->mapToChar(m_ptSelEnd), m_bRectCopy);
-        m_pScreen->m_ePaintState = Screen::NewData;
-        m_pScreen->update();
+        m_pScreen->updateRegion();
         if (m_bAutoCopy)
             on_actionCopy_triggered();
         m_bSelecting = false;
@@ -1437,8 +1434,7 @@ void Window::connectionClosed()
     strMsg += "\x1b[17C===========================================\n";
 
     m_pDecode->decode(strMsg.toLatin1(), strMsg.length());
-    m_pScreen->m_ePaintState = Screen::NewData;
-    m_pScreen->update();
+    m_pScreen->updateRegion();
 }
 
 void Window::doAutoLogin()
@@ -1842,8 +1838,7 @@ void Window::updateWindow()
     m_pBBS->updateUrlList();
     //m_updateTimer->start(100);
     //refresh screen
-    m_pScreen->m_ePaintState = Screen::NewData;
-    m_pScreen->repaint();
+    m_pScreen->updateRegion();
     m_bMessage = false;
 }
 

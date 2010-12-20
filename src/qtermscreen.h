@@ -83,6 +83,7 @@ public:
     QRect mapToRect(int, int, int, int);
     QRect mapToRect(const QRect&);
     PageViewMessage * osd();
+    void updateRegion();
 
     PaintState m_ePaintState;
 
@@ -203,6 +204,8 @@ protected:
     Convert m_converter;
 
     QTextCodec *m_pCodec;
+
+    QRegion m_blinkRegion;
 
     friend class Window;
 
