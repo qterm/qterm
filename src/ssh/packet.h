@@ -60,6 +60,7 @@ private:
     SocketPrivate * m_socket;
     SSH2Transport * m_transport;
     uint32_t m_sequenceNumber;
+    QByteArray m_incompletePacket;
 };
 
 class SSH1InBuffer : public QObject

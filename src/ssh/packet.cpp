@@ -75,7 +75,7 @@ namespace QTerm
 {
 SSH2InBuffer::SSH2InBuffer(SocketPrivate * plainSocket, QObject * parent)
         : QObject(parent), m_in(), m_out(), m_buf(this),
-        m_sequenceNumber(0)
+        m_sequenceNumber(0),m_incompletePacket()
 {
     m_buf.setBuffer(&m_out);
     m_buf.open(QBuffer::ReadWrite);
@@ -112,10 +112,14 @@ void SSH2InBuffer::parseData()
         // ----------------------------------------------------------------------
 
         QByteArray firstBlock;
-        if (m_transport != NULL)
-            firstBlock = m_transport->crypt(m_in.left(blockSize));
-        else
-            firstBlock = m_in.left(blockSize);
+        if (m_incompletePacket.isEmpty()) {
+            if (m_transport != NULL)
+                firstBlock = m_transport->crypt(m_in.left(blockSize));
+            else
+                firstBlock = m_in.left(blockSize);
+        } else {
+            firstBlock = m_incompletePacket;
+        }
 #ifdef SSH_DEBUG
         dumpData(firstBlock);
 #endif
@@ -133,6 +137,7 @@ void SSH2InBuffer::parseData()
         }
         if (length > m_in.size()) {
             qDebug("packet not complete");
+            m_incompletePacket = firstBlock;
             return;
         }
 
@@ -158,6 +163,7 @@ void SSH2InBuffer::parseData()
 
         m_out = target.mid(5, length - padding - 1);
         m_buf.reset();
+        m_incompletePacket.clear();
         int flag = m_out[0];
         // TODO: remove the mac;
         if (m_transport != NULL)
