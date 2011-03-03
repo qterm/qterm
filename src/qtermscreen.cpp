@@ -682,6 +682,7 @@ void Screen::blinkScreen()
                     startx = i;
                     while (i < linelength && GETBLINK(attr.at(i)))
                         ++i;
+                    painter.fillRect(mapToRect(startx, index, i-startx, 1), QBrush(m_color[0]));
                     --i;
                     drawLine(painter, index, startx, i, false);
                 }
