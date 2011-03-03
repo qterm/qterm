@@ -1141,7 +1141,10 @@ QPoint Screen::mapToChar(const QPoint& point)
 
 QRect Screen::mapToRect(int x, int y, int width, int height)
 {
-    QPoint pt = mapToPixel(QPoint(x, y));
+    int px = x < 0 ? 0 : x;
+    int py = y < 0 ? 0 : y;
+
+    QPoint pt = mapToPixel(QPoint(px, py));
 
     if (width == -1)  // to the end
         return QRect(pt.x(), pt.y(), size().width() , m_nCharHeight*height);
