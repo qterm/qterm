@@ -84,13 +84,13 @@ void Config::addToolBars()
     m_settings->beginGroup("ToolBars");
     QStringList listActions;
     listActions << "actionQuickConnect";
-    m_settings->setValue("mainToolBar", listActions);
+    m_settings->setValue("terminalToolBar", listActions);
     listActions.clear();
     listActions << "actionDisconnect" << "Separator" << "actionCopy" << "actionPaste" << "actionRect" << "actionColorCopy" << "Separator" << "actionFont" << "actionColor" << "actionRefresh" << "Separator" << "actionCurrentSession" << "Separator" << "actionCopyArticle" << "actionAntiIdle" << "actionAutoReply" << "actionViewMessage" << "actionMouse" << "actionBeep" << "actionReconnect";
-    m_settings->setValue("bbsOperationsToolBar",listActions);
-    m_settings->setValue("mainToolBarShown", true);
-    m_settings->setValue("customKeyToolBarShown", true);
-    m_settings->setValue("bbsOperationsToolBarShown",true);
+    m_settings->setValue("mainToolBar",listActions);
+    m_settings->setValue("terminalToolBarShown", true);
+    m_settings->setValue("keyToolBarShown", true);
+    m_settings->setValue("mainToolBarShown",true);
     m_settings->endGroup();
 }
 
