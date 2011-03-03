@@ -722,11 +722,6 @@ void Screen::refreshScreen()
             return;
         }
 
-        if (m_ePaintState == Show) {
-            drawLine(painter, index, 0, -1);
-            continue;
-        }
-
         TextLine *pTextLine = m_pBuffer->at(index);
         if (pTextLine->hasBlink()) {
             m_hasBlink = true;
@@ -743,6 +738,12 @@ void Screen::refreshScreen()
             }
         } else
             m_pBlinkLine[index - m_nStart] = false;
+
+        if (m_ePaintState == Show) {
+            drawLine(painter, index, 0, -1);
+            continue;
+        }
+
         if (!pTextLine->isChanged(startx, endx))
             continue;
 
