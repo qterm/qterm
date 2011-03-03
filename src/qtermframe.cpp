@@ -1097,7 +1097,7 @@ void Frame::loadToolbars()
                 toolbar->addSeparator();
             else {
                 act=findChild<QAction*>(action);
-                if (act != 0 ) // kingson: I forgot why && act->actionGroup()==0)
+                if (act != 0 && act->actionGroup()->objectName() == "extraGroup") // Only the actions in the extraGroup can be added to the toolbar
                     toolbar->addAction(act);
             }
         }
@@ -1206,6 +1206,7 @@ void Frame::groupActions()
     QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
 
     actionsExtra = new QActionGroup(this);
+    actionsExtra->setObjectName("extraGroup");
     actionsExtra->setExclusive(false);
     connect(actionsExtra, SIGNAL(triggered(QAction*)),
         this, SLOT(actionsDispatcher(QAction*)));

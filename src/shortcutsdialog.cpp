@@ -22,7 +22,7 @@ ShortcutsDialog::ShortcutsDialog(QWidget* parent, QList<QAction*> actions, QList
     createDefaultShortcut();
     foreach(QAction* action, actions) {
         //toolTip() gives text without '&'
-        if (action->actionGroup() != 0)
+        if (action->actionGroup()->objectName() != "extraGroup")
             continue;
         QTableWidgetItem *itemAction = new QTableWidgetItem(action->toolTip());
         QString shortcut = action->shortcut().toString();

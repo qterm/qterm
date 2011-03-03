@@ -16,7 +16,7 @@ ToolbarDialog::ToolbarDialog(QWidget* parent)
     QList<QAction*> actions = parent->findChildren<QAction*>(QRegExp("action*"));
     QAction* action;
     foreach(action, actions) {
-        if (action->actionGroup() != 0)
+        if (action->actionGroup()->objectName() != "extraGroup")
             continue;
         QListWidgetItem* item = new QListWidgetItem(action->toolTip());
         item->setIcon(action->icon());
