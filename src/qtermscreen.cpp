@@ -23,6 +23,7 @@ AUTHOR:        kingson fiasco
 #include "qtermglobal.h"
 #include "schemedialog.h"
 #include "osdmessage.h"
+#include "blur.h"
 
 #include <QApplication>
 #include <QPainter>
@@ -254,6 +255,7 @@ void Screen::resizeEvent(QResizeEvent *)
     }
     m_ePaintState = Show;
     update();
+    QTimer::singleShot(50,this,SLOT(blurBackground()));
 }
 
 /* ------------------------------------------------------------------------ */
@@ -772,6 +774,10 @@ void Screen::refreshScreen()
     if (m_hasBlink) m_blinkTimer->start(1000);
 }
 
+void Screen::blurBackground()
+{
+    BlurHelper().updateBlurRegion(Frame::instance(), Frame::instance()->rect());
+}
 
 void Screen::paintEvent(QPaintEvent * pe)
 {

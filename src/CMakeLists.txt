@@ -166,6 +166,7 @@ set(qterm_SRCS
    dommodel.cpp
    pallete.cpp
    chartable.cpp
+   blur.cpp
    ${optionalSources})
 set(qterm_UIS
    ui/aboutdialog.ui

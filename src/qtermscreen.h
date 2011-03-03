@@ -149,6 +149,7 @@ protected slots:
     void prevLine();
     void nextLine();
     void scrollLine(int);
+    void blurBackground();
 protected:
 
     QRect  m_rcClient; // the display area
