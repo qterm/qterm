@@ -128,6 +128,7 @@ Frame::Frame()
 //create a progress bar to notify the download process
     m_pStatusBar = new QTerm::StatusBar(statusBar(), "mainStatusBar");
     statusBar()->addWidget(m_pStatusBar, 0);
+    groupActions();
 
     initShortcuts();
 
@@ -159,7 +160,6 @@ Frame::Frame()
     connectButton->setMenu(connectMenu);
     connectButton->setPopupMode(QToolButton::InstantPopup);
 
-    groupActions();
 
     installEventFilter(this);
 }
