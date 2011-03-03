@@ -876,7 +876,7 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
 
     if (endx >= linelength || endx < 0) {
         endx = qMin(m_pBuffer->columns(), linelength)-1;
-        painter.eraseRect(mapToRect(beginx, index, linelength, 1)); // Maybe we should calculate more accurate size;
+        //painter.eraseRect(mapToRect(beginx, index, linelength, 1)); // Maybe we should calculate more accurate size;
     }
     if (endx >= qMin(color.size(), attr.size())) {
         endx = qMin(color.size(), attr.size()) -1;
@@ -1022,16 +1022,14 @@ void Screen::drawStr(QPainter& painter, const QString& str, int x, int y, int le
     } else
         painter.setBackgroundMode(Qt::TransparentMode);
 
-
     if (m_blinkScreen && GETBLINK(GETATTR(attribute))) {
         if (GETBG(cp) != 0)
             painter.fillRect(mapToRect(x, y, length, 1), QBrush(m_color[GETBG(cp)]));
-        else
-            painter.eraseRect(mapToRect(x, y, length, 1));
     } else {
         if (GETBG(cp) != 0 || m_ePaintState == Cursor)
             painter.fillRect(mapToRect(x, y, length, 1), QBrush(m_color[GETBG(cp)]));
         if (flags == RenderAll) {
+            //painter.fillRect(mapToRect(x, y, length, 1), QBrush(m_color[0]));
             painter.drawText(pt.x(), pt.y(), m_nCharWidth*length, m_nCharHeight, Qt::AlignCenter, str);
         } else {
             QPixmap pm = QPixmap(m_nCharWidth*2, m_nCharHeight);
