@@ -93,10 +93,6 @@
         <translation>剪贴板繁简转换</translation>
     </message>
     <message>
-        <source>&amp;Favatite</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>&amp;BBS </source>
         <translation></translation>
     </message>
@@ -215,14 +211,6 @@
     <message>
         <source>&amp;Preference</source>
         <translation>偏好(&amp;P)</translation>
-    </message>
-    <message>
-        <source>Add to favarites</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Manage Favarites ...</source>
-        <translation></translation>
     </message>
     <message>
         <source>&amp;Copy Article</source>
@@ -411,6 +399,18 @@
     <message>
         <source>Blink</source>
         <translation>闪烁</translation>
+    </message>
+    <message>
+        <source>&amp;Favorites</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Add To Favorites</source>
+        <translation>添加到 Favorites</translation>
+    </message>
+    <message>
+        <source>Manage Favorites ...</source>
+        <translation>管理 Favorites...</translation>
     </message>
 </context>
 <context>
