@@ -1,11 +1,10 @@
-QTerm 0.5.11
+QTerm 0.5.12
 ===============
 
 这个版本添加/修正了下面一些功能:
-1. 支持 Unicode 补完计划 (UAO)
-2. 重写了图片浏览器
-3. 增强脚本支持
-4. 各种 Bug fixes
+1. 初步的 ASCII 辅助编辑功能
+2. 支持半透明背景以及 KDE 下的 blur 效果
+3. 各种 Bug fixes
 
                                          The QTerm Team
                                       http://www.qterm.org
