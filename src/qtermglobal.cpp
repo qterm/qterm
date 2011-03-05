@@ -295,6 +295,8 @@ bool Global::convertAddressBook2XML()
         foreach(QString key,param.m_mapParam.keys())
             site.setAttribute(key, param.m_mapParam[key].toString());
 
+        site.setAttribute("opacity","100");
+        site.setAttribute("blinkcursor","true");
         addresses.appendChild(site);
     }
     saveAddressXml(doc);
