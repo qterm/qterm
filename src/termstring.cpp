@@ -178,7 +178,10 @@ int TermString::size(int index)
 
 bool TermString::isPartial(int index)
 {
-    //qDebug() << "length " << m_index.size() << ", index: " << index;
+    if (index < 0 or index >= m_index.size()) {
+        qDebug() << "length " << m_index.size() << ", index: " << index;
+        return false;
+    }
     if (m_index.at(index) == -1) {
         return true;
     }
