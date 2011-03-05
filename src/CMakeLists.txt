@@ -11,6 +11,12 @@ option(QTERM_ENABLE_SCRIPT_DEBUGGER "Build ScriptDebugger Support")
 include(CheckFunctionExists)
 include(CheckLibraryExists)
 
+if(UNIX)
+   find_package(X11)
+   set(optionalLibs ${optionalLibs} ${X11_X11_LIB})
+endif(UNIX)
+
+
 check_function_exists("gethostbyname" CMAKE_HAVE_GETHOSTBYNAME)
 if(NOT CMAKE_HAVE_GETHOSTBYNAME)
   check_library_exists("nsl" "gethostbyname" "" CMAKE_LIB_NSL_HAS_GETHOSTBYNAME)
