@@ -126,7 +126,7 @@
     </message>
     <message>
         <source>ANSI Edit</source>
-        <translation>ANSI 颜色</translation>
+        <translation>ANSI 编辑</translation>
     </message>
     <message>
         <source>Quick Login</source>
