@@ -432,8 +432,8 @@
   </action>
   <action name="actionCopy_Article">
    <property name="icon">
-    <iconset>
-     <normaloff>:/pic/copyarticle.png</normaloff>:/pic/copyarticle.png</iconset>
+    <iconset resource="../qterm.qrc">
+     <normaloff>:/pic/article.png</normaloff>:/pic/article.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Copy Article</string>
@@ -442,6 +442,10 @@
   <action name="actionAuto_Reply">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qterm.qrc">
+     <normaloff>:/pic/auto-reply.png</normaloff>:/pic/auto-reply.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Auto Reply</string>
@@ -753,6 +757,10 @@
    </property>
   </action>
   <action name="actionCurrent_Session_Setting">
+   <property name="icon">
+    <iconset resource="../qterm.qrc">
+     <normaloff>:/pic/appearance.png</normaloff>:/pic/appearance.png</iconset>
+   </property>
    <property name="text">
     <string>Current Session Setting</string>
    </property>
