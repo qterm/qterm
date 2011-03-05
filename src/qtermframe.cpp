@@ -87,6 +87,8 @@ Frame::Frame()
         : QMainWindow(0)
 {
     s_instance = this;
+    setAttribute(Qt::WA_TranslucentBackground);
+    setAttribute(Qt::WA_NoSystemBackground, false);
     setAttribute(Qt::WA_DeleteOnClose);
 
     setupUi(this);
