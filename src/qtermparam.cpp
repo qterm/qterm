@@ -32,6 +32,8 @@ Param::Param()
 	m_mapParam["generalfont"] = "Monospace";
 	m_mapParam["fontsize"] = 14;
 	m_mapParam["schemefile"] = "";
+	m_mapParam["opacity"] = 100;
+	m_mapParam["blinkcursor"] = true;
 	
 	m_mapParam["termtype"] = "vt102";
 	m_mapParam["keytype"] = 0;

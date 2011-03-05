@@ -111,7 +111,7 @@ Screen::Screen(QWidget *parent, Buffer *buffer, Param *param, BBS *bbs)
 
 // init variable
     m_blinkScreen = false;
-    m_blinkCursor = true;
+    m_blinkCursor = m_pParam->m_mapParam["blinkcursor"].toBool();
 
 }
 
@@ -451,6 +451,7 @@ void Screen::setScheme()
 
         delete pConf;
     }
+    m_color[0].setAlphaF(m_pParam->m_mapParam["opacity"].toInt()/100.0);
 }
 
 void Screen::schemeChanged(int index)
@@ -461,6 +462,13 @@ void Screen::schemeChanged(int index)
     QStringList schemeList = schemeDialog::loadSchemeList();
     m_pParam->m_mapParam["schemefile"] = schemeList[index];
     setScheme();
+    QResizeEvent* re = new QResizeEvent(size(), size());
+    resizeEvent(re);
+}
+
+void Screen::opacityChanged(int val)
+{
+    m_color[0].setAlphaF(val/100.0);
     QResizeEvent* re = new QResizeEvent(size(), size());
     resizeEvent(re);
 }
@@ -776,7 +784,8 @@ void Screen::refreshScreen()
 
 void Screen::blurBackground()
 {
-    BlurHelper().updateBlurRegion(Frame::instance(), Frame::instance()->rect());
+    if (m_pParam->m_mapParam["opacity"].toInt() < 100)
+        BlurHelper().updateBlurRegion(Frame::instance(), Frame::instance()->rect());
 }
 
 void Screen::paintEvent(QPaintEvent * pe)

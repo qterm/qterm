@@ -101,6 +101,7 @@ public slots:
     void generalFontChanged(const QFont & font);
     void fontSizeChanged(int size);
     void schemeChanged(int index);
+    void opacityChanged(int val);
 
 protected:
     void initFontMetrics();

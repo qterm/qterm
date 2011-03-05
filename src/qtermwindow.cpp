@@ -1252,6 +1252,7 @@ void Window::on_actionCurrent_Session_Setting_triggered()
     connect(set.ui.generalFontComboBox, SIGNAL(currentFontChanged(const QFont &)), m_pScreen, SLOT(generalFontChanged(const QFont &)));
     connect(set.ui.fontSizeSpinBox, SIGNAL(valueChanged(int)), m_pScreen, SLOT(fontSizeChanged(int)));
     connect(set.ui.schemeComboBox, SIGNAL(currentIndexChanged(int)), m_pScreen, SLOT(schemeChanged(int)));
+    connect(set.ui.opacityHorizontalSlider, SIGNAL(valueChanged(int)),m_pScreen, SLOT(opacityChanged(int)));
     set.ui.asciiFontComboBox->setCurrentFont(m_pScreen->asciiFont());
     set.ui.generalFontComboBox->setCurrentFont(m_pScreen->generalFont());
 

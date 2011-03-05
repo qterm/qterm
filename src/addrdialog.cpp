@@ -417,6 +417,8 @@ void addrDialog::updateData(bool save)
         param.m_mapParam["generalfont"] = strGeneralFontName;
         param.m_mapParam["fontsize"] = nFontSize;
         param.m_mapParam["schemefile"] = strSchemeFile;
+        param.m_mapParam["opacity"] = ui.opacityHorizontalSlider->value();
+        param.m_mapParam["blinkcursor"] = ui.blinkCursorCheckBox->isChecked();
         param.m_mapParam["keyboardprofile"] = strKeyboardProfile;
         param.m_mapParam["termtype"] = ui.termtypeLineEdit->text();
         param.m_mapParam["column"] = ui.columnSpinBox->value();
@@ -477,6 +479,8 @@ void addrDialog::updateData(bool save)
         ui.fontSizeSpinBox->setValue(nFontSize);
         strSchemeFile = param.m_mapParam["schemefile"].toString();
         ui.schemeComboBox->setCurrentIndex(schemeFileList.indexOf(strSchemeFile));
+        ui.opacityHorizontalSlider->setValue(param.m_mapParam["opacity"].toInt());
+        ui.blinkCursorCheckBox->setChecked(param.m_mapParam["blinkcursor"].toBool());
         strKeyboardProfile = param.m_mapParam["keyboardprofile"].toString();
         ui.keytypeComboBox->setCurrentIndex(keyboardProfileList.indexOf(strKeyboardProfile));
         ui.termtypeLineEdit->setText(param.m_mapParam["termtype"].toString());
