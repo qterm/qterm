@@ -27,7 +27,7 @@
      <x>0</x>
      <y>0</y>
      <width>674</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -127,10 +127,10 @@
    </widget>
    <widget class="QMenu" name="menuFavatite">
     <property name="title">
-     <string>&amp;Favatite</string>
+     <string>&amp;Favorites</string>
     </property>
-    <addaction name="actionAdd_to_favarites"/>
-    <addaction name="actionManage_Favarites"/>
+    <addaction name="actionAdd_to_favorites"/>
+    <addaction name="actionManage_Favorites"/>
     <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuBBS">
@@ -266,7 +266,7 @@
           <x>0</x>
           <y>0</y>
           <width>60</width>
-          <height>280</height>
+          <height>270</height>
          </rect>
         </property>
        </widget>
@@ -420,14 +420,14 @@
     <string>&amp;Preference</string>
    </property>
   </action>
-  <action name="actionAdd_to_favarites">
+  <action name="actionAdd_to_favorites">
    <property name="text">
-    <string>Add to favarites</string>
+    <string>Add To Favorites</string>
    </property>
   </action>
-  <action name="actionManage_Favarites">
+  <action name="actionManage_Favorites">
    <property name="text">
-    <string>Manage Favarites ...</string>
+    <string>Manage Favorites ...</string>
    </property>
   </action>
   <action name="actionCopy_Article">
