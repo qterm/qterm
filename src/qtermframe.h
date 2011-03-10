@@ -147,6 +147,7 @@ protected:
 
     QAction * insertThemeItem(const QString &);
     void setUseTray(bool);
+    void updateTabBar();
 private:
     static Frame * s_instance;  
     AssistantClient m_assistant;

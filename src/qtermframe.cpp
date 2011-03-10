@@ -93,13 +93,7 @@ Frame::Frame()
 
     setupUi(this);
 
-    foreach(QTabBar* tabBar, findChildren<QTabBar*>()) {
-        tabBar->setTabsClosable(true);
-        tabBar->setMovable(true);
-        tabBar->setExpanding(false);
-        connect(tabBar, SIGNAL(tabCloseRequested(int)),
-                this, SLOT(closeWindowByIndex(int)));
-    }
+    updateTabBar();
 
     connect(mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)),
                 this, SLOT(windowActivated(QMdiSubWindow*)) );
@@ -1218,6 +1212,16 @@ void Frame::groupActions()
             || action->actionGroup() != 0);
         if (action->actionGroup() == 0)
             actionsExtra->addAction(action);
+    }
+}
+void Frame::updateTabBar()
+{
+    foreach(QTabBar* tabBar, findChildren<QTabBar*>()) {
+        tabBar->setTabsClosable(true);
+        tabBar->setMovable(true);
+        tabBar->setExpanding(false);
+        connect(tabBar, SIGNAL(tabCloseRequested(int)),
+                this, SLOT(closeWindowByIndex(int)));
     }
 }
 
