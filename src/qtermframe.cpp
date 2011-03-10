@@ -661,12 +661,27 @@ void Frame::on_actionFullscreen_triggered(bool isFullScreen)
         mainToolBar->hide();
         terminalToolBar->hide();
         keyToolBar->hide();
+        ansiToolBar->hide();
+        //mdiArea->findChild<QTabBar*>()->hide();
+        QList<QMdiSubWindow *> windows = mdiArea->subWindowList();
+        foreach (QMdiSubWindow * window, windows) {
+            window->setWindowFlags(Qt::FramelessWindowHint);
+        }
         showFullScreen();
+        mdiArea->setViewMode(QMdiArea::SubWindowView);
+        mdiArea->activeSubWindow()->showMaximized();
     } else {
         restoreGeometry(Global::instance()->loadGeometry());
         restoreState(Global::instance()->loadState());
         emit scrollChanged();
+        QList<QMdiSubWindow *> windows = mdiArea->subWindowList();
+        foreach (QMdiSubWindow * window, windows) {
+            window->setWindowFlags(Qt::SubWindow);
+        }
         showNormal();
+        mdiArea->setViewMode(QMdiArea::TabbedView);
+        mdiArea->activeSubWindow()->showMaximized();
+        updateTabBar();
     }
 
     actionFullscreen->setChecked(isFullScreen);

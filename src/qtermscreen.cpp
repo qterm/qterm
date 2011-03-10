@@ -132,6 +132,10 @@ Screen::~Screen()
 // focus event received
 void Screen::focusInEvent(QFocusEvent *)
 {
+    // FIXME: Somehow there is an inf loop without this.
+    if (Global::instance()->isFullScreen()) {
+        return;
+    }
     if (m_pWindow->isMaximized()) {
         m_pWindow->showNormal();
         m_pWindow->showMaximized();
