@@ -139,7 +139,7 @@
     </property>
     <addaction name="actionCopy_Article"/>
     <addaction name="actionAuto_Reply"/>
-    <addaction name="actionAnti_idle"/>
+    <addaction name="actionAnti_Idle"/>
     <addaction name="actionSupport_Mouse"/>
     <addaction name="actionBeep_on_message"/>
     <addaction name="actionView_Message"/>
@@ -529,7 +529,7 @@
     <string>Close</string>
    </property>
   </action>
-  <action name="actionAnti_idle">
+  <action name="actionAnti_Idle">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -538,7 +538,7 @@
      <normaloff>:/pic/anti-idle.png</normaloff>:/pic/anti-idle.png</iconset>
    </property>
    <property name="text">
-    <string>Anti-&amp;idle</string>
+    <string>Anti-&amp;Idle</string>
    </property>
   </action>
   <action name="actionDebug_Console">

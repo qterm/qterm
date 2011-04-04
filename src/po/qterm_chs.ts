@@ -270,7 +270,7 @@
     </message>
     <message>
         <source>Anti-&amp;idle</source>
-        <translation>防发呆(&amp;I)</translation>
+        <translation type="obsolete">防发呆(&amp;I)</translation>
     </message>
     <message>
         <source>Debug Console</source>
@@ -411,6 +411,10 @@
     <message>
         <source>Manage Favorites ...</source>
         <translation>管理 Favorites...</translation>
+    </message>
+    <message>
+        <source>Anti-&amp;Idle</source>
+        <translation>防发呆(&amp;I)</translation>
     </message>
 </context>
 <context>
