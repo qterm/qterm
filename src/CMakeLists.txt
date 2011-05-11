@@ -11,10 +11,6 @@ option(QTERM_ENABLE_SCRIPT_DEBUGGER "Build ScriptDebugger Support")
 include(CheckFunctionExists)
 include(CheckLibraryExists)
 
-if(UNIX)
-   find_package(X11)
-   set(optionalLibs ${optionalLibs} ${X11_X11_LIB})
-endif(UNIX)
 
 
 check_function_exists("gethostbyname" CMAKE_HAVE_GETHOSTBYNAME)
@@ -225,7 +221,13 @@ include_directories(
    ${QT_INCLUDE_DIR}
    ${QT_QTCORE_INCLUDE_DIR}
    ${QT_QTGUI_INCLUDE_DIR}
-   ${QT_QTNETWORK_INCLUDE_DIR}
+   ${QT_QTNETWORK_INCLUDE_DIR} )
+if(UNIX)
+   find_package(X11)
+   include_directories(${X11_INCLUDE_DIR})
+   set(optionalLibs ${optionalLibs} ${X11_X11_LIB})
+endif(UNIX)
+include_directories(
    ${CMAKE_SOURCE_DIR}
    ${CMAKE_BINARY_DIR}
    ${CMAKE_CURRENT_BINARY_DIR}
