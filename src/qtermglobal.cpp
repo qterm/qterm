@@ -433,6 +433,7 @@ bool Global::iniWorkingDir(QString param)
 {
     QDir dir;
     QFileInfo fi;
+    QString prefix = QCoreApplication::applicationDirPath();
 #ifdef Q_OS_MACX
     // $HOME/Library/QTerm/
     QString pathHome = QDir::homePath();
@@ -441,10 +442,8 @@ bool Global::iniWorkingDir(QString param)
         return false;
 
     // get executive file path
-    fi.setFile(param);
-    m_pathLib = fi.path() + '/';
+    m_pathLib = prefix + "/../Resources";
 #else
-    QString prefix = QCoreApplication::applicationDirPath();
 
     QFileInfo conf(prefix+"/qterm.cfg");
     if (conf.exists()) {
