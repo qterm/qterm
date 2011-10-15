@@ -197,6 +197,15 @@ set(qterm_RCCS
 
 file(COPY ${qterm_MISC} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+find_program(XDGOPEN NAME xdg-open DOC "Looking for xdg-open")
+if (XDGOPEN_FOUND)
+  set (HTTP xdg-open)
+else (XDGOPEN_FOUND)
+  set (HTTP)
+endif (XDGOPEN_FOUND)
+
+configure_file(${CMAKE_CURRENT_BINARY_DIR}/qterm.cfg ${CMAKE_CURRENT_BINARY_DIR}/qterm.cfg)
+
 if(WIN32)
   if(MINGW)
     # resource compilation for mingw
@@ -233,11 +242,27 @@ include_directories(
    ${CMAKE_CURRENT_BINARY_DIR}
    ${CMAKE_CURRENT_SOURCE_DIR})
 if(WIN32)
-   add_executable(qterm WIN32 ${qterm_SRCS} ${qterm_RCCS_SRCS})
-else(WIN32)
-   add_executable(qterm ${qterm_SRCS} ${qterm_RCCS_SRCS})
-endif(WIN32)
-target_link_libraries(qterm
+   add_executable(${PROGRAME} WIN32 ${qterm_SRCS} ${qterm_RCCS_SRCS})
+elseif(APPLE)
+   set(qterm_MISC  ${qterm_MISC} ${CMAKE_CURRENT_SOURCE_DIR}/../icons/QTerm.icns)
+   set_source_files_properties(${qterm_MISC} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+   add_executable(${PROGRAME} MACOSX_BUNDLE ${qterm_SRCS} ${qterm_RCCS_SRCS} ${qterm_MISC} ) 
+   add_custom_command( TARGET ${PROGRAME} PRE_BUILD
+     COMMAND mkdir ARGS -p ${PROGRAME}.app/Contents/MacOS
+     COMMAND mkdir ARGS -p ${PROGRAME}.app/Contents/Resources
+     COMMAND mkdir ARGS -p ${PROGRAME}.app/Contents/Resources/po
+     COMMAND mkdir ARGS -p ${PROGRAME}.app/Contents/Resources/doc
+     COMMAND mkdir ARGS -p ${PROGRAME}.app/Contents/Resources/keyboard_profiles
+   )
+   add_custom_command( TARGET ${PROGRAME} POST_BUILD
+     COMMAND cp ARGS ${CMAKE_CURRENT_BINARY_DIR}/po/*.qm ${PROGRAME}.app/Contents/Resources/po
+     COMMAND cp ARGS ${CMAKE_CURRENT_BINARY_DIR}/doc/*.{qhc,qch} ${PROGRAME}.app/Contents/Resources/doc
+     COMMAND cp ARGS ${CMAKE_CURRENT_BINARY_DIR}/keyboard_profiles/*.keytab ${PROGRAME}.app/Contents/Resources/keyboard_profiles
+   )
+else()
+   add_executable(${PROGRAME} ${qterm_SRCS} ${qterm_RCCS_SRCS})
+endif()
+target_link_libraries(${PROGRAME}
    ${QT_LIBRARIES}
    ${QT_QTCORE_LIBRARY}
    ${QT_QTGUI_LIBRARY}
@@ -245,9 +270,9 @@ target_link_libraries(qterm
    ${QT_QTXML_LIBRARY}
    ${optionalLibs})
 if(WIN32 AND MINGW)
-   target_link_libraries(qterm ${win32Libs})
+   target_link_libraries(${PROGRAME} ${win32Libs})
 endif(WIN32 AND MINGW)
-install(TARGETS qterm DESTINATION bin)
+install(TARGETS ${PROGRAME} DESTINATION bin)
 install(FILES ${qterm_MISC} DESTINATION share/qterm)
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/qterm.desktop DESTINATION share/applications)
 add_subdirectory(scheme)
@@ -255,7 +280,7 @@ add_subdirectory(scripts)
 add_subdirectory(po)
 add_subdirectory(keyboard_profiles)
 add_subdirectory(doc)
-add_dependencies(qterm translations_target help_target)
+add_dependencies(${PROGRAME} translations_target help_target)
 if(QTERM_ENABLE_TEST)
    add_subdirectory(test)
 endif(QTERM_ENABLE_TEST)
