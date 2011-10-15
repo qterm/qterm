@@ -48,5 +48,6 @@ macro(qterm_install_icons _theme)
    endforeach (_current_ICON)
 endmacro(qterm_install_icons)
 
-qterm_install_icons(hicolor)
-
+if (NOT APPLE)
+  qterm_install_icons(hicolor)
+endif ()

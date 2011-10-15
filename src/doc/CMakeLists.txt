@@ -24,8 +24,10 @@ ADD_CUSTOM_COMMAND(
 ADD_CUSTOM_TARGET(help_target
   DEPENDS qterm.qhc)
 
-INSTALL(
+if (NOT APPLE)
+  INSTALL(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/qterm.qhc
     DESTINATION share/qterm/doc
-)
+  )
+endif ()
 
