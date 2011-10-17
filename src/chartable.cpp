@@ -10,45 +10,14 @@
 namespace QTerm
 {
 
-CharTable :: CharTable(QWidget *parent)
+CharTable :: CharTable(QString symbolStr, QWidget *parent)
     : QWidget(parent)
 {
     setMouseTracking(true);
     maxColumn = 10;
     square = 25;
-    symbols = QString::fromUtf8("＋－×÷±∵∴∈≡∝"
-              "∑∏∪∩∫∮∶∧∨∷"
-              "≌≈∽≠≮≯≤≥∞∠"
-              "〔〕（）〈〉《》「」"
-              "『』〖〗【】［］｛｝"
-              "︵︶︹︺︿﹀︽︾﹁﹂"
-              "﹃﹄︻︼︷︸‘’“”"
-              "ΑΒΓΔΕΖΗΘΙΚ"
-              "ΛΜΝΞΟΠΡΣΤΥ"
-              "ΦΧΨΩαβγδεζ"
-              "ηθικλμνξοπ"
-              "ρστυφχψω㎎"
-              "℡㎏㎜㎝㎞㎡㏄〾⿰⿱"
-              "⿲⿳⿴⿵⿶⿷⿸⿹⿺⿻"
-              "▁▂▃▄▅▆▇█▉▊"
-              "▋▌▍▎▏▓╱╲╳※"
-              "─│┌┐└┘├┤┬┴"
-			  "═║╣╔╗╚╝╠╣╦╩"
-              "┼↖↗↘↙→←↑↓√"
-              "▼▽◢◣◥◤╭╮╯╰"
-              "♂♀☉⊕〇◎〓℉℃㊣"
-              "☆★◇◆□■△▲○●"
-			  "☜☞♨☼☎☏◐◑↔↕"
-			  "♫♬♩♭♪☀☁☂◕✟"
-			  "☺☻۩۞✲❈✿✪✣✤✥✦❉❥❦❧❃❂❁❀✄☪☣☢☠☭卐"
-			  "﹌﹏►◄▧▨№♠❤♣◊♦"
-              "⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑"
-              "⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛"
-              "⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽"
-              "①②③④⑤⑥⑦⑧⑨⑩"
-              "㈠㈡㈢㈣㈤㈥㈦㈧㈨㈩"
-              "ⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹ"
-              "ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ");
+
+    symbols = symbolStr;
 }
 
 void CharTable ::resizeEvent(QResizeEvent *re)
@@ -59,9 +28,9 @@ void CharTable ::resizeEvent(QResizeEvent *re)
 
 QSize CharTable :: sizeHint() const
 {
-	int x = maxColumn*square;
-	int y = (symbols.length()/maxColumn + 1)*square;
-	return QSize(x, y);
+    int x = maxColumn*square;
+    int y = (symbols.length()/maxColumn + 1)*square;
+    return QSize(x, y);
 }
 
 void CharTable :: mouseMoveEvent(QMouseEvent *me)

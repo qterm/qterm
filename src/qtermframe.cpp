@@ -119,7 +119,7 @@ Frame::Frame()
     // symbols table input
     actionSymbols = new QAction(this);
     actionSymbols->setObjectName(QString::fromUtf8("actionSymbols"));
-    connect(scrollArea->widget(), SIGNAL(characterSelected(QString)), SLOT(characterSelected(QString)));
+    connect(scrollArea->widget(), SIGNAL(characterSelectedSignal(QString)), SLOT(characterSelected(QString)));
 
 //create a progress bar to notify the download process
     m_pStatusBar = new QTerm::StatusBar(statusBar(), "mainStatusBar");

@@ -260,7 +260,7 @@
        <property name="widgetResizable">
         <bool>true</bool>
        </property>
-       <widget class="QTerm::CharTable" name="scrollAreaWidgetContents">
+       <widget class="QTerm::CharPane" name="scrollAreaWidgetContents">
         <property name="geometry">
          <rect>
           <x>0</x>

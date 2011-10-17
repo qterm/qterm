@@ -2,6 +2,7 @@
 #define CHARTABLE_H
 
 #include <QWidget>
+#include <QMap>
 
 namespace QTerm
 {
@@ -10,7 +11,7 @@ class CharTable : public QWidget
 {
     Q_OBJECT
 public:
-    CharTable (QWidget *parent = 0);
+    CharTable (QString symbolStr, QWidget *parent = 0);
 	QSize sizeHint() const;
 
 signals:
