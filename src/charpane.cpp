@@ -58,24 +58,6 @@ CharPane::CharPane(QWidget *parent)
                 "ⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹ"
                 "ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ");
 
-    mapSymbol["Dingbat"] = QString::fromUtf8(
-                "✁✂✃✄✆✇✈✉✌✍✎✏✐✑✒"
-                "✓✔✕✖✗✘✙✚✛✜✝✞✟"
-                "✠✡✢✣✤✥✦✧✩✪✫✬✭✮✯"
-                "✰✱✲✳✴✵✶✷✸✹✺✻✼✽✾✿"
-                "❀❁❂❃❄❅❆❇❈❉❊❋❍"
-                "❏❐❑❒❖❘❙❚❛❜❝❞"
-                "❡❢❣❤❥❦❧");//U+2700-U+27FF
-
-    mapSymbol["Miscellaneous"] = QString::fromUtf8(
-                "☀☁☂☃☄★☆☇☈☉☊☋☌☍☎☏"
-                 "☐☑☒☓☔☕☖☗☘☙☚☛☜☝☞☟"
-                 "☠☡☢☣☤☥☦☧☨☩☪☫☬☭☮☯"
-                 "☰☱☲☳☴☵☶☷☸☹☺☻☼☽☾☿"
-                 "♀♁♂♃♄♅♆♇♈♉♊♋♌♍♎♏"
-                 "♐♑♒♓♔♕♖♗♘♙♚♛♜♝♞♟"
-                 "♠♡♢♣♤♥♦♧♨♩♪♫♬♭♮♯");//U+2600-U+26FF
-
     mapSymbol["Arrow"] = QString::fromUtf8(
                 "➔➘➙➚➛➜➝➞➟"
                 "➠➡➢➣➤➥➦➧➨➩➪➫➬➭➮➯"
@@ -113,7 +95,7 @@ CharPane::CharPane(QWidget *parent)
                 "ρστυφχψω");
 
     listSymbolName << "Table" << "Number" << "CJK" << "Letter"
-                   << "Arrow" << "Mathematic" << "Dingbat" << "Miscellaneous";
+                   << "Arrow" << "Mathematic";
     foreach(QString symbolName, listSymbolName) {
         addSubPane(new CharTable(mapSymbol[symbolName]), symbolName);
     }
