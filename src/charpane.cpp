@@ -43,6 +43,7 @@ CharPane::CharPane(QWidget *parent)
     : QWidget(parent)
 {
     m_layoutVBox = new QVBoxLayout();
+    m_layoutVBox->setContentsMargins(0,0,0,0);
     m_layoutVBox->addStretch();
     setLayout(m_layoutVBox);
 
