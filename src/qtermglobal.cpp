@@ -442,7 +442,7 @@ bool Global::iniWorkingDir(QString param)
         return false;
 
     // get executive file path
-    m_pathLib = prefix + "/../Resources";
+    m_pathLib = prefix + "/../Resources/";
 #else
 
     QFileInfo conf(prefix+"/qterm.cfg");
