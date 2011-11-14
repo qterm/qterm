@@ -232,11 +232,11 @@ include_directories(
    ${QT_QTCORE_INCLUDE_DIR}
    ${QT_QTGUI_INCLUDE_DIR}
    ${QT_QTNETWORK_INCLUDE_DIR} )
-if(UNIX)
+if(UNIX AND NOT APPLE)
    find_package(X11)
    include_directories(${X11_INCLUDE_DIR})
    set(optionalLibs ${optionalLibs} ${X11_X11_LIB})
-endif(UNIX)
+endif(UNIX AND NOT APPLE)
 include_directories(
    ${CMAKE_SOURCE_DIR}
    ${CMAKE_BINARY_DIR}
