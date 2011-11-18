@@ -275,9 +275,17 @@ if(WIN32 AND MINGW)
 endif(WIN32 AND MINGW)
 if (APPLE)
   install(TARGETS ${PROGRAME} DESTINATION bin)
+  install(DIRECTORY ${QT_PLUGINS_DIR}/imageformats DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/PlugIns)
+  install(DIRECTORY ${QT_PLUGINS_DIR}/codecs DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/PlugIns)
   install(CODE "
+      file(WRITE \"\${CMAKE_INSTALL_PREFIX}/bin/\${PROGRAME}.app/Contents/Resources/qt.conf\" \"\")
+    " COMPONENT Runtime)
+  install(CODE "
+      file(GLOB_RECURSE PLUGINS  ${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/PlugIns/*${CMAKE_SHARED_LIBRARY_SUFFIX})
       include(BundleUtilities)
-      fixup_bundle(\"${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/MacOS/QTerm\" \"\" \"\")
+      fixup_bundle(\"${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/MacOS/QTerm\" 
+       \"\${PLUGINS}\" 
+       \"\")
     " COMPONENT Runtime)
 else (APPLE)
   install(TARGETS ${PROGRAME} DESTINATION bin)
