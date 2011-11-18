@@ -278,7 +278,7 @@ if (APPLE)
   install(DIRECTORY ${QT_PLUGINS_DIR}/imageformats DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/PlugIns)
   install(DIRECTORY ${QT_PLUGINS_DIR}/codecs DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/PlugIns)
   install(CODE "
-      file(WRITE \"\${CMAKE_INSTALL_PREFIX}/bin/\${PROGRAME}.app/Contents/Resources/qt.conf\" \"\")
+      file(WRITE \"${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/Resources/qt.conf\" \"plugins=PlugIns\")
     " COMPONENT Runtime)
   install(CODE "
       file(GLOB_RECURSE PLUGINS  ${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/PlugIns/*${CMAKE_SHARED_LIBRARY_SUFFIX})
