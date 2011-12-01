@@ -340,7 +340,7 @@ void Frame::newWindow(const Param&  param, const QString& uuid)
     window->setWindowIcon(QIcon(":/pic/tabpad.png"));
     window->setAttribute(Qt::WA_DeleteOnClose);
     window->showMaximized();
-    mdiArea->addSubWindow(window);
+    //mdiArea->addSubWindow(window);
     mdiArea->setActiveSubWindow(window);
     connect(window, SIGNAL(destroyed(QObject*)),
             this, SLOT(windowClosed(QObject*)));
