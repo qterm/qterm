@@ -177,7 +177,7 @@ QVariant DomModel::data(const QModelIndex &index, int role) const
             case Folder:
                     return QVariant(QIcon(":/pic/folder.png"));
             case Favorite:
-                    return QVariant(QIcon(":/pic/folder_favorite.png"));
+                    return QVariant(QIcon(":/pic/tabpad_favorite.png"));
             case Site:
                     return QVariant(QIcon(":/pic/tabpad.png"));
             }
@@ -386,8 +386,9 @@ bool DomModel::dropMimeData(const QMimeData *data,
 
     switch(action) {
     case Qt::MoveAction:
-        if (parentItem == rootItem)
-            return false;
+        // return false here will cause items disappear 
+        //if (parentItem == rootItem)
+        //    return false;
         for (int i=0; i<count; i++) {    
             DomItem *item = newItems.at(i);
             QDomElement node = item->element().cloneNode().toElement();

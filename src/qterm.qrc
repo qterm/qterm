@@ -41,5 +41,6 @@
     <file>pic/shadow.png</file>
     <file>pic/sound.png</file>
     <file>pic/tabpad.png</file>
+    <file>pic/tabpad_favorite.png</file>
   </qresource>
 </RCC>
