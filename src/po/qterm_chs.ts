@@ -174,7 +174,7 @@
     </message>
     <message>
         <source>&amp;Copy</source>
-        <translation>拷贝(&amp;C)</translation>
+        <translation>复制(&amp;C)</translation>
     </message>
     <message>
         <source>&amp;Paste</source>
