@@ -41,6 +41,7 @@ AUTHOR:        kingson fiasco
 #include <fcntl.h>
 #include <execinfo.h>
 #include <signal.h>
+#include <unistd.h>
 
 #define QTERM_SIG_MAX_RETS 50
 #define QTERM_SIG_LOG_DIR "/var/tmp"
