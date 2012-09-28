@@ -139,12 +139,6 @@ key W    +Meta : "\x17"
 key X    +Meta : "\x18"
 key Y    +Meta : "\x19"
 key Z    +Meta : "\x1A"
-key BracketLeft +Meta : "\x1B"
-key Backslash   +Meta : "\x1C"
-key BracketRight+Meta : "\x1D"
-key AsciiCircum +Meta : "\x1E"
-key Underscore  +Meta : "\x1F"
-
 
 # some of keys are used by konsole.
 
