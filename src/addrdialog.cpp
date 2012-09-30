@@ -325,6 +325,7 @@ void addrDialog::onMenuColor()
 void addrDialog::connectSlots()
 {
     connect(ui.nameTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onNamechange(QModelIndex)));
+    connect(ui.nameTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex, QModelIndex)), this, SLOT(onNamechange(QModelIndex)));
     connect(ui.nameTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onConnect(QModelIndex)));
 	connect(ui.nameTreeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onPopupTreeContextMenu(QPoint)));
 
