@@ -13,6 +13,7 @@
 #include <QtCore/QProcess>
 #include <QtCore/QTextCodec>
 #include <QtGui/QMessageBox>
+#include <QtCore/QDebug>
 
 namespace QTerm
 {
@@ -79,8 +80,13 @@ void Http::httpResponse(const QHttpResponseHeader& hrh)
     int code = hrh.statusCode();
 
     if (code >=300 && code < 400 && hrh.hasKey("Location")) {
-        m_httpDown.get(hrh.value("Location"));
-        return;
+         if(hrh.value("Location") != m_httpDown.currentRequest().path()) {
+            qDebug() << "http redicrection: " << hrh.value("Location");
+            QUrl u(hrh.value("Location"));
+            m_httpDown.setHost(u.host(), u.port(80));
+            m_httpDown.get(u.path() + "?" + u.encodedQuery());
+            return;
+         }
     }
 
     if (code != 200) {
