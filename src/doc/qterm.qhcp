@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<QHelpCollectionProject version="1.0">
+    <assistant>
+        <title>QTerm Help</title>
+        <startPage>qthelp://org.qterm/doc/index.html</startPage>
+        <applicationIcon>qterm.png</applicationIcon>
+        <aboutMenuText>
+            <text>About QTerm</text>
+        </aboutMenuText>
+        <aboutDialog>
+            <file>about.txt</file>
+            <icon>qterm.png</icon>
+        </aboutDialog>
+    </assistant>
+    <docFiles>
+        <generate>
+            <file>
+                <input>qterm.qhp</input>
+                <output>qterm.qch</output>
+            </file>
+        </generate>
+        <register>
+            <file>qterm.qch</file>
+        </register>
+    </docFiles>
+</QHelpCollectionProject>

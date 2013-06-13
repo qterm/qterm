@@ -1,2 +1,0 @@
-?package(qterm):needs=X11 section=Apps/Net\
-  title="QTerm" command="/usr/bin/qterm"

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QtHelpProject version="1.0">
+    <namespace>org.qterm</namespace>
+    <virtualFolder>doc</virtualFolder>
+    <filterSection>
+        <toc>
+            <section title="QTerm" ref="index.html">
+                <section title="Script" ref="Script.html"/>
+            </section>
+        </toc>
+        <filterAttribute>QTerm</filterAttribute>
+        <filterAttribute>@QTERM_VERSION_MAJOR@.@QTERM_VERSION_MINOR@.@QTERM_VERSION_RELEASE@</filterAttribute>
+        <keywords>
+            <keyword name="Script" ref="Script.html" id="Script::Script"/>
+        </keywords>
+        <files>
+            <file>doc.css</file>
+            <file>*.html</file>
+            <file>*.png</file>
+        </files>
+    </filterSection>
+</QtHelpProject>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Pallete</class>
+ <widget class="QWidget" name="Pallete">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>220</width>
+    <height>40</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>220</width>
+    <height>40</height>
+   </size>
+  </property>
+  <widget class="QFrame" name="clr0Frame">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>0</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(0, 0, 0);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr1Frame">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>0</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(205, 0, 0);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr2Frame">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>0</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(0, 205, 0);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr3Frame">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>0</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(205, 205, 0);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr6Frame">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>0</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(0, 205, 205);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr4Frame">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>0</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(0, 0, 238);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr5Frame">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>0</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(205, 0, 205);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr7Frame">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>0</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(229, 229, 229);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr13Frame">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>20</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 255);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr15Frame">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>20</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr14Frame">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>20</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(55, 255, 255);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr10Frame">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>20</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(0, 255, 0);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr8Frame">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>20</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(127, 127, 127);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr12Frame">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>20</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(92, 92, 255);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr9Frame">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>20</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 0);</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="clr11Frame">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>20</y>
+     <width>20</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 0);</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="fgLabel">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>10</y>
+     <width>31</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(0, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="bgLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>31</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>bgLabel</zorder>
+  <zorder>fgLabel</zorder>
+  <zorder>clr0Frame</zorder>
+  <zorder>clr1Frame</zorder>
+  <zorder>clr2Frame</zorder>
+  <zorder>clr3Frame</zorder>
+  <zorder>clr6Frame</zorder>
+  <zorder>clr4Frame</zorder>
+  <zorder>clr5Frame</zorder>
+  <zorder>clr7Frame</zorder>
+  <zorder>clr8Frame</zorder>
+  <zorder>clr9Frame</zorder>
+  <zorder>clr10Frame</zorder>
+  <zorder>clr11Frame</zorder>
+  <zorder>clr12Frame</zorder>
+  <zorder>clr13Frame</zorder>
+  <zorder>clr14Frame</zorder>
+  <zorder>clr15Frame</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

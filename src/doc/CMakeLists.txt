@@ -1,0 +1,33 @@
+CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/src/pic/qterm.png ${CMAKE_CURRENT_BINARY_DIR}/qterm.png COPYONLY)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/qterm.qhp.in  ${CMAKE_CURRENT_BINARY_DIR}/qterm.qhp)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/index.html.in ${CMAKE_CURRENT_BINARY_DIR}/index.html)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/Script.html ${CMAKE_CURRENT_BINARY_DIR}/Script.html COPYONLY)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/about.txt ${CMAKE_CURRENT_BINARY_DIR}/about.txt COPYONLY)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/doc.css ${CMAKE_CURRENT_BINARY_DIR}/doc.css COPYONLY)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/qterm.qhcp ${CMAKE_CURRENT_BINARY_DIR}/qterm.qhcp COPYONLY)
+
+FIND_PROGRAM(QT_HELP_COLLECTION_GENERATOR
+  qcollectiongenerator
+  PATHS "${QT_BINARY_DIR}"
+  DOC "qcollectiongenerator used to compile Qt help collection project files")
+
+ADD_CUSTOM_COMMAND(
+  OUTPUT qterm.qhc
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/qterm.qhcp
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/qterm.qhp
+  COMMAND ${QT_HELP_COLLECTION_GENERATOR}
+  ARGS qterm.qhcp
+      -o qterm.qhc
+  COMMENT "Compiling Qt help collection project qterm.qhcp"
+)
+
+ADD_CUSTOM_TARGET(help_target
+  DEPENDS qterm.qhc)
+
+if (NOT APPLE)
+  INSTALL(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/qterm.qhc
+    DESTINATION share/qterm/doc
+  )
+endif ()
+

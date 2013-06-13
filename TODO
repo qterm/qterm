@@ -1,0 +1,10 @@
+--Next release:
+    Complete Vt102 support?
+--Should be easy (but I probably will not do it in the next release):
+    Fix the warnings, compile time and runtime, also FIXMEs
+    Fix tab and status bar
+    Fix image viewer
+    Anonying bugs
+    Proxy support using Qt
+--In the future:
+    Ascii editor?(Kingson, where are you?)

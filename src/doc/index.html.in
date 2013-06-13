@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+  <title>Main - QTerm Documents</title>
+  <link rel="stylesheet" type="text/css" href="doc.css"/>
+</head>
+<body>
+
+<div class="Documentation">
+  <div class="Heading">
+    QTerm @QTERM_VERSION_MAJOR@.@QTERM_VERSION_MINOR@.@QTERM_VERSION_RELEASE@
+  </div>
+</div>
+
+<p align="center"><a href="http://www.qterm.org"><img src="qterm.png"/></a></p>
+
+<p>
+QTerm is a BBS client written in Qt, thus running on multiple platforms,
+e.g. Linux, Windows, Mac OS X.
+
+
+<div class="toc">
+  <p><strong>Table of Contents</strong></p>
+  <ul>
+    <li>
+      <a href="Script.html">Script</a>
+      <ul>
+        <li><a href="Script.html#Introduction">Introduction</a></li>
+        <li><a href="Script.html#How_to_Use">How to Use</a></li>
+        <li><a href="Script.html#How_to_Debug">How to Debug</a></li>
+        <li><a href="Script.html#How_to_Write_a_Script">How to Write a
+            Script</a></li>
+        <li><a href="Script.html#How_to_Write_a_System_Script">How to Write
+        a System Script</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+</body>
+</html>
