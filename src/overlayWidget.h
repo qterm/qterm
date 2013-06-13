@@ -31,6 +31,7 @@ namespace QTerm
 {
     class OverlayWidget : public QFrame
     {
+        Q_OBJECT
     public:
         /**
          * The widget is parented to the toplevelwidget of alignWidget,

@@ -25,6 +25,12 @@
 
 #include "blur.h"
 
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QWidget>
+#else
+#include <QtGui/QWidget>
+#endif
+
 #ifdef Q_WS_X11
 #include <QtGui/QX11Info>
 #include <X11/Xlib.h>

@@ -25,11 +25,8 @@
     02110-1301  USA.
 */
 
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QWidget>
-#else
-#include <QtGui/QWidget>
-#endif
+#include <QtGui/QRegion>
+class QWidget;
 
 namespace QTerm
 {
