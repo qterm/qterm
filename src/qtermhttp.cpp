@@ -72,7 +72,7 @@ void Http::getLink(const QString& url, bool preview)
     m_httpReply = m_httpDown.get(QNetworkRequest(u));
 
     connect(m_httpReply, SIGNAL(finished()), this, SLOT(httpDone()));
-    connect(m_httpReply, SIGNAL(dataReadProgress(qint64, qint64)),
+    connect(m_httpReply, SIGNAL(downloadProgress(qint64, qint64)),
             this, SLOT(httpRead(qint64, qint64)));
     connect(m_httpReply, SIGNAL(metaDataChanged()),
             this, SLOT(httpHeader()));
