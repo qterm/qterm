@@ -114,8 +114,6 @@ Telnet::Telnet(const QString & strTermType, int rows, int columns, bool isSSH)
             this, SLOT(showError(QAbstractSocket::SocketError)));
     connect(socket, SIGNAL(hostFound()),
             this, SLOT(hostFound()));
-    connect(socket, SIGNAL(delayedCloseFinished()),
-            this, SLOT(delayCloseFinished()));
     connect(socket, SIGNAL(connectionClosed()),
             this, SLOT(closed()));
     connect(socket, SIGNAL(SocketState(int)),
@@ -276,16 +274,6 @@ void Telnet::closed()
 
 
     emit TelnetState(TSCLOSED);
-}
-/*------------------------------------------------------------------------
- * SLOT delayCloseFinished
- *------------------------------------------------------------------------
- */
-
-void Telnet::delayCloseFinished()
-{
-    bConnected = false;
-    emit TelnetState(TSCLOSEFINISH);
 }
 /*------------------------------------------------------------------------
  * SLOT hostFound

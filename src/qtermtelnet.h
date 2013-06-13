@@ -135,7 +135,6 @@ private slots:
     void socketReadyRead();
     void showError(QAbstractSocket::SocketError);
     void hostFound();
-    void delayCloseFinished();
     void closed();
 protected:
     //init structure fsm
