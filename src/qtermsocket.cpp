@@ -609,5 +609,5 @@ unsigned long TelnetSocket::bytesAvailable()
 
 } // namespace QTerm
 
-#include <qtermsocket.moc>
+#include <moc_qtermsocket.cpp>
 

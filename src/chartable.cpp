@@ -92,4 +92,4 @@ void CharTable :: paintEvent(QPaintEvent *pe)
 
 }
 
-#include "chartable.moc"
+#include "moc_chartable.cpp"

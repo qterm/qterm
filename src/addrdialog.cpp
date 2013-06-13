@@ -36,7 +36,7 @@ namespace QTerm
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WFlags fl)
+addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WindowFlags fl)
         : QDialog(parent, fl), bPartial(partial), bgMenu(this)
 {
     ui.setupUi(this);
@@ -317,7 +317,7 @@ void addrDialog::onChooseScript()
 void addrDialog::onMenuColor()
 {
     QColor color = QColorDialog::getColor(clrMenu);
-    if (color.isValid() == TRUE) {
+    if (color.isValid()) {
         clrMenu = color;
     }
 }
@@ -325,7 +325,6 @@ void addrDialog::onMenuColor()
 void addrDialog::connectSlots()
 {
     connect(ui.nameTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onNamechange(QModelIndex)));
-    connect(ui.nameTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex, QModelIndex)), this, SLOT(onNamechange(QModelIndex)));
     connect(ui.nameTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onConnect(QModelIndex)));
 	connect(ui.nameTreeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onPopupTreeContextMenu(QPoint)));
 
@@ -525,5 +524,5 @@ void addrDialog::updateData(bool save)
 
 } // namespace QTerm
 
-#include <addrdialog.moc>
+#include <moc_addrdialog.cpp>
 

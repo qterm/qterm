@@ -31,4 +31,4 @@ void ToolButton::slotClicked()
 
 } // namespace QTerm
 
-#include <qtermtoolbutton.moc>
+#include <moc_qtermtoolbutton.cpp>

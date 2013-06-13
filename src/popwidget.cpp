@@ -153,4 +153,4 @@ void popWidget::showTimer()
 
 }
 
-#include <popwidget.moc>
+#include <moc_popwidget.cpp>

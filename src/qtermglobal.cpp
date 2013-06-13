@@ -25,13 +25,19 @@
 #include <QtCore/QUrl>
 #include <QtCore/QProcess>
 #include <QtCore/QLibraryInfo>
-#include <QtGui/QApplication>
-#include <QtGui/QDesktopServices>
-#include <QtGui/QFileDialog>
-#include <QtGui/QMessageBox>
-#include <QtXml/QDomDocument>
 #include <QtCore/QUuid>
 #include <QtCore/QTextStream>
+#include <QtGui/QDesktopServices>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QMessageBox>
+#else
+#include <QtGui/QApplication>
+#include <QtGui/QFileDialog>
+#include <QtGui/QMessageBox>
+#endif
+#include <QtXml/QDomDocument>
 
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 #include <windows.h>
@@ -842,4 +848,4 @@ QString Global::convert(const QString & source, Global::Conversion flag)
 
 } // namespace QTerm
 
-#include <qtermglobal.moc>
+#include <moc_qtermglobal.cpp>

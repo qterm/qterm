@@ -15,7 +15,11 @@ REVISION:      2001.10.10 first created.
 #include <QtCore/QFileInfo>
 #include <QtCore/QStringList>
 #include <QtCore/QString>
+#if QT_VERSION > 0x050000
+#include <QtWidgets/QMessageBox>
+#else
 #include <QtGui/QMessageBox>
+#endif
 #include <QtDebug>
 
 namespace QTerm

@@ -17,7 +17,7 @@ namespace QTerm
 {
 // extern QString getSaveFileName(const QString&, QWidget*);
 
-Canvas::Canvas(QWidget *parent, Qt::WFlags f)
+Canvas::Canvas(QWidget *parent, Qt::WindowFlags f)
         : QScrollArea(parent)
 {
 
@@ -341,4 +341,4 @@ void Canvas::adjustSize(const QSize& szView)
 
 } // namespace QTerm
 
-#include <qtermcanvas.moc>
+#include <moc_qtermcanvas.cpp>

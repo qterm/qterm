@@ -1199,7 +1199,7 @@ QImage& Screen::fade(QImage& img, float val, const QColor& color)
 
     if (img.depth() <= 8) {
         // pseudo color
-        for (int i = 0; i < img.numColors(); i++) {
+        for (int i = 0; i < img.colorCount(); i++) {
             col = img.color(i);
             cr = qRed(col); cg = qGreen(col); cb = qBlue(col);
             if (cr > red)
@@ -1361,4 +1361,4 @@ void Input::paintEvent(QPaintEvent * e)
 
 } // namespace QTerm
 
-#include <qtermscreen.moc>
+#include <moc_qtermscreen.cpp>

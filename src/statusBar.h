@@ -6,7 +6,6 @@
 // #include <qmap.h>        //stack allocated
 // #include <q3valuelist.h>  //stack allocated
 //Added by qt3to4:
-// #include <QCustomEvent>
 #include <QLabel>
 #include <QEvent>
 #include <QPaintEvent>
@@ -82,7 +81,6 @@ namespace QTerm
 
 	protected:
 		virtual void ensurePolished();
-// 		virtual void customEvent( QCustomEvent* );
 		virtual void paintEvent( QPaintEvent* );
 		virtual bool event( QEvent* );
 

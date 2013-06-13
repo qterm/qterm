@@ -319,5 +319,5 @@ void SSH1Channel::channelPacketReceived(int flag)
 
 }
 
-#include "channel.moc"
+#include "moc_channel.cpp"
 

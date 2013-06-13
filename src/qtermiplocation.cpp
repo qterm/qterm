@@ -174,7 +174,7 @@ bool IPLocation::getLocation(QString& url, QString& country, QString& city)
     f->offset_last_start_ip  = byteArrayToInt((char *)buf, 4);
 
     record_count = (f->offset_last_start_ip - f->offset_first_start_ip) / 7;
-    if (record_count <= 1) return FALSE;
+    if (record_count <= 1) return false;
 
     // search for right range
     B = 0;  E = record_count;
@@ -197,6 +197,6 @@ bool IPLocation::getLocation(QString& url, QString& country, QString& city)
     } else {// not in this range... miss
         country = "unkown"; city = "";
     }// if ip_start<=ip<=ip_end
-    return TRUE;
+    return true;
 }
 }

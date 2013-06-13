@@ -10,7 +10,7 @@
 #include <stdio.h>
 namespace QTerm
 {
-msgDialog::msgDialog( QWidget* parent,  Qt::WFlags fl )
+msgDialog::msgDialog( QWidget* parent,  Qt::WindowFlags fl )
     : QDialog( parent, fl )
 {
 	ui.setupUi(this);
@@ -28,4 +28,4 @@ msgDialog::~msgDialog()
 
 } // namespace QTerm
 
-#include <msgdialog.moc>
+#include <moc_msgdialog.cpp>

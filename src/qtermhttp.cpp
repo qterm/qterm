@@ -12,9 +12,12 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QProcess>
 #include <QtCore/QTextCodec>
-#include <QtGui/QMessageBox>
 #include <QtCore/QDebug>
-
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMessageBox>
+#else
+#include <QtGui/QMessageBox>
+#endif
 namespace QTerm
 {
 
@@ -23,11 +26,7 @@ Http::Http(QWidget *parent, QTextCodec * codec)
 {
     m_codec = codec;
     m_pCanvas = NULL;
-    connect(&m_httpDown, SIGNAL(done(bool)), this, SLOT(httpDone(bool)));
-    connect(&m_httpDown, SIGNAL(dataReadProgress(int, int)),
-            this, SLOT(httpRead(int, int)));
-    connect(&m_httpDown, SIGNAL(responseHeaderReceived(const QHttpResponseHeader&)),
-            this, SLOT(httpResponse(const QHttpResponseHeader&)));
+    m_httpReply = NULL;
 }
 
 Http::~Http()
@@ -36,7 +35,8 @@ Http::~Http()
 
 void Http::cancel()
 {
-    m_httpDown.abort();
+    if (m_httpReply)
+        m_httpReply->abort();
 
     // remove unsuccessful download
     if (QFile::exists(m_strHttpFile))
@@ -50,17 +50,15 @@ void Http::getLink(const QString& url, bool preview)
     m_bExist = false;
     m_bPreview = preview;
     QUrl u(url);
+    m_url = u;
+    // local files need no network
     if (u.isRelative() || u.scheme() == "file") {
         previewImage(u.path());
         emit done(this);
         return;
     }
 
-// QString path = url.mid(url.find(u.host(),false) + u.host().length());
-// QString path = url.mid(url.find('/',
-//       url.find(u.host(),false),
-//       false));
-
+    // alternative host substitute
     if (QFile::exists(Global::instance()->pathCfg() + "hosts.cfg")) {
         Config conf(Global::instance()->pathCfg() + "hosts.cfg");
         QString strTmp = conf.getItemValue("hosts", u.host()).toString();
@@ -71,47 +69,25 @@ void Http::getLink(const QString& url, bool preview)
         }
     }
     m_strHttpFile = QFileInfo(u.path()).fileName();
-    m_httpDown.setHost(u.host(), u.port(80));
-    m_httpDown.get(u.path() + "?" + u.encodedQuery());
+    m_httpReply = m_httpDown.get(QNetworkRequest(u));
+
+    connect(m_httpReply, SIGNAL(finished()), this, SLOT(httpDone()));
+    connect(m_httpReply, SIGNAL(dataReadProgress(qint64, qint64)),
+            this, SLOT(httpRead(qint64, qint64)));
+    connect(m_httpReply, SIGNAL(metaDataChanged()),
+            this, SLOT(httpHeader()));
 }
 
-void Http::httpResponse(const QHttpResponseHeader& hrh)
+void Http::httpHeader()
 {
-    int code = hrh.statusCode();
-
-    if (code >=300 && code < 400 && hrh.hasKey("Location")) {
-         if(hrh.value("Location") != m_httpDown.currentRequest().path()) {
-            qDebug() << "http redicrection: " << hrh.value("Location");
-            QUrl u(hrh.value("Location"));
-            m_httpDown.setHost(u.host(), u.port(80));
-            m_httpDown.get(u.path() + "?" + u.encodedQuery());
-            return;
-         }
-    }
-
-    if (code != 200) {
-        m_httpDown.abort();
+    if (m_httpReply->error() != QNetworkReply::NoError)
         return;
-    }
 
-    QString ValueString;
-    QString filename;
+    QVariant value;
 
-    ValueString = hrh.value("Content-Length");
-    int FileLength = ValueString.toInt();
+    int FileLength = m_httpReply->header(QNetworkRequest::ContentLengthHeader).toInt();
 
-    ValueString = hrh.value("Content-Disposition");
-// ValueString = ValueString.mid(ValueString.find(';') + 1).stripWhiteSpace();
-// if(ValueString.lower().find("filename") == 0)
-// m_strHttpFile = ValueString.mid(ValueString.find('=') + 1).stripWhiteSpace();
-    if (ValueString.right(1) != ";")
-        ValueString += ";";
-    QRegExp re("filename=.*;", Qt::CaseInsensitive);
-    re.setMinimal(true); //Dont FIXME:this will also split filenames with ';' inside, does anyone really do this?
-    int pos = re.indexIn(ValueString);
-    if (pos != -1)
-        m_strHttpFile = ValueString.mid(pos + 9, re.matchedLength() - 10);
-    filename = m_strHttpFile = m_codec->toUnicode(m_strHttpFile.toLatin1());
+    m_strHttpFile = m_httpReply->header(QNetworkRequest::ContentDispositionHeader).toString();
 
     if (m_bPreview) {
         QString strPool = Global::instance()->m_pref.strPoolPath;
@@ -120,13 +96,14 @@ void Http::httpResponse(const QHttpResponseHeader& hrh)
 
         QFileInfo fi(m_strHttpFile);
 
+        // append .n if local file exists
         int i = 1;
         QFileInfo fi2 = fi;
         while (fi2.exists()) {
             // all the same
             if (fi2.size() == FileLength) {
                 m_bExist = true;
-                m_httpDown.abort();
+                m_httpReply->abort();
                 break;
             } else {
                 m_strHttpFile = QString("%1/%2(%3).%4")
@@ -150,14 +127,14 @@ void Http::httpResponse(const QHttpResponseHeader& hrh)
         QString strSave = Global::instance()->getSaveFileName(m_strHttpFile, NULL);
         // no filename specified which means the user canceled this download
         if (strSave.isEmpty()) {
-            m_httpDown.abort();
+            m_httpReply->abort();
             emit done(this);
             return;
         }
         m_strHttpFile = strSave;
     }
     QTerm::StatusBar::instance()->newProgressOperation(this)
-    .setDescription(filename)
+    .setDescription(m_strHttpFile)
     .setAbortSlot(this, SLOT(cancel()))
     .setMaximum(100);
     QTerm::StatusBar::instance()->resetMainText();
@@ -166,9 +143,9 @@ void Http::httpResponse(const QHttpResponseHeader& hrh)
 }
 
 
-void Http::httpRead(int done, int total)
+void Http::httpRead(qint64 done, qint64 total)
 {
-    QByteArray ba = m_httpDown.readAll();
+    QByteArray ba = m_httpReply->readAll();
     QFile file(m_strHttpFile);
     if (file.open(QIODevice::ReadWrite | QIODevice::Append)) {
         QDataStream ds(&file);
@@ -180,25 +157,32 @@ void Http::httpRead(int done, int total)
         emit percent(done*100 / total);
 }
 
-void Http::httpDone(bool err)
+void Http::httpDone()
 {
-    if (err) {
-        switch (m_httpDown.error()) {
-        case QHttp::Aborted:
-            if (m_bExist)
-                break;
-            else {
-                emit done(this);
-                return;
-            }
-        default:
-            QMessageBox::critical(NULL, tr("Download Error"),
-                                  tr("Failed to download file"));
-            deleteLater();
+    switch (m_httpReply->error()) {
+    case QNetworkReply::NoError:
+        break;
+    case QNetworkReply::OperationCanceledError:
+        if (m_bExist)
+            break;
+        else {
+            emit done(this);
             return;
         }
+    default:
+        QMessageBox::critical(NULL, tr("Download Error"),
+                              tr("Failed to download file"));
+        deleteLater();
+        return;
     }
-
+    // we are redirected
+    QVariant redirectionTarget = m_httpReply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+    if (!redirectionTarget.isNull()) {
+        m_url = m_url.resolved(redirectionTarget.toUrl());
+        m_httpReply->deleteLater();
+        getLink(m_url.toString(), m_bPreview);
+        return;
+    }
     if (m_bPreview) {
         QString strPool = Global::instance()->m_pref.strPoolPath;
         previewImage(m_strHttpFile);
@@ -225,4 +209,4 @@ void Http::previewImage(const QString& filename)
 
 } // namespace QTerm
 
-#include <qtermhttp.moc>
+#include <moc_qtermhttp.cpp>

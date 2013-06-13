@@ -3,7 +3,7 @@
 #include <QMessageBox>
 namespace QTerm
 {
-zmodemDialog::zmodemDialog(QWidget *parent, Qt::WFlags fl)
+zmodemDialog::zmodemDialog(QWidget *parent, Qt::WindowFlags fl)
 		: QDialog(parent, fl)
 {
 	ui.setupUi(this);
@@ -58,5 +58,5 @@ void zmodemDialog::slotCancel()
 
 } // namespace QTerm
 
-#include <zmodemdialog.moc>
+#include <moc_zmodemdialog.cpp>
 

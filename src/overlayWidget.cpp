@@ -92,3 +92,4 @@ OverlayWidget::event( QEvent *e )
 }
 
 }
+#include <moc_overlayWidget.cpp>

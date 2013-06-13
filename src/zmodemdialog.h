@@ -10,7 +10,7 @@ class zmodemDialog : public QDialog
 	Q_OBJECT
 
 public:
-	zmodemDialog( QWidget *parent=0, Qt::WFlags fl=0 );
+	zmodemDialog( QWidget *parent=0, Qt::WindowFlags fl=0 );
 	~zmodemDialog();
 	
 	void setFileInfo(const QString&, int);

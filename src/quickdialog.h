@@ -25,7 +25,7 @@ class quickDialog : public QDialog
     Q_OBJECT
 
 public:
-    quickDialog(QWidget* parent = 0, Qt::WFlags fl = 0);
+    quickDialog(QWidget* parent = 0, Qt::WindowFlags fl = 0);
     ~quickDialog();
 
     Param param;

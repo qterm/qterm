@@ -19,7 +19,7 @@ AUTHOR:        kingson fiasco
 #include <QDateTime>
 
 //constructor
-QTermTimeLabel::QTermTimeLabel(QWidget * parent, const char * name, Qt::WFlags f)
+QTermTimeLabel::QTermTimeLabel(QWidget * parent, const char * name, Qt::WindowFlags f)
 	:QLabel(parent,f)
 {
 	setAlignment(Qt::AlignHCenter);
@@ -37,4 +37,4 @@ void QTermTimeLabel::timerEvent(QTimerEvent*)
 {
 	setText(currentTime->currentTime().toString());	
 }
-#include <qtermtimelabel.moc>
+#include <moc_qtermtimelabel.cpp>

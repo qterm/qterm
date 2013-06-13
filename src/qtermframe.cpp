@@ -71,9 +71,13 @@ AUTHOR:        kingson fiasco hooey
 #include <QLineEdit>
 #include <QInputDialog>
 #include <QStatusBar>
+#if QT_VERSION >= 0x050000
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
+#else
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
-#include <QtGui/QPainter>
+#endif
 #include <QtDebug>
 #include <QUuid>
 
@@ -1242,4 +1246,4 @@ void Frame::updateTabBar()
 
 }
 
-#include <qtermframe.moc>
+#include <moc_qtermframe.cpp>

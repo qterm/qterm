@@ -26,7 +26,7 @@
 namespace QTerm
 {
 
-aboutDialog::aboutDialog( QWidget* parent, Qt::WFlags fl )
+aboutDialog::aboutDialog( QWidget* parent, Qt::WindowFlags fl )
     : QDialog( parent, fl )
 {
 	QString pathLib = Global::instance()->pathLib();
@@ -57,4 +57,4 @@ aboutDialog::~aboutDialog()
 
 } // namespace QTerm
 
-#include <aboutdialog.moc>
+#include <moc_aboutdialog.cpp>

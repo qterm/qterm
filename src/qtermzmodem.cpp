@@ -8,7 +8,11 @@
 #include <QtCore/QString>
 #include <QtCore/QFileInfo>
 #include <QtCore/QTextCodec>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QFileDialog>
+#else
 #include <QtGui/QFileDialog>
+#endif
 
 namespace QTerm
 {
@@ -2852,4 +2856,4 @@ void Zmodem::setFileList(const QStringList & fileList)
 
 } // namespace QTerm
 
-#include <qtermzmodem.moc>
+#include <moc_qtermzmodem.cpp>

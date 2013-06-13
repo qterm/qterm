@@ -2,7 +2,7 @@
 #define SHORTCUTSDIALOG_H
 
 #include "ui_shortcutsdialog.h"
-#include <QtGui/QShortcut>
+class QShortcut;
 
 namespace QTerm{
 

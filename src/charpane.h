@@ -1,10 +1,15 @@
 #ifndef CHARPANE_H
 #define CHARPANE_H
 
-#include <QtGui/QWidget>
-#include <QtGui/QFrame>
 #include <QtCore/QMap>
 #include <QtCore/QString>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QFrame>
+#else
+#include <QtGui/QWidget>
+#include <QtGui/QFrame>
+#endif
 
 class QToolButton;
 class QVBoxLayout;

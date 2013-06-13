@@ -238,7 +238,7 @@ char Window::direction[][5] = {
 };
 
 //constructor
-Window::Window(Frame * frame, Param param, const QString &uuid, QWidget * parent, const char * name, Qt::WFlags wflags)
+Window::Window(Frame * frame, Param param, const QString &uuid, QWidget * parent, const char * name, Qt::WindowFlags wflags)
         : WindowBase(parent, wflags), m_strMessage(), location()
 {
 	groupActions();
@@ -1899,4 +1899,4 @@ void Window :: groupActions()
 }
 
 }
-#include <qtermwindow.moc>
+#include <moc_qtermwindow.cpp>

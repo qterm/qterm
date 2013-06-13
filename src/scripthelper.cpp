@@ -308,4 +308,4 @@ void ScriptHelper::loadScriptFile(const QString & filename)
 
 
 } // namespace QTerm
-#include <scripthelper.moc>
+#include <moc_scripthelper.cpp>

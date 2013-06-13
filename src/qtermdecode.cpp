@@ -620,4 +620,4 @@ void Decode::test()
 
 } // namespace QTerm
 
-#include <qtermdecode.moc>
+#include <moc_qtermdecode.cpp>

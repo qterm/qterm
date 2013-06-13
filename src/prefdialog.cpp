@@ -27,7 +27,7 @@ namespace QTerm
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-prefDialog::prefDialog( QWidget* parent, Qt::WFlags fl )
+prefDialog::prefDialog( QWidget* parent, Qt::WindowFlags fl )
 	: QDialog( parent, fl )
 {
 
@@ -243,4 +243,4 @@ void prefDialog::onPool()
 
 } // namespace QTerm
 
-#include <prefdialog.moc>
+#include <moc_prefdialog.cpp>

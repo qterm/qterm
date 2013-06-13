@@ -16,7 +16,7 @@
 namespace QTerm
 {
 
-CloseDialog::CloseDialog(QWidget * parent, Qt::WFlags fl)
+CloseDialog::CloseDialog(QWidget * parent, Qt::WindowFlags fl)
     : QDialog(parent, fl),m_count(30)
 {
     ui.setupUi(this);
@@ -49,4 +49,4 @@ void CloseDialog::setSiteList(const QStringList & list)
 
 } // namespace QTerm
 
-#include <closedialog.moc>
+#include <moc_closedialog.cpp>

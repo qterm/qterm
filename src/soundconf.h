@@ -11,7 +11,7 @@ class soundConf : public QDialog
 	Q_OBJECT
 
 public:
-	soundConf( QWidget* parent = 0, Qt::WFlags fl = 0 );
+	soundConf( QWidget* parent = 0, Qt::WindowFlags fl = 0 );
 	~soundConf();
 	void loadSetting();
 	void saveSetting();

@@ -12,6 +12,7 @@
 //#include <qwidget.h>
 //#include "ui/ui_aboutdialog.h"
 #include "ui_aboutdialog.h"
+#include <Qt>
 namespace QTerm
 {
 class aboutDialog : public QDialog
@@ -19,7 +20,7 @@ class aboutDialog : public QDialog
     Q_OBJECT
 
 public:
-    aboutDialog( QWidget* parent = 0, Qt::WFlags fl = 0 );
+    aboutDialog( QWidget* parent = 0, Qt::WindowFlags fl = 0 );
     ~aboutDialog();
 private:
 	Ui::aboutDialog ui;

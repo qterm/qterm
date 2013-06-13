@@ -22,7 +22,7 @@ class CloseDialog : public QDialog
     Q_OBJECT
 
 public:
-    CloseDialog(QWidget* parent = 0, Qt::WFlags fl = 0);
+    CloseDialog(QWidget* parent = 0, Qt::WindowFlags fl = 0);
     ~CloseDialog();
     void setSiteList(const QStringList & list);
     Ui::closeDialog ui;

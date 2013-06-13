@@ -2,7 +2,8 @@
 #define QTERMHTTP_H
 
 #include <QtCore/QObject>
-#include <QtNetwork/QHttp>
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkReply>
 
 class QWidget;
 class QTextCodec;
@@ -21,9 +22,9 @@ public:
     void getLink(const QString&, bool);
 protected slots:
     void cancel();
-    void httpDone(bool);
-    void httpRead(int, int);
-    void httpResponse(const QHttpResponseHeader &);
+    void httpDone();
+    void httpRead(qint64 bytesRead, qint64 totlaBytes);
+    void httpHeader();
     void previewImage(const QString&);
 
 signals:
@@ -32,7 +33,9 @@ signals:
     void percent(int);
 
 protected:
-    QHttp m_httpDown;
+    QNetworkAccessManager m_httpDown;
+    QNetworkReply *m_httpReply;
+    QUrl m_url;   
     QString m_strHttpFile;
     bool m_bPreview;
     bool m_bExist;

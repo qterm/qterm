@@ -559,5 +559,5 @@ void SSH1Kex::initEncryption(const QByteArray & key)
 
 }
 
-#include "kex.moc"
+#include "moc_kex.cpp"
 

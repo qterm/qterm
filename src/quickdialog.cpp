@@ -28,7 +28,7 @@ namespace QTerm
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-quickDialog::quickDialog(QWidget* parent, Qt::WFlags fl)
+quickDialog::quickDialog(QWidget* parent, Qt::WindowFlags fl)
         : QDialog(parent, fl)
 {
     ui.setupUi(this);
@@ -254,4 +254,4 @@ void quickDialog::close()
 } // namespace QTerm
 
 
-#include <quickdialog.moc>
+#include <moc_quickdialog.cpp>

@@ -18,7 +18,7 @@ class articleDialog : public QDialog
     Q_OBJECT
 
 public:
-    articleDialog(QWidget* parent = 0, Qt::WFlags fl = 0);
+    articleDialog(QWidget* parent = 0, Qt::WindowFlags fl = 0);
     ~articleDialog();
 
     QString strArticle;

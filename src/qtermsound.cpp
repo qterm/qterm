@@ -1,7 +1,6 @@
 #include "qtermsound.h"
 #include <QtCore/QFile>
 #include <QtCore/QProcess>
-#include <QtGui/QMessageBox>
 
 #ifdef PHONON_ENABLED
 #ifdef OLD_PHONON

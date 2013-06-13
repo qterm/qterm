@@ -123,4 +123,4 @@ void CharPane::characterSelected(QString ch)
 
 }
 
-#include "charpane.moc"
+#include "moc_charpane.cpp"

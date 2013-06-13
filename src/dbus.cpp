@@ -186,4 +186,4 @@ bool DBus::notificationAvailable() const
 }
 
 } // namespace QTerm
-#include <dbus.moc>
+#include <moc_dbus.cpp>

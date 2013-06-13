@@ -634,5 +634,5 @@ QByteArray & SSH1OutBuffer::buffer()
 
 }
 
-#include "packet.moc"
+#include "moc_packet.cpp"
 

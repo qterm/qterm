@@ -903,4 +903,4 @@ int Telnet::tnabort(int)
 
 } // namespace QTerm
 
-#include <qtermtelnet.moc>
+#include <moc_qtermtelnet.cpp>

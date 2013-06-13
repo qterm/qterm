@@ -22,7 +22,7 @@ class addrDialog : public QDialog
     Q_OBJECT
 
 public:
-    addrDialog(QWidget* parent = 0, bool partial = false, Qt::WFlags fl = 0);
+    addrDialog(QWidget* parent = 0, bool partial = false, Qt::WindowFlags fl = 0);
     ~addrDialog();
 
     Param param;

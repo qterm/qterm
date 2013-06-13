@@ -76,7 +76,7 @@ class Window: public WindowBase
     Q_OBJECT
 public:
     Window(Frame * frame, Param param, const QString& uuid, QWidget* parent = 0,
-           const char* name = 0, Qt::WFlags wflags = Qt::Window);
+           const char* name = 0, Qt::WindowFlags wflags = Qt::Window);
     ~Window();
 
     void connectHost();

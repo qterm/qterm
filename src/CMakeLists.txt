@@ -223,15 +223,28 @@ if(WIN32)
     set(optionalLibs ${optionalLibs} ${WIN32_WS2_LIBRARY})
   endif(WIN32_WS2_LIBRARY)
 endif(WIN32)
-qt4_add_resources(qterm_RCCS_SRCS ${qterm_RCCS})
-qt4_wrap_ui(qterm_UIS_H ${qterm_UIS})
-qt4_automoc(${qterm_SRCS})
+if(QT5)
+    qt5_add_resources(qterm_RCCS_SRCS ${qterm_RCCS})
+    qt5_wrap_ui(qterm_UIS_H ${qterm_UIS})
+else(QT5)
+    qt4_add_resources(qterm_RCCS_SRCS ${qterm_RCCS})
+    qt4_wrap_ui(qterm_UIS_H ${qterm_UIS})
+endif(QT5)
 add_definitions( -DHAVE_CONFIG_H )
+if(QT5)
+include_directories(
+    ${Qt5Qt_INCLUDE_DIRS}
+    ${Qt5Widgets_INCLUDE_DIRS}
+    ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5Network_INCLUDE_DIRS}
+    )
+else(QT5)
 include_directories(
    ${QT_INCLUDE_DIR}
    ${QT_QTCORE_INCLUDE_DIR}
    ${QT_QTGUI_INCLUDE_DIR}
    ${QT_QTNETWORK_INCLUDE_DIR} )
+endif(QT5)
 if(UNIX AND NOT APPLE)
    find_package(X11)
    include_directories(${X11_INCLUDE_DIR})
@@ -263,6 +276,16 @@ elseif(APPLE)
 else()
    add_executable(${PROGRAME} ${qterm_SRCS} ${qterm_RCCS_SRCS})
 endif()
+if(QT5)
+target_link_libraries(${PROGRAME}
+    ${Qt5Core_LIBRARIES}
+    ${Qt5Gui_LIBRARIES}
+    ${Qt5Widgets_LIBRARIES}
+    ${Qt5Xml_LIBRARIES}
+    ${Qt5PrintSupport_LIBRARIES}
+    ${Qt5Network_LIBRARIES}
+   ${optionalLibs})
+else(QT5)
 target_link_libraries(${PROGRAME}
    ${QT_LIBRARIES}
    ${QT_QTCORE_LIBRARY}
@@ -270,6 +293,7 @@ target_link_libraries(${PROGRAME}
    ${QT_QTNETWORK_LIBRARY}
    ${QT_QTXML_LIBRARY}
    ${optionalLibs})
+endif(QT5)
 if(WIN32 AND MINGW)
    target_link_libraries(${PROGRAME} ${win32Libs})
 endif(WIN32 AND MINGW)

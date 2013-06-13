@@ -11,7 +11,7 @@ class Pallete : public QWidget, Ui::Pallete
 signals:
 	void colorChanged(int index, int role);
 public:
-    Pallete( QWidget* parent = 0, Qt::WFlags fl = 0 );
+    Pallete( QWidget* parent = 0, Qt::WindowFlags fl = 0 );
 protected:
 	bool eventFilter(QObject *obj, QEvent *e);
 

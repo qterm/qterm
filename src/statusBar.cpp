@@ -23,7 +23,6 @@
 #include <QEvent>
 // #include <Q3Frame>
 #include <QHBoxLayout>
-#include <QCustomEvent>
 #include <QProgressBar>
 #include <QToolButton>
 #include <QPushButton>
@@ -405,7 +404,7 @@ void
 StatusBar::toggleProgressWindow( bool show ) //slot
 {
     m_popupProgress->adjustSize(); //FIXME shouldn't be needed, adding bars doesn't seem to do this
-    m_popupProgress->setShown( show );
+    m_popupProgress->setVisible( show );
 
     if( !show )
 	hideMainProgressBar();
@@ -504,7 +503,7 @@ StatusBar::updateTotalProgress()
 void
 StatusBar::updateProgressAppearance()
 {
-    toggleProgressWindowButton()->setShown( m_progressMap.count() > 1 );
+    toggleProgressWindowButton()->setVisible( m_progressMap.count() > 1 );
 
     resetMainText();
 
@@ -537,7 +536,7 @@ StatusBar::pruneProgressBars()
     {
         resetMainText();
         (progressBox()->findChild<QWidget*>("showAllProgressDetails"))->hide();
-        m_popupProgress->setShown(false);
+        m_popupProgress->setVisible(false);
     }
 }
 
@@ -545,4 +544,4 @@ StatusBar::pruneProgressBars()
 
 
 //#include "statusBar.moc"
-#include <statusBar.moc>
+#include <moc_statusBar.cpp>

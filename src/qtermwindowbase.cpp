@@ -1,3 +1,3 @@
 #include "qtermwindowbase.h"
 
-#include "qtermwindowbase.moc"
+#include "moc_qtermwindowbase.cpp"

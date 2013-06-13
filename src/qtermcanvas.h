@@ -21,7 +21,7 @@ class Canvas : public QScrollArea
 {
     Q_OBJECT
 public:
-    Canvas(QWidget *parent = NULL, Qt::WFlags f = 0);
+    Canvas(QWidget *parent = NULL, Qt::WindowFlags f = 0);
     ~Canvas();
 
     void loadImage(QString);

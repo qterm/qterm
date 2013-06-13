@@ -19,7 +19,6 @@
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
-#include <QtGui/QInputDialog>
 
 #ifdef SSH_DEBUG
 #include <QtDebug>
@@ -450,5 +449,5 @@ void SSH1Auth::passwordAuth()
 
 }
 
-#include "auth.moc"
+#include "moc_auth.cpp"
 

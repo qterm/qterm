@@ -138,4 +138,4 @@ void ImageListViewer::currentChanged(const QModelIndex &current, const QModelInd
 
 } // namespace QTerm
 
-#include <imagelistviewer.moc>
+#include <moc_imagelistviewer.cpp>

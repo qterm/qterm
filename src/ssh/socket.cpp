@@ -322,5 +322,5 @@ void SSHSocket::onError(const QString & message)
 
 }
 
-#include "socket.moc"
+#include "moc_socket.cpp"
 

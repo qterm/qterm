@@ -16,7 +16,7 @@ Image::Image(const QString & path, QWidget * parent)
 {
     ui.setupUi(this);
 
-    d_extensionShown = TRUE;
+    d_extensionShown = true;
 
     /*
     ui.d_browser->setText("Hide Browser");
@@ -94,4 +94,4 @@ void Image::onChange(const QString & filename)
 
 } // namespace QTerm
 
-#include <imageviewer.moc>
+#include <moc_imageviewer.cpp>

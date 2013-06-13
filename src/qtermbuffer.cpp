@@ -655,4 +655,4 @@ QRect Buffer::getSelectRect(int index, bool rect)
 
 } // namespace QTerm
 
-#include <qtermbuffer.moc>
+#include <moc_qtermbuffer.cpp>

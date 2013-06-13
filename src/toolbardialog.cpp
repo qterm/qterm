@@ -1,10 +1,17 @@
 #include "toolbardialog.h"
 
-#include <QtGui/QToolBar>
 #include <QtCore/QRegExp>
 #include <QtCore/QSettings>
+
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QToolBar>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QToolButton>
+#else
+#include <QtGui/QToolBar>
 #include <QtGui/QMainWindow>
 #include <QtGui/QToolButton>
+#endif
 
 ToolbarDialog::ToolbarDialog(QWidget* parent)
         : QDialog(parent),m_defaultToolBars()
@@ -248,4 +255,4 @@ void ToolbarDialog::restoreDefaultToolbars()
     comboToolbarsCurrentIndexChanged(comboToolbars->currentIndex());
 }
 
-#include <toolbardialog.moc>
+#include <moc_toolbardialog.cpp>

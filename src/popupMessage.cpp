@@ -124,14 +124,14 @@ void PopupMessage::addWidget( QWidget *widget )
 
 void PopupMessage::showCloseButton( const bool show )
 {
-    findChild<QPushButton *>( "closeButton" )->setShown( show );
+    findChild<QPushButton *>( "closeButton" )->setVisible( show );
     adjustSize();
 }
 
 void PopupMessage::showCounter( const bool show )
 {
     m_showCounter = show;
-    findChild<QFrame*>( "counterVisual" )->setShown( show );
+    findChild<QFrame*>( "counterVisual" )->setVisible( show );
     adjustSize();
 }
 
@@ -353,4 +353,4 @@ void PopupMessage::slideMask()
 }
 
 //#include "popupMessage.moc"
-#include <popupMessage.moc>
+#include <moc_popupMessage.cpp>

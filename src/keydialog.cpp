@@ -21,7 +21,7 @@ namespace QTerm
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-keyDialog::keyDialog( QWidget* parent, Qt::WFlags fl )
+keyDialog::keyDialog( QWidget* parent, Qt::WindowFlags fl )
 	: QDialog( parent, fl ),bgKey(this)
 
 {
@@ -274,4 +274,4 @@ void keyDialog::loadKey(int n)
 
 } // namespace QTerm
 
-#include <keydialog.moc>
+#include <moc_keydialog.cpp>

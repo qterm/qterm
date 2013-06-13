@@ -5,7 +5,6 @@
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QUuid>
-#include <QtGui/QMessageBox>
 #include <QtGui/QIcon>
 
 namespace QTerm
@@ -528,4 +527,4 @@ void DomModel::removeItem(const QModelIndex &index)
 
 } //namespace QTerm
 
-#include <dommodel.moc>
+#include <moc_dommodel.cpp>

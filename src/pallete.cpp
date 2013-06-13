@@ -6,7 +6,7 @@
 namespace QTerm
 {
 
-Pallete::Pallete( QWidget* parent, Qt::WFlags fl )
+Pallete::Pallete( QWidget* parent, Qt::WindowFlags fl )
     : QWidget( parent, fl )
 {
 	setupUi(this);
@@ -51,4 +51,4 @@ bool Pallete::eventFilter(QObject *obj, QEvent *e)
 }
 
 }
-#include <pallete.moc>
+#include <moc_pallete.cpp>

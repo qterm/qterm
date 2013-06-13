@@ -1,8 +1,12 @@
 #include "shortcutsdialog.h"
-
 #include <QtGui/QKeyEvent>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QShortcut>
+#else
 #include <QtGui/QMessageBox>
 #include <QtGui/QShortcut>
+#endif
 
 namespace QTerm {
 
@@ -180,4 +184,4 @@ void ShortcutsDialog::setKeySequence(QObject* obj, QKeySequence key)
 
 }
 
-#include <shortcutsdialog.moc>
+#include <moc_shortcutsdialog.cpp>

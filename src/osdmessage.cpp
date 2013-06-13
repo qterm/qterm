@@ -176,4 +176,4 @@ void PageViewMessage::mousePressEvent(QMouseEvent * /*e*/)
 } // namespace QTerm
 
 //#include "osdmessage.moc"
-#include <osdmessage.moc>
+#include <moc_osdmessage.cpp>

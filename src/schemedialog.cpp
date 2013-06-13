@@ -10,7 +10,7 @@
 namespace QTerm
 {
 
-schemeDialog::schemeDialog(QWidget* parent, Qt::WFlags fl)
+schemeDialog::schemeDialog(QWidget* parent, Qt::WindowFlags fl)
         : QDialog(parent, fl)
 {
     ui.setupUi(this);
@@ -311,4 +311,4 @@ void schemeDialog::textChanged(const QString&)
 
 } // namespace QTerm
 
-#include <schemedialog.moc>
+#include <moc_schemedialog.cpp>

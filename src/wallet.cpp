@@ -123,4 +123,4 @@ bool Wallet::removePassword(const QString & site, const QString & username)
 
 }
 
-#include <wallet.moc>
+#include <moc_wallet.cpp>

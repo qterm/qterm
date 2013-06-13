@@ -17,7 +17,7 @@ namespace QTerm
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-soundConf::soundConf( QWidget* parent, Qt::WFlags fl )
+soundConf::soundConf( QWidget* parent, Qt::WindowFlags fl )
 	: QDialog( parent, fl ),bgMethod(this)
 {
 	ui.setupUi(this);
@@ -187,4 +187,4 @@ void soundConf::accept()
 
 } // namespace QTerm
 
-#include <soundconf.moc>
+#include <moc_soundconf.cpp>
