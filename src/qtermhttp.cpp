@@ -83,11 +83,17 @@ void Http::httpHeader()
     if (m_httpReply->error() != QNetworkReply::NoError)
         return;
 
-    QVariant value;
-
     int FileLength = m_httpReply->header(QNetworkRequest::ContentLengthHeader).toInt();
-
-    m_strHttpFile = m_httpReply->header(QNetworkRequest::ContentDispositionHeader).toString();
+    // extract filename if exists
+    // m_httpReply->header(QNetworkRequest::ContentDispositionHeader) returns QVariant(null) as of Qt5.1 beta
+    QString ValueString = m_codec->toUnicode(m_httpReply->rawHeader("Content-Disposition"));
+    if (ValueString.right(1) != ";")
+        ValueString += ";";
+    QRegExp re("filename=(.*);", Qt::CaseInsensitive);
+    re.setMinimal(true); //Dont FIXME:this will also split filenames with ';' inside, does anyone really do this?
+    int pos = re.indexIn(ValueString);
+    if (pos != -1)
+        m_strHttpFile = re.cap(1);
 
     if (m_bPreview) {
         QString strPool = Global::instance()->m_pref.strPoolPath;
@@ -145,6 +151,8 @@ void Http::httpHeader()
 
 void Http::httpRead(qint64 done, qint64 total)
 {
+    if(!m_httpReply->attribute(QNetworkRequest::RedirectionTargetAttribute).isNull())
+        return;
     QByteArray ba = m_httpReply->readAll();
     QFile file(m_strHttpFile);
     if (file.open(QIODevice::ReadWrite | QIODevice::Append)) {
@@ -179,10 +187,12 @@ void Http::httpDone()
     QVariant redirectionTarget = m_httpReply->attribute(QNetworkRequest::RedirectionTargetAttribute);
     if (!redirectionTarget.isNull()) {
         m_url = m_url.resolved(redirectionTarget.toUrl());
+        m_httpReply->abort();
         m_httpReply->deleteLater();
         getLink(m_url.toString(), m_bPreview);
         return;
     }
+
     if (m_bPreview) {
         QString strPool = Global::instance()->m_pref.strPoolPath;
         previewImage(m_strHttpFile);
