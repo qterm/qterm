@@ -83,6 +83,9 @@ void Http::httpHeader()
     if (m_httpReply->error() != QNetworkReply::NoError)
         return;
 
+    if(!m_httpReply->attribute(QNetworkRequest::RedirectionTargetAttribute).isNull())
+        return;
+
     int FileLength = m_httpReply->header(QNetworkRequest::ContentLengthHeader).toInt();
     // extract filename if exists
     // m_httpReply->header(QNetworkRequest::ContentDispositionHeader) returns QVariant(null) as of Qt5.1 beta
