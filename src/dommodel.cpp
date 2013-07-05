@@ -174,11 +174,13 @@ QVariant DomModel::data(const QModelIndex &index, int role) const
         case Qt::DecorationRole:
             switch (type(index)) {
             case Folder:
-                    return QVariant(QIcon(":/pic/folder.png"));
+                return QVariant(QIcon(":/pic/folder.png"));
             case Favorite:
-                    return QVariant(QIcon(":/pic/tabpad_favorite.png"));
+                return QVariant(QIcon(":/pic/tabpad_favorite.png"));
             case Site:
-                    return QVariant(QIcon(":/pic/tabpad.png"));
+                return QVariant(QIcon(":/pic/tabpad.png"));
+            default:
+                return QVariant();
             }
         default:
             return QVariant();
@@ -256,11 +258,12 @@ DomModel::ItemType DomModel::type(const QModelIndex &index) const
         QDomNodeList siteList = domDocument.elementsByTagName("site");
         for (int i=0; i<siteList.count(); i++) {
             QDomElement element = siteList.item(i).toElement();
-            if (element.attribute("uuid") == uuid)
+            if (element.attribute("uuid") == uuid) {
                 if (element.attribute("favor") == "1")
                     return Favorite;
                 else
                     return Site;
+            }
         }
     }
     return Unknown;
@@ -455,11 +458,12 @@ void DomModel::toggleFavorite(const QModelIndex &index)
     QDomNodeList siteList = domDocument.elementsByTagName("site");
     for (int i=0; i<siteList.count(); i++) {
         QDomElement element = siteList.item(i).toElement();
-        if (element.attribute("uuid") == uuid)
+        if (element.attribute("uuid") == uuid) {
             if (element.attribute("favor") == "1")
                 element.setAttribute("favor", 0);
             else
                 element.setAttribute("favor", 1);
+        }
     }
 }
 
