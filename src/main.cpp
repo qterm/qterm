@@ -147,8 +147,7 @@ int main( int argc, char ** argv )
 
 
     // Registrate the new codec
-    // It crashes on exit with Qt5.1 beta
-    //UAOCodec hackCodec;
+    (void) new UAOCodec;
 
     QTerm::Frame * mw = new QTerm::Frame();
     mw->setWindowTitle( "QTerm "+QString(QTERM_VERSION) );
