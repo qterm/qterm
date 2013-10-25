@@ -1,10 +1,33 @@
-QTerm 0.5.12
-===============
+QTerm Readme
+============
 
-这个版本添加/修正了下面一些功能:
-1. 初步的 ASCII 辅助编辑功能
-2. 支持半透明背景以及 KDE 下的 blur 效果
-3. 各种 Bug fixes
+QTerm is a BBS (Bulletin Board System) client program. It runs on GNU/Linux,
+OS X and Windows thanks to the cross-platform framework Qt.
 
-                                         The QTerm Team
-                                      http://www.qterm.org
+
+History
+-------
+Back in year 2000, as a desktop alternative, Linux started to get popular 
+among enthusiasts. People need the software they used to have on Windows. 
+A BBS client was one of those that university students wanted most.
+
+In Nov.2 2000, kafa and smartfish released miniTerm at smth (now newsmth) BBS.
+It was an absolutly exciting experience to view BBS from its mini window.
+
+In 2001, having different vision from being "mini", QTerm forked the code to
+become a fully functional BBS client such as S-Term and CTerm.
+
+
+Development
+-----------
+Repository is at http://sourceforge.net/p/qterm/code/
+
+
+License
+-------
+QTerm is released under GNU General Public License (refer to COPYING).
+
+
+Credits
+-------
+Thanks to many users for their bug reports and suggestions.
