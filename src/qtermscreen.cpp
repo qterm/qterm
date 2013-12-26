@@ -292,21 +292,21 @@ void Screen::initFontMetrics()
 
 void Screen::updateFont()
 {
-    int nPixelSize;
+    int nPointSize;
     int nIniSize = qMax(8, qMin(m_rcClient.height() / m_pBuffer->line(),
                                 m_rcClient.width() * 2 / m_pBuffer->columns()));
 
-    for (nPixelSize = nIniSize - 3; nPixelSize <= nIniSize + 3; nPixelSize++) {
-        m_pASCIIFont->setPixelSize(nPixelSize);
-        m_pGeneralFont->setPixelSize(nPixelSize);
+    for (nPointSize = nIniSize - 3; nPointSize <= nIniSize + 3; nPointSize++) {
+        m_pASCIIFont->setPointSize(nPointSize);
+        m_pGeneralFont->setPointSize(nPointSize);
 
         getFontMetrics();
         if ((m_pBuffer->line()*m_nCharHeight) > m_rcClient.height()
                 || (m_pBuffer->columns()*m_nCharWidth) > m_rcClient.width()) {
-            while (nPixelSize > 5) {
-                nPixelSize--;
-                m_pASCIIFont->setPixelSize(nPixelSize);
-                m_pGeneralFont->setPixelSize(nPixelSize);
+            while (nPointSize > 5) {
+                nPointSize--;
+                m_pASCIIFont->setPointSize(nPointSize);
+                m_pGeneralFont->setPointSize(nPointSize);
 
                 getFontMetrics();
                 if ((m_pBuffer->line()*m_nCharHeight) < m_rcClient.height()
@@ -358,8 +358,8 @@ void Screen::asciiFontChanged(const QFont & font)
         delete m_pASCIIFont;
     }
     m_pASCIIFont = new QFont(font);
-    m_pASCIIFont->setPixelSize(qMax(8,m_pParam->m_mapParam["fontsize"].toInt()));
-    m_pGeneralFont->setPixelSize(qMax(8,m_pParam->m_mapParam["fontsize"].toInt()));
+    m_pASCIIFont->setPointSize(qMax(8,m_pParam->m_mapParam["fontsize"].toInt()));
+    m_pGeneralFont->setPointSize(qMax(8,m_pParam->m_mapParam["fontsize"].toInt()));
     QResizeEvent* re = new QResizeEvent(size(), size());
     resizeEvent(re);
 }
@@ -370,8 +370,8 @@ void Screen::generalFontChanged(const QFont & font)
         delete m_pGeneralFont;
     }
     m_pGeneralFont = new QFont(font);
-    m_pASCIIFont->setPixelSize(qMax(8,m_pParam->m_mapParam["fontsize"].toInt()));
-    m_pGeneralFont->setPixelSize(qMax(8,m_pParam->m_mapParam["fontsize"].toInt()));
+    m_pASCIIFont->setPointSize(qMax(8,m_pParam->m_mapParam["fontsize"].toInt()));
+    m_pGeneralFont->setPointSize(qMax(8,m_pParam->m_mapParam["fontsize"].toInt()));
     m_pMessage->setFont(*m_pGeneralFont);
     QResizeEvent* re = new QResizeEvent(size(), size());
     resizeEvent(re);
@@ -380,8 +380,8 @@ void Screen::generalFontChanged(const QFont & font)
 void Screen::fontSizeChanged(int value)
 {
     m_pParam->m_mapParam["fontsize"] = value;
-    m_pASCIIFont->setPixelSize(qMax(8,value));
-    m_pGeneralFont->setPixelSize(qMax(8,value));
+    m_pASCIIFont->setPointSize(qMax(8,value));
+    m_pGeneralFont->setPointSize(qMax(8,value));
     QResizeEvent* re = new QResizeEvent(size(), size());
     resizeEvent(re);
 }
