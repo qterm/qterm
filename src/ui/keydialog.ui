@@ -1,305 +1,183 @@
-<ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>keyDialog</class>
- <widget class="QDialog" name="keyDialog" >
-  <property name="geometry" >
+ <widget class="QDialog" name="keyDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>440</width>
-    <height>380</height>
+    <width>720</width>
+    <height>492</height>
    </rect>
   </property>
-  <property name="minimumSize" >
-   <size>
-    <width>440</width>
-    <height>380</height>
-   </size>
-  </property>
-  <property name="maximumSize" >
-   <size>
-    <width>440</width>
-    <height>380</height>
-   </size>
-  </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Key Setup</string>
   </property>
-  <widget class="QPushButton" name="addButton" >
-   <property name="geometry" >
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>60</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Add</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="deleteButton" >
-   <property name="geometry" >
-    <rect>
-     <x>80</x>
-     <y>10</y>
-     <width>60</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Delete</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="updateButton" >
-   <property name="geometry" >
-    <rect>
-     <x>150</x>
-     <y>10</y>
-     <width>60</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Update</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="closeButton" >
-   <property name="geometry" >
-    <rect>
-     <x>370</x>
-     <y>10</y>
-     <width>60</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Close</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="nameEdit" >
-   <property name="geometry" >
-    <rect>
-     <x>90</x>
-     <y>170</y>
-     <width>110</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QGroupBox" name="groupBox" >
-   <property name="geometry" >
-    <rect>
-     <x>10</x>
-     <y>200</y>
-     <width>421</width>
-     <height>171</height>
-    </rect>
-   </property>
-   <property name="title" >
-    <string>Define</string>
-   </property>
-   <widget class="QRadioButton" name="radioButton2" >
-    <property name="geometry" >
-     <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>70</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Script</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton3" >
-    <property name="geometry" >
-     <rect>
-      <x>10</x>
-      <y>130</y>
-      <width>80</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Program</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="enterButton" >
-    <property name="geometry" >
-     <rect>
-      <x>360</x>
-      <y>60</y>
-      <width>50</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Enter</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="rightButton" >
-    <property name="geometry" >
-     <rect>
-      <x>300</x>
-      <y>60</y>
-      <width>50</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Right</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="leftButton" >
-    <property name="geometry" >
-     <rect>
-      <x>240</x>
-      <y>60</y>
-      <width>50</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Left</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="downButton" >
-    <property name="geometry" >
-     <rect>
-      <x>180</x>
-      <y>60</y>
-      <width>50</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Down</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="textLabel3" >
-    <property name="geometry" >
-     <rect>
-      <x>10</x>
-      <y>60</y>
-      <width>100</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>General Keys</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="keyEdit" >
-    <property name="geometry" >
-     <rect>
-      <x>80</x>
-      <y>30</y>
-      <width>331</width>
-      <height>25</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="scriptEdit" >
-    <property name="geometry" >
-     <rect>
-      <x>100</x>
-      <y>90</y>
-      <width>220</width>
-      <height>25</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="programEdit" >
-    <property name="geometry" >
-     <rect>
-      <x>100</x>
-      <y>130</y>
-      <width>220</width>
-      <height>25</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="upButton" >
-    <property name="geometry" >
-     <rect>
-      <x>120</x>
-      <y>60</y>
-      <width>50</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Up</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="scriptButton" >
-    <property name="geometry" >
-     <rect>
-      <x>330</x>
-      <y>90</y>
-      <width>80</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Browse...</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="programButton" >
-    <property name="geometry" >
-     <rect>
-      <x>330</x>
-      <y>130</y>
-      <width>80</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Browse...</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton1" >
-    <property name="geometry" >
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Key</string>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QLabel" name="textLabel1" >
-   <property name="geometry" >
-    <rect>
-     <x>20</x>
-     <y>170</y>
-     <width>50</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Name</string>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="nameListWidget" >
-   <property name="geometry" >
-    <rect>
-     <x>10</x>
-     <y>49</y>
-     <width>421</width>
-     <height>111</height>
-    </rect>
-   </property>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="addButton">
+       <property name="text">
+        <string>Add</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="deleteButton">
+       <property name="text">
+        <string>Delete</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="updateButton">
+       <property name="text">
+        <string>Update</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="closeButton">
+       <property name="text">
+        <string>Close</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QListWidget" name="nameListWidget"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="textLabel1">
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="nameEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Define</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QRadioButton" name="radioButton1">
+          <property name="text">
+           <string>Key</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" colspan="8">
+         <widget class="QLineEdit" name="keyEdit"/>
+        </item>
+        <item row="1" column="0" colspan="3">
+         <widget class="QLabel" name="textLabel3">
+          <property name="text">
+           <string>General Keys</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QPushButton" name="upButton">
+          <property name="text">
+           <string>Up</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="4">
+         <widget class="QPushButton" name="downButton">
+          <property name="text">
+           <string>Down</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="5">
+         <widget class="QPushButton" name="leftButton">
+          <property name="text">
+           <string>Left</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="6" colspan="2">
+         <widget class="QPushButton" name="rightButton">
+          <property name="text">
+           <string>Right</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="8">
+         <widget class="QPushButton" name="enterButton">
+          <property name="text">
+           <string>Enter</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QRadioButton" name="radioButton2">
+          <property name="text">
+           <string>Script</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2" colspan="5">
+         <widget class="QLineEdit" name="scriptEdit"/>
+        </item>
+        <item row="2" column="7" colspan="2">
+         <widget class="QPushButton" name="scriptButton">
+          <property name="text">
+           <string>Browse...</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0" colspan="2">
+         <widget class="QRadioButton" name="radioButton3">
+          <property name="text">
+           <string>Program</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2" colspan="5">
+         <widget class="QLineEdit" name="programEdit"/>
+        </item>
+        <item row="3" column="7" colspan="2">
+         <widget class="QPushButton" name="programButton">
+          <property name="text">
+           <string>Browse...</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <resources/>
  <connections>
@@ -309,11 +187,11 @@
    <receiver>keyEdit</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>69</x>
      <y>230</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>109</x>
      <y>230</y>
     </hint>
@@ -325,11 +203,11 @@
    <receiver>upButton</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>66</x>
      <y>230</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>151</x>
      <y>266</y>
     </hint>
@@ -341,11 +219,11 @@
    <receiver>downButton</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>20</x>
      <y>237</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>234</x>
      <y>267</y>
     </hint>
@@ -357,11 +235,11 @@
    <receiver>leftButton</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>69</x>
      <y>230</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>299</x>
      <y>263</y>
     </hint>
@@ -373,11 +251,11 @@
    <receiver>rightButton</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>50</x>
      <y>230</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>359</x>
      <y>265</y>
     </hint>
@@ -389,11 +267,11 @@
    <receiver>enterButton</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>64</x>
      <y>230</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>417</x>
      <y>264</y>
     </hint>
@@ -405,11 +283,11 @@
    <receiver>scriptEdit</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>20</x>
      <y>246</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>124</x>
      <y>314</y>
     </hint>
@@ -421,11 +299,11 @@
    <receiver>scriptButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>41</x>
      <y>230</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>362</x>
      <y>293</y>
     </hint>
@@ -437,11 +315,11 @@
    <receiver>programEdit</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>20</x>
      <y>245</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>111</x>
      <y>354</y>
     </hint>
@@ -453,11 +331,11 @@
    <receiver>programButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>64</x>
      <y>230</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>409</x>
      <y>343</y>
     </hint>
@@ -469,11 +347,11 @@
    <receiver>keyEdit</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>20</x>
      <y>296</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>101</x>
      <y>230</y>
     </hint>
@@ -485,11 +363,11 @@
    <receiver>upButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>85</x>
      <y>290</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>142</x>
      <y>284</y>
     </hint>
@@ -501,11 +379,11 @@
    <receiver>downButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>20</x>
      <y>307</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>205</x>
      <y>277</y>
     </hint>
@@ -517,11 +395,11 @@
    <receiver>leftButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>21</x>
      <y>290</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>299</x>
      <y>277</y>
     </hint>
@@ -533,11 +411,11 @@
    <receiver>rightButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>25</x>
      <y>290</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>359</x>
      <y>284</y>
     </hint>
@@ -549,11 +427,11 @@
    <receiver>enterButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>81</x>
      <y>290</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>419</x>
      <y>266</y>
     </hint>
@@ -565,11 +443,11 @@
    <receiver>scriptEdit</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>76</x>
      <y>290</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>119</x>
      <y>290</y>
     </hint>
@@ -581,11 +459,11 @@
    <receiver>scriptButton</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>82</x>
      <y>290</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>341</x>
      <y>290</y>
     </hint>
@@ -597,11 +475,11 @@
    <receiver>programEdit</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>20</x>
      <y>294</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>113</x>
      <y>354</y>
     </hint>
@@ -613,11 +491,11 @@
    <receiver>programButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>83</x>
      <y>305</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>346</x>
      <y>354</y>
     </hint>
@@ -629,11 +507,11 @@
    <receiver>keyEdit</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>20</x>
      <y>339</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>116</x>
      <y>248</y>
     </hint>
@@ -645,11 +523,11 @@
    <receiver>upButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>20</x>
      <y>349</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>173</x>
      <y>271</y>
     </hint>
@@ -661,11 +539,11 @@
    <receiver>downButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>96</x>
      <y>349</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>200</x>
      <y>284</y>
     </hint>
@@ -677,11 +555,11 @@
    <receiver>leftButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>20</x>
      <y>349</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>299</x>
      <y>270</y>
     </hint>
@@ -693,11 +571,11 @@
    <receiver>rightButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>20</x>
      <y>349</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>359</x>
      <y>275</y>
     </hint>
@@ -709,11 +587,11 @@
    <receiver>enterButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>90</x>
      <y>349</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>419</x>
      <y>277</y>
     </hint>
@@ -725,11 +603,11 @@
    <receiver>scriptEdit</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>77</x>
      <y>349</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>269</x>
      <y>312</y>
     </hint>
@@ -741,11 +619,11 @@
    <receiver>scriptButton</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>98</x>
      <y>333</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>346</x>
      <y>309</y>
     </hint>
@@ -757,11 +635,11 @@
    <receiver>programEdit</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>72</x>
      <y>349</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>128</x>
      <y>349</y>
     </hint>
@@ -773,11 +651,11 @@
    <receiver>programButton</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>73</x>
      <y>335</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>342</x>
      <y>335</y>
     </hint>

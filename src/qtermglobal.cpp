@@ -322,10 +322,12 @@ void Global::saveAddressXml(const QDomDocument& doc)
 
 void Global::loadPrefence()
 {
-    QString strTmp;
-
     m_pref.XIM = (Global::Conversion)m_config->getItemValue("preference", "xim").toInt();
     m_pref.nWordWrap = m_config->getItemValue("preference", "wordwrap").toInt();
+
+// Cursor Size: 0:16,1:32:,3:48,4:64
+    m_pref.nCursorSize = m_config->getItemValue("preference", "cursor").toInt()*16+16;
+
     m_pref.bWheel = m_config->getItemValue("preference", "wheel").toBool();
     m_pref.bUrl = m_config->getItemValue("preference", "url").toBool();
     m_pref.bBlinkTab = m_config->getItemValue("preference", "blinktab").toBool();
@@ -339,7 +341,7 @@ void Global::loadPrefence()
     m_pref.strImageViewer = m_config->getItemValue("preference", "image").toString();
     m_pref.bClearPool = m_config->getItemValue("preference", "clearpool").toBool();
 
-    strTmp = m_config->getItemValue("preference", "pool").toString();
+    QString strTmp = m_config->getItemValue("preference", "pool").toString();
     m_pref.strPoolPath = strTmp.isEmpty() ? Global::instance()->pathCfg() + "pool/" : strTmp;
     if (m_pref.strPoolPath.right(1) != "/")
         m_pref.strPoolPath.append('/');

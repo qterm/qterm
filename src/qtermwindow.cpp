@@ -373,14 +373,14 @@ Window::Window(Frame * frame, Param param, const QString &uuid, QWidget * parent
 #endif
         m_bDoingLogin = false;
 
-    cursor[0] = QCursor(QPixmap(":/cursor/home.xpm"));
-    cursor[1] = QCursor(QPixmap(":/cursor/end.xpm"));
-    cursor[2] = QCursor(QPixmap(":/cursor/pageup.xpm"));
-    cursor[3] = QCursor(QPixmap(":/cursor/pagedown.xpm"));
-    cursor[4] = QCursor(QPixmap(":/cursor/prev.xpm"));
-    cursor[5] = QCursor(QPixmap(":/cursor/next.xpm"));
-    cursor[6] = QCursor(QPixmap(":/cursor/exit.xpm"), 0, 10);
-    cursor[7] = QCursor(QPixmap(":/cursor/hand.xpm"));
+    cursor[0] = QCursor(QPixmap(":/cursor/home.xpm").scaledToWidth(Global::instance()->m_pref.nCursorSize,Qt::SmoothTransformation));
+    cursor[1] = QCursor(QPixmap(":/cursor/end.xpm").scaledToWidth(Global::instance()->m_pref.nCursorSize,Qt::SmoothTransformation));
+    cursor[2] = QCursor(QPixmap(":/cursor/pageup.xpm").scaledToWidth(Global::instance()->m_pref.nCursorSize,Qt::SmoothTransformation));
+    cursor[3] = QCursor(QPixmap(":/cursor/pagedown.xpm").scaledToWidth(Global::instance()->m_pref.nCursorSize,Qt::SmoothTransformation));
+    cursor[4] = QCursor(QPixmap(":/cursor/prev.xpm").scaledToWidth(Global::instance()->m_pref.nCursorSize,Qt::SmoothTransformation));
+    cursor[5] = QCursor(QPixmap(":/cursor/next.xpm").scaledToWidth(Global::instance()->m_pref.nCursorSize,Qt::SmoothTransformation));
+    cursor[6] = QCursor(QPixmap(":/cursor/exit.xpm").scaledToWidth(Global::instance()->m_pref.nCursorSize,Qt::SmoothTransformation));
+    cursor[7] = QCursor(QPixmap(":/cursor/hand.xpm").scaledToWidth(Global::instance()->m_pref.nCursorSize,Qt::SmoothTransformation));
     cursor[8] = Qt::ArrowCursor;
 
     // the system wide script

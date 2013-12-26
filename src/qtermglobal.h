@@ -60,6 +60,7 @@ public:
     struct Pref {
         Conversion XIM;
         int  nWordWrap;
+        int  nCursorSize;
         bool bWheel;
         bool bWarn;
         bool bBlinkTab;

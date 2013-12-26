@@ -71,6 +71,9 @@ void prefDialog::loadSetting()
 	strTmp = conf->getItemValue("preference","xim").toString();
 	ui.ximComboBox->setCurrentIndex(strTmp.toInt());
 
+	strTmp = conf->getItemValue("preference","cursor").toString();
+	ui.cursorComboBox->setCurrentIndex(strTmp.toInt());
+
 	strTmp = conf->getItemValue("preference","wordwrap").toString();
 	ui.wordSpinBox->setValue(strTmp.toInt());
 
@@ -129,6 +132,9 @@ void prefDialog::saveSetting()
 
 	strTmp.setNum(ui.wordSpinBox->value());
 	conf->setItemValue("preference","wordwrap", strTmp);
+
+	strTmp.setNum(ui.cursorComboBox->currentIndex());
+	conf->setItemValue("preference","cursor", strTmp);
 
 	strTmp.setNum(ui.wheelCheckBox->isChecked()?1:0);
 	conf->setItemValue("preference","wheel", strTmp);
