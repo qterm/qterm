@@ -31,7 +31,7 @@ Config::Config(const QString & szFileName)
 {
     if (QFile::exists(szFileName)) {
         m_settings = new QSettings(szFileName, QSettings::IniFormat);
-        checkVersion();
+        checkVersion(szFileName);
     } else {
         m_settings = new QSettings(szFileName, QSettings::IniFormat);
         m_settings->setValue("version", m_version);
@@ -98,7 +98,7 @@ void Config::addToolBars()
     m_settings->endGroup();
 }
 
-bool Config::checkVersion()
+bool Config::checkVersion(const QString & szFileName)
 {
     QString version = m_settings->value("version").toString();
 
@@ -106,7 +106,16 @@ bool Config::checkVersion()
         QMessageBox::warning(0, "Old Version","The version of your config file is outdated.\n" "It will be automatically updated, but you should check for errors");
         upgrade();
     } else if (m_version != version) {
-        QMessageBox::warning(0, "Version Mismath","The version of your config file is not match the current QTerm version.\n" "It will be automatically updated, but you should check for errors");
+        QString bakFile = szFileName+".bak";
+        QMessageBox::warning(0, "Version Mismath","The version of your config file is not match the current QTerm version.\n" "The old config file will be backed up as: "+bakFile);
+
+        if (QFile::exists(bakFile))
+        {
+            QFile::remove(bakFile);
+        }
+
+        QFile::copy(szFileName, bakFile);
+
         m_settings->setValue("version", m_version);
         upgrade();
         return false;

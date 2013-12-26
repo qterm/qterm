@@ -29,7 +29,7 @@ public:
 
 private:
     bool checkError();
-    bool checkVersion();
+    bool checkVersion(const QString & szFileName);
     void upgrade();
     void addShortcuts();
     void addToolBars();
