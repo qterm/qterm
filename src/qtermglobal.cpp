@@ -759,24 +759,24 @@ void Global::saveConfig()
 
 }
 
-QByteArray Global::loadGeometry()
+QByteArray Global::loadGeometry(const QString & window)
 {
-    return m_config->getItemValue("global","geometry").toByteArray();
+    return m_config->getItemValue("global",window+"_geometry").toByteArray();
 }
 
-QByteArray Global::loadState()
+QByteArray Global::loadState(const QString & window)
 {
-    return m_config->getItemValue("global","state").toByteArray();
+    return m_config->getItemValue("global",window+"_state").toByteArray();
 }
 
-void Global::saveGeometry(const QByteArray geometry)
+void Global::saveGeometry(const QString & window, const QByteArray & geometry)
 {
-    m_config->setItemValue("global", "geometry", geometry);
+    m_config->setItemValue("global", window+"_geometry", geometry);
 }
 
-void Global::saveState(const QByteArray state)
+void Global::saveState(const QString & window, const QByteArray & state)
 {
-    m_config->setItemValue("global", "state", state);
+    m_config->setItemValue("global", window+"_state", state);
 }
 
 void Global::saveSession(const QList<QVariant>& sites)

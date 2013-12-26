@@ -21,11 +21,14 @@ schemeDialog::schemeDialog(QWidget* parent, Qt::WindowFlags fl)
     connectSlots();
     fileList = loadSchemeList();
     updateList();
+
+    restoreGeometry(Global::instance()->loadGeometry("Scheme"));
 }
 
 
 schemeDialog::~schemeDialog()
 {
+    Global::instance()->saveGeometry("Scheme",saveGeometry());
 }
 
 void schemeDialog::setScheme(const QString& strSchemeFile)

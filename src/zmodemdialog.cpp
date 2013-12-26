@@ -1,5 +1,5 @@
-
 #include "zmodemdialog.h"
+#include "qtermglobal.h"
 #include <QMessageBox>
 namespace QTerm
 {
@@ -8,10 +8,12 @@ zmodemDialog::zmodemDialog(QWidget *parent, Qt::WindowFlags fl)
 {
 	ui.setupUi(this);
 	connect( ui.buttonCancel, SIGNAL(clicked()), this, SLOT(slotCancel()) );
+    restoreGeometry(Global::instance()->loadGeometry("ZModem"));
 }
 
 zmodemDialog::~zmodemDialog()
 {
+    Global::instance()->saveGeometry("ZModem",saveGeometry());
 }
 
 void zmodemDialog::setProgress(int offset)

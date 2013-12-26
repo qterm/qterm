@@ -1,4 +1,5 @@
 #include "toolbardialog.h"
+#include "qtermglobal.h"
 
 #include <QtCore/QRegExp>
 #include <QtCore/QSettings>
@@ -12,6 +13,8 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QToolButton>
 #endif
+
+namespace QTerm {
 
 ToolbarDialog::ToolbarDialog(QWidget* parent)
         : QDialog(parent),m_defaultToolBars()
@@ -55,10 +58,12 @@ ToolbarDialog::ToolbarDialog(QWidget* parent)
     connect(comboIconSize, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(comboIconSizeCurrentIndexChanged(const QString &)));
     connect(comboButtonStyle, SIGNAL(currentIndexChanged(int)),this, SLOT(comboButtonStyleCurrentIndexChanged(int)));
     connect(buttonDefault, SIGNAL(clicked()), this, SLOT(restoreDefaultToolbars()));
+    restoreGeometry(Global::instance()->loadGeometry("Toolbar"));
 }
 
 ToolbarDialog::~ToolbarDialog()
 {
+    Global::instance()->saveGeometry("Toolbar",saveGeometry());
 }
 
 void ToolbarDialog::buttonAddClicked()
@@ -254,5 +259,7 @@ void ToolbarDialog::restoreDefaultToolbars()
     }
     comboToolbarsCurrentIndexChanged(comboToolbars->currentIndex());
 }
+
+} // namespace QTerm
 
 #include <moc_toolbardialog.cpp>

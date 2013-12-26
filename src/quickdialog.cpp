@@ -44,6 +44,7 @@ quickDialog::quickDialog(QWidget* parent, Qt::WindowFlags fl)
     pConf = Global::instance()->fileCfg();
 
     loadHistory();
+    restoreGeometry(Global::instance()->loadGeometry("Quick"));
 }
 
 
@@ -52,6 +53,7 @@ quickDialog::quickDialog(QWidget* parent, Qt::WindowFlags fl)
  */
 quickDialog::~quickDialog()
 {
+    Global::instance()->saveGeometry("Quick",saveGeometry());
 }
 
 void quickDialog::closeEvent(QCloseEvent *)

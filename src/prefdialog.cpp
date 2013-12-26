@@ -33,6 +33,9 @@ prefDialog::prefDialog( QWidget* parent, Qt::WindowFlags fl )
 
 	ui.setupUi(this);
 	connectSlots();
+
+    restoreGeometry(Global::instance()->loadGeometry("Pref"));
+
 	loadSetting();
 
 }
@@ -43,6 +46,7 @@ prefDialog::prefDialog( QWidget* parent, Qt::WindowFlags fl )
 prefDialog::~prefDialog()
 {
     // no need to delete child widgets, Qt does it all for us
+    Global::instance()->saveGeometry("Pref",saveGeometry());
 }
 
 void prefDialog::connectSlots()

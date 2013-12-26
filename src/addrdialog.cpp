@@ -49,7 +49,6 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WindowFlags fl)
     updateKeyboardProfiles();
     if (bPartial) {
         ui.nameTreeView->hide();
-        ui.Line->hide();
         ui.connectPushButton->hide();
         ui.closePushButton->setText(tr("Cancel"));
         ui.applyPushButton->setText(tr("OK"));
@@ -57,14 +56,9 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WindowFlags fl)
         ui.applyPushButton->move(ui.applyPushButton->x() - 110, ui.applyPushButton->y());
         ui.resetPushButton->move(ui.resetPushButton->x() - 210, ui.resetPushButton->y());
         ui.tabWidget->move(ui.tabWidget->x() - 210, ui.tabWidget->y());
-        resize(600, 600);
-        setMinimumSize(QSize(600, 600));
-        setMaximumSize(QSize(600, 600));
         setWindowTitle(tr("Setting"));
+        restoreGeometry(Global::instance()->loadGeometry("Setting"));
     } else {
-        resize(800, 600);
-        setMinimumSize(QSize(800, 600));
-        setMaximumSize(QSize(800, 600));
         setWindowTitle(tr("AddressBook"));
 		
         QDomDocument doc = Global::instance()->addrXml();
@@ -75,6 +69,7 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WindowFlags fl)
         Global::instance()->loadAddress(doc, QUuid().toString(), param);
         updateData(false);
         ui.nameTreeView->setFocus(Qt::OtherFocusReason);
+        restoreGeometry(Global::instance()->loadGeometry("AddressBook"));
     }
     connectSlots();
 }
@@ -84,6 +79,11 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WindowFlags fl)
  */
 addrDialog::~addrDialog()
 {
+    if (bPartial) {
+        Global::instance()->saveGeometry("Setting",saveGeometry());
+    } else {
+        Global::instance()->saveGeometry("AddressBook",saveGeometry());
+    }
 }
 
 QString addrDialog :: uuid() 

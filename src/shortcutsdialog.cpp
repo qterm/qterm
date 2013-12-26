@@ -1,4 +1,5 @@
 #include "shortcutsdialog.h"
+#include "qtermglobal.h"
 #include <QtGui/QKeyEvent>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QMessageBox>
@@ -51,6 +52,13 @@ ShortcutsDialog::ShortcutsDialog(QWidget* parent, QList<QAction*> actions, QList
     }
     tableWidget->resizeColumnsToContents();
     tableWidget->setCurrentCell(0, 0);
+
+    restoreGeometry(Global::instance()->loadGeometry("Shortcuts"));
+}
+
+ShortcutsDialog::~ShortcutsDialog()
+{
+    Global::instance()->saveGeometry("Shortcuts",saveGeometry());
 }
 
 void ShortcutsDialog::createDefaultShortcut()

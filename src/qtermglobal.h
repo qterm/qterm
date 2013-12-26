@@ -122,10 +122,10 @@ public:
     void setStyle(const QString & style);
     void loadConfig(); //TODO: Merge with iniSettings
     void saveConfig();
-    QByteArray loadGeometry();
-    QByteArray loadState();
-    void saveGeometry( const QByteArray geometry);
-    void saveState( const QByteArray state);
+    QByteArray loadGeometry(const QString & window);
+    QByteArray loadState(const QString & window);
+    void saveGeometry(const QString & window, const QByteArray & geometry);
+    void saveState(const QString & window, const QByteArray & state);
     void saveSession(const QList<QVariant>& sites);
     QList<QVariant> loadSession();
     void cleanup();

@@ -2,7 +2,8 @@
 #define TOOLBARDIALOG_H
 
 #include "ui_toolbardialog.h"
-
+namespace QTerm
+{
 class ToolbarDialog : public QDialog, public Ui_ToolbarDialog
 {
     Q_OBJECT
@@ -26,4 +27,5 @@ private:
     QMap<QString, QStringList> m_defaultToolBars;
 };
 
+} // namespace QTerm
 #endif //TOOLBARDIALOG_H

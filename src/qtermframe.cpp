@@ -183,8 +183,8 @@ void Frame::iniSetting()
 {
     Global::instance()->loadConfig();
 
-    restoreGeometry(Global::instance()->loadGeometry());
-    restoreState(Global::instance()->loadState());
+    restoreGeometry(Global::instance()->loadGeometry("Frame"));
+    restoreState(Global::instance()->loadState("Frame"));
     if (Global::instance()->isFullScreen()) {
         actionFullscreen->setChecked(true);
         showFullScreen();
@@ -242,8 +242,8 @@ void Frame::iniSetting()
 
 void Frame::saveSetting()
 {
-    Global::instance()->saveGeometry(saveGeometry());
-    Global::instance()->saveState(saveState());
+    Global::instance()->saveGeometry("Frame", saveGeometry());
+    Global::instance()->saveState("Frame", saveState());
     Global::instance()->saveConfig();
     saveShortcuts();
     saveToolbars();
@@ -660,8 +660,8 @@ void Frame::on_actionFullscreen_triggered(bool isFullScreen)
 
     //TODO: add an item to the popup menu so we can go back to normal without touch the keyboard
     if (isFullScreen) {
-        Global::instance()->saveGeometry(saveGeometry());
-        Global::instance()->saveState(saveState());
+        Global::instance()->saveGeometry("Frame",saveGeometry());
+        Global::instance()->saveState("Frame",saveState());
         mainToolBar->hide();
         terminalToolBar->hide();
         keyToolBar->hide();
@@ -675,8 +675,8 @@ void Frame::on_actionFullscreen_triggered(bool isFullScreen)
         mdiArea->setViewMode(QMdiArea::SubWindowView);
         mdiArea->activeSubWindow()->showMaximized();
     } else {
-        restoreGeometry(Global::instance()->loadGeometry());
-        restoreState(Global::instance()->loadState());
+        restoreGeometry(Global::instance()->loadGeometry("Frame"));
+        restoreState(Global::instance()->loadState("Frame"));
         emit scrollChanged();
         QList<QMdiSubWindow *> windows = mdiArea->subWindowList();
         foreach (QMdiSubWindow * window, windows) {
@@ -990,16 +990,16 @@ void Frame::trayShow()
             showNormal();
 #endif
     }
-    restoreGeometry(Global::instance()->loadGeometry());
-    restoreState(Global::instance()->loadState());
+    restoreGeometry(Global::instance()->loadGeometry("Frame"));
+    restoreState(Global::instance()->loadState("Frame"));
     raise();
     activateWindow();
 }
 
 void Frame::trayHide()
 {
-    Global::instance()->saveGeometry(saveGeometry());
-    Global::instance()->saveState(saveState());
+    Global::instance()->saveGeometry("Frame",saveGeometry());
+    Global::instance()->saveState("Frame",saveState());
     hide();
 }
 

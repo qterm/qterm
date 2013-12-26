@@ -11,7 +11,7 @@ class ShortcutsDialog : public QDialog, public Ui_ShortcutsDialog
     Q_OBJECT
 public:
     ShortcutsDialog(QWidget*, QList<QAction*>, QList<QShortcut*>);
-    ~ShortcutsDialog() {}
+    ~ShortcutsDialog();
 
 protected slots:
     void buttonRemoveClicked();

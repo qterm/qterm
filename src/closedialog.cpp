@@ -11,6 +11,7 @@
 //
 
 #include "closedialog.h"
+#include "qtermglobal.h"
 #include <QTimer>
 
 namespace QTerm
@@ -24,11 +25,12 @@ CloseDialog::CloseDialog(QWidget * parent, Qt::WindowFlags fl)
     connect(m_timer, SIGNAL(timeout()), this, SLOT(changeTitle()));
     changeTitle();
     m_timer->start(1000);
+    restoreGeometry(Global::instance()->loadGeometry("Close"));
 }
 
 CloseDialog::~CloseDialog()
 {
-
+    Global::instance()->saveGeometry("Close",saveGeometry());
 }
 
 void CloseDialog::changeTitle()

@@ -8,6 +8,7 @@
 ****************************************************************************/
 
 #include "articledialog.h"
+#include "qtermglobal.h"
 #include <QFileDialog>
 #include <QMessageBox>
 namespace QTerm
@@ -25,6 +26,7 @@ articleDialog::articleDialog(QWidget* parent, Qt::WindowFlags fl)
 {
     ui.setupUi(this);
     connect(ui.saveButton, SIGNAL(clicked()), this, SLOT(onSave()));
+    restoreGeometry(Global::instance()->loadGeometry("Article"));
 }
 
 /*
@@ -33,6 +35,7 @@ articleDialog::articleDialog(QWidget* parent, Qt::WindowFlags fl)
 articleDialog::~articleDialog()
 {
     // no need to delete child widgets, Qt does it all for us
+    Global::instance()->saveGeometry("Article",saveGeometry());
 }
 
 void articleDialog::onSave()
