@@ -36,7 +36,7 @@ SSH2Kex::SSH2Kex(SSH2InBuffer * in, SSH2OutBuffer * out, const QByteArray & serv
 {
     m_kexList << "diffie-hellman-group14-sha1" << "diffie-hellman-group1-sha1";
     m_hostKeyList << "ssh-dss";
-    m_encList << "aes128-cbc" << "3des-cbc";
+    m_encList << "aes128-cbc" << "aes128-ctr" << "3des-cbc";
     m_macList << "hmac-sha1" << "hmac-md5";
     m_compList << "none";
 

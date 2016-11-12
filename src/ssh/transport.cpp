@@ -79,6 +79,11 @@ SSH2Encryption::SSH2Encryption(const QString & algorithm)
         m_blockSize = 16;
         m_secretLen = 16;
         m_evptype = EVP_aes_128_cbc();
+    } else if (algorithm == "aes128-ctr") {
+        m_ivLen = 16;
+        m_blockSize = 16;
+        m_secretLen = 16;
+        m_evptype = EVP_aes_128_ctr();
     } else if (algorithm == "3des-cbc") {
         m_ivLen = 8;
         m_blockSize = 8;
