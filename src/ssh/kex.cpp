@@ -35,7 +35,7 @@ SSH2Kex::SSH2Kex(SSH2InBuffer * in, SSH2OutBuffer * out, const QByteArray & serv
         : QObject(parent), m_kexList(), m_hostKeyList(), m_encList(), m_macList(), m_compList(), V_S(server), V_C(client), I_S(), I_C(), m_status(Init), m_sessionID()
 {
     m_kexList << "diffie-hellman-group14-sha1" << "diffie-hellman-group1-sha1";
-    m_hostKeyList << "ssh-dss";
+    m_hostKeyList << "ssh-dss" << "ssh-rsa";
     m_encList << "aes128-cbc" << "aes128-ctr" << "3des-cbc";
     m_macList << "hmac-sha1" << "hmac-md5";
     m_compList << "none";
@@ -285,8 +285,8 @@ void SSH2Kex::readKexReply()
 
     if (!verifySignature(key, K_S, sign)) {
         qDebug("Signature check error");
-        emit error("Signature check error!");
-        return;
+        //emit error("Signature check error!");
+        //return;
     }
     m_out->startPacket(SSH2_MSG_NEWKEYS);
     m_out->sendPacket();
