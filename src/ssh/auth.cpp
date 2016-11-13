@@ -229,9 +229,16 @@ void SSH2Auth::publicKeyAuth()
     m_out->putString("ssh-connection");
     m_out->putString("publickey");
     m_out->putUInt8(0);
-    m_out->putString("ssh-dss");
+    QString publicKeyFile;
+    if (m_hasRSAKey) {
+        m_out->putString("ssh-rsa");
+        publicKeyFile = QDir::homePath() + "/.ssh/id_rsa.pub";
+    } else if (m_hasDSSKey) {
+        m_out->putString("ssh-dss");
+        publicKeyFile = QDir::homePath() + "/.ssh/id_dsa.pub";
+    }
     // TODO: Select other key files
-    QFile file(QDir::homePath() + "/.ssh/id_dsa.pub");
+    QFile file(publicKeyFile);
     // TODO: Die
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug("Cannot open the public key file");
@@ -242,6 +249,9 @@ void SSH2Auth::publicKeyAuth()
 #ifdef SSH_DEBUG
     if (pubKeyLine[0] == "ssh-dss") {
         qDebug() << "Get dss key";
+    }
+    if (pubKeyLine[0] == "ssh-rsa") {
+        qDebug() << "Get rsa key";
     }
 #endif
     m_publicKey = pubKeyLine[1];
@@ -257,14 +267,19 @@ void SSH2Auth::publicKeyAuth()
 
 void SSH2Auth::generateSign()
 {
-    DSA *dsa;
+    DSA *dsa = NULL;
+    RSA *rsa = NULL;
     FILE *fp;
     DSA_SIG *sig;
-    // TODO: use some #define?
-    QByteArray sigblob(40, 0);
+
     uint rlen, slen;
     QString passphrase = "";
-    QString privateKeyFile = QDir::homePath() + "/.ssh/id_dsa";
+    QString privateKeyFile;
+    if (m_hasRSAKey) {
+        privateKeyFile = QDir::homePath() + "/.ssh/id_rsa";
+    } else if (m_hasDSSKey) {
+        privateKeyFile = QDir::homePath() + "/.ssh/id_dsa";
+    }
     if (!QFile::exists(privateKeyFile)) {
         qDebug("Cannot find the private key file");
         failureHandler();
@@ -280,8 +295,12 @@ void SSH2Auth::generateSign()
     if (!EVP_get_cipherbyname("des")) {
         OpenSSL_add_all_ciphers();
     }
-    dsa = PEM_read_DSAPrivateKey(fp, NULL, NULL, passphrase.toUtf8().data());
-    if (!dsa) {
+    if (m_hasRSAKey) {
+        rsa = PEM_read_RSAPrivateKey(fp, NULL, NULL, passphrase.toUtf8().data());
+    } else if (m_hasDSSKey) {
+        dsa = PEM_read_DSAPrivateKey(fp, NULL, NULL, passphrase.toUtf8().data());
+    }
+    if (!rsa && !dsa) {
         fclose(fp);
 #ifdef SSH_DEBUG
         qDebug() << "Cannot read the private key file";
@@ -303,21 +322,37 @@ void SSH2Auth::generateSign()
     m_out->putString("ssh-connection");
     m_out->putString("publickey");
     m_out->putUInt8(1);
-    m_out->putString("ssh-dss");
-    m_out->putString(QByteArray::fromBase64(m_publicKey));
-    QByteArray buf = QCryptographicHash::hash(tmp.buffer() + m_out->buffer(), QCryptographicHash::Sha1);
-    sig = DSA_do_sign((uchar*) buf.data(), buf.size(), dsa);
+    if (m_hasRSAKey) {
+        m_out->putString("ssh-rsa");
+        m_out->putString(QByteArray::fromBase64(m_publicKey));
+        QByteArray buf = QCryptographicHash::hash(tmp.buffer() + m_out->buffer(), QCryptographicHash::Sha1);
+        QByteArray sigblob(RSA_size(rsa), 0);
+        unsigned int siglen = 0;
+        RSA_sign(NID_sha1, (uchar*) buf.data(), buf.size(), (unsigned char *) sigblob.data(), &siglen, rsa);
+        m_out->putUInt32(4 + 7 + 4 + sigblob.size());
+        m_out->putString("ssh-rsa");
+        m_out->putString(sigblob);
+    } else if (m_hasDSSKey) {
+        m_out->putString("ssh-dss");
+        m_out->putString(QByteArray::fromBase64(m_publicKey));
+        QByteArray buf = QCryptographicHash::hash(tmp.buffer() + m_out->buffer(), QCryptographicHash::Sha1);
+        QByteArray sigblob(40, 0);
+        sig = DSA_do_sign((uchar*) buf.data(), buf.size(), dsa);
+        rlen = BN_num_bytes(sig->r);
+        slen = BN_num_bytes(sig->s);
 
-    rlen = BN_num_bytes(sig->r);
-    slen = BN_num_bytes(sig->s);
+        //TODO: check rlen and slen: ssh-dss.c in openssh
+        BN_bn2bin(sig->r, (uchar *) sigblob.data() + 20 - rlen);
+        BN_bn2bin(sig->s, (uchar *) sigblob.data() + 40 - slen);
+        DSA_SIG_free(sig);
+        m_out->putUInt32(4 + 7 + 4 + sigblob.size());
+        m_out->putString("ssh-dss");
+        m_out->putString(sigblob);
+    }
 
-    // TODO: check rlen and slen: ssh-dss.c in openssh
-    BN_bn2bin(sig->r, (uchar *) sigblob.data() + 20 - rlen);
-    BN_bn2bin(sig->s, (uchar *) sigblob.data() + 40 - slen);
-    DSA_SIG_free(sig);
-    m_out->putUInt32(4 + 7 + 4 + sigblob.size());
-    m_out->putString("ssh-dss");
-    m_out->putString(sigblob);
+    DSA_free(dsa);
+    RSA_free(rsa);
+
     m_out->sendPacket();
 
 }
