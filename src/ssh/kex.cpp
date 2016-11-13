@@ -334,12 +334,12 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
 #ifdef SSH_DEBUG
     qDebug() << "key type: " << type;
 #endif
+    DSA *dsa = DSA_new();
 
     if (type == "ssh-dss") {
 #ifdef SSH_DEBUG
         qDebug() << "generate DSA key";
 #endif
-        DSA *dsa = DSA_new();
         dsa->p = BN_new();
         dsa->q = BN_new();
         dsa->g = BN_new();
@@ -349,38 +349,38 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
         tmp.getBN(dsa->g);
         tmp.getBN(dsa->pub_key);
         tmp.atEnd();
+    }
 
-        tmp.buffer().append(signature);
-        type.resize(0);
-        type = tmp.getString();
-        QByteArray signBlob = tmp.getString();
+    tmp.buffer().append(signature);
+    type.resize(0);
+    type = tmp.getString();
+    QByteArray signBlob = tmp.getString();
 #ifdef SSH_DEBUG
         //dumpData ( signBlob );
 #endif
 
-        if (type == "ssh-dss") {
+    if (type == "ssh-dss") {
 #ifdef SSH_DEBUG
-            qDebug() << "generate DSA signature";
+        qDebug() << "generate DSA signature";
 #endif
-            DSA_SIG * sig;
-            sig = DSA_SIG_new();
-            sig->r = BN_new();
-            sig->s = BN_new();
+        DSA_SIG * sig;
+        sig = DSA_SIG_new();
+        sig->r = BN_new();
+        sig->s = BN_new();
 
-            BN_bin2bn((const unsigned char *) signBlob.data(), INTBLOB_LEN, sig->r);
+        BN_bin2bn((const unsigned char *) signBlob.data(), INTBLOB_LEN, sig->r);
 
-            BN_bin2bn((const unsigned char *) signBlob.data() + INTBLOB_LEN, INTBLOB_LEN, sig->s);
+        BN_bin2bn((const unsigned char *) signBlob.data() + INTBLOB_LEN, INTBLOB_LEN, sig->s);
 
-            QByteArray digest = QCryptographicHash::hash(hash, QCryptographicHash::Sha1);
+        QByteArray digest = QCryptographicHash::hash(hash, QCryptographicHash::Sha1);
 
-            ret = DSA_do_verify((const unsigned char *) digest.data(), digest.size(), sig, dsa);
+        ret = DSA_do_verify((const unsigned char *) digest.data(), digest.size(), sig, dsa);
 
-            DSA_SIG_free(sig);
+        DSA_SIG_free(sig);
 
-        }
-
-        DSA_free(dsa);
     }
+
+    DSA_free(dsa);
 
     if (ret == 1)
         return true;
