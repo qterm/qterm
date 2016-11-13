@@ -335,6 +335,16 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
     qDebug() << "key type: " << type;
 #endif
     DSA *dsa = DSA_new();
+    RSA *rsa = RSA_new();
+
+    if (type == "ssh-rsa") {
+        rsa->e = BN_new();
+        rsa->n = BN_new();
+        tmp.getBN(rsa->e);
+        tmp.getBN(rsa->n);
+        tmp.atEnd();
+        qDebug() << "key size: " << RSA_size(rsa);
+    }
 
     if (type == "ssh-dss") {
 #ifdef SSH_DEBUG
@@ -358,6 +368,14 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
 #ifdef SSH_DEBUG
         //dumpData ( signBlob );
 #endif
+    if (type == "ssh-rsa") {
+        if (signBlob.size() != RSA_size(rsa)) {
+            qDebug() << "TODO: key size mismatch";
+        }
+        QByteArray digest = QCryptographicHash::hash(hash, QCryptographicHash::Sha1);
+        ret = RSA_verify(NID_sha1, (const unsigned char *) digest.data(), digest.size(), (const unsigned char *)signBlob.data(), signBlob.size(), rsa);
+        qDebug() << "Verify RSA: " << ret;
+    }
 
     if (type == "ssh-dss") {
 #ifdef SSH_DEBUG
@@ -381,6 +399,7 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
     }
 
     DSA_free(dsa);
+    RSA_free(rsa);
 
     if (ret == 1)
         return true;
