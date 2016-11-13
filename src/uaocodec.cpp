@@ -15732,7 +15732,7 @@ QByteArray UAOCodec::convertFromUnicode(const QChar *uc, int len, ConverterState
         if (ch < 0x80) {
             // ASCII
             *cursor++ = ch;
-        } else if (qt_UnicodeToBig5(ch, c) == 2 && c[0] >= 0xa1 && c[0] <= 0xf9) {
+        } else if (qt_UnicodeToBig5(ch, c) == 2 && c[0] >= 0x81 && c[0] <= 0xfe) {
             *cursor++ = c[0];
             *cursor++ = c[1];
         } else {
