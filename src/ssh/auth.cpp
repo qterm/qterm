@@ -29,11 +29,21 @@ namespace QTerm
 {
 
 SSH2Auth::SSH2Auth(QByteArray & sessionID, SSH2InBuffer * in, SSH2OutBuffer * out, QObject *parent)
-        : QObject(parent), m_username(), m_method(), m_authMethod(None), m_lastTried(None), m_sessionID(sessionID), m_publicKey(), m_tries(0)
+        : QObject(parent), m_username(), m_method(), m_authMethod(None), m_lastTried(None), m_sessionID(sessionID), m_publicKey(), m_hasRSAKey(false), m_hasDSSKey(false), m_tries(0)
 {
     m_in = in;
     m_out = out;
     m_hostInfo = NULL;
+
+    if (QFile::exists(QDir::homePath() + "/.ssh/id_rsa.pub") &&
+        QFile::exists(QDir::homePath() + "/.ssh/id_rsa")) {
+        m_hasRSAKey = true;
+    }
+
+    if (QFile::exists(QDir::homePath() + "/.ssh/id_dsa.pub") &&
+        QFile::exists(QDir::homePath() + "/.ssh/id_dsa")) {
+        m_hasDSSKey = true;
+    }
 
     connect(m_in, SIGNAL(packetReady(int)), this, SLOT(authPacketReceived(int)));
 }
@@ -112,6 +122,15 @@ void SSH2Auth::authPacketReceived(int flag)
 void SSH2Auth::failureHandler()
 {
     if (m_method.contains("publickey") && m_lastTried == None) {
+        if (m_authMethod == PublicKey) {
+            if (m_hasRSAKey) {
+                // Tried and failed RSA
+                m_hasRSAKey = false;
+            } else if (m_hasDSSKey) {
+                // Only try DSS if we do not have RSA
+                m_hasDSSKey = false;
+            }
+        }
         m_lastTried = PublicKey;
         publicKeyAuth();
     } else if (m_method.contains("keyboard-interactive") && m_lastTried <= PublicKey) {

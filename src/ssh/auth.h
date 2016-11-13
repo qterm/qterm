@@ -65,6 +65,8 @@ private:
     QByteArray m_sessionID;
     QByteArray m_publicKey;
     SSHInfo * m_hostInfo;
+    bool m_hasRSAKey;
+    bool m_hasDSSKey;
 
     // Give keyboardAuth and passwordAuth 3 tries.
     int m_tries;
