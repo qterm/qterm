@@ -1,9 +1,8 @@
 [Desktop Entry]
-Categories=Application;Network;
-Encoding=UTF-8
+Categories=Network;
 Type=Application
 Name=QTerm
-Exec=qterm -caption "%c" %i %m %u
+Exec=qterm -caption "%c" %i %u
 GenericName=BBS Client
 GenericName[zh_CN]=BBS 客户端程序
 GenericName[zh_TW]=BBS 客戶端程式
