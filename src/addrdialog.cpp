@@ -427,7 +427,7 @@ void addrDialog::updateData(bool save)
         param.m_mapParam["cursor"] = ui.cursorTypeComboBox->currentIndex();
         param.m_mapParam["escape"] = ui.escapeLineEdit->text();
         param.m_mapParam["proxytype"] = ui.proxytypeComboBox->currentIndex();
-        param.m_mapParam["proxyhost"] = ui.proxyaddrLineEdit->text();
+        param.m_mapParam["proxyaddr"] = ui.proxyaddrLineEdit->text();
         param.m_mapParam["proxyport"] = ui.proxyportSpinBox->value();
         param.m_mapParam["proxyauth"] = ui.authCheckBox->isChecked();
         param.m_mapParam["proxyuser"] = ui.proxyuserLineEdit->text();
