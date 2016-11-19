@@ -27,6 +27,9 @@ ScriptHelper::ScriptHelper(Window * parent, QScriptEngine * engine)
     m_window = parent;
     m_scriptEngine = engine;
     m_scriptEngine->installTranslatorFunctions();
+#if QT_VERSION >= 0x050000
+    m_qtbindingsAvailable = false;
+#else
     QStringList allowedBindings;
     allowedBindings << "qt.core" << "qt.gui" << "qt.sql" << "qt.xml" << "qt.uitools" << "qt.network" << "qt.webkit";
     foreach( QString binding, allowedBindings )
@@ -44,6 +47,7 @@ ScriptHelper::ScriptHelper(Window * parent, QScriptEngine * engine)
     }
     if (m_qtbindingsAvailable)
         qDebug() << "QtScriptBindings loaded, enjoy scripting!";
+#endif
 }
 
 ScriptHelper::~ScriptHelper()
