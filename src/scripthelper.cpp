@@ -10,8 +10,13 @@
 #include "qtermglobal.h"
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QAction>
+#include <QtWidgets/QMenu>
+#else
 #include <QtGui/QAction>
 #include <QtGui/QMenu>
+#endif
 #include <QtScript>
 
 namespace QTerm
