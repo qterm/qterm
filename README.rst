@@ -29,12 +29,12 @@ To build,::
     # Using Qt4
     cmake .
     # Using Qt5
-    cmake -DQT5=YES -DCMAKE_PREFIX_PATH=/Users/wang/Qt/5.1.1/clang_64/lib/cmake
+    cmake -DQT5=YES -DCMAKE_PREFIX_PATH=/Users/wang/Qt/5.1.1/clang_64/lib/cmake .
     make
 
 Development
 -----------
-Repository is at http://sourceforge.net/p/qterm/code/
+Repository is at https://github.com/qterm/qterm
 
 
 License
