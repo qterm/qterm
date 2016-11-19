@@ -366,12 +366,7 @@ Window::Window(Frame * frame, Param param, const QString &uuid, QWidget * parent
 
     m_bMouseX11 = false;
     m_bMouseClicked = false;
-#ifdef SSH_ENABLED
-    if (param.m_mapParam["protocol"].toInt() != 0)
-        m_bDoingLogin = true;
-    else
-#endif
-        m_bDoingLogin = false;
+    m_bDoingLogin = false;
 
     cursor[0] = QCursor(QPixmap(":/cursor/home.xpm").scaledToWidth(Global::instance()->m_pref.nCursorSize,Qt::SmoothTransformation));
     cursor[1] = QCursor(QPixmap(":/cursor/end.xpm").scaledToWidth(Global::instance()->m_pref.nCursorSize,Qt::SmoothTransformation));
