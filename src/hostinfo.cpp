@@ -1,9 +1,5 @@
 #include "hostinfo.h"
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QInputDialog>
-#else
-#include <QtGui/QInputDialog>
-#endif
+#include <QInputDialog>
 
 namespace QTerm
 {

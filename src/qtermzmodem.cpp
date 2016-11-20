@@ -8,11 +8,7 @@
 #include <QtCore/QString>
 #include <QtCore/QFileInfo>
 #include <QtCore/QTextCodec>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QFileDialog>
-#else
-#include <QtGui/QFileDialog>
-#endif
+#include <QFileDialog>
 
 namespace QTerm
 {

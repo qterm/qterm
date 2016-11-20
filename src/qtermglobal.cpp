@@ -27,16 +27,10 @@
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QUuid>
 #include <QtCore/QTextStream>
-#include <QtGui/QDesktopServices>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QFileDialog>
-#include <QtWidgets/QMessageBox>
-#else
-#include <QtGui/QApplication>
-#include <QtGui/QFileDialog>
-#include <QtGui/QMessageBox>
-#endif
+#include <QDesktopServices>
+#include <QApplication>
+#include <QFileDialog>
+#include <QMessageBox>
 #include <QtXml/QDomDocument>
 
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)

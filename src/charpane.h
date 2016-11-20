@@ -3,13 +3,8 @@
 
 #include <QtCore/QMap>
 #include <QtCore/QString>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QWidget>
-#include <QtWidgets/QFrame>
-#else
-#include <QtGui/QWidget>
-#include <QtGui/QFrame>
-#endif
+#include <QWidget>
+#include <QFrame>
 
 class QToolButton;
 class QVBoxLayout;
