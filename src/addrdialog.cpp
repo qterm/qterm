@@ -303,7 +303,7 @@ void addrDialog::onChooseScript()
 #endif
 
     QString strFile = QFileDialog::getOpenFileName(
-                          this, "choose a script file",
+                          this, tr("Choose a script file"),
                           path, "Script Files (*.js)");
 
     if (strFile.isNull())
