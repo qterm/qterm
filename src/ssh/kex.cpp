@@ -302,8 +302,8 @@ void SSH2Kex::readKexReply()
 
     if (!verifySignature(key, K_S, sign)) {
         qDebug("Signature check error");
-        //emit error("Signature check error!");
-        //return;
+        emit error("Signature check error!");
+        return;
     }
     m_out->startPacket(SSH2_MSG_NEWKEYS);
     m_out->sendPacket();
