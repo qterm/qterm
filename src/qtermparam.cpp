@@ -45,8 +45,6 @@ Param::Param()
 	m_mapParam["escape"] = "^[^[[";
 	
 	m_mapParam["protocol"] = 0; // 0--Telnet 1--SSH1 2--SSH2
-	m_mapParam["sshuser"] = "";
-	m_mapParam["sshpassword"] = "";
 	m_mapParam["proxytype"] = 0; // 0--None 1--Wingate 2--SOCKS4 3--SOCKS5 4--HTTP
 	m_mapParam["proxyaddr"] = "";
 	m_mapParam["proxyport"] = 0;
@@ -64,9 +62,15 @@ Param::Param()
 	m_mapParam["retrytimes"] = -1;
 	m_mapParam["loadscript"] = false;
 	m_mapParam["scriptfile"] = "";
-	
+
 	m_mapParam["menutype"] = 2;
 	m_mapParam["menucolor"] = QColor(0,65,132);
+	m_mapParam["sshuser"] = "";
+	m_mapParam["sshpass"] = "";
+	m_mapParam["sshpublickeyfile"] = "";
+	m_mapParam["sshprivatekeyfile"] = "";
+	m_mapParam["sshpassphrase"] = "";
+	m_mapParam["sshhostkey"] = "";
 
 }
 
