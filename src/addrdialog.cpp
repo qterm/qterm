@@ -288,9 +288,15 @@ void addrDialog::onProtocol(int n)
     if (n == 1) {
         QMessageBox::warning(this, "QTerm", tr("SSH support is not compiled, check your OpenSSL and try to recompile QTerm"));
         ui.protocolComboBox->setCurrentIndex(0);
+        ui.tabWidget->setTabEnabled(5,false);
     }
 #endif
     ui.portSpinBox->setValue(23 - n);
+    if (n == 0) {
+        ui.tabWidget->setTabEnabled(5,false);
+    } else {
+        ui.tabWidget->setTabEnabled(5,true);
+    }
 }
 
 void addrDialog::onChooseScript()
@@ -495,6 +501,7 @@ void addrDialog::updateData(bool save)
         param.m_mapParam["sshhostkey"] = ui.sshHostKeyPlainTextEdit->toPlainText();
     } else { // from param to display
         disconnect(ui.protocolComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onProtocol(int)));
+        ui.tabWidget->setTabEnabled(5,false);
         QString strTmp;
         ui.nameLineEdit->setText(param.m_mapParam["name"].toString());
         ui.addrLineEdit->setText(param.m_mapParam["addr"].toString());
@@ -544,6 +551,9 @@ void addrDialog::updateData(bool save)
         ui.proxyuserLineEdit->setText(param.m_mapParam["proxyuser"].toString());
         ui.proxypasswdLineEdit->setText(param.m_mapParam["proxypassword"].toString());
         ui.protocolComboBox->setCurrentIndex(param.m_mapParam["protocol"].toInt());
+        if (param.m_mapParam["protocol"].toInt() == 1) {
+            ui.tabWidget->setTabEnabled(5,true);
+        }
         ui.idletimeLineEdit->setText(param.m_mapParam["maxidle"].toString());
         ui.replykeyLineEdit->setText(param.m_mapParam["replykey"].toString());
         ui.antiLineEdit->setText(param.m_mapParam["antiidlestring"].toString());
