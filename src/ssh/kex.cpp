@@ -15,6 +15,7 @@
 #include "transport.h"
 #include "ssh1.h"
 #include "ssh2.h"
+#include "hostinfo.h"
 #include <openssl/rand.h>
 #include <openssl/dsa.h>
 #include <openssl/rsa.h>
@@ -42,6 +43,7 @@ SSH2Kex::SSH2Kex(SSH2InBuffer * in, SSH2OutBuffer * out, const QByteArray & serv
 
     m_in = in;
     m_out = out;
+    m_hostInfo = NULL;
     m_inTrans = NULL;
     m_outTrans = NULL;
     connect(m_in, SIGNAL(packetReady(int)), this, SLOT(kexPacketReceived(int)));
@@ -65,6 +67,13 @@ SSH2Kex::~SSH2Kex()
     BN_clear_free(f);
     BN_clear_free(K);
     BN_CTX_free(ctx);
+}
+
+void SSH2Kex::setHostInfo(HostInfo * hostInfo)
+{
+    if (hostInfo->type() == HostInfo::SSH) {
+        m_hostInfo = static_cast<SSHInfo *>(hostInfo);
+    }
 }
 
 QString SSH2Kex::chooseAlgorithm(const QStringList & target, const QStringList & available)
@@ -265,6 +274,14 @@ void SSH2Kex::readKexReply()
 {
     m_in->getUInt8();
     K_S = m_in->getString();
+
+    qDebug() << K_S.toBase64();
+    if (!m_hostInfo->checkHostKey(K_S)) {
+        qDebug("Reject the host key");
+        emit error("hostkey does not match!");
+        return;
+    }
+
     m_in->getBN(f);
     QByteArray sign = m_in->getString();
     m_in->atEnd();

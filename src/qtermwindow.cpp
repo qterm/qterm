@@ -887,6 +887,7 @@ void Window::connectHost()
             sshInfo->setPassphrase(m_param.m_mapParam["sshpassphrase"].toString());
             sshInfo->setHostKey(m_param.m_mapParam["sshhostkey"].toString());
             m_hostInfo = sshInfo;
+            connect(m_hostInfo, SIGNAL(hostKeyChanged(const QString &)), this, SLOT(updateHostKey(const QString &)));
 #endif
         }
     }
@@ -1513,6 +1514,16 @@ void Window::showArticle(const QString text)
     article.exec();
     Global::instance()->fileCfg()->setItemValue("global", "articledialog", article.saveGeometry());
     Global::instance()->fileCfg()->save();
+}
+
+void Window::updateHostKey(const QString & hostKey)
+{
+    m_param.m_mapParam["sshhostkey"] = hostKey;
+    if (!m_strUuid.isEmpty()) {
+        QDomDocument doc = Global::instance()->addrXml();
+        Global::instance()->saveAddress(doc,m_strUuid, m_param);
+        Global::instance()->saveAddressXml(doc);
+    }
 }
 
 /* ------------------------------------------------------------------------ */

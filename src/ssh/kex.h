@@ -24,6 +24,8 @@ class SSH1InBuffer;
 class SSH1OutBuffer;
 class SSH2Transport;
 class SSH1Encryption;
+class HostInfo;
+class SSHInfo;
 /**
  @author hooey <hephooey@gmail.com>
 */
@@ -35,10 +37,12 @@ public:
     ~SSH2Kex();
     void sendKex();
     void startBinary();
+    void setHostInfo(HostInfo * hostInfo);
 
 signals:
     void kexFinished(const QByteArray & sessionID);
     void error(const QString & message);
+    void updateHostKey(const QString & hostKey);
 public slots:
     void kexPacketReceived(int flag);
 private:
@@ -74,6 +78,7 @@ private:
     QByteArray K_S;
     Status m_status;
     QByteArray m_sessionID;
+    SSHInfo * m_hostInfo;
     SSH2InBuffer * m_in;
     SSH2OutBuffer * m_out;
     SSH2Transport * m_inTrans;

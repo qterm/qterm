@@ -71,6 +71,9 @@ public:
 
     static int passphraseCallback(char *buf, int size, int rwflag, void *u);
 
+signals:
+    void hostKeyChanged(const QString & hostKey);
+
 private:
     QString m_userName;
     QString m_password;

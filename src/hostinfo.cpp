@@ -198,6 +198,32 @@ const QString & SSHInfo::answer(const QString & prompt, QueryType type, bool * o
     return m_autoCompletion[prompt];
 }
 
+bool SSHInfo::checkHostKey(const QByteArray & hostKey)
+{
+    if (hostKey.toBase64() == m_hostKey) {
+        return true;
+    } else if (m_hostKey.isEmpty()) {
+        QMessageBox::StandardButton rb = QMessageBox::question(static_cast<QWidget*>(parent()), tr("New Host Key"), tr("No host key is found for the server. Do you want to continue?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+        if(rb == QMessageBox::Yes) {
+            m_hostKey = hostKey.toBase64();
+            emit(hostKeyChanged(m_hostKey));
+            return true;
+        }
+    } else {
+        QMessageBox::StandardButton rb = QMessageBox::critical(static_cast<QWidget*>(parent()), tr("Host Key Mismatch"), tr("HOST KEY DOES NOT MATCH! THIS COULD BE A MITM ATTACK! DO YOU REALLY WANT TO CONTINUE? ONLY CHOOSE YES IF YOU KNOW WHAT YOU ARE DOING!"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+        if(rb == QMessageBox::Yes) {
+            QMessageBox::StandardButton rb2 = QMessageBox::question(static_cast<QWidget*>(parent()), tr("Update Host Key"), tr("Are you sure you want to update the host key?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+            if(rb2 == QMessageBox::Yes) {
+                m_hostKey = hostKey.toBase64();
+                emit(hostKeyChanged(m_hostKey));
+                return true;
+            }
+        }
+
+    }
+    return false;
+}
+
 void SSHInfo::reset()
 {
     m_userName = "";
