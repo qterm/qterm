@@ -302,9 +302,7 @@ void SSH2Auth::generateSign()
     }
     if (!rsa && !dsa) {
         fclose(fp);
-#ifdef SSH_DEBUG
         qDebug() << "Cannot read the private key file";
-#endif
         failureHandler();
         return;
     }
