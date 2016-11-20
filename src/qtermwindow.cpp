@@ -868,8 +868,8 @@ void Window::connectHost()
 	bool bAutoLogin = m_param.m_mapParam["autologin"].toBool();
 	QString strAddr = m_param.m_mapParam["addr"].toString();
 	int nPort = m_param.m_mapParam["port"].toInt();
-	QString strUser = m_param.m_mapParam["user"].toString();
-	QString strPasswd = m_param.m_mapParam["password"].toString();
+	QString strSSHUser = m_param.m_mapParam["sshuser"].toString();
+	QString strSSHPass = m_param.m_mapParam["sshpass"].toString();
 	QString strTerm = m_param.m_mapParam["termtype"].toString();
 
     if (m_hostInfo == NULL) {
@@ -880,10 +880,12 @@ void Window::connectHost()
             m_hostInfo = new TelnetInfo(strAddr, nPort, this);
 #else
             SSHInfo * sshInfo = new SSHInfo(strAddr , nPort, this);
-            if (bAutoLogin) {
-                sshInfo->setUserName(strUser);
-                sshInfo->setPassword(strPasswd);
-            }
+            sshInfo->setUserName(strSSHUser);
+            sshInfo->setPassword(strSSHPass);
+            sshInfo->setPublicKeyFile(m_param.m_mapParam["sshpublickeyfile"].toString());
+            sshInfo->setPrivateKeyFile(m_param.m_mapParam["sshprivatekeyfile"].toString());
+            sshInfo->setPassphrase(m_param.m_mapParam["sshpassphrase"].toString());
+            sshInfo->setHostKey(m_param.m_mapParam["sshhostkey"].toString());
             m_hostInfo = sshInfo;
 #endif
         }

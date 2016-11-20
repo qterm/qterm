@@ -1,6 +1,9 @@
 #include "hostinfo.h"
 #include <QInputDialog>
 
+#include <QFile>
+#include <QMessageBox>
+
 namespace QTerm
 {
 
@@ -88,6 +91,44 @@ void SSHInfo::setPassword(const QString & password)
     m_password = password;
 }
 
+void SSHInfo::setPassphrase(const QString & passphrase)
+{
+    m_passphrase = passphrase;
+}
+
+void SSHInfo::setPublicKeyFile(const QString & filename)
+{
+    m_publicKeyFile = filename;
+}
+
+void SSHInfo::setPrivateKeyFile(const QString & filename)
+{
+    m_privateKeyFile = filename;
+}
+
+const QString & SSHInfo::publicKeyFile()
+{
+    return m_publicKeyFile;
+}
+
+const QString & SSHInfo::privateKeyFile()
+{
+    return m_privateKeyFile;
+}
+
+bool SSHInfo::publicKeyAuthAvailable()
+{
+    if (m_publicKeyFile.isEmpty() || m_privateKeyFile.isEmpty()) {
+        return false;
+    }
+    return true;
+}
+
+void SSHInfo::setHostKey(const QString & hostKey)
+{
+    m_hostKey= hostKey;
+}
+
 void SSHInfo::setAutoCompletion(const Completion & autoCompletion)
 {
     m_autoCompletion = autoCompletion;
@@ -113,6 +154,32 @@ const QString & SSHInfo::password(bool * ok)
         *ok = true;
     }
     return m_password;
+}
+
+const QString & SSHInfo::passphrase()
+{
+    return m_passphrase;
+}
+
+int SSHInfo::passphraseCallback(char *buf, int size, int rwflag, void *u)
+{
+    if (buf == NULL) {
+        return 0;
+    }
+
+    memset(buf, '\0', size);
+
+    QString passphrase = QString::fromUtf8((const char *) u);
+
+    if (passphrase.isEmpty()) {
+        passphrase = QInputDialog::getText(0, "QTerm", "Passphrase for the private key: ", QLineEdit::Password, "", NULL);
+    }
+    int len = strlen(passphrase.toUtf8().data());
+    if (len > size){
+         len = size;
+    }
+    memcpy(buf, passphrase.toUtf8().data(), len);
+    return len;
 }
 
 const QString & SSHInfo::answer(const QString & prompt, QueryType type, bool * ok)
