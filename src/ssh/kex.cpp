@@ -275,7 +275,6 @@ void SSH2Kex::readKexReply()
     m_in->getUInt8();
     K_S = m_in->getString();
 
-    qDebug() << K_S.toBase64();
     if (!m_hostInfo->checkHostKey(K_S)) {
         qDebug("Reject the host key");
         emit error("hostkey does not match!");
