@@ -1,6 +1,7 @@
 #ifndef HOSTINFO_H
 #define HOSTINFO_H
 
+#include <QtCore/QObject>
 #include <QtCore/QMap>
 #include <QtCore/QString>
 
@@ -8,14 +9,14 @@ namespace QTerm
 {
 typedef QMap<QString, QString> Completion;
 
-class HostInfo
+class HostInfo : public QObject
 {
 public:
     enum Type {
         Telnet,
         SSH
     };
-    HostInfo(const QString & hostName, quint16 port);
+    HostInfo(const QString & hostName, quint16 port, QObject * parent = 0);
     HostInfo();
     virtual ~HostInfo();
     void setHostName(const QString & hostName);
@@ -37,17 +38,18 @@ private:
 class TelnetInfo : public HostInfo
 {
 public:
-    TelnetInfo(const QString & hostName, quint16 port);
+    TelnetInfo(const QString & hostName, quint16 port, QObject * parent = 0);
     ~TelnetInfo();
 };
 class SSHInfo : public HostInfo
 {
+    Q_OBJECT
 public:
     enum QueryType {
         Normal,
         Password
     };
-    SSHInfo(const QString & hostName, quint16 port);
+    SSHInfo(const QString & hostName, quint16 port, QObject * parent = 0);
     SSHInfo();
     virtual ~SSHInfo();
     void setUserName(const QString & userName);

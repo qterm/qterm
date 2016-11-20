@@ -874,12 +874,12 @@ void Window::connectHost()
 
     if (m_hostInfo == NULL) {
         if (nProtocol == 0)
-            m_hostInfo = new TelnetInfo(strAddr, nPort);
+            m_hostInfo = new TelnetInfo(strAddr, nPort, this);
         else {
 #ifndef SSH_ENABLED
-            m_hostInfo = new TelnetInfo(strAddr, nPort);
+            m_hostInfo = new TelnetInfo(strAddr, nPort, this);
 #else
-            SSHInfo * sshInfo = new SSHInfo(strAddr , nPort);
+            SSHInfo * sshInfo = new SSHInfo(strAddr , nPort, this);
             if (bAutoLogin) {
                 sshInfo->setUserName(strUser);
                 sshInfo->setPassword(strPasswd);

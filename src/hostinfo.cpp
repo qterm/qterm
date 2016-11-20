@@ -4,8 +4,8 @@
 namespace QTerm
 {
 
-HostInfo::HostInfo(const QString & hostName, quint16 port)
-    :m_hostName(hostName), m_port(port), m_type(Telnet)
+HostInfo::HostInfo(const QString & hostName, quint16 port, QObject * parent)
+    :QObject(parent), m_hostName(hostName), m_port(port), m_type(Telnet)
 {
 }
 
@@ -58,8 +58,8 @@ void HostInfo::setTermType(const QString & termType)
     m_termType = termType;
 }
 
-TelnetInfo::TelnetInfo(const QString & hostName, quint16 port)
-    :HostInfo(hostName, port)
+TelnetInfo::TelnetInfo(const QString & hostName, quint16 port, QObject * parent)
+    :HostInfo(hostName, port, parent)
 {
     setType(Telnet);
 }
@@ -68,8 +68,8 @@ TelnetInfo::~TelnetInfo()
 {
 }
 
-SSHInfo::SSHInfo(const QString & hostName, quint16 port)
-    :HostInfo(hostName, port), m_userName(), m_password(), m_autoCompletion()
+SSHInfo::SSHInfo(const QString & hostName, quint16 port, QObject * parent)
+    :HostInfo(hostName, port, parent), m_userName(), m_password(), m_publicKeyFile(), m_privateKeyFile(), m_passphrase(), m_hostKey(), m_autoCompletion()
 {
     setType(SSH);
 }
@@ -139,3 +139,5 @@ void SSHInfo::reset()
 }
 
 } // namespace QTerm
+
+#include "moc_hostinfo.cpp"
