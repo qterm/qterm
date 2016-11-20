@@ -1373,7 +1373,7 @@
                 </font>
                </property>
                <property name="text">
-                <string>Public Key Authentication:</string>
+                <string>Public Key Authentication (RSA or DSA):</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
