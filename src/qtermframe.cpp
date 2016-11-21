@@ -361,7 +361,7 @@ void Frame::on_actionAbout_Qt_triggered()
 //slot Help->Homepage
 void Frame::on_actionQTerm_Online_triggered()
 {
-    QString strUrl = "http://qterm.sourceforge.net";
+    QString strUrl = "http://www.qterm.org";
     Global::instance()->openUrl(strUrl);
 }
 
