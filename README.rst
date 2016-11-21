@@ -49,4 +49,4 @@ QTerm is released under GNU General Public License (refer to COPYING).
 
 Credits
 -------
-Thanks to many users for their bug reports and suggestions.
+Kudos to our users for their bug reports and suggestions.
