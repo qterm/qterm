@@ -1,4 +1,4 @@
-Readme
+QTerm --- BBS client based on Qt
 ============
 
 QTerm is a BBS (Bulletin Board System) client program. It runs on GNU/Linux,
