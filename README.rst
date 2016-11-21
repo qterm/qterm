@@ -20,9 +20,9 @@ become a fully functional BBS client such as S-Term and CTerm.
 
 Build
 -----
-. Qt 4.6+ or Qt 5.0+
-. OpenSSL for SSH
-. cmake
+- Qt 4.6+ or Qt 5.0+
+- OpenSSL for SSH
+- CMake
 
 To build,::
 
