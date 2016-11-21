@@ -16,5 +16,5 @@ script:
  - source /opt/qt57/bin/qt57-env.sh
  - mkdir build
  - cd build
- - cmake .. -DQT5=Yes
+ - cmake .. -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes
  - make
