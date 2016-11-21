@@ -27,7 +27,9 @@ Build
 - Phonon (Optional)
 - KWallet (Optional)
 
-To build,::
+To build,
+
+::
 
     # Using Qt4
     cmake .
