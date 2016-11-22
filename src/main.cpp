@@ -114,18 +114,6 @@ void sig_fatal_finish ()
 
 using namespace QTerm;
 
-#ifdef Q_WS_WIN
-#define WIN32_LEAN_AND_MEAN
-#include "windows.h"
-int main(int argc, char **argv);
-
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-                                 LPSTR lpCmdLine, int nCmdShow)
-{
-  return main(__argc, __argv);
-}
-#endif
-
 int main( int argc, char ** argv )
 {
     if ( strcmp( qVersion(), QT_MIN_VERSION ) < 0 ) {
