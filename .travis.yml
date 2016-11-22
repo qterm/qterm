@@ -38,14 +38,11 @@ before_install:
  - '[ "$TRAVIS_OS_NAME" != osx ] || brew update'
 
 install:
- - '[ "$TRAVIS_OS_NAME" != linux ] || sudo apt-get -qy install cppcheck'
- - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || sudo apt-get -qy install qt${QT}base qt${QT}xmlpatterns'
- - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy install qt5-qmake qtbase5-dev libqt5xmlpatterns5-dev'
+ - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy qt$QT-meta-full'
  - '[ "$TRAVIS_OS_NAME" != osx ] || brew install cppcheck qt$BREW'
  - '[ "$TRAVIS_OS_NAME" != osx ] || brew link --force qt$BREW'
 
 script:
- - ./.cppcheck.sh
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || . /opt/qt$QT/bin/qt$QT-env.sh'
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || export QT_SELECT=qt5'
  - mkdir build
