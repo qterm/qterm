@@ -38,7 +38,8 @@ before_install:
  - '[ "$TRAVIS_OS_NAME" != osx ] || brew update'
 
 install:
- - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy qt$QT-meta-full'
+ - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || sudo apt-get -qy install qt$QT-meta-full'
+ - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy install qt5-qmake qtbase5-dev qttools5-dev'
  - '[ "$TRAVIS_OS_NAME" != osx ] || brew install cppcheck qt$BREW'
  - '[ "$TRAVIS_OS_NAME" != osx ] || brew link --force qt$BREW'
 
