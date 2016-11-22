@@ -211,9 +211,21 @@ void Global::saveAddress(QDomDocument doc, QString uuid, const Param& param)
     for (int i=0; i<nodeList.count(); i++) {
         QDomElement node = nodeList.at(i).toElement();
         if (uuid == node.attribute("uuid")) {
-            foreach (QString key, param.m_mapParam.keys()) 
-                node.setAttribute(key, 
+#ifdef KWALLET_ENABLED
+            if (m_wallet != NULL) {
+                m_wallet->open();
+                m_wallet->writePassword(param.m_mapParam["name"].toString(), param.m_mapParam["user"].toString(), param.m_mapParam["password"].toString());
+            }
+#endif // KWALLET_ENABLED
+            foreach (QString key, param.m_mapParam.keys()) {
+#ifdef KWALLET_ENABLED
+                if (key == "password")
+                    node.setAttribute(key, "");
+                else
+#endif // KWALLET_ENABLED
+                node.setAttribute(key,
                     param.m_mapParam[key].toString());
+}
             result = true;
             break;
         }
