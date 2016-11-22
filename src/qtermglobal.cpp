@@ -423,8 +423,8 @@ bool Global::iniWorkingDir(QString param)
         }
     }
     ExeNamePath[LastSlash+1] = '\0';
-    m_pathLib = QString::fromLocal8Bit(ExeNamePath);
-    m_pathCfg = QString::fromLocal8Bit(ExeNamePath);
+    m_pathLib = QString::fromLocal8Bit(ExeNamePath) + "../share/qterm/";
+    m_pathCfg = QString::fromLocal8Bit(ExeNamePath) + "../share/qterm/";
     strcpy(_fileCfg, ExeNamePath);
     strcat(_fileCfg, "qterm.cfg");
     m_fileCfg = QString::fromLocal8Bit(_fileCfg);
