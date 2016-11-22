@@ -18,6 +18,7 @@ IF(QT5)
     find_package(Qt5LinguistTools REQUIRED)
     find_package(Qt5Script)
     find_package(Qt5ScriptTools)
+    find_package(Qt5Multimedia)
     IF(NOT QT_BINARY_DIR)
         exec_program(${_qt5Core_install_prefix}/bin/qmake ARGS "-query QT_INSTALL_BINS"
             OUTPUT_VARIABLE QT_BINARY_DIR)

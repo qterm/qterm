@@ -350,7 +350,7 @@ Window::Window(Frame * frame, Param param, const QString &uuid, QWidget * parent
     m_bAntiIdle = true;
 	m_bAutoReply = m_param.m_mapParam["bautoreply"].toBool();
     m_bBeep  = !(
-#ifndef PHONON_ENABLED
+#if !defined(PHONON_ENABLED) && !defined(QMEDIAPLAYER_ENABLED)
                    Global::instance()->m_pref.strPlayer.isEmpty() ||
 #endif // PHONON_ENABLED
                    Global::instance()->m_pref.strWave.isEmpty());
@@ -1788,6 +1788,11 @@ void Window::updateWindow()
         // because smth.org changed
         if (m_bMessage) {
             if (m_bBeep) {
+#ifdef QMEDIAPLAYER_ENABLED
+                if (Global::instance()->m_pref.strPlayer.isEmpty()) {
+                    m_pSound = new QMediaPlayerSound(Global::instance()->m_pref.strWave, this);
+                } else
+#endif // QMEDIAPLAYER_ENABLED
 #ifdef PHONON_ENABLED
                 if (Global::instance()->m_pref.strPlayer.isEmpty()) {
                     m_pSound = new PhononSound(Global::instance()->m_pref.strWave, this);

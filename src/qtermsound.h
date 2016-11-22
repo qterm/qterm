@@ -27,6 +27,18 @@ public:
     void play();
 };
 #endif // PHONON_ENABLED
+
+#ifdef QMEDIAPLAYER_ENABLED
+class QMediaPlayerSound : public Sound
+{
+public:
+    QMediaPlayerSound(const QString & filename, QObject * parent = 0, const char * name = 0)
+            : Sound(filename, parent, name) {
+    }
+    void play();
+};
+#endif // QMEDIAPLAYER_ENABLED
+
 class ExternalSound : public Sound
 {
 private:
