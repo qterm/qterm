@@ -174,6 +174,7 @@ protected slots:
 	void setMouseMode(bool on ) { m_bMouseX11 = on; }
     void jobDone(int);
     void showArticle(const QString text);
+    void updateHostKey(const QString & hostKey);
 
 protected:
 	// Mouse Events

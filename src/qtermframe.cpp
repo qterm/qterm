@@ -71,13 +71,8 @@ AUTHOR:        kingson fiasco hooey
 #include <QLineEdit>
 #include <QInputDialog>
 #include <QStatusBar>
-#if QT_VERSION >= 0x050000
-#include <QtPrintSupport/QPrinter>
-#include <QtPrintSupport/QPrintDialog>
-#else
-#include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
-#endif
+#include <QPrinter>
+#include <QPrintDialog>
 #include <QtDebug>
 #include <QUuid>
 
@@ -366,7 +361,7 @@ void Frame::on_actionAbout_Qt_triggered()
 //slot Help->Homepage
 void Frame::on_actionQTerm_Online_triggered()
 {
-    QString strUrl = "http://qterm.sourceforge.net";
+    QString strUrl = "http://www.qterm.org";
     Global::instance()->openUrl(strUrl);
 }
 

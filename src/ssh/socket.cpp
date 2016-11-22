@@ -42,6 +42,7 @@ SSH2SocketPriv::SSH2SocketPriv(SocketPrivate * plainSocket, QByteArray & banner,
     m_inPacket = new SSH2InBuffer(plainSocket, this);
     m_outPacket = new SSH2OutBuffer(plainSocket, this);
     m_kex = new SSH2Kex(m_inPacket, m_outPacket, m_banner, QTERM_SSHV2_BANNER, this);
+    m_kex->setHostInfo(m_hostInfo);
     m_kex->sendKex();
     connect(m_kex, SIGNAL(kexFinished(const QByteArray &)), this, SLOT(slotKexFinished(const QByteArray &)));
     connect(m_kex, SIGNAL(error(const QString&)), this, SIGNAL(error(const QString&)));

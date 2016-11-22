@@ -1054,6 +1054,33 @@ Size: %3 KB</source>
     </message>
 </context>
 <context>
+    <name>QTerm::SSHInfo</name>
+    <message>
+        <source>New Host Key</source>
+        <translation>新的主机密钥</translation>
+    </message>
+    <message>
+        <source>Host Key Mismatch</source>
+        <translation>主机密钥不符</translation>
+    </message>
+    <message>
+        <source>Update Host Key</source>
+        <translation>更新主机密钥</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to update the host key?</source>
+        <translation>你确定要你要更新主机密钥吗？</translation>
+    </message>
+    <message>
+        <source>No host key is found for the server. Do you want to add the host key and continue?</source>
+        <translation>没有找到主机密钥，你要添加主机密钥然后继续吗？</translation>
+    </message>
+    <message>
+        <source>HOST KEY DOES NOT MATCH! THIS COULD BE A MITM ATTACK! DO YOU REALLY WANT TO CONTINUE? IF YOU DO NOT KNOW WHAT YOU ARE DOING, CHOOSE NO!</source>
+        <translation>主机密钥不符。可能是中间人攻击。你真的要继续吗？如果你不知道自己在干什么，选否。</translation>
+    </message>
+</context>
+<context>
     <name>QTerm::ShortcutsDialog</name>
     <message>
         <source>Assign Shortcut</source>
@@ -1253,6 +1280,18 @@ Do you want to clear and reassign?</source>
     <message>
         <source>Clear Favorite</source>
         <translation>清除 Favorite</translation>
+    </message>
+    <message>
+        <source>Choose a script file</source>
+        <translation>选择脚本文件</translation>
+    </message>
+    <message>
+        <source>Choose public key file</source>
+        <translation>选择公钥文件</translation>
+    </message>
+    <message>
+        <source>Choose private key file</source>
+        <translation>选择密钥文件</translation>
     </message>
 </context>
 <context>
@@ -2440,6 +2479,43 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Reconnect Delay (s):</source>
         <translation>重新连接延迟(s):</translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation>用户名:</translation>
+    </message>
+    <message>
+        <source>Password Authentication:</source>
+        <translation>密码认证:</translation>
+    </message>
+    <message>
+        <source>Public Key Authentication:</source>
+        <translation>公钥认证:</translation>
+    </message>
+    <message>
+        <source>Public Key File:</source>
+        <translation>公钥文件:</translation>
+    </message>
+    <message>
+        <source>Private Key File:</source>
+        <translation>私钥文件:</translation>
+    </message>
+    <message>
+        <source>Passphrase:</source>
+        <translatorcomment>not sure how to differentiate between password and passphrase</translatorcomment>
+        <translation>密码:</translation>
+    </message>
+    <message>
+        <source>Host Verification:</source>
+        <translation>主机认证:</translation>
+    </message>
+    <message>
+        <source>Server Host Key:</source>
+        <translation>主机密钥:</translation>
+    </message>
+    <message>
+        <source>Public Key Authentication (RSA or DSA):</source>
+        <translation>公钥认证 (RSA 或者 DSA):</translation>
     </message>
 </context>
 <context>

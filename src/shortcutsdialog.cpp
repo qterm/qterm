@@ -1,13 +1,8 @@
 #include "shortcutsdialog.h"
 #include "qtermglobal.h"
-#include <QtGui/QKeyEvent>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QMessageBox>
-#include <QtWidgets/QShortcut>
-#else
-#include <QtGui/QMessageBox>
-#include <QtGui/QShortcut>
-#endif
+#include <QKeyEvent>
+#include <QMessageBox>
+#include <QShortcut>
 
 namespace QTerm {
 

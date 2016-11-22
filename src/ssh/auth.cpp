@@ -29,21 +29,11 @@ namespace QTerm
 {
 
 SSH2Auth::SSH2Auth(QByteArray & sessionID, SSH2InBuffer * in, SSH2OutBuffer * out, QObject *parent)
-        : QObject(parent), m_username(), m_method(), m_authMethod(None), m_lastTried(None), m_sessionID(sessionID), m_publicKey(), m_hasRSAKey(false), m_hasDSSKey(false), m_tries(0)
+        : QObject(parent), m_username(), m_method(), m_authMethod(None), m_lastTried(None), m_sessionID(sessionID), m_publicKey(), m_keyType(Unknown), m_publicKeyAuthAvailable(false), m_tries(0)
 {
     m_in = in;
     m_out = out;
     m_hostInfo = NULL;
-
-    if (QFile::exists(QDir::homePath() + "/.ssh/id_rsa.pub") &&
-        QFile::exists(QDir::homePath() + "/.ssh/id_rsa")) {
-        m_hasRSAKey = true;
-    }
-
-    if (QFile::exists(QDir::homePath() + "/.ssh/id_dsa.pub") &&
-        QFile::exists(QDir::homePath() + "/.ssh/id_dsa")) {
-        m_hasDSSKey = true;
-    }
 
     connect(m_in, SIGNAL(packetReady(int)), this, SLOT(authPacketReceived(int)));
 }
@@ -57,6 +47,9 @@ void SSH2Auth::setHostInfo(HostInfo * hostInfo)
     if (hostInfo->type() == HostInfo::SSH) {
         m_hostInfo = static_cast<SSHInfo *>(hostInfo);
     }
+
+    m_publicKeyAuthAvailable = m_hostInfo->publicKeyAuthAvailable();
+
 }
 
 void SSH2Auth::authPacketReceived(int flag)
@@ -121,16 +114,7 @@ void SSH2Auth::authPacketReceived(int flag)
 
 void SSH2Auth::failureHandler()
 {
-    if (m_method.contains("publickey") && m_lastTried == None) {
-        if (m_authMethod == PublicKey) {
-            if (m_hasRSAKey) {
-                // Tried and failed RSA
-                m_hasRSAKey = false;
-            } else if (m_hasDSSKey) {
-                // Only try DSS if we do not have RSA
-                m_hasDSSKey = false;
-            }
-        }
+    if (m_method.contains("publickey") && m_publicKeyAuthAvailable && m_lastTried == None) {
         m_lastTried = PublicKey;
         publicKeyAuth();
     } else if (m_method.contains("keyboard-interactive") && m_lastTried <= PublicKey) {
@@ -229,15 +213,7 @@ void SSH2Auth::publicKeyAuth()
     m_out->putString("ssh-connection");
     m_out->putString("publickey");
     m_out->putUInt8(0);
-    QString publicKeyFile;
-    if (m_hasRSAKey) {
-        m_out->putString("ssh-rsa");
-        publicKeyFile = QDir::homePath() + "/.ssh/id_rsa.pub";
-    } else if (m_hasDSSKey) {
-        m_out->putString("ssh-dss");
-        publicKeyFile = QDir::homePath() + "/.ssh/id_dsa.pub";
-    }
-    // TODO: Select other key files
+    QString publicKeyFile = m_hostInfo->publicKeyFile();
     QFile file(publicKeyFile);
     // TODO: Die
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -246,14 +222,18 @@ void SSH2Auth::publicKeyAuth()
         return;
     }
     QList<QByteArray> pubKeyLine = file.readLine().split(' ');
-#ifdef SSH_DEBUG
+    file.close();
     if (pubKeyLine[0] == "ssh-dss") {
-        qDebug() << "Get dss key";
+        m_out->putString("ssh-dss");
+        m_keyType = SSH_DSS;
+    } else if (pubKeyLine[0] == "ssh-rsa") {
+        m_out->putString("ssh-rsa");
+        m_keyType = SSH_RSA;
+    } else {
+        qDebug("Unknow public key type");
+        failureHandler();
+        return;
     }
-    if (pubKeyLine[0] == "ssh-rsa") {
-        qDebug() << "Get rsa key";
-    }
-#endif
     m_publicKey = pubKeyLine[1];
 #ifdef SSH_DEBUG
     qDebug() << "Public Key: " << pubKeyLine[1];
@@ -265,6 +245,17 @@ void SSH2Auth::publicKeyAuth()
 #endif
 }
 
+SSH2Auth::KeyType SSH2Auth::checkPrivateKeyType(const QByteArray & data)
+{
+    if (data.startsWith("-----BEGIN RSA PRIVATE KEY-----")) {
+        return SSH_RSA;
+    } else if (data.startsWith("-----BEGIN DSA PRIVATE KEY-----")) {
+        return SSH_DSS;
+    } else {
+        return Unknown;
+    }
+}
+
 void SSH2Auth::generateSign()
 {
     DSA *dsa = NULL;
@@ -273,21 +264,19 @@ void SSH2Auth::generateSign()
     DSA_SIG *sig;
 
     uint rlen, slen;
-    QString passphrase = "";
-    QString privateKeyFile;
-    if (m_hasRSAKey) {
-        privateKeyFile = QDir::homePath() + "/.ssh/id_rsa";
-    } else if (m_hasDSSKey) {
-        privateKeyFile = QDir::homePath() + "/.ssh/id_dsa";
-    }
-    if (!QFile::exists(privateKeyFile)) {
-        qDebug("Cannot find the private key file");
+    QString passphrase = m_hostInfo->passphrase();
+    QString privateKeyFile = m_hostInfo->privateKeyFile();
+    QFile file(privateKeyFile);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug("Cannot open the private key file");
         failureHandler();
         return;
     }
-    fp = fopen(privateKeyFile.toUtf8().data(), "r");
-    if (!fp) {
-        qDebug("Cannot open the private key file");
+    QByteArray privateKeyData = file.readAll();
+    file.close();
+    KeyType type = checkPrivateKeyType(privateKeyData);
+    if (type == Unknown) {
+        qDebug("Unknown private key type");
         failureHandler();
         return;
     }
@@ -295,20 +284,20 @@ void SSH2Auth::generateSign()
     if (!EVP_get_cipherbyname("des")) {
         OpenSSL_add_all_ciphers();
     }
-    if (m_hasRSAKey) {
-        rsa = PEM_read_RSAPrivateKey(fp, NULL, NULL, passphrase.toUtf8().data());
-    } else if (m_hasDSSKey) {
-        dsa = PEM_read_DSAPrivateKey(fp, NULL, NULL, passphrase.toUtf8().data());
+    BIO * mem = BIO_new_mem_buf((void*)privateKeyData.data(), -1);
+
+    if (type == SSH_RSA) {
+        rsa = PEM_read_bio_RSAPrivateKey(mem, NULL, m_hostInfo->passphraseCallback, passphrase.toUtf8().data());
+    } else if (type == SSH_DSS) {
+        dsa = PEM_read_bio_DSAPrivateKey(mem, NULL, m_hostInfo->passphraseCallback, passphrase.toUtf8().data());
     }
+
+    BIO_free(mem);
     if (!rsa && !dsa) {
-        fclose(fp);
-#ifdef SSH_DEBUG
-        qDebug() << "Cannot read the private key file";
-#endif
+        qDebug("Cannot read the private key file");
         failureHandler();
         return;
     }
-    fclose(fp);
 #ifdef SSH_DEBUG
     qDebug() << "Private key read ok";
 #endif
@@ -322,7 +311,7 @@ void SSH2Auth::generateSign()
     m_out->putString("ssh-connection");
     m_out->putString("publickey");
     m_out->putUInt8(1);
-    if (m_hasRSAKey) {
+    if (type == SSH_RSA) {
         m_out->putString("ssh-rsa");
         m_out->putString(QByteArray::fromBase64(m_publicKey));
         QByteArray buf = QCryptographicHash::hash(tmp.buffer() + m_out->buffer(), QCryptographicHash::Sha1);
@@ -332,7 +321,7 @@ void SSH2Auth::generateSign()
         m_out->putUInt32(4 + 7 + 4 + sigblob.size());
         m_out->putString("ssh-rsa");
         m_out->putString(sigblob);
-    } else if (m_hasDSSKey) {
+    } else if (type == SSH_DSS) {
         m_out->putString("ssh-dss");
         m_out->putString(QByteArray::fromBase64(m_publicKey));
         QByteArray buf = QCryptographicHash::hash(tmp.buffer() + m_out->buffer(), QCryptographicHash::Sha1);

@@ -4,15 +4,9 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QSettings>
 
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QToolBar>
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QToolButton>
-#else
-#include <QtGui/QToolBar>
-#include <QtGui/QMainWindow>
-#include <QtGui/QToolButton>
-#endif
+#include <QToolBar>
+#include <QMainWindow>
+#include <QToolButton>
 
 namespace QTerm {
 

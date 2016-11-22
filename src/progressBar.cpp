@@ -20,16 +20,10 @@
 #include "progressBar.h"
 #include "qtermglobal.h"
 //Added by qt3to4:
-#include <QtGui/QPixmap>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QProgressBar>
-#include <QtWidgets/QPushButton>
-#else
-#include <QtGui/QLabel>
-#include <QtGui/QProgressBar>
-#include <QtGui/QPushButton>
-#endif
+#include <QPixmap>
+#include <QLabel>
+#include <QProgressBar>
+#include <QPushButton>
 
 namespace QTerm {
 

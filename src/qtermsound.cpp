@@ -10,6 +10,10 @@
 #endif
 #endif // PHONON_ENABLED
 
+#ifdef QMEDIAPLAYER_ENABLED
+#include <QMediaPlayer>
+#endif // QMEDIAPLAYER_ENABLED
+
 namespace QTerm
 {
 
@@ -27,6 +31,18 @@ PhononSound::play()
     }
 }
 #endif // PHONON_ENABLED
+
+#ifdef QMEDIAPLAYER_ENABLED
+void
+QMediaPlayerSound::play()
+{
+    if (QFile::exists(_soundfile)) {
+        QMediaPlayer * player = new QMediaPlayer;
+        player->setMedia(QUrl::fromLocalFile(_soundfile));
+        player->play();
+    }
+}
+#endif // QMEDIAPLAYER_ENABLED
 
 void
 ExternalSound::setPlayer(const QString & playername)

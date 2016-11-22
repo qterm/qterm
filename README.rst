@@ -1,4 +1,4 @@
-QTerm Readme
+QTerm --- BBS client based on Qt
 ============
 
 QTerm is a BBS (Bulletin Board System) client program. It runs on GNU/Linux,
@@ -20,16 +20,21 @@ become a fully functional BBS client such as S-Term and CTerm.
 
 Build
 -----
-. Qt 4.6+ or Qt 5.0+
-. OpenSSL for SSH
-. cmake
+- Qt 4.6+ or Qt 5.0+
+- CMake 2.8.6+
+- OpenSSL (Optional)
+- DBus (Optional)
+- Phonon (Optional)
+- KWallet (Optional)
 
-To build,::
+To build,
+
+::
 
     # Using Qt4
     cmake .
     # Using Qt5
-    cmake -DQT5=YES -DCMAKE_PREFIX_PATH=/Users/wang/Qt/5.1.1/clang_64/lib/cmake .
+    cmake . -DQT5=YES
     make
 
 Development
@@ -44,4 +49,4 @@ QTerm is released under GNU General Public License (refer to COPYING).
 
 Credits
 -------
-Thanks to many users for their bug reports and suggestions.
+Kudos to our users for their bug reports and suggestions.

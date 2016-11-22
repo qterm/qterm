@@ -49,6 +49,12 @@ private:
         Keyboard,
         Password
     };
+    enum KeyType
+    {
+        Unknown,
+        SSH_RSA,
+        SSH_DSS
+    };
     void noneAuth();
     void publicKeyAuth();
     void keyboardAuth();
@@ -56,6 +62,7 @@ private:
     void requestInput();
     void generateSign();
     void failureHandler();
+    KeyType checkPrivateKeyType(const QByteArray & data);
     QString m_username;
     QByteArray m_method;
     AuthMethod m_authMethod;
@@ -64,9 +71,9 @@ private:
     SSH2OutBuffer * m_out;
     QByteArray m_sessionID;
     QByteArray m_publicKey;
+    KeyType m_keyType;
     SSHInfo * m_hostInfo;
-    bool m_hasRSAKey;
-    bool m_hasDSSKey;
+    bool m_publicKeyAuthAvailable;
 
     // Give keyboardAuth and passwordAuth 3 tries.
     int m_tries;

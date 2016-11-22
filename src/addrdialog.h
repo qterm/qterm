@@ -40,6 +40,8 @@ protected slots:
     void onKeyboardProfile(int);
     void onProtocol(int);
     void onChooseScript();
+    void onChoosePublicKeyFile();
+    void onChoosePrivateKeyFile();
     void onMenuColor();
     void onASCIIFont(const QFont & font);
     void onGeneralFont(const QFont & font);

@@ -1,0 +1,20 @@
+language: cpp
+
+compiler:
+ - gcc
+
+dist: trusty
+
+before_install:
+ - sudo add-apt-repository --yes ppa:beineri/opt-qt57-trusty
+ - sudo apt-get -qy update
+
+install:
+ - sudo apt-get install -qy qt57-meta-full
+
+script:
+ - source /opt/qt57/bin/qt57-env.sh
+ - mkdir build
+ - cd build
+ - cmake .. -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes
+ - make

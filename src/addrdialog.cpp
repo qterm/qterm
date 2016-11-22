@@ -288,9 +288,15 @@ void addrDialog::onProtocol(int n)
     if (n == 1) {
         QMessageBox::warning(this, "QTerm", tr("SSH support is not compiled, check your OpenSSL and try to recompile QTerm"));
         ui.protocolComboBox->setCurrentIndex(0);
+        ui.tabWidget->setTabEnabled(5,false);
     }
 #endif
     ui.portSpinBox->setValue(23 - n);
+    if (n == 0) {
+        ui.tabWidget->setTabEnabled(5,false);
+    } else {
+        ui.tabWidget->setTabEnabled(5,true);
+    }
 }
 
 void addrDialog::onChooseScript()
@@ -303,7 +309,7 @@ void addrDialog::onChooseScript()
 #endif
 
     QString strFile = QFileDialog::getOpenFileName(
-                          this, "choose a script file",
+                          this, tr("Choose a script file"),
                           path, "Script Files (*.js)");
 
     if (strFile.isNull())
@@ -312,6 +318,38 @@ void addrDialog::onChooseScript()
     QFileInfo file(strFile);
 
     ui.scriptLineEdit->setText(file.absoluteFilePath());
+}
+
+void addrDialog::onChoosePublicKeyFile()
+{
+    QString path;
+
+    QString strFile = QFileDialog::getOpenFileName(
+                          this, tr("Choose public key file"),
+                          path);
+
+    if (strFile.isNull())
+        return;
+
+    QFileInfo file(strFile);
+
+    ui.sshPublicKeyFileLineEdit->setText(file.absoluteFilePath());
+}
+
+void addrDialog::onChoosePrivateKeyFile()
+{
+    QString path;
+
+    QString strFile = QFileDialog::getOpenFileName(
+                          this, tr("Choose private key file"),
+                          path);
+
+    if (strFile.isNull())
+        return;
+
+    QFileInfo file(strFile);
+
+    ui.sshPrivateKeyFileLineEdit->setText(file.absoluteFilePath());
 }
 
 void addrDialog::onMenuColor()
@@ -338,6 +376,8 @@ void addrDialog::connectSlots()
     connect(ui.protocolComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onProtocol(int)));
 
     connect(ui.scriptPushButton, SIGNAL(clicked()), this, SLOT(onChooseScript()));
+    connect(ui.sshPublicKeyFilePushButton, SIGNAL(clicked()), this, SLOT(onChoosePublicKeyFile()));
+    connect(ui.sshPrivateKeyFilePushButton, SIGNAL(clicked()), this, SLOT(onChoosePrivateKeyFile()));
 
     connect(ui.menuColorButton, SIGNAL(clicked()), this, SLOT(onMenuColor()));
     connect(ui.asciiFontComboBox, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(onASCIIFont(const QFont &)));
@@ -392,7 +432,13 @@ bool addrDialog::isChanged()
            param.m_mapParam["loadscript"].toBool() != ui.scriptCheckBox->isChecked() ||
            param.m_mapParam["scriptfile"].toString() != ui.scriptLineEdit->text() ||
            param.m_mapParam["menutype"].toInt() != ui.menuTypeComboBox->currentIndex() ||
-           param.m_mapParam["menucolor"] != clrMenu);
+           param.m_mapParam["menucolor"] != clrMenu) ||
+           param.m_mapParam["sshuser"].toString() != ui.sshUserLineEdit->text() ||
+           param.m_mapParam["sshpass"].toString() != ui.sshPassLineEdit->text() ||
+           param.m_mapParam["sshpublickeyfile"].toString() != ui.sshPublicKeyFileLineEdit->text() ||
+           param.m_mapParam["sshprivatekeyfile"].toString() != ui.sshPrivateKeyFileLineEdit->text() ||
+           param.m_mapParam["sshpassphrase"].toString() != ui.sshPassphraseLineEdit->text() ||
+           param.m_mapParam["sshhostkey"].toString() != ui.sshHostKeyPlainTextEdit->toPlainText();
 
 }
 
@@ -447,8 +493,15 @@ void addrDialog::updateData(bool save)
         param.m_mapParam["scriptfile"] = ui.scriptLineEdit->text();
         param.m_mapParam["menutype"] = ui.menuTypeComboBox->currentIndex();
         param.m_mapParam["menucolor"] = clrMenu;
+        param.m_mapParam["sshuser"] = ui.sshUserLineEdit->text();
+        param.m_mapParam["sshpass"] = ui.sshPassLineEdit->text();
+        param.m_mapParam["sshpublickeyfile"] = ui.sshPublicKeyFileLineEdit->text();
+        param.m_mapParam["sshprivatekeyfile"] = ui.sshPrivateKeyFileLineEdit->text();
+        param.m_mapParam["sshpassphrase"] = ui.sshPassphraseLineEdit->text();
+        param.m_mapParam["sshhostkey"] = ui.sshHostKeyPlainTextEdit->toPlainText();
     } else { // from param to display
         disconnect(ui.protocolComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onProtocol(int)));
+        ui.tabWidget->setTabEnabled(5,false);
         QString strTmp;
         ui.nameLineEdit->setText(param.m_mapParam["name"].toString());
         ui.addrLineEdit->setText(param.m_mapParam["addr"].toString());
@@ -498,6 +551,9 @@ void addrDialog::updateData(bool save)
         ui.proxyuserLineEdit->setText(param.m_mapParam["proxyuser"].toString());
         ui.proxypasswdLineEdit->setText(param.m_mapParam["proxypassword"].toString());
         ui.protocolComboBox->setCurrentIndex(param.m_mapParam["protocol"].toInt());
+        if (param.m_mapParam["protocol"].toInt() == 1) {
+            ui.tabWidget->setTabEnabled(5,true);
+        }
         ui.idletimeLineEdit->setText(param.m_mapParam["maxidle"].toString());
         ui.replykeyLineEdit->setText(param.m_mapParam["replykey"].toString());
         ui.antiLineEdit->setText(param.m_mapParam["antiidlestring"].toString());
@@ -518,6 +574,12 @@ void addrDialog::updateData(bool save)
         //QRadioButton * rbMenu = qobject_cast<QRadioButton*>(bgMenu.button(param.m_nMenuType));
         //rbMenu->setChecked(true);
         clrMenu = param.m_mapParam["menucolor"].toString();
+        ui.sshUserLineEdit->setText(param.m_mapParam["sshuser"].toString());
+        ui.sshPassLineEdit->setText(param.m_mapParam["sshpass"].toString());
+        ui.sshPublicKeyFileLineEdit->setText(param.m_mapParam["sshpublickeyfile"].toString());
+        ui.sshPrivateKeyFileLineEdit->setText(param.m_mapParam["sshprivatekeyfile"].toString());
+        ui.sshPassphraseLineEdit->setText(param.m_mapParam["sshpassphrase"].toString());
+        ui.sshHostKeyPlainTextEdit->setPlainText(param.m_mapParam["sshhostkey"].toString());
         connect(ui.protocolComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onProtocol(int)));
     }
 }

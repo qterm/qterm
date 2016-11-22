@@ -350,7 +350,7 @@ Window::Window(Frame * frame, Param param, const QString &uuid, QWidget * parent
     m_bAntiIdle = true;
 	m_bAutoReply = m_param.m_mapParam["bautoreply"].toBool();
     m_bBeep  = !(
-#ifndef PHONON_ENABLED
+#if !defined(PHONON_ENABLED) && !defined(QMEDIAPLAYER_ENABLED)
                    Global::instance()->m_pref.strPlayer.isEmpty() ||
 #endif // PHONON_ENABLED
                    Global::instance()->m_pref.strWave.isEmpty());
@@ -868,23 +868,26 @@ void Window::connectHost()
 	bool bAutoLogin = m_param.m_mapParam["autologin"].toBool();
 	QString strAddr = m_param.m_mapParam["addr"].toString();
 	int nPort = m_param.m_mapParam["port"].toInt();
-	QString strUser = m_param.m_mapParam["user"].toString();
-	QString strPasswd = m_param.m_mapParam["password"].toString();
+	QString strSSHUser = m_param.m_mapParam["sshuser"].toString();
+	QString strSSHPass = m_param.m_mapParam["sshpass"].toString();
 	QString strTerm = m_param.m_mapParam["termtype"].toString();
 
     if (m_hostInfo == NULL) {
         if (nProtocol == 0)
-            m_hostInfo = new TelnetInfo(strAddr, nPort);
+            m_hostInfo = new TelnetInfo(strAddr, nPort, this);
         else {
 #ifndef SSH_ENABLED
-            m_hostInfo = new TelnetInfo(strAddr, nPort);
+            m_hostInfo = new TelnetInfo(strAddr, nPort, this);
 #else
-            SSHInfo * sshInfo = new SSHInfo(strAddr , nPort);
-            if (bAutoLogin) {
-                sshInfo->setUserName(strUser);
-                sshInfo->setPassword(strPasswd);
-            }
+            SSHInfo * sshInfo = new SSHInfo(strAddr , nPort, this);
+            sshInfo->setUserName(strSSHUser);
+            sshInfo->setPassword(strSSHPass);
+            sshInfo->setPublicKeyFile(m_param.m_mapParam["sshpublickeyfile"].toString());
+            sshInfo->setPrivateKeyFile(m_param.m_mapParam["sshprivatekeyfile"].toString());
+            sshInfo->setPassphrase(m_param.m_mapParam["sshpassphrase"].toString());
+            sshInfo->setHostKey(m_param.m_mapParam["sshhostkey"].toString());
             m_hostInfo = sshInfo;
+            connect(m_hostInfo, SIGNAL(hostKeyChanged(const QString &)), this, SLOT(updateHostKey(const QString &)));
 #endif
         }
     }
@@ -1513,6 +1516,16 @@ void Window::showArticle(const QString text)
     Global::instance()->fileCfg()->save();
 }
 
+void Window::updateHostKey(const QString & hostKey)
+{
+    m_param.m_mapParam["sshhostkey"] = hostKey;
+    if (!m_strUuid.isEmpty()) {
+        QDomDocument doc = Global::instance()->addrXml();
+        Global::instance()->saveAddress(doc,m_strUuid, m_param);
+        Global::instance()->saveAddressXml(doc);
+    }
+}
+
 /* ------------------------------------------------------------------------ */
 /*                                                                         */
 /*                           Aux Func                                       */
@@ -1775,6 +1788,11 @@ void Window::updateWindow()
         // because smth.org changed
         if (m_bMessage) {
             if (m_bBeep) {
+#ifdef QMEDIAPLAYER_ENABLED
+                if (Global::instance()->m_pref.strPlayer.isEmpty()) {
+                    m_pSound = new QMediaPlayerSound(Global::instance()->m_pref.strWave, this);
+                } else
+#endif // QMEDIAPLAYER_ENABLED
 #ifdef PHONON_ENABLED
                 if (Global::instance()->m_pref.strPlayer.isEmpty()) {
                     m_pSound = new PhononSound(Global::instance()->m_pref.strWave, this);
