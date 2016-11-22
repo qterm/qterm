@@ -2,7 +2,6 @@ language: cpp
 
 os:
  - linux
- - osx
 
 compiler:
  - gcc
@@ -13,13 +12,6 @@ dist: trusty
 env:
  - QT=5  BREW=5
  - QT=5  BREW=ex PPA=ubuntu-sdk-team/ppa
- - QT=51 BREW=ex PPA=beineri/opt-qt511-trusty
- - QT=52 BREW=ex PPA=beineri/opt-qt521-trusty
- - QT=53 BREW=ex PPA=beineri/opt-qt532-trusty
- - QT=54 BREW=ex PPA=beineri/opt-qt542-trusty
- - QT=55 BREW=55 PPA=beineri/opt-qt551-trusty
- - QT=56 BREW=5  PPA=beineri/opt-qt561-trusty
- - QT=57 BREW=ex PPA=beineri/opt-qt57-trusty
 
 matrix:
  exclude:
