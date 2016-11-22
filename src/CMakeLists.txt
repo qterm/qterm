@@ -324,7 +324,9 @@ if (APPLE)
       get_target_property(_loc ${plugin} LOCATION)
       get_filename_component(_plugindir ${_loc} PATH)
       get_filename_component(_pluginname ${_plugindir} NAME)
-      install(FILES ${_loc} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/PlugIns/${_pluginname})
+      install(CODE "
+          file(COPY ${_loc} DESTINATION \${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/PlugIns/${_pluginname})
+          " COMPONENT Runtime)
     endforeach()
     get_target_property(QT_LIBRARY_DIR Qt5::Core LOCATION)
     get_filename_component(QT_LIBRARY_DIR ${QT_LIBRARY_DIR} PATH)
@@ -334,13 +336,13 @@ if (APPLE)
     install(DIRECTORY ${QT_PLUGINS_DIR}/codecs DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/PlugIns)
   endif(QT5)
   install(CODE "
-      file(WRITE \"${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/Resources/qt.conf\" \"[Paths]\nPlugIns=PlugIns\")
+      file(WRITE \"\${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/Resources/qt.conf\" \"[Paths]\nPlugIns=PlugIns\")
     " COMPONENT Runtime)
   install(CODE "
-      file(GLOB_RECURSE PLUGINS  ${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/PlugIns/*${CMAKE_SHARED_LIBRARY_SUFFIX})
+      file(GLOB_RECURSE PLUGINS  \${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/PlugIns/*${CMAKE_SHARED_LIBRARY_SUFFIX})
       set(BU_CHMOD_BUNDLE_ITEMS ON)
       include(BundleUtilities)
-      fixup_bundle(\"${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/MacOS/QTerm\" 
+      fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.app/Contents/MacOS/QTerm\"
        \"\${PLUGINS}\" 
        \"${QT_LIBRARY_DIR}\")
     " COMPONENT Runtime)
