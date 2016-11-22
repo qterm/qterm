@@ -1,6 +1,6 @@
 project(qterm)
 include(CTest)
-cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.11 FATAL_ERROR)
 set(QTERM_VERSION_MAJOR 0)
 set(QTERM_VERSION_MINOR 6)
 set(QTERM_VERSION_RELEASE 0)
