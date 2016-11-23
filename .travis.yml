@@ -42,15 +42,13 @@ install:
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy install qt5-qmake qtbase5-dev qttools5-dev qttools5-dev-tools qtscript5-dev qtmultimedia5-dev'
  - '[ "$TRAVIS_OS_NAME" != osx ] || brew install qt$BREW'
  - '[ "$TRAVIS_OS_NAME" != osx ] || brew link --force qt$BREW'
- - '[ "$TRAVIS_OS_NAME" != osx ] || export HOMEBREW_QT5_VERSION=$(brew list --versions qt5 | rev | cut -d" " -f1 | rev)'
- - '[ "$TRAVIS_OS_NAME" != osx ] || ln -s /usr/local/Cellar/qt$BREW/$HOMEBREW_QT5_VERSION/mkspecs /usr/local/mkspecs'
- - '[ "$TRAVIS_OS_NAME" != osx ] || ln -s /usr/local/Cellar/qt$BREW/$HOMEBREW_QT5_VERSION/plugins /usr/local/plugins'
 
 script:
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || . /opt/qt$QT/bin/qt$QT-env.sh'
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || export QT_SELECT=qt5'
  - mkdir build
  - pushd build
- - cmake .. -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes
+ - '[ "$TRAVIS_OS_NAME" != osx] || cmake .. -DCMAKE_PREFIX_PATH=`brew --prefix qt$BREW` -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes'
+ - '[ "$TRAVIS_OS_NAME" != linux ] || cmake .. -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes
  - make
  - popd
