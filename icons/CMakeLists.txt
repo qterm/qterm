@@ -41,7 +41,7 @@ macro(qterm_install_icons _theme)
          set(_icon_GROUP  "actions")
       endif(${_group} STREQUAL "action")
 
-      set(_ICON_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/icons/${_theme}/${_sizestring}/${_icon_GROUP})
+      set(_ICON_INSTALL_DIR share/icons/${_theme}/${_sizestring}/${_icon_GROUP})
 
       install(FILES ${_current_ICON} DESTINATION ${_ICON_INSTALL_DIR} RENAME ${_name})
 
