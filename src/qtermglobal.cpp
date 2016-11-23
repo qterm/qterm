@@ -408,7 +408,7 @@ QString Global::getSaveFileName(const QString& filename, QWidget* widget)
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 bool Global::iniWorkingDir(QString param)
 {
-    char ExeNamePath[MAX_PATH], _fileCfg[MAX_PATH], _addrCfg[MAX_PATH], _addrXml[MAX_PATH];
+    char ExeNamePath[MAX_PATH];
     size_t LastSlash = 0;
 
     if (0 == GetModuleFileNameA(NULL, ExeNamePath, MAX_PATH)) {
@@ -424,16 +424,16 @@ bool Global::iniWorkingDir(QString param)
     }
     ExeNamePath[LastSlash+1] = '\0';
     m_pathLib = QString::fromLocal8Bit(ExeNamePath) + "../share/qterm/";
-    m_pathCfg = QString::fromLocal8Bit(ExeNamePath) + "../share/qterm/";
-    strcpy(_fileCfg, ExeNamePath);
-    strcat(_fileCfg, "qterm.cfg");
-    m_fileCfg = QString::fromLocal8Bit(_fileCfg);
-    strcpy(_addrCfg, ExeNamePath);
-    strcat(_addrCfg, "address.cfg");
-    m_addrCfg = QString::fromLocal8Bit(_addrCfg);
-    strcpy(_addrXml, ExeNamePath);
-    strcat(_addrXml, "address.xml");    
-    m_addrXml = QString::fromLocal8Bit(_addrXml);
+    m_pathCfg = QDir::homePath() + "/.qterm/";
+    if (!isPathExist(m_pathCfg))
+        return false;
+
+    // copy configuration files
+    m_fileCfg = m_pathCfg + "qterm.cfg";
+    if (!createLocalFile(m_fileCfg, m_pathLib + "qterm.cfg"))
+        return false;
+    m_addrCfg = m_pathCfg + "address.cfg";
+    m_addrXml = m_pathCfg + "address.xml";
     if (!convertAddressBook2XML())
         return false;
 
