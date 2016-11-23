@@ -22,5 +22,5 @@ install:
 build_script:
  - mkdir build
  - cd build
- - cmake "%APPVEYOR_BUILD_FOLDER" -G "%CMAKE_GENERATOR%" -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes
+ - cmake "%APPVEYOR_BUILD_FOLDER%" -G "%CMAKE_GENERATOR%" -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes
  - '%make%'
