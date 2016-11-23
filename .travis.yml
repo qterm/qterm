@@ -48,7 +48,7 @@ script:
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || export QT_SELECT=qt5'
  - mkdir build
  - pushd build
- - '[ "$TRAVIS_OS_NAME" != osx] || cmake .. -DCMAKE_PREFIX_PATH=`brew --prefix qt$BREW` -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes'
+ - '[ "$TRAVIS_OS_NAME" != osx] || cmake .. -DCMAKE_PREFIX_PATH=`brew --prefix qt$BREW` -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DOPENSSL_ROOT_DIR=`brew --prefix openssl` -DQT5=Yes'
  - '[ "$TRAVIS_OS_NAME" != linux ] || cmake .. -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes'
  - make
  - popd
