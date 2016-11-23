@@ -53,4 +53,5 @@ script:
  - '[ "$TRAVIS_OS_NAME" != osx ] || cmake .. -DCMAKE_PREFIX_PATH=`brew --prefix qt$BREW` -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes'
  - '[ "$TRAVIS_OS_NAME" != linux ] || cmake .. -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes'
  - make
+ - '[ "$TRAVIS_OS_NAME" != osx ] || make package'
  - popd
