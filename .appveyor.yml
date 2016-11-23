@@ -1,0 +1,67 @@
+version: '{branch}-{build}'
+
+environment:
+ matrix:
+  - QTDIR: C:\Qt\5.3\mingw482_32
+    CMAKE_GENERATOR: "MinGW Makefiles"
+    MINGWDIR: C:\Qt\Tools\mingw482_32
+  - QTDIR: C:\Qt\5.3\msvc2013_opengl
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.3\msvc2013_64_opengl
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.4\mingw491_32
+    CMAKE_GENERATOR: "MinGW Makefiles"
+    MINGWDIR: C:\Qt\Tools\mingw491_32
+  - QTDIR: C:\Qt\5.4\msvc2013_opengl
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.4\msvc2013_64_opengl
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.5\mingw492_32
+    CMAKE_GENERATOR: "MinGW Makefiles"
+    MINGWDIR: C:\Qt\Tools\mingw492_32
+  - QTDIR: C:\Qt\5.5\msvc2013
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.5\msvc2013_64
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.6\mingw49_32
+    MINGWDIR: C:\Qt\Tools\mingw492_32
+    CMAKE_GENERATOR: "MinGW Makefiles"
+  - QTDIR: C:\Qt\5.6\msvc2013
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.6\msvc2013_64
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.6\msvc2015
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.6\msvc2015_64
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.7\mingw53_32
+    CMAKE_GENERATOR: "MinGW Makefiles"
+    MINGWDIR: C:\Qt\Tools\mingw530_32
+  - QTDIR: C:\Qt\5.7\msvc2013
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.7\msvc2013_64
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.7\msvc2015
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.7\msvc2015_64
+    CMAKE_GENERATOR: "NMake Makefiles"
+
+install:
+ - '%QTDIR%\bin\qtenv2.bat'
+ - qmake -v
+ - if %QTDIR:_64=%==%QTDIR% ( set ARCH=x86 ) else set ARCH=x64
+ - if %QTDIR:_64=%==%QTDIR% ( set OPENSSL_ROOT_DIR=C:\OpenSSL-Win32 ) else set OPENSSL_ROOT_DIR=C:\OpenSSL-Win64
+ - if %QTDIR:msvc=%==%QTDIR% g++ --version
+ - if %QTDIR:msvc=%==%QTDIR% set make=mingw32-make.exe
+ - if %QTDIR:msvc=%==%QTDIR% set PATH=%QTDIR%\bin;%MINGWDIR%\bin;C:\Program Files (x86)\CMake\bin
+ - if %QTDIR:msvc=%==%QTDIR% %make% --version
+ - if not %QTDIR:msvc2013=%==%QTDIR% call "%ProgramFiles(x86)%\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" %ARCH%
+ - if not %QTDIR:msvc2015=%==%QTDIR% call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %ARCH%
+ - if not %QTDIR:msvc=%==%QTDIR% set make=nmake.exe
+ - if not %QTDIR:msvc=%==%QTDIR% %make% /? > nul
+
+build_script:
+ - mkdir build
+ - cd build
+ - cmake "%APPVEYOR_BUILD_FOLDER%" -G "%CMAKE_GENERATOR%" -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes
+ - '%make%'

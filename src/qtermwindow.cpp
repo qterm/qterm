@@ -880,6 +880,12 @@ void Window::connectHost()
             m_hostInfo = new TelnetInfo(strAddr, nPort, this);
 #else
             SSHInfo * sshInfo = new SSHInfo(strAddr , nPort, this);
+            if (strSSHUser.isEmpty()) {
+                strSSHUser = m_param.m_mapParam["user"].toString();
+                if (strSSHPass.isEmpty()) {
+                    strSSHPass = m_param.m_mapParam["password"].toString();
+                }
+            }
             sshInfo->setUserName(strSSHUser);
             sshInfo->setPassword(strSSHPass);
             sshInfo->setPublicKeyFile(m_param.m_mapParam["sshpublickeyfile"].toString());
