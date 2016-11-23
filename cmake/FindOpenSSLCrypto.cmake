@@ -22,17 +22,125 @@ IF(LIB_EAY_DEBUG AND LIB_EAY_RELEASE)
    SET(LIB_FOUND 1)
 ENDIF(LIB_EAY_DEBUG AND LIB_EAY_RELEASE)
 
-FIND_PATH(OPENSSL_CRYPTO_INCLUDE_DIR openssl/ssl.h )
+# Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES
+if(OPENSSL_USE_STATIC_LIBS)
+  set(_openssl_ORIG_CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES})
+  if(WIN32)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+  else()
+    set(CMAKE_FIND_LIBRARY_SUFFIXES .a )
+  endif()
+endif()
+
+if (WIN32)
+  # http://www.slproweb.com/products/Win32OpenSSL.html
+  set(_OPENSSL_ROOT_HINTS
+    ${OPENSSL_ROOT_DIR}
+    "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\OpenSSL (32-bit)_is1;Inno Setup: App Path]"
+    "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\OpenSSL (64-bit)_is1;Inno Setup: App Path]"
+    ENV OPENSSL_ROOT_DIR
+    )
+  file(TO_CMAKE_PATH "$ENV{PROGRAMFILES}" _programfiles)
+  set(_OPENSSL_ROOT_PATHS
+    "${_programfiles}/OpenSSL"
+    "${_programfiles}/OpenSSL-Win32"
+    "${_programfiles}/OpenSSL-Win64"
+    "C:/OpenSSL/"
+    "C:/OpenSSL-Win32/"
+    "C:/OpenSSL-Win64/"
+    )
+  unset(_programfiles)
+else ()
+  set(_OPENSSL_ROOT_HINTS
+    ${OPENSSL_ROOT_DIR}
+    ENV OPENSSL_ROOT_DIR
+    )
+endif ()
+
+set(_OPENSSL_ROOT_HINTS_AND_PATHS
+    HINTS ${_OPENSSL_ROOT_HINTS}
+    PATHS ${_OPENSSL_ROOT_PATHS}
+    )
+
+find_path(OPENSSL_CRYPTO_INCLUDE_DIR
+  NAMES
+    openssl/ssl.h
+  ${_OPENSSL_ROOT_HINTS_AND_PATHS}
+  HINTS
+    ${_OPENSSL_INCLUDEDIR}
+  PATH_SUFFIXES
+    include
+)
+
+#FIND_PATH(OPENSSL_CRYPTO_INCLUDE_DIR openssl/ssl.h )
 
 IF(WIN32 AND MSVC)
-   # Not sure if this will work or not, since MSVC can not be used to
-   # compile QTerm
-   # /MD and /MDd are the standard values - if somone wants to use
+   # /MD and /MDd are the standard values - if someone wants to use
    # others, the libnames have to change here too
    # use also ssl and ssleay32 in debug as fallback for openssl < 0.9.8b
+   # enable OPENSSL_MSVC_STATIC_RT to get the libs build /MT (Multithreaded no-DLL)
+   # In Visual C++ naming convention each of these four kinds of Windows libraries has it's standard suffix:
+   #   * MD for dynamic-release
+   #   * MDd for dynamic-debug
+   #   * MT for static-release
+   #   * MTd for static-debug
 
-   FIND_LIBRARY(LIB_EAY_DEBUG NAMES libeay32MDd libeay libeay32)
-   FIND_LIBRARY(LIB_EAY_RELEASE NAMES libeay32MD libeay libeay32)
+   # Implementation details:
+   # We are using the libraries located in the VC subdir instead of the parent directory eventhough :
+   # libeay32MD.lib is identical to ../libeay32.lib, and
+   # ssleay32MD.lib is identical to ../ssleay32.lib
+   # enable OPENSSL_USE_STATIC_LIBS to use the static libs located in lib/VC/static
+
+   if (OPENSSL_MSVC_STATIC_RT)
+     set(_OPENSSL_MSVC_RT_MODE "MT")
+   else ()
+     set(_OPENSSL_MSVC_RT_MODE "MD")
+   endif ()
+
+   # Since OpenSSL 1.1, lib names are like libcrypto32MTd.lib and libssl32MTd.lib
+   if( "${CMAKE_SIZEOF_VOID_P}" STREQUAL "8" )
+       set(_OPENSSL_MSVC_ARCH_SUFFIX "64")
+   else()
+       set(_OPENSSL_MSVC_ARCH_SUFFIX "32")
+   endif()
+
+   if(OPENSSL_USE_STATIC_LIBS)
+     set(_OPENSSL_PATH_SUFFIXES
+       "lib/VC/static"
+       "VC/static"
+       "lib"
+       )
+   else()
+     set(_OPENSSL_PATH_SUFFIXES
+       "lib/VC"
+       "VC"
+       "lib"
+       )
+   endif ()
+
+   find_library(LIB_EAY_DEBUG
+     NAMES
+       libcrypto${_OPENSSL_MSVC_ARCH_SUFFIX}${_OPENSSL_MSVC_RT_MODE}d
+       libcryptod
+       libeay32${_OPENSSL_MSVC_RT_MODE}d
+       libeay32d
+     NAMES_PER_DIR
+     ${_OPENSSL_ROOT_HINTS_AND_PATHS}
+     PATH_SUFFIXES
+       ${_OPENSSL_PATH_SUFFIXES}
+   )
+
+   find_library(LIB_EAY_RELEASE
+     NAMES
+       libcrypto${_OPENSSL_MSVC_ARCH_SUFFIX}${_OPENSSL_MSVC_RT_MODE}
+       libcrypto
+       libeay32${_OPENSSL_MSVC_RT_MODE}
+       libeay32
+     NAMES_PER_DIR
+     ${_OPENSSL_ROOT_HINTS_AND_PATHS}
+     PATH_SUFFIXES
+       ${_OPENSSL_PATH_SUFFIXES}
+   )
 
    IF(MSVC_IDE)
       IF(LIB_EAY_DEBUG AND LIB_EAY_RELEASE)
