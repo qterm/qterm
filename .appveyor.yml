@@ -50,7 +50,7 @@ install:
  - '%QTDIR%\bin\qtenv2.bat'
  - qmake -v
  - if %QTDIR:_64=%==%QTDIR% ( set ARCH=x86 ) else set ARCH=x64
- - if %QTDIR:_64=%==%QTDIR% ( set SSLROOT=C:\OpenSSL-Win32 ) else set SSLROOT=C:\OpenSSL-Win64
+ - if %QTDIR:_64=%==%QTDIR% ( set OPENSSL_ROOT_DIR=C:\OpenSSL-Win32 ) else set OPENSSL_ROOT_DIR=C:\OpenSSL-Win64
  - if %QTDIR:msvc=%==%QTDIR% g++ --version
  - if %QTDIR:msvc=%==%QTDIR% set make=mingw32-make.exe
  - if %QTDIR:msvc=%==%QTDIR% set PATH=%QTDIR%\bin;%MINGWDIR%\bin;C:\Program Files (x86)\CMake\bin
@@ -63,5 +63,5 @@ install:
 build_script:
  - mkdir build
  - cd build
- - cmake "%APPVEYOR_BUILD_FOLDER%" -G "%CMAKE_GENERATOR%" -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DOPENSSL_ROOT_DIR="%SSLROOT%" -DQT5=Yes
+ - cmake "%APPVEYOR_BUILD_FOLDER%" -G "%CMAKE_GENERATOR%" -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes
  - '%make%'
