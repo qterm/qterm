@@ -40,8 +40,10 @@ before_install:
 install:
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || sudo apt-get -qy install qt$QT-meta-full'
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy install qt5-qmake qtbase5-dev qttools5-dev qttools5-dev-tools qtscript5-dev qtmultimedia5-dev'
- - '[ "$TRAVIS_OS_NAME" != osx ] || brew install openssl qt$BREW'
+ - '[ "$TRAVIS_OS_NAME" != osx ] || brew install qt$BREW'
  - '[ "$TRAVIS_OS_NAME" != osx ] || brew link --force qt$BREW'
+ - '[ "$TRAVIS_OS_NAME" != osx ] || brew upgrade openssl'
+ - '[ "$TRAVIS_OS_NAME" != osx ] || brew info openssl'
 
 script:
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || . /opt/qt$QT/bin/qt$QT-env.sh'
