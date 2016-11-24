@@ -52,6 +52,8 @@ if (WIN32)
   unset(_programfiles)
 else ()
   set(_OPENSSL_ROOT_HINTS
+    /opt/local
+    /usr/local
     ${OPENSSL_ROOT_DIR}
     ENV OPENSSL_ROOT_DIR
     )
@@ -159,14 +161,15 @@ IF(WIN32 AND MSVC)
    ENDIF(MSVC_IDE)
    MARK_AS_ADVANCED(LIB_EAY_DEBUG LIB_EAY_RELEASE)
 ELSE(WIN32 AND MSVC)
-   IF (APPLE)
-       FIND_LIBRARY(OPENSSL_CRYPTO_LIBRARIES
-           NAMES crypto libeay32
-           PATHS /opt/local/lib /usr/local/lib
-           NO_DEFAULT_PATH)
-   ELSE(APPLE)
-       FIND_LIBRARY(OPENSSL_CRYPTO_LIBRARIES NAMES crypto libeay32)
-   ENDIF(APPLE)
+    FIND_LIBRARY(OPENSSL_CRYPTO_LIBRARIES
+      NAMES
+        crypto
+        libeay32
+      NAMES_PER_DIR
+      ${_OPENSSL_ROOT_HINTS_AND_PATHS}
+      PATH_SUFFIXES
+        lib
+    )
 ENDIF(WIN32 AND MSVC)
 
 IF(OPENSSL_CRYPTO_INCLUDE_DIR AND OPENSSL_CRYPTO_LIBRARIES)
