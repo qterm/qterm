@@ -20,7 +20,7 @@ become a fully functional BBS client such as S-Term and CTerm.
 
 Build
 -----
-- Qt 4.6+ or Qt 5.0+
+- Qt 4.6+ or Qt 5.3+
 - CMake 2.8.11+
 - OpenSSL 1.0.x (Optional)
 
