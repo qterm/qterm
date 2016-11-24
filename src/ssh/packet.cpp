@@ -451,7 +451,7 @@ void SSH2OutBuffer::putBN(const BIGNUM * value)
         return;
     }
 
-    if (value->neg) {
+    if (BN_is_negative(value)) {
         qDebug("putBN: negative numbers not supported");
         return;
     }
