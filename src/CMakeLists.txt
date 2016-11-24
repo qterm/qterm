@@ -33,7 +33,7 @@ if(QTERM_ENABLE_SSH)
       message(STATUS "OpenSSL found, enable SSH support")
       add_definitions(-DSSH_ENABLED)
       include_directories(${OPENSSL_CRYPTO_INCLUDE_DIR})
-      get_filename_component(OPENSSL_CRYPTO_ROOT_DIR ${OPENSSL_CRYPTO_INCLUDE_DIR} DIRECTORY)
+      get_filename_component(OPENSSL_CRYPTO_ROOT_DIR ${OPENSSL_CRYPTO_INCLUDE_DIR} PATH)
       set(optionalLibs ${optionalLibs} ${OPENSSL_CRYPTO_LIBRARIES})
       set(optionalSources ${optionalSources}
       ssh/auth.cpp
