@@ -269,7 +269,11 @@ bool KeyboardTranslatorReader::parseAsStateFlag(const QString& item , KeyboardTr
 bool KeyboardTranslatorReader::parseAsKeyCode(const QString& item , int& keyCode)
 {
     QKeySequence sequence = QKeySequence::fromString(item);
-    if ( !sequence.isEmpty() )
+    if ( item == "prior" )
+        keyCode = Qt::Key_PageUp;
+    else if ( item == "next" )
+        keyCode = Qt::Key_PageDown;
+    else if ( !sequence.isEmpty() )
     {
         keyCode = sequence[0];
 
@@ -279,10 +283,6 @@ bool KeyboardTranslatorReader::parseAsKeyCode(const QString& item , int& keyCode
         }
     }
     // additional cases implemented for backwards compatibility with KDE 3
-    else if ( item == "prior" )
-        keyCode = Qt::Key_PageUp;
-    else if ( item == "next" )
-        keyCode = Qt::Key_PageDown;
     else
         return false;
 
