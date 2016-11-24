@@ -22,7 +22,11 @@ Build
 -----
 - Qt 4.6+ or Qt 5.0+
 - CMake 2.8.11+
-- OpenSSL (Optional)
+- OpenSSL 1.0.x (Optional)
+
+  - On macOS, install it via MacPorts or HomeBrew
+  - On Windows, get the installer from https://slproweb.com/products/Win32OpenSSL.html
+
 - DBus (Optional)
 - Phonon (Optional)
 - KWallet (Optional)
@@ -35,6 +39,8 @@ To build,
     cmake .
     # Using Qt5
     cmake . -DQT5=YES
+    # If your Qt is under non-standard location, specify the qmake program
+    cmake . -DQT_QMAKE_EXECUTABLE=<path of qmake program>
     make
 
 Development
