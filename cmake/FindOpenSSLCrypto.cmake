@@ -52,8 +52,8 @@ if (WIN32)
   unset(_programfiles)
 else ()
   set(_OPENSSL_ROOT_HINTS
-    /opt/local/lib
-    /usr/local/lib
+    /opt/local/ # MacPorts
+    /usr/local/opt/openssl # HomeBrew
     ${OPENSSL_ROOT_DIR}
     ENV OPENSSL_ROOT_DIR
     )
@@ -167,6 +167,8 @@ ELSE(WIN32 AND MSVC)
         libeay32
       NAMES_PER_DIR
       ${_OPENSSL_ROOT_HINTS_AND_PATHS}
+      PATH_SUFFIXES
+        "lib"
     )
 ENDIF(WIN32 AND MSVC)
 
