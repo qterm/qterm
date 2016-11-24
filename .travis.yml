@@ -42,17 +42,15 @@ install:
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy install qt5-qmake qtbase5-dev qttools5-dev qttools5-dev-tools qtscript5-dev qtmultimedia5-dev'
  - '[ "$TRAVIS_OS_NAME" != osx ] || brew install qt$BREW'
  - '[ "$TRAVIS_OS_NAME" != osx ] || brew link --force qt$BREW'
- - '[ "$TRAVIS_OS_NAME" != osx ] || brew link --force openssl'
  - '[ "$TRAVIS_OS_NAME" != osx ] || brew info openssl'
 
 script:
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || . /opt/qt$QT/bin/qt$QT-env.sh'
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || export QT_SELECT=qt5'
- - '[ "$TRAVIS_OS_NAME" != osx ] || export OPENSSL_ROOT_DIR=/usr/local/opt/openssl'
  - mkdir build
  - pushd build
- - '[ "$TRAVIS_OS_NAME" != osx ] || cmake .. -DCMAKE_PREFIX_PATH=`brew --prefix qt$BREW` -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes'
+ - '[ "$TRAVIS_OS_NAME" != osx ] || cmake .. -DCMAKE_PREFIX_PATH=`brew --prefix qt$BREW` -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl -DQT5=Yes'
  - '[ "$TRAVIS_OS_NAME" != linux ] || cmake .. -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes'
- - make
+ - make VERBOSE=1
  - '[ "$TRAVIS_OS_NAME" != osx ] || make package'
  - popd
