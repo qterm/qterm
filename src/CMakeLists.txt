@@ -315,11 +315,10 @@ target_link_libraries(${PROGRAME}
    ${optionalLibs})
 else(QT5)
 target_link_libraries(${PROGRAME}
-   ${QT_LIBRARIES}
-   ${QT_QTCORE_LIBRARY}
-   ${QT_QTGUI_LIBRARY}
-   ${QT_QTNETWORK_LIBRARY}
-   ${QT_QTXML_LIBRARY}
+   Qt4::QtCore
+   Qt4::QtGui
+   Qt4::QtNetwork
+   Qt4::QtXml
    ${optionalLibs})
 endif(QT5)
 if(WIN32 AND MINGW)
@@ -372,8 +371,8 @@ else (APPLE)
       get_filename_component(QT_LIBRARY_DIR ${QT_LIBRARY_DIR} PATH)
       get_filename_component(QT_LIBRARY_DIR "${QT_LIBRARY_DIR}" ABSOLUTE)
     else(QT5)
-      install(DIRECTORY ${QT_PLUGINS_DIR}/imageformats DESTINATION ${CMAKE_INSTALL_PREFIX}/plugins)
-      install(DIRECTORY ${QT_PLUGINS_DIR}/codecs DESTINATION ${CMAKE_INSTALL_PREFIX}/plugins)
+      install(DIRECTORY ${QT_PLUGINS_DIR}/imageformats DESTINATION plugins)
+      install(DIRECTORY ${QT_PLUGINS_DIR}/codecs DESTINATION plugins)
     endif(QT5)
     install(CODE "
       file(WRITE \"\${CMAKE_INSTALL_PREFIX}/bin/qt.conf\" \"[Paths]\nPlugIns=../plugins\")
@@ -381,7 +380,7 @@ else (APPLE)
     install(CODE "
       file(GLOB_RECURSE PLUGINS  \${CMAKE_INSTALL_PREFIX}/bin/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX})
       include(BundleUtilities)
-      set(DIRS ${QT_LIBRARY_DIR} ${OPENSSL_CRYPTO_ROOT_DIR})
+      set(DIRS ${QT_BINARY_DIR} ${QT_LIBRARY_DIR} ${OPENSSL_CRYPTO_ROOT_DIR})
       fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.exe\"
        \"\${PLUGINS}\"
        \"\${DIRS}\")
