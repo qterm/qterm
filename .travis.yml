@@ -52,6 +52,6 @@ script:
  - pushd build
  - '[ "$TRAVIS_OS_NAME" != osx ] || cmake .. -DCMAKE_PREFIX_PATH=`brew --prefix qt$BREW` -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes'
  - '[ "$TRAVIS_OS_NAME" != linux ] || cmake .. -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes'
- - make
+ - make VERBOSE=1
  - '[ "$TRAVIS_OS_NAME" != osx ] || make package'
  - popd
