@@ -143,7 +143,7 @@ int BBS::getCursorType(const QPoint& pt)
 
     QRect rc = getSelectRect();
 
-    int nCursorType = 8;
+    int nCursorType = 9;
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
         m_scriptHelper->setAccepted(false);
@@ -164,7 +164,7 @@ int BBS::getCursorType(const QPoint& pt)
 
     switch (m_nPageState) {
     case -1: // not recognized
-        nCursorType = 8;
+        nCursorType = 9;
         break;
     case 0:  // menu
         if (pt.x() < 5) // LEFT
@@ -172,7 +172,7 @@ int BBS::getCursorType(const QPoint& pt)
         else if (rc.contains(pt))// HAND
             nCursorType = 7;
         else
-            nCursorType = 8;
+            nCursorType = 9;
         break;
     case 1:  // list
         if (pt.x() < 12) // LEFT
@@ -190,7 +190,7 @@ int BBS::getCursorType(const QPoint& pt)
         else if (rc.contains(pt))
             nCursorType = 7;
         else
-            nCursorType = 8;
+            nCursorType = 9;
         break;
     case 2:  // read
         if (pt.x() < 12) // LEFT
@@ -202,10 +202,12 @@ int BBS::getCursorType(const QPoint& pt)
                  && (pt.y() - m_nScreenStart) > m_pBuffer->line() / 2) // PAGEDOWN
             nCursorType = 3;
         else
-            nCursorType = 8;
+            nCursorType = 9;
         break;
     case 3:
         break;
+    case 4:
+        nCursorType = 8;
     default:
         break;
     }

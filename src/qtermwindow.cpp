@@ -376,7 +376,8 @@ Window::Window(Frame * frame, Param param, const QString &uuid, QWidget * parent
     cursor[5] = QCursor(QPixmap(":/cursor/next.xpm").scaledToWidth(Global::instance()->m_pref.nCursorSize,Qt::SmoothTransformation));
     cursor[6] = QCursor(QPixmap(":/cursor/exit.xpm").scaledToWidth(Global::instance()->m_pref.nCursorSize,Qt::SmoothTransformation));
     cursor[7] = QCursor(QPixmap(":/cursor/hand.xpm").scaledToWidth(Global::instance()->m_pref.nCursorSize,Qt::SmoothTransformation));
-    cursor[8] = Qt::ArrowCursor;
+    cursor[8] = Qt::IBeamCursor;
+    cursor[9] = Qt::ArrowCursor;
 
     // the system wide script
     m_bPythonScriptLoaded = false;
@@ -648,7 +649,7 @@ void Window::mouseMoveEvent(QMouseEvent * me)
 
         if (!bUrl) {
             int nCursorType = m_pBBS->getCursorType(m_pScreen->mapToChar(me->pos()));
-            if (nCursorType <= 8 && nCursorType >= 0)
+            if (nCursorType <= 9 && nCursorType >= 0)
                 setCursor(cursor[nCursorType]);
         }
     }
@@ -1430,7 +1431,7 @@ void Window::connectionClosed()
 
     m_pScreen->osd()->display(tr("connection closed"));
 
-    setCursor(cursor[8]);
+    setCursor(cursor[9]);
 
     QString strMsg = "";
     strMsg += "\n\n\n\r";

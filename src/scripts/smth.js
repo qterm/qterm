@@ -7,7 +7,8 @@ QTerm.SMTH= {
     Menu : 0,
     List : 1,
     Article : 2,
-    Top10 : 3
+    Top10 : 3,
+    Edit: 4
 }
 
 QTerm.pageState = QTerm.SMTH.Unknown;
@@ -31,7 +32,7 @@ QTerm.setCursorType = function(x,y)
         } else if (y >= 2 && y < QTerm.rows() -1 && x > 12 && x < QTerm.columns() - 16 && QTerm.getText(y).search(/[^\s]/)!=-1) {
             return 7;
         } else {
-            return 8;
+            return 9;
         }
     }
     return -1;
@@ -61,11 +62,9 @@ QTerm.setPageState = function()
         QTerm.pageState = QTerm.SMTH.List;
     else if (bottom.startsWith(articleList))
         QTerm.pageState = QTerm.SMTH.Article;
-
-    if (QTerm.pageState < 3)
-        return QTerm.pageState;
-    else
-        return -1;
+    else if (bottom.indexOf("Ctrl-Q")!=-1)
+        QTerm.pageState = QTerm.SMTH.Edit;
+    return QTerm.pageState;
 }
 
 QTerm.setSelectRect = function(x, y)

@@ -208,7 +208,7 @@ protected:
     QMenu *  m_pMenu;
     QMenu *  m_pUrl;
     static char direction[][5];
-    QCursor cursor[9];
+    QCursor cursor[10];
     bool m_bConnected;
 
     Convert m_converter;

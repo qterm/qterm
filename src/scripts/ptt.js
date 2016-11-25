@@ -8,7 +8,8 @@ QTerm.PTT = {
     Unknown : -1,
     Menu : 0,
     List : 1,
-    Article : 2
+    Article : 2,
+    Edit: 4
 }
 
 QTerm.pageState = QTerm.PTT.Unknown;
@@ -46,6 +47,8 @@ QTerm.setPageState = function()
         QTerm.pageState = QTerm.PTT.List;
     else if (bottom.indexOf("瀏覽")!=-1)
         QTerm.pageState = QTerm.PTT.Article;
+    else if (bottom.indexOf("^X/^Q")!=-1)
+        QTerm.pageState = QTerm.PTT.Edit;
     return QTerm.pageState;
 }
 
