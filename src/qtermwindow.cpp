@@ -747,7 +747,7 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
         default:
             break;
         }
-    } else if (nCursorType == 8) {
+    } else if (nCursorType == 9) {
         char cr = CHAR_CR;
         m_pTelnet->write(&cr, 1);
     }
