@@ -423,6 +423,14 @@ bool Global::iniWorkingDir(QString param)
         }
     }
     ExeNamePath[LastSlash+1] = '\0';
+    // if "qterm.cfg" exists alongside "qterm.exe", assume this is the build directoy
+    QFileInfo conf(QString(ExeNamePath)+"/qterm.cfg");
+    if (conf.exists()) {
+        m_pathLib = ExeNamePath;
+        m_pathCfg = ExeNamePath;
+        return true;
+    }
+
     m_pathLib = QString::fromLocal8Bit(ExeNamePath) + "../share/qterm/";
     m_pathCfg = QDir::homePath() + "/.qterm/";
     if (!isPathExist(m_pathCfg))
