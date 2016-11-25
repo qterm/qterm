@@ -260,7 +260,6 @@ void SSH2Auth::generateSign()
 {
     DSA *dsa = NULL;
     RSA *rsa = NULL;
-    FILE *fp;
     DSA_SIG *sig;
 
     uint rlen, slen;
