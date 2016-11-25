@@ -9,6 +9,9 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+extern "C" {
+#include "libcrypto-compat.h"
+}
 #include "transport.h"
 #include <QtCore/QString>
 

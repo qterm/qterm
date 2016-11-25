@@ -10,6 +10,9 @@
 //
 //
 
+extern "C" {
+#include "libcrypto-compat.h"
+}
 #include "kex.h"
 #include "packet.h"
 #include "transport.h"
@@ -17,8 +20,6 @@
 #include "ssh2.h"
 #include "hostinfo.h"
 #include <openssl/rand.h>
-#include <openssl/dsa.h>
-#include <openssl/rsa.h>
 #include <QtCore/QCryptographicHash>
 
 #ifdef SSH_DEBUG

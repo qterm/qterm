@@ -9,15 +9,15 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+extern "C" {
+#include "libcrypto-compat.h"
+}
 #include "auth.h"
 #include "packet.h"
 #include "ssh1.h"
 #include "ssh2.h"
 #include "hostinfo.h"
 #include <openssl/pem.h>
-#include <openssl/evp.h>
-#include <openssl/rsa.h>
-#include <openssl/dsa.h>
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -281,10 +281,6 @@ void SSH2Auth::generateSign()
         qDebug("Unknown private key type");
         failureHandler();
         return;
-    }
-    // Copy from libssh
-    if (!EVP_get_cipherbyname("des")) {
-        OPENSSL_init_crypto(0, NULL);
     }
     BIO * mem = BIO_new_mem_buf((void*)privateKeyData.data(), -1);
 
