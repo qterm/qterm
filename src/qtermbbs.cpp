@@ -131,8 +131,12 @@ void BBS::setPageState()
             m_nPageState = 0; //menu
     } else {
         line = m_pBuffer->screen(m_pBuffer->line() - 1);  // last line
-        if (isUnicolor(line))
-            m_nPageState = 2; // reading
+        if (isUnicolor(line)) {
+            if (line->getText().indexOf("Ctrl-Q")!=-1 || line->getText().indexOf("^X/^Q")!=-1)
+                m_nPageState = 4; // editing
+            else
+                m_nPageState = 2; // reading
+        }
     }
 }
 
