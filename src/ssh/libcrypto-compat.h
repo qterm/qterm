@@ -2,14 +2,14 @@
 #define LIBCRYPTO_COMPAT_H
 
 #include <openssl/opensslv.h>
-#if OPENSSL_VERSION_NUMBER < 0x10100000L
-
 #include <openssl/rsa.h>
 #include <openssl/dsa.h>
 #include <openssl/ecdsa.h>
 #include <openssl/dh.h>
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 
 int RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d);
 int RSA_set0_factors(RSA *r, BIGNUM *p, BIGNUM *q);

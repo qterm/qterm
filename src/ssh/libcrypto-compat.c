@@ -7,9 +7,10 @@
  * https://www.openssl.org/source/license.html
  */
 
+#include "libcrypto-compat.h"
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 #include <string.h>
 #include <openssl/engine.h>
-#include "libcrypto-compat.h"
 
 static void *OPENSSL_zalloc(size_t num)
 {
@@ -326,3 +327,4 @@ void EVP_CIPHER_CTX_free(EVP_CIPHER_CTX *ctx)
     EVP_CIPHER_CTX_init(ctx);
     OPENSSL_free(ctx);
 }
+#endif /* OPENSSL_VERSION_NUMBER */
