@@ -22,8 +22,8 @@ extern void dumpData(const QByteArray & data);
 namespace QTerm
 {
 
-SSH2Channel::SSH2Channel(SSH2InBuffer * in, SSH2OutBuffer * out, const QString & termType, QObject *parent)
-        : QObject(parent), m_termType(termType)
+SSH2Channel::SSH2Channel(SSH2InBuffer * in, SSH2OutBuffer * out, const QString & termType, int column, int row, QObject *parent)
+        : QObject(parent), m_termType(termType), m_column(column), m_row(row)
 {
     m_in = in;
     m_out = out;
@@ -176,8 +176,8 @@ void SSH2Channel::requestPty(uint id)
     // TODO: "xterm" does not work somehow
     m_out->putString(m_termType.toLatin1());
     // TODO: configuration
-    m_out->putUInt32(80);
-    m_out->putUInt32(24);
+    m_out->putUInt32(m_column);
+    m_out->putUInt32(m_row);
     m_out->putUInt32(0);
     m_out->putUInt32(0);
     m_out->putString("");
@@ -227,8 +227,8 @@ unsigned long SSH2Channel::bytesAvailable(int id)
     return target->data.size();
 }
 
-SSH1Channel::SSH1Channel(SSH1InBuffer * in, SSH1OutBuffer * out, const QString & termType, QObject *parent)
-        : QObject(parent), m_status(RequestPty), m_data(), m_termType(termType)
+SSH1Channel::SSH1Channel(SSH1InBuffer * in, SSH1OutBuffer * out, const QString & termType, int column, int row, QObject *parent)
+        : QObject(parent), m_status(RequestPty), m_data(), m_termType(termType), m_column(column), m_row(row)
 {
     m_in = in;
     m_out = out;
@@ -239,17 +239,19 @@ SSH1Channel::SSH1Channel(SSH1InBuffer * in, SSH1OutBuffer * out, const QString &
 SSH1Channel::~SSH1Channel()
 {}
 
-void SSH2Channel::setTermType(const QString & termType)
+void SSH2Channel::setTermInfo(const QString & termType, int column, int row)
 {
     m_termType = termType;
+    m_column = column;
+    m_row = row;
 }
 
 void SSH1Channel::requestPty()
 {
     m_out->startPacket(SSH_CMSG_REQUEST_PTY);
     m_out->putString(m_termType.toLatin1());
-    m_out->putUInt32(24);
-    m_out->putUInt32(80);
+    m_out->putUInt32(m_row);
+    m_out->putUInt32(m_column);
     m_out->putUInt32(0);
     m_out->putUInt32(0);
     m_out->putUInt8(0);

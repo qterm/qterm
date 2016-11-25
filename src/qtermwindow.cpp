@@ -872,6 +872,8 @@ void Window::connectHost()
 	QString strSSHUser = m_param.m_mapParam["sshuser"].toString();
 	QString strSSHPass = m_param.m_mapParam["sshpass"].toString();
 	QString strTerm = m_param.m_mapParam["termtype"].toString();
+	int nColumn = m_param.m_mapParam["column"].toInt();
+	int nRow = m_param.m_mapParam["row"].toInt();
 
     if (m_hostInfo == NULL) {
         if (nProtocol == 0)
@@ -898,7 +900,7 @@ void Window::connectHost()
 #endif
         }
     }
-    m_hostInfo->setTermType(strTerm);
+    m_hostInfo->setTermInfo(strTerm, nColumn, nRow);
 
 	m_pTelnet->setProxy(m_param.m_mapParam["proxytype"].toInt(),
 						m_param.m_mapParam["proxyauth"].toBool(),
