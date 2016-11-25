@@ -319,6 +319,13 @@ void SSH1Channel::channelPacketReceived(int flag)
     }
 }
 
+void SSH1Channel::setTermInfo(const QString & termType, int column, int row)
+{
+    m_termType = termType;
+    m_column = column;
+    m_row = row;
+}
+
 }
 
 #include "moc_channel.cpp"
