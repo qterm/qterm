@@ -9,6 +9,9 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+extern "C" {
+#include "libcrypto-compat.h"
+}
 #include "transport.h"
 #include <QtCore/QString>
 
@@ -121,8 +124,7 @@ QByteArray SSH2Encryption::crypt(const QByteArray & src)
 
 SSH2MAC::SSH2MAC(const QString & algorithm)
 {
-    m_ctx = (HMAC_CTX*) malloc(sizeof(HMAC_CTX));
-    HMAC_CTX_init(m_ctx);
+    m_ctx = HMAC_CTX_new();
     if (algorithm == "hmac-sha1") {
         m_keyLen = 20;
         m_macLen = 20;
@@ -136,13 +138,12 @@ SSH2MAC::SSH2MAC(const QString & algorithm)
 
 SSH2MAC::~SSH2MAC()
 {
-    HMAC_CTX_cleanup(m_ctx);
-    free(m_ctx);
+    HMAC_CTX_free(m_ctx);
 }
 QByteArray SSH2MAC::mac(const QByteArray & data)
 {
     QByteArray hmac(m_macLen, 0);
-    HMAC_Init(m_ctx, (const uint8_t*) m_key.data(), m_keyLen, m_evptype);
+    HMAC_Init_ex(m_ctx, (const uint8_t*) m_key.data(), m_keyLen, m_evptype, NULL);
     HMAC_Update(m_ctx, (const uint8_t *) data.data(), data.size());
     HMAC_Final(m_ctx, (uint8_t *) hmac.data(), NULL);
     return hmac;
