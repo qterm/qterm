@@ -9,6 +9,7 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+#include <openssl/pem.h>
 extern "C" {
 #include "libcrypto-compat.h"
 }
@@ -17,7 +18,6 @@ extern "C" {
 #include "ssh1.h"
 #include "ssh2.h"
 #include "hostinfo.h"
-#include <openssl/pem.h>
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
