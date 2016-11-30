@@ -9,13 +9,15 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+#include <openssl/pem.h>
+extern "C" {
+#include "libcrypto-compat.h"
+}
 #include "auth.h"
 #include "packet.h"
 #include "ssh1.h"
 #include "ssh2.h"
 #include "hostinfo.h"
-#include <openssl/pem.h>
-#include <openssl/evp.h>
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -260,7 +262,6 @@ void SSH2Auth::generateSign()
 {
     DSA *dsa = NULL;
     RSA *rsa = NULL;
-    FILE *fp;
     DSA_SIG *sig;
 
     uint rlen, slen;
@@ -279,10 +280,6 @@ void SSH2Auth::generateSign()
         qDebug("Unknown private key type");
         failureHandler();
         return;
-    }
-    // Copy from libssh
-    if (!EVP_get_cipherbyname("des")) {
-        OpenSSL_add_all_ciphers();
     }
     BIO * mem = BIO_new_mem_buf((void*)privateKeyData.data(), -1);
 
@@ -327,12 +324,18 @@ void SSH2Auth::generateSign()
         QByteArray buf = QCryptographicHash::hash(tmp.buffer() + m_out->buffer(), QCryptographicHash::Sha1);
         QByteArray sigblob(40, 0);
         sig = DSA_do_sign((uchar*) buf.data(), buf.size(), dsa);
-        rlen = BN_num_bytes(sig->r);
-        slen = BN_num_bytes(sig->s);
+
+        const BIGNUM * r;
+        const BIGNUM * s;
+
+        DSA_SIG_get0(sig, &r, &s);
+
+        rlen = BN_num_bytes(r);
+        slen = BN_num_bytes(s);
 
         //TODO: check rlen and slen: ssh-dss.c in openssh
-        BN_bn2bin(sig->r, (uchar *) sigblob.data() + 20 - rlen);
-        BN_bn2bin(sig->s, (uchar *) sigblob.data() + 40 - slen);
+        BN_bn2bin(r, (uchar *) sigblob.data() + 20 - rlen);
+        BN_bn2bin(s, (uchar *) sigblob.data() + 40 - slen);
         DSA_SIG_free(sig);
         m_out->putUInt32(4 + 7 + 4 + sigblob.size());
         m_out->putString("ssh-dss");

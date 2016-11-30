@@ -10,6 +10,9 @@
 //
 //
 
+extern "C" {
+#include "libcrypto-compat.h"
+}
 #include "kex.h"
 #include "packet.h"
 #include "transport.h"
@@ -17,8 +20,6 @@
 #include "ssh2.h"
 #include "hostinfo.h"
 #include <openssl/rand.h>
-#include <openssl/dsa.h>
-#include <openssl/rsa.h>
 #include <QtCore/QCryptographicHash>
 
 #ifdef SSH_DEBUG
@@ -352,13 +353,18 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
 #endif
     DSA *dsa = DSA_new();
     RSA *rsa = RSA_new();
+    BIGNUM * e = BN_new();
+    BIGNUM * n = BN_new();
+    BIGNUM * p = BN_new();
+    BIGNUM * q = BN_new();
+    BIGNUM * g = BN_new();
+    BIGNUM * pub_key = BN_new();
 
     if (type == "ssh-rsa") {
-        rsa->e = BN_new();
-        rsa->n = BN_new();
-        tmp.getBN(rsa->e);
-        tmp.getBN(rsa->n);
+        tmp.getBN(e);
+        tmp.getBN(n);
         tmp.atEnd();
+        RSA_set0_key(rsa, n, e, NULL);
         qDebug() << "key size: " << RSA_size(rsa);
     }
 
@@ -366,15 +372,13 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
 #ifdef SSH_DEBUG
         qDebug() << "generate DSA key";
 #endif
-        dsa->p = BN_new();
-        dsa->q = BN_new();
-        dsa->g = BN_new();
-        dsa->pub_key = BN_new();
-        tmp.getBN(dsa->p);
-        tmp.getBN(dsa->q);
-        tmp.getBN(dsa->g);
-        tmp.getBN(dsa->pub_key);
+        tmp.getBN(p);
+        tmp.getBN(q);
+        tmp.getBN(g);
+        tmp.getBN(pub_key);
         tmp.atEnd();
+        DSA_set0_pqg(dsa, p, q, g);
+        DSA_set0_key(dsa, pub_key, NULL);
     }
 
     tmp.buffer().append(signature);
@@ -399,12 +403,14 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
 #endif
         DSA_SIG * sig;
         sig = DSA_SIG_new();
-        sig->r = BN_new();
-        sig->s = BN_new();
+        BIGNUM * r = BN_new();
+        BIGNUM * s = BN_new();
 
-        BN_bin2bn((const unsigned char *) signBlob.data(), INTBLOB_LEN, sig->r);
+        BN_bin2bn((const unsigned char *) signBlob.data(), INTBLOB_LEN, r);
 
-        BN_bin2bn((const unsigned char *) signBlob.data() + INTBLOB_LEN, INTBLOB_LEN, sig->s);
+        BN_bin2bn((const unsigned char *) signBlob.data() + INTBLOB_LEN, INTBLOB_LEN, s);
+
+        DSA_SIG_set0(sig, r, s);
 
         QByteArray digest = QCryptographicHash::hash(hash, QCryptographicHash::Sha1);
 
@@ -496,12 +502,13 @@ void SSH1Kex::readKex()
 #endif
 
     RSA * serverKey = RSA_new();
-    serverKey->e = BN_new();
-    serverKey->n = BN_new();
-    m_in->getBN(serverKey->e);
-    m_in->getBN(serverKey->n);
-    QByteArray server_n(BN_num_bytes(serverKey->n), 0);
-    BN_bn2bin(serverKey->n, (unsigned char *) server_n.data());
+    BIGNUM * s_e = BN_new();
+    BIGNUM * s_n = BN_new();
+    m_in->getBN(s_e);
+    m_in->getBN(s_n);
+    RSA_set0_key(serverKey, s_n, s_e, NULL);
+    QByteArray server_n(BN_num_bytes(s_n), 0);
+    BN_bn2bin(s_n, (unsigned char *) server_n.data());
     // TODO: rbits = BN_num_bits(d_servKey->d_rsa->n);
 
     int hostKeyLength = m_in->getUInt32();
@@ -509,12 +516,13 @@ void SSH1Kex::readKex()
     qDebug() << "length" << hostKeyLength;
 #endif
     RSA * hostKey = RSA_new();
-    hostKey->e = BN_new();
-    hostKey->n = BN_new();
-    m_in->getBN(hostKey->e);
-    m_in->getBN(hostKey->n);
-    QByteArray host_n(BN_num_bytes(hostKey->n), 0);
-    BN_bn2bin(hostKey->n, (unsigned char *) host_n.data());
+    BIGNUM * h_e = BN_new();
+    BIGNUM * h_n = BN_new();
+    m_in->getBN(h_e);
+    m_in->getBN(h_n);
+    RSA_set0_key(hostKey, h_n, h_e, NULL);
+    QByteArray host_n(BN_num_bytes(h_n), 0);
+    BN_bn2bin(h_n, (unsigned char *) host_n.data());
     m_sessionID = QCryptographicHash::hash(host_n + server_n + m_cookie, QCryptographicHash::Md5);
 #ifdef SSH_DEBUG
     dumpData(m_sessionID);
@@ -536,7 +544,7 @@ void SSH1Kex::readKex()
         else
             BN_add_word(key, (u_char)m_sessionKey[i]);
     }
-    if (BN_cmp(serverKey->n, hostKey->n) < 0) {
+    if (BN_cmp(s_n, h_n) < 0) {
         publicEncrypt(key, key, serverKey);
         publicEncrypt(key, key, hostKey);
     } else {
@@ -567,10 +575,15 @@ void SSH1Kex::publicEncrypt(BIGNUM *out, BIGNUM *in, RSA *key)
     QByteArray outbuf;
     int len, ilen, olen;
 
-    if (BN_num_bits(key->e) < 2 || !BN_is_odd(key->e))
+    const BIGNUM * e;
+    const BIGNUM * n;
+
+    RSA_get0_key(key, &n, &e, NULL);
+
+    if (BN_num_bits(e) < 2 || !BN_is_odd(e))
         qDebug("rsa_public_encrypt() exponent too small or not odd");
 
-    olen = BN_num_bytes(key->n);
+    olen = BN_num_bytes(n);
     outbuf.resize(olen);
 
     ilen = BN_num_bytes(in);

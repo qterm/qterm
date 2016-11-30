@@ -28,7 +28,7 @@ class SSH2Channel : public QObject
 {
     Q_OBJECT
 public:
-    SSH2Channel(SSH2InBuffer * in, SSH2OutBuffer * out, const QString & termType = "vt100", QObject *parent = 0);
+    SSH2Channel(SSH2InBuffer * in, SSH2OutBuffer * out, const QString & termType = "vt100", int column = 80, int row = 24, QObject *parent = 0);
 
     ~SSH2Channel();
     void openChannel();
@@ -36,7 +36,7 @@ public:
     QByteArray readData(int id, unsigned long size);
     void writeData(int id, const QByteArray & data);
     unsigned long bytesAvailable(int id);
-    void setTermType(const QString & termType);
+    void setTermInfo(const QString & termType, int column, int row);
 signals:
     void dataReady(int id);
     void newChannel(int id);
@@ -65,18 +65,20 @@ private:
     SSH2InBuffer * m_in;
     SSH2OutBuffer * m_out;
     QString m_termType;
+    int m_column;
+    int m_row;
 };
 
 class SSH1Channel : public QObject
 {
     Q_OBJECT
 public:
-    SSH1Channel(SSH1InBuffer * in, SSH1OutBuffer * out, const QString & termType = "vt100", QObject *parent = 0);
+    SSH1Channel(SSH1InBuffer * in, SSH1OutBuffer * out, const QString & termType = "vt100", int column = 80, int row = 24, QObject *parent = 0);
     ~SSH1Channel();
     QByteArray readData(unsigned long size);
     void writeData(const QByteArray & data);
     unsigned long bytesAvailable();
-    void setTermType(const QString & termType);
+    void setTermInfo(const QString & termType, int column, int row);
 signals:
     void dataReady();
     void channelReady();
@@ -94,6 +96,8 @@ private:
     SSH1OutBuffer * m_out;
     QByteArray m_data;
     QString m_termType;
+    int m_column;
+    int m_row;
 };
 
 }

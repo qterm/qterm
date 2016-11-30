@@ -74,7 +74,7 @@ void SSH2SocketPriv::slotAuthFinished()
 #ifdef SSH_DEBUG
     qDebug() << "authFinished";
 #endif
-    m_channel = new SSH2Channel(m_inPacket, m_outPacket, m_hostInfo->termType(), this);
+    m_channel = new SSH2Channel(m_inPacket, m_outPacket, m_hostInfo->termType(), m_hostInfo->termColumn(), m_hostInfo->termRow(), this);
     connect(m_channel, SIGNAL(newChannel(int)), this, SLOT(slotNewChannel(int)));
     connect(m_channel, SIGNAL(closeChannel(int)), this, SLOT(slotChannelClosed(int)));
     connect(m_channel, SIGNAL(dataReady(int)), this, SLOT(slotChannelData(int)));
@@ -153,7 +153,7 @@ void SSH1SocketPriv::slotAuthFinished()
 #ifdef SSH_DEBUG
     qDebug() << "authFinished";
 #endif
-    m_channel = new SSH1Channel(m_inPacket, m_outPacket, m_hostInfo->termType(), this);
+    m_channel = new SSH1Channel(m_inPacket, m_outPacket, m_hostInfo->termType(), m_hostInfo->termColumn(), m_hostInfo->termRow(), this);
 //  connect ( m_channel, SIGNAL ( newChannel ( int ) ), this, SLOT ( slotNewChannel ( int ) ) );
     connect(m_channel, SIGNAL(dataReady()), this, SIGNAL(readyRead()));
     connect(m_channel, SIGNAL(channelReady()), this, SIGNAL(socketReady()));

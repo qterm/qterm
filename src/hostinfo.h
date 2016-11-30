@@ -25,13 +25,17 @@ public:
     quint16 port();
     Type type();
     const QString & termType();
-    void setTermType(const QString & termType);
+    int termColumn() { return m_column; }
+    int termRow() { return m_row; }
+    void setTermInfo(const QString & termType, int column, int row);
 protected:
     void setType(Type type);
 private:
     QString m_hostName;
     quint16 m_port;
     QString m_termType;
+    int m_column;
+    int m_row;
     Type m_type;
 };
 

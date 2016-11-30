@@ -8,7 +8,7 @@ namespace QTerm
 {
 
 HostInfo::HostInfo(const QString & hostName, quint16 port, QObject * parent)
-    :QObject(parent), m_hostName(hostName), m_port(port), m_type(Telnet)
+    :QObject(parent), m_hostName(hostName), m_port(port), m_termType(), m_column(80), m_row(24), m_type(Telnet)
 {
 }
 
@@ -56,9 +56,11 @@ const QString & HostInfo::termType()
     return m_termType;
 }
 
-void HostInfo::setTermType(const QString & termType)
+void HostInfo::setTermInfo(const QString & termType, int column, int row)
 {
     m_termType = termType;
+    m_column = column;
+    m_row = row;
 }
 
 TelnetInfo::TelnetInfo(const QString & hostName, quint16 port, QObject * parent)
