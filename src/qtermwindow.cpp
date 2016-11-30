@@ -747,6 +747,19 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
         default:
             break;
         }
+    } else if (nCursorType == 8) {
+        QPoint ptPos = m_pScreen->mapToChar(me->pos());
+
+        int ny = ptPos.y() - m_pBuffer->caretY();
+        QByteArray cmd;
+        for(int i=0; i<abs(ny); i++)
+            cmd.append(direction[ny>0?5:4]);
+
+        int nx = ptPos.x() - m_pBuffer->caretX();
+        for(int i=0; i<abs(nx); i++)
+            cmd.append(direction[nx>0?7:6]);
+
+        m_pTelnet->write(cmd, cmd.size());
     } else if (nCursorType == 9) {
         char cr = CHAR_CR;
         m_pTelnet->write(&cr, 1);
