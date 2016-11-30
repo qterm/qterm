@@ -720,28 +720,22 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
         case 0:
             if (!rc.isEmpty()) {
                 char cMenu = m_pBBS->getMenuChar();
-                m_pTelnet->write(&cMenu, 1);
-                m_pTelnet->write(&cr, 1);
+                QByteArray cmd;
+                cmd.append(cMenu);
+                cmd.append(cr);
+                m_pTelnet->write(cmd, cmd.size());
             }
             break;
         case 1:
             if (!rc.isEmpty()) {
-                int n = rc.y() - m_pBuffer->caretY();
                 // scroll lines
-                if (n > 0)
-                    while (n) {
-                        m_pTelnet->write(direction[5], 4);
-                        n--;
-                    }
-                if (n < 0) {
-                    n = -n;
-                    while (n) {
-                        m_pTelnet->write(direction[4], 4);
-                        n--;
-                    }
-                }
+                int n = rc.y() - m_pBuffer->caretY();
+                QByteArray cmd;
+                for(int i=0; i<abs(n); i++)
+                    cmd.append(direction[n>0?5:4]);
                 // don't forget to send a CHAR_CR at last to enter in
-                m_pTelnet->write(&cr, 1);
+                cmd.append(cr);
+                m_pTelnet->write(cmd, cmd.size());
             }
             break;
         default:
