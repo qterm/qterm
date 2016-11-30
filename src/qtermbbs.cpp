@@ -301,10 +301,10 @@ void BBS::updateSelectRect()
         if (m_ptCursor.y() - m_nScreenStart >= 7 &&
                 m_ptCursor.x() > 5) {
             line = m_pBuffer->at(m_ptCursor.y());
-            QString cstr = line->getText(0, m_ptCursor.x());
+            QString cstr = line->getText();
 
             QRegExp reg("[a-zA-Z0-9][).\\]]");
-            int indexChar = cstr.indexOf(reg);
+            int indexChar = cstr.lastIndexOf(reg, m_ptCursor.x());
             if (indexChar != -1) {
                 m_cMenuChar = cstr.at(indexChar).toLatin1();
 
@@ -312,7 +312,6 @@ void BBS::updateSelectRect()
                 if (indexChar > 0 && (cstr[indexChar-1] == '(' || cstr[indexChar-1] == '['))
                     nMenuStart--;
 
-                cstr = line->getText();
                 reg = QRegExp("[^ ]");
 
                 int nMenuBaseLength = 20;
@@ -325,7 +324,7 @@ void BBS::updateSelectRect()
                 if (nMenuEnd != -1) {
                     nMenuLength = line->beginIndex(nMenuEnd) - line->beginIndex(nMenuStart) + line->size(line->beginIndex(nMenuEnd));
                 }
-                if (m_ptCursor.x() >= nMenuStart && m_ptCursor.x() <= nMenuStart + nMenuLength) {
+                if (m_ptCursor.x() >= line->beginIndex(nMenuStart) && m_ptCursor.x() <= line->beginIndex(nMenuStart) + nMenuLength) {
                     rect.setX(line->beginIndex(nMenuStart));
                     rect.setY(m_ptCursor.y());
                     rect.setWidth(nMenuLength);
