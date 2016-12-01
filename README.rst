@@ -1,5 +1,5 @@
 QTerm --- BBS client based on Qt
-============
+================================
 
 QTerm is a BBS (Bulletin Board System) client program. It runs on GNU/Linux,
 OS X and Windows thanks to the cross-platform framework Qt.
@@ -20,10 +20,22 @@ become a fully functional BBS client such as S-Term and CTerm.
 
 Build
 -----
+
+The following dependencies must be met,
+
 - Qt 4.6+ or Qt 5.3+
+
+  - On Debian, the packages are
+    ::
+
+      sudo aptitude install qt5-defaults qttools5-dev qttools5-dev-tools qtscript5-dev qtmultimedia5-dev
+
+  - The installer from Qt is simple for macOS and Windows.
+
 - CMake 2.8.11+
 - OpenSSL 1.0.x (Optional)
 
+  - On Debian, the package is libssl-dev
   - On macOS, install it via MacPorts or HomeBrew
   - On Windows, get the installer from https://slproweb.com/products/Win32OpenSSL.html
 
@@ -31,17 +43,35 @@ Build
 - Phonon (Optional)
 - KWallet (Optional)
 
-To build,
+To build on Linux or macOS, ::
 
-::
-
+    # Create the build directory side by side to qterm source directory
+    mdkir qterm-build
     # Using Qt4
-    cmake .
+    cmake ../qterm
     # Using Qt5
-    cmake . -DQT5=YES
+    cmake ../qterm -DQT5=YES
     # If your Qt is under non-standard location, specify the qmake program
-    cmake . -DQT_QMAKE_EXECUTABLE=<path of qmake program>
+    cmake ../qterm -DQT_QMAKE_EXECUTABLE=<path of qmake program>
+    # Build
     make
+    # Optionally create a binary package
+    make package
+
+To build on Windows, open the Visual Studio Developer Command Prompt, ::
+
+    # Set PATH to include Qt binary directory
+    set PATH=C:\Qt\5.7\msvc2015\bin;%PATH%
+    # Create the build directory side by side to qterm source directory
+    mdkir qterm-build
+    # Using Qt4
+    cmake ..\qterm -G "NMake Makefiles"
+    # Using Qt5
+    cmake ..\qterm -DQT5=YES -G "NMake Makefiles"
+    # Build
+    nmake
+    # Optionally create an installer if NSIS is installed
+    nmake package
 
 Development
 -----------
