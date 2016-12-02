@@ -116,6 +116,11 @@ unsigned long SSH2SocketPriv::bytesAvailable()
     return m_channel->bytesAvailable(0);
 }
 
+void SSH2SocketPriv::requestWindowSize(int column, int row)
+{
+    m_channel->requestWindowSize(column, row);
+}
+
 SSH1SocketPriv::SSH1SocketPriv(SocketPrivate * plainSocket, QByteArray & banner, QObject * parent)
 {
 #ifdef SSH_DEBUG
@@ -175,6 +180,11 @@ unsigned long SSH1SocketPriv::bytesAvailable()
     return m_channel->bytesAvailable();
 }
 
+void SSH1SocketPriv::requestWindowSize(int column, int row)
+{
+    m_channel->requestWindowSize(column, row);
+}
+
 SSHSocket::SSHSocket(QObject * parent)
         : Socket(parent), m_data()
 {
@@ -200,6 +210,11 @@ void SSHSocket::setProxy(int nProxyType, //0-no proxy; 1-wingate; 2-sock4; 3-soc
 
 void SSHSocket::flush()
 {}
+
+void SSHSocket::requestWindowSize(int column, int row)
+{
+    m_priv->requestWindowSize(column, row);
+}
 
 void SSHSocket::close()
 {

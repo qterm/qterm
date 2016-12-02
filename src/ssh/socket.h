@@ -45,6 +45,7 @@ public:
     virtual QByteArray readData(unsigned long size) = 0;
     virtual void writeData(const QByteArray & data) = 0;
     virtual unsigned long bytesAvailable() = 0;
+    virtual void requestWindowSize(int column, int row) = 0;
 signals:
     void readyRead();
     void error(const QString & message);
@@ -61,6 +62,7 @@ public:
     QByteArray readData(unsigned long size);
     void writeData(const QByteArray & data);
     unsigned long bytesAvailable();
+    void requestWindowSize(int column, int row);
 signals:
     void allChannelsClosed();
 private slots:
@@ -95,6 +97,7 @@ public:
     QByteArray readData(unsigned long size);
     void writeData(const QByteArray & data);
     unsigned long bytesAvailable();
+    void requestWindowSize(int column, int row);
 private slots:
     void slotKexFinished();
     void slotAuthFinished();
@@ -126,6 +129,7 @@ public:
     long writeBlock(const QByteArray & data);
     unsigned long bytesAvailable();
     void flush();
+    void requestWindowSize(int column, int row);
 public slots:
     void close();
 signals:

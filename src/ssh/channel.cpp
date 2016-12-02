@@ -193,6 +193,22 @@ void SSH2Channel::requestPty(uint id)
     emit channelReady();
 }
 
+void SSH2Channel::requestWindowSize(int column, int row)
+{
+#ifdef SSH_DEBUG
+    qDebug() << "request window size";
+#endif
+    m_out->startPacket(SSH2_MSG_CHANNEL_REQUEST);
+    m_out->putUInt32(0);
+    m_out->putString("window-change");
+    m_out->putUInt8(0);
+    m_out->putUInt32(column);
+    m_out->putUInt32(row);
+    m_out->putUInt32(0);
+    m_out->putUInt32(0);
+    m_out->sendPacket();
+}
+
 /*!
     \fn QTerm::SSH2Channel::openChannel(u_int32_t localID, SSH2InBuffer * in, SSH2OutBuffer * out)
  */
@@ -261,6 +277,22 @@ void SSH1Channel::requestPty()
 #endif
     m_out->startPacket(SSH_CMSG_EXEC_SHELL);
     m_out->sendPacket();
+}
+
+void SSH1Channel::requestWindowSize(int column, int row)
+{
+    m_row = row;
+    m_column = column;
+
+    m_out->startPacket(SSH_CMSG_WINDOW_SIZE);
+    m_out->putUInt32(row);
+    m_out->putUInt32(column);
+    m_out->putUInt32(0);
+    m_out->putUInt32(0);
+    m_out->sendPacket();
+#ifdef SSH_DEBUG
+    qDebug() << "Request window size";
+#endif
 }
 
 void SSH1Channel::receiveData()

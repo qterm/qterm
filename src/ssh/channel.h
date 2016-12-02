@@ -37,6 +37,7 @@ public:
     void writeData(int id, const QByteArray & data);
     unsigned long bytesAvailable(int id);
     void setTermInfo(const QString & termType, int column, int row);
+    void requestWindowSize(int column, int row);
 signals:
     void dataReady(int id);
     void newChannel(int id);
@@ -79,6 +80,7 @@ public:
     void writeData(const QByteArray & data);
     unsigned long bytesAvailable();
     void setTermInfo(const QString & termType, int column, int row);
+    void requestWindowSize(int column, int row);
 signals:
     void dataReady();
     void channelReady();
