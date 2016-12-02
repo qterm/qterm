@@ -1277,6 +1277,7 @@ void Window::on_actionCurrent_Session_Setting_triggered()
             Global::instance()->saveAddress(doc,m_strUuid, m_param);
             Global::instance()->saveAddressXml(doc);
         }
+        loadKeyboardTranslator(m_param.m_mapParam["keyboardprofile"].toString());
     } else {
         m_param = backup;
     }
@@ -1888,6 +1889,10 @@ void Window::loadKeyboardTranslator(const QString & filename)
     QFile source(path);
     if (name.isEmpty() || !source.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
+    // delete the current key tranlator
+    delete m_translator;
+    m_translator = NULL;
+    // create a new key translator
     m_translator = new KeyboardTranslator(name);
     KeyboardTranslatorReader reader(&source);
     m_translator->setDescription( reader.description() );
