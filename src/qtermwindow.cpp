@@ -1882,7 +1882,11 @@ void Window::loadKeyboardTranslator(const QString & filename)
         path = filename;
     } else {
         qWarning() << "Fallback to default keyboard layout";
+#ifdef Q_OS_MACX
+        path = Global::instance()->pathLib() + "/keyboard_profiles/apple.keytab";
+#else
         path = Global::instance()->pathLib() + "/keyboard_profiles/linux.keytab";
+#endif
     }
     fi.setFile(path);
     QString name = fi.baseName();
