@@ -258,7 +258,10 @@ void BBS::updateSelectRect()
 {
     QRect rect(0, 0, 0, 0);
 
-    m_pBuffer->at(m_rcSelection.y())->setChanged(-1,-1);
+	TextLine *line = m_pBuffer->at(m_rcSelection.y());
+	if (line == NULL)
+		return;
+	line->setChanged(-1,-1);
     // current screen scrolled
     if (m_nScreenStart != (m_pBuffer->lines() - m_pBuffer->line())) {
         m_rcSelection = rect;
@@ -292,8 +295,6 @@ void BBS::updateSelectRect()
     }
 #endif
 
-    TextLine * line = NULL;
-
     switch (m_nPageState) {
     case -1:
         break;
@@ -301,7 +302,9 @@ void BBS::updateSelectRect()
         if (m_ptCursor.y() - m_nScreenStart >= 7 &&
                 m_ptCursor.x() > 5) {
             line = m_pBuffer->at(m_ptCursor.y());
-            QString cstr = line->getText();
+			if (line == NULL)
+				break;
+			QString cstr = line->getText();
 
             QRegExp reg("[a-zA-Z0-9][).\\]]");
             int indexChar = cstr.lastIndexOf(reg, m_ptCursor.x());
@@ -339,6 +342,8 @@ void BBS::updateSelectRect()
                 m_ptCursor.x() >= 12 && m_ptCursor.x() <= m_pBuffer->columns() - 16) {
 
             line =  m_pBuffer->at(m_ptCursor.y());
+			if (line == NULL)
+				break;
             QString str = line->getText();
             if (str.count(" ") != (int) str.length()) {
                 rect.setX(0);

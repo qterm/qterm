@@ -890,6 +890,15 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
     //qDebug() << "beginx: " << beginx << ", endx: " << endx << ", linelength: " << linelength;
     QString strShow;
 
+	if (complete == true && m_pBBS->isSelected(index)) {
+		drawMenuSelect(painter, index);
+		if (m_pParam->m_mapParam["menutype"].toInt() == 1) {
+			bReverse = true;
+		}
+		beginx = 0;
+		endx = linelength - 1;
+	}
+
     if (beginx < 0)
         beginx = 0;
 
@@ -904,15 +913,6 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
     if (beginx >= linelength) {
         //qDebug("Screen::drawLine: wrong position: %d(%d)", beginx, linelength);
         return;
-    }
-
-    if (complete == true && m_pBBS->isSelected(index)) {
-        drawMenuSelect(painter, index);
-        if (m_pParam->m_mapParam["menutype"].toInt() == 1) {
-            bReverse = true;
-        }
-        beginx = 0;
-        endx = linelength -1;
     }
 
     if (beginx > 0 && pTextLine->isPartial(beginx)) {

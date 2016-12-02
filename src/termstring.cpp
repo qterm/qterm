@@ -55,7 +55,7 @@ void TermString::replace(int index, int length, const QString & str)
         //qDebug("TermString::mid: end pos is in the middle of a char");
         newStr = newStr + " ";
     }
-    if (endpos == -1 && index2 > 0) {
+    if (endpos < 0 && index2 > 0) {
         endpos = m_index.at(index2 - 1); //Could this happen at the endof a string?
     }
     //qDebug() << "startpos: " << startpos << " endpos: " << endpos;
