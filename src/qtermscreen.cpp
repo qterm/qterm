@@ -953,7 +953,7 @@ void Screen::drawLine(QPainter& painter, int index, int beginx, int endx, bool c
 
         if (strShow.isEmpty()) {
             qDebug("drawLine: empty string?");
-            continue;
+            break;
         }
         // Draw Charactors one by one to fix the variable font display problem
         int charWidth = TermString::wcwidth(strShow.at(0));
