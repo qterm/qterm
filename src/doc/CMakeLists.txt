@@ -6,20 +6,27 @@ CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/about.txt ${CMAKE_CURRENT_BINARY_DIR}
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/doc.css ${CMAKE_CURRENT_BINARY_DIR}/doc.css COPYONLY)
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/qterm.qhcp ${CMAKE_CURRENT_BINARY_DIR}/qterm.qhcp COPYONLY)
 
-FIND_PROGRAM(QT_HELP_COLLECTION_GENERATOR
-  qcollectiongenerator
-  PATHS "${QT_BINARY_DIR}"
-  DOC "qcollectiongenerator used to compile Qt help collection project files")
-
+if (QT5)
 ADD_CUSTOM_COMMAND(
   OUTPUT qterm.qhc
   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/qterm.qhcp
   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/qterm.qhp
-  COMMAND ${QT_HELP_COLLECTION_GENERATOR}
+  COMMAND Qt5::qcollectiongenerator
   ARGS qterm.qhcp
       -o qterm.qhc
   COMMENT "Compiling Qt help collection project qterm.qhcp"
 )
+else(QT5)
+ADD_CUSTOM_COMMAND(
+  OUTPUT qterm.qhc
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/qterm.qhcp
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/qterm.qhp
+  COMMAND ${QT_QCOLLECTIONGENERATOR_EXECUTABLE}
+  ARGS qterm.qhcp
+      -o qterm.qhc
+  COMMENT "Compiling Qt help collection project qterm.qhcp"
+)
+endif(QT5)
 
 ADD_CUSTOM_TARGET(help_target
   DEPENDS qterm.qhc)
