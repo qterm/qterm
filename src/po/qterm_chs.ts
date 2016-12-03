@@ -5,7 +5,7 @@
     <name>AssistantClient</name>
     <message>
         <source>Unable to send request: Assistant is not responding.</source>
-        <translation>无法发送请求，Assistant 无反应。</translation>
+        <translation>无法发送请求：Assistant 无反应。</translation>
     </message>
     <message>
         <source>The binary &apos;%1&apos; does not exist.</source>
@@ -24,15 +24,15 @@
     </message>
     <message>
         <source>String:</source>
-        <translation>字符串:</translation>
+        <translation>字符串：</translation>
     </message>
     <message>
         <source>Repeating:</source>
-        <translation>重复次数:</translation>
+        <translation>重复次数：</translation>
     </message>
     <message>
         <source>Delay(s):</source>
-        <translation>延迟(秒):</translation>
+        <translation>延迟(秒)：</translation>
     </message>
 </context>
 <context>
@@ -990,7 +990,7 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>File exists. Overwrite?</source>
-        <translation>文件已存在，覆盖吗?</translation>
+        <translation>文件已存在，覆盖吗？</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -1033,9 +1033,9 @@ please close all windows and restart.</source>
         <source>Name: %1
 Type: %2
 Size: %3 KB</source>
-        <translation>名称: %1
-类型: %2
-大小: %3 KB</translation>
+        <translation>名称：%1
+类型：%2
+大小：%3 KB</translation>
     </message>
 </context>
 <context>
@@ -1090,7 +1090,7 @@ Size: %3 KB</source>
         <source>shortcut %1 is already assigned to %2
 Do you want to clear and reassign?</source>
         <translation>快捷方式 %1 已经设置为 %2
-你确定要重新设置吗?</translation>
+你确定要重新设置吗？</translation>
     </message>
 </context>
 <context>
@@ -1208,11 +1208,11 @@ Do you want to clear and reassign?</source>
     </message>
     <message>
         <source>SSH support is not compiled, QTerm can only use Telnet!</source>
-        <translation>没有编译 SSH 支持，QTerm 只能使用 Telnet 连接!</translation>
+        <translation>没有编译 SSH 支持，QTerm 只能使用 Telnet 连接！</translation>
     </message>
     <message>
         <source>Connected,Do you still want to exit?</source>
-        <translation>已连接，确定退出吗?</translation>
+        <translation>已连接，确定退出吗？</translation>
     </message>
     <message>
         <source>You have messages</source>
@@ -1220,11 +1220,11 @@ Do you want to clear and reassign?</source>
     </message>
     <message>
         <source>Setting changed do you want to save it?</source>
-        <translation type="obsolete">设置已更改，你要保存吗?</translation>
+        <translation type="obsolete">设置已更改，你要保存吗？</translation>
     </message>
     <message>
         <source>URL:</source>
-        <translation>连接:</translation>
+        <translation>连接：</translation>
     </message>
     <message>
         <source>IP database not found</source>
@@ -1255,7 +1255,7 @@ Do you want to clear and reassign?</source>
     </message>
     <message>
         <source>Setting changed, do you want to save?</source>
-        <translation>设置已更改，你要保存吗?</translation>
+        <translation>设置已更改，你要保存吗？</translation>
     </message>
     <message>
         <source>SSH support is not compiled, check your OpenSSL and try to recompile QTerm</source>
@@ -1896,11 +1896,11 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>UserName:</source>
-        <translation>用户名:</translation>
+        <translation>用户名：</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation>密码:</translation>
+        <translation>密码：</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1939,7 +1939,7 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>Press any key here:</source>
-        <translation>在此按任意键:</translation>
+        <translation>在此按任意键：</translation>
     </message>
     <message>
         <source>Assign</source>
@@ -1978,19 +1978,19 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>Text Position:</source>
-        <translation>文本位置:</translation>
+        <translation>文本位置：</translation>
     </message>
     <message>
         <source>Icon Size:</source>
-        <translation>图标大小:</translation>
+        <translation>图标大小：</translation>
     </message>
     <message>
         <source>Current Actions:</source>
-        <translation>当前动作:</translation>
+        <translation>当前动作：</translation>
     </message>
     <message>
         <source>ToolBar:</source>
-        <translation>工具栏:</translation>
+        <translation>工具栏：</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -2002,7 +2002,7 @@ please close all windows and restart.</source>
     </message>
     <message>
         <source>Available Actions:</source>
-        <translation>可用动作:</translation>
+        <translation>可用动作：</translation>
     </message>
     <message>
         <source>16x16</source>
@@ -2142,27 +2142,27 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Address:</source>
-        <translation>地址:</translation>
+        <translation>地址：</translation>
     </message>
     <message>
         <source>Type:</source>
-        <translation>类型:</translation>
+        <translation>类型：</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation>名称:</translation>
+        <translation>名称：</translation>
     </message>
     <message>
         <source>Port:</source>
-        <translation>端口:</translation>
+        <translation>端口：</translation>
     </message>
     <message>
         <source>BBS Encoding:</source>
-        <translation>BBS 编码:</translation>
+        <translation>BBS 编码：</translation>
     </message>
     <message>
         <source>Text Conversion:</source>
-        <translation>繁简转换:</translation>
+        <translation>繁简转换：</translation>
     </message>
     <message>
         <source>No Conversion</source>
@@ -2178,15 +2178,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Protocol:</source>
-        <translation>协议:</translation>
+        <translation>协议：</translation>
     </message>
     <message>
         <source>Load Control Script:</source>
-        <translation>加载控制脚本:</translation>
+        <translation>加载控制脚本：</translation>
     </message>
     <message>
         <source>System Script:</source>
-        <translation>系统脚本:</translation>
+        <translation>系统脚本：</translation>
     </message>
     <message>
         <source>Browse...</source>
@@ -2194,11 +2194,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>General:</source>
-        <translation>一般选项:</translation>
+        <translation>一般选项：</translation>
     </message>
     <message>
         <source>Advanced Settings:</source>
-        <translation>高级设置:</translation>
+        <translation>高级设置：</translation>
     </message>
     <message>
         <source>Display</source>
@@ -2218,7 +2218,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Cursor Type:</source>
-        <translation>光标类型:</translation>
+        <translation>光标类型：</translation>
     </message>
     <message>
         <source>Block</source>
@@ -2250,7 +2250,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Menu Type:</source>
-        <translation>菜单条类型:</translation>
+        <translation>菜单条类型：</translation>
     </message>
     <message>
         <source>Reverse</source>
@@ -2270,15 +2270,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Preview:</source>
-        <translation type="obsolete">预览:</translation>
+        <translation type="obsolete">预览：</translation>
     </message>
     <message>
         <source>Text and Color:</source>
-        <translation>文本与颜色:</translation>
+        <translation>文本与颜色：</translation>
     </message>
     <message>
         <source>Menu and Cursor:</source>
-        <translation>菜单与光标:</translation>
+        <translation>菜单与光标：</translation>
     </message>
     <message>
         <source>default</source>
@@ -2294,63 +2294,63 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Key Type:</source>
-        <translation>键盘类型:</translation>
+        <translation>键盘类型：</translation>
     </message>
     <message>
         <source>Term Type:</source>
-        <translation>终端类型:</translation>
+        <translation>终端类型：</translation>
     </message>
     <message>
         <source>Escape string (i.e. *[ ):</source>
-        <translation>转义序列(即 *[):</translation>
+        <translation>转义序列(即 *[)：</translation>
     </message>
     <message>
         <source>Rows:</source>
-        <translation>行数:</translation>
+        <translation>行数：</translation>
     </message>
     <message>
         <source>Columns:</source>
-        <translation>列数:</translation>
+        <translation>列数：</translation>
     </message>
     <message>
         <source>Scroll Lines:</source>
-        <translation>滚动行数:</translation>
+        <translation>滚动行数：</translation>
     </message>
     <message>
         <source>Terminal Settings:</source>
-        <translation>终端设置:</translation>
+        <translation>终端设置：</translation>
     </message>
     <message>
         <source>Max Idle Time (sec):</source>
-        <translation>最长发呆时间:</translation>
+        <translation>最长发呆时间：</translation>
     </message>
     <message>
         <source>Key to reply message:</source>
-        <translation>回复消息按键:</translation>
+        <translation>回复消息按键：</translation>
     </message>
     <message>
         <source>Auto Reply Message:</source>
-        <translation>自动回复消息:</translation>
+        <translation>自动回复消息：</translation>
     </message>
     <message>
         <source>Anti-idle String:</source>
-        <translation>反发呆字符串:</translation>
+        <translation>反发呆字符串：</translation>
     </message>
     <message>
         <source>Pre-login:</source>
-        <translation>预登录命令:</translation>
+        <translation>预登录命令：</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation>密码:</translation>
+        <translation>密码：</translation>
     </message>
     <message>
         <source>User:</source>
-        <translation>用户名:</translation>
+        <translation>用户名：</translation>
     </message>
     <message>
         <source>Post-login:</source>
-        <translation>登录后命令:</translation>
+        <translation>登录后命令：</translation>
     </message>
     <message>
         <source>Auto Reply</source>
@@ -2362,7 +2362,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Internal Settings:</source>
-        <translation>内部设置:</translation>
+        <translation>内部设置：</translation>
     </message>
     <message>
         <source>Misc</source>
@@ -2378,7 +2378,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Reconnect Delay (sec):</source>
-        <translation type="obsolete">重新连接延迟:</translation>
+        <translation type="obsolete">重新连接延迟：</translation>
     </message>
     <message>
         <source>Auto Reconnect</source>
@@ -2386,11 +2386,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Proxy:</source>
-        <translation>代理:</translation>
+        <translation>代理：</translation>
     </message>
     <message>
         <source>Connection:</source>
-        <translation>连接:</translation>
+        <translation>连接：</translation>
     </message>
     <message>
         <source>Reset</source>
@@ -2418,19 +2418,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>General Font:</source>
-        <translation>通用字体:</translation>
+        <translation>通用字体：</translation>
     </message>
     <message>
         <source>Font Size:</source>
-        <translation>字体大小:</translation>
+        <translation>字体大小：</translation>
     </message>
     <message>
         <source>ASCII Font:</source>
-        <translation>ASCII 字体:</translation>
+        <translation>ASCII 字体：</translation>
     </message>
     <message>
         <source>Color Scheme:</source>
-        <translation>配色方案:</translation>
+        <translation>配色方案：</translation>
     </message>
     <message>
         <source>BBS</source>
@@ -2466,7 +2466,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Opacity:</source>
-        <translation>不透明度:</translation>
+        <translation>不透明度：</translation>
     </message>
     <message>
         <source>100</source>
@@ -2478,44 +2478,44 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Reconnect Delay (s):</source>
-        <translation>重新连接延迟(s):</translation>
+        <translation>重新连接延迟(s)：</translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation>用户名:</translation>
+        <translation>用户名：</translation>
     </message>
     <message>
         <source>Password Authentication:</source>
-        <translation>密码认证:</translation>
+        <translation>密码认证：</translation>
     </message>
     <message>
         <source>Public Key Authentication:</source>
-        <translation>公钥认证:</translation>
+        <translation>公钥认证：</translation>
     </message>
     <message>
         <source>Public Key File:</source>
-        <translation>公钥文件:</translation>
+        <translation>公钥文件：</translation>
     </message>
     <message>
         <source>Private Key File:</source>
-        <translation>私钥文件:</translation>
+        <translation>私钥文件：</translation>
     </message>
     <message>
         <source>Passphrase:</source>
         <translatorcomment>not sure how to differentiate between password and passphrase</translatorcomment>
-        <translation>密码:</translation>
+        <translation>密码：</translation>
     </message>
     <message>
         <source>Host Verification:</source>
-        <translation>主机认证:</translation>
+        <translation>主机认证：</translation>
     </message>
     <message>
         <source>Server Host Key:</source>
-        <translation>主机密钥:</translation>
+        <translation>主机密钥：</translation>
     </message>
     <message>
         <source>Public Key Authentication (RSA or DSA):</source>
-        <translation>公钥认证 (RSA 或者 DSA):</translation>
+        <translation>公钥认证 (RSA 或者 DSA)：</translation>
     </message>
 </context>
 <context>
@@ -2819,7 +2819,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The following sites are connected:</source>
-        <translation>已经连接到下列站点:</translation>
+        <translation>已经连接到下列站点：</translation>
     </message>
     <message>
         <source>Quit</source>
@@ -2863,9 +2863,9 @@ Back in code history: Page Up
 Forward in code history: Page Down</source>
         <translation>QTerm 脚本终端允许你轻松运行 JavaScript 脚本并调用所有你需要的 QTerm 函数和方法。
 QTerm 脚本的相关文档可以在 QTerm 的源代码的 doc 目录下找到。
-执行代码: CTRL-Enter
-在代码历史中前进: Page Up
-在代码历史中后退: Page Down</translation>
+执行代码：CTRL-Enter
+在代码历史中前进：Page Up
+在代码历史中后退：Page Down</translation>
     </message>
     <message>
         <source>Script Console...</source>
@@ -2880,7 +2880,7 @@ QTerm 脚本的相关文档可以在 QTerm 的源代码的 doc 目录下找到�
     </message>
     <message>
         <source>UserName:</source>
-        <translation type="obsolete">用户名:</translation>
+        <translation type="obsolete">用户名：</translation>
     </message>
     <message>
         <source>OK</source>
@@ -2896,7 +2896,7 @@ QTerm 脚本的相关文档可以在 QTerm 的源代码的 doc 目录下找到�
     </message>
     <message>
         <source>Password:</source>
-        <translation type="obsolete">密码:</translation>
+        <translation type="obsolete">密码：</translation>
     </message>
 </context>
 <context>
@@ -2929,7 +2929,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Sound File:</source>
-        <translation type="obsolete">声音文件:</translation>
+        <translation type="obsolete">声音文件：</translation>
     </message>
     <message>
         <source>Select...</source>
@@ -2937,11 +2937,11 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>External Program:</source>
-        <translation type="obsolete">外部程序:</translation>
+        <translation type="obsolete">外部程序：</translation>
     </message>
     <message>
         <source>Play With:</source>
-        <translation type="obsolete">用此播放:</translation>
+        <translation type="obsolete">用此播放：</translation>
     </message>
     <message>
         <source>External</source>
@@ -3171,7 +3171,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Paste Word-Wrap at:</source>
-        <translation>粘贴时自动换行:</translation>
+        <translation>粘贴时自动换行：</translation>
     </message>
     <message>
         <source>Blink Tab When Receive Message</source>
@@ -3187,7 +3187,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Input Conversion:</source>
-        <translation>输入繁简转换:</translation>
+        <translation>输入繁简转换：</translation>
     </message>
     <message>
         <source>No Conversion</source>
@@ -3203,7 +3203,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Miscellaneous Options:</source>
-        <translation>其他选项:</translation>
+        <translation>其他选项：</translation>
     </message>
     <message>
         <source>External Settings</source>
@@ -3211,7 +3211,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Image Viewer:</source>
-        <translation>外置图片浏览器:</translation>
+        <translation>外置图片浏览器：</translation>
     </message>
     <message>
         <source>Choose...</source>
@@ -3219,7 +3219,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>HTTP Browser:</source>
-        <translation>HTTP 浏览器:</translation>
+        <translation>HTTP 浏览器：</translation>
     </message>
     <message>
         <source>Browse...</source>
@@ -3227,27 +3227,27 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Sound Player:</source>
-        <translation>声音播放器:</translation>
+        <translation>声音播放器：</translation>
     </message>
     <message>
         <source>External Applications:</source>
-        <translation>外部程序:</translation>
+        <translation>外部程序：</translation>
     </message>
     <message>
         <source>HTTP Directory:</source>
-        <translation>HTTP 目录:</translation>
+        <translation>HTTP 目录：</translation>
     </message>
     <message>
         <source>Zmodem Directory:</source>
-        <translation>Zmodem 目录:</translation>
+        <translation>Zmodem 目录：</translation>
     </message>
     <message>
         <source>Directories and Files:</source>
-        <translation>目录和文件:</translation>
+        <translation>目录和文件：</translation>
     </message>
     <message>
         <source>Sound File:</source>
-        <translation>声音文件:</translation>
+        <translation>声音文件：</translation>
     </message>
     <message>
         <source>Reset</source>
@@ -3255,7 +3255,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Cursor Size:</source>
-        <translation>鼠标光标大小</translation>
+        <translation>鼠标光标大小：</translation>
     </message>
     <message>
         <source>16</source>
@@ -3413,11 +3413,11 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>History:</source>
-        <translation>历史记录:</translation>
+        <translation>历史记录：</translation>
     </message>
     <message>
         <source>Address:</source>
-        <translation>地址:</translation>
+        <translation>地址：</translation>
     </message>
     <message>
         <source>Advanced...</source>
@@ -3429,11 +3429,11 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Port:</source>
-        <translation>端口:</translation>
+        <translation>端口：</translation>
     </message>
     <message>
         <source>Protocol:</source>
-        <translation>协议:</translation>
+        <translation>协议：</translation>
     </message>
     <message>
         <source>Telnet</source>
@@ -3677,7 +3677,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Title:</source>
-        <translation>主题:</translation>
+        <translation>主题：</translation>
     </message>
     <message>
         <source>Add</source>
@@ -3697,35 +3697,35 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Color 1:</source>
-        <translation>颜色 1:</translation>
+        <translation>颜色 1：</translation>
     </message>
     <message>
         <source>Color 2:</source>
-        <translation>颜色 2:</translation>
+        <translation>颜色 2：</translation>
     </message>
     <message>
         <source>Color 3:</source>
-        <translation>颜色 3:</translation>
+        <translation>颜色 3：</translation>
     </message>
     <message>
         <source>Color 4:</source>
-        <translation>颜色 4:</translation>
+        <translation>颜色 4：</translation>
     </message>
     <message>
         <source>Color 5:</source>
-        <translation>颜色 5:</translation>
+        <translation>颜色 5：</translation>
     </message>
     <message>
         <source>Color 6:</source>
-        <translation>颜色 6:</translation>
+        <translation>颜色 6：</translation>
     </message>
     <message>
         <source>Color 7:</source>
-        <translation>颜色 7:</translation>
+        <translation>颜色 7：</translation>
     </message>
     <message>
         <source>Color 8:</source>
-        <translation>颜色 8:</translation>
+        <translation>颜色 8：</translation>
     </message>
     <message>
         <source>Reset</source>
@@ -3778,7 +3778,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Sound File:</source>
-        <translation>声音文件:</translation>
+        <translation>声音文件：</translation>
     </message>
     <message>
         <source>Select...</source>
@@ -3786,7 +3786,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>External Program:</source>
-        <translation>外部程序:</translation>
+        <translation>外部程序：</translation>
     </message>
     <message>
         <source>OK</source>
@@ -3798,7 +3798,7 @@ Check whether your ESD support is enabled in compile time</source>
     </message>
     <message>
         <source>Play With:</source>
-        <translation>用此播放:</translation>
+        <translation>用此播放：</translation>
     </message>
     <message>
         <source>External</source>
