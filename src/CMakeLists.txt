@@ -29,12 +29,12 @@ endif(NOT CMAKE_HAVE_GETHOSTBYNAME)
 
 if(QTERM_ENABLE_SSH)
    find_package(OpenSSLCrypto)
-   if(OPENSSL_CRYPTO_FOUND)
+   if(OPENSSLCRYPTO_FOUND)
       message(STATUS "OpenSSL found, enable SSH support")
       add_definitions(-DSSH_ENABLED)
-      include_directories(${OPENSSL_CRYPTO_INCLUDE_DIR})
-      get_filename_component(OPENSSL_CRYPTO_ROOT_DIR ${OPENSSL_CRYPTO_INCLUDE_DIR} PATH)
-      set(optionalLibs ${optionalLibs} ${OPENSSL_CRYPTO_LIBRARIES})
+      include_directories(${OPENSSLCRYPTO_INCLUDE_DIR})
+      get_filename_component(OPENSSLCRYPTO_ROOT_DIR ${OPENSSLCRYPTO_INCLUDE_DIR} PATH)
+      set(optionalLibs ${optionalLibs} ${OPENSSLCRYPTO_LIBRARIES})
       set(optionalSources ${optionalSources}
       ssh/libcrypto-compat.c
       ssh/key.cpp
@@ -45,7 +45,7 @@ if(QTERM_ENABLE_SSH)
       ssh/packet.cpp
       ssh/socket.cpp
       ssh/transport.cpp)
-   endif(OPENSSL_CRYPTO_FOUND)
+   endif(OPENSSLCRYPTO_FOUND)
 endif(QTERM_ENABLE_SSH)
 if(QTERM_ENABLE_DBUS)
    if(QT_QTDBUS_FOUND)
@@ -382,7 +382,7 @@ else (APPLE)
     install(CODE "
       file(GLOB_RECURSE PLUGINS  \${CMAKE_INSTALL_PREFIX}/bin/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX})
       include(BundleUtilities)
-      set(DIRS ${QT_BINARY_DIR} ${QT_LIBRARY_DIR} ${OPENSSL_CRYPTO_ROOT_DIR})
+      set(DIRS ${QT_BINARY_DIR} ${QT_LIBRARY_DIR} ${OPENSSLCRYPTO_ROOT_DIR})
       fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.exe\"
        \"\${PLUGINS}\"
        \"\${DIRS}\")
