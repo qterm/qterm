@@ -51,3 +51,11 @@ script:
  - make VERBOSE=1
  - '[ "$TRAVIS_OS_NAME" != osx ] || make package'
  - popd
+
+deploy:
+  provider: releases
+  api_key:
+    secure: qDCCl44gzldjuYBb+HZXqQLvBOVvpiRQxjnaEr5dtGHY2V3D0EXVJrxJBApobMSIqdQBg/SYVJBV9piahricc0ObbWScN/gNyn7gIclmhui80Sk/aL7uBquGiPK/WCZmRwP688OhTbHkzQ/Mo5rrhoR396tYMfi42SXxaENQauJOtP3ZSewrBBGqRmOLzbZw7rSihcBgXPp6wntJvcVdNrKfYp+S1cTYFNGniwUAso25I6rR7BUU/7CtKHOeST2EXFYR6YBX35Yz2Pyf8+QfXVIYwaNs5lGy113MeW3gXxxtUdlto2G41uDHZZGFsm3+2hz2WbtR5DUySgKdjlXrMGM5+ES4fydJ6ylt+BiAnU40rgiPB7KXnz0nAYE3kPA9oNy7HCBkwSoygoGu+AG1HSq5yXuMy4wbAaHy8abAyRv07jNZHwX2wu99j2qikVa/xbqmv3MmVrjuCbsMidjBZmjkUTYOI2oacwhjuIqru8VPMDs7DuSjWtP7qQGm3vAUDd4jnCTpV8m6VDZrLC9UuJQ/Ex0BCufKokLWhdaF5crwQIUIUivMTuAxKVwkclT5RxM/NCRl7bbiob2Kd+TqafD08kUOruXhpF1I8QKeRNHfFPdaoG4j6CD920IjgJAptpO3Pz8+q2+CNWhqYTHGhurcnn92W0w+aI0D8qt3dho=
+  file: QTerm-0.7.1-Darwin.dmg
+  on:
+    repo: hephooey/qterm
