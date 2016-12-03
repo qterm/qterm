@@ -320,22 +320,6 @@ void addrDialog::onChooseScript()
     ui.scriptLineEdit->setText(file.absoluteFilePath());
 }
 
-void addrDialog::onChoosePublicKeyFile()
-{
-    QString path;
-
-    QString strFile = QFileDialog::getOpenFileName(
-                          this, tr("Choose public key file"),
-                          path);
-
-    if (strFile.isNull())
-        return;
-
-    QFileInfo file(strFile);
-
-    ui.sshPublicKeyFileLineEdit->setText(file.absoluteFilePath());
-}
-
 void addrDialog::onChoosePrivateKeyFile()
 {
     QString path;
@@ -376,7 +360,6 @@ void addrDialog::connectSlots()
     connect(ui.protocolComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onProtocol(int)));
 
     connect(ui.scriptPushButton, SIGNAL(clicked()), this, SLOT(onChooseScript()));
-    connect(ui.sshPublicKeyFilePushButton, SIGNAL(clicked()), this, SLOT(onChoosePublicKeyFile()));
     connect(ui.sshPrivateKeyFilePushButton, SIGNAL(clicked()), this, SLOT(onChoosePrivateKeyFile()));
 
     connect(ui.menuColorButton, SIGNAL(clicked()), this, SLOT(onMenuColor()));
@@ -435,7 +418,6 @@ bool addrDialog::isChanged()
            param.m_mapParam["menucolor"] != clrMenu) ||
            param.m_mapParam["sshuser"].toString() != ui.sshUserLineEdit->text() ||
            param.m_mapParam["sshpass"].toString() != ui.sshPassLineEdit->text() ||
-           param.m_mapParam["sshpublickeyfile"].toString() != ui.sshPublicKeyFileLineEdit->text() ||
            param.m_mapParam["sshprivatekeyfile"].toString() != ui.sshPrivateKeyFileLineEdit->text() ||
            param.m_mapParam["sshpassphrase"].toString() != ui.sshPassphraseLineEdit->text() ||
            param.m_mapParam["sshhostkey"].toString() != ui.sshHostKeyPlainTextEdit->toPlainText();
@@ -495,7 +477,6 @@ void addrDialog::updateData(bool save)
         param.m_mapParam["menucolor"] = clrMenu;
         param.m_mapParam["sshuser"] = ui.sshUserLineEdit->text();
         param.m_mapParam["sshpass"] = ui.sshPassLineEdit->text();
-        param.m_mapParam["sshpublickeyfile"] = ui.sshPublicKeyFileLineEdit->text();
         param.m_mapParam["sshprivatekeyfile"] = ui.sshPrivateKeyFileLineEdit->text();
         param.m_mapParam["sshpassphrase"] = ui.sshPassphraseLineEdit->text();
         param.m_mapParam["sshhostkey"] = ui.sshHostKeyPlainTextEdit->toPlainText();
@@ -576,7 +557,6 @@ void addrDialog::updateData(bool save)
         clrMenu = param.m_mapParam["menucolor"].toString();
         ui.sshUserLineEdit->setText(param.m_mapParam["sshuser"].toString());
         ui.sshPassLineEdit->setText(param.m_mapParam["sshpass"].toString());
-        ui.sshPublicKeyFileLineEdit->setText(param.m_mapParam["sshpublickeyfile"].toString());
         ui.sshPrivateKeyFileLineEdit->setText(param.m_mapParam["sshprivatekeyfile"].toString());
         ui.sshPassphraseLineEdit->setText(param.m_mapParam["sshpassphrase"].toString());
         ui.sshHostKeyPlainTextEdit->setPlainText(param.m_mapParam["sshhostkey"].toString());

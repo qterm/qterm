@@ -98,32 +98,14 @@ void SSHInfo::setPassphrase(const QString & passphrase)
     m_passphrase = passphrase;
 }
 
-void SSHInfo::setPublicKeyFile(const QString & filename)
-{
-    m_publicKeyFile = filename;
-}
-
 void SSHInfo::setPrivateKeyFile(const QString & filename)
 {
     m_privateKeyFile = filename;
 }
 
-const QString & SSHInfo::publicKeyFile()
-{
-    return m_publicKeyFile;
-}
-
 const QString & SSHInfo::privateKeyFile()
 {
     return m_privateKeyFile;
-}
-
-bool SSHInfo::publicKeyAuthAvailable()
-{
-    if (m_publicKeyFile.isEmpty() || m_privateKeyFile.isEmpty()) {
-        return false;
-    }
-    return true;
 }
 
 void SSHInfo::setHostKey(const QString & hostKey)

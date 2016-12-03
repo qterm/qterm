@@ -67,7 +67,6 @@ Param::Param()
 	m_mapParam["menucolor"] = QColor(0,65,132);
 	m_mapParam["sshuser"] = "";
 	m_mapParam["sshpass"] = "";
-	m_mapParam["sshpublickeyfile"] = "";
 	m_mapParam["sshprivatekeyfile"] = "";
 	m_mapParam["sshpassphrase"] = "";
 	m_mapParam["sshhostkey"] = "";

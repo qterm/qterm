@@ -898,7 +898,6 @@ void Window::connectHost()
             }
             sshInfo->setUserName(strSSHUser);
             sshInfo->setPassword(strSSHPass);
-            sshInfo->setPublicKeyFile(m_param.m_mapParam["sshpublickeyfile"].toString());
             sshInfo->setPrivateKeyFile(m_param.m_mapParam["sshprivatekeyfile"].toString());
             sshInfo->setPassphrase(m_param.m_mapParam["sshpassphrase"].toString());
             sshInfo->setHostKey(m_param.m_mapParam["sshhostkey"].toString());

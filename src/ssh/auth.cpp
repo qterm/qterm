@@ -54,13 +54,12 @@ void SSH2Auth::setHostInfo(HostInfo * hostInfo)
         m_hostInfo = static_cast<SSHInfo *>(hostInfo);
     }
 
-    m_publicKeyAuthAvailable = m_hostInfo->publicKeyAuthAvailable();
-    if (m_publicKeyAuthAvailable) {
+    QString privateKeyFile = m_hostInfo->privateKeyFile();
+    if (!privateKeyFile.isEmpty()) {
         DSA *dsa = NULL;
         RSA *rsa = NULL;
 
         QString passphrase = m_hostInfo->passphrase();
-        QString privateKeyFile = m_hostInfo->privateKeyFile();
         QFile file(privateKeyFile);
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             qDebug("Cannot open the private key file");
@@ -91,7 +90,7 @@ void SSH2Auth::setHostInfo(HostInfo * hostInfo)
             qDebug("Cannot read the private key file");
             return;
         }
-        qDebug() << m_key->publicKey().toBase64();
+        m_publicKeyAuthAvailable = true;
         m_keyType = type;
     }
 

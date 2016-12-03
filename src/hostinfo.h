@@ -59,16 +59,13 @@ public:
     void setUserName(const QString & userName);
     void setPassword(const QString & password);
     void setPassphrase(const QString & passphrase);
-    void setPublicKeyFile(const QString & filename);
     void setPrivateKeyFile(const QString & filename);
     void setHostKey(const QString & hostKey);
     void setAutoCompletion(const Completion & autoCompletion);
     const QString & userName(bool * ok = 0);
     const QString & password(bool * ok = 0);
     const QString & passphrase();
-    const QString & publicKeyFile();
     const QString & privateKeyFile();
-    bool publicKeyAuthAvailable();
     bool checkHostKey(const QByteArray & hostKey);
     const QString & answer(const QString & prompt, QueryType type = Normal, bool * ok = 0);
     void reset();
