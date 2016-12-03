@@ -37,6 +37,7 @@ if(QTERM_ENABLE_SSH)
       set(optionalLibs ${optionalLibs} ${OPENSSL_CRYPTO_LIBRARIES})
       set(optionalSources ${optionalSources}
       ssh/libcrypto-compat.c
+      ssh/key.cpp
       ssh/auth.cpp
       ssh/channel.cpp
       ssh/crc32.cpp

@@ -19,6 +19,7 @@ namespace QTerm
 {
 class HostInfo;
 class SSHInfo;
+class SSH2Key;
 class SSH2InBuffer;
 class SSH2OutBuffer;
 class SSH1InBuffer;
@@ -70,9 +71,9 @@ private:
     SSH2InBuffer * m_in;
     SSH2OutBuffer * m_out;
     QByteArray m_sessionID;
-    QByteArray m_publicKey;
     KeyType m_keyType;
     SSHInfo * m_hostInfo;
+    SSH2Key * m_key;
     bool m_publicKeyAuthAvailable;
 
     // Give keyboardAuth and passwordAuth 3 tries.
