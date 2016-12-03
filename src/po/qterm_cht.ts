@@ -678,28 +678,28 @@
 <context>
     <name>QTerm::Global</name>
     <message>
-        <location filename="../qtermglobal.cpp" line="278"/>
+        <location filename="../qtermglobal.cpp" line="290"/>
         <source>imported sites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermglobal.cpp" line="373"/>
-        <location filename="../qtermglobal.cpp" line="382"/>
+        <location filename="../qtermglobal.cpp" line="385"/>
+        <location filename="../qtermglobal.cpp" line="394"/>
         <source>Choose a file to save under</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermglobal.cpp" line="379"/>
+        <location filename="../qtermglobal.cpp" line="391"/>
         <source>File exists. Overwrite?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermglobal.cpp" line="379"/>
+        <location filename="../qtermglobal.cpp" line="391"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermglobal.cpp" line="379"/>
+        <location filename="../qtermglobal.cpp" line="391"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
@@ -748,32 +748,32 @@ Size: %3 KB</source>
 <context>
     <name>QTerm::SSHInfo</name>
     <message>
-        <location filename="../hostinfo.cpp" line="206"/>
+        <location filename="../hostinfo.cpp" line="190"/>
         <source>New Host Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hostinfo.cpp" line="206"/>
+        <location filename="../hostinfo.cpp" line="190"/>
         <source>No host key is found for the server. Do you want to add the host key and continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hostinfo.cpp" line="213"/>
+        <location filename="../hostinfo.cpp" line="197"/>
         <source>Host Key Mismatch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hostinfo.cpp" line="213"/>
+        <location filename="../hostinfo.cpp" line="197"/>
         <source>HOST KEY DOES NOT MATCH! THIS COULD BE A MITM ATTACK! DO YOU REALLY WANT TO CONTINUE? IF YOU DO NOT KNOW WHAT YOU ARE DOING, CHOOSE NO!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hostinfo.cpp" line="215"/>
+        <location filename="../hostinfo.cpp" line="199"/>
         <source>Update Host Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hostinfo.cpp" line="215"/>
+        <location filename="../hostinfo.cpp" line="199"/>
         <source>Are you sure you want to update the host key?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -843,118 +843,118 @@ Do you want to clear and reassign?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="424"/>
+        <location filename="../qtermwindow.cpp" line="425"/>
         <source>Connected,Do you still want to exit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="700"/>
+        <location filename="../qtermwindow.cpp" line="701"/>
         <source>Open URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="701"/>
+        <location filename="../qtermwindow.cpp" line="702"/>
         <source>URL:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1056"/>
+        <location filename="../qtermwindow.cpp" line="1071"/>
         <source>resolving host name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1059"/>
+        <location filename="../qtermwindow.cpp" line="1074"/>
         <source>host found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1062"/>
+        <location filename="../qtermwindow.cpp" line="1077"/>
         <source>host not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1066"/>
+        <location filename="../qtermwindow.cpp" line="1081"/>
         <source>connecting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1069"/>
+        <location filename="../qtermwindow.cpp" line="1084"/>
         <source>connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1075"/>
+        <location filename="../qtermwindow.cpp" line="1090"/>
         <source>connected to proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1078"/>
+        <location filename="../qtermwindow.cpp" line="1093"/>
         <source>proxy authentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1081"/>
+        <location filename="../qtermwindow.cpp" line="1096"/>
         <source>proxy failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1085"/>
+        <location filename="../qtermwindow.cpp" line="1100"/>
         <source>connection refused</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1089"/>
+        <location filename="../qtermwindow.cpp" line="1104"/>
         <source>error when reading from server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1093"/>
-        <location filename="../qtermwindow.cpp" line="1425"/>
+        <location filename="../qtermwindow.cpp" line="1108"/>
+        <location filename="../qtermwindow.cpp" line="1441"/>
         <source>connection closed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1099"/>
+        <location filename="../qtermwindow.cpp" line="1114"/>
         <source>connection close finished</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1103"/>
+        <location filename="../qtermwindow.cpp" line="1118"/>
         <source>connect to host via proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1106"/>
+        <location filename="../qtermwindow.cpp" line="1121"/>
         <source>error in gethostbyname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1110"/>
+        <location filename="../qtermwindow.cpp" line="1125"/>
         <source>error in startup winsock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1114"/>
+        <location filename="../qtermwindow.cpp" line="1129"/>
         <source>error in connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1118"/>
+        <location filename="../qtermwindow.cpp" line="1133"/>
         <source>error in proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1288"/>
+        <location filename="../qtermwindow.cpp" line="1304"/>
         <source>IP database not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1367"/>
+        <location filename="../qtermwindow.cpp" line="1383"/>
         <source>You need to enable the script engine debugger to use this feature. 								Please recompile QTerm with the debugger enabled (need Qt 4.5 or newer version)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermwindow.cpp" line="1585"/>
+        <location filename="../qtermwindow.cpp" line="1601"/>
         <source>You have messages</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1024,11 +1024,6 @@ Do you want to clear and reassign?</source>
     </message>
     <message>
         <location filename="../addrdialog.cpp" line="328"/>
-        <source>Choose public key file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../addrdialog.cpp" line="344"/>
         <source>Choose private key file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1444,7 +1439,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ui/addrdialog.ui" line="315"/>
         <location filename="../ui/addrdialog.ui" line="1417"/>
-        <location filename="../ui/addrdialog.ui" line="1440"/>
         <source>Browse...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1740,46 +1734,41 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../ui/addrdialog.ui" line="1401"/>
-        <source>Public Key File:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="1424"/>
         <source>Private Key File:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1447"/>
+        <location filename="../ui/addrdialog.ui" line="1424"/>
         <source>Passphrase:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1475"/>
+        <location filename="../ui/addrdialog.ui" line="1452"/>
         <source>Host Verification:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1500"/>
+        <location filename="../ui/addrdialog.ui" line="1477"/>
         <source>Server Host Key:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1536"/>
+        <location filename="../ui/addrdialog.ui" line="1513"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1556"/>
+        <location filename="../ui/addrdialog.ui" line="1533"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1563"/>
+        <location filename="../ui/addrdialog.ui" line="1540"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1579"/>
+        <location filename="../ui/addrdialog.ui" line="1556"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2307,22 +2296,22 @@ Forward in code history: Page Down</source>
 <context>
     <name>smth</name>
     <message>
-        <location filename="../scripts/smth.js" line="17"/>
+        <location filename="../scripts/smth.js" line="18"/>
         <source>System script loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../scripts/smth.js" line="18"/>
+        <location filename="../scripts/smth.js" line="19"/>
         <source>About This Script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../scripts/smth.js" line="257"/>
+        <location filename="../scripts/smth.js" line="256"/>
         <source>No article to download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../scripts/smth.js" line="276"/>
+        <location filename="../scripts/smth.js" line="275"/>
         <source>You are using smth.js in QTerm %1 (C) 2009-2010 QTerm Developers</source>
         <translation type="unfinished"></translation>
     </message>
