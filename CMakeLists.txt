@@ -1,5 +1,6 @@
 project(qterm)
 include(CTest)
+include(FeatureSummary)
 cmake_minimum_required(VERSION 2.8.11 FATAL_ERROR)
 set(QTERM_VERSION_MAJOR 0)
 set(QTERM_VERSION_MINOR 7)
@@ -55,3 +56,4 @@ if (NOT TARGET uninstall)
     add_custom_target(uninstall
       "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 endif(NOT TARGET uninstall)
+feature_summary(WHAT ALL)
