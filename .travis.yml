@@ -59,6 +59,5 @@ deploy:
   file_glob: true
   file: $TRAVIS_BUILD_DIR-build/QTerm-*-Darwin.dmg
   on:
-    repo: hephooey/qterm
     condition: '"$TRAVIS_OS_NAME" == osx && "$CXX" == clang++ && "$QT" == 56'
     tags: true
