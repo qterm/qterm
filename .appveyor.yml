@@ -61,7 +61,6 @@ install:
  - if not %QTDIR:msvc=%==%QTDIR% %make% /? > nul
 
 build_script:
- - mkdir %APPVEYOR_BUILD_FOLDER%
  - cd %APPVEYOR_BUILD_FOLDER%
  - cmake . -G "%CMAKE_GENERATOR%" -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes
  - '%make% VERBOSE=1'
