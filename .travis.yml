@@ -44,10 +44,20 @@ install:
 script:
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || . /opt/qt$QT/bin/qt$QT-env.sh'
  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || export QT_SELECT=qt5'
- - mkdir build
- - pushd build
- - '[ "$TRAVIS_OS_NAME" != osx ] || cmake .. -DCMAKE_PREFIX_PATH=`brew --prefix qt$BREW` -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl -DQT5=Yes'
- - '[ "$TRAVIS_OS_NAME" != linux ] || cmake .. -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes'
+ - mkdir -p "$TRAVIS_BUILD_DIR-build"
+ - pushd "$TRAVIS_BUILD_DIR-build"
+ - '[ "$TRAVIS_OS_NAME" != osx ] || cmake $TRAVIS_BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=`brew --prefix qt$BREW` -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl -DQT5=Yes'
+ - '[ "$TRAVIS_OS_NAME" != linux ] || cmake $TRAVIS_BUILD_DIR -DCMAKE_BUILD_TYPE=Release -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes'
  - make VERBOSE=1
  - '[ "$TRAVIS_OS_NAME" != osx ] || make package'
  - popd
+
+deploy:
+  provider: releases
+  api_key:
+    secure: qDCCl44gzldjuYBb+HZXqQLvBOVvpiRQxjnaEr5dtGHY2V3D0EXVJrxJBApobMSIqdQBg/SYVJBV9piahricc0ObbWScN/gNyn7gIclmhui80Sk/aL7uBquGiPK/WCZmRwP688OhTbHkzQ/Mo5rrhoR396tYMfi42SXxaENQauJOtP3ZSewrBBGqRmOLzbZw7rSihcBgXPp6wntJvcVdNrKfYp+S1cTYFNGniwUAso25I6rR7BUU/7CtKHOeST2EXFYR6YBX35Yz2Pyf8+QfXVIYwaNs5lGy113MeW3gXxxtUdlto2G41uDHZZGFsm3+2hz2WbtR5DUySgKdjlXrMGM5+ES4fydJ6ylt+BiAnU40rgiPB7KXnz0nAYE3kPA9oNy7HCBkwSoygoGu+AG1HSq5yXuMy4wbAaHy8abAyRv07jNZHwX2wu99j2qikVa/xbqmv3MmVrjuCbsMidjBZmjkUTYOI2oacwhjuIqru8VPMDs7DuSjWtP7qQGm3vAUDd4jnCTpV8m6VDZrLC9UuJQ/Ex0BCufKokLWhdaF5crwQIUIUivMTuAxKVwkclT5RxM/NCRl7bbiob2Kd+TqafD08kUOruXhpF1I8QKeRNHfFPdaoG4j6CD920IjgJAptpO3Pz8+q2+CNWhqYTHGhurcnn92W0w+aI0D8qt3dho=
+  file_glob: true
+  file: $TRAVIS_BUILD_DIR-build/QTerm-*-Darwin.dmg
+  on:
+    condition: '"$TRAVIS_OS_NAME" == osx && "$CXX" == clang++ && "$QT" == 56'
+    tags: true

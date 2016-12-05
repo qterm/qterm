@@ -61,8 +61,29 @@ install:
  - if not %QTDIR:msvc=%==%QTDIR% %make% /? > nul
 
 build_script:
- - mkdir build
- - cd build
- - cmake "%APPVEYOR_BUILD_FOLDER%" -G "%CMAKE_GENERATOR%" -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DQT5=Yes
+ - cd %APPVEYOR_BUILD_FOLDER%
+ - cmake . -G "%CMAKE_GENERATOR%" -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DCMAKE_BUILD_TYPE=Release -DQT5=Yes
  - '%make% VERBOSE=1'
  - if not %QTDIR:msvc=%==%QTDIR% %make% package
+
+artifacts:
+ - path: QTerm*-win64.exe
+   name: Win64Installer
+ - path: QTerm*-win32.exe
+   name: Win32Installer
+
+deploy:
+  - provider: GitHub
+    artifact: Win64Installer
+    auth_token:
+      secure: wc0cFfZSLHWbW3W8FKqgVPHQfF0bV1l54wkpLcpsq4EuBliQdwfV+4JLnWuHBdr4
+    on:
+      appveyor_repo_tag: true
+      QTDIR: C:\Qt\5.7\msvc2015_64
+  - provider: GitHub
+    artifact: Win32Installer
+    auth_token:
+      secure: wc0cFfZSLHWbW3W8FKqgVPHQfF0bV1l54wkpLcpsq4EuBliQdwfV+4JLnWuHBdr4
+    on:
+      appveyor_repo_tag: true
+      QTDIR: C:\Qt\5.7\msvc2015
