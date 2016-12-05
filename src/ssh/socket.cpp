@@ -20,7 +20,7 @@
 #include "qtermsocket.h"
 #include "hostinfo.h"
 #include <stdint.h>
-#include <openssl/bn.h>
+#include <openssl/evp.h>
 #include <QtCore/QStringList>
 
 #ifdef SSH_DEBUG
@@ -36,6 +36,9 @@ namespace QTerm
 SSH2SocketPriv::SSH2SocketPriv(SocketPrivate * plainSocket, QByteArray & banner, QObject * parent)
         : SSHSocketPriv(parent), m_banner(banner), m_status(Init), m_sessionID(), m_channelList()
 {
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+    OpenSSL_add_all_ciphers();
+#endif
     m_sessionID = NULL;
     m_auth = NULL;
     m_hostInfo = plainSocket->hostInfo();
@@ -52,7 +55,11 @@ SSH2SocketPriv::SSH2SocketPriv(SocketPrivate * plainSocket, QByteArray & banner,
 }
 
 SSH2SocketPriv::~SSH2SocketPriv()
-{}
+{
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+    EVP_cleanup();
+#endif
+}
 
 void SSH2SocketPriv::slotKexFinished(const QByteArray & sessionID)
 {
@@ -126,6 +133,9 @@ SSH1SocketPriv::SSH1SocketPriv(SocketPrivate * plainSocket, QByteArray & banner,
 #ifdef SSH_DEBUG
     qDebug() << "init ssh1 session";
 #endif
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+    OpenSSL_add_all_ciphers();
+#endif
     m_inPacket = new SSH1InBuffer(plainSocket, this);
     m_outPacket = new SSH1OutBuffer(plainSocket, this);
     m_kex = new SSH1Kex(m_inPacket, m_outPacket, this);
@@ -137,7 +147,11 @@ SSH1SocketPriv::SSH1SocketPriv(SocketPrivate * plainSocket, QByteArray & banner,
 }
 
 SSH1SocketPriv::~SSH1SocketPriv()
-{}
+{
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+    EVP_cleanup();
+#endif
+}
 
 void SSH1SocketPriv::slotKexFinished()
 {
