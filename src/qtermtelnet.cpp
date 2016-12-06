@@ -214,6 +214,7 @@ void Telnet::windowSizeChanged(int x, int y)
 {
     wx = x;
     wy = y;
+    done_naws = 0;
     if (!bConnected)
         return;
 
@@ -237,6 +238,7 @@ void Telnet::windowSizeChanged(int x, int y)
         socket->writeBlock(cmd);
 
     }
+    done_naws = 1;
 }
 
 /*------------------------------------------------------------------------
@@ -270,6 +272,9 @@ void Telnet::close()
 void Telnet::connected()
 {
     bConnected = true;
+    // in case the window size changed before connection was made
+    if (done_naws == 0)
+        windowSizeChanged(wx, wy);
     emit TelnetState(TSHOSTCONNECTED);
 }
 /*------------------------------------------------------------------------
