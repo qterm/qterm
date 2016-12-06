@@ -195,6 +195,9 @@ void SSH2Channel::requestPty(uint id)
 
 void SSH2Channel::requestWindowSize(int column, int row)
 {
+    m_row = row;
+    m_column = column;
+
 #ifdef SSH_DEBUG
     qDebug() << "request window size";
 #endif
