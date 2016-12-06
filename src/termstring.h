@@ -13,7 +13,7 @@
 #define TERMSTRING_H
 
 #include <QtCore/QString>
-#include <QByteArray>
+#include <QList>
 
 namespace QTerm
 {
@@ -45,7 +45,8 @@ private:
     void updateIndex();
     void dumpIndex();
     QString m_string;
-    QByteArray m_index;
+    //TODO: Switch to QVector after we drop Qt4 support
+    QList<int> m_index;
 };
 } // namespace QTerm
 
