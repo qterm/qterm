@@ -22,6 +22,17 @@ Build
 -----
 
 The following dependencies must be met,
+- A basic development environment
+
+  - On Debian, the package is
+    ::
+
+      sudo aptitude install build-essentials
+
+  - On Fedora, the package is
+    ::
+
+      sudo dnf install @"C Development Tools and Libraries"
 
 - Qt 4.6+ or Qt 5.3+
 
@@ -30,13 +41,22 @@ The following dependencies must be met,
 
       sudo aptitude install qt5-defaults qttools5-dev qttools5-dev-tools qtscript5-dev qtmultimedia5-dev
 
+  - On Fedora, the packages are
+    ::
+
+      sudo dnf install qt5-devel
+
   - The installer from Qt is simple for macOS and Windows.
 
 - CMake 2.8.11+
-- OpenSSL 1.0.x (Optional)
 
-  - On Debian, the package is libssl-dev
-  - On macOS, install it via MacPorts or HomeBrew
+  - On Linux and macOS, the package is most probably *cmake*.
+
+- OpenSSL 1.0+ (Optional)
+
+  - On Debian, the package is *libssl-dev*.
+  - On Fedora, the package is *openssl-devel*.
+  - On macOS, install *openssl* via MacPorts or HomeBrew
   - On Windows, get the installer from https://slproweb.com/products/Win32OpenSSL.html
 
 - DBus (Optional)
