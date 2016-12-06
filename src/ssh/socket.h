@@ -107,7 +107,6 @@ private:
     SSH1Kex * m_kex;
     SSH1Auth * m_auth;
     SSH1Channel * m_channel;
-    SocketPrivate * m_socket;
     HostInfo * m_hostInfo;
 };
 
