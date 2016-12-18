@@ -52,6 +52,7 @@ protected:
     void setLabelPixmap();
     void setMenuPixmap();
     void updateSchemeList();
+    void updateComboBoxes();
     void updateKeyboardProfiles();
 
     bool bPartial;

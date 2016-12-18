@@ -40,6 +40,7 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WindowFlags fl)
         : QDialog(parent, fl), bPartial(partial), bgMenu(this)
 {
     ui.setupUi(this);
+    updateComboBoxes();
     QList<QByteArray> codecList = QTextCodec::availableCodecs();
     QByteArray codecName;
     foreach(codecName, codecList) {
@@ -86,9 +87,31 @@ addrDialog::~addrDialog()
     }
 }
 
-QString addrDialog :: uuid() 
-{ 
-	return domModel->data(lastIndex, Qt::UserRole).toString(); 
+void addrDialog::updateComboBoxes()
+{
+    ui.protocolComboBox->addItem(tr("Telnet"));
+    ui.protocolComboBox->addItem(tr("SSH"));
+    ui.hostTypeComboBox->addItem(tr("BBS"));
+    ui.hostTypeComboBox->addItem(tr("*Nix"));
+    ui.displaycodeComboBox->addItem(tr("No Conversion"));
+    ui.displaycodeComboBox->addItem(tr("Simplified Chinese to Traditional Chinese"));
+    ui.displaycodeComboBox->addItem(tr("Traditional Chinese to Simplified Chinese"));
+    ui.cursorTypeComboBox->addItem(tr("Block"));
+    ui.cursorTypeComboBox->addItem(tr("Underline"));
+    ui.cursorTypeComboBox->addItem(tr("I Type"));
+    ui.menuTypeComboBox->addItem(tr("Underline"));
+    ui.menuTypeComboBox->addItem(tr("Reverse"));
+    ui.menuTypeComboBox->addItem(tr("Custom Color"));
+    ui.proxytypeComboBox->addItem(tr("None"));
+    ui.proxytypeComboBox->addItem(tr("Wingate"));
+    ui.proxytypeComboBox->addItem(tr("SOCKS4"));
+    ui.proxytypeComboBox->addItem(tr("SOCKS5"));
+    ui.proxytypeComboBox->addItem(tr("HTTP"));
+}
+
+QString addrDialog :: uuid()
+{
+	return domModel->data(lastIndex, Qt::UserRole).toString();
 }
 
 void addrDialog::updateSchemeList()

@@ -6,15 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>937</width>
-    <height>821</height>
+    <width>870</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>870</width>
+    <height>720</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>AddressBook</string>
@@ -22,8 +34,8 @@
   <property name="sizeGripEnabled">
    <bool>false</bool>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2">
-   <item>
+  <layout class="QGridLayout" name="gridLayout_8">
+   <item row="0" column="0">
     <widget class="QSplitter" name="splitter_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -165,18 +177,7 @@
             </widget>
            </item>
            <item row="4" column="1" colspan="2">
-            <widget class="QComboBox" name="protocolComboBox">
-             <item>
-              <property name="text">
-               <string>Telnet</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>SSH</string>
-              </property>
-             </item>
-            </widget>
+            <widget class="QComboBox" name="protocolComboBox"/>
            </item>
            <item row="5" column="0" colspan="3">
             <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -225,18 +226,7 @@
             </widget>
            </item>
            <item row="6" column="1" colspan="2">
-            <widget class="QComboBox" name="hostTypeComboBox">
-             <item>
-              <property name="text">
-               <string>BBS</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>*NIX</string>
-              </property>
-             </item>
-            </widget>
+            <widget class="QComboBox" name="hostTypeComboBox"/>
            </item>
            <item row="7" column="0">
             <widget class="QLabel" name="TextLabel6">
@@ -268,23 +258,7 @@
             </widget>
            </item>
            <item row="8" column="1" colspan="2">
-            <widget class="QComboBox" name="displaycodeComboBox">
-             <item>
-              <property name="text">
-               <string>No Conversion</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Simplified Chinese to Traditional Chinese</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Traditional Chinese to Simplified Chinese</string>
-              </property>
-             </item>
-            </widget>
+            <widget class="QComboBox" name="displaycodeComboBox"/>
            </item>
            <item row="9" column="1" colspan="2">
             <widget class="QCheckBox" name="scriptCheckBox">
@@ -348,23 +322,7 @@
             </widget>
            </item>
            <item row="12" column="1" colspan="2">
-            <widget class="QComboBox" name="cursorTypeComboBox">
-             <item>
-              <property name="text">
-               <string>Block</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Underline</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>I Type</string>
-              </property>
-             </item>
-            </widget>
+            <widget class="QComboBox" name="cursorTypeComboBox"/>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="TextLabel3_8">
@@ -444,7 +402,7 @@
               <enum>Qt::LeftToRight</enum>
              </property>
              <property name="text">
-              <string>Auto Select Font Size When Resize Window</string>
+              <string>Adjust Font Size Automatically</string>
              </property>
             </widget>
            </item>
@@ -614,23 +572,7 @@
             </widget>
            </item>
            <item row="14" column="1">
-            <widget class="QComboBox" name="menuTypeComboBox">
-             <item>
-              <property name="text">
-               <string>Underline</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Reverse</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Custom Color</string>
-              </property>
-             </item>
-            </widget>
+            <widget class="QComboBox" name="menuTypeComboBox"/>
            </item>
           </layout>
          </item>
@@ -1077,33 +1019,7 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QComboBox" name="proxytypeComboBox">
-             <item>
-              <property name="text">
-               <string>None</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Wingate</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>SOCKS4</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>SOCKS5</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>HTTP</string>
-              </property>
-             </item>
-            </widget>
+            <widget class="QComboBox" name="proxytypeComboBox"/>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="TextLabel3_2">
