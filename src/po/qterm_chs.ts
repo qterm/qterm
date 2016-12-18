@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<TS version="2.0" language="zh_CN">
 <context>
     <name>AssistantClient</name>
     <message>
@@ -610,7 +610,7 @@ Size: %3 KB</source>
     </message>
     <message>
         <source>HOST KEY DOES NOT MATCH! THIS COULD BE A MITM ATTACK! DO YOU REALLY WANT TO CONTINUE? IF YOU DO NOT KNOW WHAT YOU ARE DOING, CHOOSE NO!</source>
-        <translation>主机密钥不符。可能是中间人攻击。你真的要继续吗？如果你不知道自己在干什么，选否。</translation>
+        <translation>主机密钥不符。可能是中间人攻击。你真的要继续吗？如果你不知道自己在干什么，选否！</translation>
     </message>
 </context>
 <context>
@@ -813,6 +813,74 @@ Do you want to clear and reassign?</source>
     <message>
         <source>Choose private key file</source>
         <translation>选择密钥文件</translation>
+    </message>
+    <message>
+        <source>Telnet</source>
+        <translation>Telnet</translation>
+    </message>
+    <message>
+        <source>SSH</source>
+        <translation>SSH</translation>
+    </message>
+    <message>
+        <source>BBS</source>
+        <translation>BBS</translation>
+    </message>
+    <message>
+        <source>*Nix</source>
+        <translation>*Nix</translation>
+    </message>
+    <message>
+        <source>No Conversion</source>
+        <translation>不转换</translation>
+    </message>
+    <message>
+        <source>Simplified Chinese to Traditional Chinese</source>
+        <translation>简体转繁体</translation>
+    </message>
+    <message>
+        <source>Traditional Chinese to Simplified Chinese</source>
+        <translation>繁体转简体</translation>
+    </message>
+    <message>
+        <source>Block</source>
+        <translation>块状</translation>
+    </message>
+    <message>
+        <source>Underline</source>
+        <translation>下划线</translation>
+    </message>
+    <message>
+        <source>I Type</source>
+        <translation>I 型</translation>
+    </message>
+    <message>
+        <source>Reverse</source>
+        <translation>反显</translation>
+    </message>
+    <message>
+        <source>Custom Color</source>
+        <translation>自定义颜色</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>无</translation>
+    </message>
+    <message>
+        <source>Wingate</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>SOCKS4</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>SOCKS5</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>HTTP</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1056,7 +1124,7 @@ p, li { white-space: pre-wrap; }
 (C) 2001-2016, The QTerm Developers
 
 http://www.qterm.org</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>kingson     
@@ -1067,7 +1135,7 @@ fiasco
 
 hooey
         hephooey@fastmail.fm</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1105,18 +1173,6 @@ hooey
         <translation>繁简转换：</translation>
     </message>
     <message>
-        <source>No Conversion</source>
-        <translation>不转换</translation>
-    </message>
-    <message>
-        <source>Simplified Chinese to Traditional Chinese</source>
-        <translation>简体转繁体</translation>
-    </message>
-    <message>
-        <source>Traditional Chinese to Simplified Chinese</source>
-        <translation>繁体转简体</translation>
-    </message>
-    <message>
         <source>Protocol:</source>
         <translation>协议：</translation>
     </message>
@@ -1145,10 +1201,6 @@ hooey
         <translation>显示</translation>
     </message>
     <message>
-        <source>Auto Select Font Size When Resize Window</source>
-        <translation>调整字体大小适应窗口</translation>
-    </message>
-    <message>
         <source>ANSI Color</source>
         <translation>ANSI 颜色</translation>
     </message>
@@ -1161,28 +1213,8 @@ hooey
         <translation>光标类型：</translation>
     </message>
     <message>
-        <source>Block</source>
-        <translation>块状</translation>
-    </message>
-    <message>
-        <source>Underline</source>
-        <translation>下划线</translation>
-    </message>
-    <message>
-        <source>I Type</source>
-        <translation>I 型</translation>
-    </message>
-    <message>
         <source>Menu Type:</source>
         <translation>菜单条类型：</translation>
-    </message>
-    <message>
-        <source>Reverse</source>
-        <translation>反显</translation>
-    </message>
-    <message>
-        <source>Custom Color</source>
-        <translation>自定义颜色</translation>
     </message>
     <message>
         <source>Color...</source>
@@ -1281,10 +1313,6 @@ hooey
         <translation>其它</translation>
     </message>
     <message>
-        <source>None</source>
-        <translation>无</translation>
-    </message>
-    <message>
         <source>Authentication</source>
         <translation>认证</translation>
     </message>
@@ -1337,31 +1365,7 @@ hooey
         <translation></translation>
     </message>
     <message>
-        <source>*NIX</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Telnet</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>SSH</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Wingate</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>SOCKS4</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>SOCKS5</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>HTTP</source>
         <translation></translation>
     </message>
     <message>
@@ -1408,6 +1412,10 @@ hooey
     <message>
         <source>Public Key Authentication (RSA or DSA):</source>
         <translation>公钥认证 (RSA 或者 DSA)：</translation>
+    </message>
+    <message>
+        <source>Adjust Font Size Automatically</source>
+        <translation>自动调整字体大小</translation>
     </message>
 </context>
 <context>

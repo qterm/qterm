@@ -569,17 +569,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermcanvas.cpp" line="253"/>
+        <location filename="../qtermcanvas.cpp" line="254"/>
         <source>Choose a filename to save under</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermcanvas.cpp" line="259"/>
+        <location filename="../qtermcanvas.cpp" line="260"/>
         <source>Failed to save file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qtermcanvas.cpp" line="259"/>
+        <location filename="../qtermcanvas.cpp" line="260"/>
         <source>Cant save file, maybe format not supported</source>
         <translation type="unfinished"></translation>
     </message>
@@ -962,68 +962,154 @@ Do you want to clear and reassign?</source>
 <context>
     <name>QTerm::addrDialog</name>
     <message>
-        <location filename="../addrdialog.cpp" line="53"/>
+        <location filename="../addrdialog.cpp" line="54"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="54"/>
+        <location filename="../addrdialog.cpp" line="55"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="59"/>
+        <location filename="../addrdialog.cpp" line="60"/>
         <source>Setting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="62"/>
+        <location filename="../addrdialog.cpp" line="63"/>
         <source>AddressBook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="147"/>
+        <location filename="../addrdialog.cpp" line="92"/>
+        <source>Telnet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="93"/>
+        <source>SSH</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="94"/>
+        <source>BBS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="95"/>
+        <source>*Nix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="96"/>
+        <source>No Conversion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="97"/>
+        <source>Simplified Chinese to Traditional Chinese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="98"/>
+        <source>Traditional Chinese to Simplified Chinese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="99"/>
+        <source>Block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="100"/>
+        <location filename="../addrdialog.cpp" line="102"/>
+        <source>Underline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="101"/>
+        <source>I Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="103"/>
+        <source>Reverse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="104"/>
+        <source>Custom Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="105"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="106"/>
+        <source>Wingate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="107"/>
+        <source>SOCKS4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="108"/>
+        <source>SOCKS5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="109"/>
+        <source>HTTP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../addrdialog.cpp" line="170"/>
         <source>New Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="148"/>
+        <location filename="../addrdialog.cpp" line="171"/>
         <source>New Site</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="151"/>
+        <location filename="../addrdialog.cpp" line="174"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="154"/>
+        <location filename="../addrdialog.cpp" line="177"/>
         <source>Add Favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="157"/>
+        <location filename="../addrdialog.cpp" line="180"/>
         <source>Clear Favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="179"/>
-        <location filename="../addrdialog.cpp" line="224"/>
+        <location filename="../addrdialog.cpp" line="202"/>
+        <location filename="../addrdialog.cpp" line="247"/>
         <source>Setting changed, do you want to save?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="289"/>
+        <location filename="../addrdialog.cpp" line="312"/>
         <source>SSH support is not compiled, check your OpenSSL and try to recompile QTerm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="312"/>
+        <location filename="../addrdialog.cpp" line="335"/>
         <source>Choose a script file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../addrdialog.cpp" line="328"/>
+        <location filename="../addrdialog.cpp" line="351"/>
         <source>Choose private key file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1342,433 +1428,355 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>addrDialog</name>
     <message>
-        <location filename="../ui/addrdialog.ui" line="20"/>
+        <location filename="../ui/addrdialog.ui" line="32"/>
         <source>AddressBook</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="64"/>
+        <location filename="../ui/addrdialog.ui" line="76"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="121"/>
-        <location filename="../ui/addrdialog.ui" line="1111"/>
+        <location filename="../ui/addrdialog.ui" line="133"/>
+        <location filename="../ui/addrdialog.ui" line="1027"/>
         <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="217"/>
-        <location filename="../ui/addrdialog.ui" line="1069"/>
+        <location filename="../ui/addrdialog.ui" line="218"/>
+        <location filename="../ui/addrdialog.ui" line="1011"/>
         <source>Type:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="105"/>
+        <location filename="../ui/addrdialog.ui" line="117"/>
         <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="231"/>
-        <location filename="../ui/addrdialog.ui" line="825"/>
+        <location filename="../ui/addrdialog.ui" line="767"/>
         <source>BBS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="236"/>
-        <source>*NIX</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="137"/>
-        <location filename="../ui/addrdialog.ui" line="1127"/>
+        <location filename="../ui/addrdialog.ui" line="149"/>
+        <location filename="../ui/addrdialog.ui" line="1043"/>
         <source>Port:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="244"/>
+        <location filename="../ui/addrdialog.ui" line="234"/>
         <source>BBS Encoding:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="260"/>
+        <location filename="../ui/addrdialog.ui" line="250"/>
         <source>Text Conversion:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="274"/>
-        <source>No Conversion</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="279"/>
-        <source>Simplified Chinese to Traditional Chinese</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="284"/>
-        <source>Traditional Chinese to Simplified Chinese</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="171"/>
-        <source>Telnet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="176"/>
-        <location filename="../ui/addrdialog.ui" line="1258"/>
+        <location filename="../ui/addrdialog.ui" line="1174"/>
         <source>SSH</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="157"/>
+        <location filename="../ui/addrdialog.ui" line="169"/>
         <source>Protocol:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="292"/>
+        <location filename="../ui/addrdialog.ui" line="266"/>
         <source>Load Control Script:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="299"/>
+        <location filename="../ui/addrdialog.ui" line="273"/>
         <source>System Script:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="315"/>
-        <location filename="../ui/addrdialog.ui" line="1417"/>
+        <location filename="../ui/addrdialog.ui" line="289"/>
+        <location filename="../ui/addrdialog.ui" line="1333"/>
         <source>Browse...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="80"/>
-        <location filename="../ui/addrdialog.ui" line="1274"/>
+        <location filename="../ui/addrdialog.ui" line="92"/>
+        <location filename="../ui/addrdialog.ui" line="1190"/>
         <source>General:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="192"/>
+        <location filename="../ui/addrdialog.ui" line="193"/>
         <source>Advanced Settings:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="338"/>
+        <location filename="../ui/addrdialog.ui" line="312"/>
         <source>Display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="447"/>
-        <source>Auto Select Font Size When Resize Window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="408"/>
+        <location filename="../ui/addrdialog.ui" line="366"/>
         <source>ANSI Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="556"/>
+        <location filename="../ui/addrdialog.ui" line="514"/>
         <source>Always Highlight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="540"/>
+        <location filename="../ui/addrdialog.ui" line="498"/>
         <source>Cursor Type:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="354"/>
-        <source>Block</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="359"/>
-        <location filename="../ui/addrdialog.ui" line="620"/>
-        <source>Underline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="364"/>
-        <source>I Type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="395"/>
+        <location filename="../ui/addrdialog.ui" line="353"/>
         <source>Menu Type:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="625"/>
-        <source>Reverse</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="630"/>
-        <source>Custom Color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="533"/>
+        <location filename="../ui/addrdialog.ui" line="491"/>
         <source>Color...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="571"/>
+        <location filename="../ui/addrdialog.ui" line="529"/>
         <source>Text and Color:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="495"/>
+        <location filename="../ui/addrdialog.ui" line="453"/>
         <source>Menu and Cursor:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="372"/>
+        <location filename="../ui/addrdialog.ui" line="330"/>
         <source>ASCII Font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="520"/>
+        <location filename="../ui/addrdialog.ui" line="478"/>
         <source>General Font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="461"/>
+        <location filename="../ui/addrdialog.ui" line="419"/>
         <source>Font Size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="606"/>
+        <location filename="../ui/addrdialog.ui" line="564"/>
         <source>Color Scheme:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="596"/>
+        <location filename="../ui/addrdialog.ui" line="554"/>
         <source>Configure...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="654"/>
+        <location filename="../ui/addrdialog.ui" line="596"/>
         <source>Terminal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="711"/>
+        <location filename="../ui/addrdialog.ui" line="653"/>
         <source>Key Type:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="695"/>
+        <location filename="../ui/addrdialog.ui" line="637"/>
         <source>Term Type:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="727"/>
+        <location filename="../ui/addrdialog.ui" line="669"/>
         <source>Escape string (i.e. *[ ):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="766"/>
+        <location filename="../ui/addrdialog.ui" line="708"/>
         <source>Rows:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="743"/>
+        <location filename="../ui/addrdialog.ui" line="685"/>
         <source>Columns:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="789"/>
+        <location filename="../ui/addrdialog.ui" line="731"/>
         <source>Scroll Lines:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="670"/>
+        <location filename="../ui/addrdialog.ui" line="612"/>
         <source>Terminal Settings:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="996"/>
+        <location filename="../ui/addrdialog.ui" line="938"/>
         <source>Max Idle Time (sec):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="948"/>
+        <location filename="../ui/addrdialog.ui" line="890"/>
         <source>Key to reply message:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="964"/>
+        <location filename="../ui/addrdialog.ui" line="906"/>
         <source>Auto Reply Message:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="980"/>
+        <location filename="../ui/addrdialog.ui" line="922"/>
         <source>Anti-idle String:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="909"/>
+        <location filename="../ui/addrdialog.ui" line="851"/>
         <source>Pre-login:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="889"/>
-        <location filename="../ui/addrdialog.ui" line="1170"/>
-        <location filename="../ui/addrdialog.ui" line="1348"/>
+        <location filename="../ui/addrdialog.ui" line="831"/>
+        <location filename="../ui/addrdialog.ui" line="1086"/>
+        <location filename="../ui/addrdialog.ui" line="1264"/>
         <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="873"/>
-        <location filename="../ui/addrdialog.ui" line="1154"/>
+        <location filename="../ui/addrdialog.ui" line="815"/>
+        <location filename="../ui/addrdialog.ui" line="1070"/>
         <source>User:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="925"/>
+        <location filename="../ui/addrdialog.ui" line="867"/>
         <source>Post-login:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="941"/>
+        <location filename="../ui/addrdialog.ui" line="883"/>
         <source>Auto Reply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="866"/>
+        <location filename="../ui/addrdialog.ui" line="808"/>
         <source>Auto Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="346"/>
+        <location filename="../ui/addrdialog.ui" line="320"/>
         <source>Blink cursor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="415"/>
+        <location filename="../ui/addrdialog.ui" line="373"/>
         <source>100</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="474"/>
+        <location filename="../ui/addrdialog.ui" line="432"/>
         <source>Opacity:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="841"/>
+        <location filename="../ui/addrdialog.ui" line="783"/>
         <source>Internal Settings:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1028"/>
+        <location filename="../ui/addrdialog.ui" line="970"/>
         <source>Misc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1083"/>
-        <source>None</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="1088"/>
-        <source>Wingate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="1093"/>
-        <source>SOCKS4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="1098"/>
-        <source>SOCKS5</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="1103"/>
-        <source>HTTP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/addrdialog.ui" line="1147"/>
+        <location filename="../ui/addrdialog.ui" line="1063"/>
         <source>Authentication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1219"/>
+        <location filename="../ui/addrdialog.ui" line="1135"/>
         <source>Auto Reconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1044"/>
+        <location filename="../ui/addrdialog.ui" line="986"/>
         <source>Proxy:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1194"/>
+        <location filename="../ui/addrdialog.ui" line="405"/>
+        <source>Adjust Font Size Automatically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/addrdialog.ui" line="1110"/>
         <source>Connection:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1226"/>
+        <location filename="../ui/addrdialog.ui" line="1142"/>
         <source>Reconnect Delay (s):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1299"/>
+        <location filename="../ui/addrdialog.ui" line="1215"/>
         <source>Username:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1323"/>
+        <location filename="../ui/addrdialog.ui" line="1239"/>
         <source>Password Authentication:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1376"/>
+        <location filename="../ui/addrdialog.ui" line="1292"/>
         <source>Public Key Authentication (RSA or DSA):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1401"/>
+        <location filename="../ui/addrdialog.ui" line="1317"/>
         <source>Private Key File:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1424"/>
+        <location filename="../ui/addrdialog.ui" line="1340"/>
         <source>Passphrase:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1452"/>
+        <location filename="../ui/addrdialog.ui" line="1368"/>
         <source>Host Verification:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1477"/>
+        <location filename="../ui/addrdialog.ui" line="1393"/>
         <source>Server Host Key:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1513"/>
+        <location filename="../ui/addrdialog.ui" line="1429"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1533"/>
+        <location filename="../ui/addrdialog.ui" line="1449"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1540"/>
+        <location filename="../ui/addrdialog.ui" line="1456"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/addrdialog.ui" line="1556"/>
+        <location filename="../ui/addrdialog.ui" line="1472"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
