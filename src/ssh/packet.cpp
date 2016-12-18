@@ -135,7 +135,7 @@ void SSH2InBuffer::parseData()
             emit error("SSH2InBuffer: negative packet length");
             return;
         }
-        if (length > m_in.size()) {
+        if ((length + 4 + macLen) > m_in.size()) {
             qDebug("packet not complete");
             m_incompletePacket = firstBlock;
             return;
