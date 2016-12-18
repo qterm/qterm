@@ -23,6 +23,7 @@
 #include <QFileDialog>
 #include <QPalette>
 #include <QMenu>
+#include <QDesktopWidget>
 #include <QtCore/QTextCodec>
 #include <QtCore/QUuid>
 #include <QtCore/QTextStream>
@@ -48,6 +49,12 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WindowFlags fl)
     }
     updateSchemeList();
     updateKeyboardProfiles();
+    int dpiX = qApp->desktop()->logicalDpiX();
+    int dpiY = qApp->desktop()->logicalDpiY();
+    if (dpiY < 150)
+        resize(500,500);
+    else
+        resize(1000,1000);
     if (bPartial) {
         ui.nameTreeView->hide();
         ui.connectPushButton->hide();
