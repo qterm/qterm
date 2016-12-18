@@ -156,9 +156,10 @@ void Canvas::resizeImage(double ratio)
         return;
 
     QSize szImg = szImage;
+    QSize origSize = img.size();
     szImg *= (1 + ratio);
     //we dont need so big
-    if (szImg.width() > 10000 || szImg.height() > 10000)
+    if (szImg.width()/origSize.width() > 4 || szImg.height()/origSize.height() > 4)
         return;
     szImage = szImg;
 
