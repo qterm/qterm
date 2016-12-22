@@ -22,6 +22,7 @@ Build
 -----
 
 The following dependencies must be met,
+
 - A basic development environment
 
   - On Debian, the package is
