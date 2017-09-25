@@ -101,7 +101,7 @@ Repository is at https://github.com/qterm/qterm
 
 License
 -------
-QTerm is released under GNU General Public License (refer to COPYING).
+QTerm is released under GNU General Public License (refer to COPYRIGHT).
 
 
 Credits
