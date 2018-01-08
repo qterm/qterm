@@ -67,7 +67,7 @@ The following dependencies must be met,
 To build on Linux or macOS, ::
 
     # Create the build directory side by side to qterm source directory
-    mdkir qterm-build
+    mkdir -p qterm-build && cd qterm-build
     # Using Qt4
     cmake ../qterm
     # Using Qt5
@@ -101,7 +101,7 @@ Repository is at https://github.com/qterm/qterm
 
 License
 -------
-QTerm is released under GNU General Public License (refer to COPYING).
+QTerm is released under GNU General Public License (refer to COPYRIGHT).
 
 
 Credits
