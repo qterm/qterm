@@ -126,6 +126,8 @@ void ImageListViewer::imageChanged(const QString &filename)
 
 void ImageListViewer::viewImage(const QModelIndex &index)
 {
+    if (!index.isValid())
+        return;
     QString filename = qvariant_cast<QString>(index.model()->data(index));
     emit selectedFileChanged(filename);
 }
