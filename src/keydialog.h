@@ -10,6 +10,8 @@
 #ifndef KEYDIALOG_H
 #define KEYDIALOG_H
 
+#include <QButtonGroup>
+
 #include "ui_keydialog.h"
 namespace QTerm
 {
