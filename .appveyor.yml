@@ -47,7 +47,7 @@ environment:
     CMAKE_GENERATOR: "NMake Makefiles"
 
 install:
- - '%QTDIR%\bin\qtenv2.bat'
+ - set PATH=%QTDIR%\bin;%MINGWDIR%\bin;%PATH%
  - qmake -v
  - if %QTDIR:_64=%==%QTDIR% ( set ARCH=x86 ) else set ARCH=x64
  - if %QTDIR:_64=%==%QTDIR% ( set OPENSSL_ROOT_DIR=C:\OpenSSL-Win32 ) else set OPENSSL_ROOT_DIR=C:\OpenSSL-Win64
