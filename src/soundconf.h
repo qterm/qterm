@@ -1,6 +1,7 @@
 #ifndef SOUNDCONF_H
 #define SOUNDCONF_H
 
+#include <QButtonGroup>
 #include "ui_soundconf.h"
 namespace QTerm
 {
