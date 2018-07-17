@@ -3,6 +3,7 @@
 
 #include "ui_shortcutsdialog.h"
 class QShortcut;
+class QAction;
 
 namespace QTerm{
 

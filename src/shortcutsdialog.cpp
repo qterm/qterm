@@ -3,6 +3,7 @@
 #include <QKeyEvent>
 #include <QMessageBox>
 #include <QShortcut>
+#include <QAction>
 
 namespace QTerm {
 
