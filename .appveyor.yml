@@ -75,11 +75,11 @@ deploy:
       secure: wc0cFfZSLHWbW3W8FKqgVPHQfF0bV1l54wkpLcpsq4EuBliQdwfV+4JLnWuHBdr4
     on:
       appveyor_repo_tag: true
-      QTDIR: C:\Qt\5.7\msvc2015_64
+      QTDIR: C:\Qt\5.11\msvc2015_64
   - provider: GitHub
     artifact: Win32Installer
     auth_token:
       secure: wc0cFfZSLHWbW3W8FKqgVPHQfF0bV1l54wkpLcpsq4EuBliQdwfV+4JLnWuHBdr4
     on:
       appveyor_repo_tag: true
-      QTDIR: C:\Qt\5.7\msvc2015
+      QTDIR: C:\Qt\5.11\msvc2015
