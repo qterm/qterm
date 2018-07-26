@@ -16,6 +16,31 @@ environment:
     CMAKE_GENERATOR: "NMake Makefiles"
   - QTDIR: C:\Qt\5.7\msvc2015
     CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.9\mingw53_32
+    MINGWDIR: C:\Qt\Tools\mingw530_32
+    CMAKE_GENERATOR: "MinGW Makefiles"
+  - QTDIR: C:\Qt\5.9\msvc2015
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.9\msvc2013_64
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.9\msvc2015_64
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.10\mingw53_32
+    MINGWDIR: C:\Qt\Tools\mingw530_32
+    CMAKE_GENERATOR: "MinGW Makefiles"
+  - QTDIR: C:\Qt\5.10\msvc2015
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.10\msvc2013_64
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.10\msvc2015_64
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.11\mingw53_32
+    MINGWDIR: C:\Qt\Tools\mingw530_32
+    CMAKE_GENERATOR: "MinGW Makefiles"
+  - QTDIR: C:\Qt\5.11\msvc2015
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.11\msvc2015_64
+    CMAKE_GENERATOR: "NMake Makefiles"
 
 install:
  - set PATH=%QTDIR%\bin;%MINGWDIR%\bin;%PATH%
