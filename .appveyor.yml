@@ -2,27 +2,6 @@ version: '{branch}-{build}'
 
 environment:
  matrix:
-  - QTDIR: C:\Qt\5.3\mingw482_32
-    CMAKE_GENERATOR: "MinGW Makefiles"
-    MINGWDIR: C:\Qt\Tools\mingw482_32
-  - QTDIR: C:\Qt\5.3\msvc2013_opengl
-    CMAKE_GENERATOR: "NMake Makefiles"
-  - QTDIR: C:\Qt\5.3\msvc2013_64_opengl
-    CMAKE_GENERATOR: "NMake Makefiles"
-  - QTDIR: C:\Qt\5.4\mingw491_32
-    CMAKE_GENERATOR: "MinGW Makefiles"
-    MINGWDIR: C:\Qt\Tools\mingw491_32
-  - QTDIR: C:\Qt\5.4\msvc2013_opengl
-    CMAKE_GENERATOR: "NMake Makefiles"
-  - QTDIR: C:\Qt\5.4\msvc2013_64_opengl
-    CMAKE_GENERATOR: "NMake Makefiles"
-  - QTDIR: C:\Qt\5.5\mingw492_32
-    CMAKE_GENERATOR: "MinGW Makefiles"
-    MINGWDIR: C:\Qt\Tools\mingw492_32
-  - QTDIR: C:\Qt\5.5\msvc2013
-    CMAKE_GENERATOR: "NMake Makefiles"
-  - QTDIR: C:\Qt\5.5\msvc2013_64
-    CMAKE_GENERATOR: "NMake Makefiles"
   - QTDIR: C:\Qt\5.6\mingw49_32
     MINGWDIR: C:\Qt\Tools\mingw492_32
     CMAKE_GENERATOR: "MinGW Makefiles"
