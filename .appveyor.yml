@@ -1,28 +1,8 @@
 version: '{branch}-{build}'
+image: Visual Studio 2015
 
 environment:
  matrix:
-  - QTDIR: C:\Qt\5.3\mingw482_32
-    CMAKE_GENERATOR: "MinGW Makefiles"
-    MINGWDIR: C:\Qt\Tools\mingw482_32
-  - QTDIR: C:\Qt\5.3\msvc2013_opengl
-    CMAKE_GENERATOR: "NMake Makefiles"
-  - QTDIR: C:\Qt\5.3\msvc2013_64_opengl
-    CMAKE_GENERATOR: "NMake Makefiles"
-  - QTDIR: C:\Qt\5.4\mingw491_32
-    CMAKE_GENERATOR: "MinGW Makefiles"
-    MINGWDIR: C:\Qt\Tools\mingw491_32
-  - QTDIR: C:\Qt\5.4\msvc2013_opengl
-    CMAKE_GENERATOR: "NMake Makefiles"
-  - QTDIR: C:\Qt\5.4\msvc2013_64_opengl
-    CMAKE_GENERATOR: "NMake Makefiles"
-  - QTDIR: C:\Qt\5.5\mingw492_32
-    CMAKE_GENERATOR: "MinGW Makefiles"
-    MINGWDIR: C:\Qt\Tools\mingw492_32
-  - QTDIR: C:\Qt\5.5\msvc2013
-    CMAKE_GENERATOR: "NMake Makefiles"
-  - QTDIR: C:\Qt\5.5\msvc2013_64
-    CMAKE_GENERATOR: "NMake Makefiles"
   - QTDIR: C:\Qt\5.6\mingw49_32
     MINGWDIR: C:\Qt\Tools\mingw492_32
     CMAKE_GENERATOR: "MinGW Makefiles"
@@ -34,16 +14,32 @@ environment:
     CMAKE_GENERATOR: "NMake Makefiles"
   - QTDIR: C:\Qt\5.6\msvc2015_64
     CMAKE_GENERATOR: "NMake Makefiles"
-  - QTDIR: C:\Qt\5.7\mingw53_32
-    CMAKE_GENERATOR: "MinGW Makefiles"
-    MINGWDIR: C:\Qt\Tools\mingw530_32
-  - QTDIR: C:\Qt\5.7\msvc2013
-    CMAKE_GENERATOR: "NMake Makefiles"
-  - QTDIR: C:\Qt\5.7\msvc2013_64
-    CMAKE_GENERATOR: "NMake Makefiles"
   - QTDIR: C:\Qt\5.7\msvc2015
     CMAKE_GENERATOR: "NMake Makefiles"
-  - QTDIR: C:\Qt\5.7\msvc2015_64
+  - QTDIR: C:\Qt\5.9\mingw53_32
+    MINGWDIR: C:\Qt\Tools\mingw530_32
+    CMAKE_GENERATOR: "MinGW Makefiles"
+  - QTDIR: C:\Qt\5.9\msvc2015
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.9\msvc2013_64
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.9\msvc2015_64
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.10\mingw53_32
+    MINGWDIR: C:\Qt\Tools\mingw530_32
+    CMAKE_GENERATOR: "MinGW Makefiles"
+  - QTDIR: C:\Qt\5.10\msvc2015
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.10\msvc2013_64
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.10\msvc2015_64
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.11\mingw53_32
+    MINGWDIR: C:\Qt\Tools\mingw530_32
+    CMAKE_GENERATOR: "MinGW Makefiles"
+  - QTDIR: C:\Qt\5.11\msvc2015
+    CMAKE_GENERATOR: "NMake Makefiles"
+  - QTDIR: C:\Qt\5.11\msvc2015_64
     CMAKE_GENERATOR: "NMake Makefiles"
 
 install:
@@ -79,11 +75,11 @@ deploy:
       secure: wc0cFfZSLHWbW3W8FKqgVPHQfF0bV1l54wkpLcpsq4EuBliQdwfV+4JLnWuHBdr4
     on:
       appveyor_repo_tag: true
-      QTDIR: C:\Qt\5.7\msvc2015_64
+      QTDIR: C:\Qt\5.11\msvc2015_64
   - provider: GitHub
     artifact: Win32Installer
     auth_token:
       secure: wc0cFfZSLHWbW3W8FKqgVPHQfF0bV1l54wkpLcpsq4EuBliQdwfV+4JLnWuHBdr4
     on:
       appveyor_repo_tag: true
-      QTDIR: C:\Qt\5.7\msvc2015
+      QTDIR: C:\Qt\5.11\msvc2015
