@@ -537,6 +537,9 @@ void Decode::setMode()
         case 4:
             m_pBuffer->setMode(INSERT_MODE);
             break;
+        case 7:
+            m_pBuffer->setMode(WRAP_MODE);
+            break;
         case 20:
             m_pBuffer->setMode(INSERT_MODE);
             break;
@@ -558,6 +561,9 @@ void Decode::resetMode()
         switch (n) {
         case 4:
             m_pBuffer->resetMode(INSERT_MODE);
+            break;
+        case 7:
+            m_pBuffer->resetMode(WRAP_MODE);
             break;
         case 20:
             m_pBuffer->resetMode(NEWLINE_MODE);
