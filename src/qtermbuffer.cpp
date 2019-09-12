@@ -310,7 +310,7 @@ void Buffer::shiftStr(int index, int startX, int len, int num)
         len = line->getLength() - startX;
 
     if (num < 0) { // delete
-        line->deleteText(startX - num, -num);
+        line->deleteText(startX, -num);
         line->insertText(cstr, m_curAttr, startX + len + num);
         return;
     }
