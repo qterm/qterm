@@ -54,6 +54,7 @@ Buffer::Buffer(int line, int column, int limit)
 
     Insert_Mode = false;
     NewLine_Mode = false;
+    Wrap_Mode = true;
 
     m_ptSelStart = QPoint(-1, -1);
     m_ptSelEnd = QPoint(-1, -1);
@@ -310,7 +311,7 @@ void Buffer::shiftStr(int index, int startX, int len, int num)
         len = line->getLength() - startX;
 
     if (num < 0) { // delete
-        line->deleteText(startX + num, -num);
+        line->deleteText(startX, -num);
         line->insertText(cstr, m_curAttr, startX + len + num);
         return;
     }
@@ -505,6 +506,8 @@ void Buffer::setMode(int mode)
     case NEWLINE_MODE:
         NewLine_Mode = true;
         break;
+    case WRAP_MODE:
+        Wrap_Mode= true;
     default:
         break;
     }
@@ -519,6 +522,8 @@ void Buffer::resetMode(int mode)
     case NEWLINE_MODE:
         NewLine_Mode = false;
         break;
+    case WRAP_MODE:
+        Wrap_Mode= false;
     default:
         break;
     }

@@ -7,6 +7,7 @@
 
 #define INSERT_MODE 0
 #define NEWLINE_MODE 1
+#define WRAP_MODE 2
 
 
 class QString;
@@ -124,7 +125,7 @@ protected:
     short m_tmpAttr;
 
     // Modes
-    bool Insert_Mode, NewLine_Mode;
+    bool Insert_Mode, NewLine_Mode, Wrap_Mode;
 
     // for test
     int m_oldCaretX, m_oldCaretY;
