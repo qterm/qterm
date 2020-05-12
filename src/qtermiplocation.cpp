@@ -195,7 +195,7 @@ bool IPLocation::getLocation(QString& url, QString& country, QString& city)
             city.replace(rec, 8, "");
 
     } else {// not in this range... miss
-        country = "unkown"; city = "";
+        country = "unknown"; city = "";
     }// if ip_start<=ip<=ip_end
     return true;
 }

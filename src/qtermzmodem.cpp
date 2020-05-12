@@ -2608,7 +2608,7 @@ int Zmodem::GotRinit(ZModem *info)
 
     itFile = strFileList.begin();
     QFileInfo fi(*itFile);
-    qDebug("files to be transfered %d", strFileList.count());
+    qDebug("files to be transferred %d", strFileList.count());
     char *filename = strdup(fi.absoluteFilePath().toLatin1());
     char *rfilename = strdup(fi.fileName().toLatin1());
     ZmodemTFile(filename, rfilename,

@@ -151,7 +151,7 @@ bool ShortcutsDialog::eventFilter(QObject *object, QEvent *event)
     int key = keyevent->key();
     Qt::KeyboardModifiers mod = keyevent->modifiers();
 
-    // dont accept Mdodifiers only
+    // don't accept Mdodifiers only
     if (key == Qt::Key_Meta || key == Qt::Key_Alt || key == Qt::Key_AltGr
             || key == Qt::Key_Shift || key == Qt::Key_Control)
         return false;

@@ -262,7 +262,7 @@ void SSH2Auth::publicKeyAuth()
     } else if (m_keyType == SSH_RSA) {
         m_out->putString("ssh-rsa");
     } else {
-        qDebug("Unknow public key type");
+        qDebug("Unknown public key type");
         failureHandler();
         return;
     }

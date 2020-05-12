@@ -1,7 +1,7 @@
 #ifndef QTERMSOCKET_H
 #define QTERMSOCKET_H
 
-// _OS_X_ not defined if i dont include it
+// _OS_X_ not defined if i don't include it
 #include <QtGlobal>
 #include <QtCore/QObject>
 #include <QtNetwork/QTcpSocket>
