@@ -389,7 +389,7 @@ bool BBS::isUnicolor(TextLine *line)
 bool BBS::isIllChar(QChar ch)
 {
     static QString illChars = ",;'\"()<>^[]";
-    return ch > '~' || ch < '#' || illChars.contains(ch);
+    return ch > '~' || (ch < '#' && ch != '!') || illChars.contains(ch);
 }
 
 bool BBS::isUrl(QRect& rcUrl, QRect& rcOld)
