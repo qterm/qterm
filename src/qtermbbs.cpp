@@ -675,7 +675,7 @@ int BBS::checkUrlBegin( const QString & lineText, int index)
 {
     int i = 0;
     QString urlText = lineText;
-    for (i = index; i < urlText.length() && isIllChar(urlText.at(i)); i++) ;
+    for (i = index; i < urlText.length() && !urlText.at(i).isLetterOrNumber(); i++) ;
     if (i < urlText.length()) {
         return i;
     }
