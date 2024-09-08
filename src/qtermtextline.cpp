@@ -12,7 +12,6 @@ AUTHOR:        kingson fiasco
 #include "qterm.h"
 #include "qtermtextline.h"
 
-#include <QtCore/QRegExp>
 #include <QtCore/QString>
 
 //#include <QtDebug>

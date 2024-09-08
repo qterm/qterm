@@ -509,7 +509,7 @@ void DomModel::removeItem(const QModelIndex &index)
     if (type(index) == Folder) {
         // recursively remove all children
         for (int n=0; n<rowCount(index); n++)
-            removeItem(index.child(n,0));
+            removeItem(this->index(n,0));
         // remove folder itself, should be empty now
         removeRows(index.row(), 1, index.parent());
     }

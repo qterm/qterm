@@ -17,7 +17,6 @@
 #ifdef KWALLET_ENABLED
 #include "wallet.h"
 #endif // KWALLET_ENABLED
-#include "qterm.h"
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QTranslator>
@@ -157,7 +156,7 @@ bool Global::loadAddress(QDomDocument doc, QString uuid, Param& param)
     QDomNodeList nodeList = doc.elementsByTagName("site");
     for (int i=0; i<nodeList.count(); i++) {
         QDomElement node = nodeList.at(i).toElement();
-        if (uuid == node.attribute("uuid"))
+        if (uuid == node.attribute("uuid")) {
             foreach (QString key, param.m_mapParam.keys())  {
                 #ifdef KWALLET_ENABLED
                 if (key == "password" && m_wallet != NULL) {
@@ -168,6 +167,7 @@ bool Global::loadAddress(QDomDocument doc, QString uuid, Param& param)
                 #endif // KWALLET_ENABLED
                 param.m_mapParam[key] = node.attribute(key);
             }
+        }
     }
     return true;
 }
@@ -180,7 +180,7 @@ bool Global::loadAddress(Config& addrCfg, int n, Param& param)
         strSection = "default";
     else {
         n = n < 0 ? 0 : n;
-        strSection.sprintf("bbs %d", n);
+        strSection = QString("bbs %1").arg(n);
     }
 
     // check if larger than existence
@@ -320,7 +320,11 @@ void Global::saveAddressXml(const QDomDocument& doc)
     QFile ofile(m_addrXml);
     if (ofile.open(QIODevice::WriteOnly)) {
         QTextStream out(&ofile);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
         out.setCodec("UTF-8");
+#else
+        out.setEncoding(QStringConverter::Utf8);
+#endif
         out << doc.toString();
         ofile.close();
     }
@@ -388,12 +392,14 @@ QString Global::getSaveFileName(const QString& filename, QWidget* widget)
 
     while (fi.exists()) {
         int yn = QMessageBox::warning(widget, "QTerm",
-                                      tr("File exists. Overwrite?"), tr("Yes"), tr("No"));
-        if (yn == 0)
+                                      tr("File exists. Overwrite?"),
+                                      QMessageBox::Yes|QMessageBox::No);
+        if (yn == QMessageBox::Yes)
             break;
         strSave = QFileDialog::getSaveFileName(widget, tr("Choose a file to save under"), path + "/" + filename, "*");
         if (strSave.isEmpty())
             break;
+        fi.setFile(strSave);
     }
 
     if (!strSave.isEmpty()) {
@@ -456,7 +462,7 @@ bool Global::iniWorkingDir(QString param)
     QDir dir;
     QFileInfo fi;
     QString prefix = QCoreApplication::applicationDirPath();
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MACOS
     // $HOME/Library/QTerm/
     QString pathHome = QDir::homePath();
     m_pathCfg = pathHome + "/Library/QTerm/";
@@ -701,14 +707,22 @@ void Global::setLanguage(Global::Language language)
     switch(language)
     {
     case Global::SimplifiedChinese:
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
         qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_CN.qm";
+#else
+        qt_qm = QLibraryInfo::path(QLibraryInfo::TranslationsPath)+"/qt_zh_CN.qm";
+#endif
         qterm_qm = m_pathCfg + "/po/qterm_chs.qm";
         if (!QFile::exists(qterm_qm))
             qterm_qm = m_pathLib + "po/qterm_chs.qm";
 
         break;
     case Global::TraditionalChinese:
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
         qt_qm = QLibraryInfo::location(QLibraryInfo::TranslationsPath)+"/qt_zh_TW.qm";
+#else
+        qt_qm = QLibraryInfo::path(QLibraryInfo::TranslationsPath)+"/qt_zh_TW.qm";
+#endif
         qterm_qm = m_pathCfg + "/po/qterm_cht.qm";
         if (!QFile::exists(qterm_qm))
             qterm_qm = m_pathLib + "po/qterm_cht.qm";

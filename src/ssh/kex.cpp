@@ -215,22 +215,26 @@ void SSH2Kex::readKexInit()
     m_in->getUInt8();
     m_in->getData(16);
     QStringList nameList;
-
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+    QString::SplitBehavior behavior = QString::SkipEmptyParts;
+#else
+    Qt::SplitBehavior behavior = Qt::SkipEmptyParts;
+#endif
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString kexType = chooseAlgorithm(nameList, m_kexList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString hostKeyType = chooseAlgorithm(nameList, m_hostKeyList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString encTypeCS = chooseAlgorithm(nameList, m_encList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString encTypeSC = chooseAlgorithm(nameList, m_encList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString macTypeCS = chooseAlgorithm(nameList, m_macList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString macTypeSC = chooseAlgorithm(nameList, m_macList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString compTypeCS = chooseAlgorithm(nameList, m_compList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString compTypeSC = chooseAlgorithm(nameList, m_compList);
     //TODO: language?
 
@@ -441,7 +445,7 @@ QByteArray SSH2Kex::deriveKey(const QByteArray & hash, const QByteArray & sessio
     QCryptographicHash sha1Hash(QCryptographicHash::Sha1);
     sha1Hash.addData(tmp.buffer());
     sha1Hash.addData(hash);
-    sha1Hash.addData(&id, 1);
+    sha1Hash.addData(QByteArray(1,id));
     sha1Hash.addData(sessionID);
     QByteArray digest = sha1Hash.result();
     for (uint have = 20; need > have; have += need) {

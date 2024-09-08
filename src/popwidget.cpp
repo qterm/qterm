@@ -12,11 +12,12 @@ AUTHOR:        kingson fiasco
 #include "popwidget.h"
 
 #include "qtermframe.h"
-#include "qtermglobal.h"
 
 #include <QPixmap>
 #include <QApplication>
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 #include <QDesktopWidget>
+#endif
 #include <QTimer>
 #include <QLabel>
 #include <QMouseEvent>
@@ -101,10 +102,13 @@ void popWidget::popup()
 {
 	pTimer->start(nInterval);
 	nState = 0;
-
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+	rcDesktop = parentWidget()->screen()->availableGeometry(); 
+#else
 	QDesktopWidget * desktop = qApp->desktop();
 	QWidget * mainWidget = parentWidget();
-	rcDesktop = desktop->screenGeometry(desktop->screenNumber(mainWidget));
+    rcDesktop = desktop->availableGeometry(mainWidget);
+#endif
 	ptPos = QPoint(rcDesktop.x()+rcDesktop.width()-width()-5, rcDesktop.y()+rcDesktop.height()-5 );
 	move(ptPos);
 

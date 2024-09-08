@@ -181,11 +181,9 @@ void quickDialog::advOption()
 void quickDialog::connectIt()
 {
     if (ui.addrLineEdit->text().isEmpty()) {
-        QMessageBox mb("QTerm",
+        QMessageBox mb(QMessageBox::Warning, "QTerm",
                        tr("Address can not be blank."),
-                       QMessageBox::Warning,
-                       QMessageBox::Ok | QMessageBox::Default, 0,
-                       0);
+                       QMessageBox::Ok, this);
         mb.exec();
         return;
     }

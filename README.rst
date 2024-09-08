@@ -35,21 +35,26 @@ The following dependencies must be met,
 
       sudo dnf install @"C Development Tools and Libraries"
 
-- Qt 4.6+ or Qt 5.3+
+- Qt 5 or 6
 
-  - On Debian, the packages are
+  - On Debian, the Qt5 packages are
     ::
 
-      sudo aptitude install qt5-defaults qttools5-dev qttools5-dev-tools qtscript5-dev qtmultimedia5-dev
+      sudo apt install qt5-defaults qttools5-dev qttools5-dev-tools qtscript5-dev qtmultimedia5-dev
 
-  - On Fedora, the packages are
+    the Qt6 packages are
+    ::
+
+      sudo apt install qt6-base-dev qt6-multimedia-dev qt6-tools-dev qt6-documentation-tools
+
+  - On Fedora, the Qt5 packages are
     ::
 
       sudo dnf install qt5-devel
 
   - The installer from Qt is simple for macOS and Windows.
 
-- CMake 2.8.11+
+- CMake 3.11+
 
   - On Linux and macOS, the package is most probably *cmake*.
 
@@ -68,12 +73,8 @@ To build on Linux or macOS, ::
 
     # Create the build directory side by side to qterm source directory
     mkdir -p qterm-build && cd qterm-build
-    # Using Qt4
-    cmake ../qterm
-    # Using Qt5
-    cmake ../qterm -DQT5=YES
     # If your Qt is under non-standard location, specify the qmake program
-    cmake ../qterm -DQT_QMAKE_EXECUTABLE=<path of qmake program>
+    cmake ../qterm -DCMAKE_PREFIX_PATH=<qt_cmake_dir>
     # Build
     make
     # Optionally create a binary package
@@ -85,10 +86,7 @@ To build on Windows, open the Visual Studio Developer Command Prompt, ::
     set PATH=C:\Qt\5.7\msvc2015\bin;%PATH%
     # Create the build directory side by side to qterm source directory
     mdkir qterm-build
-    # Using Qt4
     cmake ..\qterm -G "NMake Makefiles"
-    # Using Qt5
-    cmake ..\qterm -DQT5=YES -G "NMake Makefiles"
     # Build
     nmake
     # Optionally create an installer if NSIS is installed

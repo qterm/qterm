@@ -43,14 +43,14 @@ void zmodemDialog::clearErrorLog()
 
 void zmodemDialog::slotCancel()
 {
-	QMessageBox mb( "QTerm",
+    QMessageBox mb(QMessageBox::Warning, "QTerm",
 			"We don't support cancel operation yet. "
 			"But you can try, it will crash when downloading.\n"
-			"Do you want to continue?",
-            QMessageBox::Warning,
-            QMessageBox::Yes,
-            QMessageBox::No  | QMessageBox::Escape | QMessageBox::Default,
-            0,this);
+            "Do you want to continue?",
+            QMessageBox::Yes | QMessageBox::No,
+            this);
+    mb.setDefaultButton(QMessageBox::No);
+    mb.setEscapeButton(QMessageBox::No);
     if ( mb.exec() == QMessageBox::Yes )
     {
 		emit canceled();

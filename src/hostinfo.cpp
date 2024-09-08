@@ -78,6 +78,10 @@ SSHInfo::SSHInfo(const QString & hostName, quint16 port, QObject * parent)
 {
     setType(SSH);
 }
+SSHInfo::SSHInfo()
+    :SSHInfo("127.0.0.1", 22)
+{
+}
 
 SSHInfo::~SSHInfo()
 {

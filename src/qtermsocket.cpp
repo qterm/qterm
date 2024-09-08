@@ -9,7 +9,7 @@
 #include <QtGlobal>
 
 #if !defined(Q_OS_BSD4) && !defined(Q_OS_FREEBSD_) \
-		    && !defined(Q_OS_MACX) && !defined(Q_OS_DARWIN)
+            && !defined(Q_OS_MACOS) && !defined(Q_OS_DARWIN)
 #include <malloc.h>
 #endif
 
@@ -19,17 +19,10 @@
 #include <alloca.h>
 #endif
 
-#include <ctype.h>
-
-/* hack from wget/http.c */
-#define BASE64_LENGTH(len) (4 * (((len) + 2) / 3))
 namespace QTerm
 {
-static void
-base64_encode (const char *s, char *store, int length);
-static char *
-basic_authentication_encode (const char *user, const char *passwd,
-                                 const char *header);
+
+/* hack from wget/http.c */
 static int
 parse_http_status_line (const char *line, const char **reason_phrase_ptr);
 
@@ -79,8 +72,8 @@ void SocketPrivate::socketConnected()
 	QByteArray strPort;
 	QByteArray command(9,0);
 
-	char *proxyauth;
-	char *request;
+    QByteArray proxyauth;
+    QByteArray request;
 	int len=0;
 	
 	switch( proxy_type )
@@ -128,25 +121,20 @@ void SocketPrivate::socketConnected()
 		emit SocketState( TSPROXYCONNECTED );
 		return;
 	case HTTP:
-		proxyauth=NULL;
-		if(bauth)
-			proxyauth = basic_authentication_encode
-				(proxy_usr.toLocal8Bit(), proxy_pwd.toLocal8Bit(), "Proxy-Authorization");
+        if(bauth) {
+            QByteArray ba;
+            ba += proxy_usr.toLocal8Bit();
+            ba += ":";
+            ba += proxy_pwd.toLocal8Bit();
+            proxyauth.append("Proxy-Authorization: Basic ");
+            proxyauth.append(ba.toBase64());
+        }
 
-		len = proxyauth!=NULL?strlen(proxyauth):0;
-	
-		request = new char[host.length()+len+81];
-		
-		sprintf(request,
-					"CONNECT %s:%u HTTP/1.0\r\n"
-					"%s\r\n", 
-					host.toLatin1().data(),port,
-					proxyauth!=NULL?proxyauth:"");
-
+        request += "CONNECT " + host.toLatin1() + ":" + QByteArray::number(port) + " HTTP/1.0\r\n";
+        if (bauth)
+            request += proxyauth + "\r\n";
 
 		writeBlock(request);
-		delete [] request;
-		free(proxyauth);
 		proxy_state=1;
 		emit SocketState( TSPROXYCONNECTED );
 		return;
@@ -329,8 +317,9 @@ void SocketPrivate::socks5_auth()
 	int ulen = proxy_usr.length();
 	int plen = proxy_pwd.length();
 	QByteArray command(3+ulen+plen,0);
-	sprintf((char *)command.data(),"  %s %s",proxy_usr.toLocal8Bit().data(),
-					proxy_pwd.toLocal8Bit().data());
+    command.append("  ");
+    command.append(proxy_usr.toLocal8Bit());
+    command.append(proxy_pwd.toLocal8Bit());
 	command[0]='\x01';
 	command[1]=ulen;
 	command[2+ulen] = plen;
@@ -418,68 +407,6 @@ void SocketPrivate::socks5_reply( const QByteArray& from_socket, int nread )
 }
 
 /* hack from wget/http.c */
-/* How many bytes it will take to store LEN bytes in base64.  */
-#define BASE64_LENGTH(len) (4 * (((len) + 2) / 3))
-
-/* Encode the string S of length LENGTH to base64 format and place it
-   to STORE.  STORE will be 0-terminated, and must point to a writable
-   buffer of at least 1+BASE64_LENGTH(length) bytes.  */
-static void
-base64_encode (const char *s, char *store, int length)
-{
-  /* Conversion table.  */
-  static char tbl[64] = {
-    'A','B','C','D','E','F','G','H',
-    'I','J','K','L','M','N','O','P',
-    'Q','R','S','T','U','V','W','X',
-    'Y','Z','a','b','c','d','e','f',
-    'g','h','i','j','k','l','m','n',
-    'o','p','q','r','s','t','u','v',
-    'w','x','y','z','0','1','2','3',
-    '4','5','6','7','8','9','+','/'
-  };
-  int i;
-  unsigned char *p = (unsigned char *)store;
-
-  /* Transform the 3x8 bits to 4x6 bits, as required by base64.  */
-  for (i = 0; i < length; i += 3)
-    {
-      *p++ = tbl[s[0] >> 2];
-      *p++ = tbl[((s[0] & 3) << 4) + (s[1] >> 4)];
-      *p++ = tbl[((s[1] & 0xf) << 2) + (s[2] >> 6)];
-      *p++ = tbl[s[2] & 0x3f];
-      s += 3;
-    }
-  /* Pad the result if necessary...  */
-  if (i == length + 1)
-    *(p - 1) = '=';
-  else if (i == length + 2)
-    *(p - 1) = *(p - 2) = '=';
-  /* ...and zero-terminate it.  */
-  *p = '\0';
-}
-
-/* Create the authentication header contents for the `Basic' scheme.
-   This is done by encoding the string `USER:PASS' in base64 and
-   prepending `HEADER: Basic ' to it.  */
-static char *
-basic_authentication_encode (const char *user, const char *passwd,
-			     const char *header)
-{
-  char *t1, *t2, *res;
-  int len1 = strlen (user) + 1 + strlen (passwd);
-  int len2 = BASE64_LENGTH (len1);
-
-  t1 = (char *)alloca (len1 + 1);
-  sprintf (t1, "%s:%s", user, passwd);
-  t2 = (char *)alloca (1 + len2);
-  base64_encode (t1, t2, len1);
-  res = (char *)malloc (len2 + 11 + strlen (header));
-  sprintf (res, "%s: Basic %s\r\n", header, t2);
-
-  return res;
-}
-
 /* Parse the HTTP status line, which is of format:
 
    HTTP-Version SP Status-Code SP Reason-Phrase

@@ -35,8 +35,13 @@ QSize CharTable :: sizeHint() const
 
 void CharTable :: mouseMoveEvent(QMouseEvent *me)
 {
-    int column = me->x()/square;
-    int row = me->y()/square;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QPoint pt = me->pos();
+#else
+    QPoint pt = me->position().toPoint();
+#endif
+    int column = pt.x()/square;
+    int row = pt.y()/square;
     if (hovered == QPoint(column, row))
         return;
     QRect oldRect(hovered.x()*square, hovered.y()*square, square, square);
@@ -49,11 +54,16 @@ void CharTable :: mouseMoveEvent(QMouseEvent *me)
 void CharTable :: mouseReleaseEvent(QMouseEvent *me)
 {
     if (me->button() == Qt::LeftButton) {
-         int n = (me->y()/square)*maxColumn + me->x()/square;
-         if (n<symbols.length())
-             emit characterSelected(symbols.at(n));
-         update();
-     }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        QPoint pt = me->pos();
+#else
+        QPoint pt = me->position().toPoint();
+#endif
+        int n = (pt.y()/square)*maxColumn + pt.x()/square;
+        if (n<symbols.length())
+            emit characterSelected(symbols.at(n));
+        update();
+    }
 }
 
 void CharTable :: paintEvent(QPaintEvent *pe)

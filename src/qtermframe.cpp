@@ -14,7 +14,6 @@ AUTHOR:        kingson fiasco hooey
 #include "qtermtimelabel.h"
 #include "qtermconfig.h"
 #include "qtermglobal.h"
-#include "qterm.h"
 #include "qtermparam.h"
 #include "qtermtoolbutton.h"
 #include "statusBar.h"
@@ -57,7 +56,7 @@ AUTHOR:        kingson fiasco hooey
 #include <QMenuBar>
 #include <QTabBar>
 #include <QMessageBox>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStyle>
 #include <QStyleFactory>
 #include <QFont>
@@ -385,7 +384,7 @@ void Frame::windowsMenuAboutToShow()
     }
     menuWindow->addSeparator();
 
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MACOS
     // used to dock the programe
     if (isHidden())
         menuWindow->addAction(tr("&Main Window"), this, SLOT(trayShow()));
@@ -442,7 +441,11 @@ void Frame::connectMenuAboutToShow()
         connect(idAction, SIGNAL(triggered()), connectMapper, SLOT(map()));
         connectMapper->setMapping(idAction, i.key());
     }
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(connectMapper, SIGNAL(mapped(QString)), this, SLOT(connectMenuActivated(QString)));
+#else
+    connect(connectMapper, SIGNAL(mappedString(QString)), this, SLOT(connectMenuActivated(QString)));
+#endif
 }
 
 void Frame::connectMenuActivated(const QString& uuid)
@@ -471,7 +474,7 @@ void Frame::windowClosed(QObject*w)
     QList<QMdiSubWindow *> listWindow = mdiArea->subWindowList();
     // if no window left, only show basic actions
     if(listWindow.count()==0) {
-        QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
+        QList<QAction*> actions = findChildren<QAction*>(QRegularExpression("action*"));
         foreach(QAction* action, actions)
             action->setVisible(listBasicActions.contains(action->objectName())
                     || action->actionGroup()!=actionsExtra);
@@ -484,7 +487,7 @@ void Frame::windowActivated(QMdiSubWindow * w)
     if(wb==0)
         return;
 
-    QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
+    QList<QAction*> actions = findChildren<QAction*>(QRegularExpression("action*"));
     foreach(QAction* action, actions)
     {
         // only show actions belonging to BasicActions or WindowActions
@@ -784,8 +787,11 @@ void Frame::on_actionPrint_triggered()
          return;
      QPainter painter;
      painter.begin(&printer);
-     QPixmap screen = QPixmap::grabWidget(qobject_cast<Window *>(mdiArea->activeSubWindow()));
-     QPixmap target = screen.scaled(printer.pageRect().width(),printer.pageRect().height(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+     QPixmap screen = qobject_cast<Window *>(mdiArea->activeSubWindow())->grab();
+     QPixmap target = screen.scaled(printer.pageRect(QPrinter::DevicePixel).width(),
+                                    printer.pageRect(QPrinter::DevicePixel).height(),
+                                    Qt::KeepAspectRatio,
+                                    Qt::SmoothTransformation);
      painter.drawPixmap(0,0,target);
      painter.end();
 }
@@ -835,23 +841,26 @@ void Frame::initShortcuts()
     // shortcuts to swtch windows
     QSignalMapper * windowMapper = new QSignalMapper(this);
     for (i = 0; i < 9; i++) {
-        shortcut = new QShortcut(Qt::ALT + 0x30 + 1 + i, this);
+        shortcut = new QShortcut(QString("Alt+%1").arg(1 + i), this);
         shortcut->setObjectName(QString(tr("Switch to window %1")).arg(i+1));
         connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
         windowMapper->setMapping(shortcut, i);
     }
     
-    shortcut = new QShortcut(Qt::ALT + Qt::Key_Left, this);
+    shortcut = new QShortcut(QKeySequence(tr("Alt+Left")), this);
     shortcut->setObjectName(tr("Previous window"));
     connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
     windowMapper->setMapping(shortcut, 200);
 
-    shortcut = new QShortcut(Qt::ALT + Qt::Key_Right, this);
+    shortcut = new QShortcut(QKeySequence(tr("Alt+Right")), this);
     shortcut->setObjectName(tr("Next window"));
     connect(shortcut, SIGNAL(activated()), windowMapper, SLOT(map()));
     windowMapper->setMapping(shortcut, 201);
-
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(windowMapper, SIGNAL(mapped(int)), this, SLOT(switchWin(int)));
+#else
+    connect(windowMapper, SIGNAL(mappedInt(int)), this, SLOT(switchWin(int)));
+#endif
 }
 
 QMenu * Frame::genPopupMenu(QWidget * owner)
@@ -979,7 +988,7 @@ void Frame::trayShow()
         if (isMaximized())
             showMaximized();
         else
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MACOS
             showMaximized();
 #else
             showNormal();
@@ -1004,15 +1013,15 @@ void Frame::buzz()
     int yp = y();
     QTime t;
 
-    t.start();
+    t = QTime::currentTime();
     for (int i = 32; i > 0;) {
-        if (t.elapsed() >= 1) {
+        if (QTime::currentTime().secsTo(t) >= 1) {
             int delta = i >> 2;
             int dir = i & 3;
             int dx = ((dir == 1) || (dir == 2)) ? delta : -delta;
             int dy = (dir < 2) ? delta : -delta;
             move(xp + dx, yp + dy);
-            t.restart();
+            t = QTime::currentTime();
             i--;
         }
     }
@@ -1022,7 +1031,7 @@ void Frame::buzz()
 void Frame::saveShortcuts()
 {
     Config * conf = Global::instance()->fileCfg();
-    QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
+    QList<QAction*> actions = findChildren<QAction*>(QRegularExpression("action*"));
     foreach (QAction* action, actions) {
         conf->setItemValue("Shortcuts", action->objectName(), action->shortcut().toString());
     }
@@ -1036,7 +1045,7 @@ void Frame::saveShortcuts()
 void Frame::loadShortcuts()
 {
     Config * conf = Global::instance()->fileCfg();
-    QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
+    QList<QAction*> actions = findChildren<QAction*>(QRegularExpression("action*"));
     foreach(QAction* action, actions)
     {
         QString keyseq=conf->getItemValue("Shortcuts", action->objectName()).toString();
@@ -1053,7 +1062,7 @@ void Frame::loadShortcuts()
 
 void Frame::on_actionConfigure_Shortcuts_triggered()
 {
-    QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
+    QList<QAction*> actions = findChildren<QAction*>(QRegularExpression("action*"));
     QList<QShortcut*> shortcuts = findChildren<QShortcut*>();
     ShortcutsDialog sd(this,actions,shortcuts);
     sd.exec();
@@ -1213,7 +1222,7 @@ void Frame::groupActions()
     connect(group, SIGNAL(triggered(QAction*)), this, SLOT(updateLang(QAction*)));
 
     // The other actions are grouped and redirected to subwindow
-    QList<QAction*> actions = findChildren<QAction*>(QRegExp("action*"));
+    QList<QAction*> actions = findChildren<QAction*>(QRegularExpression("action*"));
 
     actionsExtra = new QActionGroup(this);
     actionsExtra->setObjectName("extraGroup");

@@ -1,5 +1,4 @@
 #include "qtermcanvas.h"
-#include "qterm.h"
 #include "qtermconfig.h"
 #include "qtermglobal.h"
 
@@ -11,7 +10,13 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QLabel>
-#include <QMatrix>
+#include <QTransform>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 3, 0)
+#define ADD_ACTION(text,receiver,member,shortcut) addAction(text, receiver, member, shortcut)
+#else
+#define ADD_ACTION(text,receiver,member,shortcut) addAction(text, shortcut, receiver, member)
+#endif
 
 namespace QTerm
 {
@@ -29,7 +34,7 @@ Canvas::Canvas(QWidget *parent, Qt::WindowFlags f)
         bEmbed = false;
 
     m_pMenu = new QMenu(this);
-    addAction(m_pMenu->addAction(tr("Original Size"), this, SLOT(oriSize()), Qt::Key_Z));
+    addAction(m_pMenu->ADD_ACTION(tr("Original Size"), this, SLOT(oriSize()), Qt::Key_Z));
     m_fitAction = m_pMenu->addAction(tr("Fit Window"));
     m_fitAction->setCheckable(true);
     m_fitAction->setShortcut(Qt::Key_X);
@@ -37,23 +42,23 @@ Canvas::Canvas(QWidget *parent, Qt::WindowFlags f)
     connect(m_fitAction, SIGNAL(toggled(bool)), this, SLOT(fitWin(bool)));
     addAction(m_fitAction);
     m_pMenu->addSeparator();
-    addAction(m_pMenu->addAction(tr("Zoom In"), this, SLOT(zoomIn()), Qt::Key_Equal));
-    addAction(m_pMenu->addAction(tr("Zoom Out"), this, SLOT(zoomOut()), Qt::Key_Minus));
+    addAction(m_pMenu->ADD_ACTION(tr("Zoom In"), this, SLOT(zoomIn()), Qt::Key_Equal));
+    addAction(m_pMenu->ADD_ACTION(tr("Zoom Out"), this, SLOT(zoomOut()), Qt::Key_Minus));
     if (!bEmbed)
-        addAction(m_pMenu->addAction(tr("Fullscreen"), this, SLOT(fullScreen()), Qt::Key_F));
+        addAction(m_pMenu->ADD_ACTION(tr("Fullscreen"), this, SLOT(fullScreen()), Qt::Key_F));
     m_pMenu->addSeparator();
-    addAction(m_pMenu->addAction(tr("Rotate CW 90"), this, SLOT(cwRotate()), Qt::Key_BracketRight));
-    addAction(m_pMenu->addAction(tr("Rotate CCW 90"), this, SLOT(ccwRotate()), Qt::Key_BracketLeft));
+    addAction(m_pMenu->ADD_ACTION(tr("Rotate CW 90"), this, SLOT(cwRotate()), Qt::Key_BracketRight));
+    addAction(m_pMenu->ADD_ACTION(tr("Rotate CCW 90"), this, SLOT(ccwRotate()), Qt::Key_BracketLeft));
 
     if (!bEmbed) {
         m_pMenu->addSeparator();
-        addAction(m_pMenu->addAction(tr("Save As..."), this, SLOT(saveImage()), Qt::Key_S));
-        addAction(m_pMenu->addAction(tr("Copy To..."), this, SLOT(copyImage()), Qt::Key_C));
-        addAction(m_pMenu->addAction(tr("Silent Copy"), this, SLOT(silentCopy()), Qt::Key_S + Qt::SHIFT));
-        addAction(m_pMenu->addAction(tr("Delete"), this, SLOT(deleteImage()), Qt::Key_D));
+        addAction(m_pMenu->ADD_ACTION(tr("Save As..."), this, SLOT(saveImage()), Qt::Key_S));
+        addAction(m_pMenu->ADD_ACTION(tr("Copy To..."), this, SLOT(copyImage()), Qt::Key_C));
+        addAction(m_pMenu->ADD_ACTION(tr("Silent Copy"), this, SLOT(silentCopy()), QKeySequence(tr("Shift+S"))));
+        addAction(m_pMenu->ADD_ACTION(tr("Delete"), this, SLOT(deleteImage()), Qt::Key_D));
 
         m_pMenu->addSeparator();
-        addAction(m_pMenu->addAction(tr("Exit"), this, SLOT(close()), Qt::Key_Q));
+        addAction(m_pMenu->ADD_ACTION(tr("Exit"), this, SLOT(close()), Qt::Key_Q));
     }
 
     bFitWin = true;
@@ -152,7 +157,11 @@ void Canvas::loadImage(QString name)
 
 void Canvas::resizeImage(double ratio)
 {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     if (label->pixmap() == NULL)
+#else
+    if (label->pixmap().isNull())
+#endif
         return;
 
     QSize szImg = szImage;
@@ -171,7 +180,7 @@ void Canvas::resizeImage(double ratio)
 
 void Canvas::rotateImage(double ang)
 {
-    QMatrix wm;
+    QTransform wm;
 
     wm.rotate(ang);
 
@@ -285,7 +294,11 @@ void Canvas::mousePressEvent(QMouseEvent *me)
         return;
     }
     if (me->button()&Qt::RightButton) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         m_pMenu->popup(me->globalPos());
+#else
+        m_pMenu->popup(me->globalPosition().toPoint());
+#endif
     }
 }
 
@@ -316,7 +329,11 @@ void Canvas::keyPressEvent(QKeyEvent *ke)
 
 void Canvas::adjustSize(const QSize& szView)
 {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     if (label->pixmap() == NULL) {
+#else
+    if (label->pixmap().isNull()) {
+#endif
         label->resize(width(), height());
         return;
     }

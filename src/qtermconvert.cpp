@@ -12,7 +12,7 @@
  
 #include "qtermconvert.h"
 
-#include <QtCore/QTextCodec>
+#include <QTextCodec>
 #include <QtCore/QByteArray>
 
 #define BtoG_bad1 '\xa1'

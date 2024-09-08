@@ -9,7 +9,7 @@ class schemeDialog : public QDialog
     Q_OBJECT
 
 public:
-    schemeDialog(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    schemeDialog(QWidget* parent = 0, Qt::WindowFlags fl = Qt::Widget);
     ~schemeDialog();
 
     void setScheme(const QString&);

@@ -280,7 +280,12 @@ void SSHSocket::checkVersion(const QByteArray & banner)
     qDebug() << banner;
 #endif
     QString server(banner);
-    QStringList list = server.split("-", QString::SkipEmptyParts);
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+    QString::SplitBehavior behavior = QString::SkipEmptyParts;
+#else
+    Qt::SplitBehavior behavior = Qt::SkipEmptyParts;
+#endif
+    QStringList list = server.split("-", behavior);
     if (list[0] != "SSH") {
         qDebug("It is not a SSH protocol: %s", server.toLatin1().data());
         return;

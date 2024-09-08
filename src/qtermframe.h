@@ -6,6 +6,7 @@
 #include "assistantclient.h"
 #include "statusBar.h"
 #include <QPixmap>
+#include <QActionGroup>
 #include <QByteArray>
 #include <QString>
 #include <QPaintEvent>

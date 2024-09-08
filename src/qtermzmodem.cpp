@@ -7,7 +7,7 @@
 
 #include <QtCore/QString>
 #include <QtCore/QFileInfo>
-#include <QtCore/QTextCodec>
+#include <QTextCodec>
 #include <QFileDialog>
 
 namespace QTerm
@@ -15,6 +15,10 @@ namespace QTerm
 
 #ifdef QTERM_DEBUG // for zmodemlog()
 #include <sys/time.h>
+#endif
+
+#ifndef PRIdQSIZETYPE // Macro to be compatible with Qt6 to format qsizetype platform independently.
+#define PRIdQSIZETYPE "d"
 #endif
 
 /*
@@ -670,7 +674,7 @@ int Zmodem::ZmodemRInit(ZModem *info)
 
 int Zmodem::ZmodemRcv(uchar *str, int len, ZModem *info)
 {
-    register uchar c ;
+    uchar c ;
     int err ;
 
     zmodemlog("zmodemRcv called");
@@ -985,7 +989,7 @@ void Zmodem::ZStatus(int type, int value, const char * status)
         qDebug("received %d bytes", value);
         break;
     case SndByteCount:
-        qDebug("sent %lx bytes", value);
+        qDebug("sent %x bytes", value);
         break;
     case RcvTimeout:
         /* receiver did not respond, aborting */
@@ -1200,7 +1204,7 @@ ulong Zmodem::ZDec4(uchar buf[4])
 
 
 
-int Zmodem::YrcvChar(char c, register ZModem *info)
+int Zmodem::YrcvChar(char c, ZModem *info)
 {
     int err ;
 
@@ -1292,7 +1296,7 @@ void Zmodem::ZIdleStr(uchar *buffer, int len, ZModem *info)
 }
 
 
-int Zmodem::FinishChar(char c, register ZModem *info)
+int Zmodem::FinishChar(char c, ZModem *info)
 {
     if (c == 'O') {
         if (++info->chrCount >= 2)
@@ -1304,7 +1308,7 @@ int Zmodem::FinishChar(char c, register ZModem *info)
 
 
 
-int Zmodem::DataChar(uchar c, register ZModem *info)
+int Zmodem::DataChar(uchar c, ZModem *info)
 {
     if (c == ZDLE) {
         info->escape = 1 ;
@@ -1331,7 +1335,7 @@ int Zmodem::DataChar(uchar c, register ZModem *info)
         default: c ^= 0100 ; break ;
         }
     }
-    if (connectionType == 0)
+    if (connectionType == 0) {
         if (lastPullByte == 0x0d && c == 0x00) {
             lastPullByte = 0;
             return 0;
@@ -1339,14 +1343,14 @@ int Zmodem::DataChar(uchar c, register ZModem *info)
             lastPullByte = 0;
             return 0;
         }
-
+    }
     lastPullByte = c;
 
     switch (info->DataType) {
         /* TODO: are hex data packets ever used? */
 
     case ZBIN:
-        qDebug("we got zbin: %04x", info->crc);
+        qDebug("we got zbin: %04lux", info->crc);
         info->crc = updcrc(c, info->crc) ;
         if (info->crcCount == 0)
             info->buffer[info->chrCount++] = c ;
@@ -1361,7 +1365,7 @@ int Zmodem::DataChar(uchar c, register ZModem *info)
         if (info->crcCount == 0)
             info->buffer[info->chrCount++] = c ;
         else if (--info->crcCount == 0) {
-            qDebug("we got zbin32: %08x", info->crc);
+            qDebug("we got zbin32: %08lx", info->crc);
             return ZDataReceived(info, info->crc == 0xdebb20e3) ;
         }
         break ;
@@ -1370,7 +1374,7 @@ int Zmodem::DataChar(uchar c, register ZModem *info)
 }
 
 
-int Zmodem::HdrChar(uchar c, register ZModem *info)
+int Zmodem::HdrChar(uchar c, ZModem *info)
 {
     int i ;
     int crc = 0 ;
@@ -1472,7 +1476,7 @@ int Zmodem::HdrChar(uchar c, register ZModem *info)
 
 
 
-int Zmodem::IdleChar(uchar c, register ZModem *info)
+int Zmodem::IdleChar(uchar c, ZModem *info)
 {
     if (info->chrCount == 0) {
         if (c == ZPAD)
@@ -1612,9 +1616,9 @@ int Zmodem::YsendChar(char c,  ZModem *info)
 
 
 
-int Zmodem::ZProtocol(register ZModem *info)
+int Zmodem::ZProtocol(ZModem *info)
 {
-    register StateTable *table ;
+    StateTable *table ;
 
     zmodemlog("received %s: %2.2x %2.2x %2.2x %2.2x = %lx\n",
               hdrnames[info->hdrData[0]], info->hdrData[1],
@@ -1646,7 +1650,7 @@ int Zmodem::ZProtocol(register ZModem *info)
 }
 
 
-int Zmodem::ZDataReceived(register ZModem *info, int crcGood)
+int Zmodem::ZDataReceived(ZModem *info, int crcGood)
 {
     switch (info->state) {
     case RSinitWait: return GotSinitData(info, crcGood) ;
@@ -1673,13 +1677,13 @@ int Zmodem::Ignore(ZModem *info)
 }
 
 
-int Zmodem::AnswerChallenge(register ZModem *info)
+int Zmodem::AnswerChallenge(ZModem *info)
 {
     return ZXmitHdrHex(ZACK, info->hdrData + 1, info) ;
 }
 
 
-int Zmodem::GotAbort(register ZModem *info)
+int Zmodem::GotAbort(ZModem *info)
 {
     ZStatus(RmtCancel, 0, NULL) ;
     return ZXmitHdrHex(ZFIN, zeros, info) ;
@@ -1705,7 +1709,7 @@ int Zmodem::GotCommand(ZModem *info)
     return ZXmitHdrHex(ZCOMPL, rbuf, info) ;
 }
 
-int Zmodem::GotStderr(register ZModem *info)
+int Zmodem::GotStderr(ZModem *info)
 {
     info->InputState = Indata ;
     info->chrCount = 0 ;
@@ -1721,14 +1725,14 @@ int Zmodem::RetDone(ZModem *info)
 }
 
 
-int Zmodem::GotCommandData(register ZModem *info , int crcGood)
+int Zmodem::GotCommandData(ZModem *info , int crcGood)
 {
     /* TODO */
     return 0 ;
 }
 
 
-int Zmodem::GotStderrData(register ZModem *info, int crcGood)
+int Zmodem::GotStderrData(ZModem *info, int crcGood)
 {
     info->buffer[info->chrCount] = '\0' ;
     ZStatus(RemoteMessage, info->chrCount, (char *)info->buffer) ;
@@ -2095,7 +2099,7 @@ uint Zmodem::rcvHex(uint i, char c)
 }
 
 
-int Zmodem::dataSetup(register ZModem *info)
+int Zmodem::dataSetup(ZModem *info)
 {
     info->InputState = Indata ;
     info->chrCount = 0 ;
@@ -2433,7 +2437,7 @@ int Zmodem::YXmitData(uchar *buffer, int len, ZModem *info)
 
 int Zmodem::YSendFilename(ZModem *info)
 {
-    int i, len ;
+    int i, len, size, n ;
     uchar obuf[1024] ;
     uchar *ptr = obuf ;
 
@@ -2442,9 +2446,9 @@ int Zmodem::YSendFilename(ZModem *info)
     info->offset = 0 ;
 
     i = strlen(info->rfilename) ;
-    memcpy(ptr, info->rfilename, i + 1) ;  ptr += i + 1 ;
-    sprintf((char *)ptr, "%d %lo %o 0", info->len, info->date, info->mode);
-    ptr += strlen((char *)ptr) ;
+    memcpy(ptr, info->rfilename, i + 1) ;  ptr += i + 1 ; size -= i + 1 ;
+    n = snprintf((char *)ptr, size, "%d %lo %o 0", info->len, info->date, info->mode);
+    ptr += n ;
     *ptr++ = '\0' ;
     /* pad out to 128 bytes or 1024 bytes */
     i = ptr - obuf ;
@@ -2505,7 +2509,9 @@ int Zmodem::sendFilename(ZModem *info)
 {
     int err ;
     int i ;
+    int n ;
     uchar obuf[2048] ;
+    int size = 2048;
     uchar *ptr = obuf ;
 
     info->state = FileWait ;
@@ -2514,10 +2520,10 @@ int Zmodem::sendFilename(ZModem *info)
         return err ;
 
     i = strlen(info->rfilename) ;
-    memcpy(ptr, info->rfilename, i + 1) ;  ptr += i + 1 ;
-    sprintf((char *)ptr, "%d %lo %o 0 %d %d 0", info->len, info->date,
+    memcpy(ptr, info->rfilename, i + 1) ;  ptr += i + 1 ; size -= i + 1;
+    n = snprintf((char *)ptr, size, "%d %lo %o 0 %d %d 0", info->len, info->date,
             info->mode, info->filesRem, info->bytesRem) ;
-    ptr += strlen((char *)ptr) ;
+    ptr += n ;
     *ptr++ = '\0' ;
 
     return ZXmitData(ZBIN, ptr - obuf, ZCRCW, obuf, info) ;
@@ -2608,7 +2614,7 @@ int Zmodem::GotRinit(ZModem *info)
 
     itFile = strFileList.begin();
     QFileInfo fi(*itFile);
-    qDebug("files to be transferred %d", strFileList.count());
+    qDebug("files to be transferred %" PRIdQSIZETYPE, strFileList.count());
     char *filename = strdup(fi.absoluteFilePath().toLatin1());
     char *rfilename = strdup(fi.fileName().toLatin1());
     ZmodemTFile(filename, rfilename,
@@ -2622,7 +2628,7 @@ int Zmodem::SendZSInit(ZModem *info)
 {
     int err ;
     //char *at = (info->attn != NULL) ? info->attn : "" ;
-    char * at;
+    const char * at;
     if (info->attn != NULL)
         at = info->attn;
     else

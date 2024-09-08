@@ -12,7 +12,7 @@ AUTHOR:        kingson fiasco
 #include "qtermdecode.h"
 #include "qtermbuffer.h"
 
-#include <QtCore/QTextDecoder>
+#include <QTextDecoder>
 #include <QtCore/QByteArray>
 //#include <QtDebug>
 

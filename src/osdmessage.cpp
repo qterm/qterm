@@ -39,7 +39,7 @@ PageViewMessage::PageViewMessage(QWidget * parent)
     setFocusPolicy(Qt::NoFocus);
     //setBackgroundMode( Qt::NoBackground );
     QPalette palette;
-    palette.setColor(backgroundRole(), qApp->palette().color(QPalette::Active, QPalette::Background));
+    palette.setColor(backgroundRole(), qApp->palette().color(QPalette::Active, QPalette::Window));
     setPalette(palette);
 //     setPaletteBackgroundColor(qApp->palette().color(QPalette::Active, QPalette::Background));
     setCursor(QCursor(Qt::ArrowCursor));
@@ -118,7 +118,7 @@ void PageViewMessage::display(const QString & message, Icon icon, int durationMs
     QPainter maskPainter(&mask);
     mask.fill(Qt::black);
     maskPainter.setBrush(Qt::white);
-    maskPainter.drawRoundRect(geometry, 1600 / geometry.width(), 1600 / geometry.height());
+    maskPainter.drawRoundedRect(geometry, 1600 / geometry.width(), 1600 / geometry.height());
     setMask(mask.createHeuristicMask());
 
     // draw background
@@ -126,7 +126,7 @@ void PageViewMessage::display(const QString & message, Icon icon, int durationMs
     bufferPainter.setPen(Qt::black);
     bufferPainter.setFont(font());
     bufferPainter.setBrush(palette().brush(QPalette::Window));
-    bufferPainter.drawRoundRect(geometry, 1600 / geometry.width(), 1600 / geometry.height());
+    bufferPainter.drawRoundedRect(geometry, 1600 / geometry.width(), 1600 / geometry.height());
 
     // draw icon if present
     if (!symbol.isNull())
@@ -134,7 +134,7 @@ void PageViewMessage::display(const QString & message, Icon icon, int durationMs
 
     // draw shadow and text
     int yText = (geometry.height() - height)/2 + fontMetrics().ascent();
-    bufferPainter.setPen(palette().color(QPalette::Window).dark(115));
+    bufferPainter.setPen(palette().color(QPalette::Window).darker(115));
     bufferPainter.drawText(5 + textXOffset + shadowOffset, yText + 1, m_message);
     bufferPainter.setPen(palette().color(QPalette::WindowText));
     bufferPainter.drawText(5 + textXOffset, yText, m_message);

@@ -1,9 +1,10 @@
 #include "toolbardialog.h"
 #include "qtermglobal.h"
 
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QSettings>
 
+#include <QActionGroup>
 #include <QToolBar>
 #include <QMainWindow>
 #include <QToolButton>
@@ -17,7 +18,7 @@ ToolbarDialog::ToolbarDialog(QWidget* parent)
 
     createDefaultToolBars();
     // populate all available actions
-    QList<QAction*> actions = parent->findChildren<QAction*>(QRegExp("action*"));
+    QList<QAction*> actions = parent->findChildren<QAction*>(QRegularExpression("action*"));
     QAction* action;
     foreach(action, actions) {
         if (action->actionGroup()->objectName() != "extraGroup")

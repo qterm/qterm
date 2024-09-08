@@ -74,7 +74,7 @@ AUTHOR:        kingson fiasco
 #include <QMenu>
 #include <QTextBrowser>
 #include <QInputDialog>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QFileDialog>
 #include <QTabWidget>
 #include <QStringList>
@@ -111,7 +111,7 @@ void DAThread::run()
         // check it there is duplicated string
         // it starts from the end in the range of one screen height
         // so this is a non-greedy match
-        QString strTemp = pWin->m_pBuffer->screen(0)->getText().replace(QRegExp("\\s+$"),"");
+        QString strTemp = pWin->m_pBuffer->screen(0)->getText().replace(QRegularExpression("\\s+$"),"");
         int i = 0;
         int start = 0;
         QStringList::Iterator it = strList.end();
@@ -127,7 +127,7 @@ void DAThread::run()
             bool dup = true;
             // match more to see if its duplicated
             for (int j = 0; j <= i && it2 != strList.end(); j++, it2++) {
-                QString str1 = pWin->m_pBuffer->screen(j)->getText().replace(QRegExp("\\s+$"),"");
+                QString str1 = pWin->m_pBuffer->screen(j)->getText().replace(QRegularExpression("\\s+$"),"");
                 if (*it2 != str1) {
                     dup = false;
                     break;
@@ -141,7 +141,7 @@ void DAThread::run()
         }
         // add new lines
         for (i = start;i < pWin->m_pBuffer->line() - 1;i++)
-            strList += pWin->m_pBuffer->screen(i)->getText().replace(QRegExp("\\s+$"),"");
+            strList += pWin->m_pBuffer->screen(i)->getText().replace(QRegularExpression("\\s+$"),"");
 
         // the end of article
         if (pWin->m_pBuffer->screen(
@@ -557,15 +557,20 @@ void Window::mousePressEvent(QMouseEvent * me)
         }
 
         if (!(me->modifiers())) {
+            #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+            QPoint globalPos = me->globalPos();
+            #else
+            QPoint globalPos = me->globalPosition().toPoint();
+            #endif
             if (!m_pBBS->getUrl().isEmpty()) // on Url
-                m_pUrl->popup(me->globalPos());
+                m_pUrl->popup(globalPos);
             else
-                m_pMenu->popup(me->globalPos());
+                m_pMenu->popup(globalPos);
             return;
         }
     }
     // Middle Button for paste
-    if (me->button()&Qt::MidButton && !(me->modifiers())) {
+    if (me->button()&Qt::MiddleButton && !(me->modifiers())) {
         if (m_bConnected) {
             if (!m_pBBS->getUrl().isEmpty())        // on Url
                 previewLink();
@@ -767,7 +772,7 @@ void Window::wheelEvent(QWheelEvent *we)
         m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onWheelEvent");
         if (func.isFunction()) {
-            func.call(QScriptValue(), QScriptValueList() << we->delta() << (int) we->buttons() << (int) we->modifiers() << (int) we->orientation() << we->x() << we->y() );
+            func.call(QScriptValue(), QScriptValueList() << we->pixelDelta().y() << (int) we->buttons() << (int) we->modifiers() << (int) we->orientation() << we->x() << we->y() );
             if (m_scriptHelper->accepted()) {
                 return;
             }
@@ -781,14 +786,14 @@ void Window::wheelEvent(QWheelEvent *we)
     }
 #endif
         if (Global::instance()->m_pref.bWheel) {
-            int j = we->delta() > 0 ? 4 : 5;
+            int j = we->pixelDelta().y() > 0 ? 4 : 5;
             if (!(we->modifiers())) {
                 if (Global::instance()->m_pref.bWheel && m_bConnected)
                     m_pTelnet->write(direction[j], sizeof(direction[j]));
             }
         }
         else {
-            m_pScreen->scrollLine(-we->delta()/8/15);
+            m_pScreen->scrollLine(-we->pixelDelta().y()/8/15);
         }
 }
 
@@ -1792,7 +1797,7 @@ void Window::updateWindow()
         // this works for most but not for all
         TextLine * pTextLine = m_pBuffer->screen(m_pBuffer->line() - 1);
 
-        QString strText = pTextLine->getText().replace(QRegExp("\\s+$"),"");
+        QString strText = pTextLine->getText().replace(QRegularExpression("\\s+$"),"");
         if (m_pBuffer->caret().y() == m_pBuffer->line() - 1 &&
                 m_pBuffer->caret().x() >= strText.length() - 1)
             m_wcWaiting.wakeAll();
@@ -1881,7 +1886,7 @@ void Window::loadKeyboardTranslator(const QString & filename)
         path = filename;
     } else {
         qWarning() << "Fallback to default keyboard layout";
-#ifdef Q_OS_MACX
+#ifdef Q_OS_MACOS
         path = Global::instance()->pathLib() + "/keyboard_profiles/apple.keytab";
 #else
         path = Global::instance()->pathLib() + "/keyboard_profiles/linux.keytab";

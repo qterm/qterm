@@ -11,6 +11,7 @@ typedef QMap<QString, QString> Completion;
 
 class HostInfo : public QObject
 {
+    Q_OBJECT
 public:
     enum Type {
         Telnet,
@@ -41,6 +42,7 @@ private:
 
 class TelnetInfo : public HostInfo
 {
+    Q_OBJECT
 public:
     TelnetInfo(const QString & hostName, quint16 port, QObject * parent = 0);
     ~TelnetInfo();

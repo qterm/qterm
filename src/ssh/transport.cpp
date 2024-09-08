@@ -20,6 +20,10 @@ extern "C" {
 extern void dumpData(const QByteArray & data);
 #endif
 
+#ifndef PRIdQSIZETYPE // Macro to be compatible with Qt6 to format qsizetype platform independently.
+#define PRIdQSIZETYPE "d"
+#endif
+
 namespace QTerm
 {
 
@@ -111,7 +115,7 @@ QByteArray SSH2Encryption::crypt(const QByteArray & src)
 {
     QByteArray dest;
     if (src.size() % m_blockSize) {
-        qDebug("SSH2Encryption: bad plaintext length %d", src.size());
+        qDebug("SSH2Encryption: bad plaintext length %" PRIdQSIZETYPE, src.size());
         return dest;
     }
     dest.resize(src.size());
@@ -177,7 +181,7 @@ QByteArray SSH1Encryption::crypt(const QByteArray & src)
 {
     QByteArray dest;
     if (src.size() % 8)
-        qDebug("============Bad data len: %d", src.size());
+        qDebug("============Bad data len: %" PRIdQSIZETYPE, src.size());
     dest.resize(src.size());
     if (m_method == Encryption) {
 #ifdef SSH_DEBUG

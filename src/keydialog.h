@@ -22,7 +22,7 @@ class keyDialog : public QDialog
     Q_OBJECT
 
 public:
-    keyDialog( QWidget* parent = 0, Qt::WindowFlags fl = 0 );
+    keyDialog( QWidget* parent = 0, Qt::WindowFlags fl = Qt::Widget );
     ~keyDialog();
 
 protected:

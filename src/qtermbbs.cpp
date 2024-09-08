@@ -15,7 +15,13 @@
 //Added by qt3to4:
 #include <QtCore/QString>
 #include <QtCore/QStringList>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#include <QtCore/QRegularExpression>
+#define QRegExp_t QRegularExpression 
+#else
 #include <QtCore/QRegExp>
+#define QRegExp_t QRegExp 
+#endif
 #include <stdio.h>
 #include <ctype.h>
 #include <QtDebug>
@@ -306,7 +312,7 @@ void BBS::updateSelectRect()
 				break;
 			QString cstr = line->getText();
 
-            QRegExp reg("[a-zA-Z0-9][).\\]]");
+            QRegExp_t reg("[a-zA-Z0-9][).\\]]");
             int indexChar = cstr.lastIndexOf(reg, m_ptCursor.x());
             if (indexChar != -1) {
                 m_cMenuChar = cstr.at(indexChar).toLatin1();
@@ -315,7 +321,7 @@ void BBS::updateSelectRect()
                 if (indexChar > 0 && (cstr[indexChar-1] == '(' || cstr[indexChar-1] == '['))
                     nMenuStart--;
 
-                reg = QRegExp("[^ ]");
+                reg = QRegExp_t("[^ ]");
 
                 int nMenuBaseLength = 20;
                 int nMenuEnd = cstr.lastIndexOf(reg, nMenuStart + nMenuBaseLength);
@@ -434,10 +440,11 @@ bool BBS::checkUrl(QRect & rcUrl, QRect & rcOld)
             if (pt > url.first && pt < url.second) {
                 //qDebug() << "get text: " << getText(url.first, url.second);
                 m_strUrl = getText(url.first, url.second);
-                QRegExp urlRe("(mailto:|(https?|mms|rstp|ftp|gopher|telnet|ed2k|file)://)");
-                QRegExp emailRe("^[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}");
-                if (urlRe.indexIn(m_strUrl)==-1) {
-                    if (emailRe.indexIn(m_strUrl)==-1) {
+                QRegExp_t urlRe("(mailto:|(https?|mms|rstp|ftp|gopher|telnet|ed2k|file)://)");
+                QRegExp_t emailRe("^[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}");
+                QRegularExpressionMatch match;
+                if (m_strUrl.indexOf(urlRe)==-1) {
+                    if (m_strUrl.indexOf(emailRe)==-1) {
                         m_strUrl = "http://"+m_strUrl;
                     } else {
                         m_strUrl = "mailto:"+m_strUrl;
@@ -488,23 +495,24 @@ bool BBS::checkIP(QRect& rcUrl, QRect& rcOld)
         return true;
     }
 
-    QRegExp rx("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|\\*)");
+    QRegExp_t rx("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|\\*)");
+    QRegularExpressionMatch match;
     int pos = 0;
     int ip_begin = 0;
     int ip_end = 0;
-    while ((pos = rx.indexIn(strText, pos)) != -1) {
-        if (pos < at && (pos + rx.matchedLength()) > at) {
+    while ((pos = strText.indexOf(rx, pos, &match)) != -1) {
+        if (pos < at && (pos + match.capturedLength()) > at) {
             break;
         }
-        pos += rx.matchedLength();
+        pos += match.capturedLength();
     }
 
-    if (rx.matchedLength() <= 0) {
+    if (match.capturedLength() <= 0) {
         return false;
     }
 
     ip_begin = pos;
-    ip_end = pos+rx.matchedLength();
+    ip_end = pos+match.capturedLength();
 
     m_strIP = strText.mid(ip_begin, ip_end - ip_begin);//get the pure ip address
     if (m_strIP[ m_strIP.length()-1 ] == '*')
@@ -589,15 +597,16 @@ bool BBS::verifyUrl(int urlBegin, int urlEnd)
     url = 0;
     host = 0;
     end = strText.length()-1;
-    QRegExp urlRe("^(mailto:|(https?|mms|rstp|ftp|gopher|telnet|ed2k|file)://)");
-    if ((begin = urlRe.indexIn(strText))!=-1) {
-        if (urlRe.capturedTexts().contains("mailto:")) {
+    QRegExp_t urlRe("^(mailto:|(https?|mms|rstp|ftp|gopher|telnet|ed2k|file)://)");
+    QRegularExpressionMatch match;
+    if ((begin = strText.indexOf(urlRe, 0, &match))!=-1) {
+        if (match.captured().contains("mailto:")) {
             if ((ata = strText.indexOf('@', begin + 1)) == -1)
                 host = url + (ata - begin) + 1;
             else
                 return false;
         } else {
-            host = url+urlRe.matchedLength();
+            host = url+match.capturedLength();
         }
     } else {
         begin = url;
