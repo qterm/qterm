@@ -772,7 +772,14 @@ void Window::wheelEvent(QWheelEvent *we)
         m_scriptHelper->setAccepted(false);
         QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onWheelEvent");
         if (func.isFunction()) {
-            func.call(QScriptValue(), QScriptValueList() << we->pixelDelta().y() << (int) we->buttons() << (int) we->modifiers() << (int) we->orientation() << we->x() << we->y() );
+            #if (QT_VERSION < QT_VERSION_CHECK(5, 14, 0))
+            QPoint pt = we->pos();
+            int orientation = (int) we->orientation();
+            #else
+            QPoint pt = we->position().toPoint();
+            int orientation = we->angleDelta().x() != 0 ? 1 : 2;
+            #endif
+            func.call(QScriptValue(), QScriptValueList() << we->pixelDelta().y() << (int) we->buttons() << (int) we->modifiers() << orientation << pt.x() << pt.y() );
             if (m_scriptHelper->accepted()) {
                 return;
             }

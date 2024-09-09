@@ -492,7 +492,7 @@ bool Global::iniWorkingDir(QString param)
     else {
         QFileInfo fi(param);
         if (fi.isSymLink())
-            param = fi.readLink();
+            param = fi.symLinkTarget();
         // get the pathname
         param.truncate(param.lastIndexOf('/'));
         QString oldPath = QDir::currentPath();

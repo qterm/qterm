@@ -157,8 +157,10 @@ void Canvas::loadImage(QString name)
 
 void Canvas::resizeImage(double ratio)
 {
-#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
     if (label->pixmap() == NULL)
+#elif (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+    if (label->pixmap(Qt::ReturnByValue).isNull())
 #else
     if (label->pixmap().isNull())
 #endif
@@ -329,8 +331,10 @@ void Canvas::keyPressEvent(QKeyEvent *ke)
 
 void Canvas::adjustSize(const QSize& szView)
 {
-#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
     if (label->pixmap() == NULL) {
+#elif (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+    if (label->pixmap(Qt::ReturnByValue).isNull()) {
 #else
     if (label->pixmap().isNull()) {
 #endif

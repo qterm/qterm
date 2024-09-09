@@ -103,7 +103,7 @@ bool AssistantClient::sendCommand(const QString &cmd, QString *errorMessage)
         return false;
     }
     QTextStream str(m_process);
-#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
     str << cmd << QLatin1Char('\0') << endl;
 #else
     str << cmd << QLatin1Char('\0') << Qt::endl;
