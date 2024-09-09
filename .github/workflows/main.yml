@@ -1,0 +1,39 @@
+name: Build
+
+on:
+  - pull_request
+  - push
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+          - ubuntu-20.04
+          - macos-13
+          - windows-2019
+        qt:
+          - version: '5.9.9'
+            modules: 'qtscript'
+          - version: '6.2.3'
+            modules: 'qt5compat'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt update
+          sudo apt -y install cmake
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ matrix.qt.version }}
+          dir: ${{ github.workspace }}/qt
+          modules: ${{ matrix.qt.modules }}
+          cache: true
+      - name: Build
+        run: |
+          cmake -B build
+          cmake --build build
