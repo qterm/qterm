@@ -116,11 +116,6 @@ using namespace QTerm;
 
 int main( int argc, char ** argv )
 {
-    if ( strcmp( qVersion(), QT_MIN_VERSION ) < 0 ) {
-        qFatal("QTerm requires Qt %s or above to run! Qt installed in your system is %s.", QT_MIN_VERSION, qVersion());
-    }
-    //QApplication::setGraphicsSystem("raster");
-
     QApplication a( argc, argv );
     a.setApplicationName("QTerm");
 
