@@ -50,7 +50,7 @@ ToolbarDialog::ToolbarDialog(QWidget* parent)
     connect(buttonAdd, SIGNAL(clicked()), this, SLOT(buttonAddClicked()));
     connect(buttonRemove, SIGNAL(clicked()), this, SLOT(buttonRemoveClicked()));
     connect(comboToolbars, SIGNAL(currentIndexChanged(int)), this, SLOT(comboToolbarsCurrentIndexChanged(int)));
-    connect(comboIconSize, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(comboIconSizeCurrentIndexChanged(const QString &)));
+    connect(comboIconSize, SIGNAL(currentIndexChanged(int)), this, SLOT(comboIconSizeCurrentIndexChanged(int)));
     connect(comboButtonStyle, SIGNAL(currentIndexChanged(int)),this, SLOT(comboButtonStyleCurrentIndexChanged(int)));
     connect(buttonDefault, SIGNAL(clicked()), this, SLOT(restoreDefaultToolbars()));
     restoreGeometry(Global::instance()->loadGeometry("Toolbar"));
@@ -178,9 +178,10 @@ void ToolbarDialog::comboButtonStyleCurrentIndexChanged(int index)
     parent->setToolButtonStyle(Qt::ToolButtonStyle(index));
 }
 
-void ToolbarDialog::comboIconSizeCurrentIndexChanged(const QString& item)
+void ToolbarDialog::comboIconSizeCurrentIndexChanged(int index)
 {
     //QMainWindow *parent = qobject_cast<QMainWindow*>(parentWidget());
+    QString item = comboIconSize->itemText(index);
     QSize iconSize;
     if (item == "16x16")
         iconSize = QSize(16,16);

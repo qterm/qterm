@@ -46,7 +46,11 @@ SocketPrivate::SocketPrivate(QObject * parent)
 	connect(m_socket, SIGNAL(hostFound()), this, SIGNAL(hostFound()));
 	connect(m_socket, SIGNAL(disconnected()), this, SIGNAL(connectionClosed()));
 	connect(m_socket, SIGNAL(readyRead()), this, SLOT(socketReadyRead()));
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
 	connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(error(QAbstractSocket::SocketError)));
+#else
+	connect(m_socket, SIGNAL(errorOccurred(QAbstractSocket::SocketError)), this, SIGNAL(error(QAbstractSocket::SocketError)));
+#endif
 }
 
 SocketPrivate::~SocketPrivate()
