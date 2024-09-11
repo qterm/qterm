@@ -86,7 +86,7 @@ To build on Windows, open the Visual Studio Developer Command Prompt, ::
     set PATH=C:\Qt\5.7\msvc2015\bin;%PATH%
     # Create the build directory side by side to qterm source directory
     mdkir qterm-build
-    cmake ..\qterm -G "NMake Makefiles"
+    cmake ..\qterm -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles"
     # Build
     nmake
     # Optionally create an installer if NSIS is installed
