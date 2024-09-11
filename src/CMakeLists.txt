@@ -12,7 +12,33 @@ option(QTERM_ENABLE_SCRIPT_DEBUGGER "Build ScriptDebugger Support")
 include(CheckFunctionExists)
 include(CheckLibraryExists)
 
+macro (_install_plugins)
+   set(options "")
+   set(oneValueArgs "DIRECTORY")
+   set(multiValueArgs "MODULES")
+   cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
+   set(plugins)
+   foreach(MODULE ${ARG_MODULES})
+      if (QT_VERSION_MAJOR VERSION_LESS 6)
+         list(APPEND plugins ${Qt${QT_VERSION_MAJOR}${MODULE}_PLUGINS})
+      else ()
+         get_target_property(_plugins Qt${QT_VERSION_MAJOR}::${MODULE} QT_PLUGINS)
+         foreach (_plugin ${_plugins})
+            list(APPEND plugins Qt${QT_VERSION_MAJOR}::${_plugin})
+         endforeach ()
+      endif()
+   endforeach()
+
+   foreach(plugin ${plugins})
+      get_target_property(_loc ${plugin} LOCATION)
+      get_filename_component(_plugindir ${_loc} PATH)
+      get_filename_component(_pluginname ${_plugindir} NAME)
+      install(CODE "
+         file(COPY ${_loc} DESTINATION \${CMAKE_INSTALL_PREFIX}/${ARG_DIRECTORY}/${_pluginname})
+      " COMPONENT Runtime)
+   endforeach()
+endmacro()
 
 check_function_exists("gethostbyname" CMAKE_HAVE_GETHOSTBYNAME)
 if(NOT CMAKE_HAVE_GETHOSTBYNAME)
@@ -279,7 +305,7 @@ if(WIN32)
 elseif(APPLE)
    set(qterm_MISC  ${qterm_MISC} ${CMAKE_CURRENT_SOURCE_DIR}/../icons/QTerm.icns)
    set_source_files_properties(${qterm_MISC} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
-   add_executable(${PROGRAME} MACOSX_BUNDLE ${qterm_SRCS} ${qterm_RCCS_SRCS} ${qterm_MISC} ) 
+   add_executable(${PROGRAME} MACOSX_BUNDLE ${qterm_SRCS} ${qterm_RCCS_SRCS} ${qterm_MISC} )
    add_custom_command( TARGET ${PROGRAME} PRE_BUILD
      COMMAND mkdir ARGS -p ${PROGRAME}.app/Contents/MacOS
      COMMAND mkdir ARGS -p ${PROGRAME}.app/Contents/Resources
@@ -313,17 +339,10 @@ if(WIN32 AND MINGW)
 endif(WIN32 AND MINGW)
 if (APPLE)
    install(TARGETS ${PROGRAME} DESTINATION .)
-   foreach(plugin ${Qt${QT_VERSION_MAJOR}Gui_PLUGINS})
-      get_target_property(_loc ${plugin} LOCATION)
-      get_filename_component(_plugindir ${_loc} PATH)
-      get_filename_component(_pluginname ${_plugindir} NAME)
-      install(CODE "
-          file(COPY ${_loc} DESTINATION \${CMAKE_INSTALL_PREFIX}/${PROGRAME}.app/Contents/PlugIns/${_pluginname})
-          " COMPONENT Runtime)
-   endforeach()
-   get_target_property(QT_LIBRARY_DIR Qt${QT_VERSION_MAJOR}::Core LOCATION)
-   get_filename_component(QT_LIBRARY_DIR ${QT_LIBRARY_DIR} PATH)
-   get_filename_component(QT_LIBRARY_DIR "${QT_LIBRARY_DIR}/.." ABSOLUTE)
+   _install_plugins(
+      MODULES Gui Widgets
+      DIRECTORY ${PROGRAME}.app/Contents/PlugIns
+   )
    install(CODE "
       file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${PROGRAME}.app/Contents/Resources/qt.conf\" \"[Paths]\nPlugIns=PlugIns\")
    " COMPONENT Runtime)
@@ -332,7 +351,7 @@ if (APPLE)
       set(BU_CHMOD_BUNDLE_ITEMS ON)
       include(BundleUtilities)
       fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/${PROGRAME}.app/Contents/MacOS/QTerm\"
-       \"\${PLUGINS}\" 
+       \"\${PLUGINS}\"
        \"${QT_LIBRARY_DIR}\")
    " COMPONENT Runtime)
 else (APPLE)
@@ -340,17 +359,10 @@ else (APPLE)
   install(FILES ${qterm_MISC} DESTINATION share/qterm)
   install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/qterm.desktop DESTINATION share/applications)
   if(WIN32)
-      foreach(plugin ${Qt${QT_VERSION_MAJOR}Gui_PLUGINS})
-         get_target_property(_loc ${plugin} LOCATION)
-         get_filename_component(_plugindir ${_loc} PATH)
-         get_filename_component(_pluginname ${_plugindir} NAME)
-         install(CODE "
-            file(COPY ${_loc} DESTINATION \${CMAKE_INSTALL_PREFIX}/plugins/${_pluginname})
-         " COMPONENT Runtime)
-      endforeach()
-      get_target_property(QT_LIBRARY_DIR Qt${QT_VERSION_MAJOR}::Core LOCATION)
-      get_filename_component(QT_LIBRARY_DIR ${QT_LIBRARY_DIR} PATH)
-      get_filename_component(QT_LIBRARY_DIR "${QT_LIBRARY_DIR}" ABSOLUTE)
+      _install_plugins (
+         MODULES Gui Widgets
+         DIRECTORY plugins
+      )
       install(CODE "
          file(WRITE \"\${CMAKE_INSTALL_PREFIX}/bin/qt.conf\" \"[Paths]\nPlugIns=../plugins\")
       " COMPONENT Runtime)
