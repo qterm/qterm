@@ -369,7 +369,7 @@ else (APPLE)
       install(CODE "
          file(GLOB_RECURSE PLUGINS  \${CMAKE_INSTALL_PREFIX}/bin/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX})
          include(BundleUtilities)
-         set(DIRS ${QT_BINARY_DIR} ${QT_LIBRARY_DIR} ${OPENSSLCRYPTO_ROOT_DIR})
+         set(DIRS \"${QT_BINARY_DIR}\" \"${QT_LIBRARY_DIR}\" \"${OPENSSLCRYPTO_ROOT_DIR}\")
          fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.exe\"
          \"\${PLUGINS}\"
          \"\${DIRS}\")
