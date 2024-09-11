@@ -218,11 +218,14 @@ void Telnet::windowSizeChanged(int x, int y)
     if (!bConnected)
         return;
 
+#ifdef SSH_ENABLED
     if (d_isSSH) {
         SSHSocket *sshSocket = qobject_cast<SSHSocket*>(socket);
         if (sshSocket)
                 sshSocket->requestWindowSize(x, y);
-    } else {
+    } else
+#endif
+    {
         naws = 0;
 
         QByteArray cmd(10, 0);
