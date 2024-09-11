@@ -380,10 +380,9 @@ bool BBS::isUnicolor(TextLine *line)
 {
     QByteArray color = line->getColor();
     bool bSame = true;
-    int clr = GETBG(color[0]);
 
     for (int i = 0; i < color.length() / 2; i++) {
-        if (GETBG(color[i]) != clr ||
+        if (GETBG(color[i]) != GETBG(color[0]) ||
                 GETBG(color[i]) == GETBG(NO_COLOR)) {
             bSame = false;
             break;
