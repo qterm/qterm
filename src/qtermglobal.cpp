@@ -265,7 +265,8 @@ bool Global::convertAddressBook2XML()
         return true;
     else {
         if (!dir.exists(m_addrCfg)) // simply copy from system if even address.cfg not existed
-            return createLocalFile(m_addrXml, m_pathLib + "address.xml");
+            return createLocalFile(m_addrXml, m_pathLib + "address.xml")
+                    && QFile::setPermissions(m_pathLib + "address.xml", QFile::ReadUser | QFile::WriteUser);
     }
     // import system address.xml or create new one
     QDomDocument doc;
@@ -318,6 +319,7 @@ bool Global::convertAddressBook2XML()
 void Global::saveAddressXml(const QDomDocument& doc)
 {
     QFile ofile(m_addrXml);
+    ofile.setPermissions(QFile::ReadUser | QFile::WriteUser);
     if (ofile.open(QIODevice::WriteOnly)) {
         QTextStream out(&ofile);
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
