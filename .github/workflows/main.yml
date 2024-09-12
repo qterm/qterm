@@ -19,6 +19,9 @@ jobs:
             modules: 'qtscript'
           - version: '6.2.3'
             modules: 'qt5compat'
+          - version: '6.7.2'
+            modules: 'qt5compat'
+            release: true
     steps:
       - uses: actions/checkout@v4
       - name: Install Dependencies
@@ -35,5 +38,10 @@ jobs:
           cache: true
       - name: Build
         run: |
-          cmake -B build
+          cmake -B build -DCMAKE_BUILD_TYPE=Release
           cmake --build build
+      - name: Package
+        if: matrix.qt.release == true && runner.os != 'Linux'
+        run: |
+          cd build
+          cpack
