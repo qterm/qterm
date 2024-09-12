@@ -58,8 +58,11 @@ jobs:
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
       - name: Create Release
         run: |
-          gh elease create ${{ github.ref_name }} --draft Windows-Package/QTerm-*.exe macOS-package/QTerm-*.dmg
+          gh release create ${{ github.ref_name }} --draft dist/QTerm-*.exe dist/QTerm-*.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
