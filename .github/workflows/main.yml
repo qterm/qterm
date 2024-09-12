@@ -38,10 +38,28 @@ jobs:
           cache: true
       - name: Build
         run: |
-          cmake -B build -DCMAKE_BUILD_TYPE=Release
-          cmake --build build
+          cmake -B build
+          cmake --build build --config Release
       - name: Package
         if: matrix.qt.release == true && runner.os != 'Linux'
         run: |
           cd build
           cpack
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-Package
+          path: |
+            build/QTerm-*.exe
+            build/QTerm-*.dmg
+  release:
+    needs: build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+      - name: Create Release
+        run: |
+          gh elease create ${{ github.ref_name }} --draft Windows-Package/QTerm-*.exe macOS-package/QTerm-*.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
