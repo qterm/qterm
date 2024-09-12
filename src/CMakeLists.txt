@@ -355,7 +355,7 @@ endif(WIN32 AND MINGW)
 if (APPLE)
    install(TARGETS ${PROGRAME} DESTINATION .)
    _install_plugins(
-      MODULES Gui Widgets
+      MODULES Gui Widgets Network
       DIRECTORY ${PROGRAME}.app/Contents/PlugIns
    )
    install(CODE "
@@ -375,7 +375,7 @@ else (APPLE)
   install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/qterm.desktop DESTINATION share/applications)
   if(WIN32)
       _install_plugins (
-         MODULES Gui Widgets
+         MODULES Gui Widgets Network
          DIRECTORY plugins
       )
       install(CODE "
