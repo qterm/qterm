@@ -68,6 +68,6 @@ jobs:
       - name: Create Release
         run: |
           awk -v version=${{ github.ref_name }} '$0 == version {p=1;} NF==0 {p=0} p' RELEASE_NOTES > _notes
-          gh release create ${{ github.ref_name }} -F _notes dist/QTerm-*.exe dist/QTerm-*.dmg
+          gh release create ${{ github.ref_name }} -F _notes dist/QTerm-*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
