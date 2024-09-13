@@ -109,7 +109,7 @@ p, li { white-space: pre-wrap; }
           <property name="text">
            <string>QTerm --- BBS Client based on Qt
 
-(C) 2001-2016, The QTerm Developers
+(C) 2001-2024, The QTerm Developers
 
 http://www.qterm.org</string>
           </property>
