@@ -137,6 +137,14 @@ SSH2MAC::SSH2MAC(const QString & algorithm)
         m_keyLen = 16;
         m_macLen = 16;
         m_evptype = EVP_md5();
+    } else if (algorithm == "hmac-sha2-256") {
+        m_keyLen = 32;
+        m_macLen = 32;
+        m_evptype = EVP_sha256();
+    } else if (algorithm == "hmac-sha2-512") {
+        m_keyLen = 64;
+        m_macLen = 64;
+        m_evptype = EVP_sha512();
     }
 }
 

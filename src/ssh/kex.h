@@ -71,6 +71,7 @@ private:
     BIGNUM *e; /* g^x mod p */
     BIGNUM *f; /* g^(Random from server) mod p */
     BIGNUM *K; /* The shared secret: f^x mod p */
+    int m_hashAlgorithm;
     QByteArray V_S;
     QByteArray V_C;
     QByteArray I_S;
