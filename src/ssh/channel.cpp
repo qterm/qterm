@@ -99,7 +99,7 @@ void SSH2Channel::receiveData()
     // qDebug() << data;
     target->data += data;
     if (target->localWindow < 2*target->localPacketSize) {
-        adjustWindow(target->localID, 2*target->localPacketSize);
+        adjustWindow(target->remoteID, 2*target->localPacketSize);
         target->localWindow += 2 * target->localPacketSize;
     }
     emit dataReady(target->localID);
@@ -107,13 +107,14 @@ void SSH2Channel::receiveData()
 
 void SSH2Channel::writeData(int id, const QByteArray & data)
 {
-    if (m_channelList.at(id)->remoteWindow < (size_t) data.size()) {
+    Channel * target = m_channelList.at(id);
+    if (target->remoteWindow < (size_t) data.size()) {
         qDebug("remote window too small");
         return;
     }
     m_channelList.at(id)->remoteWindow -= data.size();
     m_out->startPacket(SSH2_MSG_CHANNEL_DATA);
-    m_out->putUInt32(id);
+    m_out->putUInt32(target->remoteID);
     m_out->putString(data);
     m_out->sendPacket();
 }
@@ -130,7 +131,7 @@ void SSH2Channel::channelOpened()
 #ifdef SSH_DEBUG
     qDebug() << "ID: " << target->localID << target->remoteID << "windows size: " << target->localWindow << target->remoteWindow << "packet size: " << target->localPacketSize << target->remotePacketSize;
 #endif
-    requestPty(target->localID);
+    requestPty(target->remoteID);
 }
 
 void SSH2Channel::channelClosed()
@@ -197,12 +198,13 @@ void SSH2Channel::requestWindowSize(int column, int row)
 {
     m_row = row;
     m_column = column;
+    Channel *target = m_channelList.at(0); // assume only the first channel has the pty window
 
 #ifdef SSH_DEBUG
-    qDebug() << "request window size";
+    qDebug() << "request window size" << target->remoteID;
 #endif
     m_out->startPacket(SSH2_MSG_CHANNEL_REQUEST);
-    m_out->putUInt32(0);
+    m_out->putUInt32(target->remoteID);
     m_out->putString("window-change");
     m_out->putUInt8(0);
     m_out->putUInt32(column);
