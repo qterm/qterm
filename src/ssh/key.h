@@ -21,9 +21,13 @@ namespace QTerm
 class SSH2Key
 {
 public:
-    SSH2Key() {}
+    SSH2Key(QByteArray type) {m_type = type;}
     virtual ~SSH2Key() {}
     virtual QByteArray publicKey() = 0;
+    virtual QByteArray type() {return m_type;}
+
+protected:
+    QByteArray m_type;
 };
 
 class SSH2RSAKey : public SSH2Key
