@@ -85,7 +85,7 @@ void SSH2Auth::setHostInfo(HostInfo * hostInfo)
         BIO_free(mem);
         return;
     }
-    int nid = EVP_PKEY_get_id(pkey);
+    int nid = EVP_PKEY_id(pkey);
     if ( nid == EVP_PKEY_DSA) {
         dsa = EVP_PKEY_get1_DSA(pkey);
         m_key = new SSH2DSAKey(dsa);
