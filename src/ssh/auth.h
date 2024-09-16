@@ -53,8 +53,7 @@ private:
     enum KeyType
     {
         Unknown,
-        SSH_RSA,
-        SSH_DSS
+        SSH_OPENSSL
     };
     void noneAuth();
     void publicKeyAuth();

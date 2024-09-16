@@ -55,44 +55,56 @@ void SSH2Auth::setHostInfo(HostInfo * hostInfo)
     }
 
     QString privateKeyFile = m_hostInfo->privateKeyFile();
-    if (!privateKeyFile.isEmpty()) {
-        DSA *dsa = NULL;
-        RSA *rsa = NULL;
+    if (privateKeyFile.isEmpty())
+        return;
 
-        QString passphrase = m_hostInfo->passphrase();
-        QFile file(privateKeyFile);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            qDebug("Cannot open the private key file");
-            m_publicKeyAuthAvailable = false;
-            return;
-        }
-        QByteArray privateKeyData = file.readAll();
-        file.close();
-        KeyType type = checkPrivateKeyType(privateKeyData);
-        if (type == Unknown) {
-            qDebug("Unknown private key type");
-            m_publicKeyAuthAvailable = false;
-            return;
-        }
-        BIO * mem = BIO_new_mem_buf((void*)privateKeyData.data(), -1);
+    DSA *dsa = NULL;
+    RSA *rsa = NULL;
 
-        if (type == SSH_RSA) {
-            rsa = PEM_read_bio_RSAPrivateKey(mem, NULL, m_hostInfo->passphraseCallback, passphrase.toUtf8().data());
-            m_key = new SSH2RSAKey(rsa);
-        } else if (type == SSH_DSS) {
-            dsa = PEM_read_bio_DSAPrivateKey(mem, NULL, m_hostInfo->passphraseCallback, passphrase.toUtf8().data());
-            m_key = new SSH2DSAKey(dsa);
-        }
-
-        BIO_free(mem);
-        if (!rsa && !dsa) {
-            m_publicKeyAuthAvailable = false;
-            qDebug("Cannot read the private key file");
-            return;
-        }
-        m_publicKeyAuthAvailable = true;
-        m_keyType = type;
+    QString passphrase = m_hostInfo->passphrase();
+    QFile file(privateKeyFile);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug("Cannot open the private key file");
+        m_publicKeyAuthAvailable = false;
+        return;
     }
+    QByteArray privateKeyData = file.readAll();
+    file.close();
+    KeyType type = checkPrivateKeyType(privateKeyData);
+    if (type == Unknown) {
+        qDebug("Unknown private key type");
+        m_publicKeyAuthAvailable = false;
+        return;
+    }
+
+    BIO * mem = BIO_new_mem_buf((void*)privateKeyData.data(), -1);
+
+    EVP_PKEY *pkey = PEM_read_bio_PrivateKey(mem, NULL, m_hostInfo->passphraseCallback, passphrase.toUtf8().data());
+    if (!pkey) {
+        qDebug("Cannot read the private key file");
+        BIO_free(mem);
+        return;
+    }
+    int nid = EVP_PKEY_get_id(pkey);
+    if ( nid == EVP_PKEY_DSA) {
+        dsa = EVP_PKEY_get1_DSA(pkey);
+        m_key = new SSH2DSAKey(dsa);
+    } else if (nid == EVP_PKEY_RSA) {
+        rsa = EVP_PKEY_get1_RSA(pkey);
+        m_key = new SSH2RSAKey(rsa);
+    } else {
+        qDebug() << "Unknown private key type" << nid;
+    }
+
+    EVP_PKEY_free(pkey);
+    BIO_free(mem);
+    if (!rsa && !dsa) {
+        m_publicKeyAuthAvailable = false;
+        qDebug("Cannot read the private key file");
+        return;
+    }
+    m_publicKeyAuthAvailable = true;
+    m_keyType = type;
 
 }
 
@@ -152,6 +164,7 @@ void SSH2Auth::authPacketReceived(int flag)
 #endif
         emit authFinished();
     default:
+        qDebug() << "Unknown message: " << flag;
         break;
     }
 }
@@ -257,15 +270,7 @@ void SSH2Auth::publicKeyAuth()
     m_out->putString("ssh-connection");
     m_out->putString("publickey");
     m_out->putUInt8(0);
-    if (m_keyType == SSH_DSS) {
-        m_out->putString("ssh-dss");
-    } else if (m_keyType == SSH_RSA) {
-        m_out->putString("ssh-rsa");
-    } else {
-        qDebug("Unknown public key type");
-        failureHandler();
-        return;
-    }
+    m_out->putString(m_key->type());
     m_out->putString(m_key->publicKey());
     m_out->sendPacket();
 #ifdef SSH_DEBUG
@@ -275,10 +280,11 @@ void SSH2Auth::publicKeyAuth()
 
 SSH2Auth::KeyType SSH2Auth::checkPrivateKeyType(const QByteArray & data)
 {
-    if (data.startsWith("-----BEGIN RSA PRIVATE KEY-----")) {
-        return SSH_RSA;
-    } else if (data.startsWith("-----BEGIN DSA PRIVATE KEY-----")) {
-        return SSH_DSS;
+    if (data.startsWith("-----BEGIN RSA PRIVATE KEY-----") ||
+        data.startsWith("-----BEGIN DSA PRIVATE KEY-----") ||
+        data.startsWith("-----BEGIN PRIVATE KEY-----") ||
+        data.startsWith("-----BEGIN ENCRYPTED PRIVATE KEY-----")) {
+        return SSH_OPENSSL;
     } else {
         return Unknown;
     }
@@ -296,7 +302,7 @@ void SSH2Auth::generateSign()
     m_out->putString("ssh-connection");
     m_out->putString("publickey");
     m_out->putUInt8(1);
-    if (m_keyType == SSH_RSA) {
+    if (m_key->type() == "ssh-rsa") {
         RSA * rsa = static_cast<SSH2RSAKey *>(m_key)->privateKey();
         m_out->putString("ssh-rsa");
         m_out->putString(m_key->publicKey());
@@ -307,7 +313,7 @@ void SSH2Auth::generateSign()
         m_out->putUInt32(4 + 7 + 4 + sigblob.size());
         m_out->putString("ssh-rsa");
         m_out->putString(sigblob);
-    } else if (m_keyType == SSH_DSS) {
+    } else if (m_key->type() == "ssh-dsa") {
         DSA_SIG *sig = NULL;
         uint rlen, slen;
         DSA * dsa = static_cast<SSH2DSAKey *>(m_key)->privateKey();
