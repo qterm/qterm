@@ -163,6 +163,7 @@ void SSH2Auth::authPacketReceived(int flag)
         qDebug() << "====== success! ======";
 #endif
         emit authFinished();
+        break;
     default:
         qDebug() << "Unknown message: " << flag;
         break;
