@@ -31,6 +31,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QtXml/QDomDocument>
+#include <QtDebug>
 
 #if defined(_OS_WIN32_) || defined(Q_OS_WIN32)
 #include <windows.h>
