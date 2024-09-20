@@ -858,7 +858,7 @@ void Global::openUrl(const QString & urlStr)
     command += " &";
     success = system(command.toUtf8().data()) == 0;
 #else
-    succes = QProcess::startDetached(command);
+    success = QProcess::startDetached(command);
 #endif
     if (!success)
         qDebug() << "Failed to open the url with the system command";
