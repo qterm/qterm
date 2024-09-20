@@ -57,12 +57,14 @@ void sig_fatal_init();
 void sig_fatal_handler (int sig)
 {
     int num, fd, i;
-
+    ssize_t written;
     i = 0;
 
     sig_fatal_finish ();
 
-    chdir (QTERM_SIG_LOG_DIR);
+    if (chdir (QTERM_SIG_LOG_DIR) == -1) {
+       return;
+    }
 
     if ((fd = creat (_sig_fname, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0) {
         i = errno;
@@ -73,7 +75,11 @@ void sig_fatal_handler (int sig)
 
     sprintf (_buf, "Hit with signal %d! Stack trace of last %d functions:\n",
             sig, num);
-    write (fd, _buf, strlen (_buf));
+    written = write (fd, _buf, strlen (_buf));
+    if (written == -1) {
+        close (fd);
+        return;
+    }
 
     backtrace_symbols_fd (_rets, num, fd);
 

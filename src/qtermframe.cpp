@@ -818,7 +818,9 @@ void Frame::keyClicked(int id)
     } else if (strTmp[0] == '1') { // script
         qobject_cast<Window *>(mdiArea->activeSubWindow())->runScript(strTmp.mid(1));
     } else if (strTmp[0] == '2') { // program
-        system((strTmp.mid(1) + " &").toLocal8Bit());
+        if (system((strTmp.mid(1) + " &").toLocal8Bit()) != 0) {
+           QMessageBox::warning(this, tr("Run program error"), tr("Error in running program '%1'").arg(strTmp));
+        }
     }
 }
 

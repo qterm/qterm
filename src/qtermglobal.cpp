@@ -852,13 +852,15 @@ void Global::openUrl(const QString & urlStr)
         command.replace("%L",  "\"" + urlStr + "\"");
         //cstrCmd.replace("%L",  strUrl.toLocal8Bit());
 
+    bool success;
 #if !defined(_OS_WIN32_) && !defined(Q_OS_WIN32)
     command += " &";
-    system(command.toUtf8().data());
+    success = system(command.toUtf8().data()) == 0;
 #else
-    QProcess::startDetached(command);
+    succes = QProcess::startDetached(command);
 #endif
-
+    if (!success)
+        qDebug() << "Failed to open the url with the system command";
 }
 
 QString Global::convert(const QString & source, Global::Conversion flag)
