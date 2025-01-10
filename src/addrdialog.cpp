@@ -23,8 +23,10 @@
 #include <QFileDialog>
 #include <QPalette>
 #include <QMenu>
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 #include <QDesktopWidget>
-#include <QtCore/QTextCodec>
+#endif
+#include <QTextCodec>
 #include <QtCore/QUuid>
 #include <QtCore/QTextStream>
 namespace QTerm
@@ -49,8 +51,13 @@ addrDialog::addrDialog(QWidget* parent, bool partial, Qt::WindowFlags fl)
     }
     updateSchemeList();
     updateKeyboardProfiles();
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    int dpiX = logicalDpiX();
+    int dpiY = logicalDpiY();
+#else
     int dpiX = qApp->desktop()->logicalDpiX();
     int dpiY = qApp->desktop()->logicalDpiY();
+#endif
     if (dpiY < 150)
         resize(500,500);
     else
@@ -205,12 +212,12 @@ void addrDialog::onNamechange(const QModelIndex & index)
 		return;
 
     if (lastIndex.isValid() && isChanged()) {
-        QMessageBox mb("QTerm",
+        QMessageBox mb(QMessageBox::Question, "QTerm",
                        tr("Setting changed, do you want to save?"),
-                       QMessageBox::Warning,
-                       QMessageBox::Yes | QMessageBox::Default,
-                       QMessageBox::No  | QMessageBox::Escape ,
-                       0, this, 0);
+                       QMessageBox::Yes | QMessageBox::No,
+                       this);
+        mb.setDefaultButton(QMessageBox::Yes);
+        mb.setEscapeButton(QMessageBox::No);
         if (mb.exec() == QMessageBox::Yes) {
             updateData(true);
 			if (lastIndex.isValid()) {
@@ -250,12 +257,12 @@ void addrDialog::onConnect(const QModelIndex & index)
 		return;
 
     if (isChanged()) {
-        QMessageBox mb("QTerm",
+        QMessageBox mb(QMessageBox::Warning, "QTerm",
                        tr("Setting changed, do you want to save?"),
-                       QMessageBox::Warning,
-                       QMessageBox::Yes | QMessageBox::Default,
-                       QMessageBox::No  | QMessageBox::Escape ,
-                       0, this, 0);
+                       QMessageBox::Yes | QMessageBox::No,
+                       this);
+        mb.setDefaultButton(QMessageBox::Yes);
+        mb.setEscapeButton(QMessageBox::No);
         if (mb.exec() == QMessageBox::Yes)
             onApply();
     }

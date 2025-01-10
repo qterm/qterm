@@ -12,19 +12,60 @@ option(QTERM_ENABLE_SCRIPT_DEBUGGER "Build ScriptDebugger Support")
 include(CheckFunctionExists)
 include(CheckLibraryExists)
 
+macro (_install_plugins)
+   set(options "")
+   set(oneValueArgs "DIRECTORY")
+   set(multiValueArgs "MODULES")
+   cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
+   set(plugin_files)
+   foreach(MODULE ${ARG_MODULES})
+      if (QT_VERSION_MAJOR VERSION_LESS 6)
+         foreach(plugin ${Qt${QT_VERSION_MAJOR}${MODULE}_PLUGINS})
+             get_target_property(_loc ${plugin} LOCATION)
+             list(APPEND plugin_files ${_loc})
+         endforeach()
+      else ()
+         get_target_property(_plugins Qt${QT_VERSION_MAJOR}::${MODULE} QT_PLUGINS)
+         if (_plugins)
+            foreach (_plugin ${_plugins})
+               get_target_property(_loc Qt${QT_VERSION_MAJOR}::${_plugin} LOCATION)
+               list(APPEND plugin_files ${_loc})
+            endforeach ()
+         # CMake targets for plugins missing in Qt < 6.4
+         # https://bugreports.qt.io/browse/QTBUG-94066
+         else ()
+            get_target_property(_plugin_types Qt${QT_VERSION_MAJOR}::${MODULE} MODULE_PLUGIN_TYPES)
+            foreach (_plugin_type ${_plugin_types})
+               file(GLOB _files
+                   LIST_DIRECTORIES false
+                   ${QT_PLUGINS_DIR}/${_plugin_type}/*)
+               list(APPEND plugin_files ${_files})
+            endforeach()
+         endif()
+      endif()
+   endforeach()
+
+   foreach(_plugin_file ${plugin_files})
+      get_filename_component(_plugindir ${_plugin_file} PATH)
+      get_filename_component(_pluginname ${_plugindir} NAME)
+      install(CODE "
+         file(COPY ${_plugin_file} DESTINATION \${CMAKE_INSTALL_PREFIX}/${ARG_DIRECTORY}/${_pluginname})
+      " COMPONENT Runtime)
+   endforeach()
+endmacro()
 
 check_function_exists("gethostbyname" CMAKE_HAVE_GETHOSTBYNAME)
 if(NOT CMAKE_HAVE_GETHOSTBYNAME)
-  check_library_exists("nsl" "gethostbyname" "" CMAKE_LIB_NSL_HAS_GETHOSTBYNAME)
-  if(CMAKE_LIB_NSL_HAS_GETHOSTBYNAME)
-    set(optionalLibs ${optionalLibs} -lnsl)
-  else(CMAKE_LIB_NSL_HAS_GETHOSTBYNAME)
-    check_library_exists("bsd" "gethostbyname" "" CMAKE_LIB_BSD_HAS_GETHOSTBYNAME)
-    if(CMAKE_LIB_BSD_HAS_GETHOSTBYNAME)
-      set(optionalLibs ${optionalLibs} -lbsd)
-    endif(CMAKE_LIB_BSD_HAS_GETHOSTBYNAME)
-  endif(CMAKE_LIB_NSL_HAS_GETHOSTBYNAME)
+   check_library_exists("nsl" "gethostbyname" "" CMAKE_LIB_NSL_HAS_GETHOSTBYNAME)
+   if(CMAKE_LIB_NSL_HAS_GETHOSTBYNAME)
+      set(optionalLibs ${optionalLibs} -lnsl)
+   else(CMAKE_LIB_NSL_HAS_GETHOSTBYNAME)
+      check_library_exists("bsd" "gethostbyname" "" CMAKE_LIB_BSD_HAS_GETHOSTBYNAME)
+      if(CMAKE_LIB_BSD_HAS_GETHOSTBYNAME)
+         set(optionalLibs ${optionalLibs} -lbsd)
+      endif(CMAKE_LIB_BSD_HAS_GETHOSTBYNAME)
+   endif(CMAKE_LIB_NSL_HAS_GETHOSTBYNAME)
 endif(NOT CMAKE_HAVE_GETHOSTBYNAME)
 
 if(QTERM_ENABLE_SSH)
@@ -32,6 +73,10 @@ if(QTERM_ENABLE_SSH)
    if(OPENSSLCRYPTO_FOUND)
       message(STATUS "OpenSSL found, enable SSH support")
       add_definitions(-DSSH_ENABLED)
+      if(QTERM_ENABLE_SSH_DEBUG)
+         add_definitions(-DSSH_DEBUG)
+      endif()
+      add_definitions(-DOPENSSL_API_COMPAT=10100)
       include_directories(${OPENSSLCRYPTO_INCLUDE_DIR})
       get_filename_component(OPENSSLCRYPTO_ROOT_DIR ${OPENSSLCRYPTO_INCLUDE_DIR} PATH)
       set(optionalLibs ${optionalLibs} ${OPENSSLCRYPTO_LIBRARIES})
@@ -47,6 +92,7 @@ if(QTERM_ENABLE_SSH)
       ssh/transport.cpp)
    endif(OPENSSLCRYPTO_FOUND)
 endif(QTERM_ENABLE_SSH)
+
 if(QTERM_ENABLE_DBUS)
    if(QT_QTDBUS_FOUND)
       message(STATUS "QtDBus module found, enable DBus support")
@@ -65,46 +111,27 @@ if(QTERM_ENABLE_DBUS)
       endif(KWALLET_XML)
    endif(QT_QTDBUS_FOUND)
 endif(QTERM_ENABLE_DBUS)
+
 if(QTERM_ENABLE_SCRIPT)
-    if(QT5)
-        if(Qt5Script_FOUND)
-            message(STATUS "QtScript module found, enable Script support")
-            add_definitions(-DSCRIPT_ENABLED)
-            include_directories(${Qt5Script_INCLUDE_DIRS})
-            set(optionalLibs ${optionalLibs} ${Qt5Script_LIBRARIES})
-            set(optionalSources ${optionalSources} scripthelper.cpp)
-            if(QTERM_ENABLE_SCRIPT_DEBUGGER)
-                if(Qt5ScriptTools_FOUND)
-                   message(STATUS "QtScriptTools module found, enable Debugger support")
-                   add_definitions(-DSCRIPTTOOLS_ENABLED)
-                   include_directories(${Qt5ScriptTools_INCLUDE_DIRS})
-                   set(optionalLibs ${optionalLibs} ${Qt5ScriptTools_LIBRARIES})
-                else(Qt5ScriptTools_FOUND)
-                   message(STATUS "QtScriptTools module not found")
-                endif(Qt5ScriptTools_FOUND)
-            endif(QTERM_ENABLE_SCRIPT_DEBUGGER)
-        endif(Qt5Script_FOUND)
-    else(QT5)
-        if(QT_QTSCRIPT_FOUND)
-            message(STATUS "QtScript module found, enable Script support")
-            find_package(QtScriptQtBindings)
-            add_definitions(-DSCRIPT_ENABLED)
-            include_directories(${QT_QTSCRIPT_INCLUDE_DIR})
-            set(optionalLibs ${optionalLibs} ${QT_QTSCRIPT_LIBRARY})
-            set(optionalSources ${optionalSources} scripthelper.cpp)
-            if(QTERM_ENABLE_SCRIPT_DEBUGGER)
-                if(QT_QTSCRIPTTOOLS_FOUND)
-                   message(STATUS "QtScriptTools module found, enable Debugger support")
-                   add_definitions(-DSCRIPTTOOLS_ENABLED)
-                   include_directories(${QT_QTSCRIPTTOOLS_INCLUDE_DIR})
-                   set(optionalLibs ${optionalLibs} ${QT_QTSCRIPTTOOLS_LIBRARY})
-                else(QT_QTSCRIPTTOOLS_FOUND)
-                   message(STATUS "QtScriptTools module not found")
-                endif(QT_QTSCRIPTTOOLS_FOUND)
-            endif(QTERM_ENABLE_SCRIPT_DEBUGGER)
-        endif(QT_QTSCRIPT_FOUND)
-    endif(QT5)
+   if(Qt5Script_FOUND)
+      message(STATUS "QtScript module found, enable Script support")
+      add_definitions(-DSCRIPT_ENABLED)
+      include_directories(${Qt5Script_INCLUDE_DIRS})
+      set(optionalLibs ${optionalLibs} ${Qt5Script_LIBRARIES})
+      set(optionalSources ${optionalSources} scripthelper.cpp)
+      if(QTERM_ENABLE_SCRIPT_DEBUGGER)
+            if(Qt5ScriptTools_FOUND)
+               message(STATUS "QtScriptTools module found, enable Debugger support")
+               add_definitions(-DSCRIPTTOOLS_ENABLED)
+               include_directories(${Qt5ScriptTools_INCLUDE_DIRS})
+               set(optionalLibs ${optionalLibs} ${Qt5ScriptTools_LIBRARIES})
+            else(Qt5ScriptTools_FOUND)
+               message(STATUS "QtScriptTools module not found")
+            endif(Qt5ScriptTools_FOUND)
+      endif(QTERM_ENABLE_SCRIPT_DEBUGGER)
+   endif(Qt5Script_FOUND)
 endif(QTERM_ENABLE_SCRIPT)
+
 if(QTERM_ENABLE_QMEDIAPLAYER)
    if(Qt5Multimedia_FOUND)
       message(STATUS "Qt Multimedia module found, enable QMediaPlayer support")
@@ -113,6 +140,7 @@ if(QTERM_ENABLE_QMEDIAPLAYER)
       set(optionalLibs ${optionalLibs} ${Qt5Multimedia_LIBRARIES})
    endif(Qt5Multimedia_FOUND)
 endif(QTERM_ENABLE_QMEDIAPLAYER)
+
 if(QTERM_ENABLE_PHONON)
    if(QT_PHONON_FOUND)
       message(STATUS "Qt Phonon module found, enable Phonon support")
@@ -133,24 +161,8 @@ if(QTERM_ENABLE_PHONON)
       endif(PHONON_FOUND)
    endif(QT_PHONON_FOUND)
 endif(QTERM_ENABLE_PHONON)
+
 set(qterm_SRCS
-   ui_aboutdialog.h
-   ui_addrdialog.h
-   ui_articledialog.h
-   ui_imageviewer.h
-   ui_keydialog.h
-   ui_mainframe.h
-   ui_msgdialog.h
-   ui_prefdialog.h
-   ui_quickdialog.h
-   ui_schemedialog.h
-   ui_soundconf.h
-   ui_sshlogin.h
-   ui_shortcutsdialog.h
-   ui_toolbardialog.h
-   ui_zmodemdialog.h
-   ui_closedialog.h
-   ui_pallete.h
    aboutdialog.cpp
    addrdialog.cpp
    articledialog.cpp
@@ -221,6 +233,24 @@ set(qterm_UIS
    ui/toolbardialog.ui
    ui/zmodemdialog.ui
    ui/pallete.ui)
+set(qterm_UIS_H
+   ui_aboutdialog.h
+   ui_addrdialog.h
+   ui_articledialog.h
+   ui_imageviewer.h
+   ui_keydialog.h
+   ui_mainframe.h
+   ui_msgdialog.h
+   ui_prefdialog.h
+   ui_quickdialog.h
+   ui_schemedialog.h
+   ui_soundconf.h
+   ui_sshlogin.h
+   ui_shortcutsdialog.h
+   ui_toolbardialog.h
+   ui_zmodemdialog.h
+   ui_closedialog.h
+   ui_pallete.h)
 set(qterm_MISC
    address.xml
    credits
@@ -253,28 +283,31 @@ if(WIN32)
   set(optionalLibs ${optionalLibs} ws2_32)
   cmake_policy(SET CMP0020 NEW) # automatically link to qtmain.lib
 endif(WIN32)
-if(QT5)
-    qt5_add_resources(qterm_RCCS_SRCS ${qterm_RCCS})
-    qt5_wrap_ui(qterm_UIS_H ${qterm_UIS})
-else(QT5)
-    qt4_add_resources(qterm_RCCS_SRCS ${qterm_RCCS})
-    qt4_wrap_ui(qterm_UIS_H ${qterm_UIS})
-endif(QT5)
-add_definitions( -DHAVE_CONFIG_H )
-if(QT5)
+
+if (QT_VERSION_MAJOR EQUAL 5)
+  qt5_add_resources(qterm_RCCS_SRCS ${qterm_RCCS})
+  qt5_wrap_ui(qterm_UIS_H ${qterm_UIS})
+else ()
+  qt_add_resources(qterm_RCCS_SRCS ${qterm_RCCS})
+  # https://bugreports.qt.io/browse/QTBUG-93413
+  if (QT_VERSION VERSION_LESS 6.7.1)
+    qt_wrap_ui(qterm_UIS_H ${qterm_UIS} OPTIONS -c string)
+  else ()
+    qt_wrap_ui(qterm_UIS_H ${qterm_UIS})
+  endif ()
+endif ()
+
+set(qterm_SRCS ${qterm_SRCS} ${qterm_RCCS} ${qterm_UIS})
+add_compile_definitions( -DHAVE_CONFIG_H )
 include_directories(
-    ${Qt5Qt_INCLUDE_DIRS}
-    ${Qt5Widgets_INCLUDE_DIRS}
-    ${Qt5Core_INCLUDE_DIRS}
-    ${Qt5Network_INCLUDE_DIRS}
+    ${Qt${QT_VERSION_MAJOR}Qt_INCLUDE_DIRS}
+    ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
+    ${Qt${QT_VERSION_MAJOR}Core_INCLUDE_DIRS}
+    ${Qt${QT_VERSION_MAJOR}Network_INCLUDE_DIRS}
     )
-else(QT5)
-include_directories(
-   ${QT_INCLUDE_DIR}
-   ${QT_QTCORE_INCLUDE_DIR}
-   ${QT_QTGUI_INCLUDE_DIR}
-   ${QT_QTNETWORK_INCLUDE_DIR} )
-endif(QT5)
+    if(${QT_VERSION_MAJOR} VERSION_EQUAL 6)
+        include_directories(${Qt${QT_VERSION_MAJOR}Core5Compat_INCLUDE_DIRS})
+    endif()
 if(UNIX AND NOT APPLE)
    find_package(X11)
    include_directories(${X11_INCLUDE_DIR})
@@ -290,7 +323,7 @@ if(WIN32)
 elseif(APPLE)
    set(qterm_MISC  ${qterm_MISC} ${CMAKE_CURRENT_SOURCE_DIR}/../icons/QTerm.icns)
    set_source_files_properties(${qterm_MISC} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
-   add_executable(${PROGRAME} MACOSX_BUNDLE ${qterm_SRCS} ${qterm_RCCS_SRCS} ${qterm_MISC} ) 
+   add_executable(${PROGRAME} MACOSX_BUNDLE ${qterm_SRCS} ${qterm_RCCS_SRCS} ${qterm_MISC} )
    add_custom_command( TARGET ${PROGRAME} PRE_BUILD
      COMMAND mkdir ARGS -p ${PROGRAME}.app/Contents/MacOS
      COMMAND mkdir ARGS -p ${PROGRAME}.app/Contents/Resources
@@ -300,93 +333,65 @@ elseif(APPLE)
    )
    add_custom_command( TARGET ${PROGRAME} POST_BUILD
      COMMAND cp ARGS ${CMAKE_CURRENT_BINARY_DIR}/po/*.qm ${PROGRAME}.app/Contents/Resources/po
-     COMMAND cp ARGS ${CMAKE_CURRENT_BINARY_DIR}/doc/*.{qhc,qch} ${PROGRAME}.app/Contents/Resources/doc
+   #  COMMAND cp ARGS ${CMAKE_CURRENT_BINARY_DIR}/doc/*.{qhc,qch} ${PROGRAME}.app/Contents/Resources/doc
      COMMAND cp ARGS ${CMAKE_CURRENT_BINARY_DIR}/keyboard_profiles/*.keytab ${PROGRAME}.app/Contents/Resources/keyboard_profiles
    )
 else()
    add_executable(${PROGRAME} ${qterm_SRCS} ${qterm_RCCS_SRCS})
 endif()
-if(QT5)
 target_link_libraries(${PROGRAME}
-    ${Qt5Core_LIBRARIES}
-    ${Qt5Gui_LIBRARIES}
-    ${Qt5Widgets_LIBRARIES}
-    ${Qt5Xml_LIBRARIES}
-    ${Qt5PrintSupport_LIBRARIES}
-    ${Qt5Network_LIBRARIES}
+    ${Qt${QT_VERSION_MAJOR}Core_LIBRARIES}
+    ${Qt${QT_VERSION_MAJOR}Gui_LIBRARIES}
+    ${Qt${QT_VERSION_MAJOR}Widgets_LIBRARIES}
+    ${Qt${QT_VERSION_MAJOR}Xml_LIBRARIES}
+    ${Qt${QT_VERSION_MAJOR}PrintSupport_LIBRARIES}
+    ${Qt${QT_VERSION_MAJOR}Network_LIBRARIES}
    ${optionalLibs})
-else(QT5)
+if (${QT_VERSION_MAJOR} VERSION_EQUAL 6)
 target_link_libraries(${PROGRAME}
-   Qt4::QtCore
-   Qt4::QtGui
-   Qt4::QtNetwork
-   Qt4::QtXml
-   ${optionalLibs})
-endif(QT5)
+     ${Qt6Core5Compat_LIBRARIES})
+ENDIF()
+
 if(WIN32 AND MINGW)
    target_link_libraries(${PROGRAME} ${win32Libs})
 endif(WIN32 AND MINGW)
 if (APPLE)
-  install(TARGETS ${PROGRAME} DESTINATION .)
-  if(QT5)
-    foreach(plugin ${Qt5Gui_PLUGINS})
-      get_target_property(_loc ${plugin} LOCATION)
-      get_filename_component(_plugindir ${_loc} PATH)
-      get_filename_component(_pluginname ${_plugindir} NAME)
-      install(CODE "
-          file(COPY ${_loc} DESTINATION \${CMAKE_INSTALL_PREFIX}/${PROGRAME}.app/Contents/PlugIns/${_pluginname})
-          " COMPONENT Runtime)
-    endforeach()
-    get_target_property(QT_LIBRARY_DIR Qt5::Core LOCATION)
-    get_filename_component(QT_LIBRARY_DIR ${QT_LIBRARY_DIR} PATH)
-    get_filename_component(QT_LIBRARY_DIR "${QT_LIBRARY_DIR}/.." ABSOLUTE)
-  else(QT5)
-    install(DIRECTORY ${QT_PLUGINS_DIR}/imageformats DESTINATION ${PROGRAME}.app/Contents/PlugIns)
-    install(DIRECTORY ${QT_PLUGINS_DIR}/codecs DESTINATION ${PROGRAME}.app/Contents/PlugIns)
-  endif(QT5)
-  install(CODE "
+   install(TARGETS ${PROGRAME} DESTINATION .)
+   _install_plugins(
+      MODULES Gui Widgets Network
+      DIRECTORY ${PROGRAME}.app/Contents/PlugIns
+   )
+   install(CODE "
       file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${PROGRAME}.app/Contents/Resources/qt.conf\" \"[Paths]\nPlugIns=PlugIns\")
-    " COMPONENT Runtime)
-  install(CODE "
+   " COMPONENT Runtime)
+   install(CODE "
       file(GLOB_RECURSE PLUGINS  \${CMAKE_INSTALL_PREFIX}/${PROGRAME}.app/Contents/PlugIns/*${CMAKE_SHARED_LIBRARY_SUFFIX})
       set(BU_CHMOD_BUNDLE_ITEMS ON)
       include(BundleUtilities)
       fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/${PROGRAME}.app/Contents/MacOS/QTerm\"
-       \"\${PLUGINS}\" 
+       \"\${PLUGINS}\"
        \"${QT_LIBRARY_DIR}\")
-    " COMPONENT Runtime)
+   " COMPONENT Runtime)
 else (APPLE)
   install(TARGETS ${PROGRAME} DESTINATION bin)
   install(FILES ${qterm_MISC} DESTINATION share/qterm)
   install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/qterm.desktop DESTINATION share/applications)
   if(WIN32)
-    if(QT5)
-      foreach(plugin ${Qt5Gui_PLUGINS})
-        get_target_property(_loc ${plugin} LOCATION)
-        get_filename_component(_plugindir ${_loc} PATH)
-        get_filename_component(_pluginname ${_plugindir} NAME)
-        install(CODE "
-            file(COPY ${_loc} DESTINATION \${CMAKE_INSTALL_PREFIX}/plugins/${_pluginname})
-          " COMPONENT Runtime)
-      endforeach()
-      get_target_property(QT_LIBRARY_DIR Qt5::Core LOCATION)
-      get_filename_component(QT_LIBRARY_DIR ${QT_LIBRARY_DIR} PATH)
-      get_filename_component(QT_LIBRARY_DIR "${QT_LIBRARY_DIR}" ABSOLUTE)
-    else(QT5)
-      install(DIRECTORY ${QT_PLUGINS_DIR}/imageformats DESTINATION plugins)
-      install(DIRECTORY ${QT_PLUGINS_DIR}/codecs DESTINATION plugins)
-    endif(QT5)
-    install(CODE "
-      file(WRITE \"\${CMAKE_INSTALL_PREFIX}/bin/qt.conf\" \"[Paths]\nPlugIns=../plugins\")
-    " COMPONENT Runtime)
-    install(CODE "
-      file(GLOB_RECURSE PLUGINS  \${CMAKE_INSTALL_PREFIX}/bin/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX})
-      include(BundleUtilities)
-      set(DIRS ${QT_BINARY_DIR} ${QT_LIBRARY_DIR} ${OPENSSLCRYPTO_ROOT_DIR})
-      fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.exe\"
-       \"\${PLUGINS}\"
-       \"\${DIRS}\")
-    ")
+      _install_plugins (
+         MODULES Gui Widgets Network
+         DIRECTORY plugins
+      )
+      install(CODE "
+         file(WRITE \"\${CMAKE_INSTALL_PREFIX}/bin/qt.conf\" \"[Paths]\nPlugIns=../plugins\")
+      " COMPONENT Runtime)
+      install(CODE "
+         file(GLOB_RECURSE PLUGINS  \${CMAKE_INSTALL_PREFIX}/bin/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX})
+         include(BundleUtilities)
+         set(DIRS \"${QT_BINARY_DIR}\" \"${QT_LIBRARY_DIR}\" \"${OPENSSLCRYPTO_ROOT_DIR}\")
+         fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/bin/${PROGRAME}.exe\"
+         \"\${PLUGINS}\"
+         \"\${DIRS}\")
+      ")
   endif(WIN32)
 endif(APPLE)
 add_subdirectory(scheme)

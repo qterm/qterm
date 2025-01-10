@@ -20,7 +20,7 @@ class prefDialog : public QDialog
     Q_OBJECT
 
 public:
-    prefDialog( QWidget* parent = 0, Qt::WindowFlags fl = 0 );
+    prefDialog( QWidget* parent = 0, Qt::WindowFlags fl = Qt::Widget );
     ~prefDialog();
 
 protected slots:

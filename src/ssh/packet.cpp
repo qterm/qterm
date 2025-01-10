@@ -18,6 +18,10 @@
 #include <QtDebug>
 #endif
 
+#ifndef PRIdQSIZETYPE // Macro to be compatible with Qt6 to format qsizetype platform independently.
+#define PRIdQSIZETYPE "d"
+#endif
+
 uint32_t get_u32(const void * vp)
 {
     uint32_t v;
@@ -216,7 +220,7 @@ void SSH2InBuffer::getBN(BIGNUM * value)
     }
 
     if (buf.size() > 8 * 1024) {
-        qDebug("getBN: cannot handle BN of size: %d", buf.size());
+        qDebug("getBN: cannot handle BN of size: %" PRIdQSIZETYPE, buf.size());
         return;
     }
 
@@ -301,7 +305,7 @@ void SSH1InBuffer::getBN(BIGNUM * value)
 //  }
 
     if (buf.size() > 8 * 1024) {
-        qDebug("getBN: cannot handle BN of size: %d", buf.size());
+        qDebug("getBN: cannot handle BN of size: %" PRIdQSIZETYPE, buf.size());
         return;
     }
 

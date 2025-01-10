@@ -54,8 +54,7 @@ void
 ExternalSound::play()
 {
     if (QFile::exists(_soundfile)) {
-        QString command = _player + ' ' + _soundfile;
-        QProcess::startDetached(command);
+        QProcess::startDetached(_player, QStringList(_soundfile));
     }
 }
 

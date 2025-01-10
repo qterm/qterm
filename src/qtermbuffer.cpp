@@ -16,7 +16,7 @@ AUTHOR:  kingson
 
 
 #include <QtCore/QString>
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QRect>
 
 //#include <QtDebug>
@@ -625,7 +625,7 @@ QString Buffer::getSelectText(bool rect, bool color, const QString & escape)
 
         //qDebug() << strTemp;
         //FIXME: potential problem?
-        int pos = strTemp.lastIndexOf(QRegExp("[\\S]"));
+        int pos = strTemp.lastIndexOf(QRegularExpression("[\\S]"));
         strTemp.truncate(pos + 1);
         strSelect += strTemp;
 

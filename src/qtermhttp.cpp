@@ -9,11 +9,12 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QDataStream>
 #include <QtCore/QUrl>
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QProcess>
-#include <QtCore/QTextCodec>
 #include <QtCore/QDebug>
 #include <QMessageBox>
+
+#include <QTextCodec>
 
 namespace QTerm
 {
@@ -61,7 +62,7 @@ void Http::getLink(const QString& url, bool preview)
         QString strTmp = conf.getItemValue("hosts", u.host()).toString();
         if (!strTmp.isEmpty()) {
             QString strUrl = url;
-            strUrl.replace(QRegExp(u.host(), Qt::CaseInsensitive), strTmp);
+            strUrl.replace(QRegularExpression(u.host(), QRegularExpression::CaseInsensitiveOption), strTmp);
             u = strUrl;
         }
     }
@@ -89,11 +90,12 @@ void Http::httpHeader()
     QString ValueString = m_codec->toUnicode(m_httpReply->rawHeader("Content-Disposition"));
     if (ValueString.right(1) != ";")
         ValueString += ";";
-    QRegExp re("filename=(.*);", Qt::CaseInsensitive);
-    re.setMinimal(true); //Dont FIXME:this will also split filenames with ';' inside, does anyone really do this?
-    int pos = re.indexIn(ValueString);
+    QRegularExpression re("filename=(.*);", QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch match;
+    //re.setMinimal(true); //Dont FIXME:this will also split filenames with ';' inside, does anyone really do this?
+    int pos = ValueString.indexOf(re, 0, &match);
     if (pos != -1)
-        m_strHttpFile = re.cap(1);
+        m_strHttpFile = match.captured(1);
 
     if (m_bPreview) {
         QString strPool = Global::instance()->m_pref.strPoolPath;
@@ -212,8 +214,7 @@ void Http::previewImage(const QString& filename)
         m_pCanvas->loadImage(filename);
         m_pCanvas->show();
     } else {
-        QString strCmd = strViewer + " \"" + filename + "\"";
-        QProcess::startDetached(strCmd);
+        QProcess::startDetached(strViewer, QStringList(filename));
     }
 }
 

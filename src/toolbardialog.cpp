@@ -1,9 +1,10 @@
 #include "toolbardialog.h"
 #include "qtermglobal.h"
 
-#include <QtCore/QRegExp>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QSettings>
 
+#include <QActionGroup>
 #include <QToolBar>
 #include <QMainWindow>
 #include <QToolButton>
@@ -17,7 +18,7 @@ ToolbarDialog::ToolbarDialog(QWidget* parent)
 
     createDefaultToolBars();
     // populate all available actions
-    QList<QAction*> actions = parent->findChildren<QAction*>(QRegExp("action*"));
+    QList<QAction*> actions = parent->findChildren<QAction*>(QRegularExpression("action*"));
     QAction* action;
     foreach(action, actions) {
         if (action->actionGroup()->objectName() != "extraGroup")
@@ -49,7 +50,7 @@ ToolbarDialog::ToolbarDialog(QWidget* parent)
     connect(buttonAdd, SIGNAL(clicked()), this, SLOT(buttonAddClicked()));
     connect(buttonRemove, SIGNAL(clicked()), this, SLOT(buttonRemoveClicked()));
     connect(comboToolbars, SIGNAL(currentIndexChanged(int)), this, SLOT(comboToolbarsCurrentIndexChanged(int)));
-    connect(comboIconSize, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(comboIconSizeCurrentIndexChanged(const QString &)));
+    connect(comboIconSize, SIGNAL(currentIndexChanged(int)), this, SLOT(comboIconSizeCurrentIndexChanged(int)));
     connect(comboButtonStyle, SIGNAL(currentIndexChanged(int)),this, SLOT(comboButtonStyleCurrentIndexChanged(int)));
     connect(buttonDefault, SIGNAL(clicked()), this, SLOT(restoreDefaultToolbars()));
     restoreGeometry(Global::instance()->loadGeometry("Toolbar"));
@@ -177,9 +178,10 @@ void ToolbarDialog::comboButtonStyleCurrentIndexChanged(int index)
     parent->setToolButtonStyle(Qt::ToolButtonStyle(index));
 }
 
-void ToolbarDialog::comboIconSizeCurrentIndexChanged(const QString& item)
+void ToolbarDialog::comboIconSizeCurrentIndexChanged(int index)
 {
     //QMainWindow *parent = qobject_cast<QMainWindow*>(parentWidget());
+    QString item = comboIconSize->itemText(index);
     QSize iconSize;
     if (item == "16x16")
         iconSize = QSize(16,16);

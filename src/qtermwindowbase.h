@@ -11,7 +11,7 @@ class WindowBase : public QMdiSubWindow
     Q_OBJECT
 
 public:
-	WindowBase(QWidget *parent=0, Qt::WindowFlags flags = 0):QMdiSubWindow(parent, flags) {
+	WindowBase(QWidget *parent=0, Qt::WindowFlags flags = Qt::Widget):QMdiSubWindow(parent, flags) {
        		setAttribute(Qt::WA_DeleteOnClose); 
     }
 	virtual ~WindowBase() {}

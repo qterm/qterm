@@ -45,7 +45,7 @@
 #ifndef UAOCODEC_H
 #define UAOCODEC_H
 
-#include <QtCore/qtextcodec.h>
+#include <QTextCodec>
 #include <QtCore/qlist.h>
 
 QT_BEGIN_NAMESPACE

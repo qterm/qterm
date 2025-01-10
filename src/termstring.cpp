@@ -215,13 +215,13 @@ int TermString::bisearch(QChar ucs, const struct interval *table, int max)
     int min = 0;
     int mid;
 
-    if (ucs < table[0].first || ucs > table[max].last)
+    if (ucs.unicode() < table[0].first || ucs.unicode() > table[max].last)
         return 0;
     while (max >= min) {
         mid = (min + max) / 2;
-        if (ucs > table[mid].last)
+        if (ucs.unicode() > table[mid].last)
             min = mid + 1;
-        else if (ucs < table[mid].first)
+        else if (ucs.unicode() < table[mid].first)
             max = mid - 1;
         else
             return 1;
@@ -262,8 +262,10 @@ int TermString::bisearch(QChar ucs, const struct interval *table, int max)
  * in ISO 10646.
  */
 
-int TermString::wcwidth(QChar ch)
+int TermString::wcwidth(QChar qch)
 {
+    ushort ch = qch.unicode();
+
     if (ch >= 0x7f) {
         return 2;
     }

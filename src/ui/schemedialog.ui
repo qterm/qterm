@@ -363,10 +363,8 @@
    </item>
   </layout>
   <zorder>nameListWidget</zorder>
-  <zorder></zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>nameListWidget</tabstop>
   <tabstop>titleLineEdit</tabstop>

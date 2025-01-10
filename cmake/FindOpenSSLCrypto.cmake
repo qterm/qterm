@@ -40,16 +40,29 @@ if (WIN32)
     "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\OpenSSL (64-bit)_is1;Inno Setup: App Path]"
     ENV OPENSSL_ROOT_DIR
     )
-  file(TO_CMAKE_PATH "$ENV{PROGRAMFILES}" _programfiles)
+  if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "8")
+    set(_arch "Win64")
+    file(TO_CMAKE_PATH "$ENV{PROGRAMFILES}" _programfiles)
+  else()
+    set(_arch "Win32")
+    set(_progfiles_x86 "ProgramFiles(x86)")
+    if(NOT "$ENV{${_progfiles_x86}}" STREQUAL "")
+      # under windows 64 bit machine
+      file(TO_CMAKE_PATH "$ENV{${_progfiles_x86}}" _programfiles)
+    else()
+      # under windows 32 bit machine
+      file(TO_CMAKE_PATH "$ENV{ProgramFiles}" _programfiles)
+    endif()
+  endif()
+
   set(_OPENSSL_ROOT_PATHS
     "${_programfiles}/OpenSSL"
-    "${_programfiles}/OpenSSL-Win32"
-    "${_programfiles}/OpenSSL-Win64"
+    "${_programfiles}/OpenSSL-${_arch}"
     "C:/OpenSSL/"
-    "C:/OpenSSL-Win32/"
-    "C:/OpenSSL-Win64/"
+    "C:/OpenSSL-${_arch}/"
     )
   unset(_programfiles)
+  unset(_arch)
 else ()
   set(_OPENSSL_ROOT_HINTS
     /opt/local/ # MacPorts
@@ -70,6 +83,7 @@ find_path(OPENSSLCRYPTO_INCLUDE_DIR
   ${_OPENSSL_ROOT_HINTS_AND_PATHS}
   HINTS
     ${_OPENSSL_INCLUDEDIR}
+    ${_OPENSSL_INCLUDE_DIRS}
   PATH_SUFFIXES
     include
 )
@@ -102,47 +116,96 @@ IF(WIN32 AND MSVC)
    # Since OpenSSL 1.1, lib names are like libcrypto32MTd.lib and libssl32MTd.lib
    if( "${CMAKE_SIZEOF_VOID_P}" STREQUAL "8" )
        set(_OPENSSL_MSVC_ARCH_SUFFIX "64")
+       set(_OPENSSL_MSVC_FOLDER_SUFFIX "64")
    else()
        set(_OPENSSL_MSVC_ARCH_SUFFIX "32")
+       set(_OPENSSL_MSVC_FOLDER_SUFFIX "86")
    endif()
 
-   if(OPENSSL_USE_STATIC_LIBS)
-     set(_OPENSSL_PATH_SUFFIXES
-       "lib/VC/static"
-       "VC/static"
-       "lib"
-       )
-   else()
-     set(_OPENSSL_PATH_SUFFIXES
-       "lib/VC"
-       "VC"
-       "lib"
-       )
-   endif ()
+    if(OPENSSL_USE_STATIC_LIBS)
+      set(_OPENSSL_STATIC_SUFFIX
+        "_static"
+      )
+      set(_OPENSSL_PATH_SUFFIXES_DEBUG
+        "lib/VC/x${_OPENSSL_MSVC_FOLDER_SUFFIX}/${_OPENSSL_MSVC_RT_MODE}d"
+        "lib/VC/static"
+        "VC/static"
+        "lib"
+        )
+      set(_OPENSSL_PATH_SUFFIXES_RELEASE
+        "lib/VC/x${_OPENSSL_MSVC_FOLDER_SUFFIX}/${_OPENSSL_MSVC_RT_MODE}"
+        "lib/VC/static"
+        "VC/static"
+        "lib"
+        )
+    else()
+      set(_OPENSSL_STATIC_SUFFIX
+        ""
+      )
+      set(_OPENSSL_PATH_SUFFIXES_DEBUG
+        "lib/VC/x${_OPENSSL_MSVC_FOLDER_SUFFIX}/${_OPENSSL_MSVC_RT_MODE}d"
+        "lib/VC"
+        "VC"
+        "lib"
+        )
+      set(_OPENSSL_PATH_SUFFIXES_RELEASE
+        "lib/VC/x${_OPENSSL_MSVC_FOLDER_SUFFIX}/${_OPENSSL_MSVC_RT_MODE}"
+        "lib/VC"
+        "VC"
+        "lib"
+        )
+    endif ()
 
-   find_library(LIB_EAY_DEBUG
-     NAMES
-       libcrypto${_OPENSSL_MSVC_ARCH_SUFFIX}${_OPENSSL_MSVC_RT_MODE}d
-       libcryptod
-       libeay32${_OPENSSL_MSVC_RT_MODE}d
-       libeay32d
-     NAMES_PER_DIR
-     ${_OPENSSL_ROOT_HINTS_AND_PATHS}
-     PATH_SUFFIXES
-       ${_OPENSSL_PATH_SUFFIXES}
-   )
+    find_library(LIB_EAY_DEBUG
+      NAMES
+        # When OpenSSL is built with default options, the static library name is suffixed with "_static".
+        # Looking the "libcrypto_static.lib" with a higher priority than "libcrypto.lib" which is the
+        # import library of "libcrypto.dll".
+        libcrypto${_OPENSSL_STATIC_SUFFIX}${_OPENSSL_MSVC_ARCH_SUFFIX}${_OPENSSL_MSVC_RT_MODE}d
+        libcrypto${_OPENSSL_STATIC_SUFFIX}${_OPENSSL_MSVC_RT_MODE}d
+        libcrypto${_OPENSSL_STATIC_SUFFIX}d
+        libcrypto${_OPENSSL_STATIC_SUFFIX}
+        libeay32${_OPENSSL_STATIC_SUFFIX}${_OPENSSL_MSVC_RT_MODE}d
+        libeay32${_OPENSSL_STATIC_SUFFIX}d
+        crypto${_OPENSSL_STATIC_SUFFIX}d
+        # When OpenSSL is built with the "-static" option, only the static build is produced,
+        # and it is not suffixed with "_static".
+        libcrypto${_OPENSSL_MSVC_ARCH_SUFFIX}${_OPENSSL_MSVC_RT_MODE}d
+        libcrypto${_OPENSSL_MSVC_RT_MODE}d
+        libcryptod
+        libeay32${_OPENSSL_MSVC_RT_MODE}d
+        libeay32d
+        cryptod
+      NAMES_PER_DIR
+      ${_OPENSSL_ROOT_HINTS_AND_PATHS}
+      PATH_SUFFIXES
+        ${_OPENSSL_PATH_SUFFIXES_DEBUG}
+    )
 
-   find_library(LIB_EAY_RELEASE
-     NAMES
-       libcrypto${_OPENSSL_MSVC_ARCH_SUFFIX}${_OPENSSL_MSVC_RT_MODE}
-       libcrypto
-       libeay32${_OPENSSL_MSVC_RT_MODE}
-       libeay32
-     NAMES_PER_DIR
-     ${_OPENSSL_ROOT_HINTS_AND_PATHS}
-     PATH_SUFFIXES
-       ${_OPENSSL_PATH_SUFFIXES}
-   )
+    find_library(LIB_EAY_RELEASE
+      NAMES
+        # When OpenSSL is built with default options, the static library name is suffixed with "_static".
+        # Looking the "libcrypto_static.lib" with a higher priority than "libcrypto.lib" which is the
+        # import library of "libcrypto.dll".
+        libcrypto${_OPENSSL_STATIC_SUFFIX}${_OPENSSL_MSVC_ARCH_SUFFIX}${_OPENSSL_MSVC_RT_MODE}
+        libcrypto${_OPENSSL_STATIC_SUFFIX}${_OPENSSL_MSVC_RT_MODE}
+        libcrypto${_OPENSSL_STATIC_SUFFIX}
+        libeay32${_OPENSSL_STATIC_SUFFIX}${_OPENSSL_MSVC_RT_MODE}
+        libeay32${_OPENSSL_STATIC_SUFFIX}
+        crypto${_OPENSSL_STATIC_SUFFIX}
+        # When OpenSSL is built with the "-static" option, only the static build is produced,
+        # and it is not suffixed with "_static".
+        libcrypto${_OPENSSL_MSVC_ARCH_SUFFIX}${_OPENSSL_MSVC_RT_MODE}
+        libcrypto${_OPENSSL_MSVC_RT_MODE}
+        libcrypto
+        libeay32${_OPENSSL_MSVC_RT_MODE}
+        libeay32
+        crypto
+      NAMES_PER_DIR
+      ${_OPENSSL_ROOT_HINTS_AND_PATHS}
+      PATH_SUFFIXES
+        ${_OPENSSL_PATH_SUFFIXES_RELEASE}
+    )
 
    IF(MSVC_IDE)
       IF(LIB_EAY_DEBUG AND LIB_EAY_RELEASE)

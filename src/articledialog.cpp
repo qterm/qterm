@@ -49,11 +49,11 @@ void articleDialog::onSave()
             f.write(strArticle.toLocal8Bit());
             f.close();
         } else {
-            QMessageBox mb("Access file error:",
+            QMessageBox mb(QMessageBox::Warning,
+                           "Access file error:",
                            filename,
-                           QMessageBox::Warning,
-                           0, 0,
-                           0, this, 0);
+                           QMessageBox::NoButton,
+                           this);
             mb.exec();
         }
     }

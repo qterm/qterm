@@ -73,22 +73,22 @@ PopupMessage::PopupMessage( QWidget *parent, QWidget *anchor, int timeout)
     //KActiveLabel *alabel;
 
 	m_layout = new QVBoxLayout( this );//, 9 /*margin*/, 6 /*spacing*/ );
-	m_layout->setMargin(9);
+	m_layout->setContentsMargins(9, 9, 9, 9);
 	m_layout->setSpacing(6);
 
 	hbox = new QHBoxLayout; //( m_layout, 12 );
-	hbox->setMargin(12);
+	hbox->setContentsMargins(12, 12, 12, 12);
 	
 	m_layout->addLayout(hbox);
 
     hbox->addWidget( m_countdownFrame = new QFrame( this ));//, "counterVisual" ) );
     m_countdownFrame->setObjectName( "counterVisual" );
-    m_countdownFrame->setFixedWidth( fontMetrics().width( "X" ) );
+    m_countdownFrame->setFixedWidth( fontMetrics().averageCharWidth() );
     m_countdownFrame->setFrameStyle( QFrame::Plain | QFrame::Box );
     QPalette tmp_palette;
-    tmp_palette.setColor(m_countdownFrame->foregroundRole(), palette().color(QPalette::Window).dark());
+    tmp_palette.setColor(m_countdownFrame->foregroundRole(), palette().color(QPalette::Window).darker());
     m_countdownFrame->setPalette(tmp_palette);
-//     m_countdownFrame->setPaletteForegroundColor( paletteBackgroundColor().dark() );
+//     m_countdownFrame->setPaletteForegroundColor( paletteBackgroundColor().darker() );
 
     label = new QLabel( this );//, "image" );
     label->setObjectName("image");

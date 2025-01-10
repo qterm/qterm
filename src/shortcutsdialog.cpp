@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QShortcut>
 #include <QAction>
+#include <QActionGroup>
 
 namespace QTerm {
 
@@ -88,8 +89,8 @@ void ShortcutsDialog::buttonAssignClicked()
                                                  "Do you want to clear and reassign?"))
                                       .arg(editShortcut->text())
                                       .arg(getName(obj)),
-                                      QMessageBox::Yes,
-                                      QMessageBox::No | QMessageBox::Default);
+                                      QMessageBox::Yes|QMessageBox::No,
+                                      QMessageBox::No);
         if (aw == QMessageBox::No)
             return;
         // clear it
@@ -156,7 +157,7 @@ bool ShortcutsDialog::eventFilter(QObject *object, QEvent *event)
             || key == Qt::Key_Shift || key == Qt::Key_Control)
         return false;
 
-    QKeySequence seqKey(mod+key);
+    QKeySequence seqKey(mod, key);
     QString text = seqKey.toString(QKeySequence::NativeText);
 
     editShortcut->setText(text);

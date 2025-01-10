@@ -7,6 +7,7 @@
 #include <QColorDialog>
 #include <QComboBox>
 #include <QMessageBox>
+#include <QRegularExpression>
 namespace QTerm
 {
 
@@ -123,7 +124,7 @@ void schemeDialog::loadScheme(const QString& strSchemeFile)
 
     for (int i = 0; i < 16; i++) {
         QString colorName = QString("color%1").arg(i);
-        schemeColor[i].setNamedColor(pConf->getItemValue("color", colorName).toString());
+        schemeColor[i] = QColor(pConf->getItemValue("color", colorName).toString());
     }
 
     delete pConf;
@@ -205,12 +206,13 @@ void schemeDialog::updateView()
 void schemeDialog::buttonClicked()
 {
     QPushButton * button = (QPushButton*)sender();
-    QRegExp rx("\\d+");
-    if (rx.indexIn(button->objectName()) == -1) {
+    QRegularExpression rx("\\d+");
+    QRegularExpressionMatch match;
+    if (button->objectName().indexOf(rx, 0, &match) == -1) {
         qDebug("object name error");
         return;
     }
-    int index = rx.cap().toInt();
+    int index = match.captured().toInt();
     QColor color = QColorDialog::getColor(schemeColor[index]);
     if (color.isValid() == true) {
         setBackgroundColor(button,color);
@@ -222,12 +224,12 @@ void schemeDialog::buttonClicked()
 void schemeDialog::nameChanged(int item)
 {
     if (bModified) {
-        QMessageBox mb("QTerm",
+        QMessageBox mb(QMessageBox::Warning, "QTerm",
                        "Setting changed, do you want to save?",
-                       QMessageBox::Warning,
-                       QMessageBox::Yes | QMessageBox::Default,
-                       QMessageBox::No  | QMessageBox::Escape ,
-                       0, this);
+                       QMessageBox::Yes | QMessageBox::No,
+                       this);
+        mb.setDefaultButton(QMessageBox::Yes);
+        mb.setEscapeButton(QMessageBox::No);
         if (mb.exec() == QMessageBox::Yes) {
             if (nLastItem != -1) {
                 saveNumScheme(nLastItem);
@@ -274,12 +276,12 @@ void schemeDialog::removeScheme()
 void schemeDialog::onOK()
 {
     if (bModified) {
-        QMessageBox mb("QTerm",
+        QMessageBox mb(QMessageBox::Warning, "QTerm",
                        "Setting changed, do you want to save?",
-                       QMessageBox::Warning,
-                       QMessageBox::Yes | QMessageBox::Default,
-                       QMessageBox::No  | QMessageBox::Escape ,
-                       0, this);
+                       QMessageBox::Yes | QMessageBox::No,
+                       this);
+        mb.setDefaultButton(QMessageBox::Yes);
+        mb.setEscapeButton(QMessageBox::No);
         if (mb.exec() == QMessageBox::Yes) {
             int n = ui.nameListWidget->currentRow();
             saveNumScheme(n);
@@ -292,12 +294,12 @@ void schemeDialog::onOK()
 void schemeDialog::onCancel()
 {
     if (bModified) {
-        QMessageBox mb("QTerm",
+        QMessageBox mb(QMessageBox::Warning, "QTerm",
                        "Setting changed, do you want to save?",
-                       QMessageBox::Warning,
-                       QMessageBox::Yes | QMessageBox::Default,
-                       QMessageBox::No  | QMessageBox::Escape ,
-                       0, this);
+                       QMessageBox::Yes | QMessageBox::No,
+                       this);
+        mb.setDefaultButton(QMessageBox::Yes);
+        mb.setEscapeButton(QMessageBox::No);
         if (mb.exec() == QMessageBox::Yes) {
             int n = ui.nameListWidget->currentRow();
             saveNumScheme(n);

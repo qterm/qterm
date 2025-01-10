@@ -11,7 +11,7 @@ class QTermTimeLabel: public QLabel
 {
 Q_OBJECT
 public:
-	QTermTimeLabel(QWidget * parent, const char * name=0, Qt::WindowFlags f=0);
+	QTermTimeLabel(QWidget * parent, const char * name=0, Qt::WindowFlags f=Qt::Widget);
 	~QTermTimeLabel();
 protected:
 	QTime * currentTime;

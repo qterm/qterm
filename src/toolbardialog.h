@@ -19,7 +19,7 @@ public slots:
     void buttonRemoveClicked();
 
     void comboToolbarsCurrentIndexChanged(int);
-    void comboIconSizeCurrentIndexChanged(const QString&);
+    void comboIconSizeCurrentIndexChanged(int);
     void comboButtonStyleCurrentIndexChanged(int);
     void restoreDefaultToolbars();
 private:

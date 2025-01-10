@@ -68,7 +68,19 @@ void quickDialog::loadHistory()
     QString strSection;
     for (int i = 0; i < strTmp.toInt(); i++) {
         strSection = QString("quick %1").arg(i);
-        ui.historyComboBox->addItem(pConf->getItemValue(strSection, "addr").toString());
+
+        QString addr = pConf->getItemValue(strSection, "addr").toString();
+        int port = pConf->getItemValue(strSection, "port").toInt();
+        int protocol = pConf->getItemValue(strSection, "protocol").toInt();
+
+        // Append port if it is non standard for its protocol
+        QString text = addr;
+        if ((protocol == 0 && port != 23) || (protocol == 1 && port != 22))
+            text += QString(":%1").arg(port);
+
+        ui.historyComboBox->addItem(text);
+        ui.portSpinBox->setValue(port);
+        ui.protocolComboBox->setCurrentIndex(protocol);
     }
 
     if (strTmp != "0") {
@@ -181,11 +193,9 @@ void quickDialog::advOption()
 void quickDialog::connectIt()
 {
     if (ui.addrLineEdit->text().isEmpty()) {
-        QMessageBox mb("QTerm",
+        QMessageBox mb(QMessageBox::Warning, "QTerm",
                        tr("Address can not be blank."),
-                       QMessageBox::Warning,
-                       QMessageBox::Ok | QMessageBox::Default, 0,
-                       0);
+                       QMessageBox::Ok, this);
         mb.exec();
         return;
     }
@@ -202,16 +212,17 @@ void quickDialog::connectIt()
 
         strTmp = pConf->getItemValue(strSection, "addr").toString();
         if (strTmp == ui.addrLineEdit->text()) {
-            bExist = true; index = i; break;
+            continue;
         }
         strTmp = pConf->getItemValue(strSection, "port").toString();
         if (ui.portSpinBox->value() != strTmp.toInt()) {
-            bExist = true; index = i; break;
+            continue;
         }
         strTmp = pConf->getItemValue(strSection, "protocol").toString();
         if (ui.protocolComboBox->currentIndex() != strTmp.toInt()) {
-            bExist = true; index = i; break;
+            continue;
         }
+        bExist = true; index = i; break;
     }
     // append it
     if (!bExist) {

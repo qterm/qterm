@@ -1,3 +1,16 @@
+0.8.2
+=====
+1. Use EVP API to support PKCS8 key files, requiring OpenSSL 1.1+ (#38)
+
+0.8.1
+=====
+1. Add more hash options in KEX and MAC (#28)
+2. Fix the usage of recipient id in channel requests (#21)
+
+0.8.0
+=====
+1. 移除 Qt4 支持， 增加 Qt6 支持
+
 0.7.4
 =====
 1. 修正 macOS 下 HiDPI 的支持

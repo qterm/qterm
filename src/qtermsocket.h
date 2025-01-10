@@ -9,7 +9,7 @@
 #if defined(Q_OS_WIN32) || defined(_OS_WIN32_)
 	#include <winsock2.h>
 #elif defined(Q_OS_BSD4) || defined(_OS_FREEBSD_) \
-	|| defined(Q_OS_MACX) || defined(Q_OS_DARWIN)
+    || defined(Q_OS_MACOS) || defined(Q_OS_DARWIN)
 	#include <netdb.h>
 	#include <sys/types.h>
 	#include <sys/socket.h>

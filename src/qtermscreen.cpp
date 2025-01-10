@@ -13,12 +13,10 @@ AUTHOR:        kingson fiasco
 #include "qtermwindow.h"
 #include "qtermscreen.h"
 #include "qtermtextline.h"
-#include "qtermconvert.h"
 #include "qtermbuffer.h"
 #include "qtermbbs.h"
 #include "qtermframe.h"
 #include "qtermparam.h"
-#include "qtermtelnet.h"
 #include "qtermconfig.h"
 #include "qtermglobal.h"
 #include "schemedialog.h"
@@ -102,10 +100,10 @@ Screen::Screen(QWidget *parent, Buffer *buffer, Param *param, BBS *bbs)
     connect(m_scrollBar, SIGNAL(valueChanged(int)),
             this, SLOT(scrollChanged(int)));
 
-    m_scPrevPage = new QShortcut(Qt::Key_PageUp + Qt::SHIFT, this, SLOT(prevPage()));
-    m_scNextPage = new QShortcut(Qt::Key_PageDown + Qt::SHIFT, this, SLOT(nextPage()));
-    m_scPrevLine = new QShortcut(Qt::Key_Up + Qt::SHIFT, this, SLOT(prevLine()));
-    m_scNextLine = new QShortcut(Qt::Key_Down + Qt::SHIFT, this, SLOT(nextLine()));
+    m_scPrevPage = new QShortcut(QKeySequence(tr("Shift+PageUp")), this, SLOT(prevPage()));
+    m_scNextPage = new QShortcut(QKeySequence(tr("Shift+PageDown")), this, SLOT(nextPage()));
+    m_scPrevLine = new QShortcut(QKeySequence(tr("Shift+Up")), this, SLOT(prevLine()));
+    m_scNextLine = new QShortcut(QKeySequence(tr("Shift+Down")), this, SLOT(nextLine()));
 
     setAttribute(Qt::WA_OpaquePaintEvent, true);
 
@@ -338,8 +336,13 @@ void Screen::getFontMetrics()
 {
     QFontMetrics ascii_fm(*m_pASCIIFont);
     QFontMetrics general_fm(*m_pGeneralFont);
+#if QT_VERSION < QT_VERSION_CHECK(5,11,0)
     float cn = general_fm.width(QChar(0x4e00));
     float en = ascii_fm.width('W');
+#else
+    float cn = general_fm.horizontalAdvance(QChar(0x4e00));
+    float en = ascii_fm.horizontalAdvance('W');
+#endif
     if (en / cn < 0.7) // almost half
         m_nCharWidth = qMax((cn + 1) / 2, en);
     else
@@ -436,22 +439,22 @@ void Screen::setScheme()
 //  printf("scheme %s loaded sucessfully\n", strSchemeFile);
         Config *pConf = new Config(strSchemeFile);
 
-        m_color[0].setNamedColor(pConf->getItemValue("color", "color0").toString());
-        m_color[1].setNamedColor(pConf->getItemValue("color", "color1").toString());
-        m_color[2].setNamedColor(pConf->getItemValue("color", "color2").toString());
-        m_color[3].setNamedColor(pConf->getItemValue("color", "color3").toString());
-        m_color[4].setNamedColor(pConf->getItemValue("color", "color4").toString());
-        m_color[5].setNamedColor(pConf->getItemValue("color", "color5").toString());
-        m_color[6].setNamedColor(pConf->getItemValue("color", "color6").toString());
-        m_color[7].setNamedColor(pConf->getItemValue("color", "color7").toString());
-        m_color[8].setNamedColor(pConf->getItemValue("color", "color8").toString());
-        m_color[9].setNamedColor(pConf->getItemValue("color", "color9").toString());
-        m_color[10].setNamedColor(pConf->getItemValue("color", "color10").toString());
-        m_color[11].setNamedColor(pConf->getItemValue("color", "color11").toString());
-        m_color[12].setNamedColor(pConf->getItemValue("color", "color12").toString());
-        m_color[13].setNamedColor(pConf->getItemValue("color", "color13").toString());
-        m_color[14].setNamedColor(pConf->getItemValue("color", "color14").toString());
-        m_color[15].setNamedColor(pConf->getItemValue("color", "color15").toString());
+        m_color[0] = QColor(pConf->getItemValue("color", "color0").toString());
+        m_color[1] = QColor(pConf->getItemValue("color", "color1").toString());
+        m_color[2] = QColor(pConf->getItemValue("color", "color2").toString());
+        m_color[3] = QColor(pConf->getItemValue("color", "color3").toString());
+        m_color[4] = QColor(pConf->getItemValue("color", "color4").toString());
+        m_color[5] = QColor(pConf->getItemValue("color", "color5").toString());
+        m_color[6] = QColor(pConf->getItemValue("color", "color6").toString());
+        m_color[7] = QColor(pConf->getItemValue("color", "color7").toString());
+        m_color[8] = QColor(pConf->getItemValue("color", "color8").toString());
+        m_color[9] = QColor(pConf->getItemValue("color", "color9").toString());
+        m_color[10] = QColor(pConf->getItemValue("color", "color10").toString());
+        m_color[11] = QColor(pConf->getItemValue("color", "color11").toString());
+        m_color[12] = QColor(pConf->getItemValue("color", "color12").toString());
+        m_color[13] = QColor(pConf->getItemValue("color", "color13").toString());
+        m_color[14] = QColor(pConf->getItemValue("color", "color14").toString());
+        m_color[15] = QColor(pConf->getItemValue("color", "color15").toString());
 
         delete pConf;
     }
@@ -664,7 +667,7 @@ void Screen::setBgPxm(const QPixmap& pixmap, int nType)
         if (!pixmap.isNull()) {
             float sx = (float)size().width() / pixmap.width();
             float sy = (float)size().height() / pixmap.height();
-            QMatrix matrix;
+            QTransform matrix;
             matrix.scale(sx, sy);
             palette.setBrush(backgroundRole(), QBrush(pixmap.transformed(matrix)));
             setPalette(palette);
@@ -1278,7 +1281,7 @@ QVariant Screen::inputMethodQuery(Qt::InputMethodQuery property) const
 {
 //  qDebug()<<"inputMethodQuery";
     switch (property) {
-    case Qt::ImMicroFocus:
+    case Qt::ImCursorRectangle:
         return QVariant(QRect((m_pBuffer->caret().x() + 1)*m_nCharWidth, (m_pBuffer->caret().y() + 1)*m_nCharHeight,
                               m_nCharWidth, m_nCharHeight));
     case Qt::ImFont:

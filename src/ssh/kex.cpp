@@ -36,10 +36,10 @@ namespace QTerm
 SSH2Kex::SSH2Kex(SSH2InBuffer * in, SSH2OutBuffer * out, const QByteArray & server, const QByteArray & client, QObject * parent)
         : QObject(parent), m_kexList(), m_hostKeyList(), m_encList(), m_macList(), m_compList(), V_S(server), V_C(client), I_S(), I_C(), m_status(Init), m_sessionID()
 {
-    m_kexList << "diffie-hellman-group14-sha1" << "diffie-hellman-group1-sha1";
-    m_hostKeyList << "ssh-rsa" << "ssh-dss";
+    m_kexList << "diffie-hellman-group14-sha256" << "diffie-hellman-group14-sha1" << "diffie-hellman-group1-sha1";
+    m_hostKeyList << "rsa-sha2-512" << "rsa-sha2-256" << "ssh-rsa" << "ssh-dss";
     m_encList << "aes128-cbc" << "aes128-ctr" << "3des-cbc";
-    m_macList << "hmac-sha1" << "hmac-md5";
+    m_macList << "hmac-sha2-512" << "hmac-sha2-256" << "hmac-sha1" << "hmac-md5";
     m_compList << "none";
 
     m_in = in;
@@ -85,9 +85,7 @@ QString SSH2Kex::chooseAlgorithm(const QStringList & target, const QStringList &
             return algorithm;
         }
     }
-#ifdef SSH_DEBUG
-    qDebug() << "no algorithm available!";
-#endif
+    qWarning() << "no algorithm available!" << target << available;
     emit error("No proper algorithm available!");
     return QString();
 }
@@ -130,8 +128,13 @@ void SSH2Kex::sendKexDH(const QString & dhtype)
 {
     if (dhtype == "diffie-hellman-group14-sha1") {
         DHGroup14();
+        m_hashAlgorithm = QCryptographicHash::Sha1;
     } else if (dhtype == "diffie-hellman-group1-sha1") {
         DHGroup1();
+        m_hashAlgorithm = QCryptographicHash::Sha1;
+    } else if (dhtype == "diffie-hellman-group14-sha256") {
+        DHGroup14();
+        m_hashAlgorithm = QCryptographicHash::Sha256;
     }
     m_out->startPacket(SSH2_MSG_KEXDH_INIT);
     m_out->putBN(e);
@@ -169,7 +172,7 @@ void SSH2Kex::DHGroup1()
 void SSH2Kex::DHGroup14()
 {
 #ifdef SSH_DEBUG
-    qDebug() << "diffie-hellman-group14-sha1";
+    qDebug() << "diffie-hellman-group14";
 #endif
     unsigned char p_value[256] = {
                                      0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
@@ -215,31 +218,45 @@ void SSH2Kex::readKexInit()
     m_in->getUInt8();
     m_in->getData(16);
     QStringList nameList;
-
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+    QString::SplitBehavior behavior = QString::SkipEmptyParts;
+#else
+    Qt::SplitBehavior behavior = Qt::SkipEmptyParts;
+#endif
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString kexType = chooseAlgorithm(nameList, m_kexList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString hostKeyType = chooseAlgorithm(nameList, m_hostKeyList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString encTypeCS = chooseAlgorithm(nameList, m_encList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString encTypeSC = chooseAlgorithm(nameList, m_encList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString macTypeCS = chooseAlgorithm(nameList, m_macList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString macTypeSC = chooseAlgorithm(nameList, m_macList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString compTypeCS = chooseAlgorithm(nameList, m_compList);
-    nameList = QString::fromUtf8(m_in->getString()).split(",", QString::SkipEmptyParts);
+    nameList = QString::fromUtf8(m_in->getString()).split(",", behavior);
     QString compTypeSC = chooseAlgorithm(nameList, m_compList);
     //TODO: language?
+
+    #if SSH_DEBUG
+    qDebug() << "Kex: " << kexType << "Host: " << hostKeyType;
+    #endif
 
     if (encTypeCS.isEmpty() || macTypeCS.isEmpty() || compTypeCS.isEmpty()) {
         return;
     }
+    #if SSH_DEBUG
+    qDebug() << "CS: " << encTypeCS << macTypeCS << compTypeCS;
+    #endif
     if (encTypeSC.isEmpty() || macTypeSC.isEmpty() || compTypeSC.isEmpty()) {
         return;
     }
+    #if SSH_DEBUG
+    qDebug() << "SC: " << encTypeSC << macTypeSC << compTypeSC;
+    #endif
     m_inTrans = new SSH2Transport(encTypeSC, macTypeSC, compTypeSC);
     m_outTrans = new SSH2Transport(encTypeCS, macTypeCS, compTypeCS);
 
@@ -298,7 +315,7 @@ void SSH2Kex::readKexReply()
     tmp.putBN(f);
     tmp.putBN(K);
 
-    QByteArray key = QCryptographicHash::hash(tmp.buffer(), QCryptographicHash::Sha1);
+    QByteArray key = QCryptographicHash::hash(tmp.buffer(), (QCryptographicHash::Algorithm)m_hashAlgorithm);
 
     if (!verifySignature(key, K_S, sign)) {
         qDebug("Signature check error");
@@ -360,7 +377,7 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
     BIGNUM * g = BN_new();
     BIGNUM * pub_key = BN_new();
 
-    if (type == "ssh-rsa") {
+    if (type == "ssh-rsa" || type.startsWith("rsa-sha2")) {
         tmp.getBN(e);
         tmp.getBN(n);
         tmp.atEnd();
@@ -388,12 +405,22 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
 #ifdef SSH_DEBUG
         //dumpData ( signBlob );
 #endif
-    if (type == "ssh-rsa") {
+    if (type == "ssh-rsa" || type.startsWith("rsa-sha2")) {
         if (signBlob.size() != RSA_size(rsa)) {
             qDebug() << "TODO: key size mismatch";
         }
-        QByteArray digest = QCryptographicHash::hash(hash, QCryptographicHash::Sha1);
-        ret = RSA_verify(NID_sha1, (const unsigned char *) digest.data(), digest.size(), (const unsigned char *)signBlob.data(), signBlob.size(), rsa);
+        QCryptographicHash::Algorithm hashAlgorithm = QCryptographicHash::Sha1;
+        int nid_type = NID_sha1;
+        if (type.endsWith("256")) {
+            hashAlgorithm = QCryptographicHash::Sha256;
+            nid_type = NID_sha256;
+        }
+        else if (type.endsWith("512")) {
+            hashAlgorithm = QCryptographicHash::Sha512;
+            nid_type = NID_sha512;
+        }
+        QByteArray digest = QCryptographicHash::hash(hash, hashAlgorithm);
+        ret = RSA_verify(nid_type, (const unsigned char *) digest.data(), digest.size(), (const unsigned char *)signBlob.data(), signBlob.size(), rsa);
         qDebug() << "Verify RSA: " << ret;
     }
 
@@ -412,7 +439,7 @@ bool SSH2Kex::verifySignature(const QByteArray & hash, const QByteArray & hostKe
 
         DSA_SIG_set0(sig, r, s);
 
-        QByteArray digest = QCryptographicHash::hash(hash, QCryptographicHash::Sha1);
+        QByteArray digest = QCryptographicHash::hash(hash, (QCryptographicHash::Algorithm)m_hashAlgorithm);
 
         ret = DSA_do_verify((const unsigned char *) digest.data(), digest.size(), sig, dsa);
 
@@ -438,10 +465,10 @@ QByteArray SSH2Kex::deriveKey(const QByteArray & hash, const QByteArray & sessio
     SSH2OutBuffer tmp(0);
     tmp.startPacket();
     tmp.putBN(K);
-    QCryptographicHash sha1Hash(QCryptographicHash::Sha1);
+    QCryptographicHash sha1Hash((QCryptographicHash::Algorithm)m_hashAlgorithm);
     sha1Hash.addData(tmp.buffer());
     sha1Hash.addData(hash);
-    sha1Hash.addData(&id, 1);
+    sha1Hash.addData(QByteArray(1,id));
     sha1Hash.addData(sessionID);
     QByteArray digest = sha1Hash.result();
     for (uint have = 20; need > have; have += need) {

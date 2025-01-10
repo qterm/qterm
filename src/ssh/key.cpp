@@ -17,7 +17,7 @@ namespace QTerm
 {
 
 SSH2RSAKey::SSH2RSAKey(RSA * keyData)
-    :SSH2Key()
+    :SSH2Key("ssh-rsa")
 {
     m_key = keyData;
 }
@@ -32,7 +32,7 @@ QByteArray SSH2RSAKey::publicKey()
     const BIGNUM *e, *n;
     SSH2OutBuffer tmp(NULL);
     tmp.startPacket();
-    tmp.putString("ssh-rsa");
+    tmp.putString(m_type);
     RSA_get0_key(m_key, &n, &e, NULL);
     tmp.putBN(e);
     tmp.putBN(n);
@@ -40,7 +40,7 @@ QByteArray SSH2RSAKey::publicKey()
 }
 
 SSH2DSAKey::SSH2DSAKey(DSA * keyData)
-    :SSH2Key()
+    :SSH2Key("ssh-dsa")
 {
     m_key = keyData;
 }
@@ -55,7 +55,7 @@ QByteArray SSH2DSAKey::publicKey()
     const BIGNUM *p, *q, *g, *n;
     SSH2OutBuffer tmp(NULL);
     tmp.startPacket();
-    tmp.putString("ssh-dss");
+    tmp.putString(m_type);
     DSA_get0_pqg(m_key, &p, &q, &g);
     DSA_get0_key(m_key, &n, NULL);
     tmp.putBN(p);
