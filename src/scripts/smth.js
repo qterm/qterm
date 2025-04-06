@@ -50,9 +50,9 @@ QTerm.setPageState = function()
     var listList = ["[好朋友列表]","[讨论区列表]","邮件选单","[个人定制区]"];
     var articleList = ["[十大模式]","[主题阅读]","[阅读文章]","[阅读精华区资料]","下面还有喔","(R)回信, (D)删除, (G)继续? [G]:"];
     // The functions used here is defined in utils.js
-    if (title.startsWith(menuList))
+    if (title.inList(menuList))
         QTerm.pageState = QTerm.SMTH.Menu;
-    else if (title.startsWith(listList))
+    else if (title.inList(listList))
         QTerm.pageState = QTerm.SMTH.List;
     else if (title.indexOf("水木社区 精华区公布栏")!=-1)
         QTerm.pageState = QTerm.SMTH.List;
@@ -60,7 +60,7 @@ QTerm.setPageState = function()
         QTerm.pageState = QTerm.SMTH.Top10;
     else if (third.indexOf("编号")!=-1)
         QTerm.pageState = QTerm.SMTH.List;
-    else if (bottom.startsWith(articleList))
+    else if (bottom.inList(articleList))
         QTerm.pageState = QTerm.SMTH.Article;
     else if (bottom.indexOf("Ctrl-Q")!=-1)
         QTerm.pageState = QTerm.SMTH.Edit;
@@ -247,7 +247,6 @@ QTerm.onZmodemState = function(type, value, state)
 
 if (QTerm.qtbindingsAvailable) {
     QTerm.loadScript("console.js");
-    QTerm.loadScript("senddelay.js");
     QTerm.loadScript("article.js");
     QTerm.onCopyArticle = function()
     {

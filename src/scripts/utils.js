@@ -1,4 +1,4 @@
-String.prototype.startsWith = function(list)
+String.prototype.inList = function(list)
 {
     for (var i = 0; i < list.length; i++) {
         var item = list[i];
@@ -10,10 +10,6 @@ String.prototype.startsWith = function(list)
 
 String.prototype.contains = function(str) {
     return(this.indexOf(str) != -1);
-}
-
-String.prototype.trim = function() {
-        return this.replace(/^\s+|\s+$/g,"");
 }
 
 String.prototype.ltrim = function() {

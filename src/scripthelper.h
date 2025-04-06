@@ -2,7 +2,7 @@
 #define SCRIPT_H
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
-#include <QtScript>
+#include <QQmlEngine>
 
 namespace QTerm
 {
@@ -12,7 +12,7 @@ class ScriptHelper : public QObject
 {
     Q_OBJECT
 public:
-    ScriptHelper(Window *parent, QScriptEngine *engine);
+    ScriptHelper(Window *parent, QQmlEngine *engine);
     ~ScriptHelper();
     Q_PROPERTY(bool accepted READ accepted WRITE setAccepted)
     Q_PROPERTY(bool qtbindingsAvailable READ qtbindingsAvailable)
@@ -41,8 +41,8 @@ public slots:
     void showMessage(const QString & title, const QString & message, int duration = -1);
     void cancelZmodem();
     void setZmodemFileList(const QStringList & fileList);
-    QScriptValue getLine(int line);
-    QScriptValue window();
+    QJSValue getLine(int line);
+    QJSValue window();
     bool addPopupMenu(QString id, QString menuTitle, QString icon = "QTerm");
     bool addUrlMenu(QString id, QString menuTitle, QString icon = "QTerm");
     void addPopupSeparator();
@@ -52,7 +52,6 @@ public slots:
     QString localPath();
     QString getSelectedText(bool rect = false, bool color = false, const QString & escape = "");
     void openUrl(const QString & url);
-    bool loadExtension(const QString & extension);
     QString version();
     QString findFile(const QString & filename);
 signals:
@@ -62,7 +61,7 @@ private:
     bool isScriptLoaded(const QString & filename);
     void addImportedScript(const QString & filename);
     Window * m_window;
-    QScriptEngine * m_scriptEngine;
+    QQmlEngine * m_scriptEngine;
     bool m_accepted;
     bool m_qtbindingsAvailable;
     QStringList m_scriptList;

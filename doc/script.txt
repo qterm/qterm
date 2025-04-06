@@ -1,6 +1,10 @@
 Introduction:
 
-Starting from the version 0.5.6, QTerm supports scripts with QtScript. With
+From version 0.5.6 until 0.8.x, QTerm supports scripts via QtScript.
+QTerm 0.9+ supports scripts with Qml following QtScript deprecation and removal.
+The API has been kept the same.
+
+With
 the greatest and latest script support in QTerm, you can:
 
 1. Do boring and repeating operation automatically.
@@ -251,12 +255,6 @@ highlight.js
 console.js
     This script gives you a console to test different script functions. Steal
     from the great Amarok. You need qt bindings to run it.
-
-websnap.js
-    This script, modified from the code in graphics dojo
-    (http://qt.gitorious.org/qt-labs/graphics-dojo/trees/master/websnap),
-    generates webpage snapshot. Currently it has troubles with webpage with
-    frames, you are more than welcome to improve this if you are interested.
 
 smth.js
     Sample system script for newsmth.net.

@@ -12,36 +12,16 @@
 #include <QtCore/QFileInfo>
 #include <QAction>
 #include <QMenu>
-#include <QtScript>
 
 namespace QTerm
 {
-ScriptHelper::ScriptHelper(Window * parent, QScriptEngine * engine)
+ScriptHelper::ScriptHelper(Window * parent, QQmlEngine * engine)
     :QObject(parent),m_accepted(false),m_qtbindingsAvailable(true),m_scriptList(),m_popupActionList(),m_urlActionList()
 {
     m_window = parent;
     m_scriptEngine = engine;
-    m_scriptEngine->installTranslatorFunctions();
-#if QT_VERSION >= 0x050000
-    m_qtbindingsAvailable = false;
-#else
-    QStringList allowedBindings;
-    allowedBindings << "qt.core" << "qt.gui" << "qt.sql" << "qt.xml" << "qt.uitools" << "qt.network" << "qt.webkit";
-    foreach( QString binding, allowedBindings )
-    {
-        QScriptValue error = engine->importExtension( binding );
-        if( error.isUndefined() )
-        { // undefined indiciates success
-            continue;
-        }
-
-        qDebug() << "Extension" << binding <<  "not found:" << error.toString();
-        qDebug() << "Available extensions:" << engine->availableExtensions();
-        qDebug() << "Some script functions will be disabled, considering install QtScriptBindings!";
-        m_qtbindingsAvailable = false;
-    }
-    if (m_qtbindingsAvailable)
-        qDebug() << "QtScriptBindings loaded, enjoy scripting!";
+#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
+    m_scriptEngine->installExtensions(QJSEngine::TranslationExtension);
 #endif
 }
 
@@ -166,15 +146,19 @@ void ScriptHelper::setZmodemFileList(const QStringList & fileList)
     m_window->zmodem()->setFileList(fileList);
 }
 
-QScriptValue ScriptHelper::getLine(int line)
+QJSValue ScriptHelper::getLine(int line)
 {
     TextLine * obj = m_window->m_pBuffer->screen(line);
-    return m_scriptEngine->newQObject(obj);
+    QJSValue value = m_scriptEngine->newQObject(obj);
+    m_scriptEngine->setObjectOwnership(obj, QJSEngine::CppOwnership);
+    return value;
 }
 
-QScriptValue ScriptHelper::window()
+QJSValue ScriptHelper::window()
 {
-    return m_scriptEngine->newQObject(m_window);
+    QJSValue value = m_scriptEngine->newQObject(m_window);
+    m_scriptEngine->setObjectOwnership(m_window, QJSEngine::CppOwnership);
+    return value;
 }
 
 bool ScriptHelper::addPopupMenu(QString id, QString menuTitle, QString icon)
@@ -187,7 +171,8 @@ bool ScriptHelper::addPopupMenu(QString id, QString menuTitle, QString icon)
     action->setObjectName(id);
     QMenu * popupMenu = m_window->popupMenu();
     popupMenu->addAction(action);
-    QScriptValue newItem = m_scriptEngine->newQObject( action );
+    QJSValue newItem = m_scriptEngine->newQObject( action );
+    m_scriptEngine->setObjectOwnership(action, QJSEngine::CppOwnership);
     m_scriptEngine->globalObject().property( "QTerm" ).setProperty( id, newItem );
     m_popupActionList << id;
     return true;
@@ -203,7 +188,8 @@ bool ScriptHelper::addUrlMenu(QString id, QString menuTitle, QString icon)
     action->setObjectName(id);
     QMenu * urlMenu = m_window->urlMenu();
     urlMenu->addAction(action);
-    QScriptValue newItem = m_scriptEngine->newQObject( action );
+    QJSValue newItem = m_scriptEngine->newQObject( action );
+    m_scriptEngine->setObjectOwnership(action, QJSEngine::CppOwnership);
     m_scriptEngine->globalObject().property( "QTerm" ).setProperty( id, newItem );
     m_urlActionList << id;
     return true;
@@ -270,17 +256,6 @@ void ScriptHelper::loadScript(const QString & filename)
     addImportedScript(scriptFile);
 }
 
-bool ScriptHelper::loadExtension(const QString & extension)
-{
-    QScriptValue ret = m_scriptEngine->importExtension(extension);
-    if (ret.isError()) {
-        osdMessage("Fail to load extension: "+extension);
-        qDebug() << "Fail to load extension: " << extension;
-        return false;
-    }
-    return true;
-}
-
 void ScriptHelper::openUrl(const QString & url)
 {
     Global::instance()->openUrl(url);
@@ -302,11 +277,9 @@ void ScriptHelper::loadScriptFile(const QString & filename)
     file.open(QIODevice::ReadOnly);
     QString scripts = QString::fromUtf8(file.readAll());
     file.close();
-    if (!m_scriptEngine->canEvaluate(scripts))
-        qDebug() << "Cannot evaluate this script";
-    m_scriptEngine->evaluate(scripts, filename);
-    if (m_scriptEngine->hasUncaughtException()) {
-        qDebug() << "Exception: " << m_scriptEngine->uncaughtExceptionBacktrace();
+    QJSValue result = m_scriptEngine->evaluate(scripts, filename);
+    if (result.isError()) {
+        qDebug() << "Exception at " << filename << ":" << result.property("lineNumber").toInt() << ":" << result.toString();
     }
 }
 

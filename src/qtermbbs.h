@@ -9,7 +9,7 @@
 
 class QRect;
 #ifdef SCRIPT_ENABLED
-class QScriptEngine;
+class QQmlEngine;
 #endif
 
 namespace QTerm
@@ -27,7 +27,7 @@ public:
     ~BBS();
 
 #ifdef SCRIPT_ENABLED
-    void setScript(QScriptEngine *, ScriptHelper *);
+    void setScript(QQmlEngine *, ScriptHelper *);
 #endif
     /* -1 -- undefined
      *  0 -- menu
@@ -79,7 +79,7 @@ protected:
     QList< QPair<int,int> > m_urlPosList;
     QString m_url;
 #ifdef SCRIPT_ENABLED
-    QScriptEngine * m_scriptEngine;
+    QQmlEngine * m_scriptEngine;
     ScriptHelper * m_scriptHelper;
 #endif
 };

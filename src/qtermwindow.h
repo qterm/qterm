@@ -27,10 +27,7 @@
 class QProgressDialog;
 class QTextCodec;
 #ifdef SCRIPT_ENABLED
-class QScriptEngine;
-#ifdef SCRIPTTOOLS_ENABLED
-class QScriptEngineDebugger;
-#endif
+class QQmlEngine;
 #endif
 
 namespace QTerm
@@ -268,11 +265,8 @@ protected:
     QTextCodec * m_codec;
     KeyboardTranslator * m_translator;
 #ifdef SCRIPT_ENABLED
-    QScriptEngine * m_scriptEngine;
+    QQmlEngine * m_scriptEngine;
     ScriptHelper * m_scriptHelper;
-#ifdef SCRIPTTOOLS_ENABLED
-    QScriptEngineDebugger * m_scriptDebugger;
-#endif
 #endif
 public:
     Frame * m_pFrame;

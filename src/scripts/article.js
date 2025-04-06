@@ -4,8 +4,6 @@ Article.downloading = false;
 Article.textList= [];
 Article.articleText = "";
 
-Article.q = new QEventLoop;
-
 Article.getArticle = function()
 {
     this.textList = [];

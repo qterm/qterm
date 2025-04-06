@@ -28,7 +28,6 @@
 
 #ifdef SCRIPT_ENABLED
 #include "scripthelper.h"
-#include <QtScript>
 #endif
 
 namespace QTerm
@@ -48,7 +47,7 @@ BBS::~BBS()
 }
 
 #ifdef SCRIPT_ENABLED
-void BBS::setScript(QScriptEngine * engine, ScriptHelper * script)
+void BBS::setScript(QQmlEngine * engine, ScriptHelper * script)
 {
     m_scriptEngine = engine;
     m_scriptHelper = script;
@@ -106,9 +105,9 @@ void BBS::setPageState()
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
         m_scriptHelper->setAccepted(false);
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("setPageState");
-        if (func.isFunction()) {
-            int ret = func.call().toInt32();
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("setPageState");
+        if (func.isCallable()) {
+            int ret = func.call().toInt();
             if (m_scriptHelper->accepted()) {
                 m_nPageState = ret;
                 return;
@@ -116,8 +115,8 @@ void BBS::setPageState()
         } else {
             qDebug("setPageState is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -160,9 +159,9 @@ int BBS::getCursorType(const QPoint& pt)
         TextLine * line = m_pBuffer->at(pt.y());
         int x = pt.x();
         int y = pt.y() - m_nScreenStart;
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("setCursorType");
-        if (func.isFunction()) {
-            int ret = func.call(QScriptValue(), QScriptValueList() << x << y).toInt32();
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("setCursorType");
+        if (func.isCallable()) {
+            int ret = func.call(QJSValueList() << x << y).toInt();
             if (m_scriptHelper->accepted()) {
                 return ret;
             }
@@ -280,22 +279,22 @@ void BBS::updateSelectRect()
         rect.setRect(0,0,0,0);
         int x = m_ptCursor.x();
         int y = m_ptCursor.y() - m_nScreenStart;
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("setSelectRect");
-        if (func.isFunction()) {
-            QScriptValue rectArray = func.call(QScriptValue(), QScriptValueList() << x << y);
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("setSelectRect");
+        if (func.isCallable()) {
+            QJSValue rectArray = func.call(QJSValueList() << x << y);
             if (m_scriptHelper->accepted() && rectArray.isArray()) {
-                rect.setX(rectArray.property(0).toInteger()); // x
-                rect.setY(rectArray.property(1).toInteger() + m_nScreenStart); //y
-                rect.setWidth(rectArray.property(2).toInteger());
-                rect.setHeight(rectArray.property(3).toInteger());
+                rect.setX(rectArray.property(0).toInt()); // x
+                rect.setY(rectArray.property(1).toInt() + m_nScreenStart); //y
+                rect.setWidth(rectArray.property(2).toInt());
+                rect.setHeight(rectArray.property(3).toInt());
                 m_rcSelection = rect;
                 return;
             }
         } else {
             qDebug("setSelectRect is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -413,9 +412,9 @@ bool BBS::checkUrl(QRect & rcUrl, QRect & rcOld)
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
         m_scriptHelper->setAccepted(false);
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("checkUrl");
-        if (func.isFunction()) {
-            QString url= func.call(QScriptValue(), QScriptValueList() << m_ptCursor.x() << m_ptCursor.y()-m_nScreenStart).toString();
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("checkUrl");
+        if (func.isCallable()) {
+            QString url= func.call(QJSValueList() << m_ptCursor.x() << m_ptCursor.y()-m_nScreenStart).toString();
             if (m_scriptHelper->accepted()) {
                 if (url.isEmpty()) {
                     return false;
@@ -426,8 +425,8 @@ bool BBS::checkUrl(QRect & rcUrl, QRect & rcOld)
         } else {
             qDebug("checkUrl is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -463,9 +462,9 @@ bool BBS::checkIP(QRect& rcUrl, QRect& rcOld)
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL) {
         m_scriptHelper->setAccepted(false);
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("checkIP");
-        if (func.isFunction()) {
-            QString ipAddr= func.call(QScriptValue(), QScriptValueList() << m_ptCursor.x() << m_ptCursor.y()-m_nScreenStart).toString();
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("checkIP");
+        if (func.isCallable()) {
+            QString ipAddr= func.call(QJSValueList() << m_ptCursor.x() << m_ptCursor.y()-m_nScreenStart).toString();
             if (m_scriptHelper->accepted()) {
                 if (ipAddr.isEmpty()) {
                     return false;
@@ -476,8 +475,8 @@ bool BBS::checkIP(QRect& rcUrl, QRect& rcOld)
         } else {
             qDebug("checkIP is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }

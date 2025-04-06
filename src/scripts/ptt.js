@@ -2,7 +2,6 @@ QTerm.loadScript("utils.js");
 QTerm.loadScript("highlight.js");
 //Enable this if you have qt bindings installed.
 //QTerm.loadScript("console.js");
-//QTerm.loadScript("websnap.js");
 
 QTerm.PTT = {
     Unknown : -1,
@@ -39,9 +38,9 @@ QTerm.setPageState = function()
     QTerm.pageState = QTerm.PTT.Unknown;
     var menuList = ["【主功能表】","【電子郵件】","【聊天說話】","【個人設定】","【工具程式】"];
     var listList = ["【看板列表】","【精華文章】","【分類看板】","【休閒聊天】"];
-    if (title.startsWith(menuList))
+    if (title.inList(menuList))
         QTerm.pageState = QTerm.PTT.Menu;
-    else if (title.startsWith(listList))
+    else if (title.inList(listList))
         QTerm.pageState = QTerm.PTT.List;
     else if (third.indexOf("編號")!=-1)
         QTerm.pageState = QTerm.PTT.List;
@@ -203,7 +202,6 @@ QTerm.onZmodemState = function(type, value, state)
 
 if (QTerm.qtbindingsAvailable) {
     QTerm.loadScript("console.js");
-    QTerm.loadScript("senddelay.js");
     QTerm.loadScript("article.js");
     QTerm.onCopyArticle = function()
     {

@@ -81,12 +81,6 @@ AUTHOR:        kingson fiasco
 #include <QProgressBar>
 #include <QHBoxLayout>
 #include <QtCore/QProcess>
-#ifdef SCRIPT_ENABLED
-#include <QtScript>
-#ifdef SCRIPTTOOLS_ENABLED
-#include <QtScriptTools/QScriptEngineDebugger>
-#endif
-#endif
 #include <QtDebug>
 
 namespace QTerm
@@ -254,9 +248,6 @@ Window::Window(Frame * frame, Param param, const QString &uuid, QWidget * parent
 #ifdef SCRIPT_ENABLED
     m_scriptEngine = NULL;
     m_scriptHelper = NULL;
-#ifdef SCRIPTTOOLS_ENABLED
-    m_scriptDebugger = new QScriptEngineDebugger;
-#endif // SCRIPTTOOLS_ENABLED
 #endif // SCRIPT_ENABLED
 //init the textline list
 
@@ -410,10 +401,6 @@ Window::~Window()
     delete m_pIPLocation;
     delete m_pSound;
     delete m_hostInfo;
-#ifdef SCRIPTTOOLS_ENABLED
-    m_scriptEngine->abortEvaluation();
-    delete m_scriptDebugger;
-#endif
 }
 
 //close event received
@@ -450,8 +437,8 @@ void Window::idleProcess()
     // system script can handle that
 #ifdef SCRIPT_ENABLED
 	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("antiIdle");
-        if (func.isFunction()) {
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("antiIdle");
+        if (func.isCallable()) {
             func.call();
             if (m_scriptHelper->accepted()) {
                 return;
@@ -459,8 +446,8 @@ void Window::idleProcess()
         } else {
             qDebug("antiIdle is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -497,17 +484,22 @@ void Window::mouseDoubleClickEvent(QMouseEvent * me)
 {
 #ifdef SCRIPT_ENABLED
 	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
-        if (func.isFunction()) {
-            func.call(QScriptValue(), QScriptValueList() << 3 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
+        #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        QPoint pt = me->pos();
+        #else
+        QPoint pt = me->position().toPoint();
+        #endif
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
+        if (func.isCallable()) {
+            func.call(QJSValueList() << 3 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << pt.x() << pt.y());
             if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
             qDebug("onMouseEvent is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -532,17 +524,22 @@ void Window::mousePressEvent(QMouseEvent * me)
 
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
-        if (func.isFunction()) {
-            func.call(QScriptValue(), QScriptValueList() << 0 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
+        #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        QPoint pt = me->pos();
+        #else
+        QPoint pt = me->position().toPoint();
+        #endif
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
+        if (func.isCallable()) {
+            func.call(QJSValueList() << 0 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << pt.x() << pt.y());
             if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
             qDebug("onMouseEvent is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -608,17 +605,22 @@ void Window::mouseMoveEvent(QMouseEvent * me)
 
 #ifdef SCRIPT_ENABLED
 	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
-        if (func.isFunction()) {
-            func.call(QScriptValue(), QScriptValueList() << 2 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
+        #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        QPoint pt = me->pos();
+        #else
+        QPoint pt = me->position().toPoint();
+        #endif
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
+        if (func.isCallable()) {
+            func.call(QJSValueList() << 2 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << pt.x() << pt.y());
             if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
             qDebug("onMouseEvent is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -681,17 +683,22 @@ void Window::mouseReleaseEvent(QMouseEvent * me)
 
 #ifdef SCRIPT_ENABLED
 	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
-        if (func.isFunction()) {
-            func.call(QScriptValue(), QScriptValueList() << 1 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << me->x() << me->y());
+        #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        QPoint pt = me->pos();
+        #else
+        QPoint pt = me->position().toPoint();
+        #endif
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("onMouseEvent");
+        if (func.isCallable()) {
+            func.call(QJSValueList() << 1 << (int) me->button() << (int) me->buttons() << (int) me->modifiers() << pt.x() << pt.y());
             if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
             qDebug("onMouseEvent is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -770,8 +777,8 @@ void Window::wheelEvent(QWheelEvent *we)
 #ifdef SCRIPT_ENABLED
 	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         m_scriptHelper->setAccepted(false);
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onWheelEvent");
-        if (func.isFunction()) {
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("onWheelEvent");
+        if (func.isCallable()) {
             #if (QT_VERSION < QT_VERSION_CHECK(5, 14, 0))
             QPoint pt = we->pos();
             int orientation = (int) we->orientation();
@@ -779,15 +786,15 @@ void Window::wheelEvent(QWheelEvent *we)
             QPoint pt = we->position().toPoint();
             int orientation = we->angleDelta().x() != 0 ? 1 : 2;
             #endif
-            func.call(QScriptValue(), QScriptValueList() << we->pixelDelta().y() << (int) we->buttons() << (int) we->modifiers() << orientation << pt.x() << pt.y() );
+            func.call(QJSValueList() << we->pixelDelta().y() << (int) we->buttons() << (int) we->modifiers() << orientation << pt.x() << pt.y() );
             if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
             qDebug("onWheelEvent is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -810,17 +817,17 @@ void Window::keyPressEvent(QKeyEvent * e)
 #ifdef SCRIPT_ENABLED
 	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         m_scriptHelper->setAccepted(false);
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onKeyPressEvent");
-        if (func.isFunction()) {
-            func.call(QScriptValue(), QScriptValueList() << e->key() << (int) e->modifiers() << e->text());
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("onKeyPressEvent");
+        if (func.isCallable()) {
+            func.call(QJSValueList() << e->key() << (int) e->modifiers() << e->text());
             if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
             qDebug("onMouseEvent is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -975,17 +982,17 @@ void Window::ZmodemState(int type, int value, const QString& msg)
 #ifdef SCRIPT_ENABLED
 	if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         m_scriptHelper->setAccepted(false);
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onZmodemState");
-        if (func.isFunction()) {
-            func.call(QScriptValue(), QScriptValueList() << type << value << status);
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("onZmodemState");
+        if (func.isCallable()) {
+            func.call(QJSValueList() << type << value << status);
             if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
             qDebug("onZmodemState is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -1063,17 +1070,17 @@ void Window::TelnetState(int state)
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         m_scriptHelper->setAccepted(false);
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onTelnetState");
-        if (func.isFunction()) {
-            func.call(QScriptValue(), QScriptValueList() << state);
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("onTelnetState");
+        if (func.isCallable()) {
+            func.call(QJSValueList() << state);
             if (m_scriptHelper->accepted()) {
                 return;
             }
         } else {
             qDebug("onTelnetState is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -1241,9 +1248,9 @@ void Window::on_actionCopy_Article_triggered()
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         m_scriptHelper->setAccepted(false);
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onCopyArticle");
-        if (func.isFunction()) {
-            QScriptValue text = func.call();
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("onCopyArticle");
+        if (func.isCallable()) {
+            QJSValue text = func.call();
             if (m_scriptHelper->accepted()) {
                 showArticle(text.toString());
                 return;
@@ -1251,8 +1258,8 @@ void Window::on_actionCopy_Article_triggered()
         } else {
             qDebug("onCopyArticle is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -1405,7 +1412,7 @@ void Window::on_actionRun_triggered()
 void Window::on_actionStop_triggered()
 {
 #ifdef SCRIPT_ENABLED
-    m_scriptEngine->abortEvaluation();
+    m_scriptEngine->setInterrupted(true);
 #endif
 }
 
@@ -1639,27 +1646,28 @@ void Window::initScript()
 {
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL)
-        m_scriptEngine->abortEvaluation();
+        m_scriptEngine->setInterrupted(true);
 #ifdef SCRIPTTOOLS_ENABLED
     m_scriptDebugger->detach();
 #endif
     delete m_scriptEngine;
     delete m_scriptHelper;
-    m_scriptEngine = new QScriptEngine(this);
+    m_scriptEngine = new QQmlEngine(this);
     m_scriptHelper = new ScriptHelper(this, m_scriptEngine);
 
 #ifdef SCRIPTTOOLS_ENABLED
     m_scriptDebugger->attachTo(m_scriptEngine);
 #endif
 
-    QScriptValue scriptHelper = m_scriptEngine->newQObject(m_scriptHelper);
+    QJSValue scriptHelper = m_scriptEngine->newQObject(m_scriptHelper);
+    m_scriptEngine->setObjectOwnership(m_scriptHelper, QJSEngine::CppOwnership);
     m_scriptEngine->globalObject().setProperty("QTerm", scriptHelper);
 	if (!m_param.m_mapParam["loadscript"].toBool())
         return;
     m_pBBS->setScript(m_scriptEngine, m_scriptHelper);
     m_scriptHelper->loadScript(m_param.m_mapParam["scriptfile"].toString());
-    QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("init");
-    if (!func.isFunction()) {
+    QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("init");
+    if (!func.isCallable()) {
         qDebug() << "init is not a function";
     }
     func.call();
@@ -1677,7 +1685,7 @@ void Window::runScript(const QString & filename)
     if (file.isEmpty())
         return;
 
-    m_scriptHelper->loadScriptFile(file);
+    m_scriptHelper->loadScript(file);
 #endif
 }
 void Window::inputHandle(const QString & text)
@@ -1770,8 +1778,8 @@ void Window::updateWindow()
 #ifdef SCRIPT_ENABLED
     if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
         m_scriptHelper->setAccepted(false);
-        QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("onNewData");
-        if (func.isFunction()) {
+        QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("onNewData");
+        if (func.isCallable()) {
             func.call();
             if (m_scriptHelper->accepted()) {
                 return;
@@ -1779,8 +1787,8 @@ void Window::updateWindow()
         } else {
             qDebug("onNewData is not a function");
         }
-        if (m_scriptEngine->hasUncaughtException()) {
-            QScriptValue exception = m_scriptEngine->uncaughtException();
+        if (m_scriptEngine->hasError()) {
+            QJSValue exception = m_scriptEngine->catchError();
             qDebug() << "Exception: " << exception.toString();
         }
     }
@@ -1849,8 +1857,8 @@ void Window::updateWindow()
 #ifdef SCRIPT_ENABLED
             if (m_scriptEngine != NULL && m_param.m_mapParam["loadscript"].toBool()) {
                 m_scriptHelper->setAccepted(false);
-                QScriptValue func = m_scriptEngine->globalObject().property("QTerm").property("autoReply");
-                if (func.isFunction()) {
+                QJSValue func = m_scriptEngine->globalObject().property("QTerm").property("autoReply");
+                if (func.isCallable()) {
                     func.call();
                     if (m_scriptHelper->accepted()) {
                         return;
@@ -1864,8 +1872,8 @@ void Window::updateWindow()
                 } else {
                     qDebug("autoReply is not a function");
                 }
-                if (m_scriptEngine->hasUncaughtException()) {
-                    QScriptValue exception = m_scriptEngine->uncaughtException();
+                if (m_scriptEngine->hasError()) {
+                    QJSValue exception = m_scriptEngine->catchError();
                     qDebug() << "Exception: " << exception.toString();
                 }
             }

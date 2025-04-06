@@ -45,16 +45,6 @@ code</p>
 the General tab. First enable the Load Control Script checkbox, then choose
 your system script.</p>
 
-<a name="How_to_Debug" id="How_to_Debug"></a><h3> How to Debug</h3>
-<p>If you want to develop serious/complicate scripts for QTerm, it is very
-helpful to have QScriptEngineDebugger enable. This feature is introduced in Qt
-4.5, make sure your qt is new enough. Then you can run cmake with
--DQTERM_ENABLE_SCRIPT_DEBUGGER=ON, for example:</p>
-<pre>cmake .. -DQTERM_ENABLE_SCRIPT_DEBUGGER=ON</pre>
-<p>Then do the usual make, make install to install QTerm
-</p><p>After you enable the debugger. It will pop up every time the script engine
-catches a exception. You can also call the debugger any time by Script-&gt;Debug.</p>
-
 <a name="How_to_Write_a_Script" id="How_to_Write_a_Script"></a><h3> How to Write a Script</h3>
 <p>Here is a list of functions you can call in the scripts, they are all in the
 "QTerm" object, so for example if you want to call "version()" you should call

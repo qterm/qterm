@@ -13,7 +13,7 @@ set(CMAKE_AUTOMOC ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR}
     COMPONENTS Gui Widgets Xml Network PrintSupport LinguistTools Help
-    OPTIONAL_COMPONENTS Script ScriptTools Multimedia
+    OPTIONAL_COMPONENTS Qml Multimedia
     QUIET)
 
 IF (${QT_VERSION_MAJOR} VERSION_EQUAL 6)
