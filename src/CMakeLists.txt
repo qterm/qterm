@@ -287,7 +287,7 @@ else ()
 endif ()
 
 set(qterm_SRCS ${qterm_SRCS} ${qterm_RCCS} ${qterm_UIS})
-add_compile_definitions( -DHAVE_CONFIG_H )
+add_compile_definitions(HAVE_CONFIG_H)
 include_directories(
     ${Qt${QT_VERSION_MAJOR}Qt_INCLUDE_DIRS}
     ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
